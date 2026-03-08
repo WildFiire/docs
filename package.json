@@ -2,6 +2,7 @@
   "devDependencies": {
     "@types/node": "^25.3.3",
     "dotenv-cli": "^11.0.0",
+    "terser": "^5.31.0",
     "vitepress": "^2.0.0-alpha.16"
   },
   "scripts": {
