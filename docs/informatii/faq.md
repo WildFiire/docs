@@ -71,30 +71,29 @@ outline: deep
 </div> 
 </div>
 
-<!-- ===== STYLE FAQ CU DESIGN WILDFIRE ===== -->
+<!-- ===== STYLE FAQ CU DESIGN WILDFIRE - DOAR PENTRU .faq-wrapper ===== -->
 <style>
-/* Reset - doar pentru FAQ */
 .faq-wrapper {
   max-width: 900px;
   margin: 0 auto;
   padding: 20px 0;
 }
 
-.faq-header-quote {
+.faq-wrapper .faq-header-quote {
   text-align: center;
   margin: 20px 0 30px;
   font-size: 16px;
   color: var(--vp-c-text-2);
 }
 
-.faq-highlight {
+.faq-wrapper .faq-highlight {
   color: var(--vp-c-brand-1);
   font-weight: 600;
   position: relative;
   display: inline-block;
 }
 
-.faq-highlight::after {
+.faq-wrapper .faq-highlight::after {
   content: '';
   position: absolute;
   bottom: -2px;
@@ -105,7 +104,7 @@ outline: deep
   border-radius: 2px;
 }
 
-/* Steam Connect Card - DESIGN WILDFIRE */
+/* Steam Connect Card */
 .faq-wrapper .steam-connect-card {
   display: flex;
   align-items: center;
@@ -282,7 +281,7 @@ outline: deep
   transform: rotate(5deg);
 }
 
-/* Ticket System Card - DESIGN WILDFIRE */
+/* Ticket System Card */
 .faq-wrapper .ticket-system-card {
   background: var(--vp-c-bg-soft);
   border-radius: 28px;
@@ -723,7 +722,7 @@ outline: deep
   transform: rotate(5deg);
 }
 
-/* FAQ Items - DESIGN WILDFIRE */
+/* FAQ Items */
 .faq-wrapper .faq-section {
   margin: 40px 0;
 }
@@ -1770,8 +1769,4 @@ outline: deep
   </div>
 </div>
 
-
 </div>
-
-
-### test

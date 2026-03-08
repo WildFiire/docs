@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-// 🔥 Get token from Vite env (SSR-safe)
+// 🔥 Get token from Vite env
 const githubToken = import.meta.env.VITE_GITHUB_TOKEN || ''
 
 // Import componente principale
@@ -37,10 +37,8 @@ import StatsGithub from './components/StatsGithub.vue'
 // NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
 
-// Import popout only on client side (SSR-safe)
-if (typeof window !== 'undefined') {
-  import('./popout.js')
-}
+// Import popout (fără condiție SSR - rulează normal în browser)
+import './popout.js'
 
 // Import toate tag-urile
 import PageTagBlue from './components/tags/PageTagBlue.vue'
@@ -116,7 +114,5 @@ export default {
     
     // 🔥 Adăugăm token-ul global
     app.config.globalProperties.$githubToken = githubToken
-    console.log('✅ Token adăugat în aplicația Vue')
-    console.log('📁 Componenta FileTreeItem înregistrată cu succes')
   }
 } satisfies Theme
