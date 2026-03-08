@@ -425,7 +425,7 @@ export default defineConfig({
         }
       },
       target: 'es2018',
-      minify: 'terser',
+      minify: 'esbuild',
       cssMinify: true,
       sourcemap: false
     },
