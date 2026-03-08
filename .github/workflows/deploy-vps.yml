@@ -27,8 +27,8 @@ jobs:
             # Install dependencies
             npm install
             
-            # Create the .env file with the GitHub Token where VitePress expects it (docs folder)
-            echo "VITE_GITHUB_TOKEN=${{ secrets.VITE_GITHUB_TOKEN }}" > docs/.env
+            # Create the .env file with the GitHub Token
+            echo "VITE_GITHUB_TOKEN=${{ secrets.VITE_GITHUB_TOKEN }}" > .env
             
             # Build the static VitePress files
             npm run docs:build
