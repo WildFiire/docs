@@ -429,3 +429,13 @@ body:not(.home) *,
   display: none;
 }
 
+/*=============================================================================
+  10. FIX EDIT LINK (VPDocFooter)
+=============================================================================*/
+
+.VPDocFooter .edit-link-button {
+  position: relative !important;
+  z-index: 100 !important;
+  pointer-events: auto !important;
+}
+
