@@ -361,10 +361,10 @@ export default defineConfig({
       }
     ],
 
-    editLink: {
-      pattern: 'https://github.com/solwolfs2-dot/wiki-wildfire-inc/edit/main/docs/:path',
-      text: '✏️ Editează această pagină pe GitHub'
-    },
+editLink: {
+  pattern: 'https://github.com/Wildfiire/docs/edit/main/:path',
+  text: '✏️ Editează această pagină pe GitHub'
+},
 
     // SOCIAL LINKS
     socialLinks: [
@@ -425,7 +425,7 @@ export default defineConfig({
         }
       },
       target: 'es2018',
-      minify: 'terser',
+      minify: 'esbuild',
       cssMinify: true,
       sourcemap: false
     },
@@ -435,7 +435,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['vue']
+      noExternal: ['vue', 'chart.js', 'lodash']
     }
   }
 })
