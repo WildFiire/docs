@@ -37,3 +37,5 @@ Desktop.ini
 .env.local
 .env.*.local
 
+.vercel
+.env*.local

@@ -435,7 +435,11 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['vue']
+      noExternal: ['vue', 'chart.js', 'lodash']
+    },
+    define: {
+      'process.env': {},
+      'HTMLElement': 'typeof HTMLElement !== "undefined" ? HTMLElement : Object'
     }
   }
 })

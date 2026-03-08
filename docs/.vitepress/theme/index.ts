@@ -37,8 +37,10 @@ import StatsGithub from './components/StatsGithub.vue'
 // NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
 
-// Import popout
-import './popout.js'
+// Import popout only on client side (SSR-safe)
+if (typeof window !== 'undefined') {
+  import('./popout.js')
+}
 
 // Import toate tag-urile
 import PageTagBlue from './components/tags/PageTagBlue.vue'
