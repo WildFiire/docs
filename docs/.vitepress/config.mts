@@ -362,11 +362,7 @@ export default defineConfig({
     ],
 
 editLink: {
-  pattern: ({ filePath }) => {
-    // Pe Vercel, filePath include deja 'docs/'
-    console.log('File path:', filePath); // Verifică în consolă
-    return `https://github.com/Wildfiire/docs/edit/main/${filePath}`;
-  },
+  pattern: 'https://github.com/Wildfiire/docs/edit/main/:path',
   text: '✏️ Editează această pagină pe GitHub'
 },
 
