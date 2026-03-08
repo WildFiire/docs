@@ -37,9 +37,6 @@ import StatsGithub from './components/StatsGithub.vue'
 // NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
 
-// Import popout (fără condiție SSR - rulează normal în browser)
-import './popout.js'
-
 // Import toate tag-urile
 import PageTagBlue from './components/tags/PageTagBlue.vue'
 import PageTagOrange from './components/tags/PageTagOrange.vue'
@@ -114,5 +111,15 @@ export default {
     
     // 🔥 Adăugăm token-ul global
     app.config.globalProperties.$githubToken = githubToken
+
+    // 📦 Încărcăm popout.js DOAR în browser
+    if (typeof window !== 'undefined') {
+      // Folosim setTimeout pentru a ne asigura că DOM-ul este gata
+      setTimeout(() => {
+        import('./popout.js').catch(err => {
+          console.warn('Failed to load popout:', err)
+        })
+      }, 100)
+    }
   }
 } satisfies Theme
