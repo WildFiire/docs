@@ -3,7 +3,7 @@ import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
 
-// 📝 Tipuri pentru TypeScript
+// Tipuri pentru TypeScript
 declare global {
   interface ImportMeta {
     env: {
@@ -16,7 +16,7 @@ declare global {
   }
 }
 
-// 🔥 Get token from Vite env (SSR-safe)
+// Token GitHub
 const githubToken = import.meta.env.VITE_GITHUB_TOKEN || ''
 
 // Import componente principale
@@ -33,11 +33,9 @@ import HomeNavbar from './components/HomeNavbar.vue'
 import Panel from './components/Panel.vue'
 import AboutWiki from './components/AboutWiki.vue'
 import StatsGithub from './components/StatsGithub.vue'
-
-// NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
 
-// Import toate tag-urile
+// Import tag-uri
 import PageTagBlue from './components/tags/PageTagBlue.vue'
 import PageTagOrange from './components/tags/PageTagOrange.vue'
 import PageTagPurple from './components/tags/PageTagPurple.vue'
@@ -53,28 +51,26 @@ import PageTagEmerald from './components/tags/PageTagEmerald.vue'
 import PageTagAmber from './components/tags/PageTagAmber.vue'
 import PageTagGray from './components/tags/PageTagGray.vue'
 
+// Încarcă popout doar în browser
+if (typeof window !== 'undefined') {
+  import('./popout.js')
+}
+
 export default {
   extends: DefaultTheme,
   
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
-      // Home page
       'home-hero-before': () => h(WikiHome),
-      
-      // Navbar
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,
       'nav-bar-content-after': () => h(NavSearch),
-      
-      // Footer
       'layout-bottom': () => h(SiteMap),
-      
-      // Not Found Page
       'not-found': () => h(PageNotFound)
     })
   },
   
-  enhanceApp({ app, router }) {
+  enhanceApp({ app }) {
     // Componente principale
     app.component('WikiHome', WikiHome)
     app.component('HomeNavbar', HomeNavbar)
@@ -89,11 +85,9 @@ export default {
     app.component('AboutWiki', AboutWiki)
     app.component('Panel', Panel)
     app.component('StatsGithub', StatsGithub)
-    
-    // NOUA COMPONENTĂ PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)
 
-    // Toate tag-urile
+    // Tag-uri
     app.component('PageTagBlue', PageTagBlue)
     app.component('PageTagOrange', PageTagOrange)
     app.component('PageTagPurple', PageTagPurple)
@@ -109,27 +103,7 @@ export default {
     app.component('PageTagAmber', PageTagAmber)
     app.component('PageTagGray', PageTagGray)
     
-    // 🔥 Adăugăm token-ul global
+    // Token global
     app.config.globalProperties.$githubToken = githubToken
-    
-    // 📦 Încărcăm popout.js DOAR în browser și DUPA ce router-ul este gata
-    if (typeof window !== 'undefined') {
-      // Așteptăm ca router-ul să fie pregătit
-      router.onAfterRouteChanged = () => {
-        import('./popout.js').catch(err => {
-          console.warn('Failed to load popout.js:', err)
-        })
-      }
-      
-      // Încărcăm și prima dată
-      setTimeout(() => {
-        import('./popout.js').catch(err => {
-          console.warn('Failed to load popout.js:', err)
-        })
-      }, 100)
-    }
-    
-    console.log('✅ Token adăugat în aplicația Vue')
-    console.log('📁 Componenta FileTreeItem înregistrată cu succes')
   }
 } satisfies Theme
