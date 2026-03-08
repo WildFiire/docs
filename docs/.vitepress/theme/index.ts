@@ -37,11 +37,6 @@ import StatsGithub from './components/StatsGithub.vue'
 // NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
 
-// Import popout only on client side (SSR-safe)
-if (typeof window !== 'undefined') {
-  import('./popout.js')
-}
-
 // Import toate tag-urile
 import PageTagBlue from './components/tags/PageTagBlue.vue'
 import PageTagOrange from './components/tags/PageTagOrange.vue'
@@ -79,7 +74,7 @@ export default {
     })
   },
   
-  enhanceApp({ app }) {
+  enhanceApp({ app, router }) {
     // Componente principale
     app.component('WikiHome', WikiHome)
     app.component('HomeNavbar', HomeNavbar)
@@ -116,6 +111,24 @@ export default {
     
     // 🔥 Adăugăm token-ul global
     app.config.globalProperties.$githubToken = githubToken
+    
+    // 📦 Încărcăm popout.js DOAR în browser și DUPA ce router-ul este gata
+    if (typeof window !== 'undefined') {
+      // Așteptăm ca router-ul să fie pregătit
+      router.onAfterRouteChanged = () => {
+        import('./popout.js').catch(err => {
+          console.warn('Failed to load popout.js:', err)
+        })
+      }
+      
+      // Încărcăm și prima dată
+      setTimeout(() => {
+        import('./popout.js').catch(err => {
+          console.warn('Failed to load popout.js:', err)
+        })
+      }, 100)
+    }
+    
     console.log('✅ Token adăugat în aplicația Vue')
     console.log('📁 Componenta FileTreeItem înregistrată cu succes')
   }
