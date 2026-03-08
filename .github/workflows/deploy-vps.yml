@@ -15,7 +15,7 @@ jobs:
         with:
           host: ${{ secrets.VPS_HOST }}       # Your VPS IP or domain
           username: ${{ secrets.VPS_USER }}   # e.g., root or ubuntu
-          key: ${{ secrets.VPS_SSH_KEY }}     # A private SSH key for authentication
+          password: ${{ secrets.VPS_PASSWORD }} # A private SSH password for authentication
           script: |
             # Navigate to the project directory
             cd /var/www/wiki
