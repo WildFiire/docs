@@ -111,11 +111,11 @@ export default {
     },
     owner: {
       type: String,
-      default: 'ianncxd'
+      default: 'Wildfiire'
     },
     repo: {
       type: String,
-      default: 'wiki-wildfire-inc'
+      default: 'docs'
     }
   },
 

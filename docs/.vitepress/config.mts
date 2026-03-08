@@ -362,7 +362,7 @@ export default defineConfig({
     ],
 
     editLink: {
-      pattern: 'https://github.com/solwolfs2-dot/wiki-wildfire-inc/edit/main/docs/:path',
+      pattern: 'https://github.com/Wildfiire/docs/edit/main/docs/:path',
       text: '✏️ Editează această pagină pe GitHub'
     },
 

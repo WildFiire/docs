@@ -91,7 +91,7 @@
             </div>
             
             <div class="view-all-updates-wrapper">
-              <a :href="`https://github.com/ianncxd/wiki-wildfire-inc/commits/main`" target="_blank" class="view-all-updates-btn">
+              <a :href="`https://github.com/Wildfiire/docs/commits/main`" target="_blank" class="view-all-updates-btn">
                 <span>Vezi toate update-urile</span>
                 <span class="btn-arrow">→</span>
               </a>
@@ -115,7 +115,7 @@
                 <span class="plus-stat">🔧 {{ repoStats.openIssues }} issue-uri deschise</span>
                 <span class="plus-stat">📝 {{ repoStats.openPRs }} PR-uri deschise</span>
               </div>
-              <a :href="`https://github.com/ianncxd/wiki-wildfire-inc/issues`" target="_blank" class="plus-link clickable-link">
+              <a :href="`https://github.com/Wildfiire/docs/issues`" target="_blank" class="plus-link clickable-link">
                 Află cum 
                 <span class="link-arrow">→</span>
               </a>
@@ -220,7 +220,7 @@
             </div>
             
             <div class="top3-footer">
-              <a href="https://github.com/ianncxd/wiki-wildfire-inc/graphs/contributors" target="_blank" class="top3-link clickable-link">
+              <a href="https://github.com/Wildfiire/docs/graphs/contributors" target="_blank" class="top3-link clickable-link">
                 Vezi toți contributorii
                 <span class="link-arrow">→</span>
               </a>
@@ -337,12 +337,12 @@
         </div>
 
         <div class="widget-footer">
-          <a href="https://github.com/ianncxd/wiki-wildfire-inc/issues" 
+          <a href="https://github.com/Wildfiire/docs/issues" 
              target="_blank" 
              class="widget-link clickable-link">
             Vezi toate issue-urile <span class="link-arrow">→</span>
           </a>
-          <a href="https://github.com/ianncxd/wiki-wildfire-inc/pulls" 
+          <a href="https://github.com/Wildfiire/docs/pulls" 
              target="_blank" 
              class="widget-link clickable-link">
             Vezi toate PR-urile <span class="link-arrow">→</span>
@@ -449,7 +449,7 @@
         <div class="cta-block scroll-reveal" 
              :style="{ animationDelay: '1.1s' }"
              ref="ctaRef">
-          <a href="https://github.com/ianncxd/wiki-wildfire-inc" target="_blank" class="cta-button primary clickable-button">
+          <a href="https://github.com/Wildfiire/docs" target="_blank" class="cta-button primary clickable-button">
             <span>🐙 GitHub</span>
             <span class="button-arrow">→</span>
           </a>
@@ -587,8 +587,8 @@ export default {
     async fetchAllGitHubData(token) {
       this.isLoading = true;
       
-      const owner = 'ianncxd';
-      const repo = 'wiki-wildfire-inc';
+      const owner = 'Wildfiire';
+      const repo = 'docs';
       const baseUrl = `https://api.github.com/repos/${owner}/${repo}`;
       
       const headers = {
@@ -932,11 +932,11 @@ export default {
     },
 
     openNewIssue() {
-      window.open('https://github.com/ianncxd/wiki-wildfire-inc/issues/new', '_blank');
+      window.open('https://github.com/Wildfiire/docs/issues/new', '_blank');
     },
 
     openNewPR() {
-      window.open('https://github.com/ianncxd/wiki-wildfire-inc/compare', '_blank');
+      window.open('https://github.com/Wildfiire/docs/compare', '_blank');
     },
 
     isElementInViewport(el) {

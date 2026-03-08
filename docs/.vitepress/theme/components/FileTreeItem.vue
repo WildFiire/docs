@@ -152,7 +152,7 @@ export default {
       if (this.item.type === 'dir') {
         this.$emit('toggle', this.item)
       } else {
-        window.open(this.item.url || `https://github.com/ianncxd/wiki-wildfire-inc/blob/main/${this.item.path}`, '_blank')
+        window.open(this.item.url || `https://github.com/Wildfiire/docs/blob/main/${this.item.path}`, '_blank')
       }
     },
     

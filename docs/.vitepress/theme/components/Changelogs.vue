@@ -329,8 +329,8 @@ export default {
       }
 
       try {
-        const owner = 'ianncxd'
-        const repo = 'wiki-wildfire-inc'
+        const owner = 'WildFiire'
+        const repo = 'docs'
         
         console.log('📡 Fetching commits from GitHub...')
         

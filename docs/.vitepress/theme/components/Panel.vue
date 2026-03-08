@@ -37,7 +37,7 @@
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
             </svg>
-            <span class="repo-name">ianncxd/wiki-wildfire-inc</span>
+            <span class="repo-name">Wildfiire/docs</span>
           </div>
           <div class="repo-branch">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor">
@@ -474,7 +474,7 @@
                   </div>
                 </div>
               </div>
-              <a :href="`https://github.com/ianncxd/wiki-wildfire-inc/issues`" target="_blank" class="battle-footer compact">
+              <a :href="`https://github.com/Wildfiire/docs/issues`" target="_blank" class="battle-footer compact">
                 View all issues →
               </a>
             </div>
@@ -503,7 +503,7 @@
                   </div>
                 </div>
               </div>
-              <a :href="`https://github.com/ianncxd/wiki-wildfire-inc/pulls`" target="_blank" class="battle-footer compact">
+              <a :href="`https://github.com/Wildfiire/docs/pulls`" target="_blank" class="battle-footer compact">
                 View all PRs →
               </a>
             </div>
@@ -1134,8 +1134,8 @@ export default {
       const token = this.getToken()
       if (!token) return
       
-      const owner = 'ianncxd'
-      const repo = 'wiki-wildfire-inc'
+      const owner = 'Wildfiire'
+      const repo = 'docs'
       const headers = { 'Authorization': `token ${token}` }
       
       try {
@@ -1222,8 +1222,8 @@ export default {
         return
       }
       
-      const owner = 'ianncxd'
-      const repo = 'wiki-wildfire-inc'
+      const owner = 'Wildfiire'
+      const repo = 'docs'
       const baseUrl = `https://api.github.com/repos/${owner}/${repo}`
       
       const headers = {
@@ -1472,8 +1472,8 @@ export default {
     async loadFileTree(token) {
       if (!token) return
       
-      const owner = 'ianncxd'
-      const repo = 'wiki-wildfire-inc'
+      const owner = 'Wildfiire'
+      const repo = 'docs'
       const headers = { 'Authorization': `token ${token}` }
 
       try {
@@ -1553,7 +1553,7 @@ export default {
       
       try {
         const res = await fetch(
-          `https://api.github.com/repos/ianncxd/wiki-wildfire-inc/contents/${file.path}?_=${Date.now()}`,
+          `https://api.github.com/repos/Wildfiire/docs/contents/${file.path}?_=${Date.now()}`,
           { headers: { 'Authorization': `token ${token}` } }
         )
         if (res.ok) {
@@ -1568,7 +1568,7 @@ export default {
     },
 
     editFile(file) {
-      window.open(`https://github.com/ianncxd/wiki-wildfire-inc/edit/main/${file.path}`, '_blank')
+      window.open(`https://github.com/Wildfiire/docs/edit/main/${file.path}`, '_blank')
     },
 
     copyFilePath(file) {
@@ -1841,11 +1841,11 @@ export default {
     },
 
     openNewIssue() {
-      window.open('https://github.com/ianncxd/wiki-wildfire-inc/issues/new', '_blank')
+      window.open('https://github.com/Wildfiire/docs/issues/new', '_blank')
     },
 
     openNewPR() {
-      window.open('https://github.com/ianncxd/wiki-wildfire-inc/compare', '_blank')
+      window.open('https://github.com/Wildfiire/docs/compare', '_blank')
     },
 
     showToast(msg, type) {

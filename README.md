@@ -3,14 +3,14 @@
 
 <p align="center">
     <a href="https://github.com/Josee9988/project-template/generate">
-    <img width="100%" src="https://i.imgur.com/21UXpqp.png" alt="@ianncxd/wiki-wildfire-inc">
+    <img width="100%" src="https://i.imgur.com/21UXpqp.png" alt="@Wildfiire/docs">
   </a>
   <br>
-  <a href="https://github.com/ianncxd/wiki-wildfire-inc/issues">
-    <img src="https://img.shields.io/github/issues/ianncxd/wiki-wildfire-inc?color=0088ff&style=for-the-badge&logo=github" alt="@ianncxd/wiki-wildfire-inc issues"/>
+  <a href="https://github.com/Wildfiire/docs/issues">
+    <img src="https://img.shields.io/github/issues/Wildfiire/docs?color=0088ff&style=for-the-badge&logo=github" alt="@wildfire/docs issues"/>
   </a>
-  <a href="https://github.com/ianncxd/wiki-wildfire-inc/pulls">
-    <img src="https://img.shields.io/github/issues-pr/ianncxd/wiki-wildfire-inc?color=0088ff&style=for-the-badge&logo=github" alt="ianncxd/wiki-wildfire-inc pull requests"/>
+  <a href="https://github.com/ianncxd/docs/pulls">
+    <img src="https://img.shields.io/github/issues-pr/Wildfiire/docs?color=0088ff&style=for-the-badge&logo=github" alt="wildfire/docs pull requests"/>
   </a>
 </p>
 
