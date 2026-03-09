@@ -16,7 +16,13 @@
           </div>
           <h3 class="card-title">{{ card1.title }}</h3>
           <div class="card-meta">
-            <span class="meta-date">📅 {{ card1.date }}</span>
+            <span class="meta-date">
+              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ card1.date }}
+            </span>
             <div class="updated-by">
               <img :src="card1.avatarUrl" class="github-avatar" :alt="card1.username">
               <span>by <a :href="card1.profileUrl" target="_blank">{{ card1.username }}</a></span>
@@ -24,12 +30,16 @@
           </div>
           <div class="card-footer">
             <div class="card-tags">
-              <WildfireTag :color="card1.tagColor" :text="card1.tag1" class="small-tag" />
-              <WildfireTag :color="card1.tagColor" :text="card1.tag2" class="small-tag" />
+              <WildfireTag :color="card1.tagColor" :text="card1.tag1" class="small-tag" :icon="getTagIcon(card1.tag1)" />
+              <WildfireTag :color="card1.tagColor" :text="card1.tag2" class="small-tag" :icon="getTagIcon(card1.tag2)" />
             </div>
             <a :href="card1.link" class="card-button" :style="{ color: getHexColor(card1.tagColor) }">
               <span>{{ card1.buttonText }}</span>
-              <span class="button-arrow">→</span>
+              <span class="button-arrow">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
             </a>
           </div>
         </div>
@@ -45,7 +55,13 @@
           </div>
           <h3 class="card-title">{{ card2.title }}</h3>
           <div class="card-meta">
-            <span class="meta-date">📅 {{ card2.date }}</span>
+            <span class="meta-date">
+              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ card2.date }}
+            </span>
             <div class="updated-by">
               <img :src="card2.avatarUrl" class="github-avatar" :alt="card2.username">
               <span>by <a :href="card2.profileUrl" target="_blank">{{ card2.username }}</a></span>
@@ -53,12 +69,16 @@
           </div>
           <div class="card-footer">
             <div class="card-tags">
-              <WildfireTag :color="card2.tagColor" :text="card2.tag1" class="small-tag" />
-              <WildfireTag :color="card2.tagColor" :text="card2.tag2" class="small-tag" />
+              <WildfireTag :color="card2.tagColor" :text="card2.tag1" class="small-tag" :icon="getTagIcon(card2.tag1)" />
+              <WildfireTag :color="card2.tagColor" :text="card2.tag2" class="small-tag" :icon="getTagIcon(card2.tag2)" />
             </div>
             <a :href="card2.link" class="card-button" :style="{ color: getHexColor(card2.tagColor) }">
               <span>{{ card2.buttonText }}</span>
-              <span class="button-arrow">→</span>
+              <span class="button-arrow">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
             </a>
           </div>
         </div>
@@ -74,7 +94,13 @@
           </div>
           <h3 class="card-title">{{ card3.title }}</h3>
           <div class="card-meta">
-            <span class="meta-date">📅 {{ card3.date }}</span>
+            <span class="meta-date">
+              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ card3.date }}
+            </span>
             <div class="updated-by">
               <img :src="card3.avatarUrl" class="github-avatar" :alt="card3.username">
               <span>by <a :href="card3.profileUrl" target="_blank">{{ card3.username }}</a></span>
@@ -82,12 +108,16 @@
           </div>
           <div class="card-footer">
             <div class="card-tags">
-              <WildfireTag :color="card3.tagColor" :text="card3.tag1" class="small-tag" />
-              <WildfireTag :color="card3.tagColor" :text="card3.tag2" class="small-tag" />
+              <WildfireTag :color="card3.tagColor" :text="card3.tag1" class="small-tag" :icon="getTagIcon(card3.tag1)" />
+              <WildfireTag :color="card3.tagColor" :text="card3.tag2" class="small-tag" :icon="getTagIcon(card3.tag2)" />
             </div>
             <a :href="card3.link" class="card-button" :style="{ color: getHexColor(card3.tagColor) }">
               <span>{{ card3.buttonText }}</span>
-              <span class="button-arrow">→</span>
+              <span class="button-arrow">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
             </a>
           </div>
         </div>
@@ -103,7 +133,13 @@
           </div>
           <h3 class="card-title">{{ card4.title }}</h3>
           <div class="card-meta">
-            <span class="meta-date">📅 {{ card4.date }}</span>
+            <span class="meta-date">
+              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ card4.date }}
+            </span>
             <div class="updated-by">
               <img :src="card4.avatarUrl" class="github-avatar" :alt="card4.username">
               <span>by <a :href="card4.profileUrl" target="_blank">{{ card4.username }}</a></span>
@@ -111,12 +147,16 @@
           </div>
           <div class="card-footer">
             <div class="card-tags">
-              <WildfireTag :color="card4.tagColor" :text="card4.tag1" class="small-tag" />
-              <WildfireTag :color="card4.tagColor" :text="card4.tag2" class="small-tag" />
+              <WildfireTag :color="card4.tagColor" :text="card4.tag1" class="small-tag" :icon="getTagIcon(card4.tag1)" />
+              <WildfireTag :color="card4.tagColor" :text="card4.tag2" class="small-tag" :icon="getTagIcon(card4.tag2)" />
             </div>
             <a :href="card4.link" class="card-button" :style="{ color: getHexColor(card4.tagColor) }">
               <span>{{ card4.buttonText }}</span>
-              <span class="button-arrow">→</span>
+              <span class="button-arrow">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
             </a>
           </div>
         </div>
@@ -132,7 +172,13 @@
           </div>
           <h3 class="card-title">{{ card5.title }}</h3>
           <div class="card-meta">
-            <span class="meta-date">📅 {{ card5.date }}</span>
+            <span class="meta-date">
+              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ card5.date }}
+            </span>
             <div class="updated-by">
               <img :src="card5.avatarUrl" class="github-avatar" :alt="card5.username">
               <span>by <a :href="card5.profileUrl" target="_blank">{{ card5.username }}</a></span>
@@ -140,12 +186,16 @@
           </div>
           <div class="card-footer">
             <div class="card-tags">
-              <WildfireTag :color="card5.tagColor" :text="card5.tag1" class="small-tag" />
-              <WildfireTag :color="card5.tagColor" :text="card5.tag2" class="small-tag" />
+              <WildfireTag :color="card5.tagColor" :text="card5.tag1" class="small-tag" :icon="getTagIcon(card5.tag1)" />
+              <WildfireTag :color="card5.tagColor" :text="card5.tag2" class="small-tag" :icon="getTagIcon(card5.tag2)" />
             </div>
             <a :href="card5.link" class="card-button" :style="{ color: getHexColor(card5.tagColor) }">
               <span>{{ card5.buttonText }}</span>
-              <span class="button-arrow">→</span>
+              <span class="button-arrow">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
             </a>
           </div>
         </div>
@@ -161,7 +211,13 @@
           </div>
           <h3 class="card-title">{{ card6.title }}</h3>
           <div class="card-meta">
-            <span class="meta-date">📅 {{ card6.date }}</span>
+            <span class="meta-date">
+              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <polyline points="12 6 12 12 16 14"/>
+              </svg>
+              {{ card6.date }}
+            </span>
             <div class="updated-by">
               <img :src="card6.avatarUrl" class="github-avatar" :alt="card6.username">
               <span>by <a :href="card6.profileUrl" target="_blank">{{ card6.username }}</a></span>
@@ -169,12 +225,16 @@
           </div>
           <div class="card-footer">
             <div class="card-tags">
-              <WildfireTag :color="card6.tagColor" :text="card6.tag1" class="small-tag" />
-              <WildfireTag :color="card6.tagColor" :text="card6.tag2" class="small-tag" />
+              <WildfireTag :color="card6.tagColor" :text="card6.tag1" class="small-tag" :icon="getTagIcon(card6.tag1)" />
+              <WildfireTag :color="card6.tagColor" :text="card6.tag2" class="small-tag" :icon="getTagIcon(card6.tag2)" />
             </div>
             <a :href="card6.link" class="card-button" :style="{ color: getHexColor(card6.tagColor) }">
               <span>{{ card6.buttonText }}</span>
-              <span class="button-arrow">→</span>
+              <span class="button-arrow">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
             </a>
           </div>
         </div>
@@ -184,104 +244,131 @@
     <div class="updates-footer">
       <a href="/informatii/about" class="view-all-link">
         <span>Vezi toate noutățile</span>
-        <span class="arrow">→</span>
+        <span class="arrow">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </span>
       </a>
     </div>
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import WildfireTag from './WildfireTag.vue'
+
+// Reactive theme state
+const isDark = ref(true) // default dark
+
+// Check theme on mount and listen for changes
+onMounted(() => {
+  // Initial check
+  isDark.value = document.documentElement.classList.contains('dark')
+  
+  // Create observer to watch for class changes on html element
+  const observer = new MutationObserver((mutations) => {
+    mutations.forEach((mutation) => {
+      if (mutation.attributeName === 'class') {
+        isDark.value = document.documentElement.classList.contains('dark')
+      }
+    })
+  })
+  
+  observer.observe(document.documentElement, { attributes: true })
+  
+  // Cleanup
+  onUnmounted(() => observer.disconnect())
+})
 
 const card1 = ref({
   active: true,
-  dotClass: 'dot-orange',
-  category: 'panel',
+  dotClass: 'dot-red',
+  category: 'PANEL',
   title: 'DASHBOARD',
-  date: '06.03.2026',
-  username: 'WildFiire',
-  avatarUrl: 'https://github.com/WildFiire.png',
-  profileUrl: 'https://github.com/WildFiire',
-  tagColor: 'orange',
-  tag1: 'NEW',
-  tag2: 'PANEL',
+  date: '09.03.2026',
+  username: 'ianncxd',
+  avatarUrl: 'https://github.com/ianncxd.png',
+  profileUrl: 'https://github.com/ianncxd',
+  tagColor: 'red',
+  tag1: 'API',
+  tag2: 'STATS',
   link: '/panel/panel',
   buttonText: 'ACUM'
 })
 const card2 = ref({
   active: true,
   dotClass: 'dot-purple',
-  category: 'CHANGELOGS',
-  title: 'UPDATES',
-  date: '06.03.2026',
-  username: 'WildFiire',
-  avatarUrl: 'https://github.com/WildFiire.png',
-  profileUrl: 'https://github.com/WildFiire',
+  category: 'INFORMATII',
+  title: 'REGULAMENT GO',
+  date: '09.03.2026',
+  username: 'ianncxd',
+  avatarUrl: 'https://github.com/ianncxd.png',
+  profileUrl: 'https://github.com/ianncxd',
   tagColor: 'purple',
-  tag1: 'NEW',
-  tag2: 'CHANGES',
-  link: '/updates_wiki/updateswiki',
+  tag1: 'RULES',
+  tag2: 'INFO',
+  link: '/informatii/regulamente/go/regulament-go',
   buttonText: 'CITESTE'
 })
 const card3 = ref({
   active: true,
-  dotClass: 'dot-blue',
-  category: 'INFORMATIONS',
-  title: 'REGULAMENT JUCATORI ',
-  date: '08.03.2026',
-  username: 'WildFiire',
-  avatarUrl: 'https://github.com/WildFiire.png',
-  profileUrl: 'https://github.com/WildFiire',
-  tagColor: 'blue',
-  tag1: 'GO',
-  tag2: 'RULES',
-  link: '/informatii/regulamente/go/regulament-go',
+  dotClass: 'dot-red',
+  category: 'INFORMATII',
+  title: 'REGULAMENT GO-VIP',
+  date: '09.03.2026',
+  username: 'ianncxd',
+  avatarUrl: 'https://github.com/ianncxd.png',
+  profileUrl: 'https://github.com/ianncxd',
+  tagColor: 'red',
+  tag1: 'RULES',
+  tag2: 'VIP',
+  link: '/informatii/regulamente/go/regulament-vip-go',
   buttonText: 'CITESTE'
 })
 const card4 = ref({
   active: true,
-  dotClass: 'dot-teal',
-  category: 'INFORMATIONS',
-  title: 'REGULAMENT STAFF',
-  date: '08.03.2026',
-  username: 'WildFiire',
-  avatarUrl: 'https://github.com/WildFiire.png',
-  profileUrl: 'https://github.com/WildFiire',
-  tagColor: 'teal',
-  tag1: 'GO',
-  tag2: 'RULES',
+  dotClass: 'dot-green',
+  category: 'INFORMATII',
+  title: 'REGULAMENT GO STAFF',
+  date: '09.03.2026',
+  username: 'ianncxd',
+  avatarUrl: 'https://github.com/ianncxd.png',
+  profileUrl: 'https://github.com/ianncxd',
+  tagColor: 'green',
+  tag1: 'RULES',
+  tag2: 'STAFF',
   link: '/informatii/regulamente/go/regulament-staff-go',
   buttonText: 'CITESTE'
 })
 const card5 = ref({
   active: true,
-  dotClass: 'dot-red',
-  category: 'INFORMATIONS',
-  title: 'REGULAMENT VIP',
-  date: '08.03.2026',
-  username: 'WildFiire',
-  avatarUrl: 'https://github.com/WildFiire.png',
-  profileUrl: 'https://github.com/WildFiire',
-  tagColor: 'red',
-  tag1: 'GO',
-  tag2: 'RULES',
-  link: '/informatii/regulamente/go/regulament-vip-go',
+  dotClass: 'dot-orange',
+  category: 'INFORMATII',
+  title: 'ABOUT US',
+  date: '09.03.2026',
+  username: 'ianncxd',
+  avatarUrl: 'https://github.com/ianncxd.png',
+  profileUrl: 'https://github.com/ianncxd',
+  tagColor: 'orange',
+  tag1: 'ABOUT',
+  tag2: 'WILDFIRE',
+  link: '/informatii/about',
   buttonText: 'CITESTE'
 })
 const card6 = ref({
   active: true,
   dotClass: 'dot-pink',
-  category: 'INFORMATIONS',
-  title: 'ABOUT US',
-  date: '08.03.2026',
-  username: 'WildFiire',
-  avatarUrl: 'https://github.com/WildFiire.png',
-  profileUrl: 'https://github.com/WildFiire',
+  category: 'INFORMATII',
+  title: 'Frequently Asked Questions',
+  date: '09.03.2026',
+  username: 'ianncxd',
+  avatarUrl: 'https://github.com/ianncxd.png',
+  profileUrl: 'https://github.com/ianncxd',
   tagColor: 'pink',
-  tag1: 'GO',
-  tag2: 'RULES',
-  link: '/informatii/about',
+  tag1: 'INFO',
+  tag2: 'FAQ',
+  link: '/informatii/regulamente/go/regulament-go',
   buttonText: 'CITESTE'
 })
 
@@ -294,26 +381,62 @@ function getHexColor(color) {
   return hexColors[color] || '#ff4500'
 }
 
+function getTagIcon(tag) {
+  const tagLower = String(tag || '').toLowerCase()
+  
+  if (tagLower.includes('new') || tagLower.includes('nou')) {
+    return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>'
+  }
+  if (tagLower.includes('go')) {
+    return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>'
+  }
+  if (tagLower.includes('rules') || tagLower.includes('regulament')) {
+    return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6"/><path d="M16 13H8"/><path d="M16 17H8"/><path d="M10 9H8"/></svg>'
+  }
+  if (tagLower.includes('panel') || tagLower.includes('dashboard')) {
+    return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>'
+  }
+  if (tagLower.includes('changes') || tagLower.includes('update')) {
+    return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>'
+  }
+  if (tagLower.includes('info')) {
+    return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>'
+  }
+  
+  // Default - dot
+  return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="6"/></svg>'
+}
+
 function cardGradient(color, index) {
   const mainColor = getHexColor(color)
-  const darkBase = '#0a0a0a'
   
-  const positions = [
-    'circle at 20% 30%',
-    'circle at 80% 20%',
-    'circle at 40% 70%',
-    'circle at 70% 60%',
-    'circle at 30% 80%',
-    'circle at 60% 40%'
-  ]
-  
-  const pos = positions[(index - 1) % positions.length]
-  
-  return {
-    background: `radial-gradient(${pos}, ${mainColor}20, transparent 70%),
-                 linear-gradient(145deg, ${darkBase}, #121212)`,
-    border: 'none',
-    boxShadow: `0 4px 12px -4px ${mainColor}30`
+  // Folosim valoarea reactivă isDark
+  if (isDark.value) {
+    // DARK MODE - fundal închis cu gradient
+    const darkBase = '#0a0a0a'
+    const positions = [
+      'circle at 20% 30%',
+      'circle at 80% 20%',
+      'circle at 40% 70%',
+      'circle at 70% 60%',
+      'circle at 30% 80%',
+      'circle at 60% 40%'
+    ]
+    const pos = positions[(index - 1) % positions.length]
+    
+    return {
+      background: `radial-gradient(${pos}, ${mainColor}20, transparent 70%),
+                   linear-gradient(145deg, ${darkBase}, #121212)`,
+      border: `1px solid ${mainColor}30`,
+      boxShadow: `0 4px 12px -4px ${mainColor}30`
+    }
+  } else {
+    // LIGHT MODE - FUNDAL ALB PUR
+    return {
+      background: '#ffffff',
+      border: `1px solid ${mainColor}40`,
+      boxShadow: `0 4px 12px -4px ${mainColor}40, 0 1px 3px rgba(0,0,0,0.05)`
+    }
   }
 }
 
@@ -330,25 +453,104 @@ const activeCards = computed(() => {
 </script>
 
 <style scoped>
+/* ===== FONT ORBITRON DOAR PENTRU COMPONENTE SPECIFICE ===== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+/* Aplică Orbitron doar pe titlu, butoane, tag-uri și categorii */
+.card-title,
+.card-button span,
+.card-tags :deep(.wildfire-tag),
+.category-name,
+.view-all-link span,
+.updates-badge {
+  font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  letter-spacing: 0.5px;
+}
+
+/* Ajustări individuale */
+.card-title {
+  font-weight: 800 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.card-button span {
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.card-tags :deep(.wildfire-tag) {
+  font-weight: 500 !important;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.category-name {
+  font-weight: 700 !important;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.view-all-link span {
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+}
+
+.updates-badge {
+  font-weight: 600 !important;
+  letter-spacing: 0.5px;
+}
+
+/* ===== VARIABLES CSS - TEMA DARK (DEFAULT) ===== */
+.last-updates {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #121212;
+  --bg-card: rgba(10, 10, 10, 0.95);
+  --text-primary: #ffffff;
+  --text-secondary: #f0f0f0;
+  --text-tertiary: #9ca3af;
+  --border-light: rgba(255, 255, 255, 0.1);
+  --border-medium: rgba(255, 255, 255, 0.2);
+  --meta-bg: rgba(0, 0, 0, 0.2);
+  --button-bg: rgba(0, 0, 0, 0.2);
+  
+  max-width: 1100px;
+  margin: 40px auto;
+  padding: 0 24px;
+  width: 100%;
+  transition: all 0.3s ease;
+}
+
+/* ===== TEMA LIGHT - FUNDAL ALB PUR ===== */
+html:not(.dark) .last-updates {
+  --bg-primary: #ffffff;
+  --bg-secondary: #f8fafc;
+  --bg-card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #1e293b;
+  --text-tertiary: #64748b;
+  --border-light: rgba(0, 0, 0, 0.08);
+  --border-medium: rgba(0, 0, 0, 0.12);
+  --meta-bg: rgba(0, 0, 0, 0.03);
+  --button-bg: rgba(0, 0, 0, 0.03);
+}
+
+/* ===== PERFORMANCE ===== */
 .last-updates,
 .update-card,
 .category-dot,
 .card-button,
 .view-all-link,
 .wildfire-tag,
-.github-avatar {
+.github-avatar,
+svg {
   transform: translateZ(0);
   backface-visibility: hidden;
   will-change: transform, opacity;
 }
 
-.last-updates {
-  max-width: 1100px;
-  margin: 40px auto;
-  padding: 0 24px;
-  width: 100%;
-}
-
+/* ===== HEADER ===== */
 .updates-header {
   display: flex;
   align-items: center;
@@ -360,11 +562,7 @@ const activeCards = computed(() => {
   font-size: 24px;
   font-weight: 700;
   margin: 0;
-  color: #111827;
-}
-
-.dark .section-title {
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
 .section-title span {
@@ -385,6 +583,7 @@ const activeCards = computed(() => {
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
+/* ===== GRID CARDURI ===== */
 .updates-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -396,16 +595,21 @@ const activeCards = computed(() => {
   position: relative;
   border-radius: 16px;
   padding: 16px;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
   display: flex;
   flex-direction: column;
   overflow: hidden;
   min-height: 160px;
+  background: var(--bg-card);
 }
 
 .update-card:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 16px -8px currentColor;
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px -8px rgba(255, 69, 0, 0.3);
+}
+
+html:not(.dark) .update-card:hover {
+  box-shadow: 0 12px 24px -8px rgba(255, 69, 0, 0.2);
 }
 
 .card-glow {
@@ -414,10 +618,14 @@ const activeCards = computed(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.05), transparent 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(255, 255, 255, 0.1), transparent 70%);
   pointer-events: none;
   opacity: 0;
-  transition: opacity 0.2s;
+  transition: opacity 0.3s;
+}
+
+html:not(.dark) .card-glow {
+  background: radial-gradient(circle at 50% 0%, rgba(255, 69, 0, 0.05), transparent 70%);
 }
 
 .update-card:hover .card-glow {
@@ -429,6 +637,7 @@ const activeCards = computed(() => {
   z-index: 2;
 }
 
+/* ===== CATEGORIE ===== */
 .card-category {
   display: flex;
   align-items: center;
@@ -441,6 +650,11 @@ const activeCards = computed(() => {
   height: 8px;
   border-radius: 50%;
   box-shadow: 0 0 8px currentColor;
+  transition: transform 0.2s;
+}
+
+.update-card:hover .category-dot {
+  transform: scale(1.2);
 }
 
 .category-name {
@@ -450,29 +664,40 @@ const activeCards = computed(() => {
   letter-spacing: 0.5px;
 }
 
+/* ===== TITLU ===== */
 .card-title {
   font-size: 16px;
   font-weight: 800;
   margin: 0 0 12px 0;
   line-height: 1.3;
-  color: #ffffff;
+  color: var(--text-primary);
 }
 
+/* ===== META ===== */
 .card-meta {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-bottom: 12px;
   padding-bottom: 10px;
-  border-bottom: 1px solid rgba(255,255,255,0.1);
+  border-bottom: 1px solid var(--border-light);
   font-size: 11px;
 }
 
 .meta-date {
-  color: #9ca3af;
-  background: rgba(0,0,0,0.2);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--text-tertiary);
+  background: var(--meta-bg);
   padding: 4px 10px;
   border-radius: 30px;
+  font-family: inherit; /* Păstrează fontul default */
+}
+
+.meta-icon {
+  stroke: currentColor;
+  opacity: 0.8;
 }
 
 .updated-by {
@@ -482,7 +707,8 @@ const activeCards = computed(() => {
 }
 
 .updated-by span {
-  color: #9ca3af;
+  color: var(--text-tertiary);
+  font-family: inherit; /* Păstrează fontul default */
 }
 
 .updated-by a {
@@ -490,10 +716,13 @@ const activeCards = computed(() => {
   font-weight: 600;
   text-decoration: none;
   margin-left: 2px;
+  transition: all 0.2s;
+  font-family: inherit; /* Păstrează fontul default */
 }
 
 .updated-by a:hover {
   text-decoration: underline;
+  filter: brightness(1.2);
 }
 
 .github-avatar {
@@ -504,8 +733,14 @@ const activeCards = computed(() => {
   display: block;
   object-fit: cover;
   flex-shrink: 0;
+  transition: transform 0.2s;
 }
 
+.update-card:hover .github-avatar {
+  transform: scale(1.1);
+}
+
+/* ===== FOOTER ===== */
 .card-footer {
   display: flex;
   align-items: center;
@@ -522,6 +757,7 @@ const activeCards = computed(() => {
   min-width: 0;
 }
 
+/* ===== TAGS ===== */
 :deep(.wildfire-tag.small-tag) {
   padding: 3px 10px !important;
   font-size: 10px !important;
@@ -530,13 +766,34 @@ const activeCards = computed(() => {
   border-radius: 30px !important;
   border: 1px solid currentColor !important;
   background: transparent !important;
+  transition: all 0.2s !important;
+  display: inline-flex !important;
+  align-items: center !important;
 }
 
-:deep(.wildfire-tag.small-tag .tag-dot) {
-  width: 6px !important;
-  height: 6px !important;
+html:not(.dark) :deep(.wildfire-tag.small-tag) {
+  background: rgba(255, 255, 255, 0.7) !important;
+  backdrop-filter: blur(4px);
 }
 
+:deep(.wildfire-tag.small-tag:hover) {
+  transform: translateY(-2px) scale(1.02);
+  filter: brightness(1.2);
+  box-shadow: 0 4px 8px currentColor;
+}
+
+:deep(.wildfire-tag.small-tag svg) {
+  width: 10px;
+  height: 10px;
+  stroke: currentColor;
+  transition: transform 0.2s;
+}
+
+:deep(.wildfire-tag.small-tag:hover svg) {
+  transform: rotate(5deg);
+}
+
+/* Culori tag-uri */
 :deep(.wildfire-tag[color="blue"]) { color: #3b82f6; }
 :deep(.wildfire-tag[color="orange"]) { color: #f97316; }
 :deep(.wildfire-tag[color="teal"]) { color: #14b8a6; }
@@ -546,6 +803,7 @@ const activeCards = computed(() => {
 :deep(.wildfire-tag[color="red"]) { color: #ef4444; }
 :deep(.wildfire-tag[color="green"]) { color: #10b981; }
 
+/* ===== BUTON ===== */
 .card-button {
   display: inline-flex;
   align-items: center;
@@ -555,27 +813,39 @@ const activeCards = computed(() => {
   font-weight: 600;
   padding: 4px 12px;
   border-radius: 30px;
-  background: rgba(0,0,0,0.2);
+  background: var(--button-bg);
   transition: all 0.2s;
-  border: 1px solid rgba(255,255,255,0.1);
+  border: 1px solid var(--border-light);
   white-space: nowrap;
   flex-shrink: 0;
 }
 
 .card-button:hover {
-  gap: 6px;
-  background: rgba(0,0,0,0.3);
+  gap: 8px;
+  border-color: currentColor;
+}
+
+html:not(.dark) .card-button:hover {
+  background: #ffffff;
 }
 
 .button-arrow {
-  font-size: 12px;
+  display: inline-flex;
+  align-items: center;
   transition: transform 0.2s;
 }
 
-.card-button:hover .button-arrow {
-  transform: translateX(3px);
+.button-arrow svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
 }
 
+.card-button:hover .button-arrow {
+  transform: translateX(4px);
+}
+
+/* ===== FOOTER PRINCIPAL ===== */
 .updates-footer {
   text-align: center;
   margin-top: 28px;
@@ -592,7 +862,7 @@ const activeCards = computed(() => {
   padding: 10px 28px;
   border-radius: 30px;
   background: linear-gradient(135deg, #ff4500, #ff8c00);
-  transition: all 0.2s;
+  transition: all 0.3s;
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 4px 12px rgba(255, 69, 0, 0.25);
 }
@@ -604,14 +874,22 @@ const activeCards = computed(() => {
 }
 
 .arrow {
-  font-size: 16px;
+  display: inline-flex;
+  align-items: center;
   transition: transform 0.2s;
+}
+
+.arrow svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
 }
 
 .view-all-link:hover .arrow {
   transform: translateX(4px);
 }
 
+/* ===== DOTS ===== */
 .dot-blue { background: #3b82f6; }
 .dot-orange { background: #f97316; }
 .dot-amber { background: #f59e0b; }
@@ -621,6 +899,7 @@ const activeCards = computed(() => {
 .dot-red { background: #ef4444; }
 .dot-green { background: #10b981; }
 
+/* ===== MEDIA QUERIES ===== */
 @media (max-width: 1024px) {
   .updates-grid {
     grid-template-columns: repeat(2, 1fr);

@@ -17,16 +17,16 @@ editLink: true
 <!-- RÂND 0 - path -->
 <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 5px; font-size: 12px; color: var(--vp-c-text-2); flex-wrap: wrap;">
   <div style="display: flex; align-items: center; gap: 5px;">
-    <span style="color: var(--vp-c-brand-1);">Home</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Home</span>
     <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-brand-1);">Informatii</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Informatii</span>
     <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-text-2);">Intrebari frecvente</span>
+    <span style="color: var(--vp-c-text-2);" class="orbitron-font">Intrebari frecvente</span>
   </div>
   
   <div style="display: flex; align-items: center; gap: 6px;">
     <img src="/icons/introduction.svg" alt="introduction" class="nav-icon" style="width: 18px; height: 18px; filter: var(--icon-filter, none);">
-    <span style="font-size: 12px; color: var(--vp-c-text-2);">FAQ</span>
+    <span style="font-size: 12px; color: var(--vp-c-text-2);" class="orbitron-font">FAQ</span>
   </div>
 </div>
 
@@ -35,7 +35,7 @@ editLink: true
   <img src="/icons/wildfire.webp" alt="Wildfire.ro" width="60" style="margin: 0; filter: var(--logo-filter, none);">
   
   <!-- TITLU -->
-  <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;">
+  <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; font-weight: 700;" class="orbitron-font">
     Întrebări frecvente
   </h1>
 </div>
@@ -46,14 +46,14 @@ editLink: true
   <!-- Tags -->
   <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
     <img src="/icons/tag.svg" alt="tag" class="nav-icon" style="width: 18px; height: 18px; filter: var(--icon-filter, none);">
-    <PageTagRed style="font-size: 11px; padding: 2px 8px;">faq</PageTagRed>
-    <PageTagGreen style="font-size: 11px; padding: 2px 8px;">cs2</PageTagGreen>
-    <PageTagPurple style="font-size: 11px; padding: 2px 8px;">comunitate</PageTagPurple>
-    <PageTagBlue style="font-size: 11px; padding: 2px 8px;">ajutor</PageTagBlue>
+    <PageTagRed style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">faq</PageTagRed>
+    <PageTagGreen style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">cs2</PageTagGreen>
+    <PageTagPurple style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">comunitate</PageTagPurple>
+    <PageTagBlue style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">ajutor</PageTagBlue>
   </div>
 
   <div style="display: flex; align-items: center; gap: 6px;">
-    <span style="font-size: 13px; color: var(--vp-c-text-2); font-weight: 500;">updated by</span>
+    <span style="font-size: 13px; color: var(--vp-c-text-2); font-weight: 500;" class="orbitron-font">updated by</span>
     <a 
       href="https://github.com/ianncxd" 
       target="_blank" 
@@ -74,6 +74,113 @@ editLink: true
 
 <!-- ===== STYLE FAQ CU DESIGN WILDFIRE - DOAR PENTRU .faq-wrapper ===== -->
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+.orbitron-font {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+/* ===== FONT ORBITRON PENTRU TITLURI ȘI ELEMENTE IMPORTANTE ===== */
+.faq-wrapper .faq-title h3,
+.faq-wrapper .ticket-header-title h3,
+.faq-wrapper .ticket-stat-value,
+.faq-wrapper .ticket-step-number,
+.faq-wrapper .ticket-step-content strong,
+.faq-wrapper .ticket-type,
+.faq-wrapper .ticket-cta-btn,
+.faq-wrapper .faq-question-text-custom,
+.faq-wrapper .underline-effect,
+.faq-wrapper .server-name,
+.faq-wrapper .ticket-highlight,
+.faq-wrapper .steam-connect-link,
+.faq-wrapper .faq-question-custom .faq-icon-wrapper + span,
+.faq-wrapper h3,
+.faq-wrapper .steam-copy-btn,
+.faq-wrapper .ticket-badge-new,
+.faq-wrapper .server-ip,
+.faq-wrapper .ticket-feature,
+.faq-wrapper .ticket-stat-label {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+/* Ajustări greutăți - păstrăm dimensiunile originale */
+.faq-wrapper .faq-title h3 {
+  font-weight: 700;
+  font-size: 22px;
+}
+
+.faq-wrapper .ticket-header-title h3 {
+  font-weight: 700;
+  font-size: 26px;
+}
+
+.faq-wrapper .ticket-stat-value {
+  font-weight: 800;
+  font-size: 26px;
+}
+
+.faq-wrapper .ticket-step-number {
+  font-weight: 800;
+  font-size: 22px;
+}
+
+.faq-wrapper .ticket-step-content strong {
+  font-weight: 700;
+  font-size: 18px;
+}
+
+.faq-wrapper .ticket-type {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.faq-wrapper .ticket-cta-btn {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.faq-wrapper .faq-question-text-custom {
+  font-weight: 600;
+  font-size: 16px;
+}
+
+.faq-wrapper .underline-effect {
+  font-weight: 600;
+}
+
+.faq-wrapper .server-name {
+  font-weight: 700;
+  font-size: 16px;
+}
+
+.faq-wrapper .ticket-highlight {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.faq-wrapper .steam-connect-link {
+  font-weight: 600;
+  font-size: 15px;
+}
+
+.faq-wrapper .ticket-badge-new {
+  font-weight: 700;
+  font-size: 11px;
+}
+
+.faq-wrapper .server-ip {
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.faq-wrapper .ticket-stat-label {
+  font-weight: 500;
+  font-size: 12px;
+}
+
 .faq-wrapper {
   max-width: 900px;
   margin: 0 auto;
@@ -1012,6 +1119,42 @@ editLink: true
   box-shadow: 0 0 10px #4caf50;
 }
 
+/* SVG-uri în dark mode - DOAR ALBE */
+.dark .faq-wrapper .nav-icon,
+.dark .faq-wrapper .ticket-header-icon svg,
+.dark .faq-wrapper .steam-icon-box svg,
+.dark .faq-wrapper .faq-title svg,
+.dark .faq-wrapper .faq-icon-wrapper svg,
+.dark .faq-wrapper .ticket-step-content strong svg,
+.dark .faq-wrapper .ticket-cta-btn svg,
+.dark .faq-wrapper .steam-copy-btn svg,
+.dark .faq-wrapper .ticket-feature svg,
+.dark .faq-wrapper .server-icon svg {
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+/* SVG-uri în light mode */
+:not(.dark) .faq-wrapper .nav-icon,
+:not(.dark) .faq-wrapper .ticket-header-icon svg,
+:not(.dark) .faq-wrapper .steam-icon-box svg,
+:not(.dark) .faq-wrapper .faq-title svg,
+:not(.dark) .faq-wrapper .faq-icon-wrapper svg,
+:not(.dark) .faq-wrapper .ticket-step-content strong svg,
+:not(.dark) .faq-wrapper .ticket-cta-btn svg,
+:not(.dark) .faq-wrapper .steam-copy-btn svg,
+:not(.dark) .faq-wrapper .ticket-feature svg,
+:not(.dark) .faq-wrapper .server-icon svg {
+  filter: brightness(0.4);
+  opacity: 0.8;
+}
+
+:not(.dark) .faq-wrapper .ticket-type:hover svg,
+:not(.dark) .faq-wrapper .ticket-cta-btn:hover svg,
+:not(.dark) .faq-wrapper .steam-copy-btn:hover svg {
+  filter: brightness(0) invert(1);
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .faq-wrapper .ticket-header {
@@ -1070,11 +1213,11 @@ editLink: true
     </div>
     <div class="steam-text">
       Ai nevoie de <strong>Counter-Strike 2</strong> instalat.<br>
-      Adaugă la favorite: <span class="steam-connect-link">go.wildfire.ro:27015</span>
+      Adaugă la favorite: <span class="steam-connect-link orbitron-font">go.wildfire.ro:27015</span>
     </div>
   </div>
   
-  <div class="steam-copy-btn" onclick="navigator.clipboard.writeText('go.wildfire.ro:27015'); alert('IP copiat în clipboard!');">
+  <div class="steam-copy-btn orbitron-font" onclick="navigator.clipboard.writeText('go.wildfire.ro:27015'); alert('IP copiat în clipboard!');">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
       <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
@@ -1097,32 +1240,32 @@ editLink: true
       </svg>
     </div>
     <div class="ticket-header-title">
-      <h3>Sistem tickete </h3>
+      <h3 class="orbitron-font">Sistem tickete <span class="ticket-badge-new orbitron-font">NEW</span></h3>
       <p>Unban, report-uri, request-uri pe wildfire.ro</p>
     </div>
   </div>
 
   <div class="ticket-stats">
     <div class="ticket-stat">
-      <div class="ticket-stat-value">24/7</div>
-      <div class="ticket-stat-label">Suport</div>
+      <div class="ticket-stat-value orbitron-font">24/7</div>
+      <div class="ticket-stat-label orbitron-font">Suport</div>
     </div>
     <div class="ticket-stat">
-      <div class="ticket-stat-value">&lt;12h</div>
-      <div class="ticket-stat-label">Răspuns</div>
+      <div class="ticket-stat-value orbitron-font">&lt;12h</div>
+      <div class="ticket-stat-label orbitron-font">Răspuns</div>
     </div>
     <div class="ticket-stat">
-      <div class="ticket-stat-value">4</div>
-      <div class="ticket-stat-label">Tipuri</div>
+      <div class="ticket-stat-value orbitron-font">4</div>
+      <div class="ticket-stat-label orbitron-font">Tipuri</div>
     </div>
   </div>
 
   <div class="ticket-steps">
     <!-- Step 1 -->
     <div class="ticket-step">
-      <div class="ticket-step-number">1</div>
+      <div class="ticket-step-number orbitron-font">1</div>
       <div class="ticket-step-content">
-        <strong>
+        <strong class="orbitron-font">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="2" y="2" width="20" height="20" rx="3"/>
             <path d="M12 8v4l3 3"/>
@@ -1130,15 +1273,15 @@ editLink: true
           </svg>
           Crează cont pe site
         </strong>
-        <p>Accesează <span class="ticket-highlight">wildfire.ro</span> și autentifică-te cu Steam.</p>
+        <p>Accesează <span class="ticket-highlight orbitron-font">wildfire.ro</span> și autentifică-te cu Steam.</p>
         <div class="ticket-step-progress"></div>
       </div>
     </div>
 
    <div class="ticket-step">
-      <div class="ticket-step-number">2</div>
+      <div class="ticket-step-number orbitron-font">2</div>
       <div class="ticket-step-content">
-        <strong>
+        <strong class="orbitron-font">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="2" y="2" width="20" height="20" rx="3"/>
             <path d="M4 4h16v16H4z"/>
@@ -1146,21 +1289,21 @@ editLink: true
           </svg>
           Accesează Dashboard
         </strong>
-        <p>Ai acces la <span class="ticket-highlight">tickete, statistici și noutăți</span>.</p>
+        <p>Ai acces la <span class="ticket-highlight orbitron-font">tickete, statistici și noutăți</span>.</p>
         <div class="ticket-features">
-          <span class="ticket-feature">
+          <span class="ticket-feature orbitron-font">
             <svg viewBox="0 0 24 24" width="12" height="12">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
             Tickete active
           </span>
-          <span class="ticket-feature">
+          <span class="ticket-feature orbitron-font">
             <svg viewBox="0 0 24 24" width="12" height="12">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
             Statistici
           </span>
-          <span class="ticket-feature">
+          <span class="ticket-feature orbitron-font">
             <svg viewBox="0 0 24 24" width="12" height="12">
               <polyline points="20 6 9 17 4 12"/>
             </svg>
@@ -1171,9 +1314,9 @@ editLink: true
     </div>
 
    <div class="ticket-step">
-      <div class="ticket-step-number">3</div>
+      <div class="ticket-step-number orbitron-font">3</div>
       <div class="ticket-step-content">
-        <strong>
+        <strong class="orbitron-font">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <rect x="2" y="2" width="20" height="20" rx="3"/>
             <path d="M12 8v4l3 3"/>
@@ -1183,14 +1326,14 @@ editLink: true
         </strong>
         <p>Alege tipul de ticket:</p>
         <div class="ticket-types">
-          <div class="ticket-type unban">
+          <div class="ticket-type unban orbitron-font">
             <svg viewBox="0 0 24 24" width="14" height="14">
               <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
               <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
             </svg>
             Unban
           </div>
-          <div class="ticket-type report">
+          <div class="ticket-type report orbitron-font">
             <svg viewBox="0 0 24 24" width="14" height="14">
               <circle cx="12" cy="12" r="10"/>
               <line x1="12" y1="8" x2="12" y2="12"/>
@@ -1198,14 +1341,14 @@ editLink: true
             </svg>
             Report
           </div>
-          <div class="ticket-type request">
+          <div class="ticket-type request orbitron-font">
             <svg viewBox="0 0 24 24" width="14" height="14">
               <circle cx="12" cy="12" r="10"/>
               <path d="M12 8v4M12 16h.01"/>
             </svg>
             Request
           </div>
-          <div class="ticket-type helper">
+          <div class="ticket-type helper orbitron-font">
             <svg viewBox="0 0 24 24" width="14" height="14">
               <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
             </svg>
@@ -1217,7 +1360,7 @@ editLink: true
   </div>
 
   <div class="ticket-cta">
-    <a href="https://wildfire.ro/dashboard" target="_blank" class="ticket-cta-btn primary">
+    <a href="https://wildfire.ro/dashboard" target="_blank" class="ticket-cta-btn primary orbitron-font">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="2" y="2" width="20" height="20" rx="3"/>
         <line x1="8" y1="2" x2="8" y2="22"/>
@@ -1227,7 +1370,7 @@ editLink: true
       </svg>
       Deschide Dashboard
     </a>
-    <a href="https://wildfire.ro/news" target="_blank" class="ticket-cta-btn secondary">
+    <a href="https://wildfire.ro/news" target="_blank" class="ticket-cta-btn secondary orbitron-font">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <circle cx="12" cy="12" r="10"/>
         <polyline points="12 6 12 12 16 14"/>
@@ -1247,7 +1390,7 @@ editLink: true
       <circle cx="12" cy="12" r="10"/>
       <polygon points="10 8 16 12 10 16 10 8"/>
     </svg>
-    <h3>1. Cum intru pe server?</h3>
+    <h3 class="orbitron-font">1. Cum intru pe server?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1258,18 +1401,18 @@ editLink: true
           <polygon points="10 8 16 12 10 16 10 8"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Cum mă conectez?</span>
+      <span class="faq-question-text-custom orbitron-font">Cum mă conectez?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>Deschizi <span class="underline-effect">Counter-Strike 2</span>, apoi:</p>
+      <p>Deschizi <span class="underline-effect orbitron-font">Counter-Strike 2</span>, apoi:</p>
       <ul>
-        <li>Adaugă la favorite: <span class="underline-effect">go.wildfire.ro:27015</span></li>
+        <li>Adaugă la favorite: <span class="underline-effect orbitron-font">go.wildfire.ro:27015</span></li>
         <li>Sau în consolă: <code>connect go.wildfire.ro</code></li>
       </ul>
-      <p>Toate serverele sunt <span class="underline-effect">VAC secured</span>, <span class="underline-effect">128 tick</span>.</p>
+      <p>Toate serverele sunt <span class="underline-effect orbitron-font">VAC secured</span>, <span class="underline-effect orbitron-font">128 tick</span>.</p>
     </div>
   </div>
 
@@ -1280,7 +1423,7 @@ editLink: true
       <rect x="2" y="2" width="20" height="20" rx="2"/>
       <line x1="8" y1="2" x2="8" y2="22"/>
     </svg>
-    <h3>2. Ce moduri de joc avem?</h3>
+    <h3 class="orbitron-font">2. Ce moduri de joc avem?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1291,7 +1434,7 @@ editLink: true
           <line x1="8" y1="2" x2="8" y2="22"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Ce servere sunt active?</span>
+      <span class="faq-question-text-custom orbitron-font">Ce servere sunt active?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
@@ -1305,8 +1448,8 @@ editLink: true
             </svg>
           </div>
           <div class="server-info">
-            <div class="server-name">Competitive</div>
-            <span class="server-ip">go.wildfire.ro:27015</span>
+            <div class="server-name orbitron-font">Competitive</div>
+            <span class="server-ip orbitron-font">go.wildfire.ro:27015</span>
             <span class="server-status"></span>
           </div>
         </div>
@@ -1318,8 +1461,8 @@ editLink: true
             </svg>
           </div>
           <div class="server-info">
-            <div class="server-name">Deathmatch</div>
-            <span class="server-ip">go.wildfire.ro:27016</span>
+            <div class="server-name orbitron-font">Deathmatch</div>
+            <span class="server-ip orbitron-font">go.wildfire.ro:27016</span>
             <span class="server-status"></span>
           </div>
         </div>
@@ -1330,8 +1473,8 @@ editLink: true
             </svg>
           </div>
           <div class="server-info">
-            <div class="server-name">Retake</div>
-            <span class="server-ip">go.wildfire.ro:27017</span>
+            <div class="server-name orbitron-font">Retake</div>
+            <span class="server-ip orbitron-font">go.wildfire.ro:27017</span>
             <span class="server-status"></span>
           </div>
         </div>
@@ -1342,8 +1485,8 @@ editLink: true
             </svg>
           </div>
           <div class="server-info">
-            <div class="server-name">Surf</div>
-            <span class="server-ip">În curând</span>
+            <div class="server-name orbitron-font">Surf</div>
+            <span class="server-ip orbitron-font">În curând</span>
           </div>
         </div>
       </div>
@@ -1357,7 +1500,7 @@ editLink: true
       <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
       <path d="M2 17L12 22L22 17"/>
     </svg>
-    <h3>3. Cum funcționează rank-ul?</h3>
+    <h3 class="orbitron-font">3. Cum funcționează rank-ul?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1368,19 +1511,19 @@ editLink: true
           <path d="M2 17L12 22L22 17"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Cum progresez în rank?</span>
+      <span class="faq-question-text-custom orbitron-font">Cum progresez în rank?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>Sistem <span class="underline-effect">ELO propriu</span> bazat pe:</p>
+      <p>Sistem <span class="underline-effect orbitron-font">ELO propriu</span> bazat pe:</p>
       <ul>
         <li>Câștig/pierdere meci (±25 ELO)</li>
         <li>Performanță (K/D, MVP-uri)</li>
         <li>Contribuție în echipă</li>
       </ul>
-      <p>Vezi statistici în <span class="underline-effect">Dashboard</span>.</p>
+      <p>Vezi statistici în <span class="underline-effect orbitron-font">Dashboard</span>.</p>
     </div>
   </div>
 
@@ -1391,7 +1534,7 @@ editLink: true
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
       <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
     </svg>
-    <h3>4. Am nevoie de plugin-uri?</h3>
+    <h3 class="orbitron-font">4. Am nevoie de plugin-uri?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1402,14 +1545,14 @@ editLink: true
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Ce software e necesar?</span>
+      <span class="faq-question-text-custom orbitron-font">Ce software e necesar?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>Serverul e <span class="underline-effect">VAC secured</span>. Plugin-urile se descarcă automat.</p>
-      <p>Anti-cheat propriu activ <span class="underline-effect">24/7</span>.</p>
+      <p>Serverul e <span class="underline-effect orbitron-font">VAC secured</span>. Plugin-urile se descarcă automat.</p>
+      <p>Anti-cheat propriu activ <span class="underline-effect orbitron-font">24/7</span>.</p>
     </div>
   </div>
 
@@ -1419,7 +1562,7 @@ editLink: true
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
       <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
     </svg>
-    <h3>5. Cum devii VIP?</h3>
+    <h3 class="orbitron-font">5. Cum devii VIP?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1429,13 +1572,13 @@ editLink: true
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Cum susțin serverul?</span>
+      <span class="faq-question-text-custom orbitron-font">Cum susțin serverul?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>Pe <span class="underline-effect">wildfire.ro/market</span>:</p>
+      <p>Pe <span class="underline-effect orbitron-font">wildfire.ro/market</span>:</p>
       <ul>
         <li>Fire Coins bonus</li>
         <li>Custom MVP</li>
@@ -1453,7 +1596,7 @@ editLink: true
       <line x1="12" y1="8" x2="12" y2="12"/>
       <line x1="12" y1="16" x2="12.01" y2="16"/>
     </svg>
-    <h3>6. Cum raportez un jucător?</h3>
+    <h3 class="orbitron-font">6. Cum raportez un jucător?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1465,13 +1608,13 @@ editLink: true
           <line x1="12" y1="16" x2="12.01" y2="16"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Unde fac reclamatii?</span>
+      <span class="faq-question-text-custom orbitron-font">Unde fac reclamatii?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>În <span class="underline-effect">Dashboard</span> la Report Player (cu dovezi).</p>
+      <p>În <span class="underline-effect orbitron-font">Dashboard</span> la Report Player (cu dovezi).</p>
       <p>În joc: <code>!report nume motiv</code> sau <code>u@</code></p>
     </div>
   </div>
@@ -1483,7 +1626,7 @@ editLink: true
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
       <circle cx="9" cy="7" r="4"/>
     </svg>
-    <h3>7. Ce face comunitatea specială?</h3>
+    <h3 class="orbitron-font">7. Ce face comunitatea specială?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1494,17 +1637,17 @@ editLink: true
           <circle cx="9" cy="7" r="4"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Ce ne diferențiază?</span>
+      <span class="faq-question-text-custom orbitron-font">Ce ne diferențiază?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
       <ul>
-        <li><span class="underline-effect">Oameni faini</span>, zero toxicitate</li>
+        <li><span class="underline-effect orbitron-font">Oameni faini</span>, zero toxicitate</li>
         <li>Eventuri săptămânale</li>
-        <li>Staff activ <span class="underline-effect">24/7</span></li>
-        <li>Economie <span class="underline-effect">Fire Coins</span></li>
+        <li>Staff activ <span class="underline-effect orbitron-font">24/7</span></li>
+        <li>Economie <span class="underline-effect orbitron-font">Fire Coins</span></li>
       </ul>
     </div>
   </div>
@@ -1516,7 +1659,7 @@ editLink: true
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
       <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
     </svg>
-    <h3>8. Am pierdut accesul la cont</h3>
+    <h3 class="orbitron-font">8. Am pierdut accesul la cont</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1527,14 +1670,14 @@ editLink: true
           <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Cum recuperez contul?</span>
+      <span class="faq-question-text-custom orbitron-font">Cum recuperez contul?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>Contul e legat de <span class="underline-effect">Steam ID</span>. Nu există parolă separată.</p>
-      <p>Probleme? Deschide ticket la <span class="underline-effect">General Request</span>.</p>
+      <p>Contul e legat de <span class="underline-effect orbitron-font">Steam ID</span>. Nu există parolă separată.</p>
+      <p>Probleme? Deschide ticket la <span class="underline-effect orbitron-font">General Request</span>.</p>
     </div>
   </div>
 
@@ -1546,7 +1689,7 @@ editLink: true
       <line x1="2" y1="12" x2="22" y2="12"/>
       <line x1="12" y1="2" x2="12" y2="22"/>
     </svg>
-    <h3>9. Ce sunt Fire Coins?</h3>
+    <h3 class="orbitron-font">9. Ce sunt Fire Coins?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1558,7 +1701,7 @@ editLink: true
           <line x1="12" y1="2" x2="12" y2="22"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Cum funcționează?</span>
+      <span class="faq-question-text-custom orbitron-font">Cum funcționează?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
@@ -1581,7 +1724,7 @@ editLink: true
       <line x1="2" y1="12" x2="22" y2="12"/>
       <line x1="12" y1="2" x2="12" y2="22"/>
     </svg>
-    <h3>10. Cum funcționează market-ul?</h3>
+    <h3 class="orbitron-font">10. Cum funcționează market-ul?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1593,13 +1736,13 @@ editLink: true
           <line x1="12" y1="2" x2="12" y2="22"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Ce pot face în market?</span>
+      <span class="faq-question-text-custom orbitron-font">Ce pot face în market?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>Pe <span class="underline-effect">wildfire.ro/market</span> poți:</p>
+      <p>Pe <span class="underline-effect orbitron-font">wildfire.ro/market</span> poți:</p>
       <ul>
         <li>Cumpăra iteme cosmetice</li>
         <li>Vinde iteme câștigate</li>
@@ -1616,7 +1759,7 @@ editLink: true
       <line x1="8" y1="2" x2="8" y2="22"/>
       <line x1="16" y1="2" x2="16" y2="22"/>
     </svg>
-    <h3>11. Ce tick-rate au serverele?</h3>
+    <h3 class="orbitron-font">11. Ce tick-rate au serverele?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1628,13 +1771,13 @@ editLink: true
           <line x1="16" y1="2" x2="16" y2="22"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Ce înseamnă 128 tick?</span>
+      <span class="faq-question-text-custom orbitron-font">Ce înseamnă 128 tick?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>Toate serverele rulează la <span class="underline-effect">128 tick</span>:</p>
+      <p>Toate serverele rulează la <span class="underline-effect orbitron-font">128 tick</span>:</p>
       <ul>
         <li>Hit registration mai precis</li>
         <li>Mișcare fluidă</li>
@@ -1651,7 +1794,7 @@ editLink: true
       <line x1="12" y1="8" x2="12" y2="12"/>
       <line x1="12" y1="16" x2="12.01" y2="16"/>
     </svg>
-    <h3>12. Am găsit un bug</h3>
+    <h3 class="orbitron-font">12. Am găsit un bug</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1663,13 +1806,13 @@ editLink: true
           <line x1="12" y1="16" x2="12.01" y2="16"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Unde raportez bug-uri?</span>
+      <span class="faq-question-text-custom orbitron-font">Unde raportez bug-uri?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>În Dashboard la <span class="underline-effect">General Request</span>, selectează "Bug Report".</p>
+      <p>În Dashboard la <span class="underline-effect orbitron-font">General Request</span>, selectează "Bug Report".</p>
       <p>În joc: <code>!bug descriere</code></p>
     </div>
   </div>
@@ -1682,7 +1825,7 @@ editLink: true
       <line x1="12" y1="8" x2="12" y2="12"/>
       <line x1="12" y1="16" x2="12.01" y2="16"/>
     </svg>
-    <h3>13. Cum folosesc !report?</h3>
+    <h3 class="orbitron-font">13. Cum folosesc !report?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1694,7 +1837,7 @@ editLink: true
           <line x1="12" y1="16" x2="12.01" y2="16"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Cum funcționează în joc?</span>
+      <span class="faq-question-text-custom orbitron-font">Cum funcționează în joc?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
@@ -1714,7 +1857,7 @@ editLink: true
       <line x1="8" y1="2" x2="8" y2="22"/>
       <line x1="16" y1="2" x2="16" y2="22"/>
     </svg>
-    <h3>14. Pot juca de pe telefon?</h3>
+    <h3 class="orbitron-font">14. Pot juca de pe telefon?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1726,13 +1869,13 @@ editLink: true
           <line x1="16" y1="2" x2="16" y2="22"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Serverul e compatibil?</span>
+      <span class="faq-question-text-custom orbitron-font">Serverul e compatibil?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="faq-answer-custom" style="display: none;">
-      <p>Serverele sunt exclusiv pentru <span class="underline-effect">CS2 pe PC</span>.</p>
+      <p>Serverele sunt exclusiv pentru <span class="underline-effect orbitron-font">CS2 pe PC</span>.</p>
       <p>Poți accesa site-ul de pe telefon pentru tickete.</p>
     </div>
   </div>
@@ -1744,7 +1887,7 @@ editLink: true
       <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
       <path d="M2 17L12 22L22 17"/>
     </svg>
-    <h3>15. Există statistici publice?</h3>
+    <h3 class="orbitron-font">15. Există statistici publice?</h3>
   </div>
   
   <div class="faq-item-custom">
@@ -1755,7 +1898,7 @@ editLink: true
           <path d="M2 17L12 22L22 17"/>
         </svg>
       </div>
-      <span class="faq-question-text-custom">Unde pot vedea statistici?</span>
+      <span class="faq-question-text-custom orbitron-font">Unde pot vedea statistici?</span>
       <svg class="faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>

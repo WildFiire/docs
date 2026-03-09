@@ -368,11 +368,58 @@ defineExpose({
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
-.orbitron-font {
-  font-family: 'Orbitron', sans-serif;
+/* ===== FONT ORBITRON DOAR PENTRU ELEMENTELE SPECIFICE ===== */
+.wiki-left-line .text,
+.wiki-title,
+.wiki-description p,
+.wiki-cta-link span,
+.card-title,
+.card-desc,
+.card-badge {
+  font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
   letter-spacing: 0.3px;
 }
 
+/* Ajustări individuale pentru diferite greutăți */
+.wiki-left-line .text {
+  font-weight: 600 !important;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.wiki-title {
+  font-weight: 700 !important;
+  line-height: 1.2;
+}
+
+.wiki-description p {
+  font-weight: 400 !important;
+  line-height: 1.7;
+}
+
+.wiki-cta-link span {
+  font-weight: 600 !important;
+  font-size: 14px;
+}
+
+.card-title {
+  font-weight: 600 !important;
+  font-size: 16px;
+}
+
+.card-desc {
+  font-weight: 400 !important;
+  font-size: 12px;
+  line-height: 1.4;
+  color: rgba(255, 255, 255, 0.5);
+}
+
+.card-badge {
+  font-weight: 600 !important;
+  font-size: 10px;
+}
+
+/* Restul stilurilor rămân la fel */
 .wiki-showcase {
   width: 100%;
   margin: 20px 0 40px;
@@ -431,7 +478,6 @@ defineExpose({
 
 .wiki-left-line .text {
   font-size: 11px;
-  font-weight: 600;
   letter-spacing: 2px;
   color: #ff4500;
   text-transform: uppercase;
@@ -439,10 +485,8 @@ defineExpose({
 
 .wiki-title {
   font-size: 32px;
-  font-weight: 700;
   margin: 0;
   color: white;
-  line-height: 1.2;
 }
 
 .wiki-description {
@@ -453,7 +497,6 @@ defineExpose({
 
 .wiki-description p {
   font-size: 15px;
-  line-height: 1.7;
   color: rgba(255, 255, 255, 0.8);
   margin: 0;
 }
@@ -476,8 +519,6 @@ defineExpose({
   border: 1px solid rgba(255, 255, 255, 0.1);
   border-radius: 40px;
   color: white;
-  font-weight: 600;
-  font-size: 14px;
   text-decoration: none;
   transition: all 0.2s ease;
 }
@@ -581,14 +622,12 @@ defineExpose({
 
 .card-title {
   font-size: 16px;
-  font-weight: 600;
   margin: 0;
   color: white;
 }
 
 .card-desc {
   font-size: 12px;
-  line-height: 1.4;
   color: rgba(255, 255, 255, 0.5);
   margin: 0;
   flex: 1;
@@ -606,7 +645,6 @@ defineExpose({
 
 .card-badge {
   font-size: 10px;
-  font-weight: 600;
   padding: 4px 10px;
   background: rgba(255, 255, 255, 0.05);
   border-radius: 20px;
@@ -708,6 +746,63 @@ defineExpose({
 
 .wiki-card:nth-child(6).revealed {
   transition-delay: 0.35s;
+}
+
+/* Light theme adjustments */
+html:not(.dark) .wiki-title {
+  color: #0f172a;
+}
+
+html:not(.dark) .wiki-description p {
+  color: #334155;
+}
+
+html:not(.dark) .wiki-card {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.08);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+}
+
+html:not(.dark) .wiki-card:hover {
+  background: #ffffff;
+  border-color: rgba(255, 69, 0, 0.2);
+  box-shadow: 0 8px 16px rgba(255, 69, 0, 0.05);
+}
+
+html:not(.dark) .card-title {
+  color: #0f172a;
+}
+
+html:not(.dark) .card-desc {
+  color: #64748b;
+}
+
+html:not(.dark) .card-badge {
+  background: #f8fafc;
+  color: #334155;
+  border-color: rgba(0, 0, 0, 0.05);
+}
+
+html:not(.dark) .wiki-cta-link {
+  background: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.05);
+  color: #0f172a;
+}
+
+html:not(.dark) .wiki-cta-link:hover {
+  background: #ff4500;
+  color: white;
+}
+
+html:not(.dark) .card-link {
+  background: #f8fafc;
+  border-color: rgba(0, 0, 0, 0.05);
+  color: #0f172a;
+}
+
+html:not(.dark) .card-link:hover {
+  background: #ff4500;
+  color: white;
 }
 
 @media (max-width: 1024px) {

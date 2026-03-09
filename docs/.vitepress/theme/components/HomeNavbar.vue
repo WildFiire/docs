@@ -8,8 +8,8 @@
       <a href="/" class="nav-logo">
         <img src="/icons/wildfire.webp" alt="Wildfire" />
         <span class="logo-text">
-          <span class="wild">Wild</span>
-          <span class="fire">fire.Ro</span>
+          <span class="wild orbitron-font">Wild</span>
+          <span class="fire orbitron-font">fire.Ro</span>
         </span>
       </a>
 
@@ -20,6 +20,7 @@
           :key="item.link"
           :href="item.link"
           :class="{ active: isActive(item.link) }"
+          class="orbitron-font"
         >
           {{ cleanText(item.text) }}
         </a>
@@ -56,7 +57,7 @@
           <svg class="discord-icon" viewBox="0 0 24 24" width="16" height="16">
             <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.03.02.03.08-.01.1c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.31.61.67 1.19 1.07 1.74c.02.01.05.02.07.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
           </svg>
-          <span class="discord-text">DISCORD</span>
+          <span class="discord-text orbitron-font">DISCORD</span>
         </a>
       </div>
 
@@ -75,7 +76,7 @@
       :key="item.link"
       :href="item.link"
       @click="open=false"
-      class="mobile-bottom-link"
+      class="mobile-bottom-link orbitron-font"
       :class="{ active: isActive(item.link) }"
     >
       <span v-html="getIconFromText(item.text)"></span>
@@ -101,7 +102,7 @@
       @click="open=false"
     >
       <span v-html="getIconFromText(item.text)"></span>
-      <span>{{ cleanText(item.text) }}</span>
+      <span class="orbitron-font">{{ cleanText(item.text) }}</span>
     </a>
     
     <div class="mobile-menu-social">
@@ -121,7 +122,7 @@
       <svg class="discord-icon" viewBox="0 0 24 24" width="18" height="18">
         <path d="M19.27 5.33C17.94 4.71 16.5 4.26 15 4a.09.09 0 0 0-.07.03c-.18.33-.39.76-.53 1.09a16.09 16.09 0 0 0-4.8 0c-.14-.34-.35-.76-.54-1.09c-.01-.02-.04-.03-.07-.03c-1.5.26-2.93.71-4.27 1.33c-.01 0-.02.01-.03.02c-2.72 4.07-3.47 8.03-3.1 11.95c0 .02.01.04.03.05c1.8 1.32 3.53 2.12 5.24 2.65c.03.01.06 0 .07-.02c.4-.55.76-1.13 1.07-1.74c.02-.04 0-.08-.04-.09c-.57-.22-1.11-.48-1.64-.78c-.04-.02-.04-.08-.01-.11c.11-.08.22-.17.33-.25c.02-.02.05-.02.07-.01c3.44 1.57 7.15 1.57 10.55 0c.02-.01.05-.01.07.01c.11.09.22.17.33.26c.03.02.03.08-.01.1c-.52.31-1.07.56-1.64.78c-.04.01-.05.06-.04.09c.31.61.67 1.19 1.07 1.74c.02.01.05.02.07.01c1.72-.53 3.45-1.33 5.25-2.65c.02-.01.03-.03.03-.05c.44-4.53-.73-8.46-3.1-11.95c-.01-.01-.02-.02-.04-.02zM8.52 14.91c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.84 2.12-1.89 2.12zm6.97 0c-1.03 0-1.89-.95-1.89-2.12s.84-2.12 1.89-2.12c1.06 0 1.9.96 1.89 2.12c0 1.17-.83 2.12-1.89 2.12z"/>
       </svg>
-      <span>DISCORD</span>
+      <span class="orbitron-font">DISCORD</span>
     </a>
   </div>
 </template>
@@ -204,7 +205,86 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* Custom Theme Switch - Orange */
+/* ===== FONT ORBITRON ===== */
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+.orbitron-font {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+/* ===== ORBITRON FONT APPLICATION ===== */
+.nav-links a,
+.logo-text .wild,
+.logo-text .fire,
+.discord-text,
+.nav-cta span,
+.mobile-bottom-link,
+.mobile-menu a span,
+.mobile-menu-discord span,
+.theme-switch {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+/* Ajustări specifice */
+.nav-links a {
+  font-weight: 500 !important;
+  font-size: 12px;
+  text-transform: uppercase;
+}
+
+.logo-text .wild {
+  font-weight: 700 !important;
+  font-size: 13px;
+  color: #ffffff;
+}
+
+.logo-text .fire {
+  font-weight: 800 !important;
+  font-size: 13px;
+  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.dark .logo-text .wild {
+  color: #ffffff;
+}
+
+html:not(.dark) .logo-text .wild {
+  color: #000000;
+}
+
+.discord-text {
+  font-weight: 600 !important;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.nav-cta span {
+  font-weight: 600 !important;
+}
+
+.mobile-bottom-link {
+  font-weight: 600 !important;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+.mobile-menu a span {
+  font-weight: 500 !important;
+  font-size: 16px;
+  text-transform: uppercase;
+}
+
+.mobile-menu-discord span {
+  font-weight: 600 !important;
+  font-size: 14px;
+}
+
+/* ===== CUSTOM THEME SWITCH - ORANGE ===== */
 .theme-switch {
   position: relative;
   border-radius: 30px;
@@ -263,6 +343,7 @@ onUnmounted(() => {
   box-shadow: 0 0 12px rgba(255, 69, 0, 0.5);
 }
 
+/* ===== NAVBAR MAIN ===== */
 .nav {
   position: fixed;
   top: 20px;
@@ -307,7 +388,7 @@ html:not(.dark) .nav-inner {
   box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.2);
 }
 
-/* Logo */
+/* ===== LOGO ===== */
 .nav-logo {
   display: flex;
   align-items: center;
@@ -326,27 +407,20 @@ html:not(.dark) .nav-inner {
 }
 
 .logo-text {
+  display: flex;
+  align-items: center;
+  gap: 0;
+}
+
+.logo-text .wild {
   font-size: 13px;
-  font-weight: 700;
-  letter-spacing: 1px;
 }
 
-.dark .wild {
-  color: #ffffff;
+.logo-text .fire {
+  font-size: 13px;
 }
 
-html:not(.dark) .wild {
-  color: #000000;
-}
-
-.fire {
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* Navigation Links */
+/* ===== NAVIGATION LINKS ===== */
 .nav-links {
   display: flex;
   gap: 20px;
@@ -355,7 +429,6 @@ html:not(.dark) .wild {
 .nav-links a {
   font-size: 12px;
   text-decoration: none;
-  font-weight: 500;
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -402,14 +475,14 @@ html:not(.dark) .nav-links a:hover {
   font-weight: 600;
 }
 
-/* Right Section */
+/* ===== RIGHT SECTION ===== */
 .nav-right {
   display: flex;
   align-items: center;
   gap: 16px;
 }
 
-/* Social Links */
+/* ===== SOCIAL LINKS - SVG DOAR ALB PE DARK MODE ===== */
 .nav-social {
   display: flex;
   align-items: center;
@@ -431,21 +504,44 @@ html:not(.dark) .nav-links a:hover {
   transform: translateY(-2px);
 }
 
-.nav-social-link :deep(img) {
+.nav-social-link :deep(svg) {
   width: 18px;
   height: 18px;
-  display: block;
+  transition: all 0.2s ease;
 }
 
-.dark .nav-social-link :deep(img) {
-  filter: brightness(0) invert(1);
+/* Dark mode - SVG-uri doar ALBE, naturale */
+.dark .nav-social-link :deep(svg),
+.dark .nav-social-link :deep(svg path),
+.dark .nav-social-link :deep(svg circle),
+.dark .nav-social-link :deep(svg rect) {
+  fill: white;
+  stroke: none;
 }
 
-html:not(.dark) .nav-social-link :deep(img) {
-  filter: none;
+/* Light mode - SVG-uri negre, naturale */
+html:not(.dark) .nav-social-link :deep(svg),
+html:not(.dark) .nav-social-link :deep(svg path),
+html:not(.dark) .nav-social-link :deep(svg circle),
+html:not(.dark) .nav-social-link :deep(svg rect) {
+  fill: #333333;
+  stroke: none;
 }
 
-/* Discord CTA - Improved */
+/* Hover effects */
+.nav-social-link:hover :deep(svg) {
+  transform: scale(1.1);
+}
+
+.dark .nav-social-link:hover :deep(svg) {
+  filter: drop-shadow(0 0 4px #ff4500);
+}
+
+html:not(.dark) .nav-social-link:hover :deep(svg) {
+  filter: drop-shadow(0 0 4px #ff4500);
+}
+
+/* ===== DISCORD CTA ===== */
 .nav-cta {
   display: flex;
   align-items: center;
@@ -458,21 +554,24 @@ html:not(.dark) .nav-social-link :deep(img) {
   transition: all 0.3s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-background: linear-gradient(135deg, #ff4500, #ff8c00, #ff4500);
-background-size: 200% auto;
-color: #ffffff;
-border: none;
-box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
+  background: linear-gradient(135deg, #ff4500, #ff8c00, #ff4500);
+  background-size: 200% auto;
+  color: #ffffff;
+  border: none;
+  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
 }
 
 .nav-cta:hover {
   background-position: right center;
   transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(88, 101, 242, 0.5);
+  box-shadow: 0 8px 25px rgba(255, 69, 0, 0.5);
 }
 
 .nav-cta .discord-icon {
   fill: white;
+  stroke: none;
+  width: 16px;
+  height: 16px;
   transition: transform 0.3s ease;
 }
 
@@ -480,7 +579,7 @@ box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
   transform: rotate(5deg) scale(1.1);
 }
 
-/* Mobile Toggle */
+/* ===== MOBILE TOGGLE ===== */
 .nav-toggle {
   display: none;
   flex-direction: column;
@@ -499,7 +598,7 @@ box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
   transition: all 0.3s ease;
 }
 
-/* Mobile Bottom */
+/* ===== MOBILE BOTTOM ===== */
 .mobile-bottom {
   position: fixed;
   bottom: 16px;
@@ -541,22 +640,35 @@ html:not(.dark) .mobile-bottom {
   justify-content: center;
 }
 
-.mobile-bottom-link :deep(img) {
+/* SVG-uri în mobile bottom - doar ALBE pe dark */
+.mobile-bottom-link :deep(svg) {
   width: 18px;
   height: 18px;
-  display: block;
+  transition: all 0.2s ease;
 }
 
-.dark .mobile-bottom-link :deep(img) {
-  filter: brightness(0) invert(1);
+.dark .mobile-bottom-link :deep(svg),
+.dark .mobile-bottom-link :deep(svg path),
+.dark .mobile-bottom-link :deep(svg circle),
+.dark .mobile-bottom-link :deep(svg rect) {
+  fill: white;
+  stroke: none;
 }
 
-html:not(.dark) .mobile-bottom-link :deep(img) {
-  filter: none;
+html:not(.dark) .mobile-bottom-link :deep(svg),
+html:not(.dark) .mobile-bottom-link :deep(svg path),
+html:not(.dark) .mobile-bottom-link :deep(svg circle),
+html:not(.dark) .mobile-bottom-link :deep(svg rect) {
+  fill: #333333;
+  stroke: none;
 }
 
-.mobile-bottom-link.active :deep(img) {
-  filter: brightness(0) saturate(100%) invert(38%) sepia(98%) saturate(2346%) hue-rotate(0deg) brightness(106%) contrast(106%);
+.mobile-bottom-link.active :deep(svg) {
+  fill: #ff4500;
+}
+
+.dark .mobile-bottom-link.active :deep(svg) {
+  fill: #ff4500;
 }
 
 .mobile-bottom-discord {
@@ -573,6 +685,9 @@ html:not(.dark) .mobile-bottom-link :deep(img) {
 
 .mobile-bottom-discord .discord-icon {
   fill: white;
+  stroke: none;
+  width: 18px;
+  height: 18px;
 }
 
 .mobile-bottom-discord:hover {
@@ -580,7 +695,7 @@ html:not(.dark) .mobile-bottom-link :deep(img) {
   box-shadow: 0 6px 15px rgba(88, 101, 242, 0.5);
 }
 
-/* Mobile Menu */
+/* ===== MOBILE MENU ===== */
 .mobile-menu {
   position: fixed;
   inset: 0;
@@ -634,18 +749,27 @@ html:not(.dark) .mobile-menu a {
   color: #ff4500;
 }
 
-.mobile-menu a :deep(img) {
+/* SVG-uri în mobile menu - doar ALBE pe dark */
+.mobile-menu a :deep(svg) {
   width: 20px;
   height: 20px;
-  display: block;
+  transition: all 0.2s ease;
 }
 
-.dark .mobile-menu a :deep(img) {
-  filter: brightness(0) invert(1);
+.dark .mobile-menu a :deep(svg),
+.dark .mobile-menu a :deep(svg path),
+.dark .mobile-menu a :deep(svg circle),
+.dark .mobile-menu a :deep(svg rect) {
+  fill: white;
+  stroke: none;
 }
 
-html:not(.dark) .mobile-menu a :deep(img) {
-  filter: none;
+html:not(.dark) .mobile-menu a :deep(svg),
+html:not(.dark) .mobile-menu a :deep(svg path),
+html:not(.dark) .mobile-menu a :deep(svg circle),
+html:not(.dark) .mobile-menu a :deep(svg rect) {
+  fill: #333333;
+  stroke: none;
 }
 
 .mobile-menu-social {
@@ -669,18 +793,27 @@ html:not(.dark) .mobile-menu a :deep(img) {
   transform: translateY(-2px);
 }
 
-.mobile-menu-social-link :deep(img) {
+/* SVG-uri în mobile menu social - doar ALBE pe dark */
+.mobile-menu-social-link :deep(svg) {
   width: 20px;
   height: 20px;
-  display: block;
+  transition: all 0.2s ease;
 }
 
-.dark .mobile-menu-social-link :deep(img) {
-  filter: brightness(0) invert(1);
+.dark .mobile-menu-social-link :deep(svg),
+.dark .mobile-menu-social-link :deep(svg path),
+.dark .mobile-menu-social-link :deep(svg circle),
+.dark .mobile-menu-social-link :deep(svg rect) {
+  fill: white;
+  stroke: none;
 }
 
-html:not(.dark) .mobile-menu-social-link :deep(img) {
-  filter: none;
+html:not(.dark) .mobile-menu-social-link :deep(svg),
+html:not(.dark) .mobile-menu-social-link :deep(svg path),
+html:not(.dark) .mobile-menu-social-link :deep(svg circle),
+html:not(.dark) .mobile-menu-social-link :deep(svg rect) {
+  fill: #333333;
+  stroke: none;
 }
 
 .mobile-menu-discord {
@@ -699,6 +832,9 @@ html:not(.dark) .mobile-menu-social-link :deep(img) {
 
 .mobile-menu-discord .discord-icon {
   fill: white;
+  stroke: none;
+  width: 18px;
+  height: 18px;
 }
 
 .mobile-menu-discord:hover {
@@ -706,7 +842,7 @@ html:not(.dark) .mobile-menu-social-link :deep(img) {
   box-shadow: 0 12px 25px rgba(88, 101, 242, 0.5);
 }
 
-/* Responsive */
+/* ===== RESPONSIVE ===== */
 @media (max-width: 900px) {
   .nav {
     display: none;

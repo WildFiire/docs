@@ -4,21 +4,61 @@
     <div class="filters-panel">
       <div class="search-container">
         <div class="search-field">
-          <span class="search-glass">🔍</span>
+          <span class="search-glass">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
+              <circle cx="11" cy="11" r="8"/>
+              <path d="M21 21L17 17"/>
+            </svg>
+          </span>
           <input 
             type="text" 
             v-model="search" 
             placeholder="Search commits..."
           >
-          <span v-if="search" class="search-clear" @click="search = ''">✕</span>
+          <span v-if="search" class="search-clear" @click="search = ''">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <path d="M18 6L6 18M6 6L18 18"/>
+            </svg>
+          </span>
         </div>
         
         <div class="search-hints">
-          <button class="hint-chip" @click="search = 'feat'">✨ feature</button>
-          <button class="hint-chip" @click="search = 'fix'">🔧 fix</button>
-          <button class="hint-chip" @click="search = 'docs'">📚 docs</button>
-          <button class="hint-chip" @click="search = 'refactor'">♻️ refactor</button>
-          <button class="hint-chip" @click="search = 'test'">🧪 test</button>
+          <button class="hint-chip" @click="search = 'feat'">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            feature
+          </button>
+          <button class="hint-chip" @click="search = 'fix'">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            fix
+          </button>
+          <button class="hint-chip" @click="search = 'docs'">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            docs
+          </button>
+          <button class="hint-chip" @click="search = 'refactor'">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+            </svg>
+            refactor
+          </button>
+          <button class="hint-chip" @click="search = 'test'">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+              <path d="M14 2v6h6M12 18v-4M8 18v-4M16 18v-4"/>
+            </svg>
+            test
+          </button>
         </div>
       </div>
 
@@ -29,7 +69,11 @@
             :class="{ active: sortOrder === 'desc' }"
             @click="sortOrder = 'desc'"
           >
-            <span class="pill-icon">⬇️</span>
+            <span class="pill-icon">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                <path d="M12 5v14M8 9l4-4 4 4M8 15l4 4 4-4"/>
+              </svg>
+            </span>
             <span class="pill-text">Newest</span>
           </button>
           <button 
@@ -37,7 +81,11 @@
             :class="{ active: sortOrder === 'asc' }"
             @click="sortOrder = 'asc'"
           >
-            <span class="pill-icon">⬆️</span>
+            <span class="pill-icon">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                <path d="M12 5v14M8 9l4-4 4 4M8 15l4 4 4-4"/>
+              </svg>
+            </span>
             <span class="pill-text">Oldest</span>
           </button>
         </div>
@@ -46,27 +94,63 @@
           <PageTagGreen 
             :class="{ 'tag-active': tagFilter === 'feat' }" 
             @click="tagFilter = tagFilter === 'feat' ? 'all' : 'feat'"
-          >✨ feat</PageTagGreen>
+          >
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            feat
+          </PageTagGreen>
           <PageTagRed 
             :class="{ 'tag-active': tagFilter === 'fix' }" 
             @click="tagFilter = tagFilter === 'fix' ? 'all' : 'fix'"
-          >🔧 fix</PageTagRed>
+          >
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="12"/>
+              <line x1="12" y1="16" x2="12.01" y2="16"/>
+            </svg>
+            fix
+          </PageTagRed>
           <PageTagBlue 
             :class="{ 'tag-active': tagFilter === 'docs' }" 
             @click="tagFilter = tagFilter === 'docs' ? 'all' : 'docs'"
-          >📚 docs</PageTagBlue>
+          >
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            docs
+          </PageTagBlue>
           <PageTagOrange 
             :class="{ 'tag-active': tagFilter === 'refactor' }" 
             @click="tagFilter = tagFilter === 'refactor' ? 'all' : 'refactor'"
-          >♻️ refactor</PageTagOrange>
+          >
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+            </svg>
+            refactor
+          </PageTagOrange>
           <PageTagPurple 
             :class="{ 'tag-active': tagFilter === 'test' }" 
             @click="tagFilter = tagFilter === 'test' ? 'all' : 'test'"
-          >🧪 test</PageTagPurple>
+          >
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+              <path d="M14 2v6h6M12 18v-4M8 18v-4M16 18v-4"/>
+            </svg>
+            test
+          </PageTagPurple>
         </div>
 
         <button class="reset-pill" @click="resetFilters">
-          <span class="pill-icon">↺</span>
+          <span class="pill-icon">
+            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+              <path d="M23 4v6h-6M1 20v-6h6"/>
+              <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+            </svg>
+          </span>
           <span class="pill-text">Reset</span>
         </button>
 
@@ -83,12 +167,32 @@
       <transition name="fade-slide">
         <div class="active-filters" v-if="search || tagFilter !== 'all'">
           <div v-if="search" class="filter-tag">
-            <span>🔍 {{ search }}</span>
-            <button @click="search = ''">✕</button>
+            <span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <circle cx="11" cy="11" r="8"/>
+                <path d="M21 21L17 17"/>
+              </svg>
+              {{ search }}
+            </span>
+            <button @click="search = ''">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                <path d="M18 6L6 18M6 6L18 18"/>
+              </svg>
+            </button>
           </div>
           <div v-if="tagFilter !== 'all'" class="filter-tag">
-            <span>🏷️ {{ tagFilter }}</span>
-            <button @click="tagFilter = 'all'">✕</button>
+            <span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/>
+                <line x1="7" y1="7" x2="7.01" y2="7"/>
+              </svg>
+              {{ tagFilter }}
+            </span>
+            <button @click="tagFilter = 'all'">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                <path d="M18 6L6 18M6 6L18 18"/>
+              </svg>
+            </button>
           </div>
         </div>
       </transition>
@@ -104,7 +208,13 @@
       </div>
 
       <div v-else-if="error" class="error-liquid">
-        <div class="error-sphere">⚠️</div>
+        <div class="error-sphere">
+          <svg viewBox="0 0 24 24" width="30" height="30" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <circle cx="12" cy="16" r="1"/>
+          </svg>
+        </div>
         <p>{{ error }}</p>
         <button @click="fetchCommits">Try again</button>
       </div>
@@ -119,11 +229,23 @@
               <div class="header-breadcrumbs">
                 <a :href="commit.url" target="_blank" class="breadcrumb-hash">{{ commit.hash.substring(0, 7) }}</a>
                 <span class="breadcrumb-date">
-                  <span class="breadcrumb-icon">📅</span>
+                  <span class="breadcrumb-icon">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                      <circle cx="12" cy="12" r="10"/>
+                      <polyline points="12 6 12 12 16 14"/>
+                    </svg>
+                  </span>
                   {{ formatDate(commit.date) }}
                 </span>
                 <span class="breadcrumb-branch">
-                  <span class="breadcrumb-icon">🌿</span>
+                  <span class="breadcrumb-icon">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                      <path d="M6 3v12"/>
+                      <path d="M18 9c0 1.5-1.5 3-4 3s-4-1.5-4-3 1.5-3 4-3 4 1.5 4 3z"/>
+                      <circle cx="18" cy="6" r="3"/>
+                      <circle cx="6" cy="18" r="3"/>
+                    </svg>
+                  </span>
                   {{ commit.branch }}
                 </span>
               </div>
@@ -135,7 +257,7 @@
 
             <!-- TITLE -->
             <div class="module-title">
-              <span class="title-marker">{{ commit.emoji }}</span>
+              <span class="title-marker" v-html="commit.emoji"></span>
               <h3>{{ commit.message }}</h3>
             </div>
 
@@ -155,13 +277,25 @@
                   <span class="action-icon">{{ open[commit.id] ? '−' : '+' }}</span>
                   <span class="action-text">{{ open[commit.id] ? 'Hide' : 'View' }}</span>
                   <span class="action-badge">{{ commit.files.length }}</span>
-                  <span class="action-arrow">{{ open[commit.id] ? '▲' : '▼' }}</span>
+                  <span class="action-arrow">
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                      <path d="M6 9l6 6 6-6"/>
+                    </svg>
+                  </span>
                 </button>
                 
                 <a :href="commit.url" target="_blank" class="action-liquid github-action">
-                  <span class="action-icon">🔗</span>
+                  <span class="action-icon">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                      <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+                    </svg>
+                  </span>
                   <span class="action-text">GitHub</span>
-                  <span class="action-arrow">→</span>
+                  <span class="action-arrow">
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                      <path d="M5 12h14M12 5l7 7-7 7"/>
+                    </svg>
+                  </span>
                 </a>
               </div>
             </div>
@@ -172,7 +306,15 @@
                 <!-- DESCRIEREA DETALIATĂ (în collapse) -->
                 <div v-if="commit.description" class="expand-section">
                   <div class="section-label">
-                    <span class="label-icon">📋</span>
+                    <span class="label-icon">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                        <polyline points="14 2 14 8 20 8"/>
+                        <line x1="16" y1="13" x2="8" y2="13"/>
+                        <line x1="16" y1="17" x2="8" y2="17"/>
+                        <polyline points="10 9 9 9 8 9"/>
+                      </svg>
+                    </span>
                     <span class="label-text">Details</span>
                   </div>
                   <div class="description-details">
@@ -183,13 +325,23 @@
                 <!-- FILES CHANGED -->
                 <div class="expand-section">
                   <div class="section-label">
-                    <span class="label-icon">📄</span>
+                    <span class="label-icon">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                        <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                        <polyline points="13 2 13 9 20 9"/>
+                      </svg>
+                    </span>
                     <span class="label-text">Files changed</span>
                     <span class="label-count">{{ commit.files.length }}</span>
                   </div>
                   <div class="files-pool">
                     <div v-for="file in commit.files" :key="file" class="file-bubble">
-                      <span class="bubble-icon">📄</span>
+                      <span class="bubble-icon">
+                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                          <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/>
+                          <polyline points="13 2 13 9 20 9"/>
+                        </svg>
+                      </span>
                       <span class="bubble-path">{{ file }}</span>
                     </div>
                   </div>
@@ -198,7 +350,15 @@
                 <!-- STATS -->
                 <div class="expand-section">
                   <div class="section-label">
-                    <span class="label-icon">📊</span>
+                    <span class="label-icon">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
+                        <path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/>
+                        <circle cx="12" cy="16" r="5"/>
+                        <path d="M12 11v5"/>
+                        <path d="M9 8V6"/>
+                        <path d="M15 8V6"/>
+                      </svg>
+                    </span>
                     <span class="label-text">Stats</span>
                   </div>
                   <div class="stats-pool">
@@ -221,14 +381,62 @@
 
             <!-- TAGS -->
             <div class="tags-cloud">
-              <PageTagRed v-if="commit.tags.includes('fix')">🔧 fix</PageTagRed>
-              <PageTagGreen v-if="commit.tags.includes('feat')">✨ feat</PageTagGreen>
-              <PageTagBlue v-if="commit.tags.includes('docs')">📚 docs</PageTagBlue>
-              <PageTagPurple v-if="commit.tags.includes('test')">🧪 test</PageTagPurple>
-              <PageTagOrange v-if="commit.tags.includes('refactor')">♻️ refactor</PageTagOrange>
-              <PageTagPink v-if="commit.tags.includes('style')">🎨 style</PageTagPink>
-              <PageTagIndigo v-if="commit.tags.includes('perf')">⚡ perf</PageTagIndigo>
-              <PageTagYellow v-if="commit.tags.includes('security')">🔒 security</PageTagYellow>
+              <PageTagRed v-if="commit.tags.includes('fix')">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="12"/>
+                  <line x1="12" y1="16" x2="12.01" y2="16"/>
+                </svg>
+                fix
+              </PageTagRed>
+              <PageTagGreen v-if="commit.tags.includes('feat')">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="16"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                feat
+              </PageTagGreen>
+              <PageTagBlue v-if="commit.tags.includes('docs')">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                  <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                  <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+                </svg>
+                docs
+              </PageTagBlue>
+              <PageTagPurple v-if="commit.tags.includes('test')">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+                  <path d="M14 2v6h6M12 18v-4M8 18v-4M16 18v-4"/>
+                </svg>
+                test
+              </PageTagPurple>
+              <PageTagOrange v-if="commit.tags.includes('refactor')">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                  <path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/>
+                </svg>
+                refactor
+              </PageTagOrange>
+              <PageTagPink v-if="commit.tags.includes('style')">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                  <circle cx="15.5" cy="15.5" r="1.5"/>
+                </svg>
+                style
+              </PageTagPink>
+              <PageTagIndigo v-if="commit.tags.includes('perf')">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                  <path d="M13 2L3 14h8l-2 8 10-12h-8l2-8z"/>
+                </svg>
+                perf
+              </PageTagIndigo>
+              <PageTagYellow v-if="commit.tags.includes('security')">
+                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                  <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                </svg>
+                security
+              </PageTagYellow>
             </div>
           </div>
         </div>
@@ -239,7 +447,10 @@
     <transition name="fade">
       <div v-if="!isLoading && !error && filteredCommits.length === 0" class="empty-liquid">
         <div class="empty-sphere">
-          <span>🔍</span>
+          <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor">
+            <circle cx="11" cy="11" r="8"/>
+            <path d="M21 21L17 17"/>
+          </svg>
         </div>
         <p>No commits found</p>
         <button @click="resetFilters">Reset filters</button>
@@ -476,17 +687,17 @@ export default {
 
     getCommitEmoji(tag) {
       const emojiMap = {
-        'feat': '✨',
-        'fix': '🐛',
-        'docs': '📝',
-        'test': '🧪',
-        'refactor': '♻️',
-        'style': '🎨',
-        'perf': '⚡',
-        'security': '🔒',
-        'update': '🔄'
+        'feat': '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>',
+        'fix': '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>',
+        'docs': '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>',
+        'test': '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6M12 18v-4M8 18v-4M16 18v-4"/></svg>',
+        'refactor': '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>',
+        'style': '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/></svg>',
+        'perf': '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M13 2L3 14h8l-2 8 10-12h-8l2-8z"/></svg>',
+        'security': '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>',
+        'update': '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>'
       }
-      return emojiMap[tag] || '🔨'
+      return emojiMap[tag] || '<svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>'
     },
 
     formatDate(date) {
@@ -605,10 +816,16 @@ html:not(.dark) .filters-panel {
   top: 50%;
   transform: translateY(-50%);
   color: var(--text-tertiary);
-  font-size: 16px;
-  opacity: 0.8;
   pointer-events: none;
   transition: color 0.2s;
+  display: flex;
+  align-items: center;
+}
+
+.search-glass svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
 }
 
 .search-field input {
@@ -647,9 +864,14 @@ html:not(.dark) .filters-panel {
   background: var(--border-subtle);
   border-radius: 50%;
   color: var(--text-tertiary);
-  font-size: 11px;
   cursor: pointer;
   transition: all 0.2s;
+}
+
+.search-clear svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
 }
 
 .search-clear:hover {
@@ -665,6 +887,9 @@ html:not(.dark) .filters-panel {
 }
 
 .hint-chip {
+  display: flex;
+  align-items: center;
+  gap: 4px;
   padding: 6px 14px;
   background: var(--bg-elevated);
   border: 1px solid var(--border-subtle);
@@ -674,6 +899,12 @@ html:not(.dark) .filters-panel {
   cursor: pointer;
   transition: all 0.2s;
   backdrop-filter: blur(5px);
+}
+
+.hint-chip svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
 }
 
 .hint-chip:hover {
@@ -714,13 +945,20 @@ html:not(.dark) .filters-panel {
   font-size: 13px;
 }
 
+.sort-pill svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+}
+
 .sort-pill.active {
   background: var(--primary-soft);
   color: var(--primary);
 }
 
 .pill-icon {
-  font-size: 14px;
+  display: flex;
+  align-items: center;
 }
 
 .tags-group {
@@ -738,6 +976,15 @@ html:not(.dark) .filters-panel {
   opacity: 0.7;
   cursor: pointer;
   transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tags-group :deep(.page-tag svg) {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
 }
 
 .tags-group :deep(.page-tag.tag-active) {
@@ -759,6 +1006,12 @@ html:not(.dark) .filters-panel {
   cursor: pointer;
   transition: all 0.2s;
   font-size: 13px;
+}
+
+.reset-pill svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
 }
 
 .reset-pill:hover {
@@ -826,6 +1079,12 @@ html:not(.dark) .filters-panel {
   backdrop-filter: blur(5px);
 }
 
+.filter-tag svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
+}
+
 .filter-tag button {
   width: 18px;
   height: 18px;
@@ -836,10 +1095,15 @@ html:not(.dark) .filters-panel {
   border: none;
   border-radius: 50%;
   color: var(--text-tertiary);
-  font-size: 9px;
   cursor: pointer;
   padding: 0;
   transition: all 0.2s;
+}
+
+.filter-tag button svg {
+  width: 10px;
+  height: 10px;
+  stroke: currentColor;
 }
 
 .filter-tag button:hover {
@@ -965,9 +1229,16 @@ html:not(.dark) .glass-card:hover {
 }
 
 .breadcrumb-icon {
-  font-size: 12px;
+  display: flex;
+  align-items: center;
   opacity: 0.7;
   transition: opacity 0.2s;
+}
+
+.breadcrumb-icon svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
 }
 
 .breadcrumb-date:hover, .breadcrumb-branch:hover {
@@ -1017,11 +1288,19 @@ html:not(.dark) .glass-card:hover {
 }
 
 .title-marker {
-  font-size: 28px;
   min-width: 40px;
   text-align: center;
   filter: drop-shadow(0 4px 8px var(--primary-glow));
   transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-marker svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--primary);
 }
 
 .glass-card:hover .title-marker {
@@ -1143,8 +1422,16 @@ html:not(.dark) .glass-card:hover {
 }
 
 .action-icon {
+  display: flex;
+  align-items: center;
   font-size: 14px;
   transition: transform 0.3s;
+}
+
+.action-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
 }
 
 .action-liquid:hover .action-icon {
@@ -1168,8 +1455,16 @@ html:not(.dark) .glass-card:hover {
 }
 
 .action-arrow {
+  display: flex;
+  align-items: center;
   font-size: 10px;
   transition: transform 0.3s;
+}
+
+.action-arrow svg {
+  width: 10px;
+  height: 10px;
+  stroke: currentColor;
 }
 
 .action-liquid:hover .action-arrow {
@@ -1222,8 +1517,15 @@ html:not(.dark) .glass-card:hover {
 
 .label-icon {
   color: var(--primary);
-  font-size: 14px;
   transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.label-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
 }
 
 .label-icon:hover {
@@ -1392,9 +1694,16 @@ html:not(.dark) .glass-card:hover {
 
 .bubble-icon {
   color: var(--primary);
-  font-size: 12px;
   opacity: 0.8;
   transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+}
+
+.bubble-icon svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
 }
 
 .file-bubble:hover .bubble-icon {
@@ -1470,6 +1779,15 @@ html:not(.dark) .glass-card:hover {
   backdrop-filter: blur(5px);
   transition: all 0.3s;
   opacity: 0.9;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.tags-cloud :deep(.page-tag svg) {
+  width: 10px;
+  height: 10px;
+  stroke: currentColor;
 }
 
 .tags-cloud :deep(.page-tag:hover) {
@@ -1534,8 +1852,13 @@ html:not(.dark) .glass-card:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 30px;
   border: 1px solid var(--red);
+}
+
+.error-sphere svg {
+  width: 30px;
+  height: 30px;
+  stroke: currentColor;
 }
 
 .error-liquid p {
@@ -1580,9 +1903,14 @@ html:not(.dark) .glass-card:hover {
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 32px;
   border: 1px solid var(--border-strong);
   animation: floatPulse 3s infinite ease-in-out;
+}
+
+.empty-sphere svg {
+  width: 32px;
+  height: 32px;
+  stroke: var(--primary);
 }
 
 @keyframes floatPulse {

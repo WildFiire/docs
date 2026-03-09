@@ -510,7 +510,7 @@ onUnmounted(() => {
 </script>
 
 <style scoped>
-/* TOATE STILURILE TALE ORIGINALE - le păstrezi exact așa cum le ai */
+/* ===== FONT ORBITRON DOAR PENTRU ELEMENTELE CHEIE ===== */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
 .orbitron-font {
@@ -518,14 +518,88 @@ onUnmounted(() => {
   letter-spacing: 0.3px;
 }
 
+/* Titlul principal - WILDFIRE.RO DOCS */
+.wildfire-title,
+.wild-white,
+.fire-gradient-text,
+.ro-gradient-text,
+.docs-white {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.5px;
+}
+
+.wildfire-title {
+  font-weight: 800 !important;
+  font-size: 48px;
+}
+
+.wild-white,
+.docs-white {
+  font-weight: 700 !important;
+}
+
+.fire-gradient-text,
+.ro-gradient-text {
+  font-weight: 800 !important;
+}
+
+/* Butoane și elemente interactive */
+.wildfire-button,
+.home-search-button,
+.home-search-shortcut,
+.tag-badge,
+.tag-year,
+.scroll-dot .dot-label,
+.community-tag .tag-badge {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+.wildfire-button {
+  font-weight: 600 !important;
+  text-transform: uppercase;
+}
+
+.home-search-button {
+  font-weight: 500 !important;
+}
+
+.home-search-shortcut {
+  font-weight: 600 !important;
+  font-size: 10px;
+}
+
+.tag-badge {
+  font-weight: 700 !important;
+  color: #ff4500;
+}
+
+.tag-year {
+  font-weight: 500 !important;
+  color: var(--vp-c-text-2);
+}
+
+/* Feature badges - doar textul, iconițele rămân normale */
+.feature-badge .feature-text {
+  font-family: 'Orbitron', sans-serif !important;
+  font-weight: 500 !important;
+  font-size: 13px;
+}
+
+/* Scroll indicator */
+.scroll-dot .dot-label {
+  font-weight: 500 !important;
+  font-size: 11px;
+  text-transform: uppercase;
+}
+
+/* Restul stilurilor rămân exact la fel */
 .wildfire-home {
   position: relative;
   max-width: 1200px;
   margin: 0 auto;
   padding: 100px 24px 80px;
   min-height: 100vh;
-  font-family: 'Orbitron', sans-serif;
-  letter-spacing: 0.3px;
 }
 
 .wildfire-wallpaper,
@@ -689,9 +763,6 @@ onUnmounted(() => {
   }
 }
 
-/* // DARK THEME */
-
-
 /* DARK MODE - Background nou */
 .dark .wildfire-home .wildfire-bg {
   position: fixed;
@@ -702,7 +773,7 @@ onUnmounted(() => {
   z-index: -1;
   pointer-events: none;
   transform: translateZ(0);
-  background: transparent; /* Fundal complet transparent */
+  background: transparent;
 }
 
 .dark .wildfire-base {

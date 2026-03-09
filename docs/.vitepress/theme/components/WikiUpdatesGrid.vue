@@ -18,25 +18,42 @@
              ref="card1Ref">
           <div class="card-glow"></div>
           <div class="card-border"></div>
-          <div class="click-indicator">👆</div>
+          <div class="click-indicator">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </div>
           
           <div class="contributor-header">
             <div class="contributor-avatar">
               <img :src="`https://github.com/${topContributor.login}.png`" :alt="topContributor.login">
               <span class="avatar-ring"></span>
-              <span class="avatar-crown">👑</span>
+              <span class="avatar-crown">
+                <svg viewBox="0 0 24 24" width="24" height="24" fill="gold" stroke="none">
+                  <path d="M12 2L15 8.5L22 9L17 14L19 21L12 17.5L5 21L7 14L2 9L9 8.5L12 2Z"/>
+                </svg>
+              </span>
             </div>
             <div class="contributor-info">
               <span class="contributor-badge">TOP CONTRIBUTOR</span>
               <h4 class="contributor-name">{{ topContributor.login }}</h4>
               <div class="contributor-stats">
                 <span class="contributor-stat">
-                  <span class="stat-icon">📦</span>
+                  <span class="stat-icon">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                      <rect x="2" y="7" width="20" height="14" rx="2" ry="2"/>
+                      <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/>
+                    </svg>
+                  </span>
                   <span class="stat-value">{{ formatNumber(topContributor.contributions) }}</span>
                   <span class="stat-label">commits</span>
                 </span>
                 <span class="contributor-stat">
-                  <span class="stat-icon">⭐</span>
+                  <span class="stat-icon">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                    </svg>
+                  </span>
                   <span class="stat-value">{{ formatNumber(topContributor.prs || 0) }}</span>
                   <span class="stat-label">PR-uri</span>
                 </span>
@@ -47,7 +64,11 @@
           <div class="contributor-footer">
             <a :href="`https://github.com/${topContributor.login}`" target="_blank" class="contributor-link clickable-link">
               Vezi profil 
-              <span class="link-arrow">→</span>
+              <span class="link-arrow">
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </span>
             </a>
           </div>
         </div>
@@ -63,7 +84,12 @@
             <div class="card-border"></div>
             
             <div class="timeline-header">
-              <span class="timeline-icon">📋</span>
+              <span class="timeline-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polyline points="12 6 12 12 16 14"/>
+                </svg>
+              </span>
               <h4 class="timeline-title">Ultimele 4 update-uri</h4>
             </div>
             
@@ -74,7 +100,7 @@
                 <div class="timeline-dot" :style="{ animationDelay: `${index * 0.2}s` }"></div>
                 <div class="timeline-content">
                   <div class="timeline-top">
-                    <span class="timeline-emoji">{{ commit.emoji }}</span>
+                    <span class="timeline-emoji" v-html="commit.emoji"></span>
                     <span class="timeline-message">{{ commit.message }}</span>
                   </div>
                   <div class="timeline-meta">
@@ -82,7 +108,11 @@
                     <span class="timeline-date">{{ formatDate(commit.date) }}</span>
                   </div>
                 </div>
-                <span class="item-click-icon">→</span>
+                <span class="item-click-icon">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
               </div>
               <div v-if="isLoading && recentCommits.length === 0" class="timeline-loading">
                 <span class="loading-spinner"></span>
@@ -93,7 +123,11 @@
             <div class="view-all-updates-wrapper">
               <a :href="`https://github.com/Wildfiire/docs/commits/main`" target="_blank" class="view-all-updates-btn">
                 <span>Vezi toate update-urile</span>
-                <span class="btn-arrow">→</span>
+                <span class="btn-arrow">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
               </a>
             </div>
           </div>
@@ -105,19 +139,46 @@
                ref="card4Ref">
             <div class="card-glow"></div>
             <div class="card-border"></div>
-            <div class="click-indicator">👆</div>
+            <div class="click-indicator">
+              <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </div>
             
             <div class="plus-content">
-              <div class="plus-icon">+</div>
+              <div class="plus-icon">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#ff4500" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <path d="M12 8v8M8 12h8"/>
+                </svg>
+              </div>
               <h4 class="plus-title">Contribuie și tu</h4>
               <p class="plus-description">Vrei să ajuți? Orice contribuție contează.</p>
               <div class="plus-stats">
-                <span class="plus-stat">🔧 {{ repoStats.openIssues }} issue-uri deschise</span>
-                <span class="plus-stat">📝 {{ repoStats.openPRs }} PR-uri deschise</span>
+                <span class="plus-stat">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                    <circle cx="12" cy="12" r="10"/>
+                    <line x1="12" y1="8" x2="12" y2="16"/>
+                    <line x1="8" y1="12" x2="16" y2="12"/>
+                  </svg>
+                  {{ repoStats.openIssues }} issue-uri deschise
+                </span>
+                <span class="plus-stat">
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="23 4 23 10 17 10"/>
+                    <polyline points="1 20 1 14 7 14"/>
+                    <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+                  </svg>
+                  {{ repoStats.openPRs }} PR-uri deschise
+                </span>
               </div>
               <a :href="`https://github.com/Wildfiire/docs/issues`" target="_blank" class="plus-link clickable-link">
                 Află cum 
-                <span class="link-arrow">→</span>
+                <span class="link-arrow">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
               </a>
             </div>
           </div>
@@ -133,7 +194,12 @@
             <div class="card-border"></div>
             
             <div class="stats-quick-header">
-              <span class="stats-quick-icon">📊</span>
+              <span class="stats-quick-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M3 3v18h18"/>
+                  <path d="M18 17V9M12 17V5M6 17v-3"/>
+                </svg>
+              </span>
               <h4 class="stats-quick-title">Repo în cifre</h4>
             </div>
             
@@ -165,7 +231,11 @@
             <div class="card-border"></div>
             
             <div class="top3-header">
-              <span class="top3-icon">🏆</span>
+              <span class="top3-icon">
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2">
+                  <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+                </svg>
+              </span>
               <h4 class="top3-title">TOP 3 Contribuitori</h4>
               <span class="top3-badge">Hall of Fame</span>
             </div>
@@ -190,7 +260,11 @@
                   <span class="top3-commits">{{ formatNumber(contributor.contributions) }} commits</span>
                 </div>
                 
-                <span class="top3-arrow">→</span>
+                <span class="top3-arrow">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
               </div>
               
               <!-- Placeholder pentru useri lipsă -->
@@ -222,7 +296,11 @@
             <div class="top3-footer">
               <a href="https://github.com/Wildfiire/docs/graphs/contributors" target="_blank" class="top3-link clickable-link">
                 Vezi toți contributorii
-                <span class="link-arrow">→</span>
+                <span class="link-arrow">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M5 12h14M12 5l7 7-7 7"/>
+                  </svg>
+                </span>
               </a>
             </div>
           </div>
@@ -238,7 +316,13 @@
         
         <div class="widget-header">
           <div class="header-left">
-            <span class="widget-icon">📌</span>
+            <span class="widget-icon">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span>
             <h4 class="widget-title">Activitate în timp real</h4>
           </div>
           <div class="header-right">
@@ -248,15 +332,31 @@
         
         <div class="widget-stats-bar">
           <button class="stat-chip clickable-button" @click="filterType = 'all'" :class="{ active: filterType === 'all' }">
-            <span>📊</span> Toate 
+            <span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="2" y="2" width="20" height="20" rx="2.18"/>
+              </svg>
+            </span> Toate 
             <span class="chip-count">{{ repoStats.openIssues + repoStats.openPRs }}</span>
           </button>
           <button class="stat-chip clickable-button" @click="filterType = 'issues'" :class="{ active: filterType === 'issues' }">
-            <span class="chip-icon issue">🐛</span> Issue-uri 
+            <span class="chip-icon issue">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="12"/>
+                <line x1="12" y1="16" x2="12.01" y2="16"/>
+              </svg>
+            </span> Issue-uri 
             <span class="chip-count issue">{{ repoStats.openIssues }}</span>
           </button>
           <button class="stat-chip clickable-button" @click="filterType = 'prs'" :class="{ active: filterType === 'prs' }">
-            <span class="chip-icon pr">🔄</span> PR-uri 
+            <span class="chip-icon pr">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"/>
+                <polyline points="1 20 1 14 7 14"/>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+              </svg>
+            </span> PR-uri 
             <span class="chip-count pr">{{ repoStats.openPRs }}</span>
           </button>
         </div>
@@ -284,11 +384,19 @@
                 </div>
               </div>
               
-              <button class="item-button clickable-button" @click.stop="openIssue(issue.url)">→</button>
+              <button class="item-button clickable-button" @click.stop="openIssue(issue.url)">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
             </div>
             
             <div v-if="filteredIssues.length === 0 && filterType !== 'prs'" class="empty-section">
-              <span>📪</span> Niciun issue deschis
+              <span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="2.18"/>
+                </svg>
+              </span> Niciun issue deschis
             </div>
           </div>
 
@@ -310,15 +418,23 @@
                   <span>@{{ pr.author }}</span>
                   <span>•</span>
                   <span>{{ formatDate(pr.date) }}</span>
-                  <span v-if="pr.branch">• 🌿 {{ pr.branch }}</span>
+                  <span v-if="pr.branch">• {{ pr.branch }}</span>
                 </div>
               </div>
               
-              <button class="item-button clickable-button" @click.stop="openPR(pr.url)">→</button>
+              <button class="item-button clickable-button" @click.stop="openPR(pr.url)">
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
+              </button>
             </div>
             
             <div v-if="filteredPRs.length === 0 && filterType !== 'issues'" class="empty-section">
-              <span>📪</span> Niciun PR deschis
+              <span>
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                  <rect x="2" y="2" width="20" height="20" rx="2.18"/>
+                </svg>
+              </span> Niciun PR deschis
             </div>
           </div>
         </div>
@@ -326,13 +442,30 @@
         <!-- QUICK ACTIONS -->
         <div class="quick-actions">
           <button class="quick-action-btn clickable-button" @click="refreshData">
-            <span>🔄</span> Refresh
+            <span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M23 4v6h-6M1 20v-6h6"/>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+              </svg>
+            </span> Refresh
           </button>
           <button class="quick-action-btn clickable-button" @click="openNewIssue">
-            <span>🐛</span> New Issue
+            <span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+              </svg>
+            </span> New Issue
           </button>
           <button class="quick-action-btn clickable-button" @click="openNewPR">
-            <span>🔄</span> New PR
+            <span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="23 4 23 10 17 10"/>
+                <polyline points="1 20 1 14 7 14"/>
+                <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/>
+              </svg>
+            </span> New PR
           </button>
         </div>
 
@@ -340,12 +473,22 @@
           <a href="https://github.com/Wildfiire/docs/issues" 
              target="_blank" 
              class="widget-link clickable-link">
-            Vezi toate issue-urile <span class="link-arrow">→</span>
+            Vezi toate issue-urile 
+            <span class="link-arrow">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
           </a>
           <a href="https://github.com/Wildfiire/docs/pulls" 
              target="_blank" 
              class="widget-link clickable-link">
-            Vezi toate PR-urile <span class="link-arrow">→</span>
+            Vezi toate PR-urile 
+            <span class="link-arrow">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
           </a>
         </div>
       </div>
@@ -360,7 +503,13 @@
              ref="headerRef">
           <div class="vertical-line"></div>
           <div class="header-text">
-            <span class="header-tag">🤝 COMUNITATE</span>
+            <span class="header-tag">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              COMUNITATE
+            </span>
             <h2 class="main-title">
               <span class="title-static">DESPRE</span>
               <span class="title-gradient">CONTRIBUITORI</span>
@@ -450,12 +599,31 @@
              :style="{ animationDelay: '1.1s' }"
              ref="ctaRef">
           <a href="https://github.com/Wildfiire/docs" target="_blank" class="cta-button primary clickable-button">
-            <span>🐙 GitHub</span>
-            <span class="button-arrow">→</span>
+            <span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/>
+              </svg>
+            </span>
+            <span>GitHub</span>
+            <span class="button-arrow">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
           </a>
           <a href="/informatii/contributing" class="cta-button secondary clickable-button">
-            <span>📖 Ghid contribuție</span>
-            <span class="button-arrow">→</span>
+            <span>
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+                <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+              </svg>
+            </span>
+            <span>Ghid contribuție</span>
+            <span class="button-arrow">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M5 12h14M12 5l7 7-7 7"/>
+              </svg>
+            </span>
           </a>
         </div>
       </div>
@@ -839,13 +1007,25 @@ export default {
 
     getCommitEmoji(message) {
       const msg = message.toLowerCase();
-      if (msg.includes('fix') || msg.includes('bug')) return '🐛';
-      if (msg.includes('add') || msg.includes('nou')) return '✨';
-      if (msg.includes('update') || msg.includes('actualiz')) return '🔄';
-      if (msg.includes('doc') || msg.includes('readme')) return '📝';
-      if (msg.includes('style') || msg.includes('css')) return '🎨';
-      if (msg.includes('refactor')) return '♻️';
-      return '🔨';
+      if (msg.includes('fix') || msg.includes('bug')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>';
+      }
+      if (msg.includes('add') || msg.includes('nou')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>';
+      }
+      if (msg.includes('update') || msg.includes('actualiz')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>';
+      }
+      if (msg.includes('doc') || msg.includes('readme')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>';
+      }
+      if (msg.includes('style') || msg.includes('css')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/></svg>';
+      }
+      if (msg.includes('refactor')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>';
+      }
+      return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>';
     },
 
     formatNumber(num) {
@@ -964,6 +1144,185 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+/* ===== FONT ORBITRON DOAR PENTRU TITLURI ȘI ELEMENTE IMPORTANTE ===== */
+.header-tag,
+.cards-title,
+.contributor-name,
+.contributor-badge,
+.timeline-title,
+.stats-quick-title,
+.plus-title,
+.widget-title,
+.widget-badge,
+.top3-title,
+.top3-badge,
+.main-title,
+.title-static,
+.title-gradient,
+.how-to-tag,
+.how-to-content h4,
+.cta-button,
+.view-all-updates-btn,
+.stat-chip,
+.item-badge,
+.quick-action-btn,
+.widget-link,
+.top3-name,
+.rank-badge,
+.contributor-link,
+.plus-link,
+.top3-link,
+.timeline-author,
+.stat-label {
+  font-family: 'Orbitron', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+/* Ajustări individuale pentru diferite greutăți */
+.header-tag {
+  font-weight: 600 !important;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+.cards-title {
+  font-weight: 600 !important;
+  font-size: 24px;
+}
+
+.contributor-name {
+  font-weight: 700 !important;
+  font-size: 28px;
+}
+
+.contributor-badge {
+  font-weight: 600 !important;
+  font-size: 11px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  background: #ff4500;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 30px;
+  display: inline-block;
+}
+
+.timeline-title,
+.stats-quick-title,
+.plus-title,
+.widget-title,
+.top3-title {
+  font-weight: 600 !important;
+  font-size: 16px;
+}
+
+.widget-badge,
+.top3-badge {
+  font-weight: 600 !important;
+  font-size: 10px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.main-title {
+  font-weight: 800 !important;
+  font-size: 42px;
+  line-height: 1.2;
+}
+
+.title-static {
+  font-weight: 700 !important;
+  display: block;
+}
+
+.title-gradient {
+  font-weight: 800 !important;
+  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  display: inline-block;
+}
+
+.how-to-tag {
+  font-weight: 600 !important;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.how-to-content h4 {
+  font-weight: 600 !important;
+  font-size: 14px;
+}
+
+.cta-button,
+.view-all-updates-btn {
+  font-weight: 500 !important;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.stat-chip {
+  font-weight: 500 !important;
+  font-size: 10px;
+  text-transform: uppercase;
+}
+
+.item-badge {
+  font-weight: 600 !important;
+  font-size: 8px;
+  text-transform: uppercase;
+}
+
+.quick-action-btn {
+  font-weight: 500 !important;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.widget-link {
+  font-weight: 500 !important;
+  font-size: 9px;
+  text-transform: uppercase;
+}
+
+.top3-name {
+  font-weight: 600 !important;
+  font-size: 14px;
+}
+
+.rank-badge {
+  font-weight: 700 !important;
+  font-size: 12px;
+}
+
+.contributor-link,
+.plus-link,
+.top3-link {
+  font-weight: 500 !important;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.timeline-author {
+  font-weight: 500 !important;
+  font-size: 11px;
+  color: #ff4500;
+}
+
+.stat-label {
+  font-weight: 400 !important;
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--vp-c-text-2);
+}
+
 /* ===== EFFECT DE SCROLL REVEAL ===== */
 .scroll-reveal {
   opacity: 0;
@@ -984,7 +1343,6 @@ export default {
   max-width: 1400px;
   margin: 0 auto;
   padding: 60px 40px;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Orbitron', sans-serif;
 }
 
 /* ===== LEFT ZONE ===== */
@@ -1013,19 +1371,14 @@ export default {
 
 .header-tag {
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 2px;
   color: #ff4500;
   text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
 }
 
 .cards-title {
   font-size: 24px;
-  font-weight: 600;
   margin: 0;
   color: var(--vp-c-text-1);
-  font-family: 'Orbitron', sans-serif;
 }
 
 .cards-grid {
@@ -1200,7 +1553,6 @@ export default {
   position: absolute;
   top: 16px;
   right: 16px;
-  font-size: 18px;
   background: rgba(255, 69, 0, 0.2);
   backdrop-filter: blur(4px);
   width: 36px;
@@ -1215,6 +1567,12 @@ export default {
   transition: all 0.3s ease;
   z-index: 10;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  color: #ff4500;
+}
+
+.click-indicator svg {
+  width: 18px;
+  height: 18px;
 }
 
 .clickable-item {
@@ -1238,9 +1596,14 @@ export default {
   transform: translateX(-5px);
   transition: all 0.2s ease;
   color: #ff4500;
-  font-size: 16px;
-  font-weight: bold;
   margin-left: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.item-click-icon svg {
+  width: 16px;
+  height: 16px;
 }
 
 .clickable-link {
@@ -1252,6 +1615,8 @@ export default {
   position: relative;
   padding: 4px 8px;
   border-radius: 20px;
+  text-decoration: none;
+  color: #ff4500;
 }
 
 .clickable-link:hover {
@@ -1261,11 +1626,16 @@ export default {
   padding: 4px 12px;
 }
 
-.clickable-link:hover .link-arrow {
+.clickable-link:hover .link-arrow svg {
   transform: translateX(4px);
 }
 
 .link-arrow {
+  display: inline-flex;
+  align-items: center;
+}
+
+.link-arrow svg {
   transition: transform 0.2s ease;
 }
 
@@ -1306,11 +1676,16 @@ export default {
   box-shadow: 0 10px 20px -5px rgba(255, 69, 0, 0.4);
 }
 
-.clickable-button:hover .button-arrow {
+.clickable-button:hover .button-arrow svg {
   transform: translateX(4px);
 }
 
 .button-arrow {
+  display: inline-flex;
+  align-items: center;
+}
+
+.button-arrow svg {
   transition: transform 0.3s ease;
 }
 
@@ -1374,6 +1749,11 @@ export default {
   z-index: 3;
 }
 
+.avatar-crown svg {
+  width: 24px;
+  height: 24px;
+}
+
 .contributor-info {
   flex: 1;
 }
@@ -1385,17 +1765,13 @@ export default {
   color: white;
   border-radius: 30px;
   font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 1px;
   margin-bottom: 8px;
 }
 
 .contributor-name {
   font-size: 28px;
-  font-weight: 700;
   margin: 0 0 8px;
   color: var(--vp-c-text-1);
-  font-family: 'Orbitron', sans-serif;
 }
 
 .contributor-stats {
@@ -1410,8 +1786,15 @@ export default {
 }
 
 .stat-icon {
-  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
   opacity: 0.8;
+}
+
+.stat-icon svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
 }
 
 .stat-value {
@@ -1443,7 +1826,9 @@ export default {
   color: #ff4500;
   text-decoration: none;
   font-size: 13px;
-  font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* ===== CARD 2: TIMELINE ===== */
@@ -1465,15 +1850,20 @@ export default {
 }
 
 .timeline-icon {
-  font-size: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.timeline-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: #ff4500;
 }
 
 .timeline-title {
   font-size: 16px;
-  font-weight: 600;
   margin: 0;
   color: var(--vp-c-text-1);
-  font-family: 'Orbitron', sans-serif;
 }
 
 .timeline-list {
@@ -1515,10 +1905,18 @@ export default {
   display: flex;
   gap: 8px;
   margin-bottom: 4px;
+  align-items: center;
 }
 
 .timeline-emoji {
-  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.timeline-emoji svg {
+  width: 14px;
+  height: 14px;
+  stroke: #ff4500;
 }
 
 .timeline-message {
@@ -1556,15 +1954,20 @@ export default {
 }
 
 .stats-quick-icon {
-  font-size: 24px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.stats-quick-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: #ff4500;
 }
 
 .stats-quick-title {
   font-size: 16px;
-  font-weight: 600;
   margin: 0;
   color: var(--vp-c-text-1);
-  font-family: 'Orbitron', sans-serif;
 }
 
 .stats-quick-grid {
@@ -1592,7 +1995,6 @@ export default {
   font-weight: 700;
   color: #ff4500;
   line-height: 1.2;
-  font-family: 'Orbitron', sans-serif;
 }
 
 .stats-quick-label {
@@ -1616,11 +2018,14 @@ export default {
 }
 
 .plus-icon {
-  font-size: 48px;
-  font-weight: 200;
-  color: #ff4500;
   margin-bottom: 12px;
   animation: pulse 2s infinite;
+}
+
+.plus-icon svg {
+  width: 48px;
+  height: 48px;
+  stroke: #ff4500;
 }
 
 @keyframes pulse {
@@ -1630,10 +2035,8 @@ export default {
 
 .plus-title {
   font-size: 18px;
-  font-weight: 600;
   margin: 0 0 8px;
   color: var(--vp-c-text-1);
-  font-family: 'Orbitron', sans-serif;
 }
 
 .plus-description {
@@ -1655,6 +2058,16 @@ export default {
   background: rgba(255, 69, 0, 0.05);
   padding: 4px 8px;
   border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  justify-content: center;
+}
+
+.plus-stat svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
 }
 
 .plus-link {
@@ -1663,10 +2076,10 @@ export default {
   gap: 6px;
   color: #ff4500;
   font-size: 13px;
-  font-weight: 500;
   padding: 8px 16px;
   border: 1px solid rgba(255, 69, 0, 0.3);
   border-radius: 30px;
+  text-decoration: none;
 }
 
 /* ===== ISSUES & PR WIDGET ===== */
@@ -1697,16 +2110,20 @@ export default {
 }
 
 .widget-icon {
-  font-size: 16px;
-  color: #ff4500;
+  display: inline-flex;
+  align-items: center;
+}
+
+.widget-icon svg {
+  width: 16px;
+  height: 16px;
+  stroke: #ff4500;
 }
 
 .widget-title {
   font-size: 13px;
-  font-weight: 600;
   margin: 0;
   color: var(--vp-c-text-1);
-  font-family: 'Orbitron', sans-serif;
 }
 
 .widget-badge {
@@ -1715,8 +2132,6 @@ export default {
   padding: 3px 8px;
   border-radius: 30px;
   font-size: 10px;
-  font-weight: 600;
-  font-family: 'Orbitron', sans-serif;
 }
 
 .widget-stats-bar {
@@ -1743,7 +2158,6 @@ export default {
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 10px;
-  font-weight: 500;
 }
 
 .stat-chip.active {
@@ -1759,12 +2173,17 @@ export default {
   margin-left: 2px;
 }
 
-.chip-icon.issue {
-  color: #3498db;
+.chip-icon {
+  display: inline-flex;
+  align-items: center;
 }
 
-.chip-icon.pr {
-  color: #2ecc71;
+.chip-icon.issue svg {
+  stroke: #3498db;
+}
+
+.chip-icon.pr svg {
+  stroke: #2ecc71;
 }
 
 .chip-count.issue {
@@ -1834,8 +2253,6 @@ export default {
   padding: 2px 5px;
   border-radius: 30px;
   font-size: 8px;
-  font-weight: 600;
-  font-family: 'Orbitron', sans-serif;
   white-space: nowrap;
   flex-shrink: 0;
 }
@@ -1894,7 +2311,11 @@ export default {
   transition: all 0.2s ease;
   flex-shrink: 0;
   padding: 0;
-  font-size: 12px;
+}
+
+.item-button svg {
+  width: 12px;
+  height: 12px;
 }
 
 .item-button:hover {
@@ -1917,6 +2338,12 @@ export default {
   min-height: 32px;
 }
 
+.empty-section svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
 .quick-actions {
   display: flex;
   gap: 4px;
@@ -1937,7 +2364,12 @@ export default {
   cursor: pointer;
   transition: all 0.2s ease;
   font-size: 9px;
-  font-weight: 500;
+}
+
+.quick-action-btn svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
 }
 
 .quick-action-btn:hover {
@@ -1965,7 +2397,6 @@ export default {
   border-radius: 30px;
   color: #ff4500;
   font-size: 9px;
-  font-weight: 500;
   text-decoration: none;
   transition: all 0.2s ease;
 }
@@ -1975,13 +2406,17 @@ export default {
   gap: 5px;
 }
 
-.widget-link:hover .link-arrow {
+.widget-link:hover .link-arrow svg {
   transform: translateX(4px);
 }
 
 .link-arrow {
+  display: inline-flex;
+  align-items: center;
+}
+
+.link-arrow svg {
   transition: transform 0.2s ease;
-  font-size: 10px;
 }
 
 /* ===== RIGHT ZONE ===== */
@@ -2023,20 +2458,25 @@ export default {
 
 .header-tag {
   font-size: 12px;
-  font-weight: 600;
   letter-spacing: 3px;
   color: #ff4500;
   text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.header-tag svg {
+  width: 12px;
+  height: 12px;
+  stroke: currentColor;
 }
 
 .main-title {
   font-size: 42px;
-  font-weight: 800;
   margin: 0;
   color: var(--vp-c-text-1);
   line-height: 1.2;
-  font-family: 'Orbitron', sans-serif;
 }
 
 .title-static {
@@ -2162,11 +2602,9 @@ export default {
 
 .how-to-tag {
   font-size: 8px;
-  font-weight: 600;
   letter-spacing: 1px;
   color: #ff4500;
   text-transform: uppercase;
-  font-family: 'Orbitron', sans-serif;
   background: rgba(255, 69, 0, 0.1);
   padding: 1px 6px;
   border-radius: 16px;
@@ -2189,10 +2627,8 @@ export default {
 
 .how-to-content h4 {
   font-size: 14px;
-  font-weight: 600;
   margin: 0 0 3px;
   color: var(--vp-c-text-1);
-  font-family: 'Orbitron', sans-serif;
   transition: color 0.2s ease;
 }
 
@@ -2233,9 +2669,7 @@ export default {
   padding: 8px 16px;
   border-radius: 30px;
   font-size: 13px;
-  font-weight: 500;
   text-decoration: none;
-  font-family: 'Orbitron', sans-serif;
   transition: all 0.2s ease;
   cursor: pointer;
 }
@@ -2262,11 +2696,24 @@ export default {
   color: white;
 }
 
-.cta-button:hover .button-arrow {
+.cta-button:hover .button-arrow svg {
   transform: translateX(4px);
 }
 
+.cta-button svg {
+  width: 16px;
+  height: 16px;
+  stroke: currentColor;
+}
+
 .button-arrow {
+  display: inline-flex;
+  align-items: center;
+}
+
+.button-arrow svg {
+  width: 14px;
+  height: 14px;
   transition: transform 0.2s ease;
 }
 
@@ -2290,8 +2737,6 @@ export default {
   border-radius: 30px;
   color: #ff4500;
   font-size: 12px;
-  font-weight: 500;
-  font-family: 'Orbitron', sans-serif;
   text-decoration: none;
   transition: all 0.2s ease;
   cursor: pointer;
@@ -2313,12 +2758,17 @@ export default {
 }
 
 .view-all-updates-btn .btn-arrow {
-  transition: transform 0.2s ease;
-  font-size: 14px;
-  line-height: 1;
+  display: inline-flex;
+  align-items: center;
 }
 
-.view-all-updates-btn:hover .btn-arrow {
+.view-all-updates-btn .btn-arrow svg {
+  width: 14px;
+  height: 14px;
+  transition: transform 0.2s ease;
+}
+
+.view-all-updates-btn:hover .btn-arrow svg {
   transform: translateX(4px);
 }
 
@@ -2454,15 +2904,20 @@ export default {
 }
 
 .top3-icon {
-  font-size: 22px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.top3-icon svg {
+  width: 20px;
+  height: 20px;
+  stroke: #ff4500;
 }
 
 .top3-title {
   font-size: 15px;
-  font-weight: 600;
   margin: 0;
   color: var(--vp-c-text-1);
-  font-family: 'Orbitron', sans-serif;
   flex: 1;
 }
 
@@ -2472,8 +2927,6 @@ export default {
   padding: 3px 8px;
   border-radius: 20px;
   font-size: 10px;
-  font-weight: 600;
-  font-family: 'Orbitron', sans-serif;
 }
 
 .top3-list {
@@ -2537,8 +2990,6 @@ export default {
   align-items: center;
   justify-content: center;
   font-size: 12px;
-  font-weight: 700;
-  font-family: 'Orbitron', sans-serif;
 }
 
 .rank-badge.rank-1 {
@@ -2593,6 +3044,7 @@ export default {
   width: 20px;
   height: 20px;
   opacity: 0.5;
+  stroke: currentColor;
 }
 
 .avatar-glow {
@@ -2620,9 +3072,7 @@ export default {
 
 .top3-name {
   font-size: 14px;
-  font-weight: 600;
   color: var(--vp-c-text-1);
-  font-family: 'Orbitron', sans-serif;
   line-height: 1.3;
 }
 
@@ -2641,11 +3091,17 @@ export default {
 }
 
 .top3-arrow {
-  font-size: 16px;
-  color: #ff4500;
+  display: flex;
+  align-items: center;
   opacity: 0;
   transform: translateX(-5px);
   transition: all 0.2s ease;
+}
+
+.top3-arrow svg {
+  width: 16px;
+  height: 16px;
+  stroke: #ff4500;
 }
 
 .top3-item:hover:not(.placeholder-item) .top3-arrow {
@@ -2665,7 +3121,6 @@ export default {
   color: #ff4500;
   text-decoration: none;
   font-size: 11px;
-  font-weight: 500;
   display: flex;
   align-items: center;
   gap: 4px;

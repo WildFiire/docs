@@ -348,7 +348,11 @@
           <div class="champion-content">
             <div class="champion-avatar">
               <img :src="topContributor.avatar_url" :alt="topContributor.login">
-              <span class="champion-crown">👑</span>
+              <span class="champion-crown">
+                <svg viewBox="0 0 24 24" width="28" height="28" fill="gold" stroke="none">
+                  <path d="M12 2L15 9H22L16 14L19 21L12 16.5L5 21L8 14L2 9H9L12 2Z"/>
+                </svg>
+              </span>
             </div>
             <div class="champion-info">
               <h2>{{ topContributor.login }}</h2>
@@ -394,7 +398,7 @@
                     <span>{{ timeAgo(commit.date) }}</span>
                   </div>
                 </div>
-                <span class="compact-emoji">{{ commit.emoji }}</span>
+                <span class="compact-emoji" v-html="commit.emoji"></span>
               </div>
             </div>
           </div>
@@ -431,14 +435,32 @@
                 </div>
                 
                 <!-- Medals -->
-                <span class="compact-emoji" v-if="index === 0">👑</span>
-                <span class="compact-emoji" v-else-if="index === 1">🥈</span>
-                <span class="compact-emoji" v-else-if="index === 2">🥉</span>
+                <span class="compact-emoji" v-if="index === 0">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="gold" stroke="none">
+                    <path d="M12 2L15 9H22L16 14L19 21L12 16.5L5 21L8 14L2 9H9L12 2Z"/>
+                  </svg>
+                </span>
+                <span class="compact-emoji" v-else-if="index === 1">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="#C0C0C0" stroke="none">
+                    <circle cx="12" cy="12" r="10"/>
+                    <circle cx="12" cy="12" r="7" fill="#E8E8E8"/>
+                  </svg>
+                </span>
+                <span class="compact-emoji" v-else-if="index === 2">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="#CD7F32" stroke="none">
+                    <path d="M12 2L8 9L2 10L6 15L5 21L12 18L19 21L18 15L22 10L16 9L12 2Z"/>
+                  </svg>
+                </span>
               </div>
               
               <!-- Loading state -->
               <div v-if="topContributors.length === 0" class="empty-section">
-                <span>👥</span> Se încarcă...
+                <span>
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
+                    <circle cx="12" cy="12" r="10"/>
+                    <path d="M12 8v8M8 12h8"/>
+                  </svg>
+                </span> Se încarcă...
               </div>
               
               <!-- Info for more contributors -->
@@ -470,12 +492,20 @@
                     <span>@{{ issue.author }}</span>
                     <span>•</span>
                     <span>{{ timeAgo(issue.date) }}</span>
-                    <span v-if="issue.comments">💬 {{ issue.comments }}</span>
+                    <span v-if="issue.comments">
+                      <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+                      </svg>
+                      {{ issue.comments }}
+                    </span>
                   </div>
                 </div>
               </div>
               <a :href="`https://github.com/Wildfiire/docs/issues`" target="_blank" class="battle-footer compact">
-                View all issues →
+                View all issues 
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
               </a>
             </div>
           </div>
@@ -499,12 +529,21 @@
                     <span>@{{ pr.author }}</span>
                     <span>•</span>
                     <span>{{ timeAgo(pr.date) }}</span>
-                    <span v-if="pr.branch">🌿 {{ pr.branch }}</span>
+                    <span v-if="pr.branch">
+                      <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
+                        <path d="M6 3v12"/><path d="M18 9c0 1.5-1.5 3-4 3s-4-1.5-4-3 1.5-3 4-3 4 1.5 4 3z"/>
+                        <circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/>
+                      </svg>
+                      {{ pr.branch }}
+                    </span>
                   </div>
                 </div>
               </div>
               <a :href="`https://github.com/Wildfiire/docs/pulls`" target="_blank" class="battle-footer compact">
-                View all PRs →
+                View all PRs 
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                  <path d="M5 12h14M12 5l7 7-7 7"/>
+                </svg>
               </a>
             </div>
           </div>
@@ -727,7 +766,14 @@
           <!-- Weekly/Monthly Commits -->
           <div class="analytics-card span-2">
             <div class="card-header">
-              <h3>📊 {{ analyticsPeriod === 'weeks' ? 'Weekly' : 'Monthly' }} Commit Activity</h3>
+              <h3>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor">
+                  <path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/>
+                  <circle cx="12" cy="16" r="5"/>
+                  <path d="M12 11v5"/>
+                </svg>
+                {{ analyticsPeriod === 'weeks' ? 'Weekly' : 'Monthly' }} Commit Activity
+              </h3>
               <span class="card-badge">Total: {{ weeklyTotal }} commits</span>
             </div>
             <div class="chart-wrapper">
@@ -752,7 +798,13 @@
           <!-- Repository Languages -->
           <div class="analytics-card">
             <div class="card-header">
-              <h3>🔤 Languages</h3>
+              <h3>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10"/>
+                  <circle cx="12" cy="12" r="4"/>
+                </svg>
+                Languages
+              </h3>
             </div>
             <div class="language-stats">
               <div v-for="lang in sortedLanguages" :key="lang.name" class="language-item">
@@ -772,7 +824,12 @@
           <!-- PR Stats -->
           <div class="analytics-card">
             <div class="card-header">
-              <h3>⏱️ PR Statistics</h3>
+              <h3>
+                <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor">
+                  <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
+                </svg>
+                PR Statistics
+              </h3>
             </div>
             <div class="pr-stats">
               <div class="pr-stat">
@@ -1609,13 +1666,25 @@ export default {
 
     getCommitEmoji(message) {
       const msg = message.toLowerCase()
-      if (msg.includes('fix') || msg.includes('bug')) return '🐛'
-      if (msg.includes('add') || msg.includes('nou')) return '✨'
-      if (msg.includes('update') || msg.includes('actualiz')) return '🔄'
-      if (msg.includes('doc') || msg.includes('readme')) return '📝'
-      if (msg.includes('style') || msg.includes('css')) return '🎨'
-      if (msg.includes('refactor')) return '♻️'
-      return '🔨'
+      if (msg.includes('fix') || msg.includes('bug')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>'
+      }
+      if (msg.includes('add') || msg.includes('nou')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>'
+      }
+      if (msg.includes('update') || msg.includes('actualiz')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M23 4v6h-6M1 20v-6h6"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>'
+      }
+      if (msg.includes('doc') || msg.includes('readme')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>'
+      }
+      if (msg.includes('style') || msg.includes('css')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2" ry="2"/><circle cx="8.5" cy="8.5" r="1.5"/><circle cx="15.5" cy="15.5" r="1.5"/></svg>'
+      }
+      if (msg.includes('refactor')) {
+        return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 3a3 3 0 0 0-3 3v12a3 3 0 0 0 3 3 3 3 0 0 0 3-3 3 3 0 0 0-3-3H6a3 3 0 0 0-3 3 3 3 0 0 0 3 3 3 3 0 0 0 3-3V6a3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3h12a3 3 0 0 0 3-3 3 3 0 0 0-3-3z"/></svg>'
+      }
+      return '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>'
     },
 
     initActivityChart() {
@@ -2401,7 +2470,14 @@ export default {
 }
 
 .compact-emoji {
-  font-size: 14px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.compact-emoji svg {
+  width: 14px;
+  height: 14px;
+  stroke: #ff4500;
 }
 
 .compact-rank {
@@ -2481,8 +2557,10 @@ export default {
 }
 
 .battle-footer {
-  display: block;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
   margin-top: 12px;
   padding: 6px;
   background: rgba(255,69,0,0.05);
@@ -2496,6 +2574,11 @@ export default {
 .battle-footer.compact {
   margin-top: 8px;
   padding: 4px;
+}
+
+.battle-footer svg {
+  width: 12px;
+  height: 12px;
 }
 
 /* Champion Spotlight */
@@ -2521,6 +2604,11 @@ export default {
   color: #ff4500;
   font-weight: 500;
   font-size: 13px;
+}
+
+.champion-title svg {
+  width: 20px;
+  height: 20px;
 }
 
 .champion-link {
@@ -2557,9 +2645,13 @@ export default {
   position: absolute;
   top: -12px;
   right: -8px;
-  font-size: 28px;
   filter: drop-shadow(0 4px 8px gold);
   transform: rotate(15deg);
+}
+
+.champion-crown svg {
+  width: 28px;
+  height: 28px;
 }
 
 .champion-info h2 {
@@ -3079,10 +3171,19 @@ export default {
   margin-bottom: 16px;
 }
 .card-header h3 {
+  display: flex;
+  align-items: center;
+  gap: 8px;
   font-size: 16px;
   font-weight: 500;
   color: #fff;
   margin: 0;
+}
+
+.card-header h3 svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
 }
 
 .card-badge {

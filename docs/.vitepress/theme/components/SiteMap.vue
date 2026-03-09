@@ -8,12 +8,12 @@
             <div class="brand">
               <img src="/icons/wildfire.webp" alt="Wildfire.ro" class="brand-logo">
               <div class="brand-info">
-                <h3 class="brand-name">wildfire<span class="brand-dot">.ro</span></h3>
-                <p class="brand-desc">cs2 gaming community</p>
+                <h3 class="brand-name orbitron-font">Wildfire<span class="brand-dot">.ro</span></h3>
+                <p class="brand-desc orbitron-font">LET THE WORLD BURN</p>
               </div>
             </div>
             
-            <p class="brand-text">
+            <p class="brand-text orbitron-font">
               {{ siteDescription }}
             </p>
 
@@ -36,51 +36,51 @@
 
           <!-- Coloana 2: Info -->
           <div class="footer-col">
-            <h4 class="col-title">║ INFO</h4>
+            <h4 class="col-title orbitron-font">║ INFO</h4>
             <ul class="col-list">
-              <li><a href="/" class="col-link">Acasa</a></li>
-              <li><a href="/informatii/about" class="col-link">Despre</a></li>
-              <li><a href="/informatii/regulamente/regulament-playeri" class="col-link">Regulament</a></li>
-              <li><a href="/informatii/faq" class="col-link">FAQ</a></li>
+              <li><a href="/" class="col-link orbitron-font">Acasa</a></li>
+              <li><a href="/informatii/about" class="col-link orbitron-font">Despre</a></li>
+              <li><a href="/informatii/regulamente/regulament-playeri" class="col-link orbitron-font">Regulament</a></li>
+              <li><a href="/informatii/faq" class="col-link orbitron-font">FAQ</a></li>
             </ul>
           </div>
 
           <!-- Coloana 3: Comunitate -->
           <div class="footer-col">
-            <h4 class="col-title">║ COMUNITATE</h4>
+            <h4 class="col-title orbitron-font">║ COMUNITATE</h4>
             <ul class="col-list">
-              <li><a href="https://discord.gg/Knu76DhE9h" class="col-link">Connect</a></li>
-              <li><a href="/updateswiki" class="col-link">Updates Wiki</a></li>
-              <li><a href="https://servertracker.gg/communities/wildfirero" class="col-link">Vote Us</a></li>
-              <li><a href="https://wildfire.ro" class="col-link">Site Official</a></li>
+              <li><a href="https://discord.gg/Knu76DhE9h" class="col-link orbitron-font">Connect</a></li>
+              <li><a href="/updateswiki" class="col-link orbitron-font">Updates Wiki</a></li>
+              <li><a href="https://servertracker.gg/communities/wildfirero" class="col-link orbitron-font">Vote Us</a></li>
+              <li><a href="https://wildfire.ro" class="col-link orbitron-font">Site Official</a></li>
             </ul>
           </div>
 
           <!-- Coloana 4: Wiki Stats -->
           <div class="footer-col">
-            <h4 class="col-title">║ WIKI STATS</h4>
+            <h4 class="col-title orbitron-font">║ WIKI STATS</h4>
             <div class="tech-stats">
               <div class="grid-bg"></div>
               
               <div class="stat-row">
-                <span class="stat-label">Categorii</span>
-                <span class="stat-value">{{ wikiStats.categorii }}</span>
+                <span class="stat-label orbitron-font">Categorii</span>
+                <span class="stat-value orbitron-font">{{ wikiStats.categorii }}</span>
                 <div class="stat-line">
                   <div class="stat-fill" :style="{ width: wikiStats.categoriiPercent + '%' }"></div>
                 </div>
               </div>
 
               <div class="stat-row">
-                <span class="stat-label">Pagini</span>
-                <span class="stat-value">{{ wikiStats.pagini }}</span>
+                <span class="stat-label orbitron-font">Pagini</span>
+                <span class="stat-value orbitron-font">{{ wikiStats.pagini }}</span>
                 <div class="stat-line">
                   <div class="stat-fill" :style="{ width: wikiStats.paginiPercent + '%' }"></div>
                 </div>
               </div>
 
               <div class="stat-row">
-                <span class="stat-label">Performance</span>
-                <span class="stat-value">{{ wikiStats.performance }}%</span>
+                <span class="stat-label orbitron-font">Performance</span>
+                <span class="stat-value orbitron-font">{{ wikiStats.performance }}%</span>
                 <div class="stat-line">
                   <div class="stat-fill perf" :style="{ width: wikiStats.performance + '%' }"></div>
                 </div>
@@ -100,12 +100,12 @@
         <!-- Bottom bar cu semnatura -->
         <div class="footer-bottom">
           <div class="footer-bottom-left">
-            <p class="copyright">
-              © 2021-{{ currentYear }} wildfire.ro <span class="version-badge">v{{ wikiVersion }}</span>
+            <p class="copyright orbitron-font">
+              © 2021-{{ currentYear }} wildfire.ro <span class="version-badge orbitron-font">v{{ wikiVersion }}</span>
             </p>
           </div>
           <div class="footer-bottom-right">
-            <span class="made-by-text">made by</span>
+            <span class="made-by-text orbitron-font">made by</span>
             <div class="signature-wrapper">
               <img src="/icons/download.svg" alt="iannC signature" class="signature-img">
             </div>
@@ -135,7 +135,7 @@ const socialLinks = computed(() => {
   const config = theme.value
   const links = {
     steam: 'https://steamcommunity.com/groups/wildfire-ro',
-    instagram: 'https://www.instagram.com/wildfire.ro'
+    instagram: 'https://wildfire.ro/'
   }
   
   if (config.socialLinks) {
@@ -190,13 +190,19 @@ onMounted(() => {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+.orbitron-font {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
 .footer {
   width: 100%;
   background: #0a0a0c;
   border-top: 2px solid rgba(255, 69, 0, 0.2);
   margin-top: 60px;
   padding: 0;
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
   transition: all 0.3s ease;
 }
 
@@ -264,12 +270,14 @@ onMounted(() => {
   border-color: #22c55e;
 }
 
+/* SVG-uri în light mode */
 :root:not(.dark) .footer .social-icon {
-  filter: brightness(0.4) grayscale(100%);
+  filter: brightness(0.4);
+  transition: all 0.2s ease;
 }
 
 :root:not(.dark) .footer .social-link:hover .social-icon {
-  filter: brightness(0) invert(1) grayscale(0%);
+  filter: brightness(0) invert(1);
 }
 
 :root.dark .footer {
@@ -335,6 +343,17 @@ onMounted(() => {
   border-color: #22c55e;
 }
 
+/* SVG-uri în dark mode - DOAR ALBE */
+:root.dark .footer .social-icon {
+  filter: brightness(0) invert(1);
+  opacity: 0.8;
+}
+
+:root.dark .footer .social-link:hover .social-icon {
+  filter: brightness(0) invert(1);
+  opacity: 1;
+}
+
 .footer-container {
   max-width: 1400px;
   margin: 0 auto;
@@ -387,6 +406,7 @@ onMounted(() => {
   margin: 2px 0 0;
   text-transform: uppercase;
   letter-spacing: 1px;
+  font-weight: 400;
 }
 
 .brand-text {
@@ -419,9 +439,7 @@ onMounted(() => {
 .social-icon {
   width: 20px;
   height: 20px;
-  filter: brightness(0.6) grayscale(100%);
   transition: all 0.2s;
-  opacity: 0.8;
 }
 
 .social-link:hover {
@@ -431,8 +449,7 @@ onMounted(() => {
 }
 
 .social-link:hover .social-icon {
-  filter: brightness(0) invert(1) grayscale(0%);
-  opacity: 1;
+  filter: brightness(0) invert(1) !important;
 }
 
 .col-title {
@@ -440,7 +457,6 @@ onMounted(() => {
   font-weight: 600;
   margin: 0 0 20px;
   letter-spacing: 1px;
-  font-family: 'Courier New', monospace;
 }
 
 .col-list {
@@ -460,6 +476,7 @@ onMounted(() => {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+  font-weight: 400;
 }
 
 .col-link:hover {
@@ -511,7 +528,6 @@ onMounted(() => {
   right: 0;
   font-size: 12px;
   font-weight: 700;
-  font-family: 'Courier New', monospace;
 }
 
 .stat-line {
@@ -612,14 +628,18 @@ onMounted(() => {
   width: auto;
   max-width: 170px;
   object-fit: contain;
-  filter: drop-shadow(0 4px 8px rgba(167, 139, 250, 0.4));
+  filter: drop-shadow(0 4px 8px rgba(255, 69, 0, 0.3));
   transition: all 0.3s ease;
   transform: rotate(-1.2deg) scale(1.05);
 }
 
+:root.dark .signature-img {
+  filter: drop-shadow(0 4px 8px rgba(255, 69, 0, 0.5));
+}
+
 .signature-wrapper:hover .signature-img {
   transform: rotate(-0.8deg) scale(1.1);
-  filter: drop-shadow(0 6px 12px rgba(167, 139, 250, 0.6));
+  filter: drop-shadow(0 6px 12px rgba(255, 69, 0, 0.7));
 }
 
 .copyright {
@@ -628,6 +648,7 @@ onMounted(() => {
   display: flex;
   align-items: center;
   gap: 8px;
+  font-weight: 400;
 }
 
 .version-badge {

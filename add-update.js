@@ -1,4 +1,4 @@
-// add-card.js
+// add-update.js
 const fs = require('fs')
 const path = require('path')
 const readline = require('readline')
@@ -22,13 +22,22 @@ const c = {
 // ===== CULORI CARD =====
 const cardColors = {
   blue: { name: 'Albastru', dot: 'dot-blue', tag: 'blue', category: 'INFORMATII', hex: '#3b82f6', emoji: '🔵' },
-  orange: { name: 'Portocaliu', dot: 'dot-orange', tag: 'orange', category: 'SKINS', hex: '#f97316', emoji: '🟠' },
+  orange: { name: 'Portocaliu', dot: 'dot-orange', tag: 'orange', category: 'PANEL', hex: '#f97316', emoji: '🟠' },
   teal: { name: 'Turcoaz', dot: 'dot-teal', tag: 'teal', category: 'GAMBLING', hex: '#14b8a6', emoji: '🟢' },
   amber: { name: 'Galben', dot: 'dot-amber', tag: 'amber', category: 'CURRENCY', hex: '#f59e0b', emoji: '🟡' },
-  purple: { name: 'Violet', dot: 'dot-purple', tag: 'purple', category: 'PREMIUM', hex: '#8b5cf6', emoji: '🟣' },
-  pink: { name: 'Roz', dot: 'dot-pink', tag: 'pink', category: 'MARKET', hex: '#ec4899', emoji: '🌸' },
+  purple: { name: 'Violet', dot: 'dot-purple', tag: 'purple', category: 'CHANGELOGS', hex: '#8b5cf6', emoji: '🟣' },
+  pink: { name: 'Roz', dot: 'dot-pink', tag: 'pink', category: 'NEWS', hex: '#ec4899', emoji: '🌸' },
   red: { name: 'Roșu', dot: 'dot-red', tag: 'red', category: 'ANTI-CHEAT', hex: '#ef4444', emoji: '🔴' },
   green: { name: 'Verde', dot: 'dot-green', tag: 'green', category: 'EVENIMENTE', hex: '#10b981', emoji: '🟢' }
+}
+
+// ===== FUNCȚIA PENTRU DATA CURENTĂ =====
+function getCurrentDate() {
+  const today = new Date()
+  const day = String(today.getDate()).padStart(2, '0')
+  const month = String(today.getMonth() + 1).padStart(2, '0')
+  const year = today.getFullYear()
+  return `${day}.${month}.${year}`
 }
 
 // ===== FUNCȚII UTILITARE =====
@@ -67,6 +76,20 @@ function getAllCards() {
       const usernameMatch = cardStr.match(/username:\s*'([^']*)'/)
       if (usernameMatch) card.username = usernameMatch[1]
       
+      const avatarUrlMatch = cardStr.match(/avatarUrl:\s*'([^']*)'/)
+      if (avatarUrlMatch) {
+        card.avatarUrl = avatarUrlMatch[1]
+      } else {
+        card.avatarUrl = `https://github.com/${card.username || 'identicons'}.png`
+      }
+      
+      const profileUrlMatch = cardStr.match(/profileUrl:\s*'([^']*)'/)
+      if (profileUrlMatch) {
+        card.profileUrl = profileUrlMatch[1]
+      } else {
+        card.profileUrl = `https://github.com/${card.username || ''}`
+      }
+      
       const tagColorMatch = cardStr.match(/tagColor:\s*'([^']*)'/)
       if (tagColorMatch) card.tagColor = tagColorMatch[1]
       
@@ -94,6 +117,7 @@ function getAllCards() {
       card6: extractCard('card6')
     }
   } catch (error) {
+    console.error('Eroare la citire:', error)
     return {
       card1: { active: false },
       card2: { active: false },
@@ -112,6 +136,15 @@ function saveCard(cardNumber, cardData) {
     
     const cardName = `card${cardNumber}`
     
+    // Construim URL-urile corect
+    const avatarUrl = cardData.username 
+      ? `https://github.com/${cardData.username}.png`
+      : 'https://github.com/identicons/default.png'
+    
+    const profileUrl = cardData.username
+      ? `https://github.com/${cardData.username}`
+      : 'https://github.com'
+    
     const newCard = `const ${cardName} = ref({
   active: ${cardData.active},
   dotClass: '${cardData.dotClass}',
@@ -119,8 +152,8 @@ function saveCard(cardNumber, cardData) {
   title: '${cardData.title}',
   date: '${cardData.date}',
   username: '${cardData.username}',
-  avatarUrl: 'https://github.com/${cardData.username}.png',
-  profileUrl: 'https://github.com/${cardData.username}',
+  avatarUrl: '${avatarUrl}',
+  profileUrl: '${profileUrl}',
   tagColor: '${cardData.tagColor}',
   tag1: '${cardData.tag1}',
   tag2: '${cardData.tag2}',
@@ -129,35 +162,37 @@ function saveCard(cardNumber, cardData) {
 })`
     
     const cardRegex = new RegExp(`const ${cardName} = ref\\(\\{[\\s\\S]*?\\}\\)`, 'g')
-    const newContent = content.replace(cardRegex, newCard)
+    let newContent = content.replace(cardRegex, newCard)
     
+    // Recalculăm numărul de carduri active
     const cards = getAllCards()
-    let activeCount = 0
-    if (cardNumber === 1) activeCount = (cardData.active ? 1 : 0) + (cards.card2.active ? 1 : 0) + (cards.card3.active ? 1 : 0) + (cards.card4.active ? 1 : 0) + (cards.card5.active ? 1 : 0) + (cards.card6.active ? 1 : 0)
-    else if (cardNumber === 2) activeCount = (cards.card1.active ? 1 : 0) + (cardData.active ? 1 : 0) + (cards.card3.active ? 1 : 0) + (cards.card4.active ? 1 : 0) + (cards.card5.active ? 1 : 0) + (cards.card6.active ? 1 : 0)
-    else if (cardNumber === 3) activeCount = (cards.card1.active ? 1 : 0) + (cards.card2.active ? 1 : 0) + (cardData.active ? 1 : 0) + (cards.card4.active ? 1 : 0) + (cards.card5.active ? 1 : 0) + (cards.card6.active ? 1 : 0)
-    else if (cardNumber === 4) activeCount = (cards.card1.active ? 1 : 0) + (cards.card2.active ? 1 : 0) + (cards.card3.active ? 1 : 0) + (cardData.active ? 1 : 0) + (cards.card5.active ? 1 : 0) + (cards.card6.active ? 1 : 0)
-    else if (cardNumber === 5) activeCount = (cards.card1.active ? 1 : 0) + (cards.card2.active ? 1 : 0) + (cards.card3.active ? 1 : 0) + (cards.card4.active ? 1 : 0) + (cardData.active ? 1 : 0) + (cards.card6.active ? 1 : 0)
-    else if (cardNumber === 6) activeCount = (cards.card1.active ? 1 : 0) + (cards.card2.active ? 1 : 0) + (cards.card3.active ? 1 : 0) + (cards.card4.active ? 1 : 0) + (cards.card5.active ? 1 : 0) + (cardData.active ? 1 : 0)
+    const updatedCards = { ...cards, [`card${cardNumber}`]: { active: cardData.active } }
     
-    const finalContent = newContent.replace(
+    let activeCount = 0
+    for (let i = 1; i <= 6; i++) {
+      if (updatedCards[`card${i}`]?.active) activeCount++
+    }
+    
+    // Actualizăm badge-ul
+    newContent = newContent.replace(
       /<span class="updates-badge">.*?<\/span>/,
       `<span class="updates-badge">${activeCount} noi</span>`
     )
     
-    fs.writeFileSync(filePath, finalContent, 'utf-8')
+    fs.writeFileSync(filePath, newContent, 'utf-8')
     return true
   } catch (error) {
+    console.error('Save error:', error)
     return false
   }
 }
 
-// Copy card
+// Copiază card
 function copyCard(sourceSlot, targetSlots) {
   try {
     const cards = getAllCards()
     const sourceCard = cards[`card${sourceSlot}`]
-    if (!sourceCard) return false
+    if (!sourceCard || !sourceCard.title) return false
     
     for (const target of targetSlots) {
       if (target >= 1 && target <= 6) {
@@ -177,12 +212,13 @@ function copyCard(sourceSlot, targetSlots) {
       }
     }
     return true
-  } catch {
+  } catch (error) {
+    console.error('Copy error:', error)
     return false
   }
 }
 
-// ===== MODUL TERMINAL CU PREVIEW =====
+// ===== MODUL TERMINAL =====
 async function terminalMode() {
   console.clear()
   console.log(c.gold('\n╔════════════════════════════════════════════════════════╗'))
@@ -245,17 +281,34 @@ async function editSlot() {
   }
   const selColor = cardColors[colorKey]
   
-  console.log(c.y('\n📝 Date card:'))
+  console.log(c.y('\n📝 Date card (Enter pentru a păstra valorile existente):'))
   
-  const active = await ask(c.g('Activ? (da/nu): '))
-  const title = await ask(c.g('Titlu: '))
-  const category = await ask(c.g('Categorie') + c.c(` (Enter = ${selColor.category}): `)) || selColor.category
-  const date = await ask(c.g('Data (ZZ.LL.AAAA): '))
-  const tag1 = await ask(c.g('Tag 1: '))
-  const tag2 = await ask(c.g('Tag 2: '))
-  const link = await ask(c.g('Link: '))
-  const btn = await ask(c.g('Text buton: '))
-  const user = await ask(c.g('Username: '))
+  const activeDefault = currentCard.active ? 'da' : 'nu'
+  const active = await ask(c.g(`Activ? (da/nu) [${activeDefault}]: `)) || activeDefault
+  
+  const titleDefault = currentCard.title || ''
+  const title = await ask(c.g(`Titlu [${titleDefault}]: `)) || titleDefault
+  
+  const categoryDefault = currentCard.category || selColor.category
+  const category = await ask(c.g(`Categorie [${categoryDefault}]: `)) || categoryDefault
+  
+  const dateDefault = currentCard.date || getCurrentDate()
+  const date = await ask(c.g(`Data (ZZ.LL.AAAA) [${dateDefault}]: `)) || dateDefault
+  
+  const tag1Default = currentCard.tag1 || ''
+  const tag1 = await ask(c.g(`Tag 1 [${tag1Default}]: `)) || tag1Default
+  
+  const tag2Default = currentCard.tag2 || ''
+  const tag2 = await ask(c.g(`Tag 2 [${tag2Default}]: `)) || tag2Default
+  
+  const linkDefault = currentCard.link || ''
+  const link = await ask(c.g(`Link [${linkDefault}]: `)) || linkDefault
+  
+  const btnDefault = currentCard.buttonText || 'VEZI'
+  const btn = await ask(c.g(`Text buton [${btnDefault}]: `)) || btnDefault
+  
+  const userDefault = currentCard.username || ''
+  const user = await ask(c.g(`Username GitHub [${userDefault}]: `)) || userDefault
   
   // Preview
   console.log(c.c('\n╔════════════════════════════════════════════════════════╗'))
@@ -347,14 +400,16 @@ function parseSlots(input) {
   return Array.from(slots).sort((a, b) => a - b)
 }
 
-// ===== GUI PREMIUM CU 6 CARDURI DIFERITE =====
+// ===== GUI PREMIUM CU SVG-URI ȘI DATA AUTOMATĂ =====
 function guiMode() {
+  const currentDate = getCurrentDate()
+  
   const html = `<!DOCTYPE html>
 <html lang="ro">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Wildfire • 6 Carduri Diferite</title>
+  <title>Wildfire • Card Editor</title>
   <style>
     * {
       margin: 0;
@@ -394,6 +449,16 @@ function guiMode() {
       background: linear-gradient(135deg, #fff, #ffd700);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    h1 svg {
+      width: 32px;
+      height: 32px;
+      stroke: #ff4500;
+      fill: none;
     }
     
     .stats {
@@ -409,6 +474,12 @@ function guiMode() {
       display: flex;
       align-items: center;
       gap: 8px;
+    }
+    
+    .stat svg {
+      width: 18px;
+      height: 18px;
+      stroke: #ff4500;
     }
     
     .stat-value {
@@ -431,6 +502,7 @@ function guiMode() {
       padding: 16px;
       cursor: pointer;
       transition: all 0.2s;
+      position: relative;
     }
     
     .slot-card:hover {
@@ -449,12 +521,29 @@ function guiMode() {
       font-weight: 800;
       color: #ff4500;
       margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .slot-number svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
     }
     
     .slot-status {
       font-size: 11px;
       color: #9ca3af;
       margin-bottom: 8px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .slot-status svg {
+      width: 12px;
+      height: 12px;
     }
     
     .slot-title {
@@ -484,6 +573,15 @@ function guiMode() {
       font-weight: 600;
       color: #ffd700;
       margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .preview-title svg {
+      width: 20px;
+      height: 20px;
+      stroke: currentColor;
     }
     
     .preview-card {
@@ -492,6 +590,7 @@ function guiMode() {
       padding: 16px;
       max-width: 350px;
       margin: 0 auto;
+      border: 1px solid #ff4500;
     }
     
     .preview-category {
@@ -518,6 +617,7 @@ function guiMode() {
       font-size: 16px;
       font-weight: 700;
       margin-bottom: 12px;
+      color: white;
     }
     
     .preview-meta {
@@ -528,6 +628,18 @@ function guiMode() {
       padding-bottom: 10px;
       border-bottom: 1px solid #ff4500;
       font-size: 11px;
+    }
+    
+    .preview-date {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .preview-date svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
     }
     
     .preview-user {
@@ -560,6 +672,16 @@ function guiMode() {
       font-weight: 600;
       border-radius: 30px;
       border: 1px solid;
+      background: transparent;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .preview-tag svg {
+      width: 10px;
+      height: 10px;
+      stroke: currentColor;
     }
     
     .preview-btn {
@@ -569,6 +691,15 @@ function guiMode() {
       color: #ff4500;
       font-size: 10px;
       font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+    
+    .preview-btn svg {
+      width: 12px;
+      height: 12px;
+      stroke: currentColor;
     }
     
     .editor {
@@ -588,6 +719,15 @@ function guiMode() {
     .editor-title {
       font-size: 20px;
       font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    
+    .editor-title svg {
+      width: 24px;
+      height: 24px;
+      stroke: #ffd700;
     }
     
     .editor-title span {
@@ -608,6 +748,15 @@ function guiMode() {
       cursor: pointer;
       font-size: 12px;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .copy-btn svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
     }
     
     .copy-btn:hover {
@@ -626,12 +775,20 @@ function guiMode() {
     }
     
     label {
-      display: block;
+      display: flex;
+      align-items: center;
+      gap: 6px;
       margin-bottom: 5px;
       color: #9ca3af;
       font-size: 12px;
       font-weight: 600;
       text-transform: uppercase;
+    }
+    
+    label svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
     }
     
     input, select {
@@ -664,6 +821,15 @@ function guiMode() {
       cursor: pointer;
       font-size: 11px;
       transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    
+    .color-opt svg {
+      width: 12px;
+      height: 12px;
     }
     
     .color-opt:hover {
@@ -702,6 +868,15 @@ function guiMode() {
       padding: 6px 12px;
       cursor: pointer;
       font-size: 12px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+    
+    .slot-option svg {
+      width: 14px;
+      height: 14px;
+      stroke: currentColor;
     }
     
     .slot-option.selected {
@@ -724,6 +899,16 @@ function guiMode() {
       cursor: pointer;
       transition: all 0.2s;
       flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+    
+    .btn svg {
+      width: 18px;
+      height: 18px;
+      stroke: currentColor;
     }
     
     .btn-reset {
@@ -781,18 +966,52 @@ function guiMode() {
 <body>
   <div class="container">
     <div class="header">
-      <h1>🔥 WILDFIRE • 6 CARDURI DIFERITE</h1>
+      <h1>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+        </svg>
+        WILDFIRE CARD EDITOR
+      </h1>
       <div class="stats">
-        <div class="stat"><span class="stat-value" id="total">6</span> Total</div>
-        <div class="stat"><span class="stat-value" id="active">0</span> Active</div>
-        <div class="stat"><span class="stat-value" id="current">1</span> Curent</div>
+        <div class="stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+            <line x1="16" y1="2" x2="16" y2="6"/>
+            <line x1="8" y1="2" x2="8" y2="6"/>
+            <line x1="3" y1="10" x2="21" y2="10"/>
+          </svg>
+          <span class="stat-value" id="total">6</span> Total
+        </div>
+        <div class="stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="16"/>
+            <line x1="8" y1="12" x2="16" y2="12"/>
+          </svg>
+          <span class="stat-value" id="active">0</span> Active
+        </div>
+        <div class="stat">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="12" y1="8" x2="12" y2="12"/>
+            <line x1="12" y1="16" x2="12.01" y2="16"/>
+          </svg>
+          <span class="stat-value" id="current">1</span> Curent
+        </div>
       </div>
     </div>
     
     <div class="slot-grid" id="slotGrid"></div>
     
     <div class="preview-section">
-      <div class="preview-title">👁️ PREVIEW CARD</div>
+      <div class="preview-title">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <circle cx="12" cy="16" r="1" fill="currentColor"/>
+        </svg>
+        PREVIEW CARD
+      </div>
       <div id="previewCard" class="preview-card">
         <div class="preview-category">
           <span class="preview-dot" id="previewDot" style="background: #ff4500;"></span>
@@ -800,7 +1019,13 @@ function guiMode() {
         </div>
         <div class="preview-card-title" id="previewTitle">Titlu card</div>
         <div class="preview-meta">
-          <span id="previewDate">📅 zz.ll.aaaa</span>
+          <span class="preview-date" id="previewDate">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            zz.ll.aaaa
+          </span>
           <div class="preview-user">
             <img src="" class="preview-avatar" id="previewAvatar" onerror="this.src='https://github.com/identicons/default.png'">
             <span id="previewUser">user</span>
@@ -808,20 +1033,53 @@ function guiMode() {
         </div>
         <div class="preview-footer">
           <div class="preview-tags">
-            <span class="preview-tag" id="previewTag1">tag1</span>
-            <span class="preview-tag" id="previewTag2">tag2</span>
+            <span class="preview-tag" id="previewTag1">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="6"/>
+              </svg>
+              tag1
+            </span>
+            <span class="preview-tag" id="previewTag2">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="6"/>
+              </svg>
+              tag2
+            </span>
           </div>
-          <span class="preview-btn" id="previewBtn">vezi →</span>
+          <span class="preview-btn" id="previewBtn">
+            vezi
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M5 12h14M12 5l7 7-7 7"/>
+            </svg>
+          </span>
         </div>
       </div>
     </div>
     
     <div class="editor">
       <div class="editor-header">
-        <div class="editor-title">✏️ Editează <span id="currentSlot">Slot 1</span></div>
+        <div class="editor-title">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M20 14.66V20a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h5.34"/>
+            <polygon points="18 2 22 6 12 16 8 16 8 12 18 2"/>
+          </svg>
+          Editează <span id="currentSlot">Slot 1</span>
+        </div>
         <div class="copy-tools">
-          <button class="copy-btn" onclick="showCopyPanel()">📋 Copiază</button>
-          <button class="copy-btn" onclick="showPastePanel()">📌 Paste</button>
+          <button class="copy-btn" onclick="showCopyPanel()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <rect x="9" y="9" width="13" height="13" rx="2" ry="2"/>
+              <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/>
+            </svg>
+            Copiază
+          </button>
+          <button class="copy-btn" onclick="showPastePanel()">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+              <path d="M14 2v6h6M12 18v-4M9 16h6"/>
+            </svg>
+            Paste
+          </button>
         </div>
       </div>
       
@@ -839,41 +1097,141 @@ function guiMode() {
       
       <div class="form-row">
         <div class="form-group">
-          <label>Status</label>
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <line x1="12" y1="8" x2="12" y2="16"/>
+              <line x1="8" y1="12" x2="16" y2="12"/>
+            </svg>
+            Status
+          </label>
           <select id="activeSel" onchange="updatePreview()">
             <option value="true">✅ ACTIV</option>
             <option value="false">❌ INACTIV</option>
           </select>
         </div>
         <div class="form-group">
-          <label>Culoare</label>
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <circle cx="12" cy="12" r="3"/>
+            </svg>
+            Culoare
+          </label>
           <div id="colorGrid" class="color-grid"></div>
         </div>
       </div>
       
       <div class="form-row">
-        <div class="form-group"><label>Categorie</label><input id="cat" oninput="updatePreview()" placeholder="SKINS"></div>
-        <div class="form-group"><label>Titlu</label><input id="title" oninput="updatePreview()" placeholder="Cases System"></div>
+        <div class="form-group">
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 4h16v16H4z"/>
+              <line x1="9" y1="9" x2="15" y2="15"/>
+              <line x1="15" y1="9" x2="9" y2="15"/>
+            </svg>
+            Categorie
+          </label>
+          <input id="cat" oninput="updatePreview()" placeholder="PANEL">
+        </div>
+        <div class="form-group">
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 4h16v6H4zM4 14h16v6H4z"/>
+            </svg>
+            Titlu
+          </label>
+          <input id="title" oninput="updatePreview()" placeholder="DASHBOARD">
+        </div>
       </div>
       
       <div class="form-row">
-        <div class="form-group"><label>Data</label><input id="date" oninput="updatePreview()" placeholder="16.02.2026"></div>
-        <div class="form-group"><label>Username</label><input id="user" oninput="updatePreview()" placeholder="ianncxd"></div>
+        <div class="form-group">
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <circle cx="12" cy="12" r="10"/>
+              <polyline points="12 6 12 12 16 14"/>
+            </svg>
+            Data
+          </label>
+          <input id="date" oninput="updatePreview()" placeholder="06.03.2026" value="${currentDate}">
+        </div>
+        <div class="form-group">
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+              <circle cx="12" cy="7" r="4"/>
+            </svg>
+            Username
+          </label>
+          <input id="user" oninput="updatePreview()" placeholder="WildFiire">
+        </div>
       </div>
       
       <div class="form-row">
-        <div class="form-group"><label>Tag 1</label><input id="tag1" oninput="updatePreview()" placeholder="skins"></div>
-        <div class="form-group"><label>Tag 2</label><input id="tag2" oninput="updatePreview()" placeholder="crate"></div>
+        <div class="form-group">
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M7 7h10v10H7z"/>
+              <path d="M17 7l4 4-4 4"/>
+            </svg>
+            Tag 1
+          </label>
+          <input id="tag1" oninput="updatePreview()" placeholder="NEW">
+        </div>
+        <div class="form-group">
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M7 7h10v10H7z"/>
+              <path d="M17 7l4 4-4 4"/>
+            </svg>
+            Tag 2
+          </label>
+          <input id="tag2" oninput="updatePreview()" placeholder="PANEL">
+        </div>
       </div>
       
       <div class="form-row">
-        <div class="form-group"><label>Link</label><input id="link" placeholder="/systems/skins/cases"></div>
-        <div class="form-group"><label>Buton</label><input id="btnText" oninput="updatePreview()" placeholder="deschide"></div>
+        <div class="form-group">
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+              <polyline points="15 3 21 3 21 9"/>
+              <line x1="10" y1="14" x2="21" y2="3"/>
+            </svg>
+            Link
+          </label>
+          <input id="link" placeholder="/panel/panel">
+        </div>
+        <div class="form-group">
+          <label>
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+              <path d="M4 7V4h16v3M4 7v9h16V7M4 7h16"/>
+              <line x1="9" y1="20" x2="15" y2="20"/>
+              <line x1="12" y1="16" x2="12" y2="20"/>
+            </svg>
+            Buton
+          </label>
+          <input id="btnText" oninput="updatePreview()" placeholder="ACUM">
+        </div>
       </div>
       
       <div class="action-btns">
-        <button class="btn btn-reset" onclick="resetForm()">🔄 RESETEAZĂ</button>
-        <button class="btn btn-save" onclick="saveCurrentSlot()">💾 SALVEAZĂ</button>
+        <button class="btn btn-reset" onclick="resetForm()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M3 12a9 9 0 1 0 9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/>
+            <path d="M3 3v5h5"/>
+          </svg>
+          RESETEAZĂ
+        </button>
+        <button class="btn btn-save" onclick="saveCurrentSlot()">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+            <path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/>
+            <polyline points="17 21 17 13 7 13 7 21"/>
+            <polyline points="7 3 7 8 15 8"/>
+          </svg>
+          SALVEAZĂ
+        </button>
       </div>
       
       <div id="status" class="status"></div>
@@ -881,15 +1239,7 @@ function guiMode() {
   </div>
   
   <script>
-    let cards = {
-      card1: { active: false, dotClass: 'dot-blue', category: '', title: '', date: '', username: '', tagColor: 'blue', tag1: '', tag2: '', link: '', buttonText: '' },
-      card2: { active: false, dotClass: 'dot-orange', category: '', title: '', date: '', username: '', tagColor: 'orange', tag1: '', tag2: '', link: '', buttonText: '' },
-      card3: { active: false, dotClass: 'dot-teal', category: '', title: '', date: '', username: '', tagColor: 'teal', tag1: '', tag2: '', link: '', buttonText: '' },
-      card4: { active: false, dotClass: 'dot-amber', category: '', title: '', date: '', username: '', tagColor: 'amber', tag1: '', tag2: '', link: '', buttonText: '' },
-      card5: { active: false, dotClass: 'dot-purple', category: '', title: '', date: '', username: '', tagColor: 'purple', tag1: '', tag2: '', link: '', buttonText: '' },
-      card6: { active: false, dotClass: 'dot-pink', category: '', title: '', date: '', username: '', tagColor: 'pink', tag1: '', tag2: '', link: '', buttonText: '' }
-    }
-    
+    let cards = {}
     let colors = ${JSON.stringify(Object.entries(cardColors).map(([k, v]) => ({ id: k, ...v })))}
     let currentSlot = 1
     let selectedColor = 'blue'
@@ -899,7 +1249,9 @@ function guiMode() {
         const res = await fetch('/api/cards')
         const data = await res.json()
         if (data.success) cards = data.cards
-      } catch (e) {}
+      } catch (e) {
+        console.error('Error loading cards:', e)
+      }
       updateUI()
     }
     
@@ -913,11 +1265,22 @@ function guiMode() {
     function renderSlots() {
       let html = ''
       for (let i = 1; i <= 6; i++) {
-        const card = cards[\`card\${i}\`] || {}
+        const card = cards[\`card\${i}\`] || { active: false, title: '', category: '' }
         html += \`
           <div class="slot-card \${currentSlot === i ? 'selected' : ''}" onclick="selectSlot(\${i})">
-            <div class="slot-number">#\${i}</div>
-            <div class="slot-status">\${card.active ? 'ACTIV' : 'INACTIV'}</div>
+            <div class="slot-number">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                <circle cx="12" cy="12" r="10"/>
+                <line x1="12" y1="8" x2="12" y2="16"/>
+                <line x1="8" y1="12" x2="16" y2="12"/>
+              </svg>
+              #\${i}
+            </div>
+            <div class="slot-status">
+              \${card.active ? 
+                '<svg viewBox="0 0 24 24" fill="none" stroke="#10b981"><circle cx="12" cy="12" r="10"/><polyline points="9 12 12 15 16 9"/></svg> ACTIV' : 
+                '<svg viewBox="0 0 24 24" fill="none" stroke="#ef4444"><circle cx="12" cy="12" r="10"/><line x1="15" y1="9" x2="9" y2="15"/><line x1="9" y1="9" x2="15" y2="15"/></svg> INACTIV'}
+            </div>
             <div class="slot-title">\${card.title || 'Card gol'}</div>
             <div class="slot-category">\${card.category || ''}</div>
           </div>
@@ -938,7 +1301,7 @@ function guiMode() {
       document.getElementById('activeSel').value = card.active ? 'true' : 'false'
       document.getElementById('cat').value = card.category || ''
       document.getElementById('title').value = card.title || ''
-      document.getElementById('date').value = card.date || ''
+      document.getElementById('date').value = card.date || '${currentDate}'
       document.getElementById('user').value = card.username || ''
       document.getElementById('tag1').value = card.tag1 || ''
       document.getElementById('tag2').value = card.tag2 || ''
@@ -966,7 +1329,16 @@ function guiMode() {
     function renderColorOptions() {
       let html = ''
       colors.forEach(c => {
-        html += \`<div class="color-opt \${c.id === selectedColor ? 'selected' : ''}" onclick="selectColor('\${c.id}')">\${c.emoji} \${c.name}</div>\`
+        const isSelected = c.id === selectedColor
+        html += \`
+          <div class="color-opt \${isSelected ? 'selected' : ''}" onclick="selectColor('\${c.id}')">
+            <svg viewBox="0 0 24 24" fill="none" stroke="\${c.hex}">
+              <circle cx="12" cy="12" r="10"/>
+              \${isSelected ? '<circle cx="12" cy="12" r="3" fill="\${c.hex}"/>' : ''}
+            </svg>
+            \${c.name}
+          </div>
+        \`
       })
       document.getElementById('colorGrid').innerHTML = html
     }
@@ -982,23 +1354,47 @@ function guiMode() {
       document.getElementById('previewDot').style.background = colorInfo.hex
       document.getElementById('previewCategory').innerText = document.getElementById('cat').value || 'Categorie'
       document.getElementById('previewTitle').innerText = document.getElementById('title').value || 'Titlu card'
-      document.getElementById('previewDate').innerHTML = \`📅 \${document.getElementById('date').value || 'zz.ll.aaaa'}\`
+      document.getElementById('previewDate').innerHTML = \`
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <circle cx="12" cy="12" r="10"/>
+          <polyline points="12 6 12 12 16 14"/>
+        </svg>
+        \${document.getElementById('date').value || 'zz.ll.aaaa'}
+      \`
       document.getElementById('previewUser').innerText = document.getElementById('user').value || 'user'
       document.getElementById('previewAvatar').src = \`https://github.com/\${document.getElementById('user').value || 'user'}.png\`
-      document.getElementById('previewTag1').innerText = document.getElementById('tag1').value || 'tag1'
-      document.getElementById('previewTag2').innerText = document.getElementById('tag2').value || 'tag2'
+      
+      document.getElementById('previewTag1').innerHTML = \`
+        <svg viewBox="0 0 24 24" fill="none" stroke="\${colorInfo.hex}">
+          <circle cx="12" cy="12" r="6"/>
+        </svg>
+        \${document.getElementById('tag1').value || 'tag1'}
+      \`
+      document.getElementById('previewTag2').innerHTML = \`
+        <svg viewBox="0 0 24 24" fill="none" stroke="\${colorInfo.hex}">
+          <circle cx="12" cy="12" r="6"/>
+        </svg>
+        \${document.getElementById('tag2').value || 'tag2'}
+      \`
+      
       document.getElementById('previewTag1').style.color = colorInfo.hex
       document.getElementById('previewTag1').style.borderColor = colorInfo.hex
       document.getElementById('previewTag2').style.color = colorInfo.hex
       document.getElementById('previewTag2').style.borderColor = colorInfo.hex
-      document.getElementById('previewBtn').innerText = \`\${document.getElementById('btnText').value || 'vezi'} →\`
+      
+      document.getElementById('previewBtn').innerHTML = \`
+        \${document.getElementById('btnText').value || 'vezi'}
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
+      \`
     }
     
     function resetForm() {
       document.getElementById('activeSel').value = 'false'
       document.getElementById('cat').value = ''
       document.getElementById('title').value = ''
-      document.getElementById('date').value = ''
+      document.getElementById('date').value = '${currentDate}'
       document.getElementById('user').value = ''
       document.getElementById('tag1').value = ''
       document.getElementById('tag2').value = ''
@@ -1015,7 +1411,16 @@ function guiMode() {
         let html = ''
         for (let i = 1; i <= 6; i++) {
           if (i !== currentSlot) {
-            html += \`<div class="slot-option" onclick="toggleCopySlot(\${i})" id="copySlot\${i}">Slot \${i}</div>\`
+            html += \`
+              <div class="slot-option" onclick="toggleCopySlot(\${i})" id="copySlot\${i}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="16"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                Slot \${i}
+              </div>
+            \`
           }
         }
         document.getElementById('copySlots').innerHTML = html
@@ -1030,7 +1435,16 @@ function guiMode() {
         let html = ''
         for (let i = 1; i <= 6; i++) {
           if (i !== currentSlot) {
-            html += \`<div class="slot-option" onclick="selectPasteSlot(\${i})" id="pasteSlot\${i}">Slot \${i}</div>\`
+            html += \`
+              <div class="slot-option" onclick="selectPasteSlot(\${i})" id="pasteSlot\${i}">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                  <circle cx="12" cy="12" r="10"/>
+                  <line x1="12" y1="8" x2="12" y2="16"/>
+                  <line x1="8" y1="12" x2="16" y2="12"/>
+                </svg>
+                Slot \${i}
+              </div>
+            \`
           }
         }
         document.getElementById('pasteSlots').innerHTML = html
@@ -1052,12 +1466,6 @@ function guiMode() {
     async function executeCopy() {
       if (copySlots.length === 0) {
         showStatus('Selectează sloturi', 'error')
-        return
-      }
-      
-      const sourceCard = cards[\`card\${currentSlot}\`]
-      if (!sourceCard || !sourceCard.title) {
-        showStatus('Slotul sursă este gol', 'error')
         return
       }
       
@@ -1128,7 +1536,7 @@ function guiMode() {
       }
       
       if (!data.title || !data.category || !data.date || !data.username) {
-        return showStatus('Completează toate câmpurile', 'error')
+        return showStatus('Completează toate câmpurile obligatorii', 'error')
       }
       
       try {
@@ -1141,25 +1549,10 @@ function guiMode() {
         
         if (resData.success) {
           showStatus(\`Slot \${currentSlot} salvat!\`, 'success')
-          cards[\`card\${currentSlot}\`] = {
-            active: data.active,
-            dotClass: data.dotClass,
-            category: data.category,
-            title: data.title,
-            date: data.date,
-            username: data.username,
-            tagColor: data.tagColor,
-            tag1: data.tag1,
-            tag2: data.tag2,
-            link: data.link,
-            buttonText: data.buttonText
-          }
-          renderSlots()
-          updateStats()
-          loadSlot(currentSlot)
+          await loadCards()
         }
       } catch (e) {
-        showStatus('Eroare', 'error')
+        showStatus('Eroare la salvare', 'error')
       }
     }
     
@@ -1207,7 +1600,7 @@ function guiMode() {
             res.end(JSON.stringify({ success }))
           } catch (e) {
             res.writeHead(400, { 'Content-Type': 'application/json' })
-            res.end(JSON.stringify({ success: false }))
+            res.end(JSON.stringify({ success: false, error: e.message }))
           }
         })
         return
@@ -1224,7 +1617,7 @@ function guiMode() {
             res.end(JSON.stringify({ success }))
           } catch (e) {
             res.writeHead(400, { 'Content-Type': 'application/json' })
-            res.end(JSON.stringify({ success: false }))
+            res.end(JSON.stringify({ success: false, error: e.message }))
           }
         })
         return
@@ -1245,6 +1638,7 @@ function guiMode() {
       res.writeHead(404)
       res.end('Not found')
     } catch (e) {
+      console.error('Server error:', e)
       res.writeHead(500)
       res.end('Server error')
     }
@@ -1254,10 +1648,11 @@ function guiMode() {
   server.listen(PORT, () => {
     console.clear()
     console.log(c.gold('\n╔════════════════════════════════════════════════════════╗'))
-    console.log(c.gold('║') + '            ' + c.o('🔥 6 CARDURI DIFERITE') + '                 ' + c.gold('║'))
+    console.log(c.gold('║') + '            ' + c.o('🔥 WILDFIRE CARD EDITOR') + '              ' + c.gold('║'))
     console.log(c.gold('╠════════════════════════════════════════════════════════╣'))
     console.log(c.gold('║') + `  🌐 GUI: ${c.c(`http://localhost:${PORT}`)}`.padEnd(58) + c.gold('║'))
-    console.log(c.gold('║') + '  📦 6 sloturi • Fiecare card diferit'.padEnd(58) + c.gold('║'))
+    console.log(c.gold('║') + '  📦 6 sloturi • Dark/Light Mode Ready'.padEnd(58) + c.gold('║'))
+    console.log(c.gold('║') + `  📅 Data automată: ${c.g(getCurrentDate())}`.padEnd(58) + c.gold('║'))
     console.log(c.gold('╚════════════════════════════════════════════════════════╝\n'))
     
     const start = process.platform === 'win32' ? 'start' : 'open'
@@ -1272,7 +1667,7 @@ async function main() {
   console.log(c.gold('║') + '            ' + c.o('🔥 WILDFIRE CARD EDITOR') + '            ' + c.gold('║'))
   console.log(c.gold('╠════════════════════════════════════════════════════════╣'))
   console.log(c.gold('║') + '  ' + c.g('1.') + ' 🖥️  Terminal Mode'.padEnd(58) + c.gold('║'))
-  console.log(c.gold('║') + '  ' + c.g('2.') + ' 🌐  GUI - 6 Carduri Diferite'.padEnd(58) + c.gold('║'))
+  console.log(c.gold('║') + '  ' + c.g('2.') + ' 🌐  GUI - 6 Carduri'.padEnd(58) + c.gold('║'))
   console.log(c.gold('║') + '  ' + c.r('0.') + ' ❌  Exit'.padEnd(60) + c.gold('║'))
   console.log(c.gold('╚════════════════════════════════════════════════════════╝\n'))
   
