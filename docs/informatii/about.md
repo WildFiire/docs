@@ -1,0 +1,733 @@
+---
+outline: deep
+---
+
+<!-- Background image container cu clasă specifică about -->
+<div class="about-header" style="position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 20px; min-height: 180px; background-color: var(--vp-c-bg);">
+
+<!-- Background image layer cu BLUR și PARALLAX -->
+<div style="position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; z-index: 0; filter: blur(5px) brightness(var(--bg-brightness, 0.7)); transform: scale(1.1);">
+  <img src="/wallpaper/backgroundwf.webp" alt="background" style="width: 100%; height: 100%; object-fit: cover; opacity: var(--bg-opacity, 0.4);">
+</div>
+
+<!-- Content layer -->
+<div style="position: relative; z-index: 1; padding: 30px 30px 20px 30px; border-radius: 24px;">
+
+<!-- RÂND 0 - path și introduction -->
+<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 5px; font-size: 12px; color: var(--vp-c-text-2); flex-wrap: wrap; opacity: 0.9;">
+  <div style="display: flex; align-items: center; gap: 5px;">
+    <span style="color: var(--vp-c-brand-1);">Home</span>
+    <span style="color: var(--vp-c-brand-1);">/</span>
+    <span style="color: var(--vp-c-brand-1);">Informatii</span>
+    <span style="color: var(--vp-c-brand-1);">/</span>
+    <span style="color: var(--vp-c-text-2);">Despre Wildfire</span>
+  </div>
+  
+  <div style="display: flex; align-items: center; gap: 6px;">
+    <img src="/icons/introduction.svg" alt="introduction" class="nav-icon" style="width: 18px; height: 18px; filter: var(--icon-filter, none);">
+    <span style="font-size: 12px; color: var(--vp-c-text-2);">Despre</span>
+  </div>
+</div>
+
+<!-- RÂND 1 - logo și titlu -->
+<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+  <img src="/icons/wildfire.webp" alt="Wildfire.ro" width="60" style="margin: 0; filter: var(--logo-filter, none);">
+  
+  <!-- TITLU CU GRADIENT ANIMAT -->
+  <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;">
+    Despre Wildfire.ro
+  </h1>
+</div>
+
+<!-- RÂND 2 - tags și updated by -->
+<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; border-top: 1px solid var(--vp-c-divider); padding-top: 15px; margin-top: 5px;">
+
+  <!-- Tags în stânga -->
+  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+    <img src="/icons/tag.svg" alt="tag" class="nav-icon" style="width: 18px; height: 18px; filter: var(--icon-filter, none);">
+    <PageTagRed style="font-size: 11px; padding: 2px 8px;">information</PageTagRed>
+    <PageTagGreen style="font-size: 11px; padding: 2px 8px;">connect</PageTagGreen>
+    <PageTagPurple style="font-size: 11px; padding: 2px 8px;">faq</PageTagPurple>
+  </div>
+
+  <!-- Updated by în dreapta -->
+  <div style="display: flex; align-items: center; gap: 6px;">
+    <span style="font-size: 13px; color: var(--vp-c-text-2); font-weight: 500;">updated by</span>
+    <a 
+      href="https://github.com/ianncxd" 
+      target="_blank" 
+      class="github-profile"
+      data-username="ianncxd"
+      data-tags="show-wildfire show-dev show-wiki show-staff show-founder"
+      style="display: block; padding: 2px; background: linear-gradient(135deg, #8b5cf6, #c084fc, #f472b6); border-radius: 50%;" 
+      title="ianncxd"
+    >
+      <img src="https://github.com/ianncxd.png" alt="ianncxd" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--vp-c-bg); display: block;">
+    </a>
+  </div>
+
+</div>
+
+</div> 
+</div>
+
+<!-- STILURI CU CLASĂ SPECIFICĂ ABOUT -->
+<style>
+/* ========== VARIABILE ABOUT ========== */
+.about-root {
+  --about-brand-1: #ff8c00;
+  --about-brand-2: #ff5500;
+  --about-brand-soft: rgba(255,140,0,0.1);
+  --about-bg: #0a0a0a;
+  --about-bg-soft: #141414;
+  --about-bg-mute: #1f1f1f;
+  --about-divider: rgba(255,140,0,0.2);
+  --about-text-1: #e0e0e0;
+  --about-text-2: #888;
+  --about-text-3: #666;
+  --about-bg-brightness: 0.7;
+  --about-bg-opacity: 0.4;
+  --about-icon-filter: none;
+  --about-logo-filter: none;
+  --about-card-bg: linear-gradient(145deg, rgba(20,20,20,0.8), rgba(10,10,10,0.9));
+  --about-card-border: rgba(255,140,0,0.2);
+  --about-card-shadow: 0 15px 30px rgba(0,0,0,0.3);
+  --about-stat-bg: rgba(255,140,0,0.05);
+  --about-stat-border: rgba(255,140,0,0.2);
+  --about-quote-bg: rgba(255,140,0,0.03);
+  --about-social-bg: rgba(255,140,0,0.05);
+  --about-social-border: rgba(255,140,0,0.2);
+  --about-server-bg: rgba(0,0,0,0.5);
+}
+
+/* Light theme override pentru about */
+html:not(.dark) .about-root {
+  --about-bg: #ffffff;
+  --about-bg-soft: #f8f8f8;
+  --about-bg-mute: #f0f0f0;
+  --about-divider: rgba(255,140,0,0.2);
+  --about-text-1: #333333;
+  --about-text-2: #666666;
+  --about-text-3: #999999;
+  --about-bg-brightness: 0.9;
+  --about-bg-opacity: 0.2;
+  --about-icon-filter: brightness(0.9);
+  --about-logo-filter: brightness(0.9);
+  --about-card-bg: linear-gradient(145deg, rgba(255,255,255,0.9), rgba(245,245,245,0.95));
+  --about-card-border: rgba(255,140,0,0.3);
+  --about-card-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  --about-stat-bg: rgba(255,140,0,0.03);
+  --about-stat-border: rgba(255,140,0,0.2);
+  --about-quote-bg: rgba(255,140,0,0.02);
+  --about-social-bg: rgba(255,140,0,0.03);
+  --about-social-border: rgba(255,140,0,0.2);
+  --about-server-bg: rgba(255,255,255,0.8);
+}
+
+/* ========== ANIMAȚII ABOUT ========== */
+@keyframes about-gradient-shift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes about-float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0px); }
+}
+
+/* ========== CARD DESIGN ABOUT ========== */
+.about-card {
+  background: var(--about-card-bg);
+  border: 1px solid var(--about-card-border);
+  border-radius: 20px;
+  padding: 25px;
+  margin: 25px 0;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  color: var(--about-text-1);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 4px;
+  height: 100%;
+  background: linear-gradient(180deg, var(--about-brand-1), var(--about-brand-2));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.about-card:hover::before {
+  opacity: 1;
+}
+
+.about-card:hover {
+  border-color: var(--about-brand-1);
+  transform: translateY(-3px);
+  box-shadow: var(--about-card-shadow);
+}
+
+.about-card-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--about-brand-1);
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 2px solid var(--about-card-border);
+  letter-spacing: -0.3px;
+}
+
+.about-card-title svg {
+  width: 28px;
+  height: 28px;
+  stroke: var(--about-brand-1);
+  fill: none;
+  transition: transform 0.3s ease;
+}
+
+.about-card:hover .about-card-title svg {
+  transform: scale(1.1) rotate(3deg);
+}
+
+/* ========== HIGHLIGHT ABOUT ========== */
+.about-highlight {
+  color: var(--about-brand-1);
+  font-weight: 600;
+  position: relative;
+  display: inline-block;
+  padding: 0 2px;
+}
+
+.about-highlight::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--about-brand-1), transparent);
+  border-radius: 2px;
+  opacity: 0.7;
+  transition: opacity 0.3s ease;
+}
+
+.about-highlight:hover::after {
+  opacity: 1;
+  height: 3px;
+}
+
+/* ========== BADGE ABOUT ========== */
+.about-badge {
+  display: inline-block;
+  background: var(--about-brand-soft);
+  border: 1px solid var(--about-card-border);
+  color: var(--about-brand-1);
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 30px;
+  font-size: 13px;
+  margin: 2px 4px;
+  transition: all 0.3s ease;
+}
+
+.about-badge:hover {
+  background: var(--about-brand-1);
+  color: white;
+  transform: translateY(-2px);
+  border-color: var(--about-brand-1);
+}
+
+/* ========== SERVER BOX ABOUT ========== */
+.about-server-box {
+  display: inline-block;
+  background: var(--about-server-bg);
+  border: 2px solid var(--about-brand-1);
+  color: var(--about-brand-1);
+  font-weight: 800;
+  padding: 12px 30px;
+  border-radius: 60px;
+  font-size: 22px;
+  letter-spacing: 1.5px;
+  box-shadow: 0 0 20px rgba(255,140,0,0.2);
+  margin: 15px 0;
+  transition: all 0.3s ease;
+  animation: about-float 4s ease infinite;
+  backdrop-filter: blur(5px);
+}
+
+.about-server-box:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 30px rgba(255,140,0,0.4);
+}
+
+/* ========== STATS GRID ABOUT ========== */
+.about-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 20px;
+  margin: 30px 0;
+}
+
+.about-stat-item {
+  background: var(--about-stat-bg);
+  border: 1px solid var(--about-stat-border);
+  border-radius: 20px;
+  padding: 25px 15px;
+  text-align: center;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  backdrop-filter: blur(5px);
+  position: relative;
+  overflow: hidden;
+}
+
+.about-stat-item::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(circle, rgba(255,140,0,0.1), transparent 70%);
+  opacity: 0;
+  transition: opacity 0.5s ease;
+}
+
+.about-stat-item:hover::before {
+  opacity: 1;
+}
+
+.about-stat-item:hover {
+  background: var(--about-brand-soft);
+  transform: scale(1.05) translateY(-5px);
+  border-color: var(--about-brand-1);
+  box-shadow: 0 10px 25px rgba(255,140,0,0.15);
+}
+
+.about-stat-number {
+  font-size: 36px;
+  font-weight: 800;
+  color: var(--about-brand-1);
+  line-height: 1.2;
+  position: relative;
+  z-index: 1;
+}
+
+.about-stat-label {
+  font-size: 14px;
+  color: var(--about-text-2);
+  margin-top: 8px;
+  position: relative;
+  z-index: 1;
+}
+
+/* ========== SERVER LIST ABOUT ========== */
+.about-server-item {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  background: var(--about-stat-bg);
+  padding: 15px;
+  border-radius: 16px;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+}
+
+.about-server-item:hover {
+  background: var(--about-brand-soft);
+  border-color: var(--about-brand-1);
+  transform: translateX(5px);
+}
+
+.about-server-icon {
+  background: var(--about-brand-soft);
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.about-server-item:hover .about-server-icon {
+  background: var(--about-brand-1);
+  transform: rotate(5deg);
+}
+
+.about-server-icon svg {
+  width: 24px;
+  height: 24px;
+  stroke: var(--about-brand-1);
+  transition: all 0.3s ease;
+}
+
+.about-server-item:hover .about-server-icon svg {
+  stroke: white;
+}
+
+/* ========== QUOTE ABOUT ========== */
+.about-quote {
+  font-style: italic;
+  color: var(--about-text-2);
+  padding: 25px;
+  border-left: 4px solid var(--about-brand-1);
+  background: var(--about-quote-bg);
+  border-radius: 0 20px 20px 0;
+  margin: 25px 0;
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.about-quote:hover {
+  border-left-width: 6px;
+  background: var(--about-brand-soft);
+}
+
+/* ========== SOCIAL LINKS ABOUT ========== */
+.about-social-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 15px;
+  margin: 25px 0;
+  justify-content: center;
+}
+
+.about-social-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: var(--about-social-bg);
+  border: 1px solid var(--about-social-border);
+  border-radius: 50px;
+  padding: 14px 30px;
+  color: var(--about-text-1);
+  text-decoration: none;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-social-link::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,140,0,0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.about-social-link:hover::before {
+  left: 100%;
+}
+
+.about-social-link:hover {
+  background: var(--about-brand-soft);
+  border-color: var(--about-brand-1);
+  transform: translateY(-4px);
+  color: var(--about-brand-1);
+}
+
+.about-social-link svg {
+  width: 22px;
+  height: 22px;
+  stroke: var(--about-brand-1);
+  fill: none;
+  transition: transform 0.3s ease;
+}
+
+.about-social-link:hover svg {
+  transform: scale(1.2) rotate(5deg);
+}
+
+/* ========== FOOTER ABOUT ========== */
+.about-footer {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid var(--about-divider);
+  text-align: center;
+  color: var(--about-text-2);
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.about-footer span {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.about-footer svg {
+  width: 16px;
+  height: 16px;
+  stroke: var(--about-brand-1);
+  fill: none;
+}
+
+/* ========== PAGE HEADER ABOUT ========== */
+.about-page-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.about-page-header-svg {
+  width: 40px;
+  height: 40px;
+  stroke: var(--about-brand-1);
+  fill: none;
+  animation: about-float 4s ease infinite;
+}
+
+/* ========== TOC HIDDEN ========== */
+.about-toc-hidden {
+  display: none;
+}
+
+/* ========== RESPONSIVE ABOUT ========== */
+@media (max-width: 768px) {
+  .about-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 15px;
+  }
+  
+  .about-server-box {
+    font-size: 18px;
+    padding: 10px 20px;
+  }
+  
+  .about-social-link {
+    padding: 12px 20px;
+  }
+  
+  .about-card-title {
+    font-size: 20px;
+  }
+  
+  .about-card-title svg {
+    width: 24px;
+    height: 24px;
+  }
+}
+</style>
+
+<!-- ================================================ -->
+<!-- DESPRE WILDFIRE.RO - PAGINĂ COMPLETĂ CU CLASĂ ABOUT -->
+<!-- ================================================ -->
+
+<div class="about-root">
+
+<!-- INTRO HEADER -->
+## <span class="about-highlight">Bine ai venit</span> pe Wildfire.ro
+
+<div class="about-card">
+  <div style="font-size: 17px; line-height: 1.7;">
+    <p>Dacă ești aici pentru prima dată, o să vezi repede despre ce e vorba. Vorbim despre un server comunitar de <strong>Counter-Strike</strong> unde am încercat să facem totul să meargă <span class="about-highlight">fluent</span>: fără lag și spikes, fără admini care dispar exact când ai nevoie de ei, fără caterinca proastă.</p>
+    
+   <p>Proiectul Wildfire.ro a luat naștere în <strong>2021</strong> și de atunci tot creștem. Nu pentru că țipăm mai tare, ci pentru că lumea chiar se simte bine aici. <span class="about-highlight">Comunitate activă</span>, eventuri în fiecare săptămână.</p>
+    
+   <p>Ghidul ăsta e gândit să te pună rapid în temă. Ce servere avem, cum funcționează <span class="about-highlight">economia custom</span>, treaba cu <span class="about-highlight">rankurile</span>, modurile de joc disponibile și cum și unde găsești <span class="about-highlight">comunitatea</span>. După ce-l citești, intri pe server și vezi cum e.</p>
+  </div>
+</div>
+
+<!-- STATISTICI -->
+<div class="about-stats-grid">
+  <div class="about-stat-item">
+    <div class="about-stat-number">2021</div>
+    <div class="about-stat-label">anul fondării</div>
+  </div>
+  <div class="about-stat-item">
+    <div class="about-stat-number">1</div>
+    <div class="about-stat-label">servere active</div>
+  </div>
+  <div class="about-stat-item">
+    <div class="about-stat-number">24/7</div>
+    <div class="about-stat-label">suport staff</div>
+  </div>
+  <div class="about-stat-item">
+    <div class="about-stat-number">1000+</div>
+    <div class="about-stat-label">membri comunitate</div>
+  </div>
+</div>
+
+<!-- SERVERE HEADER ASCUNS PENTRU TOC -->
+### <span class="about-toc-hidden">Ce servere rulăm</span>
+
+<div class="about-card">
+  <div class="about-card-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <rect x="2" y="2" width="20" height="20" rx="2"/>
+      <line x1="8" y1="2" x2="8" y2="22"/>
+      <line x1="16" y1="2" x2="16" y2="22"/>
+      <line x1="2" y1="8" x2="22" y2="8"/>
+      <line x1="2" y1="16" x2="22" y2="16"/>
+    </svg>
+    <span style="font-size: 24px; font-weight: 700; color: var(--about-brand-1);">Ce servere rulăm</span>
+  </div>
+  
+  <div style="display: flex; flex-direction: column; gap: 15px;">
+    <div class="about-server-item">
+      <div class="about-server-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+        </svg>
+      </div>
+      <div>
+        <span class="about-badge">Competitive</span> – Locul perfect pentru a te distra împreună cu prietenii tăi. <strong>go.wildfire.ro</strong>
+      </div>
+    </div>
+    
+  <div class="about-server-item">
+      <div class="about-server-icon">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div>
+        <span class="about-badge">Coming soon</span> – Și mai multe pe parcurs
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ECONOMIE HEADER ASCUNS PENTRU TOC -->
+### <span class="about-toc-hidden">Sistem economic custom</span>
+
+<div class="about-card">
+  <div class="about-card-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="2" x2="12" y2="22"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+    </svg>
+    <span style="font-size: 24px; font-weight: 700; color: var(--about-brand-1);">Sistem economic custom</span>
+  </div>
+  
+  <p>Am construit o economie care chiar contează. Câștigi în funcție de cât tragi, cât joci în echipă, cât de mult participi. Strângi, cumperi, progresezi.</p>
+</div>
+
+<!-- RANK HEADER ASCUNS PENTRU TOC -->
+### <span class="about-toc-hidden">Rank și progres</span>
+
+<div class="about-card">
+  <div class="about-card-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+      <path d="M2 17L12 22L22 17"/>
+      <path d="M2 12L12 17L22 12"/>
+    </svg>
+    <span style="font-size: 24px; font-weight: 700; color: var(--about-brand-1);">Rank și progres</span>
+  </div>
+  
+  <p>Joci, câștigi experiență, urci în rank, totul gândit să aibă sens. Vrei să ajungi sus? Trebuie să joci, nu doar să te conectezi o dată pe lună.</p>
+</div>
+
+<!-- COMUNITATE HEADER ASCUNS PENTRU TOC -->
+### <span class="about-toc-hidden">Comunitatea</span>
+
+<div class="about-card">
+  <div class="about-card-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+    <span style="font-size: 24px; font-weight: 700; color: var(--about-brand-1);">Comunitatea</span>
+  </div>
+  
+  <p>Probabil cel mai important: <span class="about-highlight">oamenii</span>. Fără oameni ok, orice server e mort. Noi am avut noroc, s-a strâns o comunitate faină, activă, care știe să și joace, dar și să râdă. Fără toxicitate, fără rasism, fără admini care sar pe tine la orice cuvânt scos pe gură. Doar oameni care vor același lucru: servere bune și distracție.</p>
+  
+  <div class="about-quote">
+    Vrei să faci parte din treaba asta? Intri pe server, bagi câteva runde, vezi tu cum e. Dacă ți se potrivește vibe-ul, rămâi. Dacă nu, măcar ai încercat.
+  </div>
+</div>
+
+<!-- CONTACT HEADER ASCUNS PENTRU TOC -->
+### <span class="about-toc-hidden">Unde ne găsești</span>
+
+<div class="about-card">
+  <div class="about-card-title">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <line x1="12" y1="2" x2="12" y2="22"/>
+    </svg>
+    <span style="font-size: 24px; font-weight: 700; color: var(--about-brand-1);">Unde ne găsești</span>
+  </div>
+  
+  <div style="text-align: center; margin: 20px 0;">
+    <div class="about-server-box">go.wildfire.ro</div>
+  </div>
+  
+  <div class="about-social-links">
+    <a href="https://wildfire.ro" target="_blank" class="about-social-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <line x1="12" y1="2" x2="12" y2="22"/>
+      </svg>
+      Website
+    </a>
+    
+   <a href="https://discord.gg/wildfire" target="_blank" class="about-social-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M8 12h8M12 8v8"/>
+      </svg>
+      Discord
+    </a>
+    
+  <a href="https://steamcommunity.com/groups/wildfire-ro" target="_blank" class="about-social-link">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+        <path d="M2 17L12 22L22 17"/>
+      </svg>
+      Steam Group
+    </a>
+  </div>
+  
+  <div class="about-footer">
+    <span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+      Comunitate din 2021
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M4 4v16h16"/>
+        <polyline points="20 10 12 18 8 14"/>
+      </svg>
+      Făcută de oameni
+    </span>
+    <span>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <path d="M12 2a15 15 0 0 0 0 20 15 15 0 0 0 0-20z"/>
+      </svg>
+      Pentru oameni
+    </span>
+  </div>
+</div>
+
+</div>
