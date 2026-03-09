@@ -1077,7 +1077,6 @@ export default {
 
     processContributorsData(allContributors) {
       if (!allContributors || allContributors.length === 0) {
-        console.log('⚠️ Nu s-au găsit contributori')
         return
       }
       
@@ -1086,7 +1085,6 @@ export default {
         new Map(allContributors.map(c => [c.login, c])).values()
       )
       
-      console.log(`✅ ${uniqueContributors.length} contributori unici`)
       
       // Sortează după contribuții
       const sorted = [...uniqueContributors].sort((a, b) => b.contributions - a.contributions)
@@ -1129,7 +1127,6 @@ export default {
 
     // METODA PRINCIPALĂ - extrage contributori DIRECT din commit-uri
     async fetchContributorsFromCommits() {
-      console.log('🔄 Extragere contributori DIRECT din commit-uri...')
       
       const token = this.getToken()
       if (!token) return
@@ -1202,7 +1199,6 @@ export default {
         })
         
         const contributorsFromCommits = Array.from(contributorMap.values())
-        console.log(`✅ Găsiți ${contributorsFromCommits.length} contributori din ultimele commit-uri`)
         
         this.repoStats.contributors = contributorsFromCommits.length
         this.processContributorsData(contributorsFromCommits)
@@ -1419,7 +1415,6 @@ export default {
               this.topContributor.prs = prData.total_count || 0
             }
           } catch (e) {
-            console.log('Could not fetch PR count')
           }
         }
 
@@ -1487,7 +1482,6 @@ export default {
           this.fileTree = this.buildFileTree(treeData.tree || [])
         }
       } catch (e) {
-        console.log('Could not load file tree')
       }
     },
 

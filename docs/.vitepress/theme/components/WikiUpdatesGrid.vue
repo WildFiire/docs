@@ -533,7 +533,6 @@ export default {
       return;
     }
 
-    console.log('✅ WikiUpdatesGrid - Token găsit, lungime:', githubToken.length);
 
     this.card1Ref = this.$refs.card1Ref;
     this.card2Ref = this.$refs.card2Ref;
@@ -600,7 +599,6 @@ export default {
       const timestamp = Date.now();
 
       try {
-        console.log('📡 Fetching GitHub data with cache buster:', timestamp);
         
         // ===== 1. FETCH COMMITS (ultimele 4) CU CACHE BUSTER =====
         const commitsRes = await fetch(`${baseUrl}/commits?per_page=4&_=${timestamp}`, { headers });
@@ -616,7 +614,6 @@ export default {
             url: commit.html_url
           }));
           
-          console.log('📋 Commits încărcate:', this.recentCommits.length);
         }
 
         // ===== 2. FETCH REPO INFO =====
@@ -625,7 +622,6 @@ export default {
         const repoData = await repoRes.json();
         
         // ===== 3. FETCH CONTRIBUTORS - METODĂ NOUĂ DIN COMMIT-URI =====
-        console.log('📥 Extragem contributori DIRECT din commit-uri...');
         
         let contributors = [];
         let totalContributors = 0;
@@ -696,7 +692,6 @@ export default {
           contributors = Array.from(contributorMap.values());
           totalContributors = contributors.length;
           
-          console.log(`✅ Găsiți ${totalContributors} contribuitori din commit-uri`);
           
           // Sortează după contribuții
           const sorted = [...contributors].sort((a, b) => b.contributions - a.contributions);
@@ -722,7 +717,6 @@ export default {
                 topContributorData.prs = prsData.total_count || 0;
               }
             } catch (e) {
-              console.log('⚠️ Nu s-au putut încărca PR-urile pentru top contributor');
             }
           }
           
@@ -754,7 +748,6 @@ export default {
             }
           }
         } catch (e) {
-          console.log('⚠️ Eroare la fetch total commits:', e);
         }
 
         // ===== 5. FETCH TREE PENTRU NUMĂRUL DE FIȘIERE =====
@@ -766,7 +759,6 @@ export default {
             totalFiles = treeData.tree?.filter(item => item.type === 'blob').length || 0;
           }
         } catch (e) {
-          console.log('⚠️ Nu s-au putut încărca fișierele');
         }
 
         // ===== 6. FETCH ISSUE-URI =====
@@ -793,10 +785,8 @@ export default {
               repo: repo
             }));
             
-            console.log('📊 Issue-uri reale:', openIssues);
           }
         } catch (e) {
-          console.log('⚠️ Eroare la fetch issues:', e);
         }
 
         // ===== 7. FETCH PR-URI =====
@@ -821,10 +811,8 @@ export default {
               labels: pr.labels?.map(l => l.name) || []
             }));
             
-            console.log('📊 PR-uri deschise:', openPRs);
           }
         } catch (e) {
-          console.log('⚠️ Eroare la fetch PR-uri:', e);
         }
 
         // Actualizează stats
@@ -840,11 +828,7 @@ export default {
         this.recentIssues = recentIssues;
         this.recentPRs = recentPRs;
 
-        console.log('✅ GitHub data loaded:', this.repoStats);
-        console.log('🏆 Top 3 contributors:', this.topContributors);
-        console.log('👥 Total contribuitori:', totalContributors);
-        console.log('📋 Issue-uri recente:', recentIssues.length);
-        console.log('🔄 PR-uri recente:', recentPRs.length);
+
 
       } catch (error) {
         console.error('❌ Eroare la fetch date GitHub:', error);
@@ -923,7 +907,6 @@ export default {
     },
 
     toggleStar(item) {
-      console.log('⭐ Starred:', item.number);
     },
 
     refreshData() {

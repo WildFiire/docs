@@ -257,8 +257,6 @@ export default {
     }
   },
   mounted() {
-    console.log('🔥 GithubPopout - TOKEN:', this.githubToken ? 'EXISTĂ' : 'LIPSEȘTE')
-    console.log('📦 Lungime token:', this.githubToken?.length)
     
     this.fetchUserData()
     this.fetchUserContributions()
@@ -282,7 +280,6 @@ export default {
       this.error = null
       
       try {
-        console.log('📡 Încerc să iau date pentru:', this.username)
         
         const response = await fetch(`https://api.github.com/users/${this.username}`, {
           headers: {
@@ -291,7 +288,6 @@ export default {
           }
         })
         
-        console.log('📊 Status răspuns:', response.status)
         
         if (response.status === 401) {
           throw new Error('Token invalid sau expirat')
@@ -302,7 +298,6 @@ export default {
         }
         
         const data = await response.json()
-        console.log('✅ Date primite pentru:', data.login)
         
         this.user = {
           ...this.user,
@@ -329,7 +324,6 @@ export default {
     
     async fetchUserContributions() {
       try {
-        console.log('📡 Încerc să iau contribuții')
         
         const response = await fetch('https://api.github.com/repos/Wildfiire/docs/contributors', {
           headers: {
@@ -339,7 +333,6 @@ export default {
         })
         
         if (!response.ok) {
-          console.log('⚠️ Status contribuții:', response.status)
           this.user.contributions = 0
           return
         }
@@ -356,7 +349,6 @@ export default {
         )
         
         this.user.contributions = contributor ? contributor.contributions : 0
-        console.log(`✅ Contribuții: ${this.user.contributions}`)
         
       } catch (error) {
         console.error('❌ Eroare contribuții:', error)

@@ -116,7 +116,5 @@ export default {
     
     // 🔥 Adăugăm token-ul global
     app.config.globalProperties.$githubToken = githubToken
-    console.log('✅ Token adăugat în aplicația Vue')
-    console.log('📁 Componenta FileTreeItem înregistrată cu succes')
   }
 } satisfies Theme

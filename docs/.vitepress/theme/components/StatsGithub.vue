@@ -247,7 +247,6 @@ export default {
         })
         
         this.stats.contributors = contributorSet.size
-        console.log(`✅ Found ${this.stats.contributors} contributors from commit history`)
         
       } catch (error) {
         console.error('Error loading commits data:', error)

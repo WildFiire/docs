@@ -332,7 +332,6 @@ export default {
         const owner = 'WildFiire'
         const repo = 'docs'
         
-        console.log('📡 Fetching commits from GitHub...')
         
         // Fetch commits (ultimele 100)
         const commitsRes = await fetch(
@@ -412,7 +411,6 @@ export default {
         // Inițializează open state pentru collapse
         this.initOpenState()
 
-        console.log(`✅ Loaded ${processedCommits.length} commits`)
 
       } catch (error) {
         console.error('❌ Error fetching commits:', error)
