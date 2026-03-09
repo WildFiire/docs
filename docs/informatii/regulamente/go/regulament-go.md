@@ -16,16 +16,20 @@ outline: deep
 <!-- RÂND 0 - path și introduction -->
 <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 5px; font-size: 12px; color: var(--vp-c-text-2); flex-wrap: wrap; opacity: 0.9;">
   <div style="display: flex; align-items: center; gap: 5px;">
-    <span style="color: var(--vp-c-brand-1);">Home</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Home</span>
     <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-brand-1);">Informatii</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Informatii</span>
     <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-text-2);">Despre Wildfire</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Regulament</span>
+    <span style="color: var(--vp-c-brand-1);">/</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">GO</span>
+    <span style="color: var(--vp-c-brand-1);">/</span>
+    <span style="color: var(--vp-c-text-2);" class="orbitron-font">Jucatori</span>
   </div>
   
   <div style="display: flex; align-items: center; gap: 6px;">
     <img src="/icons/introduction.svg" alt="introduction" class="nav-icon" style="width: 18px; height: 18px; filter: var(--icon-filter, none);">
-    <span style="font-size: 12px; color: var(--vp-c-text-2);">Despre</span>
+    <span style="font-size: 12px; color: var(--vp-c-text-2);" class="orbitron-font">Rules</span>
   </div>
 </div>
 
@@ -34,8 +38,8 @@ outline: deep
   <img src="/icons/wildfire.webp" alt="Wildfire.ro" width="60" style="margin: 0; filter: var(--logo-filter, none);">
   
   <!-- TITLU CU GRADIENT ANIMAT -->
-  <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;">
-    Despre Wildfire.ro
+  <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;" class="orbitron-font">
+    Regulament Jucatori
   </h1>
 </div>
 
@@ -45,14 +49,14 @@ outline: deep
   <!-- Tags in stanga -->
   <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
     <img src="/icons/tag.svg" alt="tag" class="nav-icon" style="width: 18px; height: 18px; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
-    <PageTagRed style="font-size: 11px; padding: 2px 8px;">rules</PageTagRed>
-    <PageTagBlue style="font-size: 11px; padding: 2px 8px;">go</PageTagBlue>
-    <PageTagBlue style="font-size: 11px; padding: 2px 8px;">server</PageTagBlue>
+    <PageTagRed style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">rules</PageTagRed>
+    <PageTagBlue style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">go</PageTagBlue>
+    <PageTagBlue style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">server</PageTagBlue>
   </div>
 
   <!-- Updated by in dreapta -->
   <div style="display: flex; align-items: center; gap: 6px;">
-    <span style="font-size: 13px; color: var(--wf-gray); font-weight: 500;">updated by</span>
+    <span style="font-size: 13px; color: var(--wf-gray); font-weight: 500;" class="orbitron-font">updated by</span>
     <a 
       href="https://github.com/ianncxd" 
       target="_blank" 
@@ -74,6 +78,84 @@ outline: deep
 
 <!-- STILURI CU SUPORT LIGHT/DARK THEME -->
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+.orbitron-font {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+/* ===== FONT ORBITRON PENTRU TITLURI ȘI ELEMENTE IMPORTANTE ===== */
+.section-title,
+.section-title span,
+.rule-number,
+.highlight,
+.badge,
+.punish,
+.info-box li span .highlight,
+.rule-content strong,
+.title-hover span,
+.title-hover svg + span,
+h1,
+h2,
+h3,
+.title-hover span,
+.PageTagRed,
+.PageTagBlue,
+.PageTagGreen,
+.PageTagPurple,
+.rule-card .badge,
+.rule-card .punish,
+.info-box .highlight {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+/* Ajustări greutăți - păstrăm dimensiunile originale */
+.section-title {
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.section-title span {
+  font-weight: 800;
+}
+
+.rule-number {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.highlight {
+  font-weight: 600;
+}
+
+.badge {
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.punish {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.title-hover span {
+  font-weight: 800;
+  font-size: 28px;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 32px;
+}
+
+/* Forțăm fontul pe titlul principal */
+h1.orbitron-font,
+.title-hover .orbitron-font {
+  font-family: 'Orbitron', sans-serif !important;
+}
+
 /* Variabile CSS pentru ambele teme */
 :root {
   --rule-card-bg: linear-gradient(145deg, #0f0f0f, #141414);
@@ -319,6 +401,24 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
   transform: translateX(5px);
 }
 
+/* SVG-uri în dark mode - DOAR ALBE */
+.dark .nav-icon,
+.dark .rule-icon svg,
+.dark .section-title svg,
+.dark .info-box li svg {
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+/* SVG-uri în light mode */
+:not(.dark) .nav-icon,
+:not(.dark) .rule-icon svg,
+:not(.dark) .section-title svg,
+:not(.dark) .info-box li svg {
+  filter: brightness(0.4);
+  opacity: 0.8;
+}
+
 /* Responsive */
 @media (max-width: 768px) {
   .rule-card {
@@ -358,7 +458,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3); transition: transform 0.3s ease;" class="title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>1.0 REGULI GENERALE</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>1.0 REGULI GENERALE</span>
 </div>
 
 <div class="rules-grid">
@@ -373,7 +473,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.1</span> Orice tentativă de trișare este pedepsită cu <span class="punish">BAN PERMANENT</span>
+    <span class="rule-number orbitron-font">1.1</span> Orice tentativă de trișare este pedepsită cu <span class="punish orbitron-font">BAN PERMANENT</span>
   </div>
 </div>
 
@@ -385,7 +485,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.2</span> Limbajul vulgar este strict interzis! De asemenea, toate conversațiile care nu au legătură cu serverul sau comunitatea pot fi discutate în privat.
+    <span class="rule-number orbitron-font">1.2</span> Limbajul vulgar este strict interzis! De asemenea, toate conversațiile care nu au legătură cu serverul sau comunitatea pot fi discutate în privat.
   </div>
 </div>
 
@@ -397,12 +497,11 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.3</span> Sancțiunile acordate pot fi  
-    <span class="badge">MUTE</span>
-    <span class="badge">GAG</span>
-    <span class="badge">SILENCE</span>
-    <span class="punish">BAN TEMPORAR</span> / <span class="punish">PERMANENT</span>
-
+    <span class="rule-number orbitron-font">1.3</span> Sancțiunile acordate pot fi  
+    <span class="badge orbitron-font">MUTE</span>
+    <span class="badge orbitron-font">GAG</span>
+    <span class="badge orbitron-font">SILENCE</span>
+    <span class="punish orbitron-font">BAN TEMPORAR</span> / <span class="punish orbitron-font">PERMANENT</span>
   </div>
 </div>
 
@@ -415,10 +514,10 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.4</span> Jignirea staff-ului duce la  
-    <span class="badge">MUTE</span>
-    <span class="badge">GAG</span>
-    <span class="badge">SILENCE</span>
+    <span class="rule-number orbitron-font">1.4</span> Jignirea staff-ului duce la  
+    <span class="badge orbitron-font">MUTE</span>
+    <span class="badge orbitron-font">GAG</span>
+    <span class="badge orbitron-font">SILENCE</span>
   </div>
 </div>
 
@@ -433,7 +532,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.5</span> Abuzul excesiv (spam) pe <span class="highlight">u@</span> este interzis, drept urmare duce la <span class="badge">GAG</span>
+    <span class="rule-number orbitron-font">1.5</span> Abuzul excesiv (spam) pe <span class="highlight orbitron-font">u@</span> este interzis, drept urmare duce la <span class="badge orbitron-font">GAG</span>
   </div>
 </div>
 
@@ -447,12 +546,12 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.6</span> Sfidarea oricărei decizii acordate de către un membru staff este strict interzisă.  
+    <span class="rule-number orbitron-font">1.6</span> Sfidarea oricărei decizii acordate de către un membru staff este strict interzisă.  
     Aceasta se pedepsește cu  
-    <span class="badge">MUTE</span>
-    <span class="badge">GAG</span>
-    <span class="badge">SILENCE</span>
-    <span class="punish">BAN TEMPORAR</span> / <span class="punish">PERMANENT</span>
+    <span class="badge orbitron-font">MUTE</span>
+    <span class="badge orbitron-font">GAG</span>
+    <span class="badge orbitron-font">SILENCE</span>
+    <span class="punish orbitron-font">BAN TEMPORAR</span> / <span class="punish orbitron-font">PERMANENT</span>
   </div>
 </div>
 
@@ -464,11 +563,11 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.7</span> Jignirea adusă serverului sau comunității duce la o sancțiune de  
-    <span class="badge">GAG</span>
-    <span class="badge">MUTE</span>
-    <span class="punish">BAN TEMPORAR</span>
-    <span class="punish">BAN PERMANENT</span>
+    <span class="rule-number orbitron-font">1.7</span> Jignirea adusă serverului sau comunității duce la o sancțiune de  
+    <span class="badge orbitron-font">GAG</span>
+    <span class="badge orbitron-font">MUTE</span>
+    <span class="punish orbitron-font">BAN TEMPORAR</span>
+    <span class="punish orbitron-font">BAN PERMANENT</span>
   </div>
 </div>
 
@@ -481,8 +580,8 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.8</span> Este strict interzis să dețineți mai mult de un cont de CS2 pe server!  
-    Sancțiunea este <span class="punish">BAN PERMANENT</span>
+    <span class="rule-number orbitron-font">1.8</span> Este strict interzis să dețineți mai mult de un cont de CS2 pe server!  
+    Sancțiunea este <span class="punish orbitron-font">BAN PERMANENT</span>
   </div>
 </div>
 
@@ -495,8 +594,8 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.9</span> Cererile de unban se fac într-un interval de  
-    <span class="highlight">maximum 10 zile</span> de când a fost sancționat jucătorul.
+    <span class="rule-number orbitron-font">1.9</span> Cererile de unban se fac într-un interval de  
+    <span class="highlight orbitron-font">maximum 10 zile</span> de când a fost sancționat jucătorul.
   </div>
 </div>
 
@@ -508,7 +607,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3); transition: transform 0.3s ease;" class="title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="16" x2="22" y2="16"/></svg>2.0 COMPORTAMENT PE SERVER</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="16" x2="22" y2="16"/></svg>2.0 COMPORTAMENT PE SERVER</span>
 </div>
 
 <div class="rules-grid">
@@ -524,12 +623,12 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">2.1</span> Este strict interzisă deranjarea serverului prin voice-chat.  
+    <span class="rule-number orbitron-font">2.1</span> Este strict interzisă deranjarea serverului prin voice-chat.  
     Sancțiune:  
-    <span class="badge">MUTE</span>
-    <span class="badge">GAG</span>
-    <span class="badge">SILENCE</span>
-    <span class="punish">BAN PERMANENT</span>
+    <span class="badge orbitron-font">MUTE</span>
+    <span class="badge orbitron-font">GAG</span>
+    <span class="badge orbitron-font">SILENCE</span>
+    <span class="punish orbitron-font">BAN PERMANENT</span>
   </div>
 </div>
 
@@ -542,8 +641,8 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">2.2</span> Este interzis să stați AFK pentru farmarea de puncte/ore.  
-    Riscați: <span class="badge">KICK</span>
+    <span class="rule-number orbitron-font">2.2</span> Este interzis să stați AFK pentru farmarea de puncte/ore.  
+    Riscați: <span class="badge orbitron-font">KICK</span>
   </div>
 </div>
 
@@ -556,10 +655,10 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">2.3</span> Este interzisă metoda <span class="highlight">monitor</span> (când doi jucători din echipe diferite își dau info).  
+    <span class="rule-number orbitron-font">2.3</span> Este interzisă metoda <span class="highlight orbitron-font">monitor</span> (când doi jucători din echipe diferite își dau info).  
     Riscați:  
-    <span class="badge">KICK</span>
-    <span class="punish">BAN 120 MIN</span>
+    <span class="badge orbitron-font">KICK</span>
+    <span class="punish orbitron-font">BAN 120 MIN</span>
   </div>
 </div>
 
@@ -571,13 +670,13 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">2.4</span> Pentru întrebări legate de server sau reclamarea altor jucători se folosește  
-    <span class="highlight">"Say_team @mesaj" (u@)</span>.  
+    <span class="rule-number orbitron-font">2.4</span> Pentru întrebări legate de server sau reclamarea altor jucători se folosește  
+    <span class="highlight orbitron-font">"Say_team @mesaj" (u@)</span>.  
     Este interzisă folosirea chat-ului general pentru reclamarea altor jucători (ex: "e codat").  
     Nerespectarea acestei reguli se va sancționa cu  
-    <span class="badge">MUTE</span>
-    <span class="badge">GAG</span>
-    <span class="badge">SILENCE</span>
+    <span class="badge orbitron-font">MUTE</span>
+    <span class="badge orbitron-font">GAG</span>
+    <span class="badge orbitron-font">SILENCE</span>
   </div>
 </div>
 
@@ -589,12 +688,12 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">2.5</span> Toxicitatea și flame-ul la adresa celorlalți jucători aduse sub formă de  
-    <span class="highlight">"ez"</span>, <span class="highlight">"culcat"</span>, <span class="highlight">"sit"</span>, <span class="highlight">"au măseaua"</span>, <span class="highlight">"taci"</span> etc.  
+    <span class="rule-number orbitron-font">2.5</span> Toxicitatea și flame-ul la adresa celorlalți jucători aduse sub formă de  
+    <span class="highlight orbitron-font">"ez"</span>, <span class="highlight orbitron-font">"culcat"</span>, <span class="highlight orbitron-font">"sit"</span>, <span class="highlight orbitron-font">"au măseaua"</span>, <span class="highlight orbitron-font">"taci"</span> etc.  
     se vor sancționa cu  
-    <span class="badge">MUTE</span>
-    <span class="badge">GAG</span>
-    <span class="badge">SILENCE</span>
+    <span class="badge orbitron-font">MUTE</span>
+    <span class="badge orbitron-font">GAG</span>
+    <span class="badge orbitron-font">SILENCE</span>
   </div>
 </div>
 
@@ -606,13 +705,13 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">2.6</span> Pe server se comunică în limba <span class="highlight">română</span>.  
-    Este acceptată și limba <span class="highlight">engleză</span> pentru jucătorii străini.  
+    <span class="rule-number orbitron-font">2.6</span> Pe server se comunică în limba <span class="highlight orbitron-font">română</span>.  
+    Este acceptată și limba <span class="highlight orbitron-font">engleză</span> pentru jucătorii străini.  
     Folosirea oricărei alte limbi atrage sancțiunea  
-    <span class="badge">MUTE</span>
-    <span class="badge">GAG</span>
-    <span class="badge">SILENCE</span>
-    <span class="punish">BAN TEMPORAR</span>
+    <span class="badge orbitron-font">MUTE</span>
+    <span class="badge orbitron-font">GAG</span>
+    <span class="badge orbitron-font">SILENCE</span>
+    <span class="punish orbitron-font">BAN TEMPORAR</span>
   </div>
 </div>
 
@@ -620,11 +719,11 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
 
 <div class="section-divider"></div>
 
-<!-- 3.0 RESPONSABILITĂȚI -->
+<!-- 3.0 INTERDICȚII ȘI RESTRICȚII -->
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3); transition: transform 0.3s ease;" class="title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="16" r="1" fill="#ff8c00"/></svg>3.0 INTERDICȚII ȘI RESTRICȚII</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><circle cx="12" cy="16" r="1" fill="#ff8c00"/></svg>3.0 INTERDICȚII ȘI RESTRICȚII</span>
 </div>
 
 <div class="rules-grid">
@@ -638,8 +737,8 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">3.1</span> Orice tentativă de fraudă / înșelăciune / impersonare se pedepsește cu  
-    <span class="punish">BAN PERMANENT</span>
+    <span class="rule-number orbitron-font">3.1</span> Orice tentativă de fraudă / înșelăciune / impersonare se pedepsește cu  
+    <span class="punish orbitron-font">BAN PERMANENT</span>
   </div>
 </div>
 
@@ -652,8 +751,8 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">3.2</span> Utilizarea VPN-urilor sau proxy-urilor pentru a eluda ban-urile sau pentru a obține avantaje nejustificate este strict interzisă.  
-    Sancțiune: <span class="punish">BAN 7 ZILE</span>
+    <span class="rule-number orbitron-font">3.2</span> Utilizarea VPN-urilor sau proxy-urilor pentru a eluda ban-urile sau pentru a obține avantaje nejustificate este strict interzisă.  
+    Sancțiune: <span class="punish orbitron-font">BAN 7 ZILE</span>
   </div>
 </div>
 
@@ -666,8 +765,8 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">3.3</span> Dacă un jucător pretinde în mod fals că este un membru staff, acesta va fi sancționat cu  
-    <span class="badge">SILENCE</span> sau <span class="punish">BAN 7 ZILE</span>
+    <span class="rule-number orbitron-font">3.3</span> Dacă un jucător pretinde în mod fals că este un membru staff, acesta va fi sancționat cu  
+    <span class="badge orbitron-font">SILENCE</span> sau <span class="punish orbitron-font">BAN 7 ZILE</span>
   </div>
 </div>
 
@@ -682,8 +781,8 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">3.4</span> Dacă un jucător îi obligă sau îi convinge pe alții să iasă de pe server pentru a juca doar cu o anumită persoană, va primi  
-    <span class="punish">BAN 7 ZILE</span>
+    <span class="rule-number orbitron-font">3.4</span> Dacă un jucător îi obligă sau îi convinge pe alții să iasă de pe server pentru a juca doar cu o anumită persoană, va primi  
+    <span class="punish orbitron-font">BAN 7 ZILE</span>
   </div>
 </div>
 
@@ -697,13 +796,13 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">3.5</span> Este strict interzis să chemați jucătorii la  
-    <span class="highlight">competitive / popflash / faceit / etc.</span>  
+    <span class="rule-number orbitron-font">3.5</span> Este strict interzis să chemați jucătorii la  
+    <span class="highlight orbitron-font">competitive / popflash / faceit / etc.</span>  
     Riscați  
-    <span class="badge">MUTE</span>
-    <span class="badge">GAG</span>
-    <span class="badge">SILENCE</span>
-    <span class="punish">BAN TEMPORAR</span>
+    <span class="badge orbitron-font">MUTE</span>
+    <span class="badge orbitron-font">GAG</span>
+    <span class="badge orbitron-font">SILENCE</span>
+    <span class="punish orbitron-font">BAN TEMPORAR</span>
   </div>
 </div>
 
@@ -719,9 +818,9 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">3.6</span> Este interzis <span class="highlight">griefing / troll</span>.  
-    Prima sancțiune: <span class="badge">SLAY</span><br>
-    Dacă se repetă: <span class="punish">BAN 120 MIN</span>
+    <span class="rule-number orbitron-font">3.6</span> Este interzis <span class="highlight orbitron-font">griefing / troll</span>.  
+    Prima sancțiune: <span class="badge orbitron-font">SLAY</span><br>
+    Dacă se repetă: <span class="punish orbitron-font">BAN 120 MIN</span>
   </div>
 </div>
 
@@ -735,7 +834,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     
   </div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><img src="/icons/wildfire.webp" alt="icon" style="width: 30px; height: 30px; display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);">4.0 INFORMAȚII</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><img src="/icons/wildfire.webp" alt="icon" style="width: 30px; height: 30px; display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);">4.0 INFORMAȚII</span>
 </div>
 
 <div class="info-box">
@@ -744,21 +843,21 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
-      <span><span class="highlight">Nu sunteți bineveniți</span> dacă intrați cu gândul de a face rău, mai bine nu intrați. Nu căutăm <span class="highlight">"șmecherași"</span> cu figuri în cap, ci oameni cu <span class="highlight">bun-simț</span>.</span>
+      <span><span class="highlight orbitron-font">Nu sunteți bineveniți</span> dacă intrați cu gândul de a face rău, mai bine nu intrați. Nu căutăm <span class="highlight orbitron-font">"șmecherași"</span> cu figuri în cap, ci oameni cu <span class="highlight orbitron-font">bun-simț</span>.</span>
     </li>
     <li>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
         <path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/>
       </svg>
-      <span>Regulamentul poate întâmpina îmbunătățiri, astfel recomandăm verificarea <span class="highlight">periodică</span> a acestuia. La întrebarea "Ai citit regulamentul? Răspunsul este <span class="highlight">"WILDFIRE BACK ON TOP"</span></span>
+      <span>Regulamentul poate întâmpina îmbunătățiri, astfel recomandăm verificarea <span class="highlight orbitron-font">periodică</span> a acestuia. La întrebarea "Ai citit regulamentul? Răspunsul este <span class="highlight orbitron-font">"WILDFIRE BACK ON TOP"</span></span>
     </li>
     <li>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <rect x="2" y="6" width="20" height="12" rx="2"/>
         <path d="M8 10h8M8 14h4"/>
       </svg>
-      <span>Jocul este <span class="highlight">GRATUIT</span> în limita bunului-simț!</span>
+      <span>Jocul este <span class="highlight orbitron-font">GRATUIT</span> în limita bunului-simț!</span>
     </li>
     <li>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -766,7 +865,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
         <line x1="12" y1="8" x2="12" y2="12"/>
         <line x1="12" y1="16" x2="12.01" y2="16"/>
       </svg>
-      <span>Evitați să atrageți atenția în mod <span class="highlight">negativ</span>.</span>
+      <span>Evitați să atrageți atenția în mod <span class="highlight orbitron-font">negativ</span>.</span>
     </li>
   </ul>
 </div>

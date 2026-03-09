@@ -16,16 +16,20 @@ outline: deep
 <!-- RÂND 0 - path și introduction -->
 <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 5px; font-size: 12px; color: var(--vp-c-text-2); flex-wrap: wrap; opacity: 0.9;">
   <div style="display: flex; align-items: center; gap: 5px;">
-    <span style="color: var(--vp-c-brand-1);">Home</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Home</span>
     <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-brand-1);">Informatii</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Informatii</span>
     <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-text-2);">Despre Wildfire</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Regulament</span>
+    <span style="color: var(--vp-c-brand-1);">/</span>
+    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">GO</span>
+    <span style="color: var(--vp-c-brand-1);">/</span>
+    <span style="color: var(--vp-c-text-2);" class="orbitron-font">VIP</span>
   </div>
   
   <div style="display: flex; align-items: center; gap: 6px;">
     <img src="/icons/introduction.svg" alt="introduction" class="nav-icon" style="width: 18px; height: 18px; filter: var(--icon-filter, none);">
-    <span style="font-size: 12px; color: var(--vp-c-text-2);">Despre</span>
+    <span style="font-size: 12px; color: var(--vp-c-text-2);" class="orbitron-font">Rules</span>
   </div>
 </div>
 
@@ -34,8 +38,8 @@ outline: deep
   <img src="/icons/wildfire.webp" alt="Wildfire.ro" width="60" style="margin: 0; filter: var(--logo-filter, none);">
   
   <!-- TITLU CU GRADIENT ANIMAT -->
-  <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;">
-    Despre Wildfire.ro
+  <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;" class="orbitron-font">
+    Regulament VIP
   </h1>
 </div>
 
@@ -45,14 +49,14 @@ outline: deep
   <!-- Tags in stanga -->
   <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
     <img src="/icons/tag.svg" alt="tag" class="nav-icon" style="width: 18px; height: 18px; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
-    <PageTagRed style="font-size: 11px; padding: 2px 8px;">rules</PageTagRed>
-    <PageTagBlue style="font-size: 11px; padding: 2px 8px;">go</PageTagBlue>
-    <PageTagBlue style="font-size: 11px; padding: 2px 8px;">vip</PageTagBlue>
+    <PageTagRed style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">rules</PageTagRed>
+    <PageTagBlue style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">go</PageTagBlue>
+    <PageTagBlue style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">server</PageTagBlue>
   </div>
 
   <!-- Updated by in dreapta -->
   <div style="display: flex; align-items: center; gap: 6px;">
-    <span style="font-size: 13px; color: var(--wf-gray); font-weight: 500;">updated by</span>
+    <span style="font-size: 13px; color: var(--wf-gray); font-weight: 500;" class="orbitron-font">updated by</span>
     <a 
       href="https://github.com/ianncxd" 
       target="_blank" 
@@ -71,9 +75,107 @@ outline: deep
 </div> 
 </div>
 
-
 <!-- STILURI CU SUPORT LIGHT/DARK THEME -->
 <style>
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
+
+.orbitron-font {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+/* ===== FONT ORBITRON PENTRU TITLURI ȘI ELEMENTE IMPORTANTE ===== */
+.section-title,
+.section-title span,
+.rule-number,
+.highlight,
+.badge,
+.badge-warn,
+.badge-remove,
+.badge-recommended,
+.punish,
+.info-box li span .highlight,
+.rule-content strong,
+.title-hover span,
+.title-hover svg + span,
+h1,
+h2,
+h3,
+.title-hover span,
+.PageTagRed,
+.PageTagBlue,
+.PageTagGreen,
+.PageTagPurple,
+.rule-card .badge,
+.rule-card .badge-warn,
+.rule-card .badge-remove,
+.rule-card .badge-recommended,
+.rule-card .punish,
+.info-box .highlight {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+/* Ajustări greutăți - păstrăm dimensiunile originale */
+.section-title {
+  font-weight: 700;
+  font-size: 28px;
+}
+
+.section-title span {
+  font-weight: 800;
+}
+
+.rule-number {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.highlight {
+  font-weight: 600;
+}
+
+.badge {
+  font-weight: 500;
+  font-size: 12px;
+}
+
+.badge-warn {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.badge-remove {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.badge-recommended {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.punish {
+  font-weight: 700;
+  font-size: 12px;
+}
+
+.title-hover span {
+  font-weight: 800;
+  font-size: 28px;
+}
+
+h1 {
+  font-weight: 700;
+  font-size: 32px;
+}
+
+/* Forțăm fontul pe titlul principal */
+h1.orbitron-font,
+.title-hover .orbitron-font {
+  font-family: 'Orbitron', sans-serif !important;
+}
+
 /* Variabile CSS pentru ambele teme */
 :root {
   --rule-card-bg: linear-gradient(145deg, #0f0f0f, #141414);
@@ -110,6 +212,24 @@ html:not(.dark) {
   --rule-number-bg: rgba(255,140,0,0.1);
   --rule-number-border: rgba(255,140,0,0.3);
   --rule-number-text: #ff8c00;
+}
+
+/* SVG-uri în dark mode - DOAR ALBE */
+.dark .nav-icon,
+.dark .rule-icon svg,
+.dark .section-title svg,
+.dark .info-box li svg {
+  filter: brightness(0) invert(1);
+  opacity: 0.9;
+}
+
+/* SVG-uri în light mode */
+:not(.dark) .nav-icon,
+:not(.dark) .rule-icon svg,
+:not(.dark) .section-title svg,
+:not(.dark) .info-box li svg {
+  filter: brightness(0.4);
+  opacity: 0.8;
 }
 
 /* PREVENIRE SELECTARE IMAGINI SI ICONITE */
@@ -394,7 +514,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     
   </div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="#ff8c00"/></svg>1.0 REGULI VIP</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="#ff8c00"/></svg>1.0 REGULI VIP</span>
 </div>
 
 <div class="rules-grid">
@@ -408,7 +528,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.1</span> Donatorii nu trebuie sa abuzeze de abilitatiile de care au parte si in nici un caz, acestia nu trebuie sa considere ca au imunitate in fata sanctiunilor. <span class="badge-warn">WARN</span> / <span class="badge-remove">REMOVE</span>
+    <span class="rule-number orbitron-font">1.1</span> Donatorii nu trebuie sa abuzeze de abilitatiile de care au parte si in nici un caz, acestia nu trebuie sa considere ca au imunitate in fata sanctiunilor. <span class="badge-warn orbitron-font">WARN</span> / <span class="badge-remove orbitron-font">REMOVE</span>
   </div>
 </div>
 
@@ -421,7 +541,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.2</span> In calitate de Donator nu trebuie sa consideri ca ai imunitate in fata staff-ului sau chiar si a jucatorilor. <span class="badge-warn">WARN</span>
+    <span class="rule-number orbitron-font">1.2</span> In calitate de Donator nu trebuie sa consideri ca ai imunitate in fata staff-ului sau chiar si a jucatorilor. <span class="badge-warn orbitron-font">WARN</span>
   </div>
 </div>
 
@@ -434,7 +554,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.3</span> Donatoriilor nu le este permis sa se urce pe mapa astfel având un avantaj asupra oponentului. <span class="badge-warn">WARN</span>
+    <span class="rule-number orbitron-font">1.3</span> Donatoriilor nu le este permis sa se urce pe mapa astfel având un avantaj asupra oponentului. <span class="badge-warn orbitron-font">WARN</span>
   </div>
 </div>
 
@@ -446,7 +566,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.4</span> Nu este permis spam-ul in chat cu sunete <span class="highlight">(Sank Sounds)</span> <span class="badge-warn">WARN</span>
+    <span class="rule-number orbitron-font">1.4</span> Nu este permis spam-ul in chat cu sunete <span class="highlight orbitron-font">(Sank Sounds)</span> <span class="badge-warn orbitron-font">WARN</span>
   </div>
 </div>
 
@@ -460,7 +580,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">1.5</span> In calitate de donator va este recomandat sa indrumati sau sa ajutati alt jucatori. <span class="badge-recommended">RECOMANDAT</span>
+    <span class="rule-number orbitron-font">1.5</span> In calitate de donator va este recomandat sa indrumati sau sa ajutati alt jucatori. <span class="badge-recommended orbitron-font">RECOMANDAT</span>
   </div>
 </div>
 
@@ -474,7 +594,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     
   </div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>2.0 INFO</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><line x1="12" y1="8" x2="12.01" y2="8"/></svg>2.0 INFO</span>
 </div>
 
 <div class="rules-grid">
@@ -489,7 +609,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">2.1</span> <span class="highlight">Daca jucati cu COD si primiti VAC, o faceti pe propria raspundere</span>, gradele nu se transfera/returneaza.
+    <span class="rule-number orbitron-font">2.1</span> <span class="highlight orbitron-font">Daca jucati cu COD si primiti VAC, o faceti pe propria raspundere</span>, gradele nu se transfera/returneaza.
   </div>
 </div>
 
@@ -503,7 +623,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">2.2</span> <span class="highlight">Daca doriti sa jucati cu COD, faceti asta pe un cont secundar</span> si inafara serverelor WILDFIRE.
+    <span class="rule-number orbitron-font">2.2</span> <span class="highlight orbitron-font">Daca doriti sa jucati cu COD, faceti asta pe un cont secundar</span> si inafara serverelor WILDFIRE.
   </div>
 </div>
 
@@ -517,7 +637,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">2.3</span> Utilizarea codurilor pe contul primar sau secundar pe serverele WILDFIRE se pedepseste cu <span class="badge-remove">REMOVE</span> la grad.
+    <span class="rule-number orbitron-font">2.3</span> Utilizarea codurilor pe contul primar sau secundar pe serverele WILDFIRE se pedepseste cu <span class="badge-remove orbitron-font">REMOVE</span> la grad.
   </div>
 </div>
 
@@ -531,7 +651,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     
   </div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>3.0 SANCTIUNI</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>3.0 SANCTIUNI</span>
 </div>
 
 <div class="rules-grid">
@@ -546,7 +666,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">3.1</span> La <span class="highlight">2/3 warn-uri</span> o sa fiti sanctionati cu <span class="punish">BAN 24 ORE</span> si pierderea gradului pentru <span class="highlight">7 zile</span>.
+    <span class="rule-number orbitron-font">3.1</span> La <span class="highlight orbitron-font">2/3 warn-uri</span> o sa fiti sanctionati cu <span class="punish orbitron-font">BAN 24 ORE</span> si pierderea gradului pentru <span class="highlight orbitron-font">7 zile</span>.
   </div>
 </div>
 
@@ -560,7 +680,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">3.2</span> La <span class="highlight">3/3 warn-uri</span> o sa fiti sanctionati cu <span class="punish">BAN 48 ORE</span> si pierderea gradului pentru <span class="highlight">30 zile</span>.
+    <span class="rule-number orbitron-font">3.2</span> La <span class="highlight orbitron-font">3/3 warn-uri</span> o sa fiti sanctionati cu <span class="punish orbitron-font">BAN 48 ORE</span> si pierderea gradului pentru <span class="highlight orbitron-font">30 zile</span>.
   </div>
 </div>
 
@@ -574,7 +694,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number">3.3</span> In cazuri speciale unde abuzul de Premium continua si dupa aplicarea warn-ului cu numarul 3 puteti ramane <span class="badge-remove">FARA GRAD PERMANENT</span>.
+    <span class="rule-number orbitron-font">3.3</span> In cazuri speciale unde abuzul de Premium continua si dupa aplicarea warn-ului cu numarul 3 puteti ramane <span class="badge-remove orbitron-font">FARA GRAD PERMANENT</span>.
   </div>
 </div>
 
@@ -588,7 +708,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     
   </div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>4.0 RECOMANDĂRI</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>4.0 RECOMANDĂRI</span>
 </div>
 
 <div class="info-box">
@@ -597,21 +717,21 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
       <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
-      <span><span class="highlight">Donatorii sunt exemple pentru comunitate</span> - comportamentul vostru influențează întregul server.</span>
+      <span><span class="highlight orbitron-font">Donatorii sunt exemple pentru comunitate</span> - comportamentul vostru influențează întregul server.</span>
     </li>
     <li>
       <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
         <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
         <path d="M14 2v6h6"/>
       </svg>
-      <span>Beneficiile VIP sunt un <span class="highlight">privilegiu</span>, nu un drept - folosiți-le cu responsabilitate.</span>
+      <span>Beneficiile VIP sunt un <span class="highlight orbitron-font">privilegiu</span>, nu un drept - folosiți-le cu responsabilitate.</span>
     </li>
     <li>
       <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
         <circle cx="12" cy="12" r="10"/>
         <path d="M12 6v6l4 2"/>
       </svg>
-      <span>Raportati orice abuz al altor donatori - <span class="highlight">contribuiți la o comunitate mai bună</span>.</span>
+      <span>Raportati orice abuz al altor donatori - <span class="highlight orbitron-font">contribuiți la o comunitate mai bună</span>.</span>
     </li>
   </ul>
 </div>
