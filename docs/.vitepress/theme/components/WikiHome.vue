@@ -102,7 +102,7 @@
         <!-- Feature badges cu efect de typing -->
         <div class="feature-badges">
           <div class="feature-badge orbitron-font" v-for="(badge, index) in featureBadges" :key="index">
-            <span class="feature-icon">{{ badge.icon }}</span>
+            <span class="feature-icon" v-html="badge.icon"></span>
             <span class="feature-text typing-text orbitron-font" :class="{ 'typing-complete': badgesTyped[index] }">{{ displayBadges[index] }}<span v-if="!badgesTyped[index]" class="cursor"></span></span>
           </div>
         </div>
@@ -230,9 +230,18 @@ const getCharClass = (index: number) => {
 
 // ===== EFFECT DE TYPING =====
 const featureBadges = [
-  { icon: '✓', text: 'Documentatie' },
-  { icon: '⚡', text: 'Informatie' },
-  { icon: '🛡️', text: 'Features' }
+  { 
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M17.5 21h1v-2.5H21v-1h-2.5V15h-1v2.5H15v1h2.5zm.5 2q-2.075 0-3.537-1.463T13 18t1.463-3.537T18 13t3.538 1.463T23 18t-1.463 3.538T18 23M7 9h10V7H7zm4.675 12H5q-.825 0-1.412-.587T3 19V5q0-.825.588-1.412T5 3h14q.825 0 1.413.588T21 5v6.7q-.725-.35-1.463-.525T18 11q-.275 0-.513.012t-.487.063V11H7v2h6.125q-.45.425-.812.925T11.675 15H7v2h4.075q-.05.25-.062.488T11 18q0 .825.15 1.538T11.675 21"/></svg>', 
+    text: 'Documentatie' 
+  },
+  { 
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-2h2v2zm0-4h-2V7h2v6z"/></svg>', 
+    text: 'Informatie' 
+  },
+  { 
+    icon: '<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path fill="currentColor" d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>', 
+    text: 'Features' 
+  }
 ]
 
 const displayBadges = ref(['', '', ''])
