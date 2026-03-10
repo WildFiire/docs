@@ -4,4 +4,5 @@
 *.html linguist-language=HTML
 *.css linguist-language=C
 
-*.vue linguist-language=Vue linguist-detectable=true
+*.vue linguist-detectable=true
+
