@@ -2,7 +2,7 @@
 # 🔥 **Wildfire.ro Docs**
 
 <p align="center">
-    <a href="https://github.com/Josee9988/project-template/generate">
+    <a href="https://docs.wildfire.ro/">
     <img width="100%" src="https://i.imgur.com/21UXpqp.png" alt="@Wildfiire/docs">
   </a>
   <br>
