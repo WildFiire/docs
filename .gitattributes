@@ -1,5 +1,5 @@
 # Explicitly declare languages for GitHub stats
-*.vue linguist-language=Vue linguist-detectable=true
-*.js linguist-language=JavaScript linguist-detectable=true
-*.html linguist-language=HTML linguist-detectable=true
-*.css linguist-language=CSS linguist-detectable=true
+*.vue linguist-language=Vue linguist-detectable=true linguist-documentation=false
+*.js linguist-language=JavaScript linguist-detectable=true linguist-documentation=false
+*.html linguist-language=HTML linguist-detectable=true linguist-documentation=false
+*.css linguist-language=CSS linguist-detectable=true linguist-documentation=false
