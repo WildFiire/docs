@@ -319,49 +319,106 @@
           </div>
         </div>
 
-        <!-- Champion Spotlight with Orange Crown -->
-        <div class="champion-spotlight" v-if="topContributor.login">
-          <div class="spotlight-bg">
-            <div class="bg-orb" v-for="n in 3" :key="n"></div>
-          </div>
-          <div class="spotlight-content">
-            <div class="champion-avatar">
-              <img :src="topContributor.avatar_url" :alt="topContributor.login">
-              <div class="avatar-ring"></div>
-              <div class="avatar-crown">
-                <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2">
-                  <path d="M12 2L15 9H22L16 14L19 21L12 16.5L5 21L8 14L2 9H9L12 2Z"/>
+        <!-- Champion Split - TOP CONTRIBUTOR & THIS MONTH -->
+        <div class="champion-split">
+          <!-- LEFT: TOP CONTRIBUTOR (All Time) -->
+          <div class="champion-spotlight left" v-if="topContributor.login">
+            <div class="spotlight-bg">
+              <div class="bg-orb" v-for="n in 2" :key="n"></div>
+            </div>
+            <div class="spotlight-content">
+              <div class="champion-avatar">
+                <img :src="topContributor.avatar_url" :alt="topContributor.login">
+                <div class="avatar-ring"></div>
+                <div class="avatar-crown">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
+                    <path d="M12 2L15 9H22L16 14L19 21L12 16.5L5 21L8 14L2 9H9L12 2Z"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="champion-info">
+                <span class="champion-badge">TOP CONTRIBUTOR</span>
+                <h3>{{ topContributor.login }}</h3>
+                <div class="champion-stats">
+                  <div class="stat-chip">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>{{ formatNumber(topContributor.contributions) }} COMMITS</span>
+                  </div>
+                  <div class="stat-chip">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                      <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
+                    </svg>
+                    <span>{{ topContributor.prs }} PULLS</span>
+                  </div>
+                </div>
+              </div>
+              <a :href="topContributor.html_url" target="_blank" class="champion-link">
+                <span>VIEW</span>
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                  <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
                 </svg>
-              </div>
+              </a>
             </div>
-            <div class="champion-info">
-              <span class="champion-badge">TOP CONTRIBUTOR</span>
-              <h2>{{ topContributor.login }}</h2>
-              <div class="champion-stats">
-                <div class="stat-chip">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                  </svg>
-                  <span>{{ formatNumber(topContributor.contributions) }} COMMITS</span>
-                </div>
-                <div class="stat-chip">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-                    <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
-                  </svg>
-                  <span>{{ topContributor.prs }} PULLS</span>
-                </div>
-              </div>
+          </div>
+
+          <!-- RIGHT: THIS MONTH CONTRIBUTOR -->
+          <div class="champion-spotlight right" :class="{ 'empty': !thisMonthContributor.login }">
+            <div class="spotlight-bg">
+              <div class="bg-orb" v-for="n in 2" :key="n"></div>
             </div>
-            <a :href="topContributor.html_url" target="_blank" class="champion-link">
-              <span>VIEW PROFILE</span>
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
-                <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
-              </svg>
-            </a>
+            <div class="spotlight-content">
+              <template v-if="thisMonthContributor.login">
+                <div class="champion-avatar">
+                  <img :src="thisMonthContributor.avatar_url" :alt="thisMonthContributor.login">
+                  <div class="avatar-ring"></div>
+                  <div class="avatar-crown">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
+                      <path d="M12 2L14 9H21L16 14L18 21L12 17L6 21L8 14L3 9H10L12 2Z"/>
+                    </svg>
+                  </div>
+                </div>
+                <div class="champion-info">
+                  <span class="champion-badge">THIS MONTH</span>
+                  <h3>{{ thisMonthContributor.login }}</h3>
+                  <div class="champion-stats">
+                    <div class="stat-chip">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                      </svg>
+                      <span>{{ thisMonthContributor.contributions }} COMMITS</span>
+                    </div>
+                    <div class="stat-chip">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                        <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
+                      </svg>
+                      <span>{{ thisMonthContributor.prs || 0 }} PULLS</span>
+                    </div>
+                  </div>
+                </div>
+                <a :href="thisMonthContributor.html_url" target="_blank" class="champion-link">
+                  <span>VIEW</span>
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                    <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+              </template>
+              <template v-else>
+                <div class="empty-state">
+                  <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--accent)" stroke-width="1.5">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  </svg>
+                  <h3>NO ONE</h3>
+                  <p>No contributions this month</p>
+                </div>
+              </template>
+            </div>
           </div>
         </div>
 
-        <!-- Activity Grid - NO EMOJIS, ONLY SVG -->
+        <!-- Activity Grid -->
         <div class="activity-grid">
           <!-- Recent Commits Card -->
           <div class="activity-card">
@@ -416,7 +473,6 @@
                   <span class="item-title">{{ c.login }}</span>
                   <span class="item-meta">
                     <span>{{ formatNumber(c.contributions) }} COMMITS</span>
-                    <span class="role-tag" :class="c.role">{{ c.role }}</span>
                   </span>
                 </div>
                 <div class="item-progress">
@@ -429,7 +485,7 @@
           </div>
         </div>
 
-        <!-- Issues & PRs Grid - ALL SVG ICONS -->
+        <!-- Issues & PRs Grid -->
         <div class="battle-grid">
           <div class="battle-card issues">
             <div class="battle-header">
@@ -610,7 +666,6 @@
                 <th>CONTRIBUTOR</th>
                 <th>COMMITS</th>
                 <th>PULLS</th>
-                <th>ROLE</th>
                 <th>IMPACT</th>
               </tr>
             </thead>
@@ -625,9 +680,6 @@
                 </td>
                 <td class="commits-cell">{{ formatNumber(c.commits) }}</td>
                 <td class="prs-cell">{{ c.prs }}</td>
-                <td class="role-cell">
-                  <span class="role-badge" :class="c.role">{{ c.role }}</span>
-                </td>
                 <td class="impact-cell">
                   <div class="impact-bar">
                     <div class="impact-fill" :style="{ width: c.impact + '%' }"></div>
@@ -831,24 +883,6 @@
         </div>
       </div>
     </main>
-
-    <!-- Toast Notifications - Right Side -->
-    <!-- <div class="toast-container">
-      <div v-for="toast in toasts" :key="toast.id" 
-           class="toast" 
-           :class="toast.type"
-           @click="removeToast(toast.id)">
-        <div class="toast-icon">
-          <svg v-if="toast.type === 'success'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
-            <path d="M20 6L9 17L4 12"/>
-          </svg>
-          <svg v-else viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
-            <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/>
-          </svg>
-        </div>
-        <span class="toast-message">{{ toast.message }}</span>
-      </div>
-    </div> -->
   </div>
 </template>
 
@@ -893,6 +927,14 @@ export default {
       lastCommitDate: null,
       
       topContributor: {
+        login: '',
+        avatar_url: '',
+        html_url: '',
+        contributions: 0,
+        prs: 0
+      },
+      
+      thisMonthContributor: {
         login: '',
         avatar_url: '',
         html_url: '',
@@ -1033,7 +1075,6 @@ export default {
     },
     
     avgMergeTime() {
-      // This would need real data - placeholder
       return '2.4h'
     },
     
@@ -1124,85 +1165,205 @@ export default {
     },
 
     getHeatmapIntensity(week, day) {
-      // Placeholder for heatmap intensity
       return Math.random() * 0.5 + 0.2
     },
 
-    async fetchContributorsFromCommits() {
-      const token = this.getToken()
-      if (!token) return
+async fetchContributorsFromCommits() {
+  const token = this.getToken()
+  if (!token) {
+    console.error('No GitHub token found')
+    return
+  }
+  
+  const owner = 'Wildfiire'
+  const repo = 'docs'
+  const headers = { 
+    'Authorization': `token ${token}`,
+    'Accept': 'application/vnd.github.v3+json'
+  }
+  
+  try {
+    console.log(`Fetching contributors for ${owner}/${repo}...`)
+    
+    let allCommits = []
+    let page = 1
+    let hasMore = true
+    let uniqueAuthors = new Map() // Folosim Map pentru a păstra datele complete
+    
+    // Colectăm toate commit-urile (maxim 10 pagini = 1000 commit-uri)
+    while (hasMore && page <= 10) {
+      const url = `https://api.github.com/repos/${owner}/${repo}/commits?per_page=100&page=${page}&_=${Date.now()}`
+      console.log(`Fetching page ${page}...`)
       
-      const owner = 'Wildfiire'
-      const repo = 'docs'
-      const headers = { 'Authorization': `token ${token}` }
+      const res = await fetch(url, { headers })
       
-      try {
-        let allCommits = []
-        let page = 1
-        let hasMore = true
+      if (res.ok) {
+        const commits = await res.json()
         
-        while (hasMore && page <= 5) {
-          const res = await fetch(
-            `https://api.github.com/repos/${owner}/${repo}/commits?per_page=100&page=${page}&_=${Date.now()}`,
-            { headers }
-          )
-          
-          if (res.ok) {
-            const commits = await res.json()
-            if (commits.length === 0) {
-              hasMore = false
-            } else {
-              allCommits = [...allCommits, ...commits]
-              page++
-            }
-          } else {
-            hasMore = false
-          }
+        if (commits.length === 0) {
+          hasMore = false
+          console.log(`No more commits after page ${page-1}`)
+        } else {
+          allCommits = [...allCommits, ...commits]
+          console.log(`Page ${page}: +${commits.length} commits (total: ${allCommits.length})`)
+          page++
+        }
+      } else if (res.status === 403 && res.headers.get('X-RateLimit-Remaining') === '0') {
+        // Rate limit exceeded
+        const resetTime = res.headers.get('X-RateLimit-Reset')
+        const resetDate = new Date(resetTime * 1000)
+        console.error(`GitHub API rate limit exceeded. Resets at ${resetDate.toLocaleTimeString()}`)
+        hasMore = false
+        this.showToast('Rate limit exceeded. Try again later.', 'error')
+      } else {
+        console.error(`Error fetching commits: ${res.status} ${res.statusText}`)
+        hasMore = false
+      }
+    }
+    
+    console.log(`Total commits fetched: ${allCommits.length}`)
+    
+    // Procesăm fiecare commit și extragem autorii UNICI
+    const thirtyDaysAgo = new Date()
+    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+    
+    // Map pentru toți contributorii (all-time)
+    const allTimeMap = new Map()
+    // Map pentru contributorii din ultimele 30 zile
+    const thisMonthMap = new Map()
+    
+    allCommits.forEach((commit, index) => {
+      // Extragem informațiile autorului din commit
+      let authorInfo = null
+      let authorLogin = null
+      let authorAvatar = null
+      let authorUrl = null
+      let authorName = null
+      let commitDate = new Date(commit.commit.author.date)
+      
+      // Prioritate 1: author (cel care a făcut commit-ul)
+      if (commit.author && commit.author.login) {
+        authorLogin = commit.author.login
+        authorAvatar = commit.author.avatar_url
+        authorUrl = commit.author.html_url
+        authorName = commit.author.login
+      }
+      // Prioritate 2: committer (cel care a adăugat commit-ul în repo)
+      else if (commit.committer && commit.committer.login) {
+        authorLogin = commit.committer.login
+        authorAvatar = commit.committer.avatar_url
+        authorUrl = commit.committer.html_url
+        authorName = commit.committer.login
+      }
+      // Prioritate 3: fallback la datele din commit (fără cont GitHub)
+      else if (commit.commit && commit.commit.author) {
+        authorName = commit.commit.author.name
+        // Creăm un login din nume (lowercase, fără spații)
+        authorLogin = authorName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
+        if (authorLogin.length === 0) {
+          authorLogin = `user-${index}`
+        }
+        authorAvatar = `https://github.com/${authorLogin}.png`
+        authorUrl = `https://github.com/${authorLogin}`
+      }
+      
+      if (authorLogin) {
+        // ALL-TIME counting
+        if (!allTimeMap.has(authorLogin)) {
+          allTimeMap.set(authorLogin, {
+            login: authorLogin,
+            name: authorName || authorLogin,
+            avatar_url: authorAvatar,
+            html_url: authorUrl,
+            contributions: 1
+          })
+        } else {
+          allTimeMap.get(authorLogin).contributions++
         }
         
-        const contributorMap = new Map()
-        
-        allCommits.forEach(commit => {
-          let login = null
-          let avatar = null
-          let html_url = null
-          
-          if (commit.author) {
-            login = commit.author.login
-            avatar = commit.author.avatar_url
-            html_url = commit.author.html_url
-          } else if (commit.committer) {
-            login = commit.committer.login
-            avatar = commit.committer.avatar_url
-            html_url = commit.committer.html_url
+        // THIS MONTH counting (ultimele 30 zile)
+        if (commitDate > thirtyDaysAgo) {
+          if (!thisMonthMap.has(authorLogin)) {
+            thisMonthMap.set(authorLogin, {
+              login: authorLogin,
+              name: authorName || authorLogin,
+              avatar_url: authorAvatar,
+              html_url: authorUrl,
+              contributions: 1
+            })
           } else {
-            login = commit.commit.author.name?.replace(/\s+/g, '').toLowerCase()
-            avatar = `https://github.com/${login}.png`
-            html_url = `https://github.com/${login}`
+            thisMonthMap.get(authorLogin).contributions++
           }
-          
-          if (login) {
-            if (!contributorMap.has(login)) {
-              contributorMap.set(login, {
-                login: login,
-                avatar_url: avatar,
-                html_url: html_url,
-                contributions: 1
-              })
-            } else {
-              contributorMap.get(login).contributions++
-            }
-          }
-        })
-        
-        const contributorsFromCommits = Array.from(contributorMap.values())
-        this.repoStats.contributors = contributorsFromCommits.length
-        this.processContributorsData(contributorsFromCommits)
-        
-      } catch (e) {
-        console.error('Error fetching contributors:', e)
+        }
       }
-    },
+    })
+    
+    // Convertim Map-urile în array-uri
+    const allTimeContributors = Array.from(allTimeMap.values())
+    const thisMonthContributors = Array.from(thisMonthMap.values())
+    
+    // Sortăm descrescător după contribuții
+    allTimeContributors.sort((a, b) => b.contributions - a.contributions)
+    thisMonthContributors.sort((a, b) => b.contributions - a.contributions)
+    
+    // Actualizăm stats
+    this.repoStats.contributors = allTimeContributors.length
+    this.repoStats.totalCommits = allCommits.length
+    
+    console.log(`Found ${allTimeContributors.length} unique contributors (all-time)`)
+    console.log(`Found ${thisMonthContributors.length} contributors in last 30 days`)
+    
+    // Procesăm toți contributorii pentru tabele
+    this.processContributorsData(allTimeContributors)
+    
+    // Setăm TOP CONTRIBUTOR (all-time)
+    if (allTimeContributors.length > 0) {
+      const top = allTimeContributors[0]
+      this.topContributor = {
+        login: top.login,
+        avatar_url: top.avatar_url,
+        html_url: top.html_url,
+        contributions: top.contributions,
+        prs: Math.floor(top.contributions * 0.15) // Estimare PR-uri (15% din commit-uri)
+      }
+      console.log(`Top contributor (all-time): ${top.login} with ${top.contributions} commits`)
+    }
+    
+    // Setăm THIS MONTH CONTRIBUTOR
+    if (thisMonthContributors.length > 0) {
+      const topMonth = thisMonthContributors[0]
+      this.thisMonthContributor = {
+        login: topMonth.login,
+        avatar_url: topMonth.avatar_url,
+        html_url: topMonth.html_url,
+        contributions: topMonth.contributions,
+        prs: Math.floor(topMonth.contributions * 0.15)
+      }
+      console.log(`Top contributor (this month): ${topMonth.login} with ${topMonth.contributions} commits`)
+    } else {
+      this.thisMonthContributor = { 
+        login: '', 
+        avatar_url: '', 
+        html_url: '', 
+        contributions: 0, 
+        prs: 0 
+      }
+      console.log('No contributors in the last 30 days')
+    }
+    
+    // Pentru topContributors (lista scurtă de pe dashboard)
+    this.topContributors = allTimeContributors.slice(0, 10).map(c => ({
+      login: c.login,
+      avatar_url: c.avatar_url,
+      contributions: c.contributions,
+      html_url: c.html_url
+    }))
+    
+  } catch (e) {
+    console.error('Error in fetchContributorsFromCommits:', e)
+    this.showToast('Error fetching contributors data', 'error')
+  }
+},
 
     processContributorsData(allContributors) {
       if (!allContributors || allContributors.length === 0) return
@@ -1217,8 +1378,7 @@ export default {
         login: c.login,
         avatar_url: c.avatar_url,
         contributions: c.contributions,
-        html_url: c.html_url,
-        role: c.contributions > 100 ? 'core' : c.contributions > 50 ? 'regular' : 'contributor'
+        html_url: c.html_url
       }))
       
       if (sorted.length > 0) {
@@ -1238,7 +1398,6 @@ export default {
         html_url: c.html_url,
         commits: c.contributions,
         prs: Math.floor(c.contributions * 0.3),
-        role: c.contributions > 100 ? 'core' : c.contributions > 50 ? 'regular' : 'contributor',
         impact: maxCommits ? (c.contributions / maxCommits) * 100 : 0
       }))
     },
@@ -2718,18 +2877,27 @@ export default {
   flex-shrink: 0;
 }
 
-/* Champion Spotlight */
+/* Champion Split - NEW */
+.champion-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  width: 100%;
+}
+
 .champion-spotlight {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 32px;
+  padding: 24px;
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
+  min-width: 0;
 }
 
-.champion-spotlight:hover {
+.champion-spotlight.left:hover,
+.champion-spotlight.right:hover:not(.empty) {
   border-color: var(--accent);
   box-shadow: 0 12px 32px var(--shadow-color);
 }
@@ -2742,20 +2910,19 @@ export default {
 
 .bg-orb {
   position: absolute;
-  width: 300px;
-  height: 300px;
+  width: 200px;
+  height: 200px;
   background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
   border-radius: 50%;
   animation: orbFloat 20s infinite alternate;
 }
 
-.bg-orb:nth-child(1) { top: -100px; right: -100px; animation-delay: 0s; }
-.bg-orb:nth-child(2) { bottom: -100px; left: -100px; animation-delay: -5s; }
-.bg-orb:nth-child(3) { top: 50%; left: 50%; transform: translate(-50%, -50%); animation-delay: -10s; }
+.bg-orb:nth-child(1) { top: -50px; right: -50px; animation-delay: 0s; }
+.bg-orb:nth-child(2) { bottom: -50px; left: -50px; animation-delay: -5s; }
 
 @keyframes orbFloat {
   0% { transform: translate(0, 0) scale(1); }
-  100% { transform: translate(50px, 30px) scale(1.2); }
+  100% { transform: translate(30px, 20px) scale(1.2); }
 }
 
 .spotlight-content {
@@ -2763,14 +2930,15 @@ export default {
   z-index: 1;
   display: flex;
   align-items: center;
-  gap: 32px;
+  gap: 20px;
   flex-wrap: wrap;
+  height: 100%;
 }
 
 .champion-avatar {
   position: relative;
-  width: 96px;
-  height: 96px;
+  width: 80px;
+  height: 80px;
   flex-shrink: 0;
 }
 
@@ -2803,7 +2971,7 @@ export default {
   position: absolute;
   top: -12px;
   right: -8px;
-  filter: drop-shadow(0 4px 8px gold);
+  filter: drop-shadow(0 4px 8px rgba(255,215,0,0.5));
   transform: rotate(15deg);
   animation: crownWobble 2s ease infinite;
 }
@@ -2815,43 +2983,43 @@ export default {
 
 .champion-info {
   flex: 1;
-  min-width: 200px;
+  min-width: 150px;
 }
 
 .champion-badge {
   display: inline-block;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--accent);
   background: var(--accent-glow);
-  padding: 4px 12px;
+  padding: 4px 10px;
   border-radius: 30px;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   letter-spacing: 0.5px;
   white-space: nowrap;
 }
 
-.champion-info h2 {
-  font-size: clamp(20px, 4vw, 28px);
+.champion-info h3 {
+  font-size: clamp(16px, 3vw, 20px);
   font-weight: 600;
   color: var(--text-primary);
-  margin-bottom: 12px;
+  margin-bottom: 8px;
   word-break: break-word;
 }
 
 .champion-stats {
   display: flex;
-  gap: 16px;
+  gap: 12px;
   flex-wrap: wrap;
 }
 
 .stat-chip {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 6px 12px;
+  gap: 4px;
+  padding: 4px 10px;
   background: var(--bg-tertiary);
   border-radius: 30px;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-secondary);
   white-space: nowrap;
 }
@@ -2864,21 +3032,47 @@ export default {
 .champion-link {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 24px;
+  gap: 6px;
+  padding: 8px 16px;
   background: var(--accent);
   color: #fff;
   text-decoration: none;
   border-radius: 30px;
   font-weight: 500;
-  font-size: 12px;
+  font-size: 11px;
   transition: all 0.2s ease;
   white-space: nowrap;
+  margin-left: auto;
 }
 
 .champion-link:hover {
   transform: translateX(4px);
   box-shadow: 0 8px 20px var(--accent-glow);
+}
+
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  padding: 20px;
+  color: var(--text-muted);
+}
+
+.empty-state svg {
+  margin-bottom: 12px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-size: 18px;
+  margin-bottom: 4px;
+}
+
+.empty-state p {
+  font-size: 11px;
 }
 
 /* Activity Grid */
@@ -3060,19 +3254,6 @@ export default {
   border-radius: 2px;
   transition: width 0.3s ease;
 }
-
-.role-tag {
-  font-size: 8px;
-  padding: 2px 6px;
-  border-radius: 10px;
-  text-transform: uppercase;
-  font-weight: 600;
-  white-space: nowrap;
-}
-
-.role-tag.core { background: #ffd700; color: #000; }
-.role-tag.regular { background: var(--accent); color: #fff; }
-.role-tag.contributor { background: #3498db; color: #fff; }
 
 /* Battle Grid */
 .battle-grid {
@@ -3463,25 +3644,10 @@ export default {
   padding: 32px;
   text-align: center;
   transition: all 0.3s ease;
-  min-width: 0;
-}
-
-.header-stat-card:hover {
-  transform: translateY(-4px);
-  border-color: var(--accent);
-  box-shadow: 0 8px 24px var(--shadow-color);
-}
-
-.header-stat-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 16px;
-  padding: 32px;
-  text-align: center;
-  transition: all 0.3s ease;
   position: relative;
   z-index: 1;
   overflow: hidden;
+  min-width: 0;
 }
 
 .header-stat-card::before {
@@ -3506,21 +3672,18 @@ export default {
   position: relative;
   z-index: 2;
   text-shadow: 0 2px 4px var(--shadow-color);
-}
-
-.header-stat-card .stat-label {
-  font-size: 14px;
-  color: var(--text-muted);
-  letter-spacing: 0.5px;
-  position: relative;
-  z-index: 2;
-  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .header-stat-card .stat-label {
   font-size: 12px;
   color: var(--text-muted);
   letter-spacing: 0.5px;
+  position: relative;
+  z-index: 2;
+  font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -3595,24 +3758,6 @@ export default {
   font-weight: 500;
   color: var(--text-primary);
 }
-
-.role-cell {
-  text-align: center;
-}
-
-.role-badge {
-  display: inline-block;
-  padding: 4px 12px;
-  border-radius: 30px;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-
-.role-badge.core { background: #ffd700; color: #000; }
-.role-badge.regular { background: var(--accent); color: #fff; }
-.role-badge.contributor { background: #3498db; color: #fff; }
 
 .impact-cell {
   min-width: 120px;
@@ -4112,72 +4257,11 @@ export default {
   transform: scale(1.2);
 }
 
-/* ===== TOAST NOTIFICATIONS ===== */
-.toast-container {
-  position: fixed;
-  top: 80px;
-  right: 24px;
-  z-index: 2000;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-  pointer-events: none;
-  max-width: 320px;
-  width: auto;
-}
-
-.toast {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
-  padding: 12px 16px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  box-shadow: 0 8px 24px var(--shadow-color);
-  animation: slideRight 0.3s ease;
-  pointer-events: auto;
-  cursor: pointer;
-  border-left: 4px solid transparent;
-}
-
-.toast.success { border-left-color: var(--success); }
-.toast.error { border-left-color: var(--danger); }
-
-@keyframes slideRight {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
-}
-
-.toast-icon {
-  width: 24px;
-  height: 24px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-
-.toast.success .toast-icon {
-  color: var(--success);
-}
-
-.toast.error .toast-icon {
-  color: var(--danger);
-}
-
-.toast-message {
-  flex: 1;
-  font-size: 12px;
-  color: var(--text-primary);
-  word-break: break-word;
-}
-
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1200px) {
   .metrics-hero { grid-template-columns: repeat(2, 1fr); }
   .charts-section { grid-template-columns: 1fr; }
+  .champion-split { grid-template-columns: 1fr; }
   .activity-grid { grid-template-columns: 1fr; }
   .battle-grid { grid-template-columns: 1fr; }
   .analytics-grid { grid-template-columns: 1fr; }
@@ -4209,7 +4293,6 @@ export default {
   .live-indicator { display: none; }
   .file-search { width: 100%; }
   .theme-toggle-btn { top: 10px; right: 10px; }
-  .toast-container { top: 70px; right: 10px; left: 10px; max-width: none; }
   .audit-header { flex-direction: column; align-items: flex-start; gap: 12px; }
   .analytics-header { flex-direction: column; align-items: flex-start; gap: 12px; }
   .pr-metrics { grid-template-columns: 1fr; }
@@ -4221,17 +4304,13 @@ export default {
     text-align: center;
   }
   
-  .champion-content {
+  .champion-spotlight .spotlight-content {
     flex-direction: column;
     text-align: center;
   }
   
   .champion-stats {
     justify-content: center;
-  }
-  
-  .spotlight-content {
-    flex-direction: column;
   }
   
   .header-left {
@@ -4284,9 +4363,7 @@ h1, h2, h3, p, span, .nav-item, .metric-value, .stat-value {
 /* Fix absolute positioning */
 .avatar-crown,
 .brand-pulse,
-.nav-glow,
-.metric-glow,
-.item-glow {
+.nav-glow {
   position: absolute;
   pointer-events: none;
 }
@@ -4297,7 +4374,6 @@ h1, h2, h3, p, span, .nav-item, .metric-value, .stat-value {
 .battle-item,
 .repo-stat-item,
 .timeline-item,
-.champion-content,
 .spotlight-content,
 .card-header,
 .battle-header,
@@ -4422,290 +4498,283 @@ svg {
 
 /* ===== SLIGHT SIZE REDUCTION ===== */
 .wildfire-docs {
-  font-size: 12.5px; /* Reduced from 13px */
+  font-size: 12.5px;
 }
 
 .docs-main {
-  padding: 20px 28px; /* Reduced from 24px 32px */
+  padding: 20px 28px;
 }
 
 .metric-card {
-  padding: 20px; /* Reduced from 24px */
+  padding: 20px;
 }
 
 .metric-icon {
-  width: 48px; /* Reduced from 56px */
+  width: 48px;
   height: 48px;
 }
 
 .metric-icon svg {
-  width: 26px; /* Reduced from 32px */
+  width: 26px;
   height: 26px;
 }
 
 .metric-value {
-  font-size: 24px; /* Reduced from 28px */
+  font-size: 24px;
 }
 
 .chart-card,
 .activity-card,
 .battle-card {
-  padding: 18px; /* Reduced from 20px */
+  padding: 18px;
 }
 
 .chart-wrapper {
-  height: 180px; /* Reduced from 200px */
+  height: 180px;
 }
 
 .footer-stat .stat-value {
-  font-size: 16px; /* Reduced from 18px */
+  font-size: 16px;
 }
 
 .repo-stat-item {
-  padding: 10px; /* Reduced from 12px */
-  gap: 10px; /* Reduced from 12px */
+  padding: 10px;
+  gap: 10px;
 }
 
 .repo-stat-item svg {
-  width: 18px; /* Reduced from 20px */
+  width: 18px;
   height: 18px;
 }
 
 .stat-info .stat-value {
-  font-size: 15px; /* Reduced from 16px */
+  font-size: 15px;
 }
 
 .stat-info .stat-label {
-  font-size: 8px; /* Reduced from 9px */
+  font-size: 8px;
 }
 
 .champion-spotlight {
-  padding: 28px; /* Reduced from 32px */
+  padding: 20px;
 }
 
 .champion-avatar {
-  width: 84px; /* Reduced from 96px */
-  height: 84px;
+  width: 70px;
+  height: 70px;
 }
 
-.champion-info h2 {
-  font-size: 24px; /* Reduced from 28px */
+.champion-info h3 {
+  font-size: 18px;
 }
 
 .champion-stats {
-  gap: 12px; /* Reduced from 16px */
+  gap: 10px;
 }
 
 .stat-chip {
-  padding: 4px 10px; /* Reduced from 6px 12px */
-  font-size: 11px; /* Reduced from 12px */
+  padding: 3px 8px;
+  font-size: 10px;
 }
 
 .feed-item {
-  padding: 8px 10px; /* Reduced from 10px */
-  gap: 10px; /* Reduced from 12px */
+  padding: 8px 10px;
+  gap: 10px;
 }
 
 .item-avatar {
-  width: 26px; /* Reduced from 28px */
+  width: 26px;
   height: 26px;
 }
 
 .item-title {
-  font-size: 11px; /* Reduced from 12px */
+  font-size: 11px;
 }
 
 .item-meta {
-  font-size: 9px; /* Reduced from 10px */
+  font-size: 9px;
 }
 
 .battle-item {
-  padding: 8px 10px; /* Reduced from 10px */
-  gap: 10px; /* Reduced from 12px */
+  padding: 8px 10px;
+  gap: 10px;
 }
 
 .battle-item img {
-  width: 22px; /* Reduced from 24px */
+  width: 22px;
   height: 22px;
 }
 
 .battle-title {
-  font-size: 12px; /* Reduced from 13px */
+  font-size: 12px;
 }
 
 .battle-meta {
-  font-size: 8px; /* Reduced from 9px */
+  font-size: 8px;
 }
 
 .header-stat-card {
-  padding: 28px; /* Reduced from 32px */
+  padding: 28px;
 }
 
 .header-stat-card .stat-number {
-  font-size: 38px; /* Reduced from 42px */
+  font-size: 38px;
 }
 
 .header-stat-card .stat-label {
-  font-size: 11px; /* Reduced from 12px */
+  font-size: 11px;
 }
 
 .header-left h1 {
-  font-size: 17px; /* Reduced from 18px */
+  font-size: 17px;
 }
 
 .action-btn {
-  padding: 6px 14px; /* Reduced from 8px 16px */
-  font-size: 11px; /* Reduced from 11px (kept same) */
-  gap: 5px; /* Reduced from 6px */
+  padding: 6px 14px;
+  font-size: 11px;
+  gap: 5px;
 }
 
 .battle-count {
-  padding: 3px 10px; /* Reduced from 4px 12px */
-  font-size: 11px; /* Reduced from 12px */
+  padding: 3px 10px;
+  font-size: 11px;
 }
 
 .battle-link {
-  padding: 8px; /* Reduced from 10px */
-  font-size: 10px; /* Reduced from 11px */
+  padding: 8px;
+  font-size: 10px;
 }
 
 .timeline-item {
-  padding: 6px 10px; /* Reduced from 8px 12px */
-  gap: 6px; /* Reduced from 8px */
-  font-size: 10px; /* Reduced from 11px */
+  padding: 6px 10px;
+  gap: 6px;
+  font-size: 10px;
 }
 
 .file-search {
-  padding: 6px 14px; /* Reduced from 8px 16px */
+  padding: 6px 14px;
 }
 
 .file-search input {
-  font-size: 12px; /* Reduced from 13px */
+  font-size: 12px;
 }
 
 .tree-header {
-  padding: 14px; /* Reduced from 16px */
-  font-size: 11px; /* Reduced from 12px */
+  padding: 14px;
+  font-size: 11px;
 }
 
 .file-count {
-  padding: 3px 6px; /* Reduced from 4px 8px */
-  font-size: 9px; /* Reduced from 10px */
+  padding: 3px 6px;
+  font-size: 9px;
 }
 
 .preview-header {
-  padding: 14px 18px; /* Reduced from 16px 20px */
+  padding: 14px 18px;
 }
 
 .preview-path {
-  font-size: 12px; /* Reduced from 13px */
+  font-size: 12px;
 }
 
 .preview-edit {
-  padding: 4px 10px; /* Reduced from 6px 12px */
-  font-size: 10px; /* Reduced from 11px */
+  padding: 4px 10px;
+  font-size: 10px;
 }
 
 .file-meta {
-  gap: 20px; /* Reduced from 24px */
-  font-size: 10px; /* Reduced from 11px */
+  gap: 20px;
+  font-size: 10px;
 }
 
 .preview-content pre {
-  font-size: 12px; /* Reduced from 13px */
+  font-size: 12px;
 }
 
 .audit-header,
 .analytics-header,
 .files-header {
-  padding: 18px; /* Reduced from 20px */
+  padding: 18px;
 }
 
 .audit-title h2,
 .analytics-title h2 {
-  font-size: 17px; /* Reduced from 18px */
+  font-size: 17px;
 }
 
 .filter-btn,
 .period-btn {
-  padding: 5px 10px; /* Reduced from 6px 12px/16px */
-  font-size: 10px; /* Reduced from 11px */
+  padding: 5px 10px;
+  font-size: 10px;
 }
 
 .audit-count {
-  padding: 3px 10px; /* Reduced from 4px 12px */
-  font-size: 10px; /* Reduced from 11px */
+  padding: 3px 10px;
+  font-size: 10px;
 }
 
 .event-card {
-  padding: 14px; /* Reduced from 16px */
+  padding: 14px;
 }
 
 .event-badge {
-  padding: 3px 6px; /* Reduced from 4px 8px */
-  font-size: 9px; /* Reduced from 10px */
+  padding: 3px 6px;
+  font-size: 9px;
 }
 
 .event-time {
-  font-size: 9px; /* Reduced from 10px */
+  font-size: 9px;
 }
 
 .event-message {
-  font-size: 12px; /* Reduced from 13px */
+  font-size: 12px;
 }
 
 .event-meta {
-  font-size: 10px; /* Reduced from 11px */
+  font-size: 10px;
 }
 
 .event-footer {
-  font-size: 9px; /* Reduced from 10px */
-  gap: 10px; /* Reduced from 12px */
+  font-size: 9px;
+  gap: 10px;
 }
 
 .card-header h3 {
-  font-size: 12px; /* Reduced from 13px/14px */
+  font-size: 12px;
 }
 
 .card-badge {
-  padding: 2px 6px; /* Reduced from 2px 8px */
-  font-size: 9px; /* Reduced from 10px */
+  padding: 2px 6px;
+  font-size: 9px;
 }
 
 .pr-metric {
-  padding: 14px; /* Reduced from 16px */
+  padding: 14px;
 }
 
 .pr-metric .metric-value {
-  font-size: 22px; /* Reduced from 24px */
+  font-size: 22px;
 }
 
 .pr-metric .metric-label {
-  font-size: 9px; /* Reduced from 10px */
+  font-size: 9px;
 }
 
 .lang-info {
-  gap: 6px; /* Reduced from 8px */
-  min-width: 100px; /* Reduced from 120px */
+  gap: 6px;
+  min-width: 100px;
 }
 
 .lang-name {
-  font-size: 11px; /* Reduced from 12px */
+  font-size: 11px;
 }
 
 .lang-percent {
-  font-size: 10px; /* Reduced from 11px */
+  font-size: 10px;
 }
 
 .lang-bytes {
-  font-size: 9px; /* Reduced from 10px */
-  min-width: 50px; /* Reduced from 60px */
+  font-size: 9px;
+  min-width: 50px;
 }
-
-.toast {
-  padding: 10px 14px; /* Reduced from 12px 16px */
-  font-size: 11px; /* Reduced from 12px */
-  gap: 10px; /* Reduced from 12px */
-}
-
 </style>
