@@ -320,103 +320,104 @@
         </div>
 
         <!-- Champion Split - TOP CONTRIBUTOR & THIS MONTH -->
-        <div class="champion-split">
-          <!-- LEFT: TOP CONTRIBUTOR (All Time) -->
-          <div class="champion-spotlight left" v-if="topContributor.login">
-            <div class="spotlight-bg">
-              <div class="bg-orb" v-for="n in 2" :key="n"></div>
-            </div>
-            <div class="spotlight-content">
-              <div class="champion-avatar">
-                <img :src="topContributor.avatar_url" :alt="topContributor.login">
-                <div class="avatar-ring"></div>
-                <div class="avatar-crown">
-                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
-                    <path d="M12 2L15 9H22L16 14L19 21L12 16.5L5 21L8 14L2 9H9L12 2Z"/>
-                  </svg>
-                </div>
-              </div>
-              <div class="champion-info">
-                <span class="champion-badge">TOP CONTRIBUTOR</span>
-                <h3>{{ topContributor.login }}</h3>
-                <div class="champion-stats">
-                  <div class="stat-chip">
-                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                    </svg>
-                    <span>{{ formatNumber(topContributor.contributions) }} COMMITS</span>
-                  </div>
-                  <div class="stat-chip">
-                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                      <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
-                    </svg>
-                    <span>{{ topContributor.prs }} PULLS</span>
-                  </div>
-                </div>
-              </div>
-              <a :href="topContributor.html_url" target="_blank" class="champion-link">
-                <span>VIEW</span>
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                  <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
-                </svg>
-              </a>
-            </div>
+<!-- Champion Split - TOP CONTRIBUTOR & THIS MONTH -->
+<div class="champion-split">
+  <!-- LEFT: TOP CONTRIBUTOR (All Time) - Layout normal -->
+  <div class="champion-spotlight left" v-if="topContributor.login">
+    <div class="spotlight-bg">
+      <div class="bg-orb" v-for="n in 2" :key="n"></div>
+    </div>
+    <div class="spotlight-content normal-layout">
+      <div class="champion-avatar">
+        <img :src="topContributor.avatar_url" :alt="topContributor.login">
+        <div class="avatar-ring"></div>
+        <div class="avatar-crown">
+          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
+            <path d="M12 2L15 9H22L16 14L19 21L12 16.5L5 21L8 14L2 9H9L12 2Z"/>
+          </svg>
+        </div>
+      </div>
+      <div class="champion-info">
+        <span class="champion-badge">TOP CONTRIBUTOR</span>
+        <h3>{{ topContributor.login }}</h3>
+        <div class="champion-stats">
+          <div class="stat-chip">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+            </svg>
+            <span>{{ formatNumber(topContributor.contributions) }} COMMITS</span>
           </div>
+          <div class="stat-chip">
+            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+              <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
+            </svg>
+            <span>{{ topContributor.prs }} PULLS</span>
+          </div>
+        </div>
+      </div>
+      <a :href="topContributor.html_url" target="_blank" class="champion-link">
+        <span>VIEW</span>
+        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+          <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+        </svg>
+      </a>
+    </div>
+  </div>
 
-          <!-- RIGHT: THIS MONTH CONTRIBUTOR -->
-          <div class="champion-spotlight right" :class="{ 'empty': !thisMonthContributor.login }">
-            <div class="spotlight-bg">
-              <div class="bg-orb" v-for="n in 2" :key="n"></div>
+  <!-- RIGHT: THIS MONTH CONTRIBUTOR - Layout în oglindă -->
+  <div class="champion-spotlight right" :class="{ 'empty': !thisMonthContributor.login }">
+    <div class="spotlight-bg">
+      <div class="bg-orb" v-for="n in 2" :key="n"></div>
+    </div>
+    <div class="spotlight-content mirror-layout">
+      <template v-if="thisMonthContributor.login">
+        <a :href="thisMonthContributor.html_url" target="_blank" class="champion-link mirror">
+          <span>VIEW</span>
+          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+            <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <div class="champion-info mirror">
+          <span class="champion-badge">THIS MONTH</span>
+          <h3>{{ thisMonthContributor.login }}</h3>
+          <div class="champion-stats">
+            <div class="stat-chip">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
+              </svg>
+              <span>{{ thisMonthContributor.prs || 0 }} PULLS</span>
             </div>
-            <div class="spotlight-content">
-              <template v-if="thisMonthContributor.login">
-                <div class="champion-avatar">
-                  <img :src="thisMonthContributor.avatar_url" :alt="thisMonthContributor.login">
-                  <div class="avatar-ring"></div>
-                  <div class="avatar-crown">
-                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
-                      <path d="M12 2L14 9H21L16 14L18 21L12 17L6 21L8 14L3 9H10L12 2Z"/>
-                    </svg>
-                  </div>
-                </div>
-                <div class="champion-info">
-                  <span class="champion-badge">THIS MONTH</span>
-                  <h3>{{ thisMonthContributor.login }}</h3>
-                  <div class="champion-stats">
-                    <div class="stat-chip">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                      </svg>
-                      <span>{{ thisMonthContributor.contributions }} COMMITS</span>
-                    </div>
-                    <div class="stat-chip">
-                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                        <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
-                      </svg>
-                      <span>{{ thisMonthContributor.prs || 0 }} PULLS</span>
-                    </div>
-                  </div>
-                </div>
-                <a :href="thisMonthContributor.html_url" target="_blank" class="champion-link">
-                  <span>VIEW</span>
-                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                    <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
-                  </svg>
-                </a>
-              </template>
-              <template v-else>
-                <div class="empty-state">
-                  <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--accent)" stroke-width="1.5">
-                    <circle cx="12" cy="8" r="4"/>
-                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                  </svg>
-                  <h3>NO ONE</h3>
-                  <p>No contributions this month</p>
-                </div>
-              </template>
+            <div class="stat-chip">
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+              </svg>
+              <span>{{ thisMonthContributor.contributions }} COMMITS</span>
             </div>
           </div>
         </div>
+        <div class="champion-avatar mirror">
+          <img :src="thisMonthContributor.avatar_url" :alt="thisMonthContributor.login">
+          <div class="avatar-ring"></div>
+          <div class="avatar-crown">
+            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
+              <path d="M12 2L14 9H21L16 14L18 21L12 17L6 21L8 14L3 9H10L12 2Z"/>
+            </svg>
+          </div>
+        </div>
+      </template>
+      <template v-else>
+        <div class="empty-state mirror">
+          <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--accent)" stroke-width="1.5">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          </svg>
+          <h3>NO ONE</h3>
+          <p>No contributions this month</p>
+        </div>
+      </template>
+    </div>
+  </div>
+</div>
 
         <!-- Activity Grid -->
         <div class="activity-grid">
@@ -452,37 +453,37 @@
           </div>
 
           <!-- Top Contributors Card -->
-          <div class="activity-card">
-            <div class="card-header">
-              <div class="header-left">
-                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                </svg>
-                <h3>TOP CONTRIBUTORS</h3>
-              </div>
-              <span class="card-badge">TOP 10</span>
-            </div>
-            <div class="card-feed">
-              <div v-for="(c, index) in topContributors.slice(0,5)" :key="c.login" 
-                   class="feed-item" 
-                   @click="openProfile(c.login)"
-                   :style="{ animationDelay: index * 0.1 + 's' }">
-                <span class="item-rank" :class="'rank-' + (index + 1)">{{ index + 1 }}</span>
-                <img :src="c.avatar_url" :alt="c.login" class="item-avatar">
-                <div class="item-content">
-                  <span class="item-title">{{ c.login }}</span>
-                  <span class="item-meta">
-                    <span>{{ formatNumber(c.contributions) }} COMMITS</span>
-                  </span>
+              <div class="activity-card">
+                <div class="card-header">
+                  <div class="header-left">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <h3>TOP CONTRIBUTORS</h3>
+                  </div>
+                  <span class="card-badge">TOP 5</span>
                 </div>
-                <div class="item-progress">
-                  <div class="progress-bar">
-                    <div class="progress-fill" :style="{ width: (c.contributions / topContributors[0].contributions * 100) + '%' }"></div>
+                <div class="card-feed">
+                  <div v-for="(c, index) in topContributors.slice(0,5)" :key="c.login" 
+                      class="feed-item" 
+                      @click="openProfile(c.login)"
+                      :style="{ animationDelay: index * 0.1 + 's' }">
+                    <span class="item-rank" :class="'rank-' + (index + 1)">{{ index + 1 }}</span>
+                    <img :src="c.avatar_url" :alt="c.login" class="item-avatar">
+                    <div class="item-content">
+                      <span class="item-title">{{ c.login }}</span>
+                      <span class="item-meta">
+                        <span>{{ formatNumber(c.contributions) }} COMMITS</span>
+                      </span>
+                    </div>
+                    <div class="item-progress">
+                      <div class="progress-bar">
+                        <div class="progress-fill" :style="{ width: (c.contributions / topContributors[0].contributions * 100) + '%' }"></div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </div>
         </div>
 
         <!-- Issues & PRs Grid -->
@@ -2877,7 +2878,7 @@ async fetchContributorsFromCommits() {
   flex-shrink: 0;
 }
 
-/* Champion Split - NEW */
+/* Champion Split - Layout în oglindă */
 .champion-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2935,11 +2936,70 @@ async fetchContributorsFromCommits() {
   height: 100%;
 }
 
+/* Layout normal (stânga) */
+.spotlight-content.normal-layout {
+  display: flex;
+  flex-direction: row;
+}
+
+.spotlight-content.normal-layout .champion-avatar {
+  order: 1;
+}
+
+.spotlight-content.normal-layout .champion-info {
+  order: 2;
+  text-align: left;
+}
+
+.spotlight-content.normal-layout .champion-stats {
+  justify-content: flex-start;
+}
+
+.spotlight-content.normal-layout .champion-link {
+  order: 3;
+  margin-left: auto;
+}
+
+/* Layout în oglindă (dreapta) */
+.spotlight-content.mirror-layout {
+  display: flex;
+  flex-direction: row;
+}
+
+.spotlight-content.mirror-layout .champion-avatar.mirror {
+  order: 3;
+}
+
+.spotlight-content.mirror-layout .champion-info.mirror {
+  order: 2;
+  text-align: right;
+}
+
+.spotlight-content.mirror-layout .champion-stats {
+  justify-content: flex-end;
+}
+
+.spotlight-content.mirror-layout .champion-link.mirror {
+  order: 1;
+  margin-right: auto;
+  margin-left: 0;
+}
+
+/* Empty state pentru mirror */
+.empty-state.mirror {
+  order: 2;
+  width: 100%;
+}
+
 .champion-avatar {
   position: relative;
   width: 80px;
   height: 80px;
   flex-shrink: 0;
+}
+
+.champion-avatar.mirror {
+  margin-left: 0;
 }
 
 .champion-avatar img {
@@ -2986,6 +3046,10 @@ async fetchContributorsFromCommits() {
   min-width: 150px;
 }
 
+.champion-info.mirror {
+  text-align: right;
+}
+
 .champion-badge {
   display: inline-block;
   font-size: 10px;
@@ -3010,6 +3074,10 @@ async fetchContributorsFromCommits() {
   display: flex;
   gap: 12px;
   flex-wrap: wrap;
+}
+
+.champion-info.mirror .champion-stats {
+  justify-content: flex-end;
 }
 
 .stat-chip {
@@ -3042,12 +3110,24 @@ async fetchContributorsFromCommits() {
   font-size: 11px;
   transition: all 0.2s ease;
   white-space: nowrap;
+}
+
+.champion-link.normal {
   margin-left: auto;
+}
+
+.champion-link.mirror {
+  margin-right: auto;
+  margin-left: 0;
 }
 
 .champion-link:hover {
   transform: translateX(4px);
   box-shadow: 0 8px 20px var(--accent-glow);
+}
+
+.champion-link.mirror:hover {
+  transform: translateX(-4px);
 }
 
 .empty-state {
@@ -4269,6 +4349,10 @@ async fetchContributorsFromCommits() {
   .contributors-header { grid-template-columns: 1fr; }
   .file-layout { grid-template-columns: 1fr; }
   .file-tree-panel { max-height: 400px; }
+  
+  .spotlight-content.mirror-layout {
+    flex-direction: row;
+  }
 }
 
 @media (max-width: 900px) {
@@ -4296,6 +4380,33 @@ async fetchContributorsFromCommits() {
   .audit-header { flex-direction: column; align-items: flex-start; gap: 12px; }
   .analytics-header { flex-direction: column; align-items: flex-start; gap: 12px; }
   .pr-metrics { grid-template-columns: 1fr; }
+  
+  .spotlight-content.normal-layout,
+  .spotlight-content.mirror-layout {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .champion-info.mirror {
+    text-align: center;
+  }
+  
+  .champion-info.mirror .champion-stats {
+    justify-content: center;
+  }
+  
+  .champion-link.mirror {
+    margin-right: 0;
+  }
+  
+  .champion-link.normal,
+  .champion-link.mirror {
+    margin: 0 auto;
+  }
+  
+  .champion-avatar.mirror {
+    margin: 0 auto;
+  }
 }
 
 @media (max-width: 500px) {
