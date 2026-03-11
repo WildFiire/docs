@@ -242,7 +242,7 @@
     </div>
     
     <div class="updates-footer">
-      <a href="/informatii/about" class="view-all-link">
+      <a href="/updates_wiki/updateswiki" class="view-all-link">
         <span>Vezi toate noutățile</span>
         <span class="arrow">
           <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">

@@ -611,7 +611,7 @@
               </svg>
             </span>
           </a>
-          <a href="/informatii/contributing" class="cta-button secondary clickable-button">
+          <a href="/updates_wiki/contribute" class="cta-button secondary clickable-button">
             <span>
               <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
                 <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
@@ -1067,7 +1067,7 @@ export default {
     },
 
     openContributing() {
-      window.location.href = '/informatii/contributing';
+      window.location.href = '/updates_wiki/contribute';
     },
 
     getLabelColor(label) {
