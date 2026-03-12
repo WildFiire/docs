@@ -35,7 +35,7 @@ outline: deep
   
   <!-- TITLU CU GRADIENT ANIMAT -->
   <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;" class="orbitron-font">
-    Intrebari Frecvente
+    Intrebari Frecventeo
   </h1>
 </div>
 
@@ -864,7 +864,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="panel-content">
-    <span class="panel-number">PANEL</span> <span class="highlight">wildfire.ro/dashboard</span>
+    <span class="panel-number">PANEL</span> <span class="highlight">wildfire.ro</span>
     <p>Accesează-ți contul cu Steam și gestionează totul dintr-un singur loc: statistici, tickete, donații și multe altele.</p>
     <div class="panel-features">
       <span class="panel-feature">
@@ -895,11 +895,278 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
   </div>
 </div>
 
+<!-- 2.0 ÎNTREBĂRI FRECVENTE -->
+<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3);" class="title-hover">
+  <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
+  
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>1.0 ÎNTREBĂRI FRECVENTE</span>
+</div>
+
+<!-- COLLAPSE CONTAINER - ÎNTREBĂRI -->
+<div class="collapse-container">
+
+  <!-- ITEM 1 - Cum mă conectez pe server? -->
+  <div class="collapse-item">
+    <div class="collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
+      <div class="collapse-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="10 8 16 12 10 16 10 8"/>
+        </svg>
+      </div>
+      <span class="collapse-title">
+        Cum mă conectez pe server?
+      </span>
+      <svg class="collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div class="collapse-content">
+      <p>Pentru a face acest lucru, deschide consola apăsând tasta <span class="badge">~</span> (tilda) și scrie:</p>
+      <p><code class="orbitron-font">connect cs2.wildfire.ro</code></p>
+      <p>Alternativ, poți adăuga serverul la favorite: <span class="badge">cs2.wildfire.ro:27015</span></p>
+    </div>
+  </div>
+
+  <!-- ITEM 2 - Cum pot aplica în staff? -->
+  <div class="collapse-item">
+    <div class="collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
+      <div class="collapse-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <rect x="2" y="2" width="20" height="20" rx="3"/>
+          <path d="M12 8v4l3 3"/>
+        </svg>
+      </div>
+      <span class="collapse-title">
+        Cum pot aplica în staff?
+      </span>
+      <svg class="collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div class="collapse-content">
+      <p>Poți aplica în staff prin sistemul de tickete:</p>
+      <p><span class="panel-badge">1</span> Accesează <code>wildfire.ro</code></p>
+      <p><span class="panel-badge">2</span> Autentifică-te cu Steam</p>
+      <p><span class="panel-badge">3</span> Mergi la secțiunea <span class="highlight">"Tickete"</span></p>
+      <p><span class="panel-badge">4</span> Alege tipul <span class="panel-type helper" style="display: inline-flex; margin-left: 5px;">Helper apply</span></p>
+      <p>Completează formularul cu informații despre tine, experiență și motivul pentru care vrei să devii parte din staff.</p>
+    </div>
+  </div>
+
+  <!-- ITEM 3 - Ce fac dacă găsesc un bug? -->
+  <div class="collapse-item">
+    <div class="collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
+      <div class="collapse-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <span class="collapse-title">
+        Ce fac dacă găsesc un bug?
+      </span>
+      <svg class="collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div class="collapse-content">
+      <p>Dacă ai găsit un bug, te rugăm să ne anunți cât mai repede:</p>
+      <ul>
+        <li><span class="badge">Pe site</span> - Deschide un ticket de tip <span class="panel-type request" style="display: inline-flex; margin-left: 5px;">Bug Report</span></li>
+        <li><span class="badge">Pe Discord</span> - Anunță în canalul de ticket-uri</li>
+      </ul>
+      <p>Oferă cât mai multe detalii: cum ai întâlnit bug-ul, ce ai făcut înainte, screenshot-uri sau video dacă se poate.</p>
+    </div>
+  </div>
+
+  <!-- ITEM 4 - Am primit ban de la anticheat, ce pot face? -->
+<div class="collapse-item">
+  <div class="collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
+    <div class="collapse-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+        <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      </svg>
+    </div>
+    <span class="collapse-title">
+      Am primit ban de la anticheat, ce pot face?
+    </span>
+    <svg class="collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </div>
+  <div class="collapse-content">
+    <p style="font-size: 13px; margin-bottom: 12px; line-height: 1.5; color: var(--panel-text); opacity: 0.9;">Sistemul anti-cheat este automat și extrem de precis. Dacă ai primit ban, înseamnă că sistemul a detectat o activitate suspectă.</p>
+    
+<div style="display: flex; align-items: flex-start; gap: 10px; margin: 12px 0; padding: 0;">
+      <div style="min-width: 20px;">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ff4444" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div style="font-size: 13px;">
+        <span style="color: #ff4444; font-weight: 600;">Important:</span> În majoritatea cazurilor, ban-ul de la anti-cheat este definitiv și nu poate fi anulat.
+      </div>
+    </div>
+    
+ <div style="display: flex; align-items: flex-start; gap: 10px; margin: 8px 0; padding: 0;">
+      <div style="min-width: 20px;">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ff8c00" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <line x1="12" y1="8" x2="12" y2="12"/>
+          <line x1="12" y1="16" x2="12.01" y2="16"/>
+        </svg>
+      </div>
+      <div style="font-size: 13px;">
+        <span class="highlight">NU poți face nimic</span> dacă ban-ul a fost corect aplicat.
+      </div>
+    </div>
+    
+ <div style="display: flex; align-items: flex-start; gap: 10px; margin: 8px 0 12px 0; padding: 0;">
+      <div style="min-width: 20px;">
+        <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#ffaa00" stroke-width="2">
+          <circle cx="12" cy="12" r="10"/>
+          <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+        </svg>
+      </div>
+<div style="font-size: 13px;">
+        <span class="highlight">DOAR dacă există o eroare</span> a sistemului (extrem de rar), poți deschide un ticket de tip
+        <div style="margin-top: 6px;">
+          <span class="panel-type unban" style="display: inline-flex; align-items: center; gap: 4px; padding: 3px 10px; font-size: 11px;">
+            <svg viewBox="0 0 24 24" width="12" height="12">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+            </svg>
+            Unban
+          </span>
+        </div>
+        <p style="margin-top: 6px; margin-bottom: 0;">și să prezinți dovezi clare că a fost o greșeală.</p>
+      </div>
+    </div>
+    
+  <div style="display: flex; align-items: center; gap: 8px; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,140,0,0.2);">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#ff8c00" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="12"/>
+        <line x1="12" y1="16" x2="12.01" y2="16"/>
+      </svg>
+      <span style="font-size: 12px; opacity: 0.8;">Fără dovezi convingătoare, ticketul va fi respins automat.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ITEM 5 - Pe server există skin-uri? -->
+<div class="collapse-item">
+  <div class="collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
+    <div class="collapse-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="2" y1="12" x2="22" y2="12"/>
+        <line x1="12" y1="2" x2="12" y2="22"/>
+      </svg>
+    </div>
+    <span class="collapse-title">
+      Pe server există skin-uri?
+    </span>
+    <svg class="collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </div>
+  <div class="collapse-content">
+    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 12px;">
+      <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="#00aa00" stroke-width="2">
+        <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+      </svg>
+      <span class="highlight">DA!</span>
+      <span style="font-size: 13px;">Pe server există skin-uri personalizate.</span>
+    </div>
+    
+   <div style="margin: 10px 0;">
+      <span style="font-size: 13px; display: block; margin-bottom: 6px;">Poți folosi:</span>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px;">
+        <span class="badge" style="display: inline-flex; align-items: center; gap: 4px;">!ws</span>
+        <span class="badge" style="display: inline-flex; align-items: center; gap: 4px;">!knife</span>
+        <span class="badge" style="display: inline-flex; align-items: center; gap: 4px;">!glove</span>
+        <span class="badge" style="display: inline-flex; align-items: center; gap: 4px;">!agent</span>
+      </div>
+    </div>
+    
+   <div style="display: flex; align-items: flex-start; gap: 8px; margin: 12px 0; padding: 8px 12px; background: rgba(255,140,0,0.05); border-radius: 6px;">
+      <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#ff8c00" stroke-width="2" style="flex-shrink: 0; margin-top: 2px;">
+        <rect x="2" y="2" width="20" height="20" rx="3" ry="3"/>
+        <line x1="8" y1="2" x2="8" y2="22" stroke-dasharray="2 2"/>
+      </svg>
+      <div style="font-size: 12px;">
+        <span>Autentifică-te cu </span>
+        <span class="highlight">Steam</span>
+        <span> pe </span>
+        <code style="font-size: 11px;">wildfire.ro</code>
+      </div>
+    </div>
+    
+ <div style="display: flex; align-items: center; gap: 6px; margin-top: 8px; padding-top: 8px; border-top: 1px solid rgba(255,140,0,0.1);">
+      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="#ff8c00" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <polyline points="12 6 12 12 16 14"/>
+      </svg>
+      <span style="font-size: 11px; opacity: 0.8;">Poți debloca skin-uri, cuțite, mănuși și agenți.</span>
+    </div>
+  </div>
+</div>
+
+<!-- ITEM 6 - Cum intru pe Discord? -->
+<div class="collapse-item">
+  <div class="collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
+    <div class="collapse-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <circle cx="12" cy="12" r="10"/>
+        <rect x="3" y="4" width="18" height="16" rx="2"/>
+        <line x1="8" y1="10" x2="16" y2="10"/>
+        <line x1="8" y1="14" x2="12" y2="14"/>
+      </svg>
+    </div>
+    <span class="collapse-title">
+      Cum intru pe Discord?
+    </span>
+    <svg class="collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <polyline points="6 9 12 15 18 9"/>
+    </svg>
+  </div>
+  <div class="collapse-content">
+    <p>Serverul nostru de Discord este locul unde comunitatea se adună, unde anunțăm evenimente și unde poți primi ajutor rapid.</p>
+    
+  <div style="display: flex; align-items: center; gap: 12px; margin: 10px 0 15px 0; flex-wrap: wrap;">
+      <span><span class="highlight">Link permanent:</span> <code class="orbitron-font" style="font-size: 13px;">discord.gg/CyFrDpCu</code></span>
+      
+   <a href="https://discord.gg/CyFrDpCu" target="_blank" style="display: inline-flex; align-items: center; gap: 5px; background: #5865F2; color: white; padding: 4px 12px; border-radius: 30px; font-weight: 600; font-size: 11px; text-decoration: none; transition: all 0.3s ease; box-shadow: 0 2px 8px rgba(88, 101, 242, 0.3); font-family: 'Orbitron', sans-serif; letter-spacing: 0.3px;">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="white">
+          <path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515c-.214.385-.46.9-.608 1.312a18.284 18.284 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.312 19.736 19.736 0 0 0-4.885 1.515c-2.888 4.334-3.66 8.56-3.104 12.67a19.79 19.79 0 0 0 5.99 2.99 15.053 15.053 0 0 0 1.29-2.09 12.647 12.647 0 0 1-2.03-.98c.17-.125.337-.256.498-.39a14.334 14.334 0 0 0 12.264 0c.162.134.33.265.5.39-.64.39-1.32.72-2.03.98.36.74.8 1.44 1.29 2.09a19.79 19.79 0 0 0 5.99-2.99c.66-4.71-.33-8.9-3.1-12.67zM8.02 15.33c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.95-2.42 2.16-2.42 1.21 0 2.18 1.08 2.16 2.42 0 1.34-.96 2.42-2.16 2.42zm7.98 0c-1.18 0-2.16-1.08-2.16-2.42 0-1.33.95-2.42 2.16-2.42 1.21 0 2.18 1.08 2.16 2.42 0 1.34-.96 2.42-2.16 2.42z"/>
+        </svg>
+        ALĂTURĂ-TE
+      </a>
+    </div>
+    
+ <p>Pe Discord vei găsi:</p>
+    <ul>
+      <li><svg viewBox="0 0 24 24" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-right: 8px; stroke: #ff8c00;" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Anunțuri importante</li>
+      <li><svg viewBox="0 0 24 24" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-right: 8px; stroke: #ff8c00;" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg> Suport rapid de la staff</li>
+      <li><svg viewBox="0 0 24 24" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-right: 8px; stroke: #ff8c00;" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Evenimente și giveaway-uri</li>
+      <li><svg viewBox="0 0 24 24" width="16" height="16" style="display: inline-block; vertical-align: middle; margin-right: 8px; stroke: #ff8c00;" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Comunitatea activă</li>
+    </ul>
+  </div>
+</div>
+</div>
+
+
 <!-- 1.0 TICKETE ȘI RECLAMAȚII -->
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3);" class="title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><rect x="2" y="2" width="20" height="20" rx="3"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></svg>1.0 SISTEM TICKETE</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><rect x="2" y="2" width="20" height="20" rx="3"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></svg>2.0 SISTEM TICKETE</span>
 </div>
 
 <!-- COLLAPSE CONTAINER - TICKETE -->
@@ -916,7 +1183,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </div>
       <span class="collapse-title">
         Ce tipuri de tickete pot deschide?
-        <span class="collapse-badge">4 tipuri</span>
+        <span class="collapse-badge">3 tipuri</span>
       </span>
       <svg class="collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
@@ -938,14 +1205,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
             <line x1="12" y1="8" x2="12" y2="12"/>
             <line x1="12" y1="16" x2="12.01" y2="16"/>
           </svg>
-          Report jucător
-        </div>
-        <div class="panel-type request">
-          <svg viewBox="0 0 24 24" width="14" height="14">
-            <circle cx="12" cy="12" r="10"/>
-            <path d="M12 8v4M12 16h.01"/>
-          </svg>
-          Request general
+          Reclamații 
         </div>
         <div class="panel-type helper">
           <svg viewBox="0 0 24 24" width="14" height="14">
@@ -956,7 +1216,6 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </div>
       <p><span class="highlight">Unban</span> - Pentru cereri de deblocare<br>
       <span class="highlight">Report</span> - Reclamații cu dovezi (demo, screenshot)<br>
-      <span class="highlight">Request</span> - Întrebări, bug-uri, sugestii<br>
       <span class="highlight">Helper</span> - Aplicații pentru staff</p>
     </div>
   </div>
@@ -979,7 +1238,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </svg>
     </div>
     <div class="collapse-content">
-      <p><span class="panel-badge">1</span> Accesează <code>wildfire.ro/dashboard</code></p>
+      <p><span class="panel-badge">1</span> Accesează <code>wildfire.ro</code></p>
       <p><span class="panel-badge">2</span> Autentifică-te cu Steam (click pe butonul Steam)</p>
       <p><span class="panel-badge">3</span> Mergi la secțiunea <span class="highlight">"Tickete"</span> și apasă "Deschide ticket nou"</p>
       <p>Completează formularul cu:</p>
@@ -1009,15 +1268,13 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </svg>
     </div>
     <div class="collapse-content">
-      <p>Timpul mediu de răspuns este de <span class="highlight">&lt;12 ore</span>.</p>
+      <p>Timpul mediu de concluzionare este de <span class="highlight">&lt;12-24 ore</span>.</p>
       <p>În funcție de tipul ticketului:</p>
       <ul>
-        <li><span class="badge">Unban</span> - 2-6 ore</li>
+        <li><span class="badge">Unban</span> - 24-48 în funcție de gravitația situației</li>
         <li><span class="badge">Report</span> - 4-12 ore (necesită verificare)</li>
-        <li><span class="badge">Request</span> - 1-4 ore</li>
         <li><span class="badge">Helper</span> - 24-48 ore</li>
       </ul>
-      <p>Primești notificare pe site și în joc când ți se răspunde.</p>
     </div>
   </div>
 
@@ -1038,14 +1295,12 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </svg>
     </div>
     <div class="collapse-content">
-      <p>Pentru <span class="highlight">report-uri</span>, sunt necesare dovezi clare:</p>
+      <p>Pentru <span class="highlight">report-uri</span>, sunt necesare dovezi clare precum:</p>
       <ul>
-        <li><span class="badge">Demo</span> - Link de la reclamatie (ex: <code>!demo nume</code> în joc)</li>
         <li><span class="badge">Screenshot</span> - Cu numele jucătorului vizibil</li>
         <li><span class="badge">Video</span> - Link YouTube/Streamable</li>
-        <li><span class="badge">Ticketa</span> - Numărul ticketului (dacă există)</li>
       </ul>
-      <p>Fără dovezi clare, ticketul poate fi respins.</p>
+      <p>Fără dovezi clare, ticketul poate fi respins. Toate informațiile se regăsesc pe site când deschizi un ticket</p>
     </div>
   </div>
 
@@ -1055,7 +1310,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3);" class="title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>2.0 DASHBOARD</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>3.0 DASHBOARD</span>
 </div>
 
 <!-- COLLAPSE CONTAINER - DASHBOARD -->
@@ -1082,7 +1337,6 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       <ul>
         <li><span class="highlight">Rank-ul</span> și ELO-ul actual</li>
         <li><span class="highlight">Statistici</span> K/D, win rate, headshot %</li>
-        <li><span class="highlight">Istoric</span> meciuri recente</li>
         <li><span class="highlight">Fire Coins</span> balanța și tranzacții</li>
         <li><span class="highlight">Tickete</span> active și istoric</li>
         <li><span class="highlight">Leaderboard</span> poziția globală</li>
@@ -1102,23 +1356,24 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
         </svg>
       </div>
       <span class="collapse-title">
-        Ce sunt Fire Coins și cum îi folosesc?
+        Ce sunt creditele și cum le folosesc?
       </span>
       <svg class="collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="collapse-content">
-      <p><span class="highlight">Fire Coins</span> sunt moneda virtuală a serverului.</p>
-      <p><span class="panel-badge">Cum câștigi:</span></p>
+      <p><span class="highlight">Creditele</span> reprezintă moneda virtuală a serverului.</p>
+      <p><span class="panel-badge">Cum faci rost de ele:</span></p>
       <ul>
-        <li>Jucând meciuri: +10-50 coins</li>
-        <li>MVP-uri: +5 coins</li>
-        <li>Kill-uri: +1 coin la fiecare 10 kill-uri</li>
-        <li>Bonus zilnic: +100 coins (prima conectare)</li>
-        <li>Misiuni săptămânale: +200-500 coins</li>
+        <li>Jucând meciuri:</li>
+        <li>MVP-uri:</li>
+        <li>Kill-uri:</li>
+        <li>Bonus zilnic:</li>
+        <li>Gold Member</li>
+        <li>Evenimente</li>
       </ul>
-      <p><span class="panel-badge">Unde îi folosești:</span> Pe <span class="highlight">wildfire.ro/market</span> poți cumpăra iteme cosmetice, culori chat, MVP-uri personalizate și multe altele.</p>
+      <p><span class="panel-badge">Unde îi folosești:</span> Pe <span class="highlight">server</span>, poți cumpăra iteme cosmetice, culori chat și multe altele.</p>
     </div>
   </div>
 
@@ -1142,12 +1397,12 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
     <div class="collapse-content">
       <p><span class="highlight">wildfire.ro/market</span> este magazinul serverului:</p>
       <ul>
-        <li><span class="badge">VIP</span> - Pachete VIP (1 lună, 3 luni, permanent)</li>
-        <li><span class="badge">Cosmetice</span> - Culori chat, tag-uri, MVP-uri</li>
+        <li><span class="badge">VIP</span> - Pachete VIP </li>
+        <li><span class="badge">Cosmetice</span> -  tag-uri, MVP-uri, badge-uri</li>
         <li><span class="badge">Fire Coins</span> - Pachete de coins</li>
-        <li><span class="badge">Iteme</span> - Skin-uri virtuale, tracers, kill effects</li>
+        <li><span class="badge">Skins</span> - Skin-uri pe arme, custom agents</li>
       </ul>
-      <p>Poți plăti cu <span class="highlight">Fire Coins</span> (câștigați în joc) sau <span class="highlight">donații</span> (pentru pachete speciale).</p>
+      <p>Poți plăti cu <span class="highlight">Fire Coins</span> sau <span class="highlight">bani reali</span>.</p>
     </div>
   </div>
 
@@ -1157,7 +1412,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3);" class="title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 2v20M17 2v20"/></svg>3.0 COMENZI RAPIDE</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 2v20M17 2v20"/></svg>4.0 COMENZI RAPIDE</span>
 </div>
 
 <div class="panel-grid">
@@ -1182,7 +1437,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </svg>
     </div>
     <div class="panel-content">
-      <span class="panel-number">!ticket</span> - informații despre tickete
+      <span class="panel-number">!help</span> - afișează toate comenzile
     </div>
   </div>
 
@@ -1195,7 +1450,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </svg>
     </div>
     <div class="panel-content">
-      <span class="panel-number">!report</span> - raportează rapid în joc
+      <span class="panel-number">!ws</span> - deschide meniul de skin-uri
     </div>
   </div>
 
@@ -1207,9 +1462,47 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </svg>
     </div>
     <div class="panel-content">
-      <span class="panel-number">!unban</span> - info despre cereri unban
+      <span class="panel-number">!discord</span> - link către serverul de discord
     </div>
   </div>
+
+<div class="panel-card">
+  <div class="panel-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  </div>
+  <div class="panel-content">
+    <span class="panel-number">!group</span> - link către steam group
+  </div>
+</div>
+
+<div class="panel-card">
+  <div class="panel-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="2" y1="12" x2="22" y2="12"/>
+      <line x1="12" y1="2" x2="12" y2="22"/>
+    </svg>
+  </div>
+  <div class="panel-content">
+    <span class="panel-number">!shop</span> - deschide shop-ul
+  </div>
+</div>
+
+<div class="panel-card">
+  <div class="panel-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M12 2L2 7L12 12L22 7L12 2Z"/>
+      <path d="M2 17L12 22L22 17"/>
+      <path d="M2 12L12 17L22 12"/>
+    </svg>
+  </div>
+  <div class="panel-content">
+    <span class="panel-number">!top</span> - afiseaza top-ul
+  </div>
+</div>
 
 </div>
 

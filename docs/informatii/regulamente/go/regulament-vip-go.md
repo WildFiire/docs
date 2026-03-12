@@ -700,15 +700,279 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
 
 </div>
 
-<div class="section-divider"></div>
+<!-- ================================================ -->
+<!-- 4.0 WARN-LIST PREMIUM -->
+<!-- ================================================ -->
 
-<!-- 4.0 RECOMANDĂRI -->
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3); transition: transform 0.3s ease;" class="title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;">
     
   </div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>4.0 RECOMANDĂRI</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M12 2L2 7L12 12L22 7L12 2Z" stroke-linejoin="round"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>4.0 WARN-LIST PREMIUM</span>
+</div>
+
+<div class="rules-grid">
+
+<!-- 4.1 Motive pentru Crearea Warn-List -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.1</span> <span class="highlight orbitron-font">Motive pentru Crearea Warn-List:</span> Warn-list pentru PREMIUM-uri este creat pentru a gestiona comportamentele inadecvate ale acestora. <span class="badge-warn orbitron-font">WARN</span>
+  </div>
+</div>
+
+<!-- 4.2 Abuzarea privilegiilor -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.2</span> Abuzarea privilegiilor PREMIUM (ex: utilizarea abilităților PREMIUM pentru a obține avantaje nedrepte) <span class="punish orbitron-font">30 ZILE</span>
+  </div>
+</div>
+
+<!-- 4.3 Injurarea -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="9" y1="9" x2="15" y2="15"/>
+      <line x1="15" y1="9" x2="9" y2="15"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.3</span> Injurarea altor jucători sau membri ai staff-ului pe server sau Discord <span class="punish orbitron-font">30 ZILE</span>
+  </div>
+</div>
+
+<!-- 4.4 Folosirea bug-urilor -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+      <line x1="9" y1="9" x2="15" y2="15"/>
+      <line x1="15" y1="9" x2="9" y2="15"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.4</span> Folosirea bug-urilor pentru a obține avantaje <span class="punish orbitron-font">30-60 ZILE</span>
+  </div>
+</div>
+
+<!-- 4.5 Comportament toxic -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M8 9h8M8 15h8"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.5</span> Comportament toxic sau instigarea la conflicte pe server <span class="badge-remove orbitron-font">3/3 REMOVE</span>
+  </div>
+</div>
+
+<!-- 4.6 Alte comportamente -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.6</span> Alte comportamente care încalcă regulile comunității și afectează experiența celorlalți jucători <span class="badge-warn orbitron-font">WARN</span>
+  </div>
+</div>
+
+<!-- 4.7 Statut PREMIUM -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.7</span> PREMIUM-urile sunt considerate membri importanți ai comunității, însă acest statut nu le conferă libertatea de a încălca regulile serverului. <span class="badge-warn orbitron-font">INFO</span>
+  </div>
+</div>
+
+<!-- 4.8 Evaluare obiectivă -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.8</span> Fiecare avertisment va fi evaluat cu atenție și obiectivitate, pe baza dovezilor disponibile.
+  </div>
+</div>
+
+<!-- 4.9 Flagrant -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.9</span> Dacă un PREMIUM este prins în flagrant încercând să influențeze negativ alți jucători sau să instige la încălcarea regulilor - <span class="badge-remove orbitron-font">REMOVE</span>
+  </div>
+</div>
+
+<!-- 4.10 Abuz comenzi -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+      <circle cx="12" cy="7" r="4"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.10</span> Abuzul comenzilor PREMIUM (ex: folosirea abilităților pentru a crea avantaje nedrepte) <span class="punish orbitron-font">30 ZILE</span>
+  </div>
+</div>
+
+<!-- 4.11 Limbaj ofensiv -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="9" y1="9" x2="15" y2="15"/>
+      <line x1="15" y1="9" x2="9" y2="15"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.11</span> Limbaj ofensiv pe server sau Discord (ex: insulte, jigniri) <span class="punish orbitron-font">30 ZILE</span>
+  </div>
+</div>
+
+<!-- 4.12 Comportament toxic / instigare -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <path d="M8 9h8M8 15h8"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.12</span> Comportament toxic / instigare la conflicte <span class="badge-remove orbitron-font">3/3 REMOVE</span>
+  </div>
+</div>
+
+<!-- 4.13 Folosire bug-uri -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+      <line x1="9" y1="9" x2="15" y2="15"/>
+      <line x1="15" y1="9" x2="9" y2="15"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.13</span> Folosirea bug-urilor pentru avantaje <span class="punish orbitron-font">30-60 ZILE</span>
+  </div>
+</div>
+
+<!-- 4.14 Instigare -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.14</span> Instigarea altor jucători la încălcarea regulilor <span class="badge-remove orbitron-font">REMOVE GRAD</span> + <span class="punish orbitron-font">SUSPENDARE</span>
+  </div>
+</div>
+
+<!-- 4.15 Retrogradare -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="18" y1="6" x2="6" y2="18"/>
+      <line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.15</span> Retrogradarea PREMIUM-ului: După 3 avertismente acumulate, statutul PREMIUM va fi revocat automat. <span class="badge-remove orbitron-font">REMOVE</span>
+  </div>
+</div>
+
+<!-- 4.16 Suspensii temporare -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.16</span> Suspensii temporare: În funcție de gravitatea comportamentului, PREMIUM-ul poate fi suspendat temporar. <span class="punish orbitron-font">SUSPENDARE</span>
+  </div>
+</div>
+
+<!-- 4.17 Scopul sistemului -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.17</span> Scopul acestui sistem de avertismente este de a menține un mediu de joc plăcut și echitabil pentru toți membrii comunității.
+  </div>
+</div>
+
+<!-- 4.18 Apel -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/>
+      <path d="M14 2v6h6"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">4.18</span> În cazul în care un PREMIUM consideră că avertismentul este aplicat greșit, acesta poate apela la un membru al staff-ului. <span class="badge-recommended orbitron-font">APEL</span>
+  </div>
+</div>
+
+</div>
+
+<div class="section-divider"></div>
+
+<!-- ================================================ -->
+<!-- 5.0 RECOMANDĂRI (FOSTA 4.0) -->
+<!-- ================================================ -->
+
+<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3); transition: transform 0.3s ease;" class="title-hover">
+  <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;">
+    
+  </div>
+  
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="orbitron-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>5.0 RECOMANDĂRI</span>
 </div>
 
 <div class="info-box">
@@ -731,7 +995,9 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
         <circle cx="12" cy="12" r="10"/>
         <path d="M12 6v6l4 2"/>
       </svg>
-      <span>Raportati orice abuz al altor donatori - <span class="highlight orbitron-font">contribuiți la o comunitate mai bună</span>.</span>
+      <span>Raportați orice abuz al altor donatori - <span class="highlight orbitron-font">contribuiți la o comunitate mai bună</span>.</span>
     </li>
   </ul>
 </div>
+
+<div class="section-divider"></div>
