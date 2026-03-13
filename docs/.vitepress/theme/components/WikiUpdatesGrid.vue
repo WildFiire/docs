@@ -237,7 +237,7 @@
                 </svg>
               </span>
               <h4 class="top3-title">TOP 3 Contribuitori</h4>
-              <span class="top3-badge">Hall of Fame</span>
+              <!-- <span class="top3-badge">Hall of Fame</span>X -->
             </div>
             
             <div class="top3-list">
