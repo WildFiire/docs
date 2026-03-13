@@ -1183,7 +1183,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </div>
       <span class="collapse-title">
         Ce tipuri de tickete pot deschide?
-        <span class="collapse-badge">3 tipuri</span>
+        <span class="collapse-badge">4 tipuri</span>
       </span>
       <svg class="collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
@@ -1213,9 +1213,16 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
           </svg>
           Helper apply
         </div>
+        <div class="panel-type bug">
+          <svg viewBox="0 0 24 24" width="14" height="14">
+            <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
+          </svg>
+          Bug Report
+        </div>
       </div>
       <p><span class="highlight">Unban</span> - Pentru cereri de deblocare<br>
-      <span class="highlight">Report</span> - Reclamații cu dovezi (demo, screenshot)<br>
+      <span class="highlight">Bug Report</span> - Pentru a raporta bug-uri<br>
+      <span class="highlight">Reclamații</span> - Reclamații cu dovezi (demo, screenshot)<br>
       <span class="highlight">Helper</span> - Aplicații pentru staff</p>
     </div>
   </div>
@@ -1271,8 +1278,9 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       <p>Timpul mediu de concluzionare este de <span class="highlight">&lt;12-24 ore</span>.</p>
       <p>În funcție de tipul ticketului:</p>
       <ul>
-        <li><span class="badge">Unban</span> - 24-48 în funcție de gravitația situației</li>
-        <li><span class="badge">Report</span> - 4-12 ore (necesită verificare)</li>
+        <li><span class="badge">Unban</span> - 24-72 ore în funcție de gravitația situației</li>
+        <li><span class="badge">Reclamații</span> - 4-24 ore (necesită verificare)</li>
+        <li><span class="badge">Bug Report</span> - 24-48 ore (necesită verificare)</li>
         <li><span class="badge">Helper</span> - 24-48 ore</li>
       </ul>
     </div>
@@ -1341,7 +1349,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
         <li><span class="highlight">Tickete</span> active și istoric</li>
         <li><span class="highlight">Leaderboard</span> poziția globală</li>
       </ul>
-      <p>Poți accesa oricând <code>wildfire.ro/dashboard</code> pentru statistici în timp real.</p>
+      <p>Poți accesa oricând <code>wildfire.ro</code> pentru statistici în timp real.</p>
     </div>
   </div>
 
