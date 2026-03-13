@@ -657,6 +657,7 @@ export default {
       isLoading: true,
       filterType: 'all',
       refreshInterval: null,
+      observer: null,
       
       // Referințe pentru scroll reveal
       card1Ref: null,
@@ -701,21 +702,30 @@ export default {
       return;
     }
 
+    // Setează referințele într-un nextTick pentru a fi sigur că DOM-ul e gata
+    this.$nextTick(() => {
+      this.card1Ref = this.$refs.card1Ref;
+      this.card2Ref = this.$refs.card2Ref;
+      this.card3Ref = this.$refs.card3Ref;
+      this.card4Ref = this.$refs.card4Ref;
+      this.cardTop3Ref = this.$refs.cardTop3Ref;
+      this.issuesWidgetRef = this.$refs.issuesWidgetRef;
+      this.headerRef = this.$refs.headerRef;
+      this.descRef = this.$refs.descRef;
+      this.howToItem1Ref = this.$refs.howToItem1Ref;
+      this.howToItem2Ref = this.$refs.howToItem2Ref;
+      this.howToItem3Ref = this.$refs.howToItem3Ref;
+      this.ctaRef = this.$refs.ctaRef;
+      
+      this.setupScrollReveal();
+      
+      // Aplică efectul inițial după un mic delay
+      setTimeout(() => {
+        this.applyRevealEffect();
+      }, 100);
+    });
 
-    this.card1Ref = this.$refs.card1Ref;
-    this.card2Ref = this.$refs.card2Ref;
-    this.card3Ref = this.$refs.card3Ref;
-    this.card4Ref = this.$refs.card4Ref;
-    this.cardTop3Ref = this.$refs.cardTop3Ref;
-    this.issuesWidgetRef = this.$refs.issuesWidgetRef;
-    this.headerRef = this.$refs.headerRef;
-    this.descRef = this.$refs.descRef;
-    this.howToItem1Ref = this.$refs.howToItem1Ref;
-    this.howToItem2Ref = this.$refs.howToItem2Ref;
-    this.howToItem3Ref = this.$refs.howToItem3Ref;
-    this.ctaRef = this.$refs.ctaRef;
-    
-    this.setupScrollReveal();
+    // Adaugă event listener pentru scroll
     window.addEventListener('scroll', this.handleScroll);
     
     // Încărcare inițială
@@ -738,15 +748,19 @@ export default {
       }
     });
     
+    // Aplică efectul de scroll după ce datele sunt încărcate
     setTimeout(() => {
       this.handleScroll();
-    }, 100);
+    }, 500);
   },
 
   beforeUnmount() {
     window.removeEventListener('scroll', this.handleScroll);
     if (this.refreshInterval) {
       clearInterval(this.refreshInterval);
+    }
+    if (this.observer) {
+      this.observer.disconnect();
     }
   },
 
@@ -1138,7 +1152,28 @@ export default {
       this.applyRevealEffect();
     },
 
-    setupScrollReveal() {}
+    setupScrollReveal() {
+      // Folosim Intersection Observer pentru un effect mai smooth
+      if (typeof window !== 'undefined' && window.IntersectionObserver) {
+        this.observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('revealed');
+            }
+          });
+        }, {
+          threshold: 0.1,
+          rootMargin: '0px 0px -50px 0px'
+        });
+
+        // Observă toate elementele cu clasa scroll-reveal
+        this.$nextTick(() => {
+          document.querySelectorAll('.scroll-reveal').forEach(el => {
+            this.observer.observe(el);
+          });
+        });
+      }
+    }
   }
 }
 </script>
@@ -1327,70 +1362,6 @@ export default {
 .scroll-reveal {
   opacity: 0;
   transform: translateY(30px);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.scroll-reveal.revealed {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* ===== CONTAINER PRINCIPAL ===== */
-.wiki-home-updates {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 60px;
-  max-width: 1400px;
-  margin: 0 auto;
-  padding: 60px 40px;
-}
-
-/* ===== LEFT ZONE ===== */
-.cards-zone {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;
-}
-
-.cards-header {
-  margin-bottom: 10px;
-}
-
-.header-decoration {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  margin-bottom: 10px;
-}
-
-.header-line {
-  width: 30px;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, #ff4500, #ff8c00, transparent);
-}
-
-.header-tag {
-  font-size: 11px;
-  color: #ff4500;
-  text-transform: uppercase;
-}
-
-.cards-title {
-  font-size: 24px;
-  margin: 0;
-  color: var(--vp-c-text-1);
-}
-
-.cards-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 20px;
-}
-
-/* ===== SCROLL REVEAL ANIMATION ===== */
-.scroll-reveal {
-  opacity: 0;
-  transform: translateY(30px);
   transition: opacity 0.6s cubic-bezier(0.2, 0.9, 0.3, 1), 
               transform 0.8s cubic-bezier(0.2, 0.9, 0.3, 1);
   will-change: opacity, transform;
@@ -1466,30 +1437,56 @@ export default {
   }
 }
 
-/* How-to items staggered reveal */
-.how-to-block.revealed .how-to-item {
-  animation: slideIn 0.5s ease forwards;
-  opacity: 0;
-  transform: translateX(-15px);
+/* ===== CONTAINER PRINCIPAL ===== */
+.wiki-home-updates {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 60px;
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 60px 40px;
 }
 
-.how-to-item:nth-child(1) {
-  animation-delay: 0.1s;
+/* ===== LEFT ZONE ===== */
+.cards-zone {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 }
 
-.how-to-item:nth-child(2) {
-  animation-delay: 0.3s;
+.cards-header {
+  margin-bottom: 10px;
 }
 
-.how-to-item:nth-child(3) {
-  animation-delay: 0.5s;
+.header-decoration {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 10px;
 }
 
-@keyframes slideIn {
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
+.header-line {
+  width: 30px;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff4500, #ff8c00, transparent);
+}
+
+.header-tag {
+  font-size: 11px;
+  color: #ff4500;
+  text-transform: uppercase;
+}
+
+.cards-title {
+  font-size: 24px;
+  margin: 0;
+  color: var(--vp-c-text-1);
+}
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 20px;
 }
 
 /* ===== FEATURE CARDS ===== */
@@ -3190,5 +3187,16 @@ export default {
 
 .list-move {
   transition: transform 0.3s ease;
+}
+
+:root:not(.dark) .feature-card,
+:root:not(.dark) .card-timeline,
+:root:not(.dark) .card-stats-quick,
+:root:not(.dark) .card-plus,
+:root:not(.dark) .card-top3,
+:root:not(.dark) .issues-widget {
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.06);
 }
 </style>
