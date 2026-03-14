@@ -4,49 +4,49 @@ import { defineConfig } from 'vitepress'
 export default defineConfig({
   title: "Wildfire.ro Docs",
   description: "Documentația platformei Wildfire - informații, sisteme, resurse și comunitate",
-  
+
   lang: 'ro-RO',
   cleanUrls: true,
-  
-  
+
+
   head: [
     ['link', { rel: 'icon', href: '/icons/wildfire.webp' }],
     ['meta', { name: 'theme-color', content: '#22c55e' }],
-    
+
     // PRELOAD PENTRU LCP
-    ['link', { 
-      rel: 'preload', 
-      as: 'image', 
-      href: '/icons/wildfire.webp', 
+    ['link', {
+      rel: 'preload',
+      as: 'image',
+      href: '/icons/wildfire.webp',
       fetchpriority: 'high',
       type: 'image/webp'
     }],
-    
+
     // PRELOAD PENTRU BACKGROUND
-    ['link', { 
-      rel: 'preload', 
-      as: 'image', 
-      href: '/wallpaper/poza102.webp', 
+    ['link', {
+      rel: 'preload',
+      as: 'image',
+      href: '/wallpaper/poza102.webp',
       fetchpriority: 'low'
     }],
-    
+
     // META PENTRU CACHE
-    ['meta', { 
-      'http-equiv': 'Cache-Control', 
-      content: 'public, max-age=31536000, immutable' 
+    ['meta', {
+      'http-equiv': 'Cache-Control',
+      content: 'public, max-age=31536000, immutable'
     }],
-    
+
     // VIEWPORT OPTIMIZAT
-    ['meta', { 
-      name: 'viewport', 
-      content: 'width=device-width, initial-scale=1.0, maximum-scale=5.0' 
+    ['meta', {
+      name: 'viewport',
+      content: 'width=device-width, initial-scale=1.0, maximum-scale=5.0'
     }],
-    
+
     // SCRIPT PENTRU VERSIUNE
     ['script', {}, `
       window.wikiVersion = '3.0.0';
     `],
-    
+
     // CSS PENTRU STILIZARE ICONITE SI VERSIUNE
     ['style', {}, `
       .nav-icon {
@@ -152,73 +152,73 @@ export default defineConfig({
       height: 24,
       alt: 'Wildfire Logo'
     },
-    
+
     siteTitle: 'Wildfire.ro Docs',
-    
+
     nav: [
-      { 
-        text: '<img src="/icons/acasa.svg" class="nav-icon" width="16" height="16" alt=""> Acasă', 
-        link: '/' 
+      {
+        text: '<img src="/icons/acasa.svg" class="nav-icon" width="16" height="16" alt=""> Acasă',
+        link: '/'
       },
-      { 
-        text: '<img src="/icons/wildfire.webp" class="nav-icon" width="16" height="16" alt=""> Informații', 
-        link: '/informatii/about' 
+      {
+        text: '<img src="/icons/wildfire.webp" class="nav-icon" width="16" height="16" alt=""> Informații',
+        link: '/informatii/about'
       },
-      { 
-        text: '<img src="/icons/faq.svg" class="nav-icon" width="16" height="16" alt=""> FAQ', 
-        link: '/informatii/faq' 
-      },      { 
-        text: '<img src="/icons/github.svg" class="nav-icon" width="16" height="16" alt=""> Dashboard', 
-        link: '/panel/panel' 
+      {
+        text: '<img src="/icons/faq.svg" class="nav-icon" width="16" height="16" alt=""> FAQ',
+        link: '/informatii/faq'
+      }, {
+        text: '<img src="/icons/github.svg" class="nav-icon" width="16" height="16" alt=""> Dashboard',
+        link: '/panel/panel'
       },
     ],
 
     sidebar: [
       // SECȚIUNEA INFORMAȚII
-{
-  text: '<img src="/icons/wildfire.webp" class="nav-icon" width="16" height="16" alt=""> Informații',
-  collapsed: false,
-  items: [
-    { text: '<img src="/icons/despre.png" class="nav-icon" width="16" height="16" alt=""> Despre Wildfire', link: '/informatii/about' },
-    { text: '<img src="/icons/faq.svg" class="nav-icon" width="16" height="16" alt=""> Întrebări frecvente', link: '/informatii/faq' },
-    
-    // REGULAMENTE
-    { 
-      text: '<img src="/icons/regulament.svg" class="nav-icon" width="16" height="16" alt=""> Regulament',
-      collapsed: true,
-      items: [
-        {
-          text: 'Regulament GO',
-          collapsed: true,
-          items: [
-            { text: 'Regulament Jucatori', link: '/informatii/regulamente/go/regulament-go' },
-            { text: 'Regulament STAFF', link: '/informatii/regulamente/go/regulament-staff-go' },
-            { text: 'Regulament VIP', link: '/informatii/regulamente/go/regulament-vip-go' }
-          ]
-        },
-// {
-//           text: 'Regulament AWP',
-//           collapsed: true,
-//           items: [
-//             { text: 'Regulament Jucatori', link: '/informatii/regulamente/awp/regulament-awp' },
-//             { text: 'Regulament STAFF', link: '/informatii/regulamente/awp/regulament-staff-awp' },
-//             { text: 'Regulament VIP', link: '/informatii/regulamente/awp/regulament-vip-awp' }
-//           ]
-//         },
-        // {
-        //   text: 'Regulament ARENA',
-        //   collapsed: true,
-        //   items: [
-        //     { text: 'Regulament Jucatori', link: '/informatii/regulamente/arena/regulament-arena' },
-        //     { text: 'Regulament STAFF', link: '/informatii/regulamente/arena/regulament-staff-arena' },
-        //     { text: 'Regulament VIP', link: '/informatii/regulamente/arena/regulament-vip-arena' }
-        //   ]
-        // },
-      ]
-    }
-  ]
-},
-      
+      {
+        text: '<img src="/icons/wildfire.webp" class="nav-icon" width="16" height="16" alt=""> Informații',
+        collapsed: false,
+        items: [
+          { text: '<img src="/icons/despre.png" class="nav-icon" width="16" height="16" alt=""> Despre Wildfire', link: '/informatii/about' },
+          { text: '<img src="/icons/faq.svg" class="nav-icon" width="16" height="16" alt=""> Întrebări frecvente', link: '/informatii/faq' },
+
+          // REGULAMENTE
+          {
+            text: '<img src="/icons/regulament.svg" class="nav-icon" width="16" height="16" alt=""> Regulament',
+            collapsed: true,
+            items: [
+              {
+                text: 'Regulament GO',
+                collapsed: true,
+                items: [
+                  { text: 'Regulament Jucatori', link: '/informatii/regulamente/go/regulament-go' },
+                  { text: 'Regulament STAFF', link: '/informatii/regulamente/go/regulament-staff-go' },
+                  { text: 'Regulament VIP', link: '/informatii/regulamente/go/regulament-vip-go' }
+                ]
+              },
+              // {
+              //           text: 'Regulament AWP',
+              //           collapsed: true,
+              //           items: [
+              //             { text: 'Regulament Jucatori', link: '/informatii/regulamente/awp/regulament-awp' },
+              //             { text: 'Regulament STAFF', link: '/informatii/regulamente/awp/regulament-staff-awp' },
+              //             { text: 'Regulament VIP', link: '/informatii/regulamente/awp/regulament-vip-awp' }
+              //           ]
+              //         },
+              // {
+              //   text: 'Regulament ARENA',
+              //   collapsed: true,
+              //   items: [
+              //     { text: 'Regulament Jucatori', link: '/informatii/regulamente/arena/regulament-arena' },
+              //     { text: 'Regulament STAFF', link: '/informatii/regulamente/arena/regulament-staff-arena' },
+              //     { text: 'Regulament VIP', link: '/informatii/regulamente/arena/regulament-vip-arena' }
+              //   ]
+              // },
+            ]
+          }
+        ]
+      },
+
       // SECȚIUNEA CURRENCY
       {
         text: '<img src="/icons/currency.svg" class="nav-icon" width="16" height="16" alt=""> Currency',
@@ -228,17 +228,18 @@ export default defineConfig({
           { text: '<img src="/icons/credits.svg" class="nav-icon" width="16" height="16" alt=""> Credits', link: '/currency/credits' },
         ]
       },
-      
+
       // SECȚIUNEA SYSTEMS
       {
         text: '<img src="/icons/sisteme.svg" class="nav-icon" width="16" height="16" alt=""> Systems',
         collapsed: false,
         items: [
           // SUBSECȚIUNEA SKINS
-          { 
-            text: '<img src="/icons/skins.svg" class="nav-icon" width="16" height="16" alt=""> Skins',
+          {
+            text: '<img src="/icons/skins.svg" class="nav-icon" width="16" height="16" alt=""> WeaponSkins',
             collapsed: true,
             items: [
+              { text: '<img src="/icons/introduction.svg" class="nav-icon" width="16" height="16" alt=""> Informatii', link: '/systems/skins/informatiiws' },
               { text: '<img src="/icons/cases.svg" class="nav-icon" width="16" height="16" alt=""> Cases', link: '/systems/skins/cases' },
               { text: '<img src="/icons/gloves.svg" class="nav-icon" width="16" height="16" alt=""> Gloves', link: '/systems/skins/gloves' },
               { text: '<img src="/icons/agents.svg" class="nav-icon" width="16" height="16" alt=""> Agents', link: '/systems/skins/agents' },
@@ -246,9 +247,9 @@ export default defineConfig({
               { text: '<img src="/icons/stickers.svg" class="nav-icon" width="16" height="16" alt=""> Stickers', link: '/systems/skins/stickers' },
             ]
           },
-          
+
           // SUBSECȚIUNEA GAMBLING
-          { 
+          {
             text: '<img src="/icons/gambling.svg" class="nav-icon" width="16" height="16" alt=""> Gambling',
             collapsed: true,
             items: [
@@ -257,9 +258,9 @@ export default defineConfig({
               { text: '<img src="/icons/blackjack.svg" class="nav-icon" width="16" height="16" alt=""> Blackjack', link: '/systems/gambling/blackjack' },
             ]
           },
-          
+
           // SUBSECȚIUNEA IN-GAME SHOP
-          { 
+          {
             text: '<img src="/icons/shop.svg" class="nav-icon" width="16" height="16" alt=""> In-Game Shop (Credite)',
             collapsed: true,
             items: [
@@ -270,9 +271,9 @@ export default defineConfig({
               { text: '<img src="/icons/sprays.svg" class="nav-icon" width="16" height="16" alt=""> Spray-uri', link: '/systems/shop/sprays' },
             ]
           },
-          
+
           // SUBSECȚIUNEA OTHER SYSTEMS
-          { 
+          {
             text: '<img src="/icons/other.svg" class="nav-icon" width="16" height="16" alt=""> Other Systems',
             collapsed: true,
             items: [
@@ -293,14 +294,14 @@ export default defineConfig({
           },
         ]
       },
-      
+
       // SECȚIUNEA MARKET (DONATIONS)
       {
         text: '<img src="/icons/market.svg" class="nav-icon" width="16" height="16" alt=""> Market (Donations)',
         collapsed: false,
         items: [
           // SUBSECȚIUNEA PREMIUM SHOP
-          { 
+          {
             text: '<img src="/icons/premium-shop.svg" class="nav-icon" width="16" height="16" alt=""> Premium Shop',
             collapsed: true,
             items: [
@@ -310,27 +311,27 @@ export default defineConfig({
               { text: '<img src="/icons/sank.svg" class="nav-icon" width="16" height="16" alt=""> Sank Sounds', link: '/market/premium-shop/sanks' },
             ]
           },
-          
+
           // SUBSECȚIUNEA FIRE COINS PACKS
-          { 
+          {
             text: '<img src="/icons/firecoin.svg" class="nav-icon" width="16" height="16" alt=""> Fire Coins Packs',
             collapsed: true,
             items: [
               { text: '<img src="/icons/pack.svg" class="nav-icon" width="16" height="16" alt=""> Pachete', link: '/market/firecoins/pachete' },
             ]
           },
-          
+
           // SUBSECȚIUNEA CREDITS PACKS
-          { 
+          {
             text: '<img src="/icons/credits-title.svg" class="nav-icon" width="16" height="16" alt=""> Credits Packs',
             collapsed: true,
             items: [
               { text: '<img src="/icons/credits.svg" class="nav-icon" width="16" height="16" alt=""> Pachete de Credite', link: '/market/credits/pachete_credite' },
             ]
           },
-          
+
           // SUBSECȚIUNEA VIP TIERS
-          { 
+          {
             text: '<img src="/icons/vip.svg" class="nav-icon" width="16" height="16" alt=""> VIP Tiers',
             collapsed: true,
             items: [
@@ -341,7 +342,7 @@ export default defineConfig({
               { text: '<img src="/icons/vip.svg" class="nav-icon" width="16" height="16" alt=""> VIP 5', link: '/market/vip/5' },
             ]
           },
-          
+
           // METODE DE PLATĂ
           {
             text: '<img src="/icons/payment.svg" class="nav-icon" width="16" height="16" alt=""> Metode de plată',
@@ -349,7 +350,7 @@ export default defineConfig({
           },
         ]
       },
-      
+
       // SECȚIUNEA "RECENT GUI" CU VERSION TAG (ACELAȘI DESIGN CA ÎN FOOTER)
       {
         text: '<img src="/icons/vsc.svg" class="nav-icon" width="16" height="16" alt=""> 3.0.0 <span class="version-tag">v3.0.0</span>',
@@ -361,31 +362,31 @@ export default defineConfig({
       }
     ],
 
-editLink: {
-  pattern: 'https://github.com/Wildfiire/docs/edit/main/docs/:path',
-  text: '✏️ Editează această pagină pe GitHub'
-},
+    editLink: {
+      pattern: 'https://github.com/Wildfiire/docs/edit/main/docs/:path',
+      text: '✏️ Editează această pagină pe GitHub'
+    },
 
     // SOCIAL LINKS
     socialLinks: [
-      { 
-        icon: { 
-          svg: '<svg viewBox="-1.5 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m13.93 11.4c-.054.633-.582 1.127-1.224 1.127-.678 0-1.229-.55-1.229-1.229s.55-1.229 1.228-1.229c.683.029 1.225.59 1.225 1.277 0 .019 0 .037-.001.056v-.003zm-5.604-1.33c-.688.061-1.223.634-1.223 1.332s.535 1.271 1.218 1.332h.005c.683-.029 1.225-.59 1.225-1.277 0-.019 0-.037-.001-.056v.003c.001-.02.002-.043.002-.067 0-.685-.541-1.243-1.219-1.269h-.002zm12.674-7.598v21.528c-3.023-2.672-2.057-1.787-5.568-5.052l.636 2.22h-13.609c-1.359-.004-2.46-1.106-2.46-2.466 0-.002 0-.004 0-.006v-16.224c0-.002 0-.004 0-.006 0-1.36 1.101-2.462 2.459-2.466h16.081c1.359.004 2.46 1.106 2.46 2.466v.006zm-3.42 11.376c-.042-2.559-.676-4.96-1.77-7.086l.042.09c-.924-.731-2.088-1.195-3.358-1.259l-.014-.001-.168.192c1.15.312 2.15.837 3.002 1.535l-.014-.011c-1.399-.769-3.066-1.222-4.839-1.222-1.493 0-2.911.321-4.189.898l.064-.026c-.444.204-.708.35-.708.35.884-.722 1.942-1.266 3.1-1.56l.056-.012-.12-.144c-1.284.065-2.448.529-3.384 1.269l.012-.009c-1.052 2.036-1.686 4.437-1.728 6.982v.014c.799 1.111 2.088 1.826 3.543 1.826.041 0 .082-.001.123-.002h-.006s.444-.54.804-.996c-.866-.223-1.592-.727-2.093-1.406l-.007-.01c.176.124.468.284.49.3 1.209.672 2.652 1.067 4.188 1.067 1.191 0 2.326-.238 3.36-.668l-.058.021c.528-.202.982-.44 1.404-.723l-.025.016c-.526.703-1.277 1.212-2.144 1.423l-.026.005c.36.456.792.972.792.972.033.001.072.001.111.001 1.461 0 2.755-.714 3.552-1.813l.009-.013z"/></svg>' 
-        }, 
+      {
+        icon: {
+          svg: '<svg viewBox="-1.5 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="m13.93 11.4c-.054.633-.582 1.127-1.224 1.127-.678 0-1.229-.55-1.229-1.229s.55-1.229 1.228-1.229c.683.029 1.225.59 1.225 1.277 0 .019 0 .037-.001.056v-.003zm-5.604-1.33c-.688.061-1.223.634-1.223 1.332s.535 1.271 1.218 1.332h.005c.683-.029 1.225-.59 1.225-1.277 0-.019 0-.037-.001-.056v.003c.001-.02.002-.043.002-.067 0-.685-.541-1.243-1.219-1.269h-.002zm12.674-7.598v21.528c-3.023-2.672-2.057-1.787-5.568-5.052l.636 2.22h-13.609c-1.359-.004-2.46-1.106-2.46-2.466 0-.002 0-.004 0-.006v-16.224c0-.002 0-.004 0-.006 0-1.36 1.101-2.462 2.459-2.466h16.081c1.359.004 2.46 1.106 2.46 2.466v.006zm-3.42 11.376c-.042-2.559-.676-4.96-1.77-7.086l.042.09c-.924-.731-2.088-1.195-3.358-1.259l-.014-.001-.168.192c1.15.312 2.15.837 3.002 1.535l-.014-.011c-1.399-.769-3.066-1.222-4.839-1.222-1.493 0-2.911.321-4.189.898l.064-.026c-.444.204-.708.35-.708.35.884-.722 1.942-1.266 3.1-1.56l.056-.012-.12-.144c-1.284.065-2.448.529-3.384 1.269l.012-.009c-1.052 2.036-1.686 4.437-1.728 6.982v.014c.799 1.111 2.088 1.826 3.543 1.826.041 0 .082-.001.123-.002h-.006s.444-.54.804-.996c-.866-.223-1.592-.727-2.093-1.406l-.007-.01c.176.124.468.284.49.3 1.209.672 2.652 1.067 4.188 1.067 1.191 0 2.326-.238 3.36-.668l-.058.021c.528-.202.982-.44 1.404-.723l-.025.016c-.526.703-1.277 1.212-2.144 1.423l-.026.005c.36.456.792.972.792.972.033.001.072.001.111.001 1.461 0 2.755-.714 3.552-1.813l.009-.013z"/></svg>'
+        },
         link: 'https://discord.gg/Knu76DhE9h',
         ariaLabel: 'Discord'
       },
-      { 
-        icon: { 
-          svg: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">  <path d="M3.51211712,15 L8.17190229,15 C8.05949197,14.0523506 8,13.0444554 8,12 C8,10.9555446 8.05949197,9.94764942 8.17190229,9 L3.51211712,9 C3.18046266,9.93833678 3,10.9480937 3,12 C3,13.0519063 3.18046266,14.0616632 3.51211712,15 L3.51211712,15 Z M3.93551965,16 C5.12590433,18.3953444 7.35207678,20.1851177 10.0280093,20.783292 C9.24889451,19.7227751 8.65216136,18.0371362 8.31375067,16 L3.93551965,16 L3.93551965,16 Z M20.4878829,15 C20.8195373,14.0616632 21,13.0519063 21,12 C21,10.9480937 20.8195373,9.93833678 20.4878829,9 L15.8280977,9 C15.940508,9.94764942 16,10.9555446 16,12 C16,13.0444554 15.940508,14.0523506 15.8280977,15 L20.4878829,15 L20.4878829,15 Z M20.0644804,16 L15.6862493,16 C15.3478386,18.0371362 14.7511055,19.7227751 13.9719907,20.783292 C16.6479232,20.1851177 18.8740957,18.3953444 20.0644804,16 L20.0644804,16 Z M9.18440269,15 L14.8155973,15 C14.9340177,14.0623882 15,13.0528256 15,12 C15,10.9471744 14.9340177,9.93761183 14.8155973,9 L9.18440269,9 C9.06598229,9.93761183 9,10.9471744 9,12 C9,13.0528256 9.06598229,14.0623882 9.18440269,15 L9.18440269,15 Z M9.3349823,16 C9.85717082,18.9678295 10.9180729,21 12,21 C13.0819271,21 14.1428292,18.9678295 14.6650177,16 L9.3349823,16 L9.3349823,16 Z M3.93551965,8 L8.31375067,8 C8.65216136,5.96286383 9.24889451,4.27722486 10.0280093,3.21670804 C7.35207678,3.81488234 5.12590433,5.60465556 3.93551965,8 L3.93551965,8 Z M20.0644804,8 C18.8740957,5.60465556 16.6479232,3.81488234 13.9719907,3.21670804 C14.7511055,4.27722486 15.3478386,5.96286383 15.6862493,8 L20.0644804,8 L20.0644804,8 Z M9.3349823,8 L14.6650177,8 C14.1428292,5.03217048 13.0819271,3 12,3 C10.9180729,3 9.85717082,5.03217048 9.3349823,8 L9.3349823,8 Z M12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 Z"/></svg>' 
-        }, 
+      {
+        icon: {
+          svg: '<svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">  <path d="M3.51211712,15 L8.17190229,15 C8.05949197,14.0523506 8,13.0444554 8,12 C8,10.9555446 8.05949197,9.94764942 8.17190229,9 L3.51211712,9 C3.18046266,9.93833678 3,10.9480937 3,12 C3,13.0519063 3.18046266,14.0616632 3.51211712,15 L3.51211712,15 Z M3.93551965,16 C5.12590433,18.3953444 7.35207678,20.1851177 10.0280093,20.783292 C9.24889451,19.7227751 8.65216136,18.0371362 8.31375067,16 L3.93551965,16 L3.93551965,16 Z M20.4878829,15 C20.8195373,14.0616632 21,13.0519063 21,12 C21,10.9480937 20.8195373,9.93833678 20.4878829,9 L15.8280977,9 C15.940508,9.94764942 16,10.9555446 16,12 C16,13.0444554 15.940508,14.0523506 15.8280977,15 L20.4878829,15 L20.4878829,15 Z M20.0644804,16 L15.6862493,16 C15.3478386,18.0371362 14.7511055,19.7227751 13.9719907,20.783292 C16.6479232,20.1851177 18.8740957,18.3953444 20.0644804,16 L20.0644804,16 Z M9.18440269,15 L14.8155973,15 C14.9340177,14.0623882 15,13.0528256 15,12 C15,10.9471744 14.9340177,9.93761183 14.8155973,9 L9.18440269,9 C9.06598229,9.93761183 9,10.9471744 9,12 C9,13.0528256 9.06598229,14.0623882 9.18440269,15 L9.18440269,15 Z M9.3349823,16 C9.85717082,18.9678295 10.9180729,21 12,21 C13.0819271,21 14.1428292,18.9678295 14.6650177,16 L9.3349823,16 L9.3349823,16 Z M3.93551965,8 L8.31375067,8 C8.65216136,5.96286383 9.24889451,4.27722486 10.0280093,3.21670804 C7.35207678,3.81488234 5.12590433,5.60465556 3.93551965,8 L3.93551965,8 Z M20.0644804,8 C18.8740957,5.60465556 16.6479232,3.81488234 13.9719907,3.21670804 C14.7511055,4.27722486 15.3478386,5.96286383 15.6862493,8 L20.0644804,8 L20.0644804,8 Z M9.3349823,8 L14.6650177,8 C14.1428292,5.03217048 13.0819271,3 12,3 C10.9180729,3 9.85717082,5.03217048 9.3349823,8 L9.3349823,8 Z M12,22 C6.4771525,22 2,17.5228475 2,12 C2,6.4771525 6.4771525,2 12,2 C17.5228475,2 22,6.4771525 22,12 C22,17.5228475 17.5228475,22 12,22 Z"/></svg>'
+        },
         link: 'https://www.wildfire.ro',
         ariaLabel: 'Web Site'
       },
-      { 
-        icon: { 
-          svg: '<svg viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg"><title>TikTok icon</title><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>' 
-        }, 
+      {
+        icon: {
+          svg: '<svg viewBox="0 0 24 24" role="img" xmlns="http://www.w3.org/2000/svg"><title>TikTok icon</title><path d="M12.53.02C13.84 0 15.14.01 16.44 0c.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.71-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 3.02 3.5 2.87 1.12-.01 2.19-.66 2.77-1.61.19-.33.4-.67.41-1.06.1-1.79.06-3.57.07-5.36.01-4.03-.01-8.05.02-12.07z"/></svg>'
+        },
         link: 'https://www.tiktok.com/@wildfire.ro',
         ariaLabel: 'TikTok'
       }
