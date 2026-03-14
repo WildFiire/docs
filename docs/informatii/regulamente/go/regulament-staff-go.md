@@ -520,7 +520,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">1.2</span> Dacă între staff apare un conflict, acesta trebuie discutat cu <span class="highlight orbitron-font">Server Manager-ul / Owner</span>.
+    <span class="rule-number orbitron-font">1.2</span> Dacă între staff apare un conflict, acesta trebuie discutat cu <span class="highlight orbitron-font">Server Manager-ul</span>.
   </div>
 </div>
 
@@ -559,7 +559,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">1.5</span> În cazul în care veți lipsi mai mult <span class="highlight orbitron-font">de 3 zile</span>, sunteți obligați să anunțați <span class="highlight orbitron-font">Staff Managerul / Owner</span> sau să postați absența pe forum cu motivul și perioada acesteia.
+    <span class="rule-number orbitron-font">1.5</span> În cazul în care veți lipsi mai mult <span class="highlight orbitron-font">de 3 zile</span>, sunteți obligați să anunțați <span class="highlight orbitron-font">Server Manager-ul</span> sau să postați absența pe server-ul de discord destinat administrarii <span class="highlight orbitron-font">(GO, AWP, Arena)</span> cu motivul și perioada acesteia.
   </div>
 </div>
 
@@ -571,7 +571,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">1.6</span> Adminii au dreptul de a folosi accesele care le revin în scopul de a aplica sancțiuni numai în conformitate cu regulamentul.
+    <span class="rule-number orbitron-font">1.6</span> Adminii au dreptul de a folosi accesele care le revin în scopul de a aplica sancțiuni numai în conformitate cu regulamentul si ghidul impus.
   </div>
 </div>
 
@@ -610,7 +610,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">1.9</span> Adminii au obligația să citească zilnic postările noi pe discord la categoria <span class="highlight orbitron-font">GO</span>. Aceștia trebuie să fie mereu la curent cu regulamentul.
+    <span class="rule-number orbitron-font">1.9</span> Adminii au obligația să citească zilnic postările noi pe discord la categoria <span class="highlight orbitron-font">Informatii</span>. Aceștia trebuie să fie mereu la curent cu regulamentul.
   </div>
 </div>
 
@@ -650,7 +650,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">1.12</span> Dacă un admin are cunoștință de existența unui bug, este obligat să sesizeze imediat <span class="highlight orbitron-font">Staff Managerul / Owner!</span> <span class="badge-warn orbitron-font">Sancțiune: WARN</span>
+    <span class="rule-number orbitron-font">1.12</span> Dacă un admin are cunoștință de existența unui bug, este obligat să sesizeze imediat <span class="highlight orbitron-font">Developer-ul!</span> <span class="badge-warn orbitron-font">Sancțiune: WARN</span>
   </div>
 </div>
 
@@ -663,7 +663,37 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">1.13</span> În caz că un admin primește <span class="highlight orbitron-font">BAN pe discord</span>, adminul respectiv nu mai poate deține un grad pe server!
+    <span class="rule-number orbitron-font">1.13</span> În caz că un admin primește <span class="highlight orbitron-font">BAN pe discord</span>, adminul respectiv nu mai poate deține un grad pe server! <span class="badge-remove orbitron-font">Sancțiune: REMOVE</span>
+  </div>
+</div>
+
+<!-- 1.14 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M4 4L20 20M20 4L4 20" stroke="#ff8c00"/>
+      <path d="M12 4C10 4 8 6 8 8C8 10 12 14 12 14C12 14 16 10 16 8C16 6 14 4 12 4Z" stroke="#ff8c00" fill="none"/>
+      <circle cx="12" cy="16" r="2" stroke="#ff8c00"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">1.14</span> În caz că un admin primește <span class="highlight orbitron-font">VAC BAN/Game Ban(STRICT PE CS2)</span>, adminul respectiv nu mai poate deține un grad pe server!<span class="badge-remove orbitron-font">Sancțiune: REMOVE</span>
+  </div>
+</div>
+
+<!-- 1.15 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="9" stroke="#ff8c00"/>
+      <path d="M12 7v5l3 3" stroke="#ff8c00"/>
+      <path d="M12 5v2M12 15v2" stroke="#ff8c00" stroke-width="3"/>
+      <path d="M5 12H3M21 12H19" stroke="#ff8c00"/>
+      <rect x="2" y="2" width="20" height="20" rx="2" stroke="#ff8c00" stroke-dasharray="2 2"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">1.15</span> Durata maxima a unei sanctiuni, pe care un <span class="highlight orbitron-font">Helper</span> o poate da, este de <span class="highlight orbitron-font">60 de minute</span>, se permite o durata mai mare doar cu acordul unui <span class="highlight orbitron-font">Administrator+</span>. Iar pentru gradul de <span class="highlight orbitron-font">Moderator</span>, durata maxima este de <span class="highlight orbitron-font">120 de minute</span>, se permite o durata mai mare doar cu acordul unui <span class="highlight orbitron-font">Administrator+</span>.<span class="badge-warn orbitron-font">Sancțiune: WARN</span>
   </div>
 </div>
 
@@ -726,7 +756,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">2.4</span> Adminilor nu le este permis să stea AFK pe server. Dacă adminul respectiv stă mai mult de 30 minute pe server. <span class="badge-warn orbitron-font">Sancțiune: WARN</span>
+    <span class="rule-number orbitron-font">2.4</span> Adminilor nu le este permis să stea AFK pe server.<span class="badge-warn orbitron-font">Sancțiune: WARN</span>
   </div>
 </div>
 
@@ -764,7 +794,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">2.7</span> Fiecare admin trebuie să își îndeplinească targetul de <span class="highlight orbitron-font">35 de ore lunar per admin</span>. Cel care nu respectă targetul va fi pedepsit cu <span class="badge-warn orbitron-font">WARN!</span>
+    <span class="rule-number orbitron-font">2.7</span> Fiecare admin trebuie să își îndeplinească targetul de <span class="highlight orbitron-font">30 de ore lunar per admin</span>. Cel care nu respectă targetul va fi pedepsit cu <span class="badge-warn orbitron-font">WARN!</span>
   </div>
 </div>
 
@@ -777,7 +807,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">2.8</span> Este interzisă administrarea pe alte servere din afara comunității. <span class="badge-warn orbitron-font">Sancțiune: 3/3 WARN</span> și <span class="badge-remove orbitron-font">REMOVE!</span>
+    <span class="rule-number orbitron-font">2.8</span> Este interzisă administrarea pe alte servere din afara comunității. <span class="badge-remove orbitron-font">Sancțiune: REMOVE!</span>
   </div>
 </div>
 
@@ -855,7 +885,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">2.14</span> Începând cu ora <span class="highlight orbitron-font">12:00 AM → 07:00</span>, vă recomandăm să adoptați o atitudine mai conciliantă față de jucătorii care folosesc un limbaj vulgar, având în vedere faptul că, după această oră, numărul copiilor activi pe server scade considerabil. Astfel, vom permite, într-o măsură rezonabilă, anumite glume și expresii vulgare, cu condiția ca acestea să rămână în limita unui comportament decent și a bunului simț.
+    <span class="rule-number orbitron-font">2.14</span> Începând cu ora <span class="highlight orbitron-font">12:00 AM → 07:00 AM</span>, vă recomandăm să adoptați o atitudine mai conciliantă față de jucătorii care folosesc un limbaj vulgar, având în vedere faptul că, după această oră, numărul copiilor activi pe server scade considerabil. Astfel, vom permite, într-o măsură rezonabilă, anumite glume și expresii vulgare, cu condiția ca acestea să rămână în limita unui comportament decent și a bunului simț.
   </div>
 </div>
 
