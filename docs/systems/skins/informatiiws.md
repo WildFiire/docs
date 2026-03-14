@@ -799,7 +799,7 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
       </svg>
       Sistemul de Stocuri
     </h3>
-    <p>Acesta nu este un simplu VIP meniu unde toată lumea alege aceleași 2 skin-uri la nesfârșit. Acum avem un sistem de stoc limitat:</p>
+    <p>Acesta nu este un simplu meniu unde toată lumea alege aceleași 2 skin-uri la nesfârșit. Acum avem un sistem de stoc limitat:</p>
     
   <div style="display: flex; flex-direction: column; gap: 15px; margin: 15px 0;">
       <div style="display: flex; align-items: flex-start; gap: 12px;">
