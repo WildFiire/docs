@@ -215,7 +215,7 @@ const hierarchy = [
       name: 'Trapi', 
       display: 'Trapi', 
       fullRole: 'Fondator',
-      icon: '/public/icons/wildfire.webp',
+      icon: '/icons/wildfire.webp',
       discordId: '250205071478882306', 
       color: '#7a3c3c', 
       roleClass: 'founder',
