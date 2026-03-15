@@ -168,7 +168,7 @@
                 </div>
                 
                 <!-- Copy name button -->
-                <button class="copy-name-btn" @click="copyName(m.display)" :title="'Copy ' + m.display">
+                  <button class="copy-name-btn" @click="copyName(m.name)" :title="'Copy ' + m.name">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M9 1H3C2.4 1 2 1.4 2 2V9H3V2H9V1ZM11 3H5C4.4 3 4 3.4 4 4V12C4 12.6 4.4 13 5 13H11C11.6 13 12 12.6 12 12V4C12 3.4 11.6 3 11 3ZM11 12H5V4H11V12Z" fill="currentColor"/>
                   </svg>
@@ -370,7 +370,7 @@ const hierarchy = [
     },
     { 
       id: 'denisa', 
-      name: 'Denisa', 
+      name: '.denisuka', 
       display: 'Denisa', 
       fullRole: 'Helper',
       emoji: '🔰',
@@ -413,20 +413,19 @@ function copyName(name) {
     audio.play().catch(e => console.log('Audio play failed:', e))
     
     showToast({
-      message: `"${name}" has been copied to clipboard. You can now add/contact them on discord.`,
+      message: `"${name}" has been copied to clipboard`,
       title: 'Copied!',
       type: 'success',
       icon: '/icons/wildfire.webp',
       duration: 4000
     })
-    
   }).catch(err => {
     console.error('Failed to copy:', err)
     showToast({
       message: 'Failed to copy to clipboard',
       title: 'Error',
       type: 'error',
-      icon: '/public/icons/wildfire.webp',
+      icon: '/icons/wildfire.webp',
       duration: 4000
     })
   })
