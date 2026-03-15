@@ -10,7 +10,7 @@ declare global {
       VITE_GITHUB_TOKEN: string
     }
   }
-  
+
   interface Window {
     __GITHUB_TOKEN: string
   }
@@ -33,6 +33,7 @@ import HomeNavbar from './components/HomeNavbar.vue'
 import Panel from './components/Panel.vue'
 import AboutWiki from './components/AboutWiki.vue'
 import StatsGithub from './components/StatsGithub.vue'
+import Team from './components/Team.vue'
 
 // NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
@@ -60,25 +61,25 @@ import PageTagGray from './components/tags/PageTagGray.vue'
 
 export default {
   extends: DefaultTheme,
-  
+
   Layout: () => {
     return h(DefaultTheme.Layout, null, {
       // Home page
       'home-hero-before': () => h(WikiHome),
-      
+
       // Navbar
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,
       'nav-bar-content-after': () => h(NavSearch),
-      
+
       // Footer
       'layout-bottom': () => h(SiteMap),
-      
+
       // Not Found Page
       'not-found': () => h(PageNotFound)
     })
   },
-  
+
   enhanceApp({ app }) {
     // Componente principale
     app.component('WikiHome', WikiHome)
@@ -94,7 +95,8 @@ export default {
     app.component('AboutWiki', AboutWiki)
     app.component('Panel', Panel)
     app.component('StatsGithub', StatsGithub)
-    
+    app.component('Team', Team)
+
     // NOUA COMPONENTĂ PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)
 
@@ -113,7 +115,7 @@ export default {
     app.component('PageTagEmerald', PageTagEmerald)
     app.component('PageTagAmber', PageTagAmber)
     app.component('PageTagGray', PageTagGray)
-    
+
     // 🔥 Adăugăm token-ul global
     app.config.globalProperties.$githubToken = githubToken
   }

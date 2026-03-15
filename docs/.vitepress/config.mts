@@ -171,6 +171,10 @@ export default defineConfig({
         text: '<img src="/icons/github.svg" class="nav-icon" width="16" height="16" alt=""> Dashboard',
         link: '/panel/panel'
       },
+      {
+        text: '<img src="/icons/team.svg" class="nav-icon" width="16" height="16" alt=""> Echipa',
+        link: '/staff/team'
+      },
     ],
 
     sidebar: [
