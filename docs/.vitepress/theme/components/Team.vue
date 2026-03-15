@@ -367,6 +367,19 @@ const hierarchy = [
       cls: '', 
       init: 'B', 
       crown: false,
+    },
+    { 
+      id: 'denisa', 
+      name: 'Denisa', 
+      display: 'Denisa', 
+      fullRole: 'Helper',
+      emoji: '🔰',
+      discordId: '789488474805633084', 
+      color: '#2ecc71', 
+      roleClass: 'helper',
+      cls: '', 
+      init: 'D', 
+      crown: false,
     }
   ]
 ]
