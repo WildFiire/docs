@@ -392,7 +392,7 @@ const toast = ref({
 let toastTimeout = null
 
 // Audio object for sound
-const audio = new Audio('/public/sounds/sunet.mp3')
+const audio = new Audio('/sounds/sunet.mp3')
 
 // Copy name function with notification and sound
 function copyName(name) {
@@ -403,7 +403,7 @@ function copyName(name) {
       message: `"${name}" has been copied to clipboard. You can now add/contact them on discord.`,
       title: 'Copied!',
       type: 'success',
-      icon: '/public/icons/wildfire.webp',
+      icon: '/icons/wildfire.webp',
       duration: 4000
     })
     
