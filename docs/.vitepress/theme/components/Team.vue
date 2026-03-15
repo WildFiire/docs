@@ -1617,8 +1617,8 @@ onBeforeUnmount(() => {
 }
 
 .avatar-img {
-  width: 90px;
-  height: 90px;
+  width: 97px;
+  height: 97px;
   border-radius: 50%;
   object-fit: cover;
   display: block;
@@ -1626,7 +1626,7 @@ onBeforeUnmount(() => {
 }
 
 .avatar-init {
-  width: 90px;
+  width: 90px; /* a fost 97px */
   height: 90px;
   border-radius: 50%;
   display: flex;
