@@ -343,17 +343,17 @@ const card4 = ref({
 })
 const card5 = ref({
   active: true,
-  dotClass: 'dot-orange',
-  category: 'INFORMATII',
-  title: 'ABOUT US',
-  date: '09.03.2026',
+  dotClass: 'dot-purple',
+  category: 'ORGANIZATION',
+  title: 'TEAM',
+  date: '16.03.2026',
   username: 'ianncxd',
   avatarUrl: 'https://github.com/ianncxd.png',
   profileUrl: 'https://github.com/ianncxd',
-  tagColor: 'orange',
-  tag1: 'ABOUT',
-  tag2: 'WILDFIRE',
-  link: '/informatii/about',
+  tagColor: 'purple',
+  tag1: 'CHART',
+  tag2: 'TEAM',
+  link: '/team/team',
   buttonText: 'CITESTE'
 })
 const card6 = ref({
