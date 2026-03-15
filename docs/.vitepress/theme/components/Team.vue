@@ -212,7 +212,7 @@ const hierarchy = [
   [
     { 
       id: 'trapi', 
-      name: 'Trapi', 
+      name: 'trapi', 
       display: 'Trapi', 
       fullRole: 'Fondator',
       icon: '/icons/wildfire.webp',
@@ -228,7 +228,7 @@ const hierarchy = [
   [
     { 
       id: 'iannc', 
-      name: 'iannC', 
+      name: 'iannc', 
       display: 'iannC', 
       fullRole: 'Community Manager',
       emoji: '👑',
@@ -241,7 +241,7 @@ const hierarchy = [
     },
     { 
       id: 'spark', 
-      name: 'Spark', 
+      name: 'sparkgames.live', 
       display: 'Spark', 
       fullRole: 'Community Manager',
       emoji: '👑',
@@ -257,7 +257,7 @@ const hierarchy = [
   [
     { 
       id: 'zlk', 
-      name: 'ZLK', 
+      name: 'w_zlk_w', 
       display: 'ZLK', 
       fullRole: 'Server Manager',
       emoji: '💜',
@@ -270,7 +270,7 @@ const hierarchy = [
     },
     { 
       id: 'umpy', 
-      name: 'Umpy', 
+      name: '.umpy', 
       display: 'Umpy', 
       fullRole: 'Server Manager',
       emoji: '💜',
@@ -286,7 +286,7 @@ const hierarchy = [
   [
     { 
       id: 'dennis', 
-      name: 'DeNNis', 
+      name: 'dennis078734', 
       display: 'DeNNis', 
       fullRole: 'Administrator GO',
       emoji: '🌀',
@@ -299,7 +299,7 @@ const hierarchy = [
     },
     { 
       id: 'booyeto', 
-      name: 'Booyeto', 
+      name: 'booyeto', 
       display: 'Booyeto', 
       fullRole: 'Administrator GO',
       emoji: '🌀',
@@ -315,7 +315,7 @@ const hierarchy = [
   [
     { 
       id: 'codrin', 
-      name: 'Codrin', 
+      name: 'codriin', 
       display: 'Codrin', 
       fullRole: 'Moderator GO',
       emoji: '🔱',
@@ -328,7 +328,7 @@ const hierarchy = [
     },
     { 
       id: 'juanito', 
-      name: 'Juanito', 
+      name: 'dibu37', 
       display: 'Juanito', 
       fullRole: 'Moderator GO',
       emoji: '🔱',
@@ -341,7 +341,7 @@ const hierarchy = [
     },
     { 
       id: 'lequipe', 
-      name: 'lequipe', 
+      name: 'rc498', 
       display: 'lequipe', 
       fullRole: 'Moderator GO',
       emoji: '🔱',
@@ -357,7 +357,7 @@ const hierarchy = [
   [
     { 
       id: 'bigolas', 
-      name: 'BIGOLAS', 
+      name: '_.nicolqs._', 
       display: 'BIGOLAS', 
       fullRole: 'Helper GO',
       emoji: '🔰',
