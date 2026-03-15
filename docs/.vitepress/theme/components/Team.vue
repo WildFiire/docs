@@ -1,211 +1,190 @@
 <template>
   <div class="org-page" :class="{ 'light-theme': isLightTheme }">
-    <!-- Background wallpaper (stratul cel mai de jos) -->
-    <img 
-      src="/wallpaper/poza102.webp"
-      alt=""
-      class="wildfire-wallpaper-base"
-      :class="{ 
-        'wildfire-wallpaper-hover': isHovered 
-      }"
-      width="1920"
-      height="1080"
-      fetchpriority="high"
-      loading="eager"
-      decoding="async"
-      role="presentation"
-    />
-    
-    <!-- Background overlay pentru a face textul lizibil -->
-    <div class="wildfire-overlay"></div>
+    <!-- HomeNavbar Component - SUS FIX -->
+    <HomeNavbar />
 
-    <!-- Background cu licurici vizibili (light theme) -->
-    <div class="bg-effects" v-if="isLightTheme">
-      <div class="bg-orb top-orb"></div>
-      <div class="bg-orb bottom-orb"></div>
-      <div class="firefly" v-for="n in 25" :key="n" :style="fireflyStyle(n)"></div>
-      <div class="bg-grid"></div>
-    </div>
-
-    <!-- Dark theme background custom - WILDFIRE STYLE -->
-    <div class="wildfire-bg" v-if="!isLightTheme">
-      <div class="wildfire-base"></div>
-      <div class="wildfire-ember-left"></div>
-      <div class="wildfire-ember-right"></div>
-      <div class="wildfire-ember-bottom"></div>
-      <div class="wildfire-ember-top"></div>
-      <div class="wildfire-energy-line-1"></div>
-      <div class="wildfire-energy-line-2"></div>
-      <div class="wildfire-energy-line-3"></div>
-      <div class="wildfire-particles"></div>
-      <div class="wildfire-floating-particles">
-        <div class="wildfire-particle wildfire-particle-1"></div>
-        <div class="wildfire-particle wildfire-particle-2"></div>
-        <div class="wildfire-particle wildfire-particle-3"></div>
-        <div class="wildfire-particle wildfire-particle-4"></div>
-        <div class="wildfire-particle wildfire-particle-5"></div>
-        <div class="wildfire-particle wildfire-particle-6"></div>
-        <div class="wildfire-particle wildfire-particle-7"></div>
-        <div class="wildfire-particle wildfire-particle-8"></div>
-      </div>
-      <div class="wildfire-spotlight-tl"></div>
-      <div class="wildfire-spotlight-tr"></div>
-      <div class="wildfire-spotlight-bl"></div>
-      <div class="wildfire-spotlight-br"></div>
-    </div>
-
-    <!-- Toast notification -->
-    <transition name="toast" @after-leave="clearToast">
-      <div v-if="toast.show" class="toast-notification" :class="[toast.type, { 'has-icon': toast.icon }]">
-        <div class="toast-glass"></div>
-        <div class="toast-content">
-          <div class="toast-icon-wrapper" v-if="toast.icon">
-            <img :src="toast.icon" class="toast-icon" alt="">
-          </div>
-          <div class="toast-icon-wrapper" v-else-if="toast.type === 'success'">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="10" cy="10" r="8" fill="#2ecc71" fill-opacity="0.2"/>
-              <path d="M6 10L9 13L14 7" stroke="#2ecc71" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="toast-icon-wrapper" v-else-if="toast.type === 'error'">
-            <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-              <circle cx="10" cy="10" r="8" fill="#e74c3c" fill-opacity="0.2"/>
-              <path d="M7 7L13 13M13 7L7 13" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
-            </svg>
-          </div>
-          <div class="toast-message-wrapper">
-            <span class="toast-title">{{ toast.title || (toast.type === 'success' ? 'Success!' : 'Error!') }}</span>
-            <span class="toast-message">{{ toast.message }}</span>
-          </div>
-        </div>
-        <div class="toast-progress" :style="{ animationDuration: toast.duration + 'ms' }"></div>
-        <button class="toast-close" @click="closeToast">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-            <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-          </svg>
-        </button>
-      </div>
-    </transition>
-
-    <!-- Theme toggle -->
-    <div class="theme-toggle">
-      <button @click="isLightTheme = !isLightTheme" class="theme-btn">
-        <svg v-if="!isLightTheme" width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="4" fill="currentColor"/>
-          <path d="M8 2V1M8 15V14M14 8H15M1 8H2M12.5 3.5L13 3M3 13L3.5 12.5M12.5 12.5L13 13M3 3L3.5 3.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <!-- Restul conținutului cu padding-top pentru navbar -->
+    <div class="content-wrapper">
+      <!-- Back button în colțul stânga sus (dar sub navbar) -->
+      <button class="back-button-fixed" @click="goBack" title="Go back">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <path d="M15 10H5M5 10L9 6M5 10L9 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
         </svg>
-        <svg v-else width="16" height="16" viewBox="0 0 16 16" fill="none">
-          <circle cx="8" cy="8" r="5" fill="currentColor"/>
-          <path d="M8 3V1M8 15V13M13 8H15M1 8H3M11.5 4.5L13 3M4.5 11.5L3 13M11.5 11.5L13 13M4.5 4.5L3 3" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-        </svg>
-        <span>{{ isLightTheme ? 'Dark' : 'Light' }}</span>
       </button>
-    </div>
 
-    <!-- Header redesign - FĂRĂ GLOW -->
-    <header class="org-header">
-      <div class="header-content">
-        <button class="back-button" @click="goBack" title="Go back">
-          <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-            <path d="M15 10H5M5 10L9 6M5 10L9 14" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-        </button>
-        
-        <div class="logo-wrapper">
-          <img src="/public/icons/wildfire.webp" alt="Wildfire" class="header-logo">
-        </div>
-        
-        <div class="title-wrapper">
-          <h1 class="org-title">
-            <span class="title-line">WILDFIRE</span>
-            <span class="title-line accent">STAFF</span>
-          </h1>
-          <div class="title-underline"></div>
-        </div>
-      </div>
-      <p class="org-sub">ORGANIZATION CHART</p>
-    </header>
-
-    <!-- Org Chart -->
-    <div class="chart">
-      <div v-if="loading" class="loading-state">Loading staff data...</div>
+      <!-- Background wallpaper (stratul cel mai de jos) -->
+      <img 
+        src="/wallpaper/poza102.webp"
+        alt=""
+        class="wildfire-wallpaper-base"
+        :class="{ 
+          'wildfire-wallpaper-hover': isHovered 
+        }"
+        width="1920"
+        height="1080"
+        fetchpriority="high"
+        loading="eager"
+        decoding="async"
+        role="presentation"
+      />
       
-      <template v-for="(level, li) in hierarchy" :key="li">
-        <!-- Vertical connector between levels -->
-        <div v-if="li > 0" class="connector-v">
-          <div class="cv-line"></div>
+      <!-- Background overlay pentru a face textul lizibil -->
+      <div class="wildfire-overlay"></div>
+
+      <!-- Background cu licurici vizibili (light theme) -->
+      <div class="bg-effects" v-if="isLightTheme">
+        <div class="bg-orb top-orb"></div>
+        <div class="bg-orb bottom-orb"></div>
+        <div class="firefly" v-for="n in 25" :key="n" :style="fireflyStyle(n)"></div>
+        <div class="bg-grid"></div>
+      </div>
+
+      <!-- Dark theme background custom - WILDFIRE STYLE -->
+      <div class="wildfire-bg" v-if="!isLightTheme">
+        <div class="wildfire-base"></div>
+        <div class="wildfire-ember-left"></div>
+        <div class="wildfire-ember-right"></div>
+        <div class="wildfire-ember-bottom"></div>
+        <div class="wildfire-ember-top"></div>
+        <div class="wildfire-energy-line-1"></div>
+        <div class="wildfire-energy-line-2"></div>
+        <div class="wildfire-energy-line-3"></div>
+        <div class="wildfire-particles"></div>
+        <div class="wildfire-floating-particles">
+          <div class="wildfire-particle wildfire-particle-1"></div>
+          <div class="wildfire-particle wildfire-particle-2"></div>
+          <div class="wildfire-particle wildfire-particle-3"></div>
+          <div class="wildfire-particle wildfire-particle-4"></div>
+          <div class="wildfire-particle wildfire-particle-5"></div>
+          <div class="wildfire-particle wildfire-particle-6"></div>
+          <div class="wildfire-particle wildfire-particle-7"></div>
+          <div class="wildfire-particle wildfire-particle-8"></div>
         </div>
+        <div class="wildfire-spotlight-tl"></div>
+        <div class="wildfire-spotlight-tr"></div>
+        <div class="wildfire-spotlight-bl"></div>
+        <div class="wildfire-spotlight-br"></div>
+      </div>
 
-        <!-- Level row -->
-        <div class="level-row" :class="['level-' + li, { child: li > 0 }]">
-          <div v-for="m in level" :key="m.id" class="node">
-            <!-- Vertical drop from horizontal branch -->
-            <div v-if="li > 0" class="drop-line"></div>
-            
-            <!-- Card cu efect 3D la mouse -->
-            <div class="card" :class="[m.cls, m.roleClass]" :data-role="m.roleClass">
-              <!-- Avatar section -->
-              <div class="avatar-wrapper">
-                <div class="avatar-circle" :class="'circle-' + m.roleClass">
-                  <img
-                    v-if="memberData[m.id]"
-                    :src="memberData[m.id]"
-                    :alt="m.name"
-                    class="avatar-img"
-                    @error="handleAvatarError(m)"
-                  />
-                  <div v-else class="avatar-init" :style="{ backgroundColor: m.color }">
-                    {{ m.init }}
+      <!-- Toast notification -->
+      <transition name="toast" @after-leave="clearToast">
+        <div v-if="toast.show" class="toast-notification" :class="[toast.type, { 'has-icon': toast.icon }]">
+          <div class="toast-glass"></div>
+          <div class="toast-content">
+            <div class="toast-icon-wrapper" v-if="toast.icon">
+              <img :src="toast.icon" class="toast-icon" alt="">
+            </div>
+            <div class="toast-icon-wrapper" v-else-if="toast.type === 'success'">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="8" fill="#2ecc71" fill-opacity="0.2"/>
+                <path d="M6 10L9 13L14 7" stroke="#2ecc71" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="toast-icon-wrapper" v-else-if="toast.type === 'error'">
+              <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                <circle cx="10" cy="10" r="8" fill="#e74c3c" fill-opacity="0.2"/>
+                <path d="M7 7L13 13M13 7L7 13" stroke="#e74c3c" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div class="toast-message-wrapper">
+              <span class="toast-title">{{ toast.title || (toast.type === 'success' ? 'Success!' : 'Error!') }}</span>
+              <span class="toast-message">{{ toast.message }}</span>
+            </div>
+          </div>
+          <div class="toast-progress" :style="{ animationDuration: toast.duration + 'ms' }"></div>
+          <button class="toast-close" @click="closeToast">
+            <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+              <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            </svg>
+          </button>
+        </div>
+      </transition>
+
+      <!-- Org Chart -->
+      <div class="chart">
+        <div v-if="loading" class="loading-state">Loading staff data...</div>
+        
+        <template v-for="(level, li) in hierarchy" :key="li">
+          <!-- Vertical connector between levels -->
+          <div v-if="li > 0" class="connector-v">
+            <div class="cv-line"></div>
+          </div>
+
+          <!-- Level row -->
+          <div class="level-row" :class="['level-' + li, { child: li > 0 }]">
+            <div v-for="m in level" :key="m.id" class="node">
+              <!-- Vertical drop from horizontal branch -->
+              <div v-if="li > 0" class="drop-line"></div>
+              
+              <!-- Card cu efect 3D la mouse -->
+              <div class="card" :class="[m.cls, m.roleClass]" :data-role="m.roleClass">
+                <!-- Avatar section -->
+                <div class="avatar-wrapper">
+                  <div class="avatar-circle" :class="'circle-' + m.roleClass">
+                    <img
+                      v-if="memberData[m.id]"
+                      :src="memberData[m.id]"
+                      :alt="m.name"
+                      class="avatar-img"
+                      @error="handleAvatarError(m)"
+                    />
+                    <div v-else class="avatar-init" :style="{ backgroundColor: m.color }">
+                      {{ m.init }}
+                    </div>
                   </div>
-                </div>
-                
-                <!-- Crown SVG -->
-                <div v-if="m.crown" class="crown-svg">
-                  <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                    <path d="M10 2L12.5 8L19 9L14 14L16 20L10 16.5L4 20L6 14L1 9L7.5 8L10 2Z" fill="#FFD700" stroke="#FFA500" stroke-width="1"/>
-                  </svg>
-                </div>
-                
-                <!-- Copy name button -->
+                  
+                  <!-- Crown SVG -->
+                  <div v-if="m.crown" class="crown-svg">
+                    <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+                      <path d="M10 2L12.5 8L19 9L14 14L16 20L10 16.5L4 20L6 14L1 9L7.5 8L10 2Z" fill="#FFD700" stroke="#FFA500" stroke-width="1"/>
+                    </svg>
+                  </div>
+                  
+                  <!-- Copy name button -->
                   <button class="copy-name-btn" @click="copyName(m.name)" :title="'Copy ' + m.name">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M9 1H3C2.4 1 2 1.4 2 2V9H3V2H9V1ZM11 3H5C4.4 3 4 3.4 4 4V12C4 12.6 4.4 13 5 13H11C11.6 13 12 12.6 12 12V4C12 3.4 11.6 3 11 3ZM11 12H5V4H11V12Z" fill="currentColor"/>
-                  </svg>
-                </button>
-              </div>
+                    <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+                      <path d="M9 1H3C2.4 1 2 1.4 2 2V9H3V2H9V1ZM11 3H5C4.4 3 4 3.4 4 4V12C4 12.6 4.4 13 5 13H11C11.6 13 12 12.6 12 12V4C12 3.4 11.6 3 11 3ZM11 12H5V4H11V12Z" fill="currentColor"/>
+                    </svg>
+                  </button>
+                </div>
 
-              <!-- Member info with custom tag -->
-              <div class="member-info">
-                <span class="member-name">{{ m.display }}</span>
-                <div class="member-tag-wrapper">
-                  <div class="member-tag">
-                    <span class="role-dot" :style="{ backgroundColor: m.color }"></span>
-                    
-                    <!-- Icon sau emoji în stânga -->
-                    <span class="role-icon-wrapper" v-if="m.icon">
-                      <img :src="m.icon" class="role-custom-icon" alt="icon">
-                    </span>
-                    <span class="role-emoji" v-else-if="m.emoji">{{ m.emoji }}</span>
-                    
-                    <span class="role-separator">»</span>
-                    <span class="tag-text">{{ m.fullRole }}</span>
-                    
-                    <!-- Tag icon în dreapta (opțional) -->
-                    <img v-if="m.tagIcon" :src="m.tagIcon" class="tag-icon" alt="icon">
+                <!-- Member info with custom tag -->
+                <div class="member-info">
+                  <span class="member-name">{{ m.display }}</span>
+                  <div class="member-tag-wrapper">
+                    <div class="member-tag">
+                      <span class="role-dot" :style="{ backgroundColor: m.color }"></span>
+                      
+                      <!-- Icon sau emoji în stânga -->
+                      <span class="role-icon-wrapper" v-if="m.icon">
+                        <img :src="m.icon" class="role-custom-icon" alt="icon">
+                      </span>
+                      <span class="role-emoji" v-else-if="m.emoji">{{ m.emoji }}</span>
+                      
+                      <span class="role-separator">»</span>
+                      <span class="tag-text">{{ m.fullRole }}</span>
+                      
+                      <!-- Tag icon în dreapta (opțional) -->
+                      <img v-if="m.tagIcon" :src="m.tagIcon" class="tag-icon" alt="icon">
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </template>
+        </template>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup>
-import { reactive, onMounted, ref, onBeforeUnmount } from 'vue'
+import { reactive, onMounted, ref, onBeforeUnmount, computed } from 'vue'
+import { useData } from 'vitepress'
+import HomeNavbar from './HomeNavbar.vue'
+
+const { isDark } = useData()
+const isLightTheme = computed(() => !isDark.value)
 
 const hierarchy = [
   // Level 0 — Founder
@@ -388,7 +367,6 @@ const hierarchy = [
 const memberData = reactive({})
 const loading = ref(true)
 const failedIds = reactive({})
-const isLightTheme = ref(false)
 const mousePosition = ref({ x: 0, y: 0 })
 const isHovered = ref(false)
 
@@ -413,7 +391,7 @@ function copyName(name) {
     audio.play().catch(e => console.log('Audio play failed:', e))
     
     showToast({
-      message: `"${name}" has been copied to clipboard`,
+      message: `"${name}" has been copied to clipboard. You can now add/contact them on discord!`,
       title: 'Copied!',
       type: 'success',
       icon: '/icons/wildfire.webp',
@@ -586,12 +564,73 @@ onBeforeUnmount(() => {
 /* ========== DARK THEME (DEFAULT) ========== */
 .org-page {
   min-height: 100vh;
-  background: transparent;  /* Fundal transparent ca să se vadă imaginea */
+  background: transparent;
   position: relative;
   overflow-x: hidden;
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #ffffff;
   transition: all 0.3s ease;
+}
+
+/* ========== HOME NAVBAR WRAPPER ========== */
+:deep(.home-navbar) {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 1000;
+}
+
+/* ========== CONTENT WRAPPER ========== */
+.content-wrapper {
+  position: relative;
+  min-height: 100vh;
+  padding-top: 140px; /* Spațiu pentru navbar */
+}
+
+/* ========== BACK BUTTON FIXED ========== */
+.back-button-fixed {
+  position: fixed;
+  top: 160px; /* Sub navbar (140px + 20px) */
+  left: 20px;
+  z-index: 999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  background: rgba(26, 26, 26, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: #ff8c00;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  padding: 0;
+}
+
+.back-button-fixed:hover {
+  background: rgba(34, 34, 34, 0.8);
+  border-color: #ff8c00;
+  transform: scale(1.1);
+}
+
+.back-button-fixed svg {
+  width: 18px;
+  height: 18px;
+}
+
+/* Light theme pentru buton */
+.light-theme .back-button-fixed {
+  background: rgba(255, 255, 255, 0.9);
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  color: #ff8c00;
+}
+
+.light-theme .back-button-fixed:hover {
+  background: #ffffff;
+  border-color: #ff8c00;
 }
 
 /* ========== BACKGROUND IMAGE BASE ========== */
@@ -601,7 +640,7 @@ onBeforeUnmount(() => {
   left: 0;
   right: 0;
   bottom: 0;
-  z-index: -5;  /* Cel mai jos strat */
+  z-index: -5;
   object-fit: cover;
   width: 100%;
   height: 100%;
@@ -625,18 +664,18 @@ onBeforeUnmount(() => {
   right: 0;
   bottom: 0;
   z-index: -4;
-  background: rgba(0, 0, 0, 0.4);  /* Întunecă ușor imaginea */
+  background: rgba(0, 0, 0, 0.4);
   pointer-events: none;
 }
 
 .light-theme .wildfire-overlay {
-  background: rgba(255, 255, 255, 0.3);  /* Deschide pentru light theme */
+  background: rgba(255, 255, 255, 0.3);
 }
 
 /* Ajustează z-index pentru background-uri */
 .bg-effects,
 .wildfire-bg {
-  z-index: -3;  /* Deasupra imaginii, sub conținut */
+  z-index: -3;
   position: fixed;
   inset: 0;
   pointer-events: none;
@@ -1256,156 +1295,13 @@ onBeforeUnmount(() => {
   opacity: 0;
 }
 
-/* ========== THEME TOGGLE ========== */
-.theme-toggle {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  z-index: 100;
-}
-
-.theme-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 8px 16px;
-  background: rgba(26, 26, 26, 0.8);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 30px;
-  color: #ff8c00;
-  cursor: pointer;
-  font-size: 0.85rem;
-  transition: all 0.2s ease;
-}
-
-.theme-btn:hover {
-  background: rgba(34, 34, 34, 0.9);
-  border-color: #ff8c00;
-  transform: scale(1.05);
-}
-
-/* ========== HEADER REDESIGN - FĂRĂ GLOW ========== */
-.org-header {
-  position: relative;
-  z-index: 2;
-  text-align: center;
-  padding: 40px 20px 20px;
-}
-
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 15px;
-  margin-bottom: 12px;
-  position: relative;
-}
-
-/* Back button în header */
-.header-content .back-button {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(26, 26, 26, 0.7);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 50%;
-  color: #ff8c00;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  padding: 0;
-  margin-right: 5px;
-}
-
-.header-content .back-button:hover {
-  background: rgba(34, 34, 34, 0.8);
-  border-color: #ff8c00;
-  transform: scale(1.1);
-}
-
-.header-content .back-button svg {
-  width: 18px;
-  height: 18px;
-}
-
-.logo-wrapper {
-  width: 64px;
-  height: 64px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.header-logo {
-  width: 48px;
-  height: 48px;
-  object-fit: contain;
-  transition: transform 0.3s ease;
-}
-
-.header-logo:hover {
-  transform: scale(1.1) rotate(5deg);
-}
-
-.title-wrapper {
-  text-align: left;
-}
-
-.org-title {
-  margin: 0;
-  display: flex;
-  flex-direction: column;
-  line-height: 1.2;
-}
-
-.title-line {
-  font-size: 2.2rem;
-  font-weight: 800;
-  letter-spacing: 2px;
-  color: #ffffff;
-}
-
-.title-line.accent {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #ff8c00;
-  letter-spacing: 4px;
-}
-
-.title-underline {
-  width: 60px;
-  height: 2px;
-  background: linear-gradient(90deg, #ff4500, #ff8c00);
-  border-radius: 2px;
-  margin-top: 8px;
-  transition: width 0.3s ease;
-}
-
-.title-wrapper:hover .title-underline {
-  width: 100px;
-}
-
-.org-sub {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.8rem;
-  letter-spacing: 4px;
-  text-transform: uppercase;
-  margin: 0;
-  font-weight: 400;
-}
-
 /* ========== CHART ========== */
 .chart {
   position: relative;
   z-index: 2;
   max-width: 1200px;
   margin: 0 auto;
-  padding: 10px 20px 40px;
+  padding: 20px 20px 40px;
 }
 
 .loading-state {
@@ -1488,7 +1384,7 @@ onBeforeUnmount(() => {
 /* ========== CARD CU EFECT 3D ========== */
 .card {
   width: 240px;
-  background: rgba(0, 0, 0, 0.8);  /* Puțin transparent să se vadă background-ul */
+  background: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(2px);
   -webkit-backdrop-filter: blur(2px);
   border: 1px solid rgba(255, 255, 255, 0.1);
@@ -1626,7 +1522,7 @@ onBeforeUnmount(() => {
 }
 
 .avatar-init {
-  width: 90px; /* a fost 97px */
+  width: 90px;
   height: 90px;
   border-radius: 50%;
   display: flex;
@@ -1833,15 +1729,6 @@ onBeforeUnmount(() => {
   box-shadow: 0 0 20px rgba(255, 170, 51, 0.4);
 }
 
-/* Light theme header */
-.light-theme .title-line {
-  color: #222222;
-}
-
-.light-theme .org-sub {
-  color: rgba(0, 0, 0, 0.4);
-}
-
 /* Light theme cards */
 .light-theme .card {
   background: rgba(255, 255, 255, 0.8);
@@ -1966,19 +1853,6 @@ onBeforeUnmount(() => {
   opacity: 0.15;
 }
 
-.light-theme .theme-btn,
-.light-theme .header-content .back-button {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(0, 0, 0, 0.1);
-  color: #ff8c00;
-}
-
-.light-theme .theme-btn:hover,
-.light-theme .header-content .back-button:hover {
-  background: #ffffff;
-  border-color: #ff8c00;
-}
-
 /* Light theme toast */
 .light-theme .toast-notification {
   background: rgba(255, 255, 255, 0.95);
@@ -2050,40 +1924,30 @@ onBeforeUnmount(() => {
     min-width: auto;
   }
 
-  .header-content {
-    gap: 15px;
+  .back-button-fixed {
+    top: 150px;
+    left: 15px;
+    width: 36px;
+    height: 36px;
   }
 
-  .title-line {
-    font-size: 1.8rem;
-  }
-
-  .title-line.accent {
-    font-size: 1.5rem;
-  }
-
-  .logo-wrapper {
-    width: 56px;
-    height: 56px;
-  }
-
-  .header-logo {
-    width: 40px;
-    height: 40px;
+  .content-wrapper {
+    padding-top: 130px;
   }
 }
 
 @media (max-width: 620px) {
-  .theme-toggle {
-    top: 10px;
-    right: 10px;
+  .back-button-fixed {
+    top: 140px;
+    left: 10px;
+    width: 32px;
+    height: 32px;
   }
-  
-  .theme-btn {
-    padding: 6px 12px;
-    font-size: 0.75rem;
+
+  .content-wrapper {
+    padding-top: 120px;
   }
-  
+
   .level-row {
     flex-direction: column;
     align-items: center;
@@ -2145,28 +2009,6 @@ onBeforeUnmount(() => {
     top: 12px;
     right: 12px;
     left: 12px;
-  }
-
-  .header-content {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .title-wrapper {
-    text-align: center;
-  }
-
-  .title-line {
-    font-size: 1.6rem;
-  }
-
-  .title-line.accent {
-    font-size: 1.3rem;
-  }
-
-  .title-underline {
-    margin-left: auto;
-    margin-right: auto;
   }
 }
 </style>
