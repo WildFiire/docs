@@ -8,7 +8,7 @@
   <a href="https://github.com/Wildfiire/docs/issues">
     <img src="https://img.shields.io/github/issues/Wildfiire/docs?color=0088ff&style=for-the-badge&logo=github" alt="@wildfire/docs issues"/>
   </a>
-  <a href="https://github.com/ianncxd/docs/pulls">
+  <a href="https://github.com/Wildfiire/docs/pulls">
     <img src="https://img.shields.io/github/issues-pr/Wildfiire/docs?color=0088ff&style=for-the-badge&logo=github" alt="wildfire/docs pull requests"/>
   </a>
 </p>
