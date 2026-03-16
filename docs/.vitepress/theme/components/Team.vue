@@ -40,7 +40,6 @@
       </div>
 
       <!-- Dark theme background custom - WILDFIRE STYLE -->
-      <!-- Dark theme background custom - WILDFIRE STYLE -->
       <div class="wildfire-bg" v-if="!isLightTheme">
         <div class="wildfire-base"></div>
         <div class="wildfire-ember-left"></div>
@@ -61,12 +60,15 @@
           <div class="wildfire-particle wildfire-particle-7"></div>
           <div class="wildfire-particle wildfire-particle-8"></div>
         </div>
+        <div class="wildfire-spotlight-tl"></div>
+        <div class="wildfire-spotlight-tr"></div>
+        <div class="wildfire-spotlight-bl"></div>
         <div class="wildfire-spotlight-br"></div>
       </div>
 
-      <!-- Toast notification -->
+      <!-- Toast notification - FIXAT -->
       <transition name="toast" @after-leave="clearToast">
-        <div v-if="toast.show" class="toast-notification" :class="[toast.type, { 'has-icon': toast.icon }]">
+        <div v-if="toast.show" class="toast-notification" :class="toast.type" @click.stop>
           <div class="toast-glass"></div>
           <div class="toast-content">
             <div class="toast-icon-wrapper" v-if="toast.icon">
@@ -90,7 +92,7 @@
             </div>
           </div>
           <div class="toast-progress" :style="{ animationDuration: toast.duration + 'ms' }"></div>
-          <button class="toast-close" @click="closeToast">
+          <button class="toast-close" @click.stop="closeToast">
             <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
               <path d="M1 1L13 13M13 1L1 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
             </svg>
@@ -407,14 +409,14 @@ function copyName(name) {
   })
 }
 
-// Show toast notification
+// Show toast notification - FIXAT
 function showToast(options) {
   // Clear any existing timeout
   if (toastTimeout) {
     clearTimeout(toastTimeout)
   }
   
-  // Directly update the toast state for instant feedback without hiding (avoids flickering/instant disappear)
+  // Set toast data
   toast.value = {
     show: true,
     message: options.message,
@@ -424,28 +426,24 @@ function showToast(options) {
     icon: options.icon
   }
   
-  // Set the timeout to hide it after the duration
+  // Set timeout to auto-hide
   toastTimeout = setTimeout(() => {
     toast.value.show = false
   }, options.duration || 4000)
 }
 
-// Keep triggerNewToast for compatibility if needed elsewhere, though showToast is now direct
-function triggerNewToast(options) {
-  showToast(options)
-}
-
-// Close toast manually
+// Close toast manually - FIXAT
 function closeToast() {
   if (toastTimeout) {
     clearTimeout(toastTimeout)
+    toastTimeout = null
   }
   toast.value.show = false
 }
 
 // Clear toast after animation
 function clearToast() {
-  toast.value.show = false
+  // Cleanup after animation
 }
 
 // Fetch member avatar with cache busting
@@ -563,6 +561,9 @@ onMounted(async () => {
 onBeforeUnmount(() => {
   window.removeEventListener('mousemove', handleMouseMove)
   window.removeEventListener('mouseleave', handleMouseLeave)
+  if (toastTimeout) {
+    clearTimeout(toastTimeout)
+  }
 })
 </script>
 
@@ -591,13 +592,13 @@ onBeforeUnmount(() => {
 .content-wrapper {
   position: relative;
   min-height: 100vh;
-  padding-top: 140px; /* Spațiu pentru navbar */
+  padding-top: 140px;
 }
 
 /* ========== BACK BUTTON FIXED ========== */
 .back-button-fixed {
   position: fixed;
-  top: 160px; /* Sub navbar (140px + 20px) */
+  top: 160px;
   left: 20px;
   z-index: 999;
   display: flex;
@@ -627,7 +628,6 @@ onBeforeUnmount(() => {
   height: 18px;
 }
 
-/* Light theme pentru buton */
 .light-theme .back-button-fixed {
   background: rgba(255, 255, 255, 0.9);
   border: 1px solid rgba(0, 0, 0, 0.1);
@@ -662,7 +662,6 @@ onBeforeUnmount(() => {
   filter: brightness(1.05) contrast(1.05);
 }
 
-/* Overlay pentru a face textul lizibil */
 .wildfire-overlay {
   position: fixed;
   top: 0;
@@ -678,7 +677,6 @@ onBeforeUnmount(() => {
   background: rgba(255, 255, 255, 0.3);
 }
 
-/* Ajustează z-index pentru background-uri */
 .bg-effects,
 .wildfire-bg {
   z-index: -3;
@@ -713,7 +711,6 @@ onBeforeUnmount(() => {
   animation-delay: -5s;
 }
 
-/* Grid subtil */
 .bg-grid {
   position: absolute;
   inset: 0;
@@ -952,7 +949,6 @@ onBeforeUnmount(() => {
   z-index: 1;
 }
 
-/* Particule energetice mobile */
 .wildfire-floating-particles {
   position: absolute;
   inset: 0;
@@ -1149,15 +1145,15 @@ onBeforeUnmount(() => {
   100% { transform: rotate(360deg) translate(50px) rotate(-360deg); opacity: 0.5; }
 }
 
-/* ========== TOAST NOTIFICATION ========== */
+/* ========== TOAST NOTIFICATION - FIXAT ========== */
 .toast-notification {
   position: fixed;
   bottom: 32px;
   right: 32px;
-  z-index: 1000;
+  z-index: 99999 !important;
   min-width: 360px;
   max-width: 440px;
-  background: rgba(10, 10, 12, 0.85);
+  background: rgba(10, 10, 12, 0.95);
   backdrop-filter: blur(20px) saturate(180%);
   -webkit-backdrop-filter: blur(20px) saturate(180%);
   border-radius: 20px;
@@ -1169,6 +1165,7 @@ onBeforeUnmount(() => {
   animation: toastSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   border: 1px solid rgba(255, 69, 0, 0.15);
   transform-origin: bottom right;
+  pointer-events: auto !important;
 }
 
 .toast-notification::before {
@@ -1207,7 +1204,7 @@ onBeforeUnmount(() => {
   align-items: center;
   gap: 18px;
   position: relative;
-  z-index: 2;
+  z-index: 3;
 }
 
 .toast-icon-wrapper {
@@ -1221,6 +1218,7 @@ onBeforeUnmount(() => {
   border: 1px solid rgba(255, 69, 0, 0.2);
   flex-shrink: 0;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
 }
 
 .toast-notification.success .toast-icon-wrapper {
@@ -1268,7 +1266,8 @@ onBeforeUnmount(() => {
   height: 4px;
   background: linear-gradient(90deg, #ff4500, #ff8c00);
   animation: progress linear forwards;
-  z-index: 3;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .toast-notification.success .toast-progress {
@@ -1279,29 +1278,70 @@ onBeforeUnmount(() => {
   background: linear-gradient(90deg, #e74c3c, #c0392b);
 }
 
+/* ========== BUTON X FIXAT ========== */
 .toast-close {
   position: absolute;
   top: 16px;
   right: 16px;
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: rgba(255, 255, 255, 0.4);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: rgba(255, 255, 255, 0.8);
   display: flex;
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-  z-index: 4;
+  transition: all 0.2s ease;
+  z-index: 10;
+  padding: 0;
+  outline: none;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .toast-close:hover {
-  background: rgba(255, 69, 0, 0.2);
+  background: rgba(255, 69, 0, 0.3);
   color: #ffffff;
+  border-color: rgba(255, 69, 0, 0.5);
+  transform: scale(1.1);
+}
+
+.toast-close:active {
+  transform: scale(0.95);
+}
+
+.toast-close svg {
+  width: 16px;
+  height: 16px;
+  pointer-events: none;
+}
+
+/* Light theme pentru toast */
+.light-theme .toast-notification {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 69, 0, 0.2);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.light-theme .toast-title {
+  color: #1a1a1a;
+}
+
+.light-theme .toast-message {
+  color: #4a4a4a;
+}
+
+.light-theme .toast-close {
+  background: rgba(0, 0, 0, 0.05);
+  border-color: rgba(0, 0, 0, 0.1);
+  color: rgba(0, 0, 0, 0.6);
+}
+
+.light-theme .toast-close:hover {
+  background: rgba(255, 69, 0, 0.15);
+  color: #ff4500;
   border-color: rgba(255, 69, 0, 0.3);
-  transform: rotate(90deg);
 }
 
 @keyframes toastGridDrift {
@@ -1904,51 +1944,6 @@ onBeforeUnmount(() => {
 .light-theme .child .node::after {
   background: #ff8c00;
   opacity: 0.15;
-}
-
-/* Light theme toast */
-.light-theme .toast-notification {
-  background: rgba(255, 255, 255, 0.9);
-  backdrop-filter: blur(25px) saturate(200%);
-  -webkit-backdrop-filter: blur(25px) saturate(200%);
-  border: 1px solid rgba(255, 69, 0, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-}
-
-.light-theme .toast-notification::before {
-  background-image: 
-    linear-gradient(rgba(255, 69, 0, 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 69, 0, 0.08) 1px, transparent 1px);
-}
-
-.light-theme .toast-glass {
-  background: radial-gradient(circle at center, rgba(255, 69, 0, 0.08) 0%, transparent 75%);
-}
-
-.light-theme .toast-title {
-  color: #1a1a1a;
-}
-
-.light-theme .toast-message {
-  color: #4a4a4a;
-}
-
-.light-theme .toast-icon-wrapper {
-  background: rgba(255, 69, 0, 0.05);
-  border-color: rgba(255, 69, 0, 0.15);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
-.light-theme .toast-close {
-  background: rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.4);
-}
-
-.light-theme .toast-close:hover {
-  background: rgba(255, 69, 0, 0.12);
-  color: #ff4500;
-  border-color: rgba(255, 69, 0, 0.2);
 }
 
 /* ========== RESPONSIVE ========== */

@@ -35,7 +35,7 @@ outline: deep
   
   <!-- TITLU CU GRADIENT ANIMAT -->
   <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;" class="orbitron-font">
-    Intrebari Frecventeo
+    Intrebari Frecvente
   </h1>
 </div>
 
