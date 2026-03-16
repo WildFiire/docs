@@ -1091,24 +1091,29 @@ export default {
   watch: {
     currentView: {
       immediate: true,
-      handler(newVal) {
+      handler(newVal, oldVal) {
+        if (oldVal === 'dashboard') {
+          this.destroyChart('activity')
+        }
+        if (oldVal === 'analytics') {
+          this.destroyChart('weekly')
+        }
+
         if (newVal === 'dashboard') {
-          this.$nextTick(() => this.initActivityChart())
+          setTimeout(() => this.initActivityChart(), 100)
         }
         if (newVal === 'analytics') {
-          this.$nextTick(() => this.initWeeklyChart())
+          setTimeout(() => this.initWeeklyChart(), 100)
         }
       }
     },
     isLightTheme() {
-      this.$nextTick(() => {
-        if (this.currentView === 'dashboard') this.initActivityChart()
-        if (this.currentView === 'analytics') this.initWeeklyChart()
-      })
+      if (this.currentView === 'dashboard') this.initActivityChart()
+      if (this.currentView === 'analytics') this.initWeeklyChart()
     },
     analyticsPeriod() {
       if (this.currentView === 'analytics') {
-        this.$nextTick(() => this.initWeeklyChart())
+        this.initWeeklyChart()
       }
     }
   },
@@ -1123,13 +1128,26 @@ export default {
   },
 
   beforeUnmount() {
-    if (this.charts.activity) this.charts.activity.destroy()
-    if (this.charts.weekly) this.charts.weekly.destroy()
+    this.destroyChart('activity')
+    this.destroyChart('weekly')
     window.removeEventListener('resize', this.handleResize)
     window.removeEventListener('scroll', this.handleScroll)
   },
 
   methods: {
+    destroyChart(chartName) {
+      if (this.charts[chartName]) {
+        try { 
+          const currentChart = this.charts[chartName]
+          currentChart.stop()
+          currentChart.destroy() 
+        } catch(e) {
+          console.warn('Error destroying chart', e)
+        }
+        this.charts[chartName] = null
+      }
+    },
+
     toggleTheme() {
       this.isLightTheme = !this.isLightTheme
       this.showToast(`Switched to ${this.isLightTheme ? 'Light' : 'Dark'} Mode`, 'success')
@@ -1765,8 +1783,18 @@ async fetchContributorsFromCommits() {
     },
 
     initActivityChart() {
-      const ctx = this.$refs.activityChart?.getContext('2d')
-      if (!ctx || !this.dailyCommits.length) return
+      if (this.currentView !== 'dashboard') return
+
+      const canvas = this.$refs.activityChart
+      if (!canvas || !this.dailyCommits || !this.dailyCommits.length) return
+      
+      this.destroyChart('activity')
+
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+
+      const textColor = this.isLightTheme ? '#666' : '#8a8a95'
+      const gridColor = this.isLightTheme ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.03)'
 
       const labels = []
       const now = new Date()
@@ -1775,11 +1803,6 @@ async fetchContributorsFromCommits() {
         date.setDate(date.getDate() - i)
         labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }))
       }
-
-      if (this.charts.activity) this.charts.activity.destroy()
-
-      const textColor = this.isLightTheme ? '#666' : '#8a8a95'
-      const gridColor = this.isLightTheme ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.03)'
       
       this.charts.activity = new Chart(ctx, {
         type: 'bar',
@@ -1805,10 +1828,7 @@ async fetchContributorsFromCommits() {
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          animation: {
-            duration: 1000,
-            easing: 'easeInOutQuart'
-          },
+          animation: false,
           plugins: {
             legend: { display: false },
             tooltip: {
@@ -1853,16 +1873,21 @@ async fetchContributorsFromCommits() {
     },
 
     initWeeklyChart() {
-      const ctx = this.$refs.weeklyChart?.getContext('2d')
+      if (this.currentView !== 'analytics') return
+
+      const canvas = this.$refs.weeklyChart
+      if (!canvas) return
+      
+      this.destroyChart('weekly')
+
+      const ctx = canvas.getContext('2d')
       if (!ctx) return
-
-      const data = this.analyticsPeriod === 'weeks' ? this.weeklyCommits : this.monthlyCommits
-      const labels = this.analyticsPeriod === 'weeks' ? this.weeklyLabels : this.monthlyLabels
-
-      if (this.charts.weekly) this.charts.weekly.destroy()
 
       const textColor = this.isLightTheme ? '#666' : '#8a8a95'
       const gridColor = this.isLightTheme ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.03)'
+
+      const data = this.analyticsPeriod === 'weeks' ? this.weeklyCommits : this.monthlyCommits
+      const labels = this.analyticsPeriod === 'weeks' ? this.weeklyLabels : this.monthlyLabels
 
       this.charts.weekly = new Chart(ctx, {
         type: 'line',
@@ -1884,10 +1909,7 @@ async fetchContributorsFromCommits() {
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          animation: {
-            duration: 1000,
-            easing: 'easeInOutQuart'
-          },
+          animation: false,
           plugins: {
             legend: { display: false },
             tooltip: {
