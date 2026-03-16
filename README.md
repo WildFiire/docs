@@ -1,4 +1,3 @@
-<!-- markdownlint-disable MD032 MD033-->
 # 🔥 **Wildfire.ro Docs**
 
 <p align="center">
@@ -63,5 +62,6 @@ If you want to improve the documentation, fix mistakes, or add new sections:
 Every contribution helps improve the documentation for the entire community.
 
 ---
+
 
 
