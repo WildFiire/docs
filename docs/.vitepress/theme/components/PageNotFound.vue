@@ -47,7 +47,7 @@
         </div>
 
         <a href="/" class="home-button">
-          <span class="button-icon">🏠</span>
+          <span class="button-icon"></span>
           <span class="button-text">Mergi acasă</span>
           <span class="button-arrow">→</span>
         </a>
