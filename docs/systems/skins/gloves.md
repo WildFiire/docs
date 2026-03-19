@@ -27,28 +27,22 @@
   </div>
 </div>
 
-<!-- RAND 1 - logo si titlu - PORTOCALIU -->
+<!-- RAND 1 - logo si titlu -->
 <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
   <img src="/icons/wildfire.webp" alt="Wildfire.ro" width="60" style="margin: 0;">
-  
-  <!-- TITLU PORTOCALIU -->
   <h1 style="font-size: 32px; margin: 0; color: #ff8c00; font-weight: 700;">
     Gloves
   </h1>
 </div>
 
-<!-- RAND 2 - tags si updated by JOS, pe acelasi rand -->
+<!-- RAND 2 - tags si updated by -->
 <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; border-top: 1px solid rgba(255,69,0,0.2); padding-top: 15px; margin-top: 5px;">
-
-  <!-- Tags in stanga -->
   <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
     <img src="/icons/tag.svg" alt="tag" class="nav-icon" style="width: 18px; height: 18px;">
     <PageTagPurple style="font-size: 11px; padding: 2px 8px;">skins</PageTagPurple>
     <PageTagGreen style="font-size: 11px; padding: 2px 8px;">gloves</PageTagGreen>
     <PageTagBlue style="font-size: 11px; padding: 2px 8px;">items</PageTagBlue>
   </div>
-
-  <!-- Updated by in dreapta -->
   <div style="display: flex; align-items: center; gap: 6px;">
     <span style="font-size: 13px; color: var(--wf-gray); font-weight: 500;">updated by</span>
     <a 
@@ -56,15 +50,64 @@
       target="_blank" 
       class="github-profile"
       data-username="ianncxd"
-      data-tags="show-wildfire show-dev show-wiki show-staff   "
+      data-tags="show-wildfire show-dev show-wiki show-staff"
       style="display: block; padding: 2px; background: linear-gradient(135deg, #8b5cf6, #c084fc, #f472b6); border-radius: 50%;" 
       title="ianncxd"
     >
       <img src="https://github.com/ianncxd.png" alt="ianncxd" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid #1a1a1a; display: block;">
     </a>
   </div>
-
 </div>
 
 </div> 
 </div>
+
+## Ce sunt mănușile?
+
+Mănușile sunt iteme cosmetice care înlocuiesc mănușile default ale personajului. Nu oferă niciun avantaj în joc, sunt doar vizuale.
+
+---
+
+## Cum echipezi mănuși?
+
+Mergi la **Inventory**, dai click dreapta pe mănuși și selectezi **Equip**. Poți purta o singură pereche de mănuși odată.
+
+---
+
+## Cum obții mănuși?
+
+- **Cases** — deschizi un case care conține mănuși
+- **Market** — cumperi de la alți jucători
+- **Events** — recompense speciale la anumite events
+
+---
+
+## Tipuri de mănuși
+
+| Tip | Descriere |
+|-----|-----------|
+| Sport Gloves | Mănuși sport cu design modern |
+| Specialist Gloves | Mănuși tactice cu detalii fine |
+| Moto Gloves | Mănuși de motociclist |
+| Hand Wraps | Bandaje de box |
+| Bloodhound Gloves | Mănuși de vânătoare |
+| Driver Gloves | Mănuși de șofer elegant |
+
+---
+
+## Rarități
+
+| Raritate | Culoare | Șansă |
+|----------|---------|-------|
+| Extraordinary | Portocaliu | 0.26% |
+| Exotic | Roz | 1.06% |
+
+---
+
+::: tip
+Mănușile sunt printre cele mai rare iteme din server — șansa de drop e foarte mică.
+:::
+
+::: warning
+Nu poți echipa mănuși și cuțit din categorii incompatibile — verifică înainte să cumperi.
+:::

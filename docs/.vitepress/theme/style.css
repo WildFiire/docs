@@ -589,12 +589,13 @@ body:not(.home) *,
   pointer-events: none !important;
 }
 
-/* Blur in spate - fara overflow pe body */
-body:has(.VPLocalSearchBox) .VPNav,
-body:has(.VPLocalSearchBox) .VPContent {
-  filter: blur(5px) !important;
-  transform: translateZ(0) !important;
-  backface-visibility: hidden !important;
-  transition: filter 0.3s ease-out !important;
+
+body:has(.VPLocalSearchBox)::before {
+  content: '' !important;
+  position: fixed !important;
+  inset: 0 !important;
+  backdrop-filter: blur(6px) !important;
+  -webkit-backdrop-filter: blur(6px) !important;
+  z-index: 99 !important;
   pointer-events: none !important;
 }
