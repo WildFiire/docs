@@ -14,35 +14,35 @@
   --wf-gray-dark: #0a0a0a;
   --wf-gray: #6b7280;
   --wf-gray-light: #9ca3af;
-  
+
   /* VitePress overrides */
   --vp-c-brand-1: var(--wf-orange);
   --vp-c-brand-2: var(--wf-orange-light);
   --vp-c-brand-3: var(--wf-orange-dark);
   --vp-c-brand-soft: rgba(255, 69, 0, 0.16);
-  
+
   --vp-c-tip-1: var(--vp-c-brand-1);
   --vp-c-tip-2: var(--vp-c-brand-2);
   --vp-c-tip-3: var(--vp-c-brand-3);
   --vp-c-tip-soft: var(--vp-c-brand-soft);
-  
+
   /* Home hero */
   --vp-home-hero-name-color: transparent;
   --vp-home-hero-name-background: -webkit-linear-gradient(120deg, var(--wf-orange) 30%, var(--wf-orange-light));
   --vp-home-hero-image-background-image: linear-gradient(-45deg, var(--wf-orange) 50%, var(--wf-orange-light) 50%);
   --vp-home-hero-image-filter: blur(44px);
-  
+
   /* LIGHT MODE - Fundaluri */
   --vp-c-bg: #ffffff;
   --vp-c-bg-alt: #f6f6f7;
   --vp-c-bg-elv: #ffffff;
   --vp-c-bg-soft: #f9f9f9;
-  
+
   /* LIGHT MODE - Text */
   --vp-c-text-1: #1f2a40;
   --vp-c-text-2: #5d6c7e;
   --vp-c-text-3: #8e9aab;
-  
+
   /* LIGHT MODE - Chenare */
   --vp-c-divider: #e2e8f0;
   --vp-c-divider-light: #e9edf3;
@@ -50,26 +50,34 @@
 
 .dark {
   /* DARK MODE - Fundaluri */
-  --vp-c-bg: #0a0a0a;        /* Fundal principal (dreapta) */
-  --vp-c-bg-alt: #050505;    /* Fundal sidebar (stânga) */
-  --vp-c-bg-elv: #141414;    /* Fundal elemente elevate */
+  --vp-c-bg: #0a0a0a;
+  /* Fundal principal (dreapta) */
+  --vp-c-bg-alt: #050505;
+  /* Fundal sidebar (stânga) */
+  --vp-c-bg-elv: #141414;
+  /* Fundal elemente elevate */
   --vp-c-bg-soft: rgba(255, 69, 0, 0.05);
-  
+
   /* DARK MODE - Text */
   --vp-c-text-1: #ffffff;
   --vp-c-text-2: var(--wf-gray-light);
   --vp-c-text-3: var(--wf-gray);
-  
+
   /* DARK MODE - Chenare */
   --vp-c-divider: #2a2a2a;
   --vp-c-divider-light: #1f1f1f;
 }
 
 @media (min-width: 640px) {
-  :root { --vp-home-hero-image-filter: blur(56px); }
+  :root {
+    --vp-home-hero-image-filter: blur(56px);
+  }
 }
+
 @media (min-width: 960px) {
-  :root { --vp-home-hero-image-filter: blur(68px); }
+  :root {
+    --vp-home-hero-image-filter: blur(68px);
+  }
 }
 
 /*=============================================================================
@@ -157,8 +165,9 @@
   width: 0 !important;
   height: 0 !important;
 }
+
 /* Elimină liniile dintre secțiuni */
-.VPSidebar .group + .group {
+.VPSidebar .group+.group {
   border-top: none !important;
   margin-top: 0 !important;
   padding-top: 0 !important;
@@ -171,12 +180,12 @@
 }
 
 /* Elimină padding-ul suplimentar dintre secțiuni */
-.VPSidebar .items + .group {
+.VPSidebar .items+.group {
   margin-top: 0 !important;
 }
 
 /* Dacă ai separatoare și la iteme */
-.VPSidebarItem + .VPSidebarItem {
+.VPSidebarItem+.VPSidebarItem {
   border-top: none !important;
 }
 
@@ -439,3 +448,153 @@ body:not(.home) *,
   pointer-events: auto !important;
 }
 
+/* ===========MODAL SEARCH MENU - LIQUID GLASS ================== */
+.VPLocalSearchBox {
+  animation: fadeIn 0.3s ease-out !important;
+  top: 100px !important;
+  pointer-events: none !important;
+}
+
+.VPLocalSearchBox .shell {
+  pointer-events: all !important;
+  background: rgba(255, 255, 255, 0.15) !important;
+  backdrop-filter: blur(20px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(20px) saturate(180%) !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
+  box-shadow:
+    0 30px 60px -20px rgba(0, 0, 0, 0.3),
+    inset 0 0 40px rgba(255, 255, 255, 0.7),
+    inset 0 0 20px rgba(255, 255, 255, 0.5) !important;
+  transform-origin: top center !important;
+  animation: slideDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) !important;
+  margin-top: 80px !important;
+  max-height: calc(100vh - 200px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+.dark .VPLocalSearchBox .shell {
+  pointer-events: all !important;
+  background: rgba(5, 5, 10, 0.92) !important;
+  backdrop-filter: blur(40px) saturate(200%) brightness(0.4) !important;
+  -webkit-backdrop-filter: blur(40px) saturate(200%) brightness(0.4) !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow:
+    0 40px 80px -20px rgba(0, 0, 0, 0.9),
+    0 0 0 1px rgba(0, 0, 0, 0.8),
+    inset 0 0 60px rgba(0, 0, 0, 0.6),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06) !important;
+  margin-top: 80px !important;
+  max-height: calc(100vh - 200px) !important;
+  display: flex !important;
+  flex-direction: column !important;
+}
+
+/* Rezultate search */
+.VPLocalSearchBox .results {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  overflow-y: auto !important;
+  flex: 1 !important;
+  overscroll-behavior: contain !important;
+}
+
+.VPLocalSearchBox .results .result {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.15) !important;
+  border-radius: 0 !important;
+}
+
+.VPLocalSearchBox .results .result:last-child {
+  border-bottom: none !important;
+}
+
+.VPLocalSearchBox .results .result:hover,
+.VPLocalSearchBox .results .result.selected {
+  background: rgba(128, 128, 128, 0.08) !important;
+  border-radius: 8px !important;
+}
+
+.dark .VPLocalSearchBox .results .result:hover,
+.dark .VPLocalSearchBox .results .result.selected {
+  background: rgba(255, 255, 255, 0.05) !important;
+}
+
+/* Curata TOT ce e in interiorul rezultatelor */
+.VPLocalSearchBox .results *,
+.VPLocalSearchBox .results *::before,
+.VPLocalSearchBox .results *::after {
+  background: transparent !important;
+  background-image: none !important;
+  border: none !important;
+  box-shadow: none !important;
+  outline: none !important;
+}
+
+/* Pastreaza border selected */
+.VPLocalSearchBox .results .result.selected {
+  border: 1px solid rgba(128, 128, 128, 0.3) !important;
+  border-radius: 8px !important;
+}
+
+.dark .VPLocalSearchBox .results .result.selected {
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+}
+
+/* Cuvinte cheie portocaliu */
+.VPLocalSearchBox .results .result mark,
+.VPLocalSearchBox .results .result .highlight {
+  color: var(--vp-c-brand) !important;
+  background: transparent !important;
+  font-weight: 600 !important;
+}
+
+/* Animații */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes slideDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px) scale(0.95);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Stilizare input și elemente interne */
+.VPLocalSearchBox .shell input {
+  background: transparent !important;
+  border: none !important;
+  color: inherit !important;
+}
+
+.VPLocalSearchBox .backdrop {
+  background: transparent !important;
+  pointer-events: none !important;
+}
+
+/* Blur in spate - fara overflow pe body */
+body:has(.VPLocalSearchBox) .VPNav,
+body:has(.VPLocalSearchBox) .VPContent {
+  filter: blur(5px) !important;
+  transform: translateZ(0) !important;
+  backface-visibility: hidden !important;
+  transition: filter 0.3s ease-out !important;
+  pointer-events: none !important;
+}

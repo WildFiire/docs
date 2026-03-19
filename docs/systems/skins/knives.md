@@ -1,3 +1,8 @@
+---
+outline: deep
+---
+
+
 <!-- Background image container -->
 <div style="position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 20px; min-height: 180px; background-color: #0a0a0a;">
 
@@ -69,5 +74,30 @@
 </div> 
 </div>
 
+## Cum obții un cuțit?
 
-### Test 2
+Cuțitele se pot obține în mai multe moduri:
+
+- **Cases** — deschizi un case și ai șansa să dai un cuțit
+- **Market** — cumperi direct de la alți jucători
+- **Events** — unele events oferă cuțite ca recompensă
+
+---
+
+## Rarități
+
+| Raritate | Culoare | Șansă |
+|----------|---------|-------|
+| Covert | Roșu | 0.26% |
+| Classified | Roz | 1.06% |
+| Restricted | Mov | 3.19% |
+
+---
+
+::: tip
+Cuțitele nu se pierd la inactivitate, stau în inventarul tău permanent.
+:::
+
+::: warning
+Nu poți tranzacționa un cuțit dacă este **untradable**.
+:::
