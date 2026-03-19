@@ -586,7 +586,8 @@ body:not(.home) *,
 
 .VPLocalSearchBox .backdrop {
   background: transparent !important;
-  pointer-events: none !important;
+  pointer-events: all !important;
+  cursor: default !important;
 }
 
 
