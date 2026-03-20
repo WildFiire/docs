@@ -590,6 +590,14 @@ body:not(.home) *,
   cursor: default !important;
 }
 
+.VPLocalSearchBox .search-bar {
+  border-radius: 12px !important;
+  border: 1px solid rgba(128, 128, 128, 0.3) !important;
+}
+
+.VPLocalSearchBox .search-bar:focus-within {
+  border: 1px solid rgba(128, 128, 128, 0.3) !important;
+}
 
 body:has(.VPLocalSearchBox)::before {
   content: '' !important;
