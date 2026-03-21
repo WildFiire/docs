@@ -207,11 +207,11 @@ const hierarchy = [
   [
     { 
       id: 'iannc', 
-      name: 'iannc', 
+      name: '6iannc9', 
       display: 'iannC', 
       fullRole: 'Community Manager',
       emoji: '👑',
-      discordId: '371621920162185216', 
+      discordId: '297674085956321280', 
       color: '#a60303', 
       roleClass: 'cm',
       cls: '', 
