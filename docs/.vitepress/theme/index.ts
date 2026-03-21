@@ -2,6 +2,8 @@ import { h } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme from 'vitepress/theme'
 import './style.css'
+import { Icon } from '@iconify/vue'
+
 
 // 📝 Tipuri pentru TypeScript
 declare global {
@@ -96,6 +98,8 @@ export default {
     app.component('Panel', Panel)
     app.component('StatsGithub', StatsGithub)
     app.component('Team', Team)
+    app.component('Icon', Icon)
+
 
     // NOUA COMPONENTĂ PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)
