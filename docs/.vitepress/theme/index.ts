@@ -36,6 +36,8 @@ import Panel from './components/Panel.vue'
 import AboutWiki from './components/AboutWiki.vue'
 import StatsGithub from './components/StatsGithub.vue'
 import Team from './components/Team.vue'
+import Terms from './components/Terms.vue'
+import Privacy from './components/Privacy.vue'
 
 // NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
@@ -99,6 +101,8 @@ export default {
     app.component('StatsGithub', StatsGithub)
     app.component('Team', Team)
     app.component('Icon', Icon)
+    app.component('Terms', Terms)
+    app.component('Privacy', Privacy)
 
 
     // NOUA COMPONENTĂ PENTRU FILE TREE

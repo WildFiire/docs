@@ -157,7 +157,7 @@
       </div>
     </main>
 
-    <div class="scroll-indicator" :class="{ 'scroll-visible': showScrollIndicator }">
+    <!-- <div class="scroll-indicator" :class="{ 'scroll-visible': showScrollIndicator }">
       <div class="scroll-line">
         <div class="scroll-progress" :style="{ height: scrollProgress + '%' }"></div>
       </div>
@@ -175,7 +175,7 @@
           <span class="dot-label">Latest</span>
         </a>
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -169,11 +169,11 @@ export default defineConfig({
         link: '/informatii/faq'
       }, {
         text: '<img src="/icons/github.svg" class="nav-icon" width="16" height="16" alt=""> Dashboard',
-        link: '/panel/panel'
+        link: '/panel'
       },
       {
         text: '<img src="/icons/team.svg" class="nav-icon" width="16" height="16" alt=""> Echipa',
-        link: '/team/team'
+        link: '/team'
       },
     ],
 
@@ -228,8 +228,8 @@ export default defineConfig({
         text: '<img src="/icons/currency.svg" class="nav-icon" width="16" height="16" alt=""> Currency',
         collapsed: false,
         items: [
-          { text: '<img src="/icons/firecoin.svg" class="nav-icon" width="16" height="16" alt=""> Fire Coins', link: '/currency/fire-coins' },
-          { text: '<img src="/icons/credits.svg" class="nav-icon" width="16" height="16" alt=""> Credits', link: '/currency/credits' },
+          { text: '<img src="/icons/firecoin.svg" class="nav-icon" width="16" height="16" alt=""> Phoenix Coins', link: '/currency/fire-coins' },
+          // { text: '<img src="/icons/credits.svg" class="nav-icon" width="16" height="16" alt=""> Credits', link: '/currency/credits' },
         ]
       },
 

@@ -353,7 +353,7 @@ const card5 = ref({
   tagColor: 'purple',
   tag1: 'CHART',
   tag2: 'TEAM',
-  link: '/team/team',
+  link: '/team',
   buttonText: 'CITESTE'
 })
 const card6 = ref({
