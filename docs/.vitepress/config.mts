@@ -42,6 +42,18 @@ export default defineConfig({
       content: 'width=device-width, initial-scale=1.0, maximum-scale=5.0'
     }],
 
+    // SEO & SOCIAL SHARING (CS2 COUNTER-STRIKE BRANDING)
+    ['meta', { name: 'keywords', content: 'cs2, counter-strike 2, wildfire.ro, wildfire, wiki, wikipedia, docs, tutoriale cs2, servere cs2, wildfire wildfire.ro docs' }],
+    ['meta', { property: 'og:title', content: 'Wildfire.ro Docs - CS2 Wikipedia' }],
+    ['meta', { property: 'og:description', content: 'Documentația platformei Wildfire - Resurse, sisteme și informații pentru Counter-Strike 2.' }],
+    ['meta', { property: 'og:image', content: 'https://i.imgur.com/QOS4A06.gif' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:url', content: 'https://docs.wildfire.ro/' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: 'Wildfire.ro Docs - CS2 Wikipedia' }],
+    ['meta', { name: 'twitter:description', content: 'Resurse, sisteme și informații complete pentru Counter-Strike 2 pe Wildfire.ro.' }],
+    ['meta', { name: 'twitter:image', content: 'https://i.imgur.com/QOS4A06.gif' }],
+
     // SCRIPT PENTRU VERSIUNE
     ['script', {}, `
       window.wikiVersion = '3.0.0';

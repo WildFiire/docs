@@ -1,7 +1,32 @@
 ---
 outline: deep
-title: Întrebări Frecvente (FAQ) - Wildfire.ro
-description: Află totul despre sistemele Wildfire, de la FireCoins și WeaponSkins până la regulamente și suport tehnic.
+title: Întrebări Frecvente (FAQ) - Wildfire.ro CS2
+description: Află totul despre sistemele Wildfire CS2, de la FireCoins și WeaponSkins până la regulamente și suport tehnic.
+head:
+  - - meta
+    - name: keywords
+      content: cs2 faq, counter-strike 2 faq, wildfire.ro intrebari, wildfire cs2 wiki, wildfire docs
+  - - meta
+    - property: og:title
+      content: FAQ - Wildfire.ro CS2 Wikipedia
+  - - meta
+    - property: og:description
+      content: Întrebări frecvente și suport pentru platforma Wildfire CS2.
+  - - meta
+    - property: og:image
+      content: https://i.imgur.com/QOS4A06.gif
+  - - meta
+    - property: og:type
+      content: website
+  - - meta
+    - property: og:url
+      content: https://docs.wildfire.ro/informatii/faq
+  - - meta
+    - name: twitter:card
+      content: summary_large_image
+  - - meta
+    - name: twitter:image
+      content: https://i.imgur.com/QOS4A06.gif
 ---
 
 <!-- Background image container -->
