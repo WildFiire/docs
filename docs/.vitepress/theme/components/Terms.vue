@@ -197,11 +197,41 @@
 </template>
 
 <script setup>
-import { computed } from 'vue'
+import { computed, ref, onMounted, watch } from 'vue'
 import { useData } from 'vitepress'
 import HomeNavbar from './HomeNavbar.vue'
 
-const { isDark } = useData()
+const { isDark: vitepressTheme, site } = useData()
+const isDark = ref(true)
+
+// Sincronizează cu tema VitePress
+onMounted(() => {
+  // Inițializează tema
+  if (vitepressTheme.value !== undefined) {
+    isDark.value = vitepressTheme.value
+  } else {
+    const stored = localStorage.getItem('vitepress-theme-appearance')
+    if (stored === 'dark') isDark.value = true
+    else if (stored === 'light') isDark.value = false
+    else isDark.value = window.matchMedia('(prefers-color-scheme: dark)').matches
+  }
+  
+  // Ascultă schimbările temei din VitePress
+  const observer = new MutationObserver(() => {
+    const htmlClass = document.documentElement.classList
+    isDark.value = htmlClass.contains('dark')
+  })
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+  
+  // Cleanup
+  return () => observer.disconnect()
+})
+
+// Watch pentru schimbări
+watch(vitepressTheme, (newVal) => {
+  if (newVal !== undefined) isDark.value = newVal
+})
+
 const isLightTheme = computed(() => !isDark.value)
 
 // Firefly styles (light theme only)
