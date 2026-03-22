@@ -4,6 +4,9 @@ title: Terms of Service - Wildfire.ro CS2
 description: Termenii și condițiile de utilizare a serviciilor Wildfire.ro Counter-Strike 2.
 head:
   - - meta
+    - name: theme-color
+      content: '#ff4500'
+  - - meta
     - name: keywords
       content: terms of service, wildfire.ro terms, regulament wildfire, cs2 terms
   - - meta
@@ -11,7 +14,7 @@ head:
       content: Terms of Service - Wildfire.ro CS2
   - - meta
     - property: og:image
-      content: https://i.imgur.com/QOS4A06.gif
+      content: https://docs.wildfire.ro/wallpaper/content.webp
 ---
 
 <Terms />
