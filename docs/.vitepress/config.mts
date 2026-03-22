@@ -8,23 +8,34 @@ export default defineConfig({
   lang: 'ro-RO',
   cleanUrls: true,
 
-
   head: [
     ['link', { rel: 'icon', href: '/icons/wildfire.webp' }],
-    ['meta', { name: 'theme-color', content: '#ff4500' }], // schimbat în portocaliu
+    ['meta', { name: 'theme-color', content: '#ff4500' }],
 
-    // META TAGS PENTRU LINK PREVIEW
-    ['meta', { property: 'og:title', content: 'WildFire.ro - Comunitatea ta de gaming' }],
-    ['meta', { property: 'og:description', content: 'Servere profesionale de GTA 5 (RAGE.MP) și SA:MP. Alătură-te comunității WildFire pentru o experiență unică de gaming!' }],
-    ['meta', { property: 'og:image', content: 'https://wildfire.ro/icons/wildfire.webp' }],
+    // META TAGS PENTRU LINK PREVIEW - CS2 THEME
+    ['meta', { property: 'og:title', content: 'WildFire.ro - Server CS2 Profesionist' }],
+    ['meta', { property: 'og:description', content: '🔥 Server CS2 cu sisteme unice, comunitate activă și evenimente zilnice. Alătură-te acum și trăiește cea mai tare experiență de gaming!' }],
+    ['meta', { property: 'og:image', content: 'https://i.imgur.com/QOS4A06.gif' }],
+    ['meta', { property: 'og:image:type', content: 'image/gif' }],
+    ['meta', { property: 'og:image:width', content: '1200' }],
+    ['meta', { property: 'og:image:height', content: '630' }],
     ['meta', { property: 'og:url', content: 'https://wildfire.ro' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:site_name', content: 'WildFire.ro' }],
 
+    // TWITTER (DISCORD FACEBOOK SUPPORT)
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
-    ['meta', { name: 'twitter:title', content: 'WildFire.ro - Comunitatea de gaming' }],
-    ['meta', { name: 'twitter:description', content: 'Server GTA 5 (RAGE.MP) și SA:MP cu comunitate activă, evenimente captivante și sisteme unice.' }],
-    ['meta', { name: 'twitter:image', content: 'https://wildfire.ro/icons/wildfire.webp' }],
+    ['meta', { name: 'twitter:title', content: 'WildFire.ro - CS2 Gaming Community' }],
+    ['meta', { name: 'twitter:description', content: 'Server CS2 profesionist cu comunitate activă, sisteme premium și evenimente zilnice. Intră pe Discord!' }],
+    ['meta', { name: 'twitter:image', content: 'https://i.imgur.com/QOS4A06.gif' }],
+
+    // PRELOAD PENTRU IMAGINE
+    ['link', {
+      rel: 'preload',
+      as: 'image',
+      href: 'https://i.imgur.com/QOS4A06.gif',
+      fetchpriority: 'high'
+    }],
 
     // PRELOAD PENTRU LCP
     ['link', {
@@ -107,6 +118,7 @@ export default defineConfig({
     }
   `]
   ],
+
 
   lastUpdated: true,
 
