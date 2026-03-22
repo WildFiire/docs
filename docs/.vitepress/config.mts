@@ -48,7 +48,7 @@ export default defineConfig({
     ['meta', { property: 'og:description', content: 'Documentația platformei Wildfire - informații, sisteme, resurse și comunitate' }],
     ['meta', { property: 'og:image', content: 'https://i.imgur.com/QOS4A06.gif' }],
     ['meta', { property: 'og:type', content: 'website' }],
-    ['meta', { property: 'og:url', content: 'https://wildfire.ro/' }],
+    ['meta', { property: 'og:url', content: 'https://docs.wildfire.ro/' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:image', content: 'https://i.imgur.com/QOS4A06.gif' }],
 

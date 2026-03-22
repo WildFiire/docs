@@ -1,5 +1,7 @@
 ---
 outline: deep
+title: Întrebări Frecvente (FAQ) - Wildfire.ro
+description: Află totul despre sistemele Wildfire, de la FireCoins și WeaponSkins până la regulamente și suport tehnic.
 ---
 
 <!-- Background image container -->
