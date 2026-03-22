@@ -58,13 +58,15 @@
       <!-- Privacy Page Content -->
       <div class="privacy-page">
         <!-- Back to Home -->
-        <a href="/" class="back-link">
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
-            <polyline points="9 22 9 12 15 12 15 22"></polyline>
-          </svg>
-          <span>Back to Home</span>
-        </a>
+        <div class="back-link-animate-wrapper">
+          <a href="/" class="back-link">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+              <polyline points="9 22 9 12 15 12 15 22"></polyline>
+            </svg>
+            <span>Back to Home</span>
+          </a>
+        </div>
 
         <!-- Page Header -->
         <div class="page-header">
@@ -83,11 +85,10 @@
 
         <!-- Glass Content Card -->
         <div class="glass-card">
-          <!-- Colțuri decorative -->
-          <div class="corner-dot-tl"></div>
-          <div class="corner-dot-tr"></div>
-          <div class="corner-dot-bl"></div>
-          <div class="corner-dot-br"></div>
+          <span class="corner-dot-tl"></span>
+          <span class="corner-dot-tr"></span>
+          <span class="corner-dot-bl"></span>
+          <span class="corner-dot-br"></span>
 
           <!-- Section 1 -->
           <div class="privacy-section">
@@ -916,5 +917,42 @@ function fireflyStyle(n) {
     height: 28px;
   }
 }
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeUpSlow {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.privacy-page .back-link-animate-wrapper,
+.privacy-page .page-header,
+.privacy-page .page-date-row,
+.privacy-page .glass-card,
+.privacy-page .privacy-section {
+  opacity: 0;
+  animation: fadeUpSlow 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.privacy-page .page-header    { animation-delay: 0.2s; }
+.privacy-page .back-link-animate-wrapper      { animation-delay: 0.4s; }
+.privacy-page .page-date-row  { animation-delay: 0.6s; }
+.privacy-page .glass-card     { animation-delay: 0.8s; }
+
+.privacy-page .privacy-section:nth-of-type(1) { animation-delay: 1.0s; }
+.privacy-page .privacy-section:nth-of-type(2) { animation-delay: 1.18s; }
+.privacy-page .privacy-section:nth-of-type(3) { animation-delay: 1.36s; }
+.privacy-page .privacy-section:nth-of-type(4) { animation-delay: 1.54s; }
+.privacy-page .privacy-section:nth-of-type(5) { animation-delay: 1.72s; }
+.privacy-page .privacy-section:nth-of-type(6) { animation-delay: 1.9s; }
+.privacy-page .privacy-section:nth-of-type(7) { animation-delay: 2.08s; }
+.privacy-page .privacy-section:nth-of-type(8) { animation-delay: 2.26s; }
+.privacy-page .privacy-section:nth-of-type(9) { animation-delay: 2.44s; }
+.privacy-page .privacy-section:nth-of-type(10) { animation-delay: 2.62s; }
 
 </style>

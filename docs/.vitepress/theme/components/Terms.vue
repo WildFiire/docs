@@ -89,11 +89,10 @@
 
         <!-- Glass Content Card -->
         <div class="glass-card">
-          <!-- Colțuri decorative -->
-          <div class="corner-dot-tl"></div>
-          <div class="corner-dot-tr"></div>
-          <div class="corner-dot-bl"></div>
-          <div class="corner-dot-br"></div>
+          <span class="corner-dot-tl"></span>
+          <span class="corner-dot-tr"></span>
+          <span class="corner-dot-bl"></span>
+          <span class="corner-dot-br"></span>
 
           <!-- Section 1 -->
           <div class="tos-section">
@@ -283,6 +282,42 @@ function fireflyStyle(n) {
   padding-top: 120px;
   padding-bottom: 80px;
 }
+
+/* ========== ANIMATIONS ========== */
+@keyframes fadeUpSlow {
+  0% {
+    opacity: 0;
+    transform: translateY(40px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.terms-page .back-link,
+.terms-page .page-header,
+.terms-page .page-date-row,
+.terms-page .glass-card,
+.terms-page .tos-section {
+  opacity: 0;
+  animation: fadeUpSlow 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+.terms-page .page-header    { animation-delay: 0.2s; }   /* 1. Titlul */
+.terms-page .back-link-animate-wrapper { animation-delay: 0.4s; }   /* 2. Back to Home */
+.terms-page .page-date-row  { animation-delay: 0.6s; }   /* 3. Last updated */
+.terms-page .glass-card     { animation-delay: 0.8s; }   /* 4. Cardul */
+
+.terms-page .tos-section:nth-of-type(1) { animation-delay: 1.0s; }
+.terms-page .tos-section:nth-of-type(2) { animation-delay: 1.18s; }
+.terms-page .tos-section:nth-of-type(3) { animation-delay: 1.36s; }
+.terms-page .tos-section:nth-of-type(4) { animation-delay: 1.54s; }
+.terms-page .tos-section:nth-of-type(5) { animation-delay: 1.72s; }
+.terms-page .tos-section:nth-of-type(6) { animation-delay: 1.9s; }
+.terms-page .tos-section:nth-of-type(7) { animation-delay: 2.08s; }
+.terms-page .tos-section:nth-of-type(8) { animation-delay: 2.26s; }
+.terms-page .tos-section:nth-of-type(9) { animation-delay: 2.44s; }
 
 /* ========== BACKGROUND ========== */
 .wildfire-wallpaper-base {
