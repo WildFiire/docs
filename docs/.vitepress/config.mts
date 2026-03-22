@@ -11,7 +11,20 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', href: '/icons/wildfire.webp' }],
-    ['meta', { name: 'theme-color', content: '#22c55e' }],
+    ['meta', { name: 'theme-color', content: '#ff4500' }], // schimbat în portocaliu
+
+    // META TAGS PENTRU LINK PREVIEW
+    ['meta', { property: 'og:title', content: 'WildFire.ro - Comunitatea ta de gaming' }],
+    ['meta', { property: 'og:description', content: 'Servere profesionale de GTA 5 (RAGE.MP) și SA:MP. Alătură-te comunității WildFire pentru o experiență unică de gaming!' }],
+    ['meta', { property: 'og:image', content: 'https://wildfire.ro/icons/wildfire.webp' }],
+    ['meta', { property: 'og:url', content: 'https://wildfire.ro' }],
+    ['meta', { property: 'og:type', content: 'website' }],
+    ['meta', { property: 'og:site_name', content: 'WildFire.ro' }],
+
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:title', content: 'WildFire.ro - Comunitatea de gaming' }],
+    ['meta', { name: 'twitter:description', content: 'Server GTA 5 (RAGE.MP) și SA:MP cu comunitate activă, evenimente captivante și sisteme unice.' }],
+    ['meta', { name: 'twitter:image', content: 'https://wildfire.ro/icons/wildfire.webp' }],
 
     // PRELOAD PENTRU LCP
     ['link', {
@@ -44,103 +57,55 @@ export default defineConfig({
 
     // SCRIPT PENTRU VERSIUNE
     ['script', {}, `
-      window.wikiVersion = '3.0.0';
-    `],
+    window.wikiVersion = '3.0.0';
+  `],
 
     // CSS PENTRU STILIZARE ICONITE SI VERSIUNE
     ['style', {}, `
-      .nav-icon {
-        vertical-align: middle;
-        margin-right: 8px;
-        width: 16px;
-        height: 16px;
-        filter: brightness(0.9);
-        transition: filter 0.2s;
-      }
-      
-      .nav-icon:hover {
-        filter: brightness(1.2);
-      }
-      
-      .version-badge {
-        display: inline-block;
-        padding: 2px 8px;
-        background-color: var(--vp-c-bg-soft);
-        border: 1px solid var(--vp-c-divider);
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 10px;
-        color: var(--vp-c-text-1);
-        margin-left: 1rem;
-      }
-      
-      .version-tag {
-        display: inline-block;
-        padding: 2px 8px;
-        background: rgba(34, 197, 94, 0.1);
-        border: 1px solid #22c55e;
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 10px;
-        color: #22c55e;
-        margin-left: 0.5rem;
-        vertical-align: middle;
-        transition: all 0.2s ease;
-      }
-      
-      .version-tag:hover {
-        background: #22c55e;
-        color: white;
-      }
-      
-      .navbar-hint {
-        padding: 0.75rem 1rem;
-        background-color: var(--vp-c-bg-soft);
-        border-radius: 8px;
-        margin: 1rem;
-        font-size: 0.85rem;
-        border-left: 3px solid #22c55e;
-      }
-      
-      .navbar-hint strong {
-        color: #22c55e;
-        display: block;
-        margin-bottom: 0.25rem;
-      }
-      
-      .navbar-hint p {
-        margin: 0;
-        color: var(--vp-c-text-2);
-      }
-      
-      .navbar-hint .hover-hint {
-        font-size: 0.75rem;
-        color: var(--vp-c-text-3);
-        font-style: italic;
-        margin-top: 0.25rem;
-      }
-      
-
-      
-      .version-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.75rem 1rem;
-        border-top: 1px solid var(--vp-c-divider);
-        margin-top: 1rem;
-      }
-      
-      .version-label {
-        font-weight: 600;
-        color: var(--vp-c-text-1);
-      }
-      
-      .version-number {
-        color: #22c55e;
-        font-weight: 700;
-      }
-    `]
+    .nav-icon {
+      vertical-align: middle;
+      margin-right: 8px;
+      width: 16px;
+      height: 16px;
+      filter: brightness(0.9);
+      transition: filter 0.2s;
+    }
+    
+    .nav-icon:hover {
+      filter: brightness(1.2);
+    }
+    
+    .version-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      background-color: var(--vp-c-bg-soft);
+      border: 1px solid var(--vp-c-divider);
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 10px;
+      color: var(--vp-c-text-1);
+      margin-left: 1rem;
+    }
+    
+    .version-tag {
+      display: inline-block;
+      padding: 2px 8px;
+      background: rgba(255, 69, 0, 0.1);
+      border: 1px solid #ff4500;
+      border-radius: 20px;
+      font-weight: 600;
+      font-size: 10px;
+      color: #ff4500;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+      transition: all 0.2s ease;
+    }
+    
+    .version-tag:hover {
+      background: #ff4500;
+      color: white;
+    }
+  `]
   ],
 
   lastUpdated: true,
