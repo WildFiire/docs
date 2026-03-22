@@ -197,11 +197,38 @@
 </template>
 
 <script setup>
-import { computed, onMounted, onUnmounted } from 'vue'
+import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 import { useData } from 'vitepress'
 import HomeNavbar from './HomeNavbar.vue'
 
-const { isDark } = useData()
+const { isDark: themeFromVitePress } = useData()
+const isDark = ref(true)
+
+// Sincronizează cu tema din VitePress
+onMounted(() => {
+  // Inițializează
+  if (themeFromVitePress.value !== undefined) {
+    isDark.value = themeFromVitePress.value
+  } else {
+    // Fallback: verifică clasa de pe html
+    isDark.value = document.documentElement.classList.contains('dark')
+  }
+  
+  // Ascultă schimbările clasei de pe html
+  const observer = new MutationObserver(() => {
+    isDark.value = document.documentElement.classList.contains('dark')
+  })
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
+  
+  // Cleanup
+  onUnmounted(() => observer.disconnect())
+})
+
+// Watch pentru schimbări din VitePress
+watch(themeFromVitePress, (newVal) => {
+  if (newVal !== undefined) isDark.value = newVal
+})
+
 const isLightTheme = computed(() => !isDark.value)
 
 // Firefly styles (light theme only)
@@ -228,22 +255,6 @@ function fireflyStyle(n) {
     opacity: 0.3 + Math.random() * 0.4
   }
 }
-
-// Forțează refresh când se schimbă tema
-onMounted(() => {
-  // Ascultă schimbarea clasei pe html
-  const observer = new MutationObserver(() => {
-    // Forțează re-render
-    document.documentElement.style.backgroundColor = 'transparent'
-  })
-  
-  observer.observe(document.documentElement, { 
-    attributes: true, 
-    attributeFilter: ['class'] 
-  })
-  
-  onUnmounted(() => observer.disconnect())
-})
 </script>
 
 <style scoped>
