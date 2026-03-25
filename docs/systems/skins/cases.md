@@ -493,7 +493,7 @@ html:not(.dark) .cases-wf .cases-key-button {
   <div class="cases-content">
     <p>Sistemul elimină complet frustrarea obținerii de <span class="cases-highlight">skin-uri duplicate</span>. Dacă primești un skin pe care îl deții deja, primești un refund corect.</p>
     <div class="cases-important">
-      <span>Dacă skin-ul extras există deja în <span class="cases-highlight">inventarul tău</span>, primești înapoi <span class="cases-highlight">50% din valoarea skin-ului</span> în Phoenix Coins.</span>
+      <span>Dacă skin-ul extras există deja în <span class="cases-highlight">inventarul tău</span>, primești înapoi <span class="cases-highlight">80% din valoarea skin-ului</span> în Phoenix Coins.</span>
     </div>
     <ul class="cases-custom-list">
       <li><Icon icon="lucide:check-circle-2" width="18" height="18" color="#ff8c00" /><span>Sistemul verifică dacă ai deja <span class="cases-highlight">skin-ul în inventar</span>.</span></li>
