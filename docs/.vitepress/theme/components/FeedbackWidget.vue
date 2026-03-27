@@ -161,12 +161,6 @@ const formattedPageTitle = computed(() => {
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN
 const GITHUB_REPO = 'WildFiire/docs'  // Setat direct
 
-// Debug - verifică variabilele
-console.log('=== GITHUB CONFIG DEBUG ===')
-console.log('VITE_GITHUB_TOKEN:', GITHUB_TOKEN ? '✅ Present' : '❌ Missing')
-console.log('VITE_GITHUB_REPO:', GITHUB_REPO || '❌ Missing')
-console.log('=============================')
-
 const selectFeedback = (type) => {
   selected.value = type
   comment.value = ''
