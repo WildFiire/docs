@@ -39,3 +39,7 @@ Desktop.ini
 
 .vercel
 .env*.local
+
+# Componente Vue (nu le vrei în repo)
+.vitepress/theme/components/*.vue
+.vitepress/theme/components/
