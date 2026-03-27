@@ -261,7 +261,6 @@ export default defineConfig({
               { text: '<img src="/icons/gloves.svg" class="nav-icon" width="16" height="16" alt=""> Gloves', link: '/systems/skins/gloves' },
               { text: '<img src="/icons/agents.svg" class="nav-icon" width="16" height="16" alt=""> Agents', link: '/systems/skins/agents' },
               { text: '<img src="/icons/knives.svg" class="nav-icon" width="16" height="16" alt=""> Knife Skins', link: '/systems/skins/knives' },
-              { text: '<img src="/icons/stickers.svg" class="nav-icon" width="16" height="16" alt=""> Stickers', link: '/systems/skins/stickers' },
             ]
           },
 
