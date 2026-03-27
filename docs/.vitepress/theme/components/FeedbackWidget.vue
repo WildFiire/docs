@@ -159,7 +159,7 @@ const formattedPageTitle = computed(() => {
 
 // Configurare GitHub cu verificări
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN
-const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO
+const GITHUB_REPO = 'WildFiire/docs'  // Setat direct
 
 // Debug - verifică variabilele
 console.log('=== GITHUB CONFIG DEBUG ===')
