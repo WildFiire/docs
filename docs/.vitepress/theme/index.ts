@@ -38,6 +38,7 @@ import StatsGithub from './components/StatsGithub.vue'
 import Team from './components/Team.vue'
 import Terms from './components/Terms.vue'
 import Privacy from './components/Privacy.vue'
+import FeedbackWidget from './components/FeedbackWidget.vue'
 
 // NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
@@ -71,6 +72,10 @@ export default {
       // Home page
       'home-hero-before': () => h(WikiHome),
 
+
+      // 🔥 ADĂUGĂ FEEDBACK DUPĂ CONȚINUTUL PAGINII
+      'doc-footer-before': () => h(FeedbackWidget),
+
       // Navbar
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,
@@ -103,7 +108,7 @@ export default {
     app.component('Icon', Icon)
     app.component('Terms', Terms)
     app.component('Privacy', Privacy)
-
+    app.component('FeedbackWidget', FeedbackWidget)
 
     // NOUA COMPONENTĂ PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)

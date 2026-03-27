@@ -381,7 +381,7 @@ export default defineConfig({
 
     editLink: {
       pattern: 'https://github.com/Wildfiire/docs/edit/main/docs/:path',
-      text: '✏️ Editează această pagină pe GitHub'
+      text: 'Editează această pagină pe GitHub'
     },
 
     // SOCIAL LINKS
