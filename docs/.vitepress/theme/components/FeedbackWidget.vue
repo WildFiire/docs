@@ -127,10 +127,12 @@
       </transition>
     </div>
     
-    <!-- Toast Notification -->
+    <!-- Toast Notification Premium -->
     <transition name="toast">
       <div v-if="toast.show" class="toast-notification" :class="toast.type">
-        <Icon :icon="toast.icon" class="toast-icon" />
+        <div class="toast-icon-wrapper">
+          <Icon :icon="toast.icon" class="toast-icon" />
+        </div>
         <div class="toast-content">
           <strong>{{ toast.title }}</strong>
           <span>{{ toast.message }}</span>
@@ -138,6 +140,7 @@
         <button @click="toast.show = false" class="toast-close">
           <Icon icon="lucide:x" />
         </button>
+        <div class="toast-progress"></div>
       </div>
     </transition>
   </div>
@@ -160,6 +163,7 @@ const errorMessage = ref('')
 const discussionUrl = ref('')
 const maxChars = 500
 
+// Toast notification
 const toast = ref({
   show: false,
   type: 'success',
@@ -183,6 +187,7 @@ const showToast = (type, title, message) => {
     icon: icons[type] || icons.info
   }
   
+  // Auto hide after 4 seconds
   setTimeout(() => {
     toast.value.show = false
   }, 4000)
@@ -867,41 +872,63 @@ const reset = () => {
   animation: spin 0.6s linear infinite;
 }
 
-/* Toast Notification */
+/* Toast Notification Premium */
 .toast-notification {
   position: fixed;
   bottom: 2rem;
   right: 2rem;
   display: flex;
   align-items: center;
-  gap: 0.75rem;
-  padding: 0.875rem 1rem;
+  gap: 1rem;
+  padding: 1rem 1.25rem;
   background: var(--vp-c-bg);
-  backdrop-filter: blur(12px);
-  border-radius: 16px;
+  backdrop-filter: blur(20px);
+  border-radius: 20px;
   border: 1px solid rgba(249, 115, 22, 0.3);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  max-width: 320px;
-  animation: toastSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(249, 115, 22, 0.1) inset;
+  z-index: 10000;
+  max-width: 380px;
+  min-width: 280px;
+  animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
+  overflow: hidden;
 }
 
 .toast-notification.success {
-  border-left: 3px solid #10b981;
+  border-left: 4px solid #10b981;
+  background: linear-gradient(135deg, var(--vp-c-bg), rgba(16, 185, 129, 0.05));
 }
 
 .toast-notification.error {
-  border-left: 3px solid #ef4444;
+  border-left: 4px solid #ef4444;
+  background: linear-gradient(135deg, var(--vp-c-bg), rgba(239, 68, 68, 0.05));
+}
+
+.toast-icon-wrapper {
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  background: rgba(249, 115, 22, 0.1);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .toast-icon {
-  width: 1.25rem;
-  height: 1.25rem;
-  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.toast-notification.success .toast-icon-wrapper {
+  background: rgba(16, 185, 129, 0.15);
 }
 
 .toast-notification.success .toast-icon {
   color: #10b981;
+}
+
+.toast-notification.error .toast-icon-wrapper {
+  background: rgba(239, 68, 68, 0.15);
 }
 
 .toast-notification.error .toast-icon {
@@ -914,7 +941,8 @@ const reset = () => {
 
 .toast-content strong {
   display: block;
-  font-size: 0.8125rem;
+  font-size: 0.875rem;
+  font-weight: 600;
   color: var(--vp-c-text-1);
   margin-bottom: 0.125rem;
 }
@@ -922,6 +950,7 @@ const reset = () => {
 .toast-content span {
   font-size: 0.75rem;
   color: var(--vp-c-text-2);
+  line-height: 1.4;
 }
 
 .toast-close {
@@ -930,11 +959,12 @@ const reset = () => {
   cursor: pointer;
   color: var(--vp-c-text-3);
   padding: 0.25rem;
-  border-radius: 6px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   transition: all 0.2s ease;
+  flex-shrink: 0;
 }
 
 .toast-close:hover {
@@ -943,8 +973,57 @@ const reset = () => {
 }
 
 .toast-close svg {
-  width: 0.875rem;
-  height: 0.875rem;
+  width: 1rem;
+  height: 1rem;
+}
+
+.toast-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #f97316, #ff8c42);
+  width: 100%;
+  animation: toastProgress 4s linear forwards;
+}
+
+.toast-notification.success .toast-progress {
+  background: linear-gradient(90deg, #10b981, #34d399);
+}
+
+.toast-notification.error .toast-progress {
+  background: linear-gradient(90deg, #ef4444, #f87171);
+}
+
+@keyframes toastSlideIn {
+  from {
+    opacity: 0;
+    transform: translateX(100%) scale(0.9);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+  }
+}
+
+@keyframes toastProgress {
+  from {
+    width: 100%;
+  }
+  to {
+    width: 0%;
+  }
+}
+
+.toast-enter-active,
+.toast-leave-active {
+  transition: all 0.3s ease;
+}
+
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(100%) scale(0.9);
 }
 
 @keyframes slideIn {
@@ -978,17 +1057,6 @@ const reset = () => {
   }
 }
 
-@keyframes toastSlide {
-  from {
-    opacity: 0;
-    transform: translateX(100%);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
 .slide-enter-active,
 .slide-leave-active {
   transition: all 0.25s ease;
@@ -1010,17 +1078,6 @@ const reset = () => {
 .fade-leave-to {
   opacity: 0;
   transform: translateY(-4px);
-}
-
-.toast-enter-active,
-.toast-leave-active {
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.toast-enter-from,
-.toast-leave-to {
-  opacity: 0;
-  transform: translateX(100%);
 }
 
 @media (max-width: 640px) {
