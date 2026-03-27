@@ -132,7 +132,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, onMounted } from 'vue'
 import { useData } from 'vitepress'
 import { Icon } from '@iconify/vue'
 
@@ -157,8 +157,15 @@ const formattedPageTitle = computed(() => {
   return title || 'this page'
 })
 
+// Configurare GitHub cu verificări
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN
 const GITHUB_REPO = import.meta.env.VITE_GITHUB_REPO
+
+// Debug - verifică variabilele
+console.log('=== GITHUB CONFIG DEBUG ===')
+console.log('VITE_GITHUB_TOKEN:', GITHUB_TOKEN ? '✅ Present' : '❌ Missing')
+console.log('VITE_GITHUB_REPO:', GITHUB_REPO || '❌ Missing')
+console.log('=============================')
 
 const selectFeedback = (type) => {
   selected.value = type
@@ -177,6 +184,14 @@ const getRatingText = () => {
 
 const submitFeedback = async () => {
   if (!selected.value || !comment.value.trim() || comment.value.length > maxChars) return
+  
+  // Verifică dacă variabilele sunt setate
+  if (!GITHUB_TOKEN || !GITHUB_REPO) {
+    error.value = true
+    errorMessage.value = 'GitHub configuration missing. Please check .env file.'
+    setTimeout(() => { error.value = false }, 4000)
+    return
+  }
   
   submitting.value = true
   error.value = false
@@ -243,6 +258,7 @@ ${comment.value.trim()}
       discussionUrl.value = data.data.createDiscussion.discussion.url
       submitted.value = true
       
+      // Play sound
       const audio = new Audio('/sounds/sunet.mp3')
       audio.play().catch(err => console.log('Audio play failed:', err))
     } else {
@@ -260,7 +276,16 @@ ${comment.value.trim()}
 }
 
 const getRepositoryId = async () => {
+  if (!GITHUB_REPO) {
+    throw new Error('Repository configuration missing. Please check your .env file.')
+  }
+  
   const [owner, name] = GITHUB_REPO.split('/')
+  
+  if (!owner || !name) {
+    throw new Error(`Invalid repository format: ${GITHUB_REPO}. Expected format: owner/repo`)
+  }
+  
   const response = await fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
@@ -280,7 +305,16 @@ const getRepositoryId = async () => {
 }
 
 const getFeedbackCategoryId = async () => {
+  if (!GITHUB_REPO) {
+    throw new Error('Repository configuration missing. Please check your .env file.')
+  }
+  
   const [owner, name] = GITHUB_REPO.split('/')
+  
+  if (!owner || !name) {
+    throw new Error(`Invalid repository format: ${GITHUB_REPO}. Expected format: owner/repo`)
+  }
+  
   const response = await fetch('https://api.github.com/graphql', {
     method: 'POST',
     headers: {
@@ -303,7 +337,7 @@ const getFeedbackCategoryId = async () => {
   const feedbackCategory = categories.find(c => c.name === 'Feedbacks')
   
   if (!feedbackCategory) {
-    throw new Error(`Feedback category not found`)
+    throw new Error(`Feedback category not found. Available: ${categories.map(c => c.name).join(', ')}`)
   }
   return feedbackCategory.id
 }
