@@ -50,7 +50,6 @@
           </div>
           
           <div class="footer-actions">
-            <!-- Stars Rating -->
             <div class="rating-section">
               <div class="stars-container">
                 <button 
@@ -68,7 +67,6 @@
               <span class="rating-label muted" v-else>Rate (optional)</span>
             </div>
             
-            <!-- Buttons -->
             <div class="action-buttons">
               <button 
                 @click="submitFeedback" 
@@ -128,11 +126,25 @@
         </div>
       </transition>
     </div>
+    
+    <!-- Toast Notification -->
+    <transition name="toast">
+      <div v-if="toast.show" class="toast-notification" :class="toast.type">
+        <Icon :icon="toast.icon" class="toast-icon" />
+        <div class="toast-content">
+          <strong>{{ toast.title }}</strong>
+          <span>{{ toast.message }}</span>
+        </div>
+        <button @click="toast.show = false" class="toast-close">
+          <Icon icon="lucide:x" />
+        </button>
+      </div>
+    </transition>
   </div>
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
+import { ref, computed } from 'vue'
 import { useData } from 'vitepress'
 import { Icon } from '@iconify/vue'
 
@@ -148,6 +160,34 @@ const errorMessage = ref('')
 const discussionUrl = ref('')
 const maxChars = 500
 
+const toast = ref({
+  show: false,
+  type: 'success',
+  title: '',
+  message: '',
+  icon: ''
+})
+
+const showToast = (type, title, message) => {
+  const icons = {
+    success: 'lucide:check-circle-2',
+    error: 'lucide:alert-circle',
+    info: 'lucide:info'
+  }
+  
+  toast.value = {
+    show: true,
+    type: type,
+    title: title,
+    message: message,
+    icon: icons[type] || icons.info
+  }
+  
+  setTimeout(() => {
+    toast.value.show = false
+  }, 4000)
+}
+
 const formattedPageTitle = computed(() => {
   const path = page.value.relativePath
   let title = path.replace(/\.md$/, '').replace(/[-_]/g, ' ')
@@ -157,9 +197,8 @@ const formattedPageTitle = computed(() => {
   return title || 'this page'
 })
 
-// Configurare GitHub cu verificări
 const GITHUB_TOKEN = import.meta.env.VITE_GITHUB_TOKEN
-const GITHUB_REPO = 'WildFiire/docs'  // Setat direct
+const GITHUB_REPO = 'WildFiire/docs'
 
 const selectFeedback = (type) => {
   selected.value = type
@@ -179,11 +218,8 @@ const getRatingText = () => {
 const submitFeedback = async () => {
   if (!selected.value || !comment.value.trim() || comment.value.length > maxChars) return
   
-  // Verifică dacă variabilele sunt setate
   if (!GITHUB_TOKEN || !GITHUB_REPO) {
-    error.value = true
-    errorMessage.value = 'GitHub configuration missing. Please check .env file.'
-    setTimeout(() => { error.value = false }, 4000)
+    showToast('error', 'Configuration Error', 'GitHub configuration missing')
     return
   }
   
@@ -252,9 +288,10 @@ ${comment.value.trim()}
       discussionUrl.value = data.data.createDiscussion.discussion.url
       submitted.value = true
       
-      // Play sound
       const audio = new Audio('/sounds/sunet.mp3')
       audio.play().catch(err => console.log('Audio play failed:', err))
+      
+      showToast('success', 'Feedback sent!', 'Thank you for your contribution')
     } else {
       throw new Error('Unexpected response')
     }
@@ -263,6 +300,7 @@ ${comment.value.trim()}
     console.error(err)
     error.value = true
     errorMessage.value = err.message || 'Failed to submit feedback'
+    showToast('error', 'Submission failed', errorMessage.value)
     setTimeout(() => { error.value = false }, 4000)
   } finally {
     submitting.value = false
@@ -270,15 +308,9 @@ ${comment.value.trim()}
 }
 
 const getRepositoryId = async () => {
-  if (!GITHUB_REPO) {
-    throw new Error('Repository configuration missing. Please check your .env file.')
-  }
+  if (!GITHUB_REPO) throw new Error('Repository configuration missing')
   
   const [owner, name] = GITHUB_REPO.split('/')
-  
-  if (!owner || !name) {
-    throw new Error(`Invalid repository format: ${GITHUB_REPO}. Expected format: owner/repo`)
-  }
   
   const response = await fetch('https://api.github.com/graphql', {
     method: 'POST',
@@ -299,15 +331,9 @@ const getRepositoryId = async () => {
 }
 
 const getFeedbackCategoryId = async () => {
-  if (!GITHUB_REPO) {
-    throw new Error('Repository configuration missing. Please check your .env file.')
-  }
+  if (!GITHUB_REPO) throw new Error('Repository configuration missing')
   
   const [owner, name] = GITHUB_REPO.split('/')
-  
-  if (!owner || !name) {
-    throw new Error(`Invalid repository format: ${GITHUB_REPO}. Expected format: owner/repo`)
-  }
   
   const response = await fetch('https://api.github.com/graphql', {
     method: 'POST',
@@ -585,7 +611,6 @@ const reset = () => {
   height: 0.7rem;
 }
 
-/* Footer Actions - Stars + Buttons on same line */
 .footer-actions {
   display: flex;
   align-items: center;
@@ -842,6 +867,86 @@ const reset = () => {
   animation: spin 0.6s linear infinite;
 }
 
+/* Toast Notification */
+.toast-notification {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem 1rem;
+  background: var(--vp-c-bg);
+  backdrop-filter: blur(12px);
+  border-radius: 16px;
+  border: 1px solid rgba(249, 115, 22, 0.3);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  max-width: 320px;
+  animation: toastSlide 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toast-notification.success {
+  border-left: 3px solid #10b981;
+}
+
+.toast-notification.error {
+  border-left: 3px solid #ef4444;
+}
+
+.toast-icon {
+  width: 1.25rem;
+  height: 1.25rem;
+  flex-shrink: 0;
+}
+
+.toast-notification.success .toast-icon {
+  color: #10b981;
+}
+
+.toast-notification.error .toast-icon {
+  color: #ef4444;
+}
+
+.toast-content {
+  flex: 1;
+}
+
+.toast-content strong {
+  display: block;
+  font-size: 0.8125rem;
+  color: var(--vp-c-text-1);
+  margin-bottom: 0.125rem;
+}
+
+.toast-content span {
+  font-size: 0.75rem;
+  color: var(--vp-c-text-2);
+}
+
+.toast-close {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: var(--vp-c-text-3);
+  padding: 0.25rem;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.toast-close:hover {
+  color: var(--vp-c-text-1);
+  background: rgba(0, 0, 0, 0.05);
+}
+
+.toast-close svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -873,6 +978,17 @@ const reset = () => {
   }
 }
 
+@keyframes toastSlide {
+  from {
+    opacity: 0;
+    transform: translateX(100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
 .slide-enter-active,
 .slide-leave-active {
   transition: all 0.25s ease;
@@ -894,6 +1010,17 @@ const reset = () => {
 .fade-leave-to {
   opacity: 0;
   transform: translateY(-4px);
+}
+
+.toast-enter-active,
+.toast-leave-active {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.toast-enter-from,
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(100%);
 }
 
 @media (max-width: 640px) {
@@ -965,6 +1092,13 @@ const reset = () => {
   .char-counter {
     font-size: 0.65rem;
     padding: 0.2rem 0.4rem;
+  }
+  
+  .toast-notification {
+    bottom: 1rem;
+    right: 1rem;
+    left: 1rem;
+    max-width: none;
   }
 }
 </style>
