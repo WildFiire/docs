@@ -194,7 +194,7 @@ html:not(.dark) .cases-wf .gs-tip-text {
       </div>
       <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
         <Icon icon="lucide:mouse-pointer-click" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        Folosește tastele <span class="cases-highlight">E</span>, <span class="cases-highlight">F</span> și <span class="cases-highlight">SHIFT</span> pentru a naviga prin meniul !cases
+        Comanda <span class="cases-highlight">!cases</span>
       </div>
     </div>
     
@@ -218,7 +218,7 @@ html:not(.dark) .cases-wf .gs-tip-text {
       </div>
       <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
         <Icon icon="lucide:grid-3x3" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        Interfața completă a cutiilor în !cases
+        Interfața completă a cutiilor în !cases. Foloseste tastele <span class="cases-highlight">SHIFT, F, E</span> pentru a naviga.
       </div>
     </div>
   </div>
