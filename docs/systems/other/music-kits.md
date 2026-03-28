@@ -347,7 +347,6 @@ html:not(.dark) .cases-wf .gs-tip-text { color: #2c3e2f; }
   </div>
 </div>
 
-
 <!-- INFO BOX FINAL -->
 <div class="cases-info-box">
   <ul>
