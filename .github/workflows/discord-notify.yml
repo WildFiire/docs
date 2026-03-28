@@ -25,7 +25,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Încercăm să obținem username-ul din mai multe surse
           USERNAME="${{ github.event.head_commit.author.username }}"
           
           if [ -z "$USERNAME" ]; then
@@ -38,7 +37,6 @@ jobs:
           
           echo "username=$USERNAME" >> $GITHUB_OUTPUT
           
-          # Folosim GitHub API pentru a obține avatarul
           if [ -n "$USERNAME" ]; then
             RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
               "https://api.github.com/users/$USERNAME")
@@ -49,17 +47,15 @@ jobs:
             if [ -n "$AVATAR_URL" ]; then
               echo "avatar_url=$AVATAR_URL" >> $GITHUB_OUTPUT
             else
-              # Fallback la URL-ul direct dacă API-ul nu returnează
               echo "avatar_url=https://github.com/$USERNAME.png?size=64" >> $GITHUB_OUTPUT
             fi
             
             if [ -n "$NAME" ] && [ "$NAME" != "null" ]; then
-              echo "display_name=$NAME ($USERNAME)" >> $GITHUB_OUTPUT
+              echo "display_name=$NAME" >> $GITHUB_OUTPUT
             else
               echo "display_name=$USERNAME" >> $GITHUB_OUTPUT
             fi
           else
-            # Fallback dacă nu găsim username
             echo "avatar_url=https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" >> $GITHUB_OUTPUT
             echo "display_name=Unknown User" >> $GITHUB_OUTPUT
           fi
@@ -68,7 +64,7 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -c 256)
+          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -c 256 | sed 's/"/\\"/g')
           AUTHOR="${{ steps.userinfo.outputs.display_name }}"
           AVATAR="${{ steps.userinfo.outputs.avatar_url }}"
           USERNAME="${{ steps.userinfo.outputs.username }}"
@@ -85,38 +81,40 @@ jobs:
             CHANGED_FILES="No file details available"
           fi
 
-          PAYLOAD=$(cat <<EOF
-          {
-            "embeds": [{
-              "title": "🔨 New Push to \`$REPO\`",
-              "url": "$COMPARE_URL",
-              "color": 16750848,
-              "fields": [
-                {
-                  "name": "📝 Commit",
-                  "value": "[\`$SHORT_SHA\`]($COMMIT_URL) — $COMMIT_MSG",
-                  "inline": false
-                },
-                {
-                  "name": "🌿 Branch",
-                  "value": "\`$BRANCH\`",
-                  "inline": true
-                },
-                {
-                  "name": "📂 Changed Files",
-                  "value": "\`\`\`$CHANGED_FILES\`\`\`",
-                  "inline": false
-                }
-              ],
-              "footer": {
-                "text": "Wildfire.ro Documentation"
-              },
-              "timestamp": "$TIMESTAMP"
-            }]
-          }
-          EOF
-          )
+          CHANGED_FILES_ESCAPED=$(echo "$CHANGED_FILES" | sed 's/"/\\"/g')
 
           curl -s -X POST "$DISCORD_WEBHOOK" \
             -H "Content-Type: application/json" \
-            -d "$PAYLOAD"
+            -d "{
+              \"embeds\": [{
+                \"title\": \"🚀 New Push to \`$REPO\`\",
+                \"url\": \"$COMPARE_URL\",
+                \"color\": 16750848,
+                \"author\": {
+                  \"name\": \"$AUTHOR\",
+                  \"icon_url\": \"$AVATAR\",
+                  \"url\": \"https://github.com/$USERNAME\"
+                },
+                \"fields\": [
+                  {
+                    \"name\": \"📝 Commit\",
+                    \"value\": \"[\`$SHORT_SHA\`]($COMMIT_URL)\n$COMMIT_MSG\",
+                    \"inline\": false
+                  },
+                  {
+                    \"name\": \"🌿 Branch\",
+                    \"value\": \"\`$BRANCH\`\",
+                    \"inline\": true
+                  },
+                  {
+                    \"name\": \"📁 Files\",
+                    \"value\": \"\`\`\`$CHANGED_FILES_ESCAPED\`\`\`\",
+                    \"inline\": false
+                  }
+                ],
+                \"footer\": {
+                  \"text\": \"Wildfire.ro Documentation\"
+                },
+                \"timestamp\": \"$TIMESTAMP\"
+              }]
+            }"
