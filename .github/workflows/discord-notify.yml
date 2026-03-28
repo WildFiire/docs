@@ -20,21 +20,12 @@ jobs:
           echo "$FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
-      - name: Get commit stats
-        id: stats
-        run: |
-          ADDITIONS=$(git diff --shortstat HEAD~1 HEAD | grep -o '[0-9]* insertion' | grep -o '[0-9]*' || echo "0")
-          DELETIONS=$(git diff --shortstat HEAD~1 HEAD | grep -o '[0-9]* deletion' | grep -o '[0-9]*' || echo "0")
-          FILES_CHANGED=$(git diff --name-only HEAD~1 HEAD | wc -l)
-          
-          echo "additions=$ADDITIONS" >> $GITHUB_OUTPUT
-          echo "deletions=$DELETIONS" >> $GITHUB_OUTPUT
-          echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
-
-      - name: Get user info
+      - name: Get user info from GitHub API
         id: userinfo
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Obținem username-ul
+          # Încercăm să obținem username-ul din mai multe surse
           USERNAME="${{ github.event.head_commit.author.username }}"
           
           if [ -z "$USERNAME" ]; then
@@ -45,15 +36,31 @@ jobs:
             USERNAME="${{ github.event.pusher.name }}"
           fi
           
-          # Construim URL-ul avatarului (metodă simplă și sigură)
+          echo "username=$USERNAME" >> $GITHUB_OUTPUT
+          
+          # Folosim GitHub API pentru a obține avatarul
           if [ -n "$USERNAME" ]; then
-            AVATAR_URL="https://github.com/$USERNAME.png?size=64"
-            echo "avatar_url=$AVATAR_URL" >> $GITHUB_OUTPUT
-            echo "username=$USERNAME" >> $GITHUB_OUTPUT
-            echo "display_name=$USERNAME" >> $GITHUB_OUTPUT
+            RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
+              "https://api.github.com/users/$USERNAME")
+            
+            AVATAR_URL=$(echo "$RESPONSE" | jq -r '.avatar_url // empty')
+            NAME=$(echo "$RESPONSE" | jq -r '.name // empty')
+            
+            if [ -n "$AVATAR_URL" ]; then
+              echo "avatar_url=$AVATAR_URL" >> $GITHUB_OUTPUT
+            else
+              # Fallback la URL-ul direct dacă API-ul nu returnează
+              echo "avatar_url=https://github.com/$USERNAME.png?size=64" >> $GITHUB_OUTPUT
+            fi
+            
+            if [ -n "$NAME" ] && [ "$NAME" != "null" ]; then
+              echo "display_name=$NAME ($USERNAME)" >> $GITHUB_OUTPUT
+            else
+              echo "display_name=$USERNAME" >> $GITHUB_OUTPUT
+            fi
           else
+            # Fallback dacă nu găsim username
             echo "avatar_url=https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" >> $GITHUB_OUTPUT
-            echo "username=unknown" >> $GITHUB_OUTPUT
             echo "display_name=Unknown User" >> $GITHUB_OUTPUT
           fi
 
@@ -61,9 +68,10 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -c 256 | head -n1)
+          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -c 256)
           AUTHOR="${{ steps.userinfo.outputs.display_name }}"
           AVATAR="${{ steps.userinfo.outputs.avatar_url }}"
+          USERNAME="${{ steps.userinfo.outputs.username }}"
           BRANCH="${{ github.ref_name }}"
           REPO="${{ github.repository }}"
           SHORT_SHA="${{ github.sha }}"
@@ -72,54 +80,43 @@ jobs:
           COMPARE_URL="${{ github.event.compare }}"
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           CHANGED_FILES="${{ steps.changed.outputs.files }}"
-          ADDITIONS="${{ steps.stats.outputs.additions }}"
-          DELETIONS="${{ steps.stats.outputs.deletions }}"
-          FILES_CHANGED="${{ steps.stats.outputs.files_changed }}"
 
           if [ -z "$CHANGED_FILES" ]; then
             CHANGED_FILES="No file details available"
           fi
 
-          # Culori portocalii
-          COLOR="16750848"  # Orange in decimal (0xFFA500)
-
           PAYLOAD=$(cat <<EOF
           {
             "embeds": [{
-              "title": "🚀 New Push to $REPO",
+              "title": "🔨 New Push to \`$REPO\`",
               "url": "$COMPARE_URL",
-              "color": $COLOR,
+              "color": 3066993,
               "author": {
                 "name": "$AUTHOR",
                 "icon_url": "$AVATAR",
-                "url": "https://github.com/${{ steps.userinfo.outputs.username }}"
+                "url": "https://github.com/$USERNAME"
               },
               "fields": [
                 {
                   "name": "📝 Commit",
-                  "value": "[\\`$SHORT_SHA\\`]($COMMIT_URL) - $COMMIT_MSG",
+                  "value": "[\`$SHORT_SHA\`]($COMMIT_URL) — $COMMIT_MSG",
                   "inline": false
                 },
                 {
-                  "name": "📊 Changes",
-                  "value": "➕ +$ADDITIONS  ➖ -$DELETIONS\\n📁 $FILES_CHANGED files",
-                  "inline": true
-                },
-                {
                   "name": "🌿 Branch",
-                  "value": "\\`$BRANCH\\`",
+                  "value": "\`$BRANCH\`",
                   "inline": true
                 },
                 {
                   "name": "📂 Changed Files",
-                  "value": "\\`\\`\\`$CHANGED_FILES\\`\\`\\`",
+                  "value": "\`\`\`$CHANGED_FILES\`\`\`",
                   "inline": false
                 }
               ],
               "footer": {
-                "text": "Wildfire.ro Documentation • $(date -u +"%Y-%m-%d %H:%M:%S") UTC",
-                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
-              }
+                "text": "Wildfire.ro Documentation"
+              },
+              "timestamp": "$TIMESTAMP"
             }]
           }
           EOF
