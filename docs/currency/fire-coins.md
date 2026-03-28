@@ -55,15 +55,15 @@ outline: deep
   <div style="display: flex; align-items: center; gap: 6px;">
     <span style="font-size: 13px; color: var(--wf-gray); font-weight: 500;" class="orbitron-font">updated by</span>
     <a 
-      href="https://github.com/ianncxd" 
+      href="https://github.com/iannc69" 
       target="_blank" 
       class="github-profile"
-      data-username="ianncxd"
+      data-username="iannc69"
       data-tags="show-wildfire show-dev show-wiki show-staff   "
       style="display: block; padding: 2px; background: linear-gradient(135deg, #8b5cf6, #c084fc, #f472b6); border-radius: 50%;" 
-      title="ianncxd"
+      title="iannc69"
     >
-      <img src="https://github.com/ianncxd.png" alt="ianncxd" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid #1a1a1a; display: block; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
+      <img src="https://github.com/iannc69.png" alt="iannc69" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid #1a1a1a; display: block; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
     </a>
   </div>
 
