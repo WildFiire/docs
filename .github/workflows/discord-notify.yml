@@ -1,0 +1,81 @@
+name: Discord Push Notification
+
+on:
+  push:
+    branches: [ main, develop ]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+
+      - name: Get changed files
+        id: changed
+        run: |
+          FILES=$(git diff --name-only HEAD~1 HEAD | head -20 | tr '\n' '\n' | sed 's/^/• /' | head -c 900)
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILES" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+
+      - name: Send Discord notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -c 256)
+          AUTHOR="${{ github.event.head_commit.author.name }}"
+          BRANCH="${{ github.ref_name }}"
+          REPO="${{ github.repository }}"
+          SHORT_SHA="${{ github.sha }}"
+          SHORT_SHA="${SHORT_SHA:0:7}"
+          COMMIT_URL="${{ github.event.head_commit.url }}"
+          COMPARE_URL="${{ github.event.compare }}"
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          CHANGED_FILES="${{ steps.changed.outputs.files }}"
+
+          if [ -z "$CHANGED_FILES" ]; then
+            CHANGED_FILES="No file details available"
+          fi
+
+          PAYLOAD=$(cat <<EOF
+          {
+            "embeds": [{
+              "title": "🔨 New Push to \`$REPO\`",
+              "url": "$COMPARE_URL",
+              "color": 3066993,
+              "fields": [
+                {
+                  "name": "📝 Commit",
+                  "value": "[\`$SHORT_SHA\`]($COMMIT_URL) — $COMMIT_MSG",
+                  "inline": false
+                },
+                {
+                  "name": "👤 Author",
+                  "value": "$AUTHOR",
+                  "inline": true
+                },
+                {
+                  "name": "🌿 Branch",
+                  "value": "\`$BRANCH\`",
+                  "inline": true
+                },
+                {
+                  "name": "📂 Changed Files",
+                  "value": "\`\`\`$CHANGED_FILES\`\`\`",
+                  "inline": false
+                }
+              ],
+              "footer": {
+                "text": "Wildfire.ro Documentation"
+              },
+              "timestamp": "$TIMESTAMP"
+            }]
+          }
+          EOF
+          )
+
+          curl -s -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d "$PAYLOAD"
