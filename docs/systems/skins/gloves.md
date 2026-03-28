@@ -376,7 +376,6 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
 <div class="cases-info-box">
   <ul>
     <li><Icon icon="lucide:alert-triangle" width="20" height="20" color="currentColor" /><span><span class="cases-highlight">Atenție!</span> Mănușile sunt iteme cosmetic rare. Verifică șansele de drop înainte să deschizi un case care le conține. Prețurile variază în funcție de raritate și design.</span></li>
-    <li><Icon icon="lucide:info" width="20" height="20" color="currentColor" /><span><span class="cases-highlight">Notă:</span> Nu poți echipa două perechi de mănuși simultan — sistemul permite o singură pereche activă odată.</span></li>
   </ul>
 </div>
 
