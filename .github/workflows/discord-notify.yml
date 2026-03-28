@@ -19,12 +19,13 @@ jobs:
           FILES_COUNT=$(echo "$ALL_FILES" | wc -l)
           
           if [ $FILES_COUNT -le 25 ]; then
-            FILES=$(echo "$ALL_FILES" | sed 's/^/• /' | tr '\n' '\n')
+            FILES=$(echo "$ALL_FILES" | sed 's/^/• /')
           else
-            FILES=$(echo "$ALL_FILES" | head -25 | sed 's/^/• /' | tr '\n' '\n')
+            FILES=$(echo "$ALL_FILES" | head -25 | sed 's/^/• /')
             FILES="$FILES\n• ... și $((FILES_COUNT - 25)) fișiere"
           fi
           
+          # Salvăm fișierele ca text simplu, nu cu escape
           echo "files<<EOF" >> $GITHUB_OUTPUT
           echo "$FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
@@ -75,7 +76,8 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          COMMIT_TITLE=$(echo "${{ github.event.head_commit.message }}" | head -n1 | jq -R -s .)
+          # Curățăm titlul commit-ului (eliminăm ghilimelele și newline-urile)
+          COMMIT_TITLE=$(echo "${{ github.event.head_commit.message }}" | head -n1 | sed 's/^"//' | sed 's/"$//' | sed 's/\\n//g' | sed 's/"/\\"/g')
           AUTHOR="${{ steps.userinfo.outputs.display_name }}"
           AVATAR="${{ steps.userinfo.outputs.avatar_url }}"
           USERNAME="${{ steps.userinfo.outputs.username }}"
@@ -94,16 +96,14 @@ jobs:
             CHANGED_FILES="No file details available"
           fi
 
-          # Escape folosind jq pentru JSON valid
-          CHANGED_FILES_ESCAPED=$(echo "$CHANGED_FILES" | jq -R -s .)
-          
+          # Construim lista de fișiere fără escape-uri suplimentare
           if [ "$TRUNCATED" = "true" ]; then
-            FILES_DISPLAY="Showing first 25 of $FILES_COUNT files\n"$(echo "$CHANGED_FILES_ESCAPED" | sed 's/^"//' | sed 's/"$//')
+            FILES_DISPLAY="Showing first 25 of $FILES_COUNT files\n\`\`\`$CHANGED_FILES\`\`\`"
           else
-            FILES_DISPLAY=$(echo "$CHANGED_FILES_ESCAPED" | sed 's/^"//' | sed 's/"$//')
+            FILES_DISPLAY="\`\`\`$CHANGED_FILES\`\`\`"
           fi
 
-          # Construim payload-ul folosind jq pentru JSON valid
+          # Construim payload-ul
           jq -n \
             --arg title "🚀 New Push to \`$REPO\`" \
             --arg url "$COMPARE_URL" \
