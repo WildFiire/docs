@@ -16,9 +16,11 @@ jobs:
         id: changed
         run: |
           FILES=$(git diff --name-only HEAD~1 HEAD | head -20 | tr '\n' '\n' | sed 's/^/• /' | head -c 900)
+          FILES_COUNT=$(git diff --name-only HEAD~1 HEAD | wc -l)
           echo "files<<EOF" >> $GITHUB_OUTPUT
           echo "$FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
+          echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
 
       - name: Get user info from GitHub API
         id: userinfo
@@ -76,6 +78,7 @@ jobs:
           COMPARE_URL="${{ github.event.compare }}"
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           CHANGED_FILES="${{ steps.changed.outputs.files }}"
+          FILES_COUNT="${{ steps.changed.outputs.files_count }}"
 
           if [ -z "$CHANGED_FILES" ]; then
             CHANGED_FILES="No file details available"
