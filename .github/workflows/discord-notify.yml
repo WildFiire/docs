@@ -97,17 +97,17 @@ jobs:
                 },
                 \"fields\": [
                   {
-                    \"name\": \"📝 Commit\",
-                    \"value\": \"[\`$SHORT_SHA\`]($COMMIT_URL)\n$COMMIT_MSG\",
+                    \"name\": \"🌿 Branch\",
+                    \"value\": \"\`$BRANCH\`\",
                     \"inline\": false
                   },
                   {
-                    \"name\": \"🌿 Branch\",
-                    \"value\": \"\`$BRANCH\`\",
-                    \"inline\": true
+                    \"name\": \"📝 Commit\",
+                    \"value\": \"[\`$SHORT_SHA\`]($COMMIT_URL)\n\`\`\`$COMMIT_MSG\`\`\`\",
+                    \"inline\": false
                   },
                   {
-                    \"name\": \"📁 Files\",
+                    \"name\": \"📁 Changed Files\",
                     \"value\": \"\`\`\`$CHANGED_FILES_ESCAPED\`\`\`\",
                     \"inline\": false
                   }
