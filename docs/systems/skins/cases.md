@@ -277,7 +277,7 @@ html:not(.dark) .cases-wf .gs-tip-text {
     
    <div class="gs-tip orange">
       <Icon icon="lucide:alert-triangle" width="22" height="22" color="#ff8c00" />
-      <span>Dacă skin-ul extras există deja în <span class="cases-highlight">inventarul tău</span>, primești înapoi <span class="cases-highlight">50% din valoarea skin-ului</span> în Phoenix Coins.</span>
+      <span>Dacă skin-ul extras există deja în <span class="cases-highlight">inventarul tău</span>, primești înapoi <span class="cases-highlight">80% din valoarea skin-ului</span> în Phoenix Coins.</span>
     </div>
     
   <ul class="cases-custom-list">
