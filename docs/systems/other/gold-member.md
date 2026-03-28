@@ -275,6 +275,6 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
     <li><Icon icon="lucide:alert-triangle" width="20" height="20" color="currentColor" /><span><span class="cases-highlight">Important!</span> Beneficiile Gold Member sunt active doar pe serverele Wildfire.ro. Asigură-te că ai numele corect configurat pentru a păstra statutul. Poți verifica oricând cu comanda <code>!goldstatus</code>.</span></li>
   </ul>
 </div>
-
 </div>
 
+### test

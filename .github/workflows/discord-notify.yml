@@ -15,12 +15,23 @@ jobs:
       - name: Get changed files
         id: changed
         run: |
-          FILES=$(git diff --name-only HEAD~1 HEAD | head -20 | tr '\n' '\n' | sed 's/^/• /' | head -c 900)
-          FILES_COUNT=$(git diff --name-only HEAD~1 HEAD | wc -l)
+          # Obținem toate fișierele schimbate
+          ALL_FILES=$(git diff --name-only HEAD~1 HEAD)
+          FILES_COUNT=$(echo "$ALL_FILES" | wc -l)
+          
+          # Limităm la 25 de fișiere în listă
+          if [ $FILES_COUNT -le 25 ]; then
+            FILES=$(echo "$ALL_FILES" | sed 's/^/• /' | tr '\n' '\n')
+          else
+            FILES=$(echo "$ALL_FILES" | head -25 | sed 's/^/• /' | tr '\n' '\n')
+            FILES="$FILES\n• ... și $((FILES_COUNT - 25)) fișiere"
+          fi
+          
           echo "files<<EOF" >> $GITHUB_OUTPUT
           echo "$FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
           echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
+          echo "truncated=$([ $FILES_COUNT -gt 25 ] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
 
       - name: Get user info from GitHub API
         id: userinfo
@@ -79,12 +90,21 @@ jobs:
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           CHANGED_FILES="${{ steps.changed.outputs.files }}"
           FILES_COUNT="${{ steps.changed.outputs.files_count }}"
+          TRUNCATED="${{ steps.changed.outputs.truncated }}"
 
           if [ -z "$CHANGED_FILES" ]; then
             CHANGED_FILES="No file details available"
           fi
 
+          # Escape pentru caracterele speciale
           CHANGED_FILES_ESCAPED=$(echo "$CHANGED_FILES" | sed 's/"/\\"/g')
+          
+          # Adăugăm un mesaj dacă lista a fost trunchiată
+          if [ "$TRUNCATED" = "true" ]; then
+            FILES_DISPLAY="Showing first 25 of $FILES_COUNT files\n\`\`\`$CHANGED_FILES_ESCAPED\`\`\`"
+          else
+            FILES_DISPLAY="\`\`\`$CHANGED_FILES_ESCAPED\`\`\`"
+          fi
 
           curl -s -X POST "$DISCORD_WEBHOOK" \
             -H "Content-Type: application/json" \
@@ -121,7 +141,7 @@ jobs:
                   },
                   {
                     \"name\": \"📁 Changed Files\",
-                    \"value\": \"\`\`\`$CHANGED_FILES_ESCAPED\`\`\`\",
+                    \"value\": \"$FILES_DISPLAY\",
                     \"inline\": false
                   }
                 ],
