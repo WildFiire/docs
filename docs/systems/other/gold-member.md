@@ -276,5 +276,3 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
   </ul>
 </div>
 </div>
-
-### test

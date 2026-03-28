@@ -15,11 +15,9 @@ jobs:
       - name: Get changed files
         id: changed
         run: |
-          # Obținem toate fișierele schimbate
           ALL_FILES=$(git diff --name-only HEAD~1 HEAD)
           FILES_COUNT=$(echo "$ALL_FILES" | wc -l)
           
-          # Limităm la 25 de fișiere în listă
           if [ $FILES_COUNT -le 25 ]; then
             FILES=$(echo "$ALL_FILES" | sed 's/^/• /' | tr '\n' '\n')
           else
@@ -77,7 +75,7 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          COMMIT_TITLE=$(echo "${{ github.event.head_commit.message }}" | head -n1 | sed 's/"/\\"/g')
+          COMMIT_TITLE=$(echo "${{ github.event.head_commit.message }}" | head -n1 | jq -R -s .)
           AUTHOR="${{ steps.userinfo.outputs.display_name }}"
           AVATAR="${{ steps.userinfo.outputs.avatar_url }}"
           USERNAME="${{ steps.userinfo.outputs.username }}"
@@ -96,58 +94,47 @@ jobs:
             CHANGED_FILES="No file details available"
           fi
 
-          # Escape pentru caracterele speciale
-          CHANGED_FILES_ESCAPED=$(echo "$CHANGED_FILES" | sed 's/"/\\"/g')
+          # Escape folosind jq pentru JSON valid
+          CHANGED_FILES_ESCAPED=$(echo "$CHANGED_FILES" | jq -R -s .)
           
-          # Adăugăm un mesaj dacă lista a fost trunchiată
           if [ "$TRUNCATED" = "true" ]; then
-            FILES_DISPLAY="Showing first 25 of $FILES_COUNT files\n\`\`\`$CHANGED_FILES_ESCAPED\`\`\`"
+            FILES_DISPLAY="Showing first 25 of $FILES_COUNT files\n"$(echo "$CHANGED_FILES_ESCAPED" | sed 's/^"//' | sed 's/"$//')
           else
-            FILES_DISPLAY="\`\`\`$CHANGED_FILES_ESCAPED\`\`\`"
+            FILES_DISPLAY=$(echo "$CHANGED_FILES_ESCAPED" | sed 's/^"//' | sed 's/"$//')
           fi
 
-          curl -s -X POST "$DISCORD_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"embeds\": [{
-                \"title\": \"🚀 New Push to \`$REPO\`\",
-                \"url\": \"$COMPARE_URL\",
-                \"color\": 16750848,
-                \"author\": {
-                  \"name\": \"$AUTHOR\",
-                  \"icon_url\": \"$AVATAR\",
-                  \"url\": \"https://github.com/$USERNAME\"
+          # Construim payload-ul folosind jq pentru JSON valid
+          jq -n \
+            --arg title "🚀 New Push to \`$REPO\`" \
+            --arg url "$COMPARE_URL" \
+            --arg color "16750848" \
+            --arg author "$AUTHOR" \
+            --arg avatar "$AVATAR" \
+            --arg userurl "https://github.com/$USERNAME" \
+            --arg committitle "$COMMIT_TITLE" \
+            --arg branch "$BRANCH" \
+            --arg commit "[\`$SHORT_SHA\`]($COMMIT_URL)" \
+            --arg modified "$FILES_COUNT files changed" \
+            --arg files "$FILES_DISPLAY" \
+            --arg timestamp "$TIMESTAMP" \
+            '{
+              embeds: [{
+                title: $title,
+                url: $url,
+                color: ($color | tonumber),
+                author: {
+                  name: $author,
+                  icon_url: $avatar,
+                  url: $userurl
                 },
-                \"fields\": [
-                  {
-                    \"name\": \"⚡ Title\",
-                    \"value\": \"$COMMIT_TITLE\",
-                    \"inline\": false
-                  },
-                  {
-                    \"name\": \"🌿 Branch\",
-                    \"value\": \"\`$BRANCH\`\",
-                    \"inline\": true
-                  },
-                  {
-                    \"name\": \"📝 Commit\",
-                    \"value\": \"[\`$SHORT_SHA\`]($COMMIT_URL)\",
-                    \"inline\": true
-                  },
-                  {
-                    \"name\": \"✨ Modified Files\",
-                    \"value\": \"$FILES_COUNT files changed\",
-                    \"inline\": true
-                  },
-                  {
-                    \"name\": \"📁 Changed Files\",
-                    \"value\": \"$FILES_DISPLAY\",
-                    \"inline\": false
-                  }
+                fields: [
+                  {name: "⚡ Title", value: $committitle, inline: false},
+                  {name: "🌿 Branch", value: $branch, inline: true},
+                  {name: "📝 Commit", value: $commit, inline: true},
+                  {name: "✨ Modified Files", value: $modified, inline: true},
+                  {name: "📁 Changed Files", value: $files, inline: false}
                 ],
-                \"footer\": {
-                  \"text\": \"Wildfire.ro Documentation\"
-                },
-                \"timestamp\": \"$TIMESTAMP\"
+                footer: {text: "Wildfire.ro Documentation"},
+                timestamp: $timestamp
               }]
-            }"
+            }' | curl -s -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d @-
