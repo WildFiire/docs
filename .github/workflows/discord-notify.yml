@@ -64,7 +64,7 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -c 256)
+          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -c 256 | sed 's/"/\\"/g')
           AUTHOR="${{ steps.userinfo.outputs.display_name }}"
           AVATAR="${{ steps.userinfo.outputs.avatar_url }}"
           USERNAME="${{ steps.userinfo.outputs.username }}"
@@ -81,48 +81,46 @@ jobs:
             CHANGED_FILES="No file details available"
           fi
 
-          PAYLOAD=$(cat <<EOF
-          {
-            "embeds": [{
-              "title": "🚀 New Push",
-              "url": "$COMPARE_URL",
-              "color": 16750848,
-              "author": {
-                "name": "$AUTHOR",
-                "icon_url": "$AVATAR",
-                "url": "https://github.com/$USERNAME"
-              },
-              "fields": [
-                {
-                  "name": "📝 Commit",
-                  "value": "[\`$SHORT_SHA\`]($COMMIT_URL)\n$COMMIT_MSG",
-                  "inline": false
-                },
-                {
-                  "name": "👤 Author",
-                  "value": "$AUTHOR",
-                  "inline": true
-                },
-                {
-                  "name": "🌿 Branch",
-                  "value": "\`$BRANCH\`",
-                  "inline": true
-                },
-                {
-                  "name": "📁 Files",
-                  "value": "\`\`\`$CHANGED_FILES\`\`\`",
-                  "inline": false
-                }
-              ],
-              "footer": {
-                "text": "Wildfire.ro Documentation"
-              },
-              "timestamp": "$TIMESTAMP"
-            }]
-          }
-          EOF
-          )
+          # Escape pentru caracterele speciale
+          CHANGED_FILES_ESCAPED=$(echo "$CHANGED_FILES" | sed 's/"/\\"/g')
 
           curl -s -X POST "$DISCORD_WEBHOOK" \
             -H "Content-Type: application/json" \
-            -d "$PAYLOAD"
+            -d "{
+              \"embeds\": [{
+                \"title\": \"🚀 New Push to \`$REPO\`\",
+                \"url\": \"$COMPARE_URL\",
+                \"color\": 16750848,
+                \"author\": {
+                  \"name\": \"$AUTHOR\",
+                  \"icon_url\": \"$AVATAR\",
+                  \"url\": \"https://github.com/$USERNAME\"
+                },
+                \"fields\": [
+                  {
+                    \"name\": \"📝 Commit\",
+                    \"value\": \"[\`$SHORT_SHA\`]($COMMIT_URL)\n$COMMIT_MSG\",
+                    \"inline\": false
+                  },
+                  {
+                    \"name\": \"👤 Author\",
+                    \"value\": \"$AUTHOR\",
+                    \"inline\": true
+                  },
+                  {
+                    \"name\": \"🌿 Branch\",
+                    \"value\": \"\`$BRANCH\`\",
+                    \"inline\": true
+                  },
+                  {
+                    \"name\": \"📁 Files\",
+                    \"value\": \"\`\`\`$CHANGED_FILES_ESCAPED\`\`\`\",
+                    \"inline\": false
+                  }
+                ],
+                \"footer\": {
+                  \"text\": \"Wildfire.ro Documentation\"
+                },
+                \"timestamp\": \"$TIMESTAMP\"
+              }]
+            }"
