@@ -207,10 +207,10 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
 
 <!-- Grid Beneficii -->
 <div class="gv-grid">
-  <div class="gv-card"><div class="gv-corner"></div><div class="gv-img-wrap"><img src="/utility/clantag.png" alt="Tag GOLDMEMBER"></div><div class="gv-info"><p class="gv-name">[GOLDMEMBER]</p><p class="gv-desc">Tag exclusiv în chat și scoreboard</p></div></div>
-  <div class="gv-card"><div class="gv-corner"></div><div class="gv-img-wrap"><img src="/utility/zeus.webp" alt="Zeus"></div><div class="gv-info"><p class="gv-name">Zeus</p><p class="gv-desc">Armă tazer disponibilă în fiecare rundă</p></div></div>
-  <div class="gv-card"><div class="gv-corner"></div><div class="gv-img-wrap"><img src="/utility/money.png" alt="+1000$ per round"></div><div class="gv-info"><p class="gv-name">+1000$ per rundă</p><p class="gv-desc">Bonus de bani la începutul fiecărei runde</p></div></div>
-  <div class="gv-card"><div class="gv-corner"></div><div class="gv-img-wrap"><img src="/utility/healthshot.webp" alt="Healthshot"></div><div class="gv-info"><p class="gv-name">Healthshot</p><p class="gv-desc">Seringă de vindecare disponibilă în fiecare rundă</p></div></div>
+  <div class="gv-card"><div class="gv-corner"></div><div class="gv-img-wrap"><img src="/utility/wf_clantag.png" alt="Tag GOLDMEMBER"></div><div class="gv-info"><p class="gv-name">[GOLDMEMBER]</p><p class="gv-desc">Tag exclusiv în chat și scoreboard</p></div></div>
+  <div class="gv-card"><div class="gv-corner"></div><div class="gv-img-wrap"><img src="/utility/wf_zeus.webp" alt="Zeus"></div><div class="gv-info"><p class="gv-name">Zeus</p><p class="gv-desc">Armă tazer disponibilă în fiecare rundă</p></div></div>
+  <div class="gv-card"><div class="gv-corner"></div><div class="gv-img-wrap"><img src="/utility/wf_money.png" alt="+1000$ per round"></div><div class="gv-info"><p class="gv-name">+1000$ per rundă</p><p class="gv-desc">Bonus de bani la începutul fiecărei runde</p></div></div>
+  <div class="gv-card"><div class="gv-corner"></div><div class="gv-img-wrap"><img src="/utility/wf_healthshot.webp" alt="Healthshot"></div><div class="gv-info"><p class="gv-name">Healthshot</p><p class="gv-desc">Seringă de vindecare disponibilă în fiecare rundă</p></div></div>
 </div>
 
 <div class="gs-tip orange">
@@ -241,7 +241,7 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
 <div style="margin: 20px 0; display: flex; flex-direction: column; gap: 24px; justify-content: center; align-items: center;">
   <div style="position: relative; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
     <div style="position: relative; border-radius: 12px; overflow: hidden;">
-      <img src="/utility/name_steam.png" alt="Editare profil Steam" style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+      <img src="/utility/wf_name_steam.png" alt="Editare profil Steam" style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
       <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">edit profile</div>
     </div>
     <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
@@ -252,7 +252,7 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
   
   <div style="position: relative; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
     <div style="position: relative; border-radius: 12px; overflow: hidden;">
-      <img src="/utility/name_steam2.png" alt="Adăugare cs2.wildfire.ro în nume" style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
+      <img src="/utility/wf_name_steam2.png" alt="Adăugare cs2.wildfire.ro în nume" style="width: 100%; max-width: 600px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);">
       <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">add wildfire.ro</div>
     </div>
     <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
