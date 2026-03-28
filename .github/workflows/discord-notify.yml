@@ -64,7 +64,8 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -c 256 | sed 's/"/\\"/g')
+          COMMIT_TITLE=$(echo "${{ github.event.head_commit.message }}" | head -n1 | sed 's/"/\\"/g')
+          COMMIT_BODY=$(echo "${{ github.event.head_commit.message }}" | tail -n +2 | head -c 200 | sed 's/"/\\"/g')
           AUTHOR="${{ steps.userinfo.outputs.display_name }}"
           AVATAR="${{ steps.userinfo.outputs.avatar_url }}"
           USERNAME="${{ steps.userinfo.outputs.username }}"
@@ -82,6 +83,13 @@ jobs:
           fi
 
           CHANGED_FILES_ESCAPED=$(echo "$CHANGED_FILES" | sed 's/"/\\"/g')
+          
+          # Dacă există corpul commit-ului, îl adăugăm
+          if [ -n "$COMMIT_BODY" ]; then
+            COMMIT_VALUE="[\`$SHORT_SHA\`]($COMMIT_URL)\n**$COMMIT_TITLE**\n\`\`\`$COMMIT_BODY\`\`\`"
+          else
+            COMMIT_VALUE="[\`$SHORT_SHA\`]($COMMIT_URL)\n**$COMMIT_TITLE**"
+          fi
 
           curl -s -X POST "$DISCORD_WEBHOOK" \
             -H "Content-Type: application/json" \
@@ -103,7 +111,7 @@ jobs:
                   },
                   {
                     \"name\": \"📝 Commit\",
-                    \"value\": \"[\`$SHORT_SHA\`]($COMMIT_URL)\n\`\`\`$COMMIT_MSG\`\`\`\",
+                    \"value\": \"$COMMIT_VALUE\",
                     \"inline\": false
                   },
                   {
