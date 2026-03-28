@@ -20,6 +20,17 @@ jobs:
           echo "$FILES" >> $GITHUB_OUTPUT
           echo "EOF" >> $GITHUB_OUTPUT
 
+      - name: Get commit stats
+        id: stats
+        run: |
+          ADDITIONS=$(git diff --shortstat HEAD~1 HEAD | grep -o '[0-9]* insertion' | grep -o '[0-9]*' || echo "0")
+          DELETIONS=$(git diff --shortstat HEAD~1 HEAD | grep -o '[0-9]* deletion' | grep -o '[0-9]*' || echo "0")
+          FILES_CHANGED=$(git diff --name-only HEAD~1 HEAD | wc -l)
+          
+          echo "additions=$ADDITIONS" >> $GITHUB_OUTPUT
+          echo "deletions=$DELETIONS" >> $GITHUB_OUTPUT
+          echo "files_changed=$FILES_CHANGED" >> $GITHUB_OUTPUT
+
       - name: Get user info from GitHub API
         id: userinfo
         env:
@@ -38,30 +49,36 @@ jobs:
           
           echo "username=$USERNAME" >> $GITHUB_OUTPUT
           
-          # Folosim GitHub API pentru a obține avatarul
+          # Folosim GitHub API pentru a obține avatarul și informațiile
           if [ -n "$USERNAME" ]; then
             RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
               "https://api.github.com/users/$USERNAME")
             
             AVATAR_URL=$(echo "$RESPONSE" | jq -r '.avatar_url // empty')
             NAME=$(echo "$RESPONSE" | jq -r '.name // empty')
+            BIO=$(echo "$RESPONSE" | jq -r '.bio // empty')
             
             if [ -n "$AVATAR_URL" ]; then
               echo "avatar_url=$AVATAR_URL" >> $GITHUB_OUTPUT
             else
-              # Fallback la URL-ul direct dacă API-ul nu returnează
               echo "avatar_url=https://github.com/$USERNAME.png?size=64" >> $GITHUB_OUTPUT
             fi
             
             if [ -n "$NAME" ] && [ "$NAME" != "null" ]; then
-              echo "display_name=$NAME ($USERNAME)" >> $GITHUB_OUTPUT
+              echo "display_name=$NAME" >> $GITHUB_OUTPUT
+              echo "display_username=@$USERNAME" >> $GITHUB_OUTPUT
             else
               echo "display_name=$USERNAME" >> $GITHUB_OUTPUT
+              echo "display_username=" >> $GITHUB_OUTPUT
+            fi
+            
+            if [ -n "$BIO" ] && [ "$BIO" != "null" ]; then
+              echo "bio=$(echo $BIO | head -c 100)" >> $GITHUB_OUTPUT
             fi
           else
-            # Fallback dacă nu găsim username
             echo "avatar_url=https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png" >> $GITHUB_OUTPUT
             echo "display_name=Unknown User" >> $GITHUB_OUTPUT
+            echo "display_username=" >> $GITHUB_OUTPUT
           fi
 
       - name: Send Discord notification
@@ -69,42 +86,100 @@ jobs:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
           COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -c 256)
-          AUTHOR="${{ steps.userinfo.outputs.display_name }}"
+          COMMIT_MSG_FIRST_LINE=$(echo "$COMMIT_MSG" | head -n1)
+          COMMIT_MSG_REST=$(echo "$COMMIT_MSG" | tail -n +2 | head -c 200)
+          
+          AUTHOR_NAME="${{ steps.userinfo.outputs.display_name }}"
+          AUTHOR_USERNAME="${{ steps.userinfo.outputs.display_username }}"
           AVATAR="${{ steps.userinfo.outputs.avatar_url }}"
           USERNAME="${{ steps.userinfo.outputs.username }}"
           BRANCH="${{ github.ref_name }}"
           REPO="${{ github.repository }}"
+          REPO_NAME=$(echo "$REPO" | cut -d'/' -f2)
           SHORT_SHA="${{ github.sha }}"
           SHORT_SHA="${SHORT_SHA:0:7}"
           COMMIT_URL="${{ github.event.head_commit.url }}"
           COMPARE_URL="${{ github.event.compare }}"
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           CHANGED_FILES="${{ steps.changed.outputs.files }}"
-
+          ADDITIONS="${{ steps.stats.outputs.additions }}"
+          DELETIONS="${{ steps.stats.outputs.deletions }}"
+          FILES_CHANGED="${{ steps.stats.outputs.files_changed }}"
+          
+          # Culori portocalii (gradient effect)
+          COLOR="0xFFA500"  # Orange
+          
+          # Emoji pentru stats
+          if [ "$ADDITIONS" -gt 0 ] && [ "$DELETIONS" -gt 0 ]; then
+            STATS_EMOJI="📊"
+          elif [ "$ADDITIONS" -gt 0 ]; then
+            STATS_EMOJI="➕"
+          elif [ "$DELETIONS" -gt 0 ]; then
+            STATS_EMOJI="➖"
+          else
+            STATS_EMOJI="📝"
+          fi
+          
+          # Badge pentru branch
+          if [ "$BRANCH" = "main" ] || [ "$BRANCH" = "master" ]; then
+            BRANCH_BADGE="🚀 MAIN"
+          elif [ "$BRANCH" = "develop" ]; then
+            BRANCH_BADGE="💻 DEVELOP"
+          else
+            BRANCH_BADGE="🌿 $BRANCH"
+          fi
+          
           if [ -z "$CHANGED_FILES" ]; then
             CHANGED_FILES="No file details available"
           fi
-
+          
+          # Construim commit message cu formatare frumoasă
+          if [ -n "$COMMIT_MSG_REST" ]; then
+            COMMIT_DISPLAY="$COMMIT_MSG_FIRST_LINE\n\`\`\`diff\n$COMMIT_MSG_REST\`\`\`"
+          else
+            COMMIT_DISPLAY="$COMMIT_MSG_FIRST_LINE"
+          fi
+          
+          # Construim author display
+          if [ -n "$AUTHOR_USERNAME" ]; then
+            AUTHOR_DISPLAY="$AUTHOR_NAME\n$AUTHOR_USERNAME"
+          else
+            AUTHOR_DISPLAY="$AUTHOR_NAME"
+          fi
+          
           PAYLOAD=$(cat <<EOF
           {
             "embeds": [{
-              "title": "🔨 New Push to \`$REPO\`",
+              "title": "🚀 $REPO_NAME",
               "url": "$COMPARE_URL",
-              "color": 3066993,
+              "color": $COLOR,
               "author": {
-                "name": "$AUTHOR",
+                "name": "$AUTHOR_DISPLAY",
                 "icon_url": "$AVATAR",
                 "url": "https://github.com/$USERNAME"
               },
+              "thumbnail": {
+                "url": "$AVATAR"
+              },
               "fields": [
                 {
-                  "name": "📝 Commit",
-                  "value": "[\`$SHORT_SHA\`]($COMMIT_URL) — $COMMIT_MSG",
+                  "name": "📝 Commit Message",
+                  "value": "$COMMIT_DISPLAY",
                   "inline": false
                 },
                 {
+                  "name": "🔗 Commit",
+                  "value": "[\\`$SHORT_SHA\\`]($COMMIT_URL)",
+                  "inline": true
+                },
+                {
+                  "name": "$STATS_EMOJI Changes",
+                  "value": "➕ +$ADDITIONS  ➖ -$DELETIONS\n📁 $FILES_CHANGED files",
+                  "inline": true
+                },
+                {
                   "name": "🌿 Branch",
-                  "value": "\`$BRANCH\`",
+                  "value": "$BRANCH_BADGE",
                   "inline": true
                 },
                 {
@@ -114,14 +189,16 @@ jobs:
                 }
               ],
               "footer": {
-                "text": "Wildfire.ro Documentation"
+                "text": "Wildfire.ro • Pushed via GitHub Actions",
+                "icon_url": "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
               },
               "timestamp": "$TIMESTAMP"
             }]
           }
           EOF
           )
-
+          
+          # Trimitem notificarea
           curl -s -X POST "$DISCORD_WEBHOOK" \
             -H "Content-Type: application/json" \
             -d "$PAYLOAD"
