@@ -293,19 +293,14 @@ export default defineConfig({
             text: '<img src="/icons/other.svg" class="nav-icon" width="16" height="16" alt=""> Other Systems',
             collapsed: true,
             items: [
-              { text: '<img src="/icons/custom-sky.svg" class="nav-icon" width="16" height="16" alt=""> Custom Sky', link: '/systems/other/custom-sky' },
               { text: '<img src="/icons/hit-effect.svg" class="nav-icon" width="16" height="16" alt=""> Hit Effect', link: '/systems/other/hit-effect' },
               { text: '<img src="/icons/music.svg" class="nav-icon" width="16" height="16" alt=""> Music Kits', link: '/systems/other/music-kits' },
               { text: '<img src="/icons/gold-member.svg" class="nav-icon" width="16" height="16" alt=""> Gold Member', link: '/systems/other/gold-member' },
               { text: '<img src="/icons/map-chooser.svg" class="nav-icon" width="16" height="16" alt=""> Map Chooser / RTV', link: '/systems/other/map-chooser' },
               { text: '<img src="/icons/rank-phases.svg" class="nav-icon" width="16" height="16" alt=""> Rank Phases (Grind)', link: '/systems/other/rank-phases' },
               { text: '<img src="/icons/afk.svg" class="nav-icon" width="16" height="16" alt=""> AFK Manager', link: '/systems/other/afk-manager' },
-              { text: '<img src="/icons/ad.svg" class="nav-icon" width="16" height="16" alt=""> Advertisement System', link: '/systems/other/advertisement' },
               { text: '<img src="/icons/teambalance.svg" class="nav-icon" width="16" height="16" alt=""> Teambalance', link: '/systems/other/teambalance' },
               { text: '<img src="/icons/chat-filter.svg" class="nav-icon" width="16" height="16" alt=""> Chat Filter', link: '/systems/other/chat-filter' },
-              { text: '<img src="/icons/dns.svg" class="nav-icon" width="16" height="16" alt=""> DNS Text HUD', link: '/systems/other/dns-hud' },
-              { text: '<img src="/icons/kill-sound.svg" class="nav-icon" width="16" height="16" alt=""> Kill Sound', link: '/systems/other/kill-sound' },
-              { text: '<img src="/icons/quests.svg" class="nav-icon" width="16" height="16" alt=""> Quests & Achievements', link: '/systems/other/quests' },
             ]
           },
         ]

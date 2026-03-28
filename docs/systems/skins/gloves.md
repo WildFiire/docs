@@ -84,7 +84,7 @@ html:not(.dark) .cases-wf {
 .cases-wf .cases-info-box li { margin-bottom: 16px; display: flex; align-items: flex-start; gap: 14px; font-size: 14px; }
 .cases-wf .cases-info-box li svg { flex-shrink: 0; width: 20px; height: 20px; stroke: var(--cases-highlight); fill: none; margin-top: 2px; }
 .cases-wf .cases-number { display: inline-block; background: var(--cases-number-bg); color: var(--cases-highlight); font-weight: 600; padding: 4px 12px; border-radius: 20px; font-size: 12px; margin-right: 10px; margin-bottom: 6px; border: 1px solid var(--cases-number-border); font-family: 'Orbitron', sans-serif; }
-.cases-wf .cases-title-hover { transition: transform 0.2s ease, opacity 0.2s ease; text-align: left; }
+.cases-wf .cases-title-hover { transition: transform 0.2s ease; text-align: left; }
 .cases-wf .cases-title-hover:hover { transform: translateX(5px); }
 .cases-wf .cases-key-row { display: flex; gap: 20px; margin: 20px 0; flex-wrap: wrap; }
 .cases-wf .cases-key-item { display: inline-flex; align-items: center; gap: 12px; padding: 6px 0; transition: all 0.2s ease; }
@@ -194,8 +194,8 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="cases-title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="display: none;">1.0 CUM ECHIPEZI MĂNUȘI</span>
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="cases-orbitron"><Icon icon="lucide:mouse-pointer-click" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />1.0 CUM ECHIPEZI MĂNUȘI</span>
+  ### <span style="display: none;">1.0 INFORMAȚII</span>
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="cases-orbitron"><Icon icon="lucide:mouse-pointer-click" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />1.0 INFORMAȚII</span>
 </div>
 
 <div class="cases-card">
@@ -203,38 +203,39 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
   <div class="cases-content">
     <p>Totul începe cu o comandă simplă și o interfață intuitivă, controlată complet din <span class="cases-highlight">tastatură</span>.</p>
     
-  <div class="gs-tip orange">
+   <div class="gs-tip orange">
       <Icon icon="lucide:info" width="22" height="22" color="#ff8c00" />
       <span>Scrie <code>!ws</code> în chat pentru a deschide interfața principală a <span class="cases-highlight">skin-urilor și mănușilor</span>.</span>
     </div>
     
   <p>Navigarea prin meniul de mănuși se face cu ajutorul tastelor:</p>
     
- <div class="cases-key-row">
+   <div class="cases-key-row">
       <div class="cases-key-item"><span class="cases-key-button">E</span><span>Tasta <span class="cases-highlight">E</span> - <strong>Selectează</strong> mănușile</span></div>
       <div class="cases-key-item"><span class="cases-key-button">F</span><span>Tasta <span class="cases-highlight">F</span> - <strong>Navighează în sus</strong> prin categorii</span></div>
       <div class="cases-key-item"><span class="cases-key-button shift-btn">SHIFT</span><span>Tasta <span class="cases-highlight">SHIFT</span> - <strong>Navighează în jos</strong> prin categorii</span></div>
     </div>
 
-  <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
-      <div style="position: relative; border-radius: 12px; overflow: hidden;">
-        <img src="/gloves/gif_gloves_1.gif" alt="Gloves Menu Navigation - !ws" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
-        <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">!ws menu navigation</div>
-      </div>
-      <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
-        <Icon icon="lucide:mouse-pointer-click" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        Folosește tastele <span class="cases-highlight">E</span>, <span class="cases-highlight">F</span> și <span class="cases-highlight">SHIFT</span> pentru a naviga prin meniul !ws
-      </div>
-    </div>
     
    <div class="gs-tip">
       <Icon icon="lucide:lightbulb" width="22" height="22" color="#00c851" />
       <span>Meniul <code>!ws</code> îți va afișa toate <span class="cases-highlight">mănușile disponibile</span>, grupate pe tipuri (Sport, Specialist, Moto, Hand Wraps etc.), cu preview-uri 3D și prețul în Phoenix Coins.</span>
     </div>
+
+  <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
+      <div style="position: relative; border-radius: 12px; overflow: hidden;">
+        <img src="/gloves/gif_gloves_1.gif" alt="Gloves Selection - !ws" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
+        <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">select gloves</div>
+      </div>
+      <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
+        <Icon icon="lucide:check" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
+        Apasă <span class="cases-highlight">E</span> pentru a selecta mănușile dorite
+      </div>
+    </div>
     
    <p>După ce selectezi o pereche de mănuși, se deschide panoul detaliat:</p>
     
-  <ul class="cases-custom-list">
+   <ul class="cases-custom-list">
       <li><Icon icon="lucide:eye" width="18" height="18" color="#ff8c00" /><span><span class="cases-highlight">Preview</span> — poți vedea modelul 3D al mănușilor înainte de achiziție</span></li>
       <li><Icon icon="lucide:shopping-cart" width="18" height="18" color="#ff8c00" /><span><span class="cases-highlight">Buy Now</span> — cumpără mănușile direct cu Phoenix Coins</span></li>
       <li><Icon icon="lucide:check-circle-2" width="18" height="18" color="#ff8c00" /><span><span class="cases-highlight">Equip</span> — dacă le deții deja, le echipezi instant</span></li>
@@ -271,7 +272,7 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
       <span>Mănușile sunt printre cele mai rare iteme — șansa de drop este extrem de mică!</span>
     </div>
 
-   <div style="margin: 28px 0 20px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
+  <div style="margin: 28px 0 20px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
       <div style="position: relative; border-radius: 12px; overflow: hidden;">
         <img src="/gloves/gif_gloves_2.gif" alt="Gloves Purchase Preview - !ws" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
         <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">preview & purchase</div>
@@ -284,12 +285,75 @@ html:not(.dark) .gv-info { border-top-color: rgba(255,140,0,0.12); }
   </div>
 </div>
 
-<!-- 3.0 TIPURI DE MĂNUȘI -->
+<!-- 3.0 INVENTAR & LOADOUT -->
 <div style="display: flex; align-items: center; gap: 16px; margin: 48px 0 28px 0; padding-bottom: 14px; border-bottom: 2px solid rgba(255,140,0,0.25);" class="cases-title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="display: none;">3.0 TIPURI DE MĂNUȘI</span>
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="cases-orbitron"><Icon icon="lucide:grid-3x3" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />3.0 TIPURI DE MĂNUȘI</span>
+  ### <span style="display: none;">3.0 INVENTAR & LOADOUT</span>
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="cases-orbitron"><Icon icon="lucide:layers" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />3.0 INVENTAR & LOADOUT</span>
+</div>
+
+<div class="cases-card">
+  <div class="cases-icon"><Icon icon="lucide:layers" width="18" height="18" color="#ff8c00" /></div>
+  <div class="cases-content">
+    <p>Toate item-urile tale sunt stocate în inventar și pot fi gestionate atât din joc, cât și de pe site-ul oficial.</p>
+    
+  <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
+      <div style="position: relative; border-radius: 12px; overflow: hidden;">
+        <img src="/utility/inventory.png" alt="Inventory Menu - !inv" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
+        <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">!inv - inventory menu</div>
+      </div>
+      <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
+        <Icon icon="lucide:command" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
+        Folosește comanda <span class="cases-highlight">!inv</span> în joc pentru a-ți deschide inventarul
+      </div>
+    </div>
+    
+  <div class="gs-tip">
+      <Icon icon="lucide:monitor" width="22" height="22" color="#00c851" />
+      <span><span class="cases-highlight">Pe site-ul oficial:</span> Accesează <code>wildfire.ro/skins-market</code> și autentifică-te cu Steam pentru a accesa secțiunea <span class="cases-highlight">Inventory</span>. Acolo vei găsi toate skin-urile, cuțitele, mănușile și agenții pe care îi deții.</span>
+    </div>
+    
+   <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
+      <div style="position: relative; border-radius: 12px; overflow: hidden;">
+        <img src="/utility/gif_inventory.gif" alt="Site Inventory - wildfire.ro/skins-market" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
+        <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">site inventory</div>
+      </div>
+      <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
+        <Icon icon="lucide:package-open" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
+        În secțiunea <span class="cases-highlight">Inventory</span> de pe site poți vedea toate item-urile câștigate
+      </div>
+    </div>
+    
+   <div class="gs-tip">
+      <Icon icon="lucide:mouse-pointer-click" width="22" height="22" color="#00c851" />
+      <span>După ce ai vizualizat inventarul, accesează secțiunea <span class="cases-highlight">Loadout</span> pentru a-ți echipa item-urile direct din browser.</span>
+    </div>
+    
+  <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
+      <div style="position: relative; border-radius: 12px; overflow: hidden;">
+        <img src="/utility/gif_loadout.gif" alt="Site Loadout - Echipa iteme" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
+        <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">site loadout - equip items</div>
+      </div>
+      <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
+        <Icon icon="lucide:check-circle-2" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
+        În secțiunea <span class="cases-highlight">Loadout</span> selectează item-ul dorit și apasă Equip
+      </div>
+    </div>
+    
+  <div class="gs-tip orange">
+      <Icon icon="lucide:zap" width="22" height="22" color="#ff8c00" />
+      <span>Toate item-urile echipate pe site sunt <span class="cases-highlight">sincronizate automat</span> cu jocul. Nu este nevoie de relogare - schimbările sunt vizibile instant în CS2!</span>
+    </div>
+  </div>
+</div>
+
+<!-- 4.0 TIPURI DE MĂNUȘI -->
+<div style="display: flex; align-items: center; gap: 16px; margin: 48px 0 28px 0; padding-bottom: 14px; border-bottom: 2px solid rgba(255,140,0,0.25);" class="cases-title-hover">
+  <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
+  
+  ### <span style="display: none;">4.0 TIPURI DE MĂNUȘI</span>
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="cases-orbitron"><Icon icon="lucide:grid-3x3" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />4.0 TIPURI DE MĂNUȘI</span>
 </div>
 
 <div class="gv-grid">
