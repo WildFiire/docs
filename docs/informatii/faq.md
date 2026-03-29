@@ -1,106 +1,28 @@
 ---
 outline: deep
-title: Întrebări Frecvente (FAQ) - Wildfire.ro CS2
-description: Află totul despre sistemele Wildfire CS2, de la FireCoins și WeaponSkins până la regulamente și suport tehnic.
-head:
-  - - meta
-    - name: theme-color
-      content: '#ff4500'
-  - - meta
-    - name: keywords
-      content: cs2 faq, counter-strike 2 faq, wildfire.ro intrebari, wildfire cs2 wiki, wildfire docs
-  - - meta
-    - property: og:title
-      content: FAQ - Wildfire.ro CS2 Wikipedia
-  - - meta
-    - property: og:description
-      content: Întrebări frecvente și suport pentru platforma Wildfire CS2.
-  - - meta
-    - property: og:image
-      content: https://docs.wildfire.ro/wallpaper/content.webp
-  - - meta
-    - property: og:type
-      content: website
-  - - meta
-    - property: og:url
-      content: https://docs.wildfire.ro/informatii/faq
-  - - meta
-    - name: twitter:card
-      content: summary_large_image
-  - - meta
-    - name: twitter:image
-      content: https://docs.wildfire.ro/wallpaper/content.webp
 ---
 
-<!-- Background image container -->
-<div style="position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 20px; min-height: 180px; background-color: var(--vp-c-bg);">
-
-<!-- Background image layer cu BLUR și PARALLAX -->
-<div style="position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; z-index: 0; filter: blur(5px) brightness(var(--bg-brightness, 0.7)); transform: scale(1.1);">
-  <img src="/wallpaper/backgroundwf.webp" alt="background" style="width: 100%; height: 100%; object-fit: cover; opacity: var(--bg-opacity, 0.4);">
-</div>
-
-<!-- Content layer -->
-<div style="position: relative; z-index: 1; padding: 30px 30px 20px 30px; border-radius: 24px;">
-
-<!-- RÂND 0 - path și introduction -->
-<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 5px; font-size: 12px; color: var(--vp-c-text-2); flex-wrap: wrap; opacity: 0.9;">
-  <div style="display: flex; align-items: center; gap: 5px;">
-    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Home</span>
-    <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Informatii</span>
-    <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-text-2);" class="orbitron-font">Intrebari Frecvente</span>
-  </div>
-  
-  <div style="display: flex; align-items: center; gap: 6px;">
-    <img src="/icons/introduction.svg" alt="introduction" class="nav-icon" style="width: 18px; height: 18px; filter: var(--icon-filter, none);">
-    <span style="font-size: 12px; color: var(--vp-c-text-2);" class="orbitron-font">FAQ</span>
-  </div>
-</div>
-
-<!-- RÂND 1 - logo și titlu -->
-<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-  <img src="/icons/wildfire.webp" alt="Wildfire.ro" width="60" style="margin: 0; filter: var(--logo-filter, none);">
-  
-  <!-- TITLU CU GRADIENT ANIMAT -->
-  <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;" class="orbitron-font">
-    Intrebari Frecvente
-  </h1>
-</div>
-
-<!-- RAND 2 - tags si updated by -->
-<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; border-top: 1px solid rgba(255,69,0,0.2); padding-top: 15px; margin-top: 5px;">
-
-  <!-- Tags in stanga -->
-  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-    <img src="/icons/tag.svg" alt="tag" class="nav-icon" style="width: 18px; height: 18px; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
-    <PageTagRed style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">panel</PageTagRed>
-    <PageTagBlue style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">tickete</PageTagBlue>
-    <PageTagGreen style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">dashboard</PageTagGreen>
-    <PageTagPurple style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">suport</PageTagPurple>
-  </div>
-
-  <!-- Updated by in dreapta -->
-  <div style="display: flex; align-items: center; gap: 6px;">
-    <span style="font-size: 13px; color: var(--wf-gray); font-weight: 500;" class="orbitron-font">updated by</span>
-    <a 
-      href="https://github.com/iannc69" 
-      target="_blank" 
-      class="github-profile"
-      data-username="iannc69"
-      data-tags="show-wildfire show-dev show-wiki show-staff   "
-      style="display: block; padding: 2px; background: linear-gradient(135deg, #8b5cf6, #c084fc, #f472b6); border-radius: 50%;" 
-      title="iannc69"
-    >
-      <img src="https://github.com/iannc69.png" alt="iannc69" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid #1a1a1a; display: block; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
-    </a>
-  </div>
-
-</div>
-
-</div> 
-</div>
+<CaseHeader 
+  title="Intrebari Frecvente"
+  :tags="[
+    { text: 'INFO', component: 'PageTagPurple' },
+    { text: 'FAQ', component: 'PageTagRed' },
+    { text: 'WILDFIRE', component: 'PageTagOrange' }
+  ]"
+  :path="['Home', 'Informatii', 'Intrebari']"
+  background="/wallpaper/backgroundwf.webp"
+  :blur-amount="8"
+  icon="/icons/wildfire.webp"
+  updated-by-username="iannc69"
+  page-id="about-faq"
+  badge-text="Intrebari"
+  badge-icon="lucide:shield-question-mark"
+  :floating-icons="[
+    { src: '/icons/wildfire.webp', alt: 'wildfire', width: '60px', opacity: '0.3' },
+    { src: '/icons/wildfire.webp', alt: 'wildfire', width: '60px', opacity: '0.3' },
+    { src: '/icons/wildfire.webp', alt: 'wildfire', width: '60px', opacity: '0.3' }
+  ]"
+/>
 
 <!-- STILURI CU SUPORT LIGHT/DARK THEME -->
 <style>

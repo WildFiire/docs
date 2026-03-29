@@ -1,6 +1,6 @@
 <template>
-  <span class="wildfire-tag" :class="tagClass">
-    <span class="tag-dot" :class="dotClass"></span>
+  <span class="wildfire-tag" :class="tagClass" :style="{ borderColor: tagData.color, boxShadow: `0 0 0 1px ${tagData.color}20` }">
+    <span class="tag-dot" :class="dotClass" :style="{ backgroundColor: tagData.color }"></span>
     <slot>{{ text }}</slot>
   </span>
 </template>
@@ -55,52 +55,48 @@ const dotClass = computed(() => tagData.value.dot)
 .wildfire-tag {
   display: inline-flex;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   padding: 4px 12px;
   border-radius: 30px;
   font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.2px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
-  background: #1a1a1a !important;
-  color: #e0e0e0 !important;
-  border: 1px solid #333333 !important;
   line-height: 1.4;
   white-space: nowrap;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: all 0.2s ease;
+  border-width: 1px;
+  border-style: solid;
+}
+
+/* DARK THEME DEFAULT */
+.wildfire-tag {
+  background: #1a1a1a !important;
+  color: #e0e0e0 !important;
 }
 
 .dark .wildfire-tag {
   background: #151515 !important;
-  border: 1px solid #2a2a2a !important;
 }
 
-/* ===== DOT FĂRĂ ANIMAȚIE (box-shadow eliminat pentru performanță) ===== */
+/* LIGHT THEME DEFAULT */
+html:not(.dark) .wildfire-tag {
+  background: #f5f5f5 !important;
+  color: #1a1a1a !important;
+}
+
+/* ===== DOT ===== */
 .tag-dot {
-  width: 6px;
-  height: 6px;
+  width: 7px;
+  height: 7px;
   border-radius: 50%;
   display: inline-block;
-  /* FĂRĂ box-shadow, fără animație */
+  transition: all 0.2s ease;
 }
 
-/* CULORI DOT */
-.tag-blue .tag-dot { background: #3b82f6; }
-.tag-orange .tag-dot { background: #ff4500; }
-.tag-purple .tag-dot { background: #8b5cf6; }
-.tag-green .tag-dot { background: #10b981; }
-.tag-pink .tag-dot { background: #ec4899; }
-.tag-red .tag-dot { background: #ef4444; }
-.tag-indigo .tag-dot { background: #6366f1; }
-.tag-yellow .tag-dot { background: #eab308; }
-.tag-teal .tag-dot { background: #14b8a6; }
-.tag-cyan .tag-dot { background: #06b6d4; }
-.tag-fuchsia .tag-dot { background: #d946ef; }
-.tag-emerald .tag-dot { background: #10b981; }
-.tag-amber .tag-dot { background: #f59e0b; }
-.tag-gray .tag-dot { background: #64748b; }
+/* ===== TEXT COLORAT PENTRU CONTRAST ===== */
 
-/* TEXT COLORAT */
+/* DARK THEME TEXT */
 .tag-blue { color: #60a5fa !important; }
 .tag-orange { color: #ff8c00 !important; }
 .tag-purple { color: #a78bfa !important; }
@@ -116,9 +112,46 @@ const dotClass = computed(() => tagData.value.dot)
 .tag-amber { color: #fbbf24 !important; }
 .tag-gray { color: #9ca3af !important; }
 
-/* HOVER EFFECT - SIMPLIFICAT */
+/* LIGHT THEME TEXT */
+html:not(.dark) .tag-blue { color: #2563eb !important; }
+html:not(.dark) .tag-orange { color: #ea580c !important; }
+html:not(.dark) .tag-purple { color: #7c3aed !important; }
+html:not(.dark) .tag-green { color: #059669 !important; }
+html:not(.dark) .tag-pink { color: #db2777 !important; }
+html:not(.dark) .tag-red { color: #dc2626 !important; }
+html:not(.dark) .tag-indigo { color: #4f46e5 !important; }
+html:not(.dark) .tag-yellow { color: #ca8a04 !important; }
+html:not(.dark) .tag-teal { color: #0d9488 !important; }
+html:not(.dark) .tag-cyan { color: #0891b2 !important; }
+html:not(.dark) .tag-fuchsia { color: #c026d3 !important; }
+html:not(.dark) .tag-emerald { color: #059669 !important; }
+html:not(.dark) .tag-amber { color: #d97706 !important; }
+html:not(.dark) .tag-gray { color: #4b5563 !important; }
+
+/* ===== HOVER EFFECT ===== */
 .wildfire-tag:hover {
-  border-color: currentColor !important;
+  transform: translateY(-2px);
+  filter: brightness(1.05);
+}
+
+.dark .wildfire-tag:hover {
   background: #222 !important;
+}
+
+html:not(.dark) .wildfire-tag:hover {
+  background: #e5e5e5 !important;
+}
+
+/* ===== EFECT GLOW SUBTIL ===== */
+.wildfire-tag {
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wildfire-tag:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+}
+
+.dark .wildfire-tag:hover {
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
 }
 </style>

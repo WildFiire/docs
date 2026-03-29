@@ -39,6 +39,7 @@ import Team from './components/Team.vue'
 import Terms from './components/Terms.vue'
 import Privacy from './components/Privacy.vue'
 import FeedbackWidget from './components/FeedbackWidget.vue'
+import CaseHeader from './components/CaseHeader.vue'
 
 // NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
@@ -109,6 +110,7 @@ export default {
     app.component('Terms', Terms)
     app.component('Privacy', Privacy)
     app.component('FeedbackWidget', FeedbackWidget)
+    app.component('CaseHeader', CaseHeader)
 
     // NOUA COMPONENTĂ PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)

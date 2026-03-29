@@ -2,50 +2,26 @@
 outline: deep
 ---
 
-<div class="cases-wf">
+<CaseHeader 
+  title="MVP Anthem"
+  :tags="[
+    { text: 'mvp', component: 'PageTagPurple' },
+    { text: 'anthem', component: 'PageTagGreen' },
+    { text: 'premium', component: 'PageTagBlue' },
+    { text: 'custom', component: 'PageTagOrange' }
+  ]"
+  :path="['Home', 'Market', 'Systems', 'MVP Anthem']"
+  background="/wallpaper/backgroundwf.webp"
+  :blur-amount="6"
+  icon="/icons/wildfire.webp"
+  updated-by-username="iannc69"
+  page-id="mvp-anthem"
+  badge-text="MVP Anthem"
+  badge-icon="lucide:star"
+/>
 
-<!-- Background image container -->
-<div style="position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 20px; min-height: 180px; background-color: var(--vp-c-bg);">
-  <div style="position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; z-index: 0; filter: blur(5px) brightness(var(--bg-brightness, 0.7)); transform: scale(1.1);">
-    <img src="/wallpaper/backgroundwf.webp" alt="background" style="width: 100%; height: 100%; object-fit: cover; opacity: var(--bg-opacity, 0.4);">
-  </div>
-  <div style="position: relative; z-index: 1; padding: 30px 30px 20px 30px; border-radius: 24px;">
-    <div style="display: flex; align-items: center; gap: 15px; margin-bottom: 5px; font-size: 12px; color: var(--vp-c-text-2); flex-wrap: wrap; opacity: 0.9;">
-      <div style="display: flex; align-items: center; gap: 5px;">
-        <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Home</span>
-        <span style="color: var(--vp-c-brand-1);">/</span>
-        <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Market</span>
-        <span style="color: var(--vp-c-brand-1);">/</span>
-        <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Systems</span>
-        <span style="color: var(--vp-c-brand-1);">/</span>
-        <span style="color: var(--vp-c-text-2);" class="orbitron-font">MVP Anthem</span>
-      </div>
-      <div style="display: flex; align-items: center; gap: 6px;">
-        <Icon icon="lucide:star" :size="18" />
-        <span style="font-size: 12px; color: var(--vp-c-text-2);" class="orbitron-font">MVP Anthem</span>
-      </div>
-    </div>
-    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-      <img src="/icons/wildfire.webp" alt="Wildfire.ro" width="60" style="margin: 0; filter: var(--logo-filter, none);">
-      <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;" class="orbitron-font"> MVP Anthem</h1>
-    </div>
-    <div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; border-top: 1px solid rgba(255,69,0,0.2); padding-top: 15px; margin-top: 5px;">
-      <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-        <img src="/icons/tag.svg" alt="tag" class="nav-icon" style="width: 18px; height: 18px; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
-        <PageTagPurple style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">mvp</PageTagPurple>
-        <PageTagGreen style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">anthem</PageTagGreen>
-        <PageTagBlue style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">premium</PageTagBlue>
-        <PageTagOrange style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">custom</PageTagOrange>
-      </div>
-      <div style="display: flex; align-items: center; gap: 6px;">
-        <span style="font-size: 13px; color: var(--wf-gray); font-weight: 500;" class="orbitron-font">updated by</span>
-        <a href="https://github.com/iannc69" target="_blank" class="github-profile" data-username="iannc69" data-tags="show-wildfire show-dev show-wiki show-staff" style="display: block; padding: 2px; background: linear-gradient(135deg, #8b5cf6, #c084fc, #f472b6); border-radius: 50%;" title="iannc69">
-          <img src="https://github.com/iannc69.png" alt="iannc69" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid #1a1a1a; display: block; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
+
+<div class="cases-wf">
 
 <style>
 .cases-wf {

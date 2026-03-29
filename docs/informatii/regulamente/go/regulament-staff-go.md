@@ -2,79 +2,21 @@
 outline: deep
 ---
 
-<!-- Background image container -->
-<div style="position: relative; overflow: hidden; border-radius: 24px; margin-bottom: 20px; min-height: 180px; background-color: var(--vp-c-bg);">
-
-<!-- Background image layer cu BLUR și PARALLAX -->
-<div style="position: absolute; top: -20px; left: -20px; right: -20px; bottom: -20px; z-index: 0; filter: blur(5px) brightness(var(--bg-brightness, 0.7)); transform: scale(1.1);">
-  <img src="/wallpaper/backgroundwf.webp" alt="background" style="width: 100%; height: 100%; object-fit: cover; opacity: var(--bg-opacity, 0.4);">
-</div>
-
-<!-- Content layer -->
-<div style="position: relative; z-index: 1; padding: 30px 30px 20px 30px; border-radius: 24px;">
-
-<!-- RÂND 0 - path și introduction -->
-<div style="display: flex; align-items: center; gap: 15px; margin-bottom: 5px; font-size: 12px; color: var(--vp-c-text-2); flex-wrap: wrap; opacity: 0.9;">
-  <div style="display: flex; align-items: center; gap: 5px;">
-    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Home</span>
-    <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Informatii</span>
-    <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">Regulament</span>
-    <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-brand-1);" class="orbitron-font">GO</span>
-    <span style="color: var(--vp-c-brand-1);">/</span>
-    <span style="color: var(--vp-c-text-2);" class="orbitron-font">STAFF</span>
-  </div>
-  
-  <div style="display: flex; align-items: center; gap: 6px;">
-    <img src="/icons/introduction.svg" alt="introduction" class="nav-icon" style="width: 18px; height: 18px; filter: var(--icon-filter, none);">
-    <span style="font-size: 12px; color: var(--vp-c-text-2);" class="orbitron-font">Rules</span>
-  </div>
-</div>
-
-<!-- RÂND 1 - logo și titlu -->
-<div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
-  <img src="/icons/wildfire.webp" alt="Wildfire.ro" width="60" style="margin: 0; filter: var(--logo-filter, none);">
-  
-  <!-- TITLU CU GRADIENT ANIMAT -->
-  <h1 style="font-size: 32px; margin: 0; background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), var(--vp-c-brand-1)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; background-size: 200% 200%; animation: gradientShift 6s ease infinite; font-weight: 700;" class="orbitron-font">
-    Regulament STAFF
-  </h1>
-</div>
-
-<!-- RAND 2 - tags si updated by JOS, pe acelasi rand -->
-<div style="display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 15px; border-top: 1px solid rgba(255,69,0,0.2); padding-top: 15px; margin-top: 5px;">
-
-  <!-- Tags in stanga -->
-  <div style="display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-    <img src="/icons/tag.svg" alt="tag" class="nav-icon" style="width: 18px; height: 18px; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
-    <PageTagRed style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">rules</PageTagRed>
-    <PageTagBlue style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">go</PageTagBlue>
-    <PageTagBlue style="font-size: 11px; padding: 2px 8px;" class="orbitron-font">server</PageTagBlue>
-  </div>
-
-  <!-- Updated by in dreapta -->
-  <div style="display: flex; align-items: center; gap: 6px;">
-    <span style="font-size: 13px; color: var(--wf-gray); font-weight: 500;" class="orbitron-font">updated by</span>
-    <a 
-      href="https://github.com/iannc69" 
-      target="_blank" 
-      class="github-profile"
-      data-username="iannc69"
-      data-tags="show-wildfire show-dev show-wiki show-staff   "
-      style="display: block; padding: 2px; background: linear-gradient(135deg, #8b5cf6, #c084fc, #f472b6); border-radius: 50%;" 
-      title="iannc69"
-    >
-      <img src="https://github.com/iannc69.png" alt="iannc69" style="width: 22px; height: 22px; border-radius: 50%; border: 2px solid #1a1a1a; display: block; user-select: none; -webkit-user-select: none; pointer-events: none; -webkit-user-drag: none;">
-    </a>
-  </div>
-
-</div>
-
-</div> 
-</div>
-
+<CaseHeader 
+  title="Regulament STAFF"
+  :tags="[
+    { text: 'staff', component: 'PageTagPurple' },
+    { text: 'rules', component: 'PageTagRed' },
+    { text: 'server', component: 'PageTagBlue' }
+  ]"
+  :path="['Home', 'Informatii', 'Regulament', 'GO', 'STAFF']"
+  background="/wallpaper/backgroundwf.webp"
+  :blur-amount="6"
+  icon="/icons/wildfire.webp"
+  updated-by-username="iannc69"
+  page-id="regulament-staff"
+  badge-text="Rules"
+/>
 
 <!-- STILURI CU SUPORT LIGHT/DARK THEME -->
 <style>
