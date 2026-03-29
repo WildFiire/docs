@@ -1,6 +1,6 @@
 import { h } from 'vue'
 import type { Theme } from 'vitepress'
-import DefaultTheme from 'vitepress/theme'
+import DefaultTheme, { VPButton } from 'vitepress/theme'
 import './style.css'
 import { Icon } from '@iconify/vue'
 
@@ -40,6 +40,9 @@ import Terms from './components/Terms.vue'
 import Privacy from './components/Privacy.vue'
 import FeedbackWidget from './components/FeedbackWidget.vue'
 import CaseHeader from './components/CaseHeader.vue'
+import ContributorsWF from './components/ContributorsWF.vue'
+import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/VPNavBarAppearance.vue'
+// import VPNavBarSocialLinks from 'vitepress/dist/client/theme-default/components/VPNavBarSocialLinks.vue'
 
 // NOILE COMPONENTE PENTRU DASHBOARD
 import FileTreeItem from './components/FileTreeItem.vue'
@@ -78,12 +81,23 @@ export default {
       'doc-footer-before': () => h(FeedbackWidget),
 
       // Navbar
+      'sidebar-nav-before': () => h(NavSearch),
+      // 'sidebar-nav-after': () =>
+      //   h('div', { class: 'sidebar-bottom' }, [
+      //     h(VPNavBarAppearance),
+      //     h(VPNavBarSocialLinks),
+      //   ]),
+
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,
-      'nav-bar-content-after': () => h(NavSearch),
+      // 'nav-bar-content-after': () => h(NavSearch),
 
       // Footer
       'layout-bottom': () => h(SiteMap),
+
+      // 🔥 CONTRIBUTORS - jos înainte de footer
+      'aside-outline-after': () => h(ContributorsWF),
+      // 'aside-bottom': () => h(ContributorsWF),
 
       // Not Found Page
       'not-found': () => h(PageNotFound)
@@ -111,6 +125,8 @@ export default {
     app.component('Privacy', Privacy)
     app.component('FeedbackWidget', FeedbackWidget)
     app.component('CaseHeader', CaseHeader)
+    app.component('ContributorsWF', ContributorsWF)
+    app.component('VPNavBarAppearance', VPNavBarAppearance)
 
     // NOUA COMPONENTĂ PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)

@@ -184,9 +184,8 @@
   margin-top: 0 !important;
 }
 
-/* Dacă ai separatoare și la iteme */
-.VPSidebarItem+.VPSidebarItem {
-  border-top: none !important;
+.VPSidebarItem .items {
+  border-left: none !important;
 }
 
 /* Elimină orice linie orizontală din sidebar */
@@ -607,4 +606,16 @@ body:has(.VPLocalSearchBox)::before {
   -webkit-backdrop-filter: blur(6px) !important;
   z-index: 99 !important;
   pointer-events: none !important;
+}
+
+@media (min-width: 960px) {
+  .VPNavBarTitle.has-sidebar .title {
+    border-bottom: none !important;
+  }
+}
+
+.VPNavBarMenu {
+  position: center;
+  left: 50%;
+  transform: translateX(-50%);
 }
