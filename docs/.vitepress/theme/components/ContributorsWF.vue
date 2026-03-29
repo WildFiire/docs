@@ -11,7 +11,7 @@
             <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
             <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
           </svg>
-          <span class="ctr-title">Contributors</span>
+          <span class="ctr-title">Contributors on this page:</span>
         </div>
         <span v-if="!loading" class="ctr-count">{{ contributors.length }}</span>
       </div>
@@ -141,14 +141,14 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-title {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 600;
   color: var(--vp-c-text-2);
   letter-spacing: 0.01em;
 }
 
 .ctr-count {
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   color: var(--vp-c-brand-1);
   background: var(--vp-c-brand-soft);
