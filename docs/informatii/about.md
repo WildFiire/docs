@@ -753,5 +753,4 @@ html:not(.dark) .about-root {
   </div>
 </div>
 
-
 </div>
