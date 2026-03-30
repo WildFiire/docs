@@ -1467,7 +1467,6 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
 </div>
 
 
-
 <!-- INFO BOX -->
 <div class="info-box">
   <ul>
