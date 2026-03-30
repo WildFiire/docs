@@ -3,5 +3,5 @@ layout: false
 ---
 
 <ClientOnly>
-  <Panel />
+  <Dashboard />
 </ClientOnly>

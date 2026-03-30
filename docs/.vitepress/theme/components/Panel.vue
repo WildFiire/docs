@@ -1,15 +1,16 @@
+<!-- WildfireDocs.vue - Dashboard component with full configuration support -->
 <template>
   <div class="wildfire-docs" :class="{ 'light-theme': isLightTheme }">
     <!-- Dynamic Particle Background -->
-    <div class="docs-bg">
+    <div v-if="featuresConfig.enableParticles" class="docs-bg">
       <div class="bg-grid"></div>
       <div class="bg-particles">
         <div v-for="n in 50" :key="n" class="particle" :style="particleStyle(n)"></div>
       </div>
     </div>
 
-    <!-- Theme Toggle Button - Top Right -->
-    <button class="theme-toggle-btn" @click="toggleTheme" :title="isLightTheme ? 'Dark Mode' : 'Light Mode'">
+    <!-- Theme Toggle Button -->
+    <button v-if="themeConfig.allowSwitch" class="theme-toggle-btn" @click="toggleTheme" :title="isLightTheme ? 'Dark Mode' : 'Light Mode'">
       <svg v-if="isLightTheme" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor">
         <circle cx="12" cy="12" r="5"/>
         <line x1="12" y1="1" x2="12" y2="3"/>
@@ -28,16 +29,15 @@
 
     <!-- Sidebar -->
     <aside class="docs-sidebar" :class="{ collapsed: sidebarCollapsed }">
-      <div class="sidebar-brand" @click="currentView = 'dashboard'">
+      <div class="sidebar-brand" @click="handleNavClick({ id: navConfig.defaultView })">
         <div class="brand-icon">
-          <!-- WILDFIRE.WEBP LOGO -->
-          <img src="/icons/wildfire.webp" alt="WildFire Logo" width="36" height="36">
+          <img :src="uiConfig.logo" :alt="uiConfig.title" width="36" height="36">
           <div class="brand-pulse"></div>
         </div>
         <div class="brand-text" v-if="!sidebarCollapsed">
-          <span class="brand-name">WILDFIRE</span>
+          <span class="brand-name">{{ uiConfig.title }}</span>
           <span class="brand-dot">/</span>
-          <span class="brand-version">DOCS</span>
+          <span class="brand-version">{{ uiConfig.version }}</span>
         </div>
       </div>
 
@@ -46,14 +46,14 @@
              class="nav-item" 
              :class="{ active: currentView === item.id }"
              @click="handleNavClick(item)">
-          <span class="nav-icon" v-html="item.icon"></span>
+          <span class="nav-icon" v-html="getIcon(item.icon)"></span>
           <span class="nav-label" v-if="!sidebarCollapsed">{{ item.label }}</span>
           <span class="nav-badge" v-if="item.badge">{{ item.badge }}</span>
           <div class="nav-glow"></div>
         </div>
       </nav>
 
-      <div class="sidebar-footer" v-if="!sidebarCollapsed">
+      <div class="sidebar-footer" v-if="!sidebarCollapsed && navConfig.showFooterStats">
         <div class="repo-stats-mini">
           <div class="stat-item">
             <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="var(--accent)">
@@ -75,7 +75,7 @@
           </div>
         </div>
 
-        <button class="sync-button" @click="refreshAllData" :disabled="isSyncing">
+        <button v-if="navConfig.showSyncButton" class="sync-button" @click="refreshAllData" :disabled="isSyncing">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" :class="{ spin: isSyncing }">
             <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9" />
             <path d="M21 3v6h-6" />
@@ -96,7 +96,7 @@
             </svg>
           </button>
           <h1>{{ currentViewTitle }}</h1>
-          <div class="live-indicator">
+          <div v-if="featuresConfig.enableLiveIndicator" class="live-indicator">
             <span class="live-pulse"></span>
             <span class="live-text">LIVE</span>
             <span class="live-time">{{ lastUpdateTime }}</span>
@@ -138,9 +138,9 @@
 
       <!-- DASHBOARD VIEW -->
       <div v-else-if="currentView === 'dashboard'" class="dashboard-view">
-        <!-- Hero Metrics with Orange Theme -->
+        <!-- Hero Metrics -->
         <div class="metrics-hero">
-          <div class="metric-card">
+          <div v-if="dashboardConfig.metrics.showTotalCommits" class="metric-card">
             <div class="metric-icon">
               <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -158,7 +158,7 @@
             </div>
           </div>
 
-          <div class="metric-card">
+          <div v-if="dashboardConfig.metrics.showOpenPRs" class="metric-card">
             <div class="metric-icon">
               <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor">
                 <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
@@ -176,7 +176,7 @@
             </div>
           </div>
 
-          <div class="metric-card">
+          <div v-if="dashboardConfig.metrics.showOpenIssues" class="metric-card">
             <div class="metric-icon">
               <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor">
                 <circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/>
@@ -194,7 +194,7 @@
             </div>
           </div>
 
-          <div class="metric-card">
+          <div v-if="dashboardConfig.metrics.showContributors" class="metric-card">
             <div class="metric-icon">
               <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor">
                 <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
@@ -213,9 +213,9 @@
           </div>
         </div>
 
-        <!-- Charts Section - ORANGE THEMED -->
-        <div class="charts-section">
-          <div class="chart-card main-chart">
+        <!-- Charts Section -->
+        <div v-if="dashboardConfig.charts.showCommitActivity || dashboardConfig.charts.showRepoStats" class="charts-section">
+          <div v-if="dashboardConfig.charts.showCommitActivity" class="chart-card main-chart">
             <div class="chart-header">
               <div class="chart-title">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--accent)">
@@ -223,7 +223,7 @@
                   <circle cx="12" cy="16" r="5"/>
                   <path d="M12 11v5"/>
                 </svg>
-                <h3>COMMIT ACTIVITY (30 DAYS)</h3>
+                <h3>COMMIT ACTIVITY ({{ dashboardConfig.charts.daysToShow }} DAYS)</h3>
               </div>
               <div class="chart-legend">
                 <span class="legend-dot"></span>
@@ -231,7 +231,7 @@
                 <span class="legend-value">PEAK: {{ dailyPeak }}</span>
               </div>
             </div>
-            <div class="chart-wrapper">
+            <div class="chart-wrapper" :style="{ height: dashboardConfig.charts.chartHeight + 'px' }">
               <canvas ref="activityChart"></canvas>
             </div>
             <div class="chart-footer">
@@ -250,7 +250,7 @@
             </div>
           </div>
 
-          <div class="chart-card repo-card">
+          <div v-if="dashboardConfig.charts.showRepoStats" class="chart-card repo-card">
             <div class="chart-header">
               <div class="chart-title">
                 <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--accent)">
@@ -319,110 +319,106 @@
           </div>
         </div>
 
-        <!-- Champion Split - TOP CONTRIBUTOR & THIS MONTH -->
-<!-- Champion Split - TOP CONTRIBUTOR & THIS MONTH -->
-<div class="champion-split">
-  <!-- LEFT: TOP CONTRIBUTOR (All Time) - Layout normal -->
-  <div class="champion-spotlight left" v-if="topContributor.login">
-    <div class="spotlight-bg">
-      <div class="bg-orb" v-for="n in 2" :key="n"></div>
-    </div>
-    <div class="spotlight-content normal-layout">
-      <div class="champion-avatar">
-        <img :src="topContributor.avatar_url" :alt="topContributor.login">
-        <div class="avatar-ring"></div>
-        <div class="avatar-crown">
-          <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
-            <path d="M12 2L15 9H22L16 14L19 21L12 16.5L5 21L8 14L2 9H9L12 2Z"/>
-          </svg>
-        </div>
-      </div>
-      <div class="champion-info">
-        <span class="champion-badge">TOP CONTRIBUTOR</span>
-        <h3>{{ topContributor.login }}</h3>
-        <div class="champion-stats">
-          <div class="stat-chip">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-            </svg>
-            <span>{{ formatNumber(topContributor.contributions) }} COMMITS</span>
+        <!-- Champion Split -->
+        <div v-if="dashboardConfig.championSplit.showTopContributor || dashboardConfig.championSplit.showThisMonthContributor" class="champion-split">
+          <div v-if="dashboardConfig.championSplit.showTopContributor && topContributor.login" class="champion-spotlight left">
+            <div class="spotlight-bg">
+              <div class="bg-orb" v-for="n in 2" :key="n"></div>
+            </div>
+            <div class="spotlight-content normal-layout">
+              <div class="champion-avatar">
+                <img :src="topContributor.avatar_url" :alt="topContributor.login">
+                <div class="avatar-ring"></div>
+                <div class="avatar-crown">
+                  <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
+                    <path d="M12 2L15 9H22L16 14L19 21L12 16.5L5 21L8 14L2 9H9L12 2Z"/>
+                  </svg>
+                </div>
+              </div>
+              <div class="champion-info">
+                <span class="champion-badge">TOP CONTRIBUTOR</span>
+                <h3>{{ topContributor.login }}</h3>
+                <div class="champion-stats">
+                  <div class="stat-chip">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                    </svg>
+                    <span>{{ formatNumber(topContributor.contributions) }} COMMITS</span>
+                  </div>
+                  <div class="stat-chip">
+                    <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                      <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
+                    </svg>
+                    <span>{{ topContributor.prs }} PULLS</span>
+                  </div>
+                </div>
+              </div>
+              <a :href="topContributor.html_url" target="_blank" class="champion-link">
+                <span>VIEW</span>
+                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                  <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+                </svg>
+              </a>
+            </div>
           </div>
-          <div class="stat-chip">
-            <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-              <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
-            </svg>
-            <span>{{ topContributor.prs }} PULLS</span>
-          </div>
-        </div>
-      </div>
-      <a :href="topContributor.html_url" target="_blank" class="champion-link">
-        <span>VIEW</span>
-        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-          <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
-        </svg>
-      </a>
-    </div>
-  </div>
 
-  <!-- RIGHT: THIS MONTH CONTRIBUTOR - Layout în oglindă -->
-  <div class="champion-spotlight right" :class="{ 'empty': !thisMonthContributor.login }">
-    <div class="spotlight-bg">
-      <div class="bg-orb" v-for="n in 2" :key="n"></div>
-    </div>
-    <div class="spotlight-content mirror-layout">
-      <template v-if="thisMonthContributor.login">
-        <a :href="thisMonthContributor.html_url" target="_blank" class="champion-link mirror">
-          <span>VIEW</span>
-          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-            <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
-          </svg>
-        </a>
-        <div class="champion-info mirror">
-          <span class="champion-badge">THIS MONTH</span>
-          <h3>{{ thisMonthContributor.login }}</h3>
-          <div class="champion-stats">
-            <div class="stat-chip">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
-              </svg>
-              <span>{{ thisMonthContributor.prs || 0 }} PULLS</span>
+          <div v-if="dashboardConfig.championSplit.showThisMonthContributor" class="champion-spotlight right" :class="{ 'empty': !thisMonthContributor.login }">
+            <div class="spotlight-bg">
+              <div class="bg-orb" v-for="n in 2" :key="n"></div>
             </div>
-            <div class="stat-chip">
-              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-              </svg>
-              <span>{{ thisMonthContributor.contributions }} COMMITS</span>
+            <div class="spotlight-content mirror-layout">
+              <template v-if="thisMonthContributor.login">
+                <a :href="thisMonthContributor.html_url" target="_blank" class="champion-link mirror">
+                  <span>VIEW</span>
+                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                    <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
+                  </svg>
+                </a>
+                <div class="champion-info mirror">
+                  <span class="champion-badge">THIS MONTH</span>
+                  <h3>{{ thisMonthContributor.login }}</h3>
+                  <div class="champion-stats">
+                    <div class="stat-chip">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                        <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
+                      </svg>
+                      <span>{{ thisMonthContributor.prs || 0 }} PULLS</span>
+                    </div>
+                    <div class="stat-chip">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
+                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                      </svg>
+                      <span>{{ thisMonthContributor.contributions }} COMMITS</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="champion-avatar mirror">
+                  <img :src="thisMonthContributor.avatar_url" :alt="thisMonthContributor.login">
+                  <div class="avatar-ring"></div>
+                  <div class="avatar-crown">
+                    <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
+                      <path d="M12 2L14 9H21L16 14L18 21L12 17L6 21L8 14L3 9H10L12 2Z"/>
+                    </svg>
+                  </div>
+                </div>
+              </template>
+              <template v-else>
+                <div class="empty-state mirror">
+                  <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--accent)" stroke-width="1.5">
+                    <circle cx="12" cy="8" r="4"/>
+                    <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                  </svg>
+                  <h3>NO ONE</h3>
+                  <p>No contributions this month</p>
+                </div>
+              </template>
             </div>
           </div>
         </div>
-        <div class="champion-avatar mirror">
-          <img :src="thisMonthContributor.avatar_url" :alt="thisMonthContributor.login">
-          <div class="avatar-ring"></div>
-          <div class="avatar-crown">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="var(--accent)" stroke-width="2">
-              <path d="M12 2L14 9H21L16 14L18 21L12 17L6 21L8 14L3 9H10L12 2Z"/>
-            </svg>
-          </div>
-        </div>
-      </template>
-      <template v-else>
-        <div class="empty-state mirror">
-          <svg viewBox="0 0 24 24" width="40" height="40" fill="none" stroke="var(--accent)" stroke-width="1.5">
-            <circle cx="12" cy="8" r="4"/>
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-          </svg>
-          <h3>NO ONE</h3>
-          <p>No contributions this month</p>
-        </div>
-      </template>
-    </div>
-  </div>
-</div>
 
         <!-- Activity Grid -->
         <div class="activity-grid">
-          <!-- Recent Commits Card -->
-          <div class="activity-card">
+          <div v-if="dashboardConfig.activity.showRecentCommits" class="activity-card">
             <div class="card-header">
               <div class="header-left">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)">
@@ -434,7 +430,7 @@
               <span class="card-badge">{{ recentCommits.length }}</span>
             </div>
             <div class="card-feed">
-              <div v-for="(commit, index) in recentCommits.slice(0,5)" :key="commit.id" 
+              <div v-for="(commit, index) in recentCommits.slice(0, dashboardConfig.activity.maxCommits)" :key="commit.id" 
                    class="feed-item" 
                    @click="openCommit(commit.url)"
                    :style="{ animationDelay: index * 0.1 + 's' }">
@@ -452,43 +448,42 @@
             </div>
           </div>
 
-          <!-- Top Contributors Card -->
-              <div class="activity-card">
-                <div class="card-header">
-                  <div class="header-left">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)">
-                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
-                    </svg>
-                    <h3>TOP CONTRIBUTORS</h3>
-                  </div>
-                  <span class="card-badge">TOP 5</span>
+          <div v-if="dashboardConfig.activity.showTopContributors" class="activity-card">
+            <div class="card-header">
+              <div class="header-left">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/>
+                </svg>
+                <h3>TOP CONTRIBUTORS</h3>
+              </div>
+              <span class="card-badge">TOP {{ dashboardConfig.activity.maxTopContributors }}</span>
+            </div>
+            <div class="card-feed">
+              <div v-for="(c, index) in topContributors.slice(0, dashboardConfig.activity.maxTopContributors)" :key="c.login" 
+                  class="feed-item" 
+                  @click="openProfile(c.login)"
+                  :style="{ animationDelay: index * 0.1 + 's' }">
+                <span class="item-rank" :class="'rank-' + (index + 1)">{{ index + 1 }}</span>
+                <img :src="c.avatar_url" :alt="c.login" class="item-avatar">
+                <div class="item-content">
+                  <span class="item-title">{{ c.login }}</span>
+                  <span class="item-meta">
+                    <span>{{ formatNumber(c.contributions) }} COMMITS</span>
+                  </span>
                 </div>
-                <div class="card-feed">
-                  <div v-for="(c, index) in topContributors.slice(0,5)" :key="c.login" 
-                      class="feed-item" 
-                      @click="openProfile(c.login)"
-                      :style="{ animationDelay: index * 0.1 + 's' }">
-                    <span class="item-rank" :class="'rank-' + (index + 1)">{{ index + 1 }}</span>
-                    <img :src="c.avatar_url" :alt="c.login" class="item-avatar">
-                    <div class="item-content">
-                      <span class="item-title">{{ c.login }}</span>
-                      <span class="item-meta">
-                        <span>{{ formatNumber(c.contributions) }} COMMITS</span>
-                      </span>
-                    </div>
-                    <div class="item-progress">
-                      <div class="progress-bar">
-                        <div class="progress-fill" :style="{ width: (c.contributions / topContributors[0].contributions * 100) + '%' }"></div>
-                      </div>
-                    </div>
+                <div class="item-progress">
+                  <div class="progress-bar">
+                    <div class="progress-fill" :style="{ width: (c.contributions / topContributors[0].contributions * 100) + '%' }"></div>
                   </div>
                 </div>
               </div>
+            </div>
+          </div>
         </div>
 
         <!-- Issues & PRs Grid -->
         <div class="battle-grid">
-          <div class="battle-card issues">
+          <div v-if="dashboardConfig.battle.showIssues" class="battle-card issues">
             <div class="battle-header">
               <div class="battle-title">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
@@ -499,7 +494,7 @@
               <span class="battle-count">{{ repoStats.openIssues }}</span>
             </div>
             <div class="battle-feed">
-              <div v-for="issue in recentIssues.slice(0,3)" :key="issue.id" 
+              <div v-for="issue in recentIssues.slice(0, dashboardConfig.battle.maxItems)" :key="issue.id" 
                    class="battle-item" @click="openIssue(issue.url)">
                 <img :src="`https://github.com/${issue.author}.png`" :alt="issue.author">
                 <div class="battle-content">
@@ -511,7 +506,7 @@
                   </span>
                 </div>
               </div>
-              <a :href="`https://github.com/Wildfiire/docs/issues`" target="_blank" class="battle-link">
+              <a :href="`https://github.com/${repoConfig.owner}/${repoConfig.name}/issues`" target="_blank" class="battle-link">
                 <span>VIEW ALL ISSUES</span>
                 <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
                   <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
@@ -520,7 +515,7 @@
             </div>
           </div>
 
-          <div class="battle-card prs">
+          <div v-if="dashboardConfig.battle.showPRs" class="battle-card prs">
             <div class="battle-header">
               <div class="battle-title">
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
@@ -531,7 +526,7 @@
               <span class="battle-count">{{ repoStats.openPRs }}</span>
             </div>
             <div class="battle-feed">
-              <div v-for="pr in recentPRs.slice(0,3)" :key="pr.id" 
+              <div v-for="pr in recentPRs.slice(0, dashboardConfig.battle.maxItems)" :key="pr.id" 
                    class="battle-item" @click="openPR(pr.url)">
                 <img :src="`https://github.com/${pr.author}.png`" :alt="pr.author">
                 <div class="battle-content">
@@ -543,7 +538,7 @@
                   </span>
                 </div>
               </div>
-              <a :href="`https://github.com/Wildfiire/docs/pulls`" target="_blank" class="battle-link">
+              <a :href="`https://github.com/${repoConfig.owner}/${repoConfig.name}/pulls`" target="_blank" class="battle-link">
                 <span>VIEW ALL PULLS</span>
                 <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
                   <path d="M5 12h14"/><path d="M12 5l7 7-7 7"/>
@@ -605,7 +600,7 @@
                 </svg>
                 <span>{{ selectedFile.path }}</span>
               </div>
-              <button class="preview-edit" @click="editFile(selectedFile)">
+              <button v-if="filesConfig.allowEditing" class="preview-edit" @click="editFile(selectedFile)">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
                   <path d="M17 3L21 7L7 21H3V17L17 3Z"/>
                 </svg>
@@ -644,7 +639,7 @@
 
       <!-- CONTRIBUTORS VIEW -->
       <div v-else-if="currentView === 'contributors'" class="contributors-view">
-        <div class="contributors-header">
+        <div v-if="contributorsConfig.showStats" class="contributors-header">
           <div class="header-stat-card">
             <span class="stat-number">{{ repoStats.contributors }}</span>
             <span class="stat-label">TOTAL CONTRIBUTORS</span>
@@ -663,25 +658,25 @@
           <table class="contributors-table">
             <thead>
               <tr>
-                <th>RANK</th>
-                <th>CONTRIBUTOR</th>
-                <th>COMMITS</th>
-                <th>PULLS</th>
-                <th>IMPACT</th>
+                <th v-if="contributorsConfig.tableColumns.includes('rank')">RANK</th>
+                <th v-if="contributorsConfig.tableColumns.includes('user')">CONTRIBUTOR</th>
+                <th v-if="contributorsConfig.tableColumns.includes('commits')">COMMITS</th>
+                <th v-if="contributorsConfig.tableColumns.includes('pulls')">PULLS</th>
+                <th v-if="contributorsConfig.tableColumns.includes('impact')">IMPACT</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="(c, index) in allContributorsData" :key="c.login" 
+              <tr v-for="(c, index) in paginatedContributors" :key="c.login" 
                   @click="openProfile(c.login)"
                   class="table-row">
-                <td class="rank-cell">#{{ index + 1 }}</td>
-                <td class="user-cell">
+                <td v-if="contributorsConfig.tableColumns.includes('rank')" class="rank-cell">#{{ index + 1 }}</td>
+                <td v-if="contributorsConfig.tableColumns.includes('user')" class="user-cell">
                   <img :src="c.avatar_url" :alt="c.login">
                   <span>{{ c.login }}</span>
                 </td>
-                <td class="commits-cell">{{ formatNumber(c.commits) }}</td>
-                <td class="prs-cell">{{ c.prs }}</td>
-                <td class="impact-cell">
+                <td v-if="contributorsConfig.tableColumns.includes('commits')" class="commits-cell">{{ formatNumber(c.commits) }}</td>
+                <td v-if="contributorsConfig.tableColumns.includes('pulls')" class="prs-cell">{{ c.prs }}</td>
+                <td v-if="contributorsConfig.tableColumns.includes('impact')" class="impact-cell">
                   <div class="impact-bar">
                     <div class="impact-fill" :style="{ width: c.impact + '%' }"></div>
                   </div>
@@ -706,16 +701,15 @@
             <h2>AUDIT LOGS</h2>
           </div>
           <div class="audit-filters">
-            <button class="filter-btn" :class="{ active: auditFilter === 'all' }" @click="auditFilter = 'all'">ALL</button>
-            <button class="filter-btn" :class="{ active: auditFilter === 'commit' }" @click="auditFilter = 'commit'">COMMITS</button>
-            <button class="filter-btn" :class="{ active: auditFilter === 'pr' }" @click="auditFilter = 'pr'">PULLS</button>
-            <button class="filter-btn" :class="{ active: auditFilter === 'issue' }" @click="auditFilter = 'issue'">ISSUES</button>
+            <button v-for="filter in auditConfig.filters" :key="filter" 
+                    class="filter-btn" :class="{ active: auditFilter === filter }" 
+                    @click="auditFilter = filter">{{ filter.toUpperCase() }}</button>
           </div>
           <span class="audit-count">{{ filteredAuditLogs.length }} EVENTS</span>
         </div>
 
         <div class="audit-timeline">
-          <div v-for="(event, index) in filteredAuditLogs.slice(0, 50)" :key="event.id" 
+          <div v-for="(event, index) in filteredAuditLogs.slice(0, auditConfig.eventsPerPage)" :key="event.id" 
                class="timeline-event" 
                :class="event.type"
                @click="openAuditEvent(event)"
@@ -780,8 +774,9 @@
             <h2>ANALYTICS DASHBOARD</h2>
           </div>
           <div class="analytics-period">
-            <button class="period-btn" :class="{ active: analyticsPeriod === 'weeks' }" @click="analyticsPeriod = 'weeks'">WEEKS</button>
-            <button class="period-btn" :class="{ active: analyticsPeriod === 'months' }" @click="analyticsPeriod = 'months'">MONTHS</button>
+            <button v-for="period in analyticsConfig.periods" :key="period"
+                    class="period-btn" :class="{ active: analyticsPeriod === period }" 
+                    @click="analyticsPeriod = period">{{ period.toUpperCase() }}</button>
           </div>
         </div>
 
@@ -801,13 +796,13 @@
                 <span class="stat-avg">AVG: {{ weeklyAverage }}</span>
               </div>
             </div>
-            <div class="chart-wrapper">
+            <div class="chart-wrapper" :style="{ height: dashboardConfig.charts.chartHeight + 'px' }">
               <canvas ref="weeklyChart"></canvas>
             </div>
           </div>
 
           <!-- Language Distribution -->
-          <div class="analytics-card">
+          <div v-if="analyticsConfig.showLanguageStats" class="analytics-card">
             <div class="card-header">
               <h3>
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
@@ -833,7 +828,7 @@
           </div>
 
           <!-- PR Analytics -->
-          <div class="analytics-card">
+          <div v-if="analyticsConfig.showPRMetrics" class="analytics-card">
             <div class="card-header">
               <h3>
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
@@ -863,7 +858,7 @@
           </div>
 
           <!-- Contribution Heatmap -->
-          <div class="analytics-card span-2">
+          <div v-if="analyticsConfig.showHeatmap" class="analytics-card span-2">
             <div class="card-header">
               <h3>
                 <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
@@ -873,7 +868,7 @@
               </h3>
             </div>
             <div class="heatmap">
-              <div v-for="week in 52" :key="week" class="heatmap-week">
+              <div v-for="week in analyticsConfig.heatmapWeeks" :key="week" class="heatmap-week">
                 <div v-for="day in 7" :key="day" 
                      class="heatmap-cell"
                      :style="{ opacity: getHeatmapIntensity(week, day) }">
@@ -884,6 +879,13 @@
         </div>
       </div>
     </main>
+
+    <!-- Toast Notifications -->
+    <div v-if="featuresConfig.enableToastNotifications && toasts.length" class="toast-container">
+      <div v-for="toast in toasts" :key="toast.id" class="toast" :class="toast.type">
+        <span>{{ toast.message }}</span>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -899,20 +901,183 @@ export default {
     FileTreeItem
   },
   
+  props: {
+    config: {
+      type: Object,
+      default: () => ({})
+    },
+    githubToken: {
+      type: String,
+      default: ''
+    }
+  },
+  
   data() {
+    // Default configuration
+    const defaultConfig = {
+      repo: {
+        owner: 'Wildfiire',
+        name: 'docs',
+        branch: 'main'
+      },
+      theme: {
+        default: 'dark',
+        accentColor: '#ff4500',
+        allowSwitch: true,
+        particleBackground: true
+      },
+      navigation: {
+        items: [
+          { id: 'dashboard', label: 'DASHBOARD', icon: 'dashboard', badge: null },
+          { id: 'files', label: 'FILES', icon: 'files', badge: null },
+          { id: 'contributors', label: 'CONTRIBUTORS', icon: 'contributors', badge: 'LIVE' },
+          { id: 'audit', label: 'AUDIT', icon: 'audit', badge: 'LIVE' },
+          { id: 'analytics', label: 'ANALYTICS', icon: 'analytics', badge: null },
+          { id: 'home', label: 'HOME', icon: 'home', badge: null, external: '/' }
+        ],
+        defaultView: 'dashboard',
+        collapsedByDefault: false,
+        showFooterStats: true,
+        showSyncButton: true
+      },
+      dashboard: {
+        metrics: {
+          showTotalCommits: true,
+          showOpenPRs: true,
+          showOpenIssues: true,
+          showContributors: true
+        },
+        charts: {
+          showCommitActivity: true,
+          showRepoStats: true,
+          chartHeight: 200,
+          daysToShow: 30
+        },
+        championSplit: {
+          showTopContributor: true,
+          showThisMonthContributor: true
+        },
+        activity: {
+          showRecentCommits: true,
+          maxCommits: 5,
+          showTopContributors: true,
+          maxTopContributors: 5
+        },
+        battle: {
+          showIssues: true,
+          showPRs: true,
+          maxItems: 3
+        }
+      },
+      files: {
+        showFileExplorer: true,
+        showFilePreview: true,
+        allowEditing: true,
+        fileTypes: {
+          preview: ['js', 'ts', 'vue', 'html', 'css', 'md', 'json', 'txt'],
+          editable: ['js', 'ts', 'vue', 'html', 'css', 'md', 'json']
+        }
+      },
+      contributors: {
+        showStats: true,
+        tableColumns: ['rank', 'user', 'commits', 'pulls', 'impact'],
+        itemsPerPage: 50,
+        sortBy: 'commits',
+        sortOrder: 'desc'
+      },
+      audit: {
+        eventsPerPage: 50,
+        filters: ['all', 'commit', 'pr', 'issue'],
+        defaultFilter: 'all',
+        showTimeline: true
+      },
+      analytics: {
+        periods: ['weeks', 'months'],
+        defaultPeriod: 'weeks',
+        showLanguageStats: true,
+        showPRMetrics: true,
+        showHeatmap: true,
+        heatmapWeeks: 52
+      },
+      autoRefresh: {
+        enabled: true,
+        interval: 30000
+      },
+      ui: {
+        logo: '/icons/wildfire.webp',
+        title: 'WILDFIRE',
+        version: 'DOCS',
+        animations: true,
+        scrollbarStyling: true,
+        responsiveBreakpoints: {
+          mobile: 700,
+          tablet: 900,
+          desktop: 1200,
+          wide: 2560
+        }
+      },
+      endpoints: {
+        githubAPI: 'https://api.github.com',
+        customAPI: null
+      },
+      features: {
+        enableParticles: true,
+        enableLiveIndicator: true,
+        enableToastNotifications: true,
+        enableChartAnimations: false,
+        enableVirtualScroll: false
+      }
+    }
+    
+    // Merge configs
+    const mergedConfig = JSON.parse(JSON.stringify(defaultConfig))
+    if (this.config.repo) Object.assign(mergedConfig.repo, this.config.repo)
+    if (this.config.theme) Object.assign(mergedConfig.theme, this.config.theme)
+    if (this.config.navigation) Object.assign(mergedConfig.navigation, this.config.navigation)
+    if (this.config.dashboard) Object.assign(mergedConfig.dashboard, this.config.dashboard)
+    if (this.config.files) Object.assign(mergedConfig.files, this.config.files)
+    if (this.config.contributors) Object.assign(mergedConfig.contributors, this.config.contributors)
+    if (this.config.audit) Object.assign(mergedConfig.audit, this.config.audit)
+    if (this.config.analytics) Object.assign(mergedConfig.analytics, this.config.analytics)
+    if (this.config.autoRefresh) Object.assign(mergedConfig.autoRefresh, this.config.autoRefresh)
+    if (this.config.ui) Object.assign(mergedConfig.ui, this.config.ui)
+    if (this.config.endpoints) Object.assign(mergedConfig.endpoints, this.config.endpoints)
+    if (this.config.features) Object.assign(mergedConfig.features, this.config.features)
+    
+    // Merge navigation items if provided
+    if (this.config.navigation?.items) {
+      mergedConfig.navigation.items = this.config.navigation.items
+    }
+    
     return {
-      sidebarCollapsed: window.innerWidth <= 900,
-      currentView: 'dashboard',
-      isLightTheme: false,
+      // Config
+      repoConfig: mergedConfig.repo,
+      themeConfig: mergedConfig.theme,
+      navConfig: mergedConfig.navigation,
+      dashboardConfig: mergedConfig.dashboard,
+      filesConfig: mergedConfig.files,
+      contributorsConfig: mergedConfig.contributors,
+      auditConfig: mergedConfig.audit,
+      analyticsConfig: mergedConfig.analytics,
+      autoRefreshConfig: mergedConfig.autoRefresh,
+      uiConfig: mergedConfig.ui,
+      endpointsConfig: mergedConfig.endpoints,
+      featuresConfig: mergedConfig.features,
+      
+      // State
+      sidebarCollapsed: mergedConfig.navigation.collapsedByDefault || window.innerWidth <= 900,
+      currentView: mergedConfig.navigation.defaultView,
+      isLightTheme: mergedConfig.theme.default === 'light',
       isSyncing: false,
       isLoading: true,
       error: null,
       lastUpdateTime: '—',
       fileSearch: '',
       isScrolled: false,
-      auditFilter: 'all',
-      analyticsPeriod: 'weeks',
+      auditFilter: mergedConfig.audit.defaultFilter,
+      analyticsPeriod: mergedConfig.analytics.defaultPeriod,
       
+      // Data
       repoStats: {
         totalCommits: 0,
         contributors: 0,
@@ -970,48 +1135,18 @@ export default {
       charts: {
         activity: null,
         weekly: null
-      },
-      
-      navItems: [
-        { 
-          id: 'dashboard', 
-          icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>',
-          label: 'DASHBOARD' 
-        },
-        { 
-          id: 'files', 
-          icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>',
-          label: 'FILES' 
-        },
-        { 
-          id: 'contributors', 
-          icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
-          label: 'CONTRIBUTORS',
-          badge: 'LIVE'
-        },
-        { 
-          id: 'audit', 
-          icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
-          label: 'AUDIT',
-          badge: 'LIVE'
-        },
-        { 
-          id: 'analytics', 
-          icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/><circle cx="12" cy="16" r="5"/><path d="M12 11v5"/></svg>',
-          label: 'ANALYTICS' 
-        },
-        { 
-          id: 'home', 
-          icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 10L12 3L21 10V20C21 20.6 20.6 21 20 21H4C3.4 21 3 20.6 3 20V10Z"/><path d="M9 15H15V21H9V15Z"/></svg>',
-          label: 'HOME' 
-        }
-      ]
+      }
     }
   },
-
+  
   computed: {
     currentViewTitle() {
-      return this.navItems.find(i => i.id === this.currentView)?.label || 'DASHBOARD'
+      const item = this.navConfig.items.find(i => i.id === this.currentView)
+      return item?.label || 'DASHBOARD'
+    },
+    
+    navItems() {
+      return this.navConfig.items
     },
     
     avgCommits() {
@@ -1041,7 +1176,7 @@ export default {
     },
     
     dailyAvg() {
-      return (this.dailyTotal / 30).toFixed(1)
+      return (this.dailyTotal / this.dashboardConfig.charts.daysToShow).toFixed(1)
     },
     
     dailyPeak() {
@@ -1085,32 +1220,35 @@ export default {
       return this.auditLog.filter(e => 
         e.type === 'pr' && new Date(e.timestamp) > thirtyDaysAgo
       ).length
+    },
+    
+    paginatedContributors() {
+      return this.allContributorsData.slice(0, this.contributorsConfig.itemsPerPage)
     }
   },
 
   watch: {
-    currentView: {
-      immediate: true,
-      handler(newVal, oldVal) {
-        if (oldVal === 'dashboard') {
-          this.destroyChart('activity')
-        }
-        if (oldVal === 'analytics') {
-          this.destroyChart('weekly')
-        }
+    currentView(newVal, oldVal) {
+      if (oldVal === 'dashboard') {
+        this.destroyChart('activity')
+      }
+      if (oldVal === 'analytics') {
+        this.destroyChart('weekly')
+      }
 
-        if (newVal === 'dashboard') {
-          setTimeout(() => this.initActivityChart(), 100)
-        }
-        if (newVal === 'analytics') {
-          setTimeout(() => this.initWeeklyChart(), 100)
-        }
+      if (newVal === 'dashboard' && this.dashboardConfig.charts.showCommitActivity) {
+        setTimeout(() => this.initActivityChart(), 100)
+      }
+      if (newVal === 'analytics') {
+        setTimeout(() => this.initWeeklyChart(), 100)
       }
     },
+    
     isLightTheme() {
-      if (this.currentView === 'dashboard') this.initActivityChart()
+      if (this.currentView === 'dashboard' && this.dashboardConfig.charts.showCommitActivity) this.initActivityChart()
       if (this.currentView === 'analytics') this.initWeeklyChart()
     },
+    
     analyticsPeriod() {
       if (this.currentView === 'analytics') {
         this.initWeeklyChart()
@@ -1119,12 +1257,32 @@ export default {
   },
 
   async mounted() {
+    // Apply accent color
+    document.documentElement.style.setProperty('--accent', this.themeConfig.accentColor)
+    
+    // Apply scrollbar styling
+    if (this.uiConfig.scrollbarStyling) {
+      const style = document.createElement('style')
+      style.textContent = `
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-primary); }
+        ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 6px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--accent); }
+      `
+      document.head.appendChild(style)
+    }
+    
     this.lastUpdateTime = new Date().toLocaleTimeString()
     window.addEventListener('resize', this.handleResize)
     window.addEventListener('scroll', this.handleScroll)
     
     await this.refreshAllData()
-    setInterval(() => this.refreshAllData(), 30000)
+    
+    if (this.autoRefreshConfig.enabled) {
+      setInterval(() => this.refreshAllData(), this.autoRefreshConfig.interval)
+    }
+    
+    this.$emit('ready')
   },
 
   beforeUnmount() {
@@ -1135,6 +1293,18 @@ export default {
   },
 
   methods: {
+    getIcon(iconName) {
+      const icons = {
+        dashboard: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>',
+        files: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>',
+        contributors: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
+        audit: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
+        analytics: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/><circle cx="12" cy="16" r="5"/><path d="M12 11v5"/></svg>',
+        home: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 10L12 3L21 10V20C21 20.6 20.6 21 20 21H4C3.4 21 3 20.6 3 20V10Z"/><path d="M9 15H15V21H9V15Z"/></svg>'
+      }
+      return icons[iconName] || icons.dashboard
+    },
+    
     destroyChart(chartName) {
       if (this.charts[chartName]) {
         try { 
@@ -1154,7 +1324,7 @@ export default {
     },
 
     handleResize() {
-      this.sidebarCollapsed = window.innerWidth <= 900
+      this.sidebarCollapsed = window.innerWidth <= this.uiConfig.responsiveBreakpoints.tablet
     },
 
     handleScroll() {
@@ -1176,7 +1346,7 @@ export default {
     },
 
     getToken() {
-      return this.$githubToken || window.__GITHUB_TOKEN || import.meta.env.VITE_GITHUB_TOKEN
+      return this.githubToken || this.$githubToken || window.__GITHUB_TOKEN || import.meta.env.VITE_GITHUB_TOKEN
     },
 
     openAuditEvent(event) {
@@ -1187,202 +1357,183 @@ export default {
       return Math.random() * 0.5 + 0.2
     },
 
-async fetchContributorsFromCommits() {
-  const token = this.getToken()
-  if (!token) {
-    console.error('No GitHub token found')
-    return
-  }
-  
-  const owner = 'Wildfiire'
-  const repo = 'docs'
-  const headers = { 
-    'Authorization': `token ${token}`,
-    'Accept': 'application/vnd.github.v3+json'
-  }
-  
-  try {
-    console.log(`Fetching contributors for ${owner}/${repo}...`)
-    
-    let allCommits = []
-    let page = 1
-    let hasMore = true
-    let uniqueAuthors = new Map() // Folosim Map pentru a păstra datele complete
-    
-    // Colectăm toate commit-urile (maxim 10 pagini = 1000 commit-uri)
-    while (hasMore && page <= 10) {
-      const url = `https://api.github.com/repos/${owner}/${repo}/commits?per_page=100&page=${page}&_=${Date.now()}`
-      console.log(`Fetching page ${page}...`)
+    async fetchContributorsFromCommits() {
+      const token = this.getToken()
+      if (!token) {
+        console.error('No GitHub token found')
+        return
+      }
       
-      const res = await fetch(url, { headers })
+      const owner = this.repoConfig.owner
+      const repo = this.repoConfig.name
+      const headers = { 
+        'Authorization': `token ${token}`,
+        'Accept': 'application/vnd.github.v3+json'
+      }
       
-      if (res.ok) {
-        const commits = await res.json()
+      try {
+        console.log(`Fetching contributors for ${owner}/${repo}...`)
         
-        if (commits.length === 0) {
-          hasMore = false
-          console.log(`No more commits after page ${page-1}`)
-        } else {
-          allCommits = [...allCommits, ...commits]
-          console.log(`Page ${page}: +${commits.length} commits (total: ${allCommits.length})`)
-          page++
-        }
-      } else if (res.status === 403 && res.headers.get('X-RateLimit-Remaining') === '0') {
-        // Rate limit exceeded
-        const resetTime = res.headers.get('X-RateLimit-Reset')
-        const resetDate = new Date(resetTime * 1000)
-        console.error(`GitHub API rate limit exceeded. Resets at ${resetDate.toLocaleTimeString()}`)
-        hasMore = false
-        this.showToast('Rate limit exceeded. Try again later.', 'error')
-      } else {
-        console.error(`Error fetching commits: ${res.status} ${res.statusText}`)
-        hasMore = false
-      }
-    }
-    
-    console.log(`Total commits fetched: ${allCommits.length}`)
-    
-    // Procesăm fiecare commit și extragem autorii UNICI
-    const thirtyDaysAgo = new Date()
-    thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
-    
-    // Map pentru toți contributorii (all-time)
-    const allTimeMap = new Map()
-    // Map pentru contributorii din ultimele 30 zile
-    const thisMonthMap = new Map()
-    
-    allCommits.forEach((commit, index) => {
-      // Extragem informațiile autorului din commit
-      let authorInfo = null
-      let authorLogin = null
-      let authorAvatar = null
-      let authorUrl = null
-      let authorName = null
-      let commitDate = new Date(commit.commit.author.date)
-      
-      // Prioritate 1: author (cel care a făcut commit-ul)
-      if (commit.author && commit.author.login) {
-        authorLogin = commit.author.login
-        authorAvatar = commit.author.avatar_url
-        authorUrl = commit.author.html_url
-        authorName = commit.author.login
-      }
-      // Prioritate 2: committer (cel care a adăugat commit-ul în repo)
-      else if (commit.committer && commit.committer.login) {
-        authorLogin = commit.committer.login
-        authorAvatar = commit.committer.avatar_url
-        authorUrl = commit.committer.html_url
-        authorName = commit.committer.login
-      }
-      // Prioritate 3: fallback la datele din commit (fără cont GitHub)
-      else if (commit.commit && commit.commit.author) {
-        authorName = commit.commit.author.name
-        // Creăm un login din nume (lowercase, fără spații)
-        authorLogin = authorName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
-        if (authorLogin.length === 0) {
-          authorLogin = `user-${index}`
-        }
-        authorAvatar = `https://github.com/${authorLogin}.png`
-        authorUrl = `https://github.com/${authorLogin}`
-      }
-      
-      if (authorLogin) {
-        // ALL-TIME counting
-        if (!allTimeMap.has(authorLogin)) {
-          allTimeMap.set(authorLogin, {
-            login: authorLogin,
-            name: authorName || authorLogin,
-            avatar_url: authorAvatar,
-            html_url: authorUrl,
-            contributions: 1
-          })
-        } else {
-          allTimeMap.get(authorLogin).contributions++
-        }
+        let allCommits = []
+        let page = 1
+        let hasMore = true
+        let uniqueAuthors = new Map()
         
-        // THIS MONTH counting (ultimele 30 zile)
-        if (commitDate > thirtyDaysAgo) {
-          if (!thisMonthMap.has(authorLogin)) {
-            thisMonthMap.set(authorLogin, {
-              login: authorLogin,
-              name: authorName || authorLogin,
-              avatar_url: authorAvatar,
-              html_url: authorUrl,
-              contributions: 1
-            })
+        while (hasMore && page <= 10) {
+          const url = `${this.endpointsConfig.githubAPI}/repos/${owner}/${repo}/commits?per_page=100&page=${page}&_=${Date.now()}`
+          console.log(`Fetching page ${page}...`)
+          
+          const res = await fetch(url, { headers })
+          
+          if (res.ok) {
+            const commits = await res.json()
+            
+            if (commits.length === 0) {
+              hasMore = false
+              console.log(`No more commits after page ${page-1}`)
+            } else {
+              allCommits = [...allCommits, ...commits]
+              console.log(`Page ${page}: +${commits.length} commits (total: ${allCommits.length})`)
+              page++
+            }
+          } else if (res.status === 403 && res.headers.get('X-RateLimit-Remaining') === '0') {
+            const resetTime = res.headers.get('X-RateLimit-Reset')
+            const resetDate = new Date(resetTime * 1000)
+            console.error(`GitHub API rate limit exceeded. Resets at ${resetDate.toLocaleTimeString()}`)
+            hasMore = false
+            this.showToast('Rate limit exceeded. Try again later.', 'error')
           } else {
-            thisMonthMap.get(authorLogin).contributions++
+            console.error(`Error fetching commits: ${res.status} ${res.statusText}`)
+            hasMore = false
           }
         }
+        
+        console.log(`Total commits fetched: ${allCommits.length}`)
+        
+        const thirtyDaysAgo = new Date()
+        thirtyDaysAgo.setDate(thirtyDaysAgo.getDate() - 30)
+        
+        const allTimeMap = new Map()
+        const thisMonthMap = new Map()
+        
+        allCommits.forEach((commit, index) => {
+          let authorInfo = null
+          let authorLogin = null
+          let authorAvatar = null
+          let authorUrl = null
+          let authorName = null
+          let commitDate = new Date(commit.commit.author.date)
+          
+          if (commit.author && commit.author.login) {
+            authorLogin = commit.author.login
+            authorAvatar = commit.author.avatar_url
+            authorUrl = commit.author.html_url
+            authorName = commit.author.login
+          }
+          else if (commit.committer && commit.committer.login) {
+            authorLogin = commit.committer.login
+            authorAvatar = commit.committer.avatar_url
+            authorUrl = commit.committer.html_url
+            authorName = commit.committer.login
+          }
+          else if (commit.commit && commit.commit.author) {
+            authorName = commit.commit.author.name
+            authorLogin = authorName.replace(/[^a-zA-Z0-9]/g, '').toLowerCase()
+            if (authorLogin.length === 0) {
+              authorLogin = `user-${index}`
+            }
+            authorAvatar = `https://github.com/${authorLogin}.png`
+            authorUrl = `https://github.com/${authorLogin}`
+          }
+          
+          if (authorLogin) {
+            if (!allTimeMap.has(authorLogin)) {
+              allTimeMap.set(authorLogin, {
+                login: authorLogin,
+                name: authorName || authorLogin,
+                avatar_url: authorAvatar,
+                html_url: authorUrl,
+                contributions: 1
+              })
+            } else {
+              allTimeMap.get(authorLogin).contributions++
+            }
+            
+            if (commitDate > thirtyDaysAgo) {
+              if (!thisMonthMap.has(authorLogin)) {
+                thisMonthMap.set(authorLogin, {
+                  login: authorLogin,
+                  name: authorName || authorLogin,
+                  avatar_url: authorAvatar,
+                  html_url: authorUrl,
+                  contributions: 1
+                })
+              } else {
+                thisMonthMap.get(authorLogin).contributions++
+              }
+            }
+          }
+        })
+        
+        const allTimeContributors = Array.from(allTimeMap.values())
+        const thisMonthContributors = Array.from(thisMonthMap.values())
+        
+        allTimeContributors.sort((a, b) => b.contributions - a.contributions)
+        thisMonthContributors.sort((a, b) => b.contributions - a.contributions)
+        
+        this.repoStats.contributors = allTimeContributors.length
+        this.repoStats.totalCommits = allCommits.length
+        
+        console.log(`Found ${allTimeContributors.length} unique contributors (all-time)`)
+        console.log(`Found ${thisMonthContributors.length} contributors in last 30 days`)
+        
+        this.processContributorsData(allTimeContributors)
+        
+        if (allTimeContributors.length > 0) {
+          const top = allTimeContributors[0]
+          this.topContributor = {
+            login: top.login,
+            avatar_url: top.avatar_url,
+            html_url: top.html_url,
+            contributions: top.contributions,
+            prs: Math.floor(top.contributions * 0.15)
+          }
+          console.log(`Top contributor (all-time): ${top.login} with ${top.contributions} commits`)
+        }
+        
+        if (thisMonthContributors.length > 0) {
+          const topMonth = thisMonthContributors[0]
+          this.thisMonthContributor = {
+            login: topMonth.login,
+            avatar_url: topMonth.avatar_url,
+            html_url: topMonth.html_url,
+            contributions: topMonth.contributions,
+            prs: Math.floor(topMonth.contributions * 0.15)
+          }
+          console.log(`Top contributor (this month): ${topMonth.login} with ${topMonth.contributions} commits`)
+        } else {
+          this.thisMonthContributor = { 
+            login: '', 
+            avatar_url: '', 
+            html_url: '', 
+            contributions: 0, 
+            prs: 0 
+          }
+          console.log('No contributors in the last 30 days')
+        }
+        
+        this.topContributors = allTimeContributors.slice(0, 10).map(c => ({
+          login: c.login,
+          avatar_url: c.avatar_url,
+          contributions: c.contributions,
+          html_url: c.html_url
+        }))
+        
+      } catch (e) {
+        console.error('Error in fetchContributorsFromCommits:', e)
+        this.showToast('Error fetching contributors data', 'error')
       }
-    })
-    
-    // Convertim Map-urile în array-uri
-    const allTimeContributors = Array.from(allTimeMap.values())
-    const thisMonthContributors = Array.from(thisMonthMap.values())
-    
-    // Sortăm descrescător după contribuții
-    allTimeContributors.sort((a, b) => b.contributions - a.contributions)
-    thisMonthContributors.sort((a, b) => b.contributions - a.contributions)
-    
-    // Actualizăm stats
-    this.repoStats.contributors = allTimeContributors.length
-    this.repoStats.totalCommits = allCommits.length
-    
-    console.log(`Found ${allTimeContributors.length} unique contributors (all-time)`)
-    console.log(`Found ${thisMonthContributors.length} contributors in last 30 days`)
-    
-    // Procesăm toți contributorii pentru tabele
-    this.processContributorsData(allTimeContributors)
-    
-    // Setăm TOP CONTRIBUTOR (all-time)
-    if (allTimeContributors.length > 0) {
-      const top = allTimeContributors[0]
-      this.topContributor = {
-        login: top.login,
-        avatar_url: top.avatar_url,
-        html_url: top.html_url,
-        contributions: top.contributions,
-        prs: Math.floor(top.contributions * 0.15) // Estimare PR-uri (15% din commit-uri)
-      }
-      console.log(`Top contributor (all-time): ${top.login} with ${top.contributions} commits`)
-    }
-    
-    // Setăm THIS MONTH CONTRIBUTOR
-    if (thisMonthContributors.length > 0) {
-      const topMonth = thisMonthContributors[0]
-      this.thisMonthContributor = {
-        login: topMonth.login,
-        avatar_url: topMonth.avatar_url,
-        html_url: topMonth.html_url,
-        contributions: topMonth.contributions,
-        prs: Math.floor(topMonth.contributions * 0.15)
-      }
-      console.log(`Top contributor (this month): ${topMonth.login} with ${topMonth.contributions} commits`)
-    } else {
-      this.thisMonthContributor = { 
-        login: '', 
-        avatar_url: '', 
-        html_url: '', 
-        contributions: 0, 
-        prs: 0 
-      }
-      console.log('No contributors in the last 30 days')
-    }
-    
-    // Pentru topContributors (lista scurtă de pe dashboard)
-    this.topContributors = allTimeContributors.slice(0, 10).map(c => ({
-      login: c.login,
-      avatar_url: c.avatar_url,
-      contributions: c.contributions,
-      html_url: c.html_url
-    }))
-    
-  } catch (e) {
-    console.error('Error in fetchContributorsFromCommits:', e)
-    this.showToast('Error fetching contributors data', 'error')
-  }
-},
+    },
 
     processContributorsData(allContributors) {
       if (!allContributors || allContributors.length === 0) return
@@ -1428,9 +1579,9 @@ async fetchContributorsFromCommits() {
         return
       }
       
-      const owner = 'Wildfiire'
-      const repo = 'docs'
-      const baseUrl = `https://api.github.com/repos/${owner}/${repo}`
+      const owner = this.repoConfig.owner
+      const repo = this.repoConfig.name
+      const baseUrl = `${this.endpointsConfig.githubAPI}/repos/${owner}/${repo}`
       const headers = {
         'Authorization': `token ${token}`,
         'Accept': 'application/vnd.github.v3+json'
@@ -1493,7 +1644,7 @@ async fetchContributorsFromCommits() {
         allCommits.forEach(commit => {
           const date = new Date(commit.commit.author.date)
           const dayKey = date.toISOString().split('T')[0]
-          if ((now - date) / (1000 * 60 * 60 * 24) <= 30) {
+          if ((now - date) / (1000 * 60 * 60 * 24) <= this.dashboardConfig.charts.daysToShow) {
             daily[dayKey] = (daily[dayKey] || 0) + 1
           }
           
@@ -1506,14 +1657,14 @@ async fetchContributorsFromCommits() {
         })
 
         // Daily commits
-        const last30Days = []
-        for (let i = 29; i >= 0; i--) {
+        const lastDays = []
+        for (let i = this.dashboardConfig.charts.daysToShow - 1; i >= 0; i--) {
           const date = new Date(now)
           date.setDate(date.getDate() - i)
           const dayKey = date.toISOString().split('T')[0]
-          last30Days.push(daily[dayKey] || 0)
+          lastDays.push(daily[dayKey] || 0)
         }
-        this.dailyCommits = last30Days
+        this.dailyCommits = lastDays
 
         // Weekly commits
         const weeklyEntries = Object.entries(weekly).sort().slice(-12)
@@ -1529,7 +1680,7 @@ async fetchContributorsFromCommits() {
         })
 
         // Recent commits with icons
-        this.recentCommits = allCommits.slice(0, 10).map(commit => ({
+        this.recentCommits = allCommits.slice(0, 20).map(commit => ({
           id: commit.sha.substring(0, 7),
           message: commit.commit.message.split('\n')[0],
           icon: this.getCommitIcon(commit.commit.message),
@@ -1549,7 +1700,7 @@ async fetchContributorsFromCommits() {
             author: commit.author?.login || commit.commit.author.name,
             url: commit.html_url,
             hash: commit.sha,
-            repo: 'docs'
+            repo: repo
           })
         })
 
@@ -1580,7 +1731,7 @@ async fetchContributorsFromCommits() {
               author: pr.user?.login,
               url: pr.html_url,
               branch: pr.head?.ref,
-              repo: 'docs'
+              repo: repo
             })
           })
         }
@@ -1608,14 +1759,14 @@ async fetchContributorsFromCommits() {
               message: `Issue #${issue.number}: ${issue.title}`,
               author: issue.user?.login,
               url: issue.html_url,
-              repo: 'docs'
+              repo: repo
             })
           })
         }
 
         // Fetch file tree
         const treeRes = await fetch(
-          `https://api.github.com/repos/${owner}/${repo}/git/trees/main?recursive=1&_=${timestamp}`,
+          `${this.endpointsConfig.githubAPI}/repos/${owner}/${repo}/git/trees/${this.repoConfig.branch}?recursive=1&_=${timestamp}`,
           { headers }
         )
         if (treeRes.ok) {
@@ -1635,14 +1786,21 @@ async fetchContributorsFromCommits() {
 
         // Initialize charts
         this.$nextTick(() => {
-          if (this.currentView === 'dashboard') this.initActivityChart()
+          if (this.currentView === 'dashboard' && this.dashboardConfig.charts.showCommitActivity) this.initActivityChart()
           if (this.currentView === 'analytics') this.initWeeklyChart()
+        })
+
+        this.$emit('sync', {
+          commits: this.repoStats.totalCommits,
+          contributors: this.repoStats.contributors,
+          timestamp: new Date().toISOString()
         })
 
       } catch (error) {
         console.error('Error fetching GitHub data:', error)
         this.error = error.message
         this.showToast('Error syncing data', 'error')
+        this.$emit('error', error)
       } finally {
         this.isLoading = false
       }
@@ -1711,13 +1869,15 @@ async fetchContributorsFromCommits() {
     },
 
     async selectFile(file) {
+      if (!this.filesConfig.showFilePreview) return
+      
       this.selectedFile = file
       const token = this.getToken()
       if (!token) return
       
       try {
         const res = await fetch(
-          `https://api.github.com/repos/Wildfiire/docs/contents/${file.path}?_=${Date.now()}`,
+          `${this.endpointsConfig.githubAPI}/repos/${this.repoConfig.owner}/${this.repoConfig.name}/contents/${file.path}?_=${Date.now()}`,
           { headers: { 'Authorization': `token ${token}` } }
         )
         if (res.ok) {
@@ -1730,7 +1890,8 @@ async fetchContributorsFromCommits() {
     },
 
     editFile(file) {
-      window.open(`https://github.com/Wildfiire/docs/edit/main/${file.path}`, '_blank')
+      if (!this.filesConfig.allowEditing) return
+      window.open(`https://github.com/${this.repoConfig.owner}/${this.repoConfig.name}/edit/${this.repoConfig.branch}/${file.path}`, '_blank')
     },
 
     getFileType(filename) {
@@ -1783,7 +1944,7 @@ async fetchContributorsFromCommits() {
     },
 
     initActivityChart() {
-      if (this.currentView !== 'dashboard') return
+      if (this.currentView !== 'dashboard' || !this.dashboardConfig.charts.showCommitActivity) return
 
       const canvas = this.$refs.activityChart
       if (!canvas || !this.dailyCommits || !this.dailyCommits.length) return
@@ -1798,7 +1959,7 @@ async fetchContributorsFromCommits() {
 
       const labels = []
       const now = new Date()
-      for (let i = 29; i >= 0; i--) {
+      for (let i = this.dashboardConfig.charts.daysToShow - 1; i >= 0; i--) {
         const date = new Date(now)
         date.setDate(date.getDate() - i)
         labels.push(date.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }))
@@ -1812,9 +1973,9 @@ async fetchContributorsFromCommits() {
             data: this.dailyCommits,
             backgroundColor: (context) => {
               const value = context.dataset.data[context.dataIndex]
-              return value > 0 ? '#ff4500' : (this.isLightTheme ? '#ddd' : '#2a2a30')
+              return value > 0 ? this.themeConfig.accentColor : (this.isLightTheme ? '#ddd' : '#2a2a30')
             },
-            borderColor: '#ff4500',
+            borderColor: this.themeConfig.accentColor,
             borderWidth: (context) => {
               const value = context.dataset.data[context.dataIndex]
               return value > 0 ? 1 : 0
@@ -1822,20 +1983,20 @@ async fetchContributorsFromCommits() {
             borderRadius: 4,
             barPercentage: 0.6,
             categoryPercentage: 0.8,
-            hoverBackgroundColor: '#ff5722'
+            hoverBackgroundColor: this.themeConfig.accentColor
           }]
         },
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          animation: false,
+          animation: this.featuresConfig.enableChartAnimations,
           plugins: {
             legend: { display: false },
             tooltip: {
               backgroundColor: this.isLightTheme ? '#fff' : '#1a1a22',
               titleColor: this.isLightTheme ? '#333' : '#fff',
               bodyColor: this.isLightTheme ? '#666' : '#e0e0e0',
-              borderColor: '#ff4500',
+              borderColor: this.themeConfig.accentColor,
               borderWidth: 2,
               padding: 12,
               cornerRadius: 8,
@@ -1895,11 +2056,11 @@ async fetchContributorsFromCommits() {
           labels: labels,
           datasets: [{
             data: data,
-            borderColor: '#ff4500',
-            backgroundColor: 'rgba(255,69,0,0.1)',
+            borderColor: this.themeConfig.accentColor,
+            backgroundColor: `${this.themeConfig.accentColor}1A`,
             tension: 0.3,
             fill: true,
-            pointBackgroundColor: '#ff4500',
+            pointBackgroundColor: this.themeConfig.accentColor,
             pointBorderColor: '#fff',
             pointBorderWidth: 2,
             pointRadius: 4,
@@ -1909,14 +2070,14 @@ async fetchContributorsFromCommits() {
         options: {
           responsive: true,
           maintainAspectRatio: false,
-          animation: false,
+          animation: this.featuresConfig.enableChartAnimations,
           plugins: {
             legend: { display: false },
             tooltip: {
               backgroundColor: this.isLightTheme ? '#fff' : '#1a1a22',
               titleColor: this.isLightTheme ? '#333' : '#fff',
               bodyColor: this.isLightTheme ? '#666' : '#e0e0e0',
-              borderColor: '#ff4500',
+              borderColor: this.themeConfig.accentColor,
               borderWidth: 2,
               padding: 12,
               cornerRadius: 8
@@ -2024,22 +2185,26 @@ async fetchContributorsFromCommits() {
     },
 
     openNewIssue() {
-      window.open('https://github.com/Wildfiire/docs/issues/new', '_blank')
+      window.open(`https://github.com/${this.repoConfig.owner}/${this.repoConfig.name}/issues/new`, '_blank')
     },
 
     openNewPR() {
-      window.open('https://github.com/Wildfiire/docs/compare', '_blank')
+      window.open(`https://github.com/${this.repoConfig.owner}/${this.repoConfig.name}/compare`, '_blank')
     },
 
     handleNavClick(item) {
-      if (item.id === 'home') {
-        window.location.href = '/'
+      if (item.external) {
+        window.location.href = item.external
+      } else if (item.url) {
+        window.open(item.url, '_blank')
       } else {
         this.currentView = item.id
       }
     },
 
     showToast(msg, type) {
+      if (!this.featuresConfig.enableToastNotifications) return
+      
       const id = Date.now()
       this.toasts.push({ id, message: msg, type })
       setTimeout(() => this.removeToast(id), 3000)
@@ -2121,7 +2286,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, monospace;
-  font-size: 13px;
+  font-size: 12.5px;
   position: relative;
   transition: background 0.3s ease, color 0.2s ease;
 }
@@ -2169,7 +2334,7 @@ async fetchContributorsFromCommits() {
   100% { transform: translateY(-400px) translateX(0); }
 }
 
-/* ===== THEME TOGGLE - TOP RIGHT ===== */
+/* ===== THEME TOGGLE ===== */
 .theme-toggle-btn {
   position: fixed;
   top: 20px;
@@ -2418,7 +2583,7 @@ async fetchContributorsFromCommits() {
 .docs-main {
   flex: 1;
   margin-left: 260px;
-  padding: 24px 32px;
+  padding: 20px 28px;
   transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   z-index: 1;
@@ -2480,7 +2645,7 @@ async fetchContributorsFromCommits() {
 }
 
 .header-left h1 { 
-  font-size: 18px; 
+  font-size: 17px; 
   font-weight: 500; 
   color: var(--text-primary); 
   margin: 0; 
@@ -2533,12 +2698,12 @@ async fetchContributorsFromCommits() {
   background: none;
   border: 1px solid var(--border-color);
   color: var(--text-muted);
-  padding: 8px 16px;
+  padding: 6px 14px;
   border-radius: 30px;
   cursor: pointer;
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 5px;
   font-size: 11px;
   font-weight: 500;
   transition: all 0.2s ease;
@@ -2633,7 +2798,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 24px;
+  padding: 20px;
   display: flex;
   align-items: center;
   gap: 16px;
@@ -2651,8 +2816,8 @@ async fetchContributorsFromCommits() {
 }
 
 .metric-icon {
-  width: 56px;
-  height: 56px;
+  width: 48px;
+  height: 48px;
   background: var(--bg-tertiary);
   border-radius: 16px;
   display: flex;
@@ -2661,6 +2826,11 @@ async fetchContributorsFromCommits() {
   color: var(--accent);
   transition: all 0.3s ease;
   flex-shrink: 0;
+}
+
+.metric-icon svg {
+  width: 26px;
+  height: 26px;
 }
 
 .metric-card:hover .metric-icon {
@@ -2685,7 +2855,7 @@ async fetchContributorsFromCommits() {
 
 .metric-value {
   display: block;
-  font-size: clamp(20px, 4vw, 28px);
+  font-size: 24px;
   font-weight: 600;
   color: var(--text-primary);
   line-height: 1.2;
@@ -2719,7 +2889,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 20px;
+  padding: 18px;
   transition: all 0.3s ease;
   min-width: 0;
 }
@@ -2777,8 +2947,6 @@ async fetchContributorsFromCommits() {
 .chart-wrapper {
   position: relative;
   width: 100%;
-  height: 200px;
-  min-height: 200px;
   margin-bottom: 20px;
 }
 
@@ -2813,7 +2981,7 @@ async fetchContributorsFromCommits() {
 }
 
 .footer-stat .stat-value {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 600;
   color: var(--accent);
   white-space: nowrap;
@@ -2830,8 +2998,8 @@ async fetchContributorsFromCommits() {
 .repo-stat-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 12px;
+  gap: 10px;
+  padding: 10px;
   background: var(--bg-tertiary);
   border-radius: 12px;
   transition: all 0.2s ease;
@@ -2845,9 +3013,9 @@ async fetchContributorsFromCommits() {
 
 .repo-stat-item svg {
   color: var(--accent);
-  min-width: 20px;
-  width: 20px;
-  height: 20px;
+  min-width: 18px;
+  width: 18px;
+  height: 18px;
   flex-shrink: 0;
 }
 
@@ -2858,7 +3026,7 @@ async fetchContributorsFromCommits() {
 
 .stat-info .stat-label {
   display: block;
-  font-size: 9px;
+  font-size: 8px;
   color: var(--text-muted);
   margin-bottom: 2px;
   white-space: nowrap;
@@ -2867,7 +3035,7 @@ async fetchContributorsFromCommits() {
 }
 
 .stat-info .stat-value {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 600;
   color: var(--text-primary);
   white-space: nowrap;
@@ -2884,10 +3052,10 @@ async fetchContributorsFromCommits() {
 .timeline-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  font-size: 11px;
+  gap: 6px;
+  font-size: 10px;
   color: var(--text-muted);
-  padding: 8px 12px;
+  padding: 6px 10px;
   background: var(--bg-tertiary);
   border-radius: 10px;
   white-space: nowrap;
@@ -2900,7 +3068,7 @@ async fetchContributorsFromCommits() {
   flex-shrink: 0;
 }
 
-/* Champion Split - Layout în oglindă */
+/* Champion Split */
 .champion-split {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2912,7 +3080,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 24px;
+  padding: 20px;
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
@@ -2958,7 +3126,6 @@ async fetchContributorsFromCommits() {
   height: 100%;
 }
 
-/* Layout normal (stânga) */
 .spotlight-content.normal-layout {
   display: flex;
   flex-direction: row;
@@ -2982,7 +3149,6 @@ async fetchContributorsFromCommits() {
   margin-left: auto;
 }
 
-/* Layout în oglindă (dreapta) */
 .spotlight-content.mirror-layout {
   display: flex;
   flex-direction: row;
@@ -3007,7 +3173,6 @@ async fetchContributorsFromCommits() {
   margin-left: 0;
 }
 
-/* Empty state pentru mirror */
 .empty-state.mirror {
   order: 2;
   width: 100%;
@@ -3015,8 +3180,8 @@ async fetchContributorsFromCommits() {
 
 .champion-avatar {
   position: relative;
-  width: 80px;
-  height: 80px;
+  width: 70px;
+  height: 70px;
   flex-shrink: 0;
 }
 
@@ -3085,7 +3250,7 @@ async fetchContributorsFromCommits() {
 }
 
 .champion-info h3 {
-  font-size: clamp(16px, 3vw, 20px);
+  font-size: 18px;
   font-weight: 600;
   color: var(--text-primary);
   margin-bottom: 8px;
@@ -3094,7 +3259,7 @@ async fetchContributorsFromCommits() {
 
 .champion-stats {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   flex-wrap: wrap;
 }
 
@@ -3106,10 +3271,10 @@ async fetchContributorsFromCommits() {
   display: flex;
   align-items: center;
   gap: 4px;
-  padding: 4px 10px;
+  padding: 3px 8px;
   background: var(--bg-tertiary);
   border-radius: 30px;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-secondary);
   white-space: nowrap;
 }
@@ -3189,7 +3354,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 20px;
+  padding: 18px;
   transition: all 0.3s ease;
   min-width: 0;
 }
@@ -3232,9 +3397,9 @@ async fetchContributorsFromCommits() {
 .card-badge {
   background: var(--bg-tertiary);
   color: var(--accent);
-  padding: 2px 8px;
+  padding: 2px 6px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -3248,8 +3413,8 @@ async fetchContributorsFromCommits() {
 .feed-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
+  gap: 10px;
+  padding: 8px 10px;
   background: var(--bg-tertiary);
   border-radius: 12px;
   cursor: pointer;
@@ -3271,8 +3436,8 @@ async fetchContributorsFromCommits() {
 }
 
 .item-avatar {
-  width: 28px;
-  height: 28px;
+  width: 26px;
+  height: 26px;
   border-radius: 50%;
   border: 2px solid var(--accent);
   position: relative;
@@ -3308,7 +3473,7 @@ async fetchContributorsFromCommits() {
 .item-title {
   display: block;
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: 11px;
   font-weight: 500;
   margin-bottom: 2px;
   white-space: nowrap;
@@ -3320,7 +3485,7 @@ async fetchContributorsFromCommits() {
   display: flex;
   align-items: center;
   gap: 6px;
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-muted);
   flex-wrap: wrap;
 }
@@ -3369,7 +3534,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 20px;
-  padding: 20px;
+  padding: 18px;
   transition: all 0.3s ease;
   min-width: 0;
 }
@@ -3402,9 +3567,9 @@ async fetchContributorsFromCommits() {
 
 .battle-count {
   background: var(--bg-tertiary);
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 30px;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   white-space: nowrap;
 }
@@ -3418,8 +3583,8 @@ async fetchContributorsFromCommits() {
 .battle-item {
   display: flex;
   align-items: center;
-  gap: 12px;
-  padding: 10px;
+  gap: 10px;
+  padding: 8px 10px;
   background: var(--bg-tertiary);
   border-radius: 10px;
   cursor: pointer;
@@ -3433,8 +3598,8 @@ async fetchContributorsFromCommits() {
 }
 
 .battle-item img {
-  width: 24px;
-  height: 24px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 1px solid var(--accent);
   flex-shrink: 0;
@@ -3448,7 +3613,7 @@ async fetchContributorsFromCommits() {
 .battle-title {
   display: block;
   color: var(--text-primary);
-  font-size: 11px;
+  font-size: 12px;
   margin-bottom: 2px;
   white-space: nowrap;
   overflow: hidden;
@@ -3458,7 +3623,7 @@ async fetchContributorsFromCommits() {
 .battle-meta {
   display: flex;
   gap: 6px;
-  font-size: 9px;
+  font-size: 8px;
   color: var(--text-muted);
   flex-wrap: wrap;
 }
@@ -3469,10 +3634,10 @@ async fetchContributorsFromCommits() {
   justify-content: center;
   gap: 6px;
   margin-top: 12px;
-  padding: 10px;
+  padding: 8px;
   color: var(--accent);
   text-decoration: none;
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   border: 1px solid var(--border-color);
   border-radius: 10px;
@@ -3523,7 +3688,7 @@ async fetchContributorsFromCommits() {
   display: flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
+  padding: 6px 14px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   border-radius: 30px;
@@ -3543,7 +3708,7 @@ async fetchContributorsFromCommits() {
   border: none;
   color: var(--text-primary);
   width: 100%;
-  font-size: 13px;
+  font-size: 12px;
   min-width: 0;
 }
 
@@ -3593,12 +3758,12 @@ async fetchContributorsFromCommits() {
 }
 
 .tree-header {
-  padding: 16px;
+  padding: 14px;
   border-bottom: 1px solid var(--border-color);
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   flex-wrap: wrap;
   gap: 8px;
@@ -3606,10 +3771,10 @@ async fetchContributorsFromCommits() {
 
 .file-count {
   background: var(--bg-tertiary);
-  padding: 4px 8px;
+  padding: 3px 6px;
   border-radius: 6px;
   color: var(--accent);
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -3645,7 +3810,7 @@ async fetchContributorsFromCommits() {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 16px 20px;
+  padding: 14px 18px;
   border-bottom: 1px solid var(--border-color);
   flex-wrap: wrap;
   gap: 12px;
@@ -3656,7 +3821,7 @@ async fetchContributorsFromCommits() {
   align-items: center;
   gap: 8px;
   color: var(--accent);
-  font-size: 13px;
+  font-size: 12px;
   font-family: monospace;
   word-break: break-all;
 }
@@ -3665,12 +3830,12 @@ async fetchContributorsFromCommits() {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 6px 12px;
+  padding: 4px 10px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   border-radius: 20px;
   color: var(--accent);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -3692,11 +3857,11 @@ async fetchContributorsFromCommits() {
 
 .file-meta {
   display: flex;
-  gap: 24px;
+  gap: 20px;
   padding-bottom: 16px;
   margin-bottom: 16px;
   border-bottom: 1px solid var(--border-color);
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
   flex-wrap: wrap;
 }
@@ -3717,7 +3882,7 @@ async fetchContributorsFromCommits() {
   margin: 0;
   color: var(--text-primary);
   font-family: 'Monaco', monospace;
-  font-size: 13px;
+  font-size: 12px;
   line-height: 1.6;
   word-break: break-word;
   white-space: pre-wrap;
@@ -3743,7 +3908,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 32px;
+  padding: 28px;
   text-align: center;
   transition: all 0.3s ease;
   position: relative;
@@ -3766,7 +3931,7 @@ async fetchContributorsFromCommits() {
 
 .header-stat-card .stat-number {
   display: block;
-  font-size: 48px;
+  font-size: 38px;
   font-weight: 700;
   color: var(--accent);
   margin-bottom: 8px;
@@ -3780,7 +3945,7 @@ async fetchContributorsFromCommits() {
 }
 
 .header-stat-card .stat-label {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   letter-spacing: 0.5px;
   position: relative;
@@ -3862,7 +4027,7 @@ async fetchContributorsFromCommits() {
 }
 
 .impact-cell {
-  min-width: 120px;
+  min-width: 100px;
 }
 
 .impact-bar {
@@ -3896,7 +4061,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 20px;
+  padding: 18px;
   flex-wrap: wrap;
   gap: 16px;
 }
@@ -3908,7 +4073,7 @@ async fetchContributorsFromCommits() {
 }
 
 .audit-title h2 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
   color: var(--text-primary);
   margin: 0;
@@ -3922,12 +4087,12 @@ async fetchContributorsFromCommits() {
 }
 
 .filter-btn {
-  padding: 6px 12px;
+  padding: 5px 10px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   border-radius: 20px;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -3947,10 +4112,10 @@ async fetchContributorsFromCommits() {
 
 .audit-count {
   background: var(--bg-tertiary);
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 20px;
   color: var(--accent);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -4007,7 +4172,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 12px;
-  padding: 16px;
+  padding: 14px;
   transition: all 0.2s ease;
   cursor: pointer;
   min-width: 0;
@@ -4032,9 +4197,9 @@ async fetchContributorsFromCommits() {
   display: flex;
   align-items: center;
   gap: 6px;
-  padding: 4px 8px;
+  padding: 3px 6px;
   border-radius: 20px;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 600;
   white-space: nowrap;
 }
@@ -4044,7 +4209,7 @@ async fetchContributorsFromCommits() {
 .event-badge.issue { background: rgba(231,76,60,0.15); color: #e74c3c; }
 
 .event-time {
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-muted);
   white-space: nowrap;
 }
@@ -4056,7 +4221,7 @@ async fetchContributorsFromCommits() {
 .event-message {
   display: block;
   color: var(--text-primary);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   margin-bottom: 4px;
   word-break: break-word;
@@ -4065,7 +4230,7 @@ async fetchContributorsFromCommits() {
 .event-meta {
   display: flex;
   gap: 12px;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
   flex-wrap: wrap;
 }
@@ -4076,8 +4241,8 @@ async fetchContributorsFromCommits() {
 
 .event-footer {
   display: flex;
-  gap: 12px;
-  font-size: 10px;
+  gap: 10px;
+  font-size: 9px;
   color: var(--text-muted);
   border-top: 1px solid var(--border-color);
   padding-top: 8px;
@@ -4119,7 +4284,7 @@ async fetchContributorsFromCommits() {
   background: var(--bg-secondary);
   border: 1px solid var(--border-color);
   border-radius: 16px;
-  padding: 20px;
+  padding: 18px;
   flex-wrap: wrap;
   gap: 16px;
 }
@@ -4131,7 +4296,7 @@ async fetchContributorsFromCommits() {
 }
 
 .analytics-title h2 {
-  font-size: 18px;
+  font-size: 17px;
   font-weight: 500;
   color: var(--text-primary);
   margin: 0;
@@ -4145,12 +4310,12 @@ async fetchContributorsFromCommits() {
 }
 
 .period-btn {
-  padding: 6px 16px;
+  padding: 5px 10px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   border-radius: 20px;
   color: var(--text-muted);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -4206,7 +4371,7 @@ async fetchContributorsFromCommits() {
   display: flex;
   align-items: center;
   gap: 8px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--text-secondary);
   margin: 0;
@@ -4250,8 +4415,8 @@ async fetchContributorsFromCommits() {
 .lang-info {
   display: flex;
   align-items: center;
-  gap: 8px;
-  min-width: 120px;
+  gap: 6px;
+  min-width: 100px;
 }
 
 .lang-dot {
@@ -4263,7 +4428,7 @@ async fetchContributorsFromCommits() {
 
 .lang-name {
   color: var(--text-primary);
-  font-size: 12px;
+  font-size: 11px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -4271,7 +4436,7 @@ async fetchContributorsFromCommits() {
 
 .lang-percent {
   color: var(--accent);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 500;
   white-space: nowrap;
 }
@@ -4292,8 +4457,8 @@ async fetchContributorsFromCommits() {
 
 .lang-bytes {
   color: var(--text-muted);
-  font-size: 10px;
-  min-width: 60px;
+  font-size: 9px;
+  min-width: 50px;
   text-align: right;
   white-space: nowrap;
 }
@@ -4307,7 +4472,7 @@ async fetchContributorsFromCommits() {
 
 .pr-metric {
   text-align: center;
-  padding: 16px;
+  padding: 14px;
   background: var(--bg-tertiary);
   border-radius: 12px;
   min-width: 0;
@@ -4315,7 +4480,7 @@ async fetchContributorsFromCommits() {
 
 .pr-metric .metric-label {
   display: block;
-  font-size: 10px;
+  font-size: 9px;
   color: var(--text-muted);
   margin-bottom: 4px;
   white-space: nowrap;
@@ -4324,7 +4489,7 @@ async fetchContributorsFromCommits() {
 }
 
 .pr-metric .metric-value {
-  font-size: clamp(18px, 3vw, 24px);
+  font-size: 22px;
   font-weight: 600;
   color: var(--accent);
   white-space: nowrap;
@@ -4357,6 +4522,37 @@ async fetchContributorsFromCommits() {
 
 .heatmap-cell:hover {
   transform: scale(1.2);
+}
+
+/* Toast Notifications */
+.toast-container {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  z-index: 2000;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.toast {
+  padding: 12px 20px;
+  background: var(--bg-secondary);
+  border-left: 4px solid var(--accent);
+  border-radius: 8px;
+  color: var(--text-primary);
+  font-size: 12px;
+  box-shadow: 0 4px 12px var(--shadow-color);
+  animation: slideInRight 0.3s ease;
+}
+
+.toast.success { border-left-color: var(--success); }
+.toast.error { border-left-color: var(--danger); }
+.toast.warning { border-left-color: var(--warning); }
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 /* ===== RESPONSIVE ===== */
@@ -4468,7 +4664,6 @@ async fetchContributorsFromCommits() {
 }
 
 /* ===== ZOOM FIXES ===== */
-/* Force hardware acceleration */
 .docs-sidebar,
 .docs-main,
 .chart-card,
@@ -4486,14 +4681,12 @@ async fetchContributorsFromCommits() {
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Fix text rendering */
 h1, h2, h3, p, span, .nav-item, .metric-value, .stat-value {
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-/* Fix absolute positioning */
 .avatar-crown,
 .brand-pulse,
 .nav-glow {
@@ -4501,7 +4694,6 @@ h1, h2, h3, p, span, .nav-item, .metric-value, .stat-value {
   pointer-events: none;
 }
 
-/* Fix flex wrapping */
 .metric-card,
 .feed-item,
 .battle-item,
@@ -4518,14 +4710,12 @@ h1, h2, h3, p, span, .nav-item, .metric-value, .stat-value {
   flex-wrap: wrap;
 }
 
-/* Ensure SVGs scale properly */
 svg {
   flex-shrink: 0;
   width: auto;
   height: auto;
 }
 
-/* Fix text overflow */
 .item-title,
 .battle-title,
 .preview-path span,
@@ -4540,7 +4730,6 @@ svg {
   white-space: normal;
 }
 
-/* Fix container heights */
 .docs-main,
 .dashboard-view,
 .files-view,
@@ -4551,7 +4740,6 @@ svg {
   height: auto;
 }
 
-/* Fix background */
 .docs-bg {
   position: fixed;
   width: 100%;
@@ -4562,7 +4750,6 @@ svg {
   pointer-events: none;
 }
 
-/* Fix progress bars */
 .item-progress {
   min-width: 40px;
   width: auto;
@@ -4572,26 +4759,22 @@ svg {
   min-width: 100px;
 }
 
-/* Fix tables */
 .contributors-table-wrapper {
   overflow-x: auto;
   -webkit-overflow-scrolling: touch;
   width: 100%;
 }
 
-/* Fix touch interactions */
 * {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* Ensure proper box sizing */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-/* Scrollbar Styling */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -4610,7 +4793,6 @@ svg {
   background: var(--accent-hover);
 }
 
-/* Orange Theme Accents */
 .metric-card .metric-icon svg,
 .chart-title svg,
 .header-left svg,
@@ -4627,287 +4809,5 @@ svg {
   0% { transform: scale(1); }
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
-}
-
-/* ===== SLIGHT SIZE REDUCTION ===== */
-.wildfire-docs {
-  font-size: 12.5px;
-}
-
-.docs-main {
-  padding: 20px 28px;
-}
-
-.metric-card {
-  padding: 20px;
-}
-
-.metric-icon {
-  width: 48px;
-  height: 48px;
-}
-
-.metric-icon svg {
-  width: 26px;
-  height: 26px;
-}
-
-.metric-value {
-  font-size: 24px;
-}
-
-.chart-card,
-.activity-card,
-.battle-card {
-  padding: 18px;
-}
-
-.chart-wrapper {
-  height: 180px;
-}
-
-.footer-stat .stat-value {
-  font-size: 16px;
-}
-
-.repo-stat-item {
-  padding: 10px;
-  gap: 10px;
-}
-
-.repo-stat-item svg {
-  width: 18px;
-  height: 18px;
-}
-
-.stat-info .stat-value {
-  font-size: 15px;
-}
-
-.stat-info .stat-label {
-  font-size: 8px;
-}
-
-.champion-spotlight {
-  padding: 20px;
-}
-
-.champion-avatar {
-  width: 70px;
-  height: 70px;
-}
-
-.champion-info h3 {
-  font-size: 18px;
-}
-
-.champion-stats {
-  gap: 10px;
-}
-
-.stat-chip {
-  padding: 3px 8px;
-  font-size: 10px;
-}
-
-.feed-item {
-  padding: 8px 10px;
-  gap: 10px;
-}
-
-.item-avatar {
-  width: 26px;
-  height: 26px;
-}
-
-.item-title {
-  font-size: 11px;
-}
-
-.item-meta {
-  font-size: 9px;
-}
-
-.battle-item {
-  padding: 8px 10px;
-  gap: 10px;
-}
-
-.battle-item img {
-  width: 22px;
-  height: 22px;
-}
-
-.battle-title {
-  font-size: 12px;
-}
-
-.battle-meta {
-  font-size: 8px;
-}
-
-.header-stat-card {
-  padding: 28px;
-}
-
-.header-stat-card .stat-number {
-  font-size: 38px;
-}
-
-.header-stat-card .stat-label {
-  font-size: 11px;
-}
-
-.header-left h1 {
-  font-size: 17px;
-}
-
-.action-btn {
-  padding: 6px 14px;
-  font-size: 11px;
-  gap: 5px;
-}
-
-.battle-count {
-  padding: 3px 10px;
-  font-size: 11px;
-}
-
-.battle-link {
-  padding: 8px;
-  font-size: 10px;
-}
-
-.timeline-item {
-  padding: 6px 10px;
-  gap: 6px;
-  font-size: 10px;
-}
-
-.file-search {
-  padding: 6px 14px;
-}
-
-.file-search input {
-  font-size: 12px;
-}
-
-.tree-header {
-  padding: 14px;
-  font-size: 11px;
-}
-
-.file-count {
-  padding: 3px 6px;
-  font-size: 9px;
-}
-
-.preview-header {
-  padding: 14px 18px;
-}
-
-.preview-path {
-  font-size: 12px;
-}
-
-.preview-edit {
-  padding: 4px 10px;
-  font-size: 10px;
-}
-
-.file-meta {
-  gap: 20px;
-  font-size: 10px;
-}
-
-.preview-content pre {
-  font-size: 12px;
-}
-
-.audit-header,
-.analytics-header,
-.files-header {
-  padding: 18px;
-}
-
-.audit-title h2,
-.analytics-title h2 {
-  font-size: 17px;
-}
-
-.filter-btn,
-.period-btn {
-  padding: 5px 10px;
-  font-size: 10px;
-}
-
-.audit-count {
-  padding: 3px 10px;
-  font-size: 10px;
-}
-
-.event-card {
-  padding: 14px;
-}
-
-.event-badge {
-  padding: 3px 6px;
-  font-size: 9px;
-}
-
-.event-time {
-  font-size: 9px;
-}
-
-.event-message {
-  font-size: 12px;
-}
-
-.event-meta {
-  font-size: 10px;
-}
-
-.event-footer {
-  font-size: 9px;
-  gap: 10px;
-}
-
-.card-header h3 {
-  font-size: 12px;
-}
-
-.card-badge {
-  padding: 2px 6px;
-  font-size: 9px;
-}
-
-.pr-metric {
-  padding: 14px;
-}
-
-.pr-metric .metric-value {
-  font-size: 22px;
-}
-
-.pr-metric .metric-label {
-  font-size: 9px;
-}
-
-.lang-info {
-  gap: 6px;
-  min-width: 100px;
-}
-
-.lang-name {
-  font-size: 11px;
-}
-
-.lang-percent {
-  font-size: 10px;
-}
-
-.lang-bytes {
-  font-size: 9px;
-  min-width: 50px;
 }
 </style>

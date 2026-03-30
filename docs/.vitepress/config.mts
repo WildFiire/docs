@@ -444,6 +444,18 @@ export default defineConfig({
     server: {
       fs: {
         strict: false
+      },
+      proxy: {
+        '/api/github/device-code': {
+          target: 'https://github.com',
+          changeOrigin: true,
+          rewrite: () => '/login/device/code'
+        },
+        '/api/github/token': {
+          target: 'https://github.com',
+          changeOrigin: true,
+          rewrite: () => '/login/oauth/access_token'
+        }
       }
     },
     ssr: {

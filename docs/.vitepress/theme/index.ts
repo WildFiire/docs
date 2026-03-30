@@ -32,7 +32,6 @@ import WildfireTag from './components/WildfireTag.vue'
 import SiteMap from './components/SiteMap.vue'
 import PageNotFound from './components/PageNotFound.vue'
 import HomeNavbar from './components/HomeNavbar.vue'
-import Panel from './components/Panel.vue'
 import AboutWiki from './components/AboutWiki.vue'
 import StatsGithub from './components/StatsGithub.vue'
 import Team from './components/Team.vue'
@@ -42,6 +41,15 @@ import FeedbackWidget from './components/FeedbackWidget.vue'
 import CaseHeader from './components/CaseHeader.vue'
 import ContributorsWF from './components/ContributorsWF.vue'
 import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/VPNavBarAppearance.vue'
+import Dashboard from './components/Panel/Dashboard.vue'
+import PanelSidebar from './components/Panel/PanelSidebar.vue'
+import PanelHeader from './components/Panel/PanelHeader.vue'
+import PanelFiles from './components/Panel/PanelFiles.vue'
+import FileTreeNode from './components/Panel/FileTreeNode.vue'
+import PanelContributors from './components/Panel/PanelContributors.vue'
+import PanelAudit from './components/Panel/PanelAudit.vue'
+import PanelAnalytics from './components/Panel/PanelAnalytics.vue'
+import PanelLogin from './components/Panel/PanelLogin.vue'
 // import VPNavBarSocialLinks from 'vitepress/dist/client/theme-default/components/VPNavBarSocialLinks.vue'
 
 // NOILE COMPONENTE PENTRU DASHBOARD
@@ -117,7 +125,6 @@ export default {
     app.component('SiteMap', SiteMap)
     app.component('PageNotFound', PageNotFound)
     app.component('AboutWiki', AboutWiki)
-    app.component('Panel', Panel)
     app.component('StatsGithub', StatsGithub)
     app.component('Team', Team)
     app.component('Icon', Icon)
@@ -127,6 +134,14 @@ export default {
     app.component('CaseHeader', CaseHeader)
     app.component('ContributorsWF', ContributorsWF)
     app.component('VPNavBarAppearance', VPNavBarAppearance)
+    app.component('Dashboard', Dashboard)
+    app.component('PanelSidebar', PanelSidebar)
+    app.component('PanelHeader', PanelHeader)
+    app.component('PanelFiles', PanelFiles)
+    app.component('FileTreeNode', FileTreeNode)
+    app.component('PanelContributors', PanelContributors)
+    app.component('PanelAudit', PanelAudit)
+    app.component('PanelAnalytics', PanelAnalytics)
 
     // NOUA COMPONENTĂ PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)
