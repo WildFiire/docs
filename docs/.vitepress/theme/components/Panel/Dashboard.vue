@@ -1,6 +1,5 @@
 <template>
   <Teleport to="body" v-if="isMounted">
-  <div class="wildfire-dashboard" :class="{ 'light-theme': isLightTheme }">
     <!-- Show Login if not authenticated -->
     <PanelLogin 
       v-if="!isAuthenticated"
@@ -8,12 +7,13 @@
     />
     
     <!-- Main Dashboard -->
-    <div class="dashboard-bg">
-      <div class="bg-grid"></div>
-      <div class="bg-particles">
-        <div v-for="n in 50" :key="n" class="particle" :style="particleStyle(n)"></div>
+    <div v-else class="wildfire-dashboard" :class="{ 'light-theme': isLightTheme }">
+      <div class="dashboard-bg">
+        <div class="bg-grid"></div>
+        <div class="bg-particles">
+          <div v-for="n in 50" :key="n" class="particle" :style="particleStyle(n)"></div>
+        </div>
       </div>
-    </div>
 
       <button class="theme-toggle-btn" @click="toggleTheme" :title="isLightTheme ? 'Dark Mode' : 'Light Mode'">
         <svg v-if="isLightTheme" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor">
@@ -189,31 +189,31 @@
                   <span class="dc-badge">{{ dailyCommits.reduce((a, b) => a + b, 0) }} commits</span>
                 </div>
                 <div class="flame-chart">
-                <svg class="fc-svg" viewBox="0 0 640 110" preserveAspectRatio="none" width="100%" height="110">
-                  <defs>
-                    <linearGradient id="fcBarGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#ff4500" stop-opacity="0.95"/>
-                      <stop offset="100%" stop-color="#ff6a30" stop-opacity="0.35"/>
-                    </linearGradient>
-                    <linearGradient id="fcAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                      <stop offset="0%" stop-color="#ff4500" stop-opacity="0.1"/>
-                      <stop offset="100%" stop-color="#ff4500" stop-opacity="0"/>
-                    </linearGradient>
-                  </defs>
-                  <line x1="5" y1="88" x2="635" y2="88" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-                  <path :d="flamePath" fill="url(#fcAreaGrad)"/>
-                  <rect v-for="(b, i) in flameBarData" :key="i"
-                    :x="b.x" :y="b.y" :width="b.w" :height="b.h" rx="2" ry="2"
-                    :fill="b.commits > 0 ? 'url(#fcBarGrad)' : 'rgba(255,255,255,0.04)'"
-                  />
-                  <g v-if="flamePeak">
-                    <circle :cx="flamePeak.cx" :cy="flamePeak.y" r="2.5" fill="#ff4500"/>
-                    <text :x="flamePeak.cx" :y="flamePeak.y - 6" text-anchor="middle" font-size="8.5" fill="#ff4500" font-weight="700" font-family="system-ui,sans-serif">{{ flamePeak.commits }}</text>
-                  </g>
-                  <text v-for="b in flameLabelBars" :key="'l'+b.shortLabel"
-                    :x="b.cx" y="104" text-anchor="middle" font-size="8" :fill="isLightTheme ? '#888' : '#4a4a60'" font-family="system-ui,sans-serif">{{ b.shortLabel }}</text>
-                </svg>
-              </div>
+                  <svg class="fc-svg" viewBox="0 0 640 160" preserveAspectRatio="none" width="100%" height="160">
+                    <defs>
+                      <linearGradient id="fcBarGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#ff4500" stop-opacity="0.95"/>
+                        <stop offset="100%" stop-color="#ff6a30" stop-opacity="0.35"/>
+                      </linearGradient>
+                      <linearGradient id="fcAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#ff4500" stop-opacity="0.1"/>
+                        <stop offset="100%" stop-color="#ff4500" stop-opacity="0"/>
+                      </linearGradient>
+                    </defs>
+                    <line x1="5" y1="138" x2="635" y2="138" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
+                    <path :d="flamePath" fill="url(#fcAreaGrad)"/>
+                    <rect v-for="(b, i) in flameBarData" :key="i"
+                      :x="b.x" :y="b.y" :width="b.w" :height="b.h" rx="2" ry="2"
+                      :fill="b.commits > 0 ? 'url(#fcBarGrad)' : 'rgba(255,255,255,0.04)'"
+                    />
+                    <g v-if="flamePeak">
+                      <circle :cx="flamePeak.cx" :cy="flamePeak.y" r="2.5" fill="#ff4500"/>
+                      <text :x="flamePeak.cx" :y="flamePeak.y - 6" text-anchor="middle" font-size="8.5" fill="#ff4500" font-weight="700" font-family="system-ui,sans-serif">{{ flamePeak.commits }}</text>
+                    </g>
+                    <text v-for="b in flameLabelBars" :key="'l'+b.shortLabel"
+                      :x="b.cx" y="154" text-anchor="middle" font-size="8" :fill="isLightTheme ? '#888' : '#4a4a60'" font-family="system-ui,sans-serif">{{ b.shortLabel }}</text>
+                  </svg>
+                </div>
               </div>
               <div class="dash-card dash-repo-card">
                 <div class="dc-head">
