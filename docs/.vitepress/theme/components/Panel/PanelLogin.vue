@@ -197,7 +197,7 @@ export default {
       
       try {
         console.log('[PanelLogin] Starting device flow, clientId:', githubClientId ? 'set' : 'missing')
-        const deviceResponse = await fetch('/api/github/device-code', {
+        const deviceResponse = await fetch('https://github.com/login/device/code', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -245,7 +245,7 @@ export default {
       
       try {
         console.log('[PanelLogin] Polling for token...')
-        const response = await fetch('/api/github/token', {
+        const response = await fetch('https://github.com/login/oauth/access_token', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
