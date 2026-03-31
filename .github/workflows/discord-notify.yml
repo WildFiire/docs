@@ -74,7 +74,7 @@ jobs:
 
       - name: Send Discord notification
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_LOGS_WEBHOOK }}
         run: |
           # Curățăm titlul commit-ului (eliminăm ghilimelele și newline-urile)
           COMMIT_TITLE=$(echo "${{ github.event.head_commit.message }}" | head -n1 | sed 's/^"//' | sed 's/"$//' | sed 's/\\n//g' | sed 's/"/\\"/g')
