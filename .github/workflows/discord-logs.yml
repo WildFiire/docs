@@ -1,68 +1,59 @@
-name: Discord Push Notification
+name: Deploy Monitor
 
 on:
   push:
-    branches: [main, develop]
+    branches: [main]
   workflow_dispatch:
 
 jobs:
-  notify:
+  monitor:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - name: Check deploy status on VPS
+        id: check
+        continue-on-error: true
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          fetch-depth: 2
-
-      - name: Get changed files
-        id: changed
-        run: |
-          ALL_FILES=$(git diff --name-only HEAD~1 HEAD)
-          FILES_COUNT=$(echo "$ALL_FILES" | wc -l)
-          
-          if [ $FILES_COUNT -le 25 ]; then
-            FILES=$(echo "$ALL_FILES" | sed 's/^/• /')
-          else
-            FILES=$(echo "$ALL_FILES" | head -25 | sed 's/^/• /')
-            FILES="$FILES\n• ... și $((FILES_COUNT - 25)) fișiere"
-          fi
-          
-          echo "files<<EOF" >> $GITHUB_OUTPUT
-          echo "$FILES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          key: ${{ secrets.VPS_SSH_KEY }}
+          script: |
+            cd /var/www/wiki
+            git pull origin main
+            npm install
+            npm run docs:build
+            echo "SUCCESS"
 
       - name: Send Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_LOGS_WEBHOOK }}
         run: |
-          COMMIT_MSG=$(echo "${{ github.event.head_commit.message }}" | head -1 | sed 's/"/\\"/g')
-          BRANCH="${{ github.ref_name }}"
-          REPO="${{ github.repository }}"
-          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
-          AUTHOR="${{ github.actor }}"
-          COMMIT_URL="https://github.com/$REPO/commit/${{ github.sha }}"
-          FILES_COUNT="${{ steps.changed.outputs.files_count }}"
-          FILES_LIST="${{ steps.changed.outputs.files }}"
-          
-          # Verifică dacă build-ul rulează
-          cd ${{ github.workspace }}
-          
-          # Trimite mesaj în Discord
+          if [ "${{ steps.check.outcome }}" == "success" ]; then
+            STATUS="success"
+            COLOR="3066993"
+            TITLE="✅ Deploy Reușit"
+            DESCRIPTION="Deploy-ul pe VPS s-a realizat cu succes"
+          else
+            STATUS="failure"
+            COLOR="15158332"
+            TITLE="❌ Deploy Eșuat"
+            DESCRIPTION="Deploy-ul pe VPS a eșuat. Verifică log-urile în GitHub Actions."
+          fi
+
           curl -X POST "$DISCORD_WEBHOOK" \
             -H "Content-Type: application/json" \
             -d "{
               \"embeds\": [{
-                \"title\": \"🚀 New Push to $REPO\",
-                \"color\": 3447003,
+                \"title\": \"$TITLE\",
+                \"color\": $COLOR,
+                \"description\": \"$DESCRIPTION\",
                 \"fields\": [
-                  {\"name\": \"🌿 Branch\", \"value\": \"$BRANCH\", \"inline\": true},
-                  {\"name\": \"📝 Commit\", \"value\": \"[${SHORT_SHA}]($COMMIT_URL)\", \"inline\": true},
-                  {\"name\": \"👤 Author\", \"value\": \"$AUTHOR\", \"inline\": true},
-                  {\"name\": \"💬 Message\", \"value\": \"$COMMIT_MSG\", \"inline\": false},
-                  {\"name\": \"📁 Files Changed\", \"value\": \"$FILES_COUNT files\", \"inline\": true},
-                  {\"name\": \"📂 Details\", \"value\": \"\`\`\`\n$FILES_LIST\n\`\`\`\", \"inline\": false}
+                  {\"name\": \"🌿 Branch\", \"value\": \"${{ github.ref_name }}\", \"inline\": true},
+                  {\"name\": \"📝 Commit\", \"value\": \"${{ github.sha }}\", \"inline\": true},
+                  {\"name\": \"👤 Author\", \"value\": \"${{ github.actor }}\", \"inline\": true},
+                  {\"name\": \"📁 Status\", \"value\": \"$STATUS\", \"inline\": true}
                 ],
-                \"footer\": {\"text\": \"Wildfire.ro Documentation\"},
-                \"timestamp\": \"$(date -u +"%Y-%m-%dT%H:%M:%SZ")\"
+                \"footer\": {\"text\": \"Wildfire.ro Deploy Monitor\"},
+                \"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"
               }]
             }"
