@@ -1011,7 +1011,6 @@ export default {
         this.recentPRs = recentPRs;
 
 
-
       } catch (error) {
         console.error('❌ Eroare la fetch date GitHub:', error);
       } finally {
