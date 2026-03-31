@@ -154,26 +154,13 @@ export default {
       deviceCode: '',
       verificationUri: '',
       intervalId: null,
-      deviceToken: '',
-      githubClientId: ''
+      deviceToken: ''
     }
   },
   
-  async mounted() {
+  mounted() {
     const savedTheme = localStorage.getItem('wildfire-theme')
     if (savedTheme === 'light') this.isLightTheme = true
-
-    try {
-      const res = await fetch('/api/config')
-      if (res.ok) {
-        const cfg = await res.json()
-        if (cfg.githubClientId) {
-          this.githubClientId = cfg.githubClientId
-          return
-        }
-      }
-    } catch (_) {}
-    this.githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID || ''
   },
   
   beforeUnmount() {
@@ -200,7 +187,7 @@ export default {
       this.isLoading = true
       this.error = null
       
-      const githubClientId = this.githubClientId
+      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID
       
       if (!githubClientId) {
         this.error = 'GitHub Client ID not configured. Contact administrator.'
@@ -254,7 +241,7 @@ export default {
     },
     
     async pollForToken() {
-      const githubClientId = this.githubClientId
+      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID
       
       try {
         console.log('[PanelLogin] Polling for token...')

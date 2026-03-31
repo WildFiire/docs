@@ -189,30 +189,74 @@
                   <span class="dc-badge">{{ dailyCommits.reduce((a, b) => a + b, 0) }} commits</span>
                 </div>
                 <div class="flame-chart">
-                  <svg class="fc-svg" viewBox="0 0 640 160" preserveAspectRatio="none" width="100%" height="160">
+                  <svg class="fc-svg" viewBox="0 0 640 300" preserveAspectRatio="none" width="100%" height="300"
+                    @mouseleave="hoveredBarIndex = null">
                     <defs>
                       <linearGradient id="fcBarGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#ff4500" stop-opacity="0.95"/>
-                        <stop offset="100%" stop-color="#ff6a30" stop-opacity="0.35"/>
+                        <stop offset="0%" stop-color="#ff4500" stop-opacity="1"/>
+                        <stop offset="55%" stop-color="#ff6020" stop-opacity="0.85"/>
+                        <stop offset="100%" stop-color="#ff7040" stop-opacity="0.4"/>
+                      </linearGradient>
+                      <linearGradient id="fcBarGradHov" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%" stop-color="#ffaa00" stop-opacity="1"/>
+                        <stop offset="50%" stop-color="#ff6a00" stop-opacity="1"/>
+                        <stop offset="100%" stop-color="#ffb060" stop-opacity="0.85"/>
                       </linearGradient>
                       <linearGradient id="fcAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#ff4500" stop-opacity="0.1"/>
+                        <stop offset="0%" stop-color="#ff4500" stop-opacity="0.22"/>
                         <stop offset="100%" stop-color="#ff4500" stop-opacity="0"/>
                       </linearGradient>
+                      <filter id="fcGlow" x="-60%" y="-60%" width="220%" height="220%">
+                        <feGaussianBlur stdDeviation="4" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                      </filter>
                     </defs>
-                    <line x1="5" y1="138" x2="635" y2="138" stroke="rgba(255,255,255,0.05)" stroke-width="1"/>
-                    <path :d="flamePath" fill="url(#fcAreaGrad)"/>
+                    <line x1="5" y1="60" x2="635" y2="60" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4,8" pointer-events="none"/>
+                    <line x1="5" y1="120" x2="635" y2="120" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4,8" pointer-events="none"/>
+                    <line x1="5" y1="180" x2="635" y2="180" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="4,6" pointer-events="none"/>
+                    <line x1="5" y1="240" x2="635" y2="240" stroke="rgba(255,255,255,0.06)" stroke-width="1" pointer-events="none"/>
+                    <line v-if="flameAvgY !== null" x1="5" :y1="flameAvgY" x2="630" :y2="flameAvgY"
+                      stroke="rgba(255,120,0,0.45)" stroke-width="1.5" stroke-dasharray="5,4" pointer-events="none"/>
+                    <path :d="flamePath" fill="url(#fcAreaGrad)" pointer-events="none"/>
+                    <rect v-for="(b, i) in flameBarData" :key="'col'+i"
+                      :x="b.x" y="10" :width="b.w" height="250" rx="2" ry="2"
+                      :fill="b.isWeekend ? 'rgba(120,80,255,0.07)' : (b.commits > 0 ? 'rgba(255,69,0,0.04)' : 'rgba(255,255,255,0.014)')"
+                      pointer-events="none"/>
+                    <rect v-if="hoveredBarIndex !== null && flameBarData[hoveredBarIndex]"
+                      :x="flameBarData[hoveredBarIndex].x" y="10"
+                      :width="flameBarData[hoveredBarIndex].w" height="250"
+                      rx="3" ry="3" fill="rgba(255,69,0,0.09)" pointer-events="none"/>
                     <rect v-for="(b, i) in flameBarData" :key="i"
-                      :x="b.x" :y="b.y" :width="b.w" :height="b.h" rx="2" ry="2"
-                      :fill="b.commits > 0 ? 'url(#fcBarGrad)' : 'rgba(255,255,255,0.04)'"
+                      :x="b.x" :y="b.y" :width="b.w" :height="b.h" rx="3" ry="3"
+                      :fill="b.commits > 0 ? (hoveredBarIndex === i ? 'url(#fcBarGradHov)' : 'url(#fcBarGrad)') : 'rgba(255,69,0,0.11)'"
+                      :filter="hoveredBarIndex === i && b.commits > 0 ? 'url(#fcGlow)' : ''"
+                      :style="{ opacity: hoveredBarIndex !== null && hoveredBarIndex !== i && b.commits > 0 ? 0.3 : 1, transition: 'opacity 0.15s', cursor: 'crosshair' }"
+                      @mouseover="hoveredBarIndex = i"
                     />
-                    <g v-if="flamePeak">
-                      <circle :cx="flamePeak.cx" :cy="flamePeak.y" r="2.5" fill="#ff4500"/>
-                      <text :x="flamePeak.cx" :y="flamePeak.y - 6" text-anchor="middle" font-size="8.5" fill="#ff4500" font-weight="700" font-family="system-ui,sans-serif">{{ flamePeak.commits }}</text>
+                    <circle v-if="flameBarData.length"
+                      :cx="flameBarData[flameBarData.length - 1].cx" cy="252" r="3"
+                      fill="#ff4500" filter="url(#fcGlow)" pointer-events="none"/>
+                    <g v-if="flamePeak" pointer-events="none">
+                      <circle :cx="flamePeak.cx" :cy="flamePeak.y - 2" r="4" fill="#ffaa00" filter="url(#fcGlow)" opacity="0.9"/>
+                      <circle :cx="flamePeak.cx" :cy="flamePeak.y - 2" r="2.5" fill="#fff" opacity="0.9"/>
                     </g>
-                    <text v-for="b in flameLabelBars" :key="'l'+b.shortLabel"
-                      :x="b.cx" y="154" text-anchor="middle" font-size="8" :fill="isLightTheme ? '#888' : '#4a4a60'" font-family="system-ui,sans-serif">{{ b.shortLabel }}</text>
                   </svg>
+                  <div class="fc-html-layer">
+                    <div class="fc-month-badge">{{ flameMonthRange }}</div>
+                    <div v-if="flamePeak" class="fc-peak-lbl"
+                      :style="{ left: (flamePeak.cx / 640 * 100) + '%', top: ((flamePeak.y - 2) / 300 * 100) + '%' }">{{ flamePeak.commits }}</div>
+                    <div v-if="flameAvgY !== null" class="fc-avg-lbl"
+                      :style="{ top: (flameAvgY / 300 * 100) + '%' }">AVG {{ repoPulse.avgPerDay }}</div>
+                    <span v-for="(b, i) in flameBarData" :key="'hl'+i"
+                      class="fc-date-lbl"
+                      :class="{ 'fc-date-today': i === flameBarData.length - 1, 'fc-date-weekend': b.isWeekend }"
+                      :style="{ left: (b.cx / 640 * 100) + '%' }">{{ b.dayLabel }}</span>
+                    <div v-if="tooltipPos && hoveredBarIndex !== null" class="fc-tip"
+                      :style="{ left: (tooltipPos.tx / 640 * 100) + '%', top: (tooltipPos.ty / 300 * 100) + '%' }">
+                      <div class="fc-tip-count">{{ flameBarData[hoveredBarIndex].commits === 0 ? 'No commits' : flameBarData[hoveredBarIndex].commits + (flameBarData[hoveredBarIndex].commits !== 1 ? ' commits' : ' commit') }}</div>
+                      <div class="fc-tip-date">{{ flameBarData[hoveredBarIndex].shortLabel }}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="dash-card dash-repo-card">
@@ -476,6 +520,7 @@
           recentPRs: [],
           allContributorsData: [],
           auditLog: [],
+          hoveredBarIndex: null,
           dailyCommits: [],
           weeklyCommits: [],
           languageStats: [],
@@ -546,14 +591,14 @@
           if (!commits.length) return []
           const max = Math.max(...commits, 1)
           const totalBars = commits.length
-          const barW = 17, step = 21, baseline = 88, maxBarH = 80
+          const barW = 20, step = 21, baseline = 250, maxBarH = 210
           const startX = (640 - totalBars * step + (step - barW)) / 2
           const now = new Date()
           return commits.map((c, i) => {
             const d = new Date(now)
             d.setDate(d.getDate() - (totalBars - 1 - i))
             const pct = max > 0 ? c / max : 0
-            const h = c > 0 ? Math.max(pct * maxBarH, 4) : 1.5
+            const h = c > 0 ? Math.max(pct * maxBarH, 5) : 7
             const x = startX + i * step
             return {
               commits: c,
@@ -563,14 +608,16 @@
               w: barW,
               h: parseFloat(h.toFixed(1)),
               cx: parseFloat((x + barW / 2).toFixed(1)),
-              shortLabel: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+              shortLabel: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+              dayLabel: String(d.getDate()),
+              isWeekend: d.getDay() === 0 || d.getDay() === 6
             }
           })
         },
         flamePath() {
           const bars = this.flameBarData
           if (!bars.length) return ''
-          const baseline = 88
+          const baseline = 250
           const pts = bars.map(b => `${b.cx},${b.y}`)
           return `M${bars[0].cx},${baseline} ${pts.map(p => `L${p}`).join(' ')} L${bars[bars.length - 1].cx},${baseline} Z`
         },
@@ -583,6 +630,26 @@
         },
         flameLabelBars() {
           return this.flameBarData.filter((_, i) => i % 7 === 0)
+        },
+        tooltipPos() {
+          if (this.hoveredBarIndex === null) return null
+          const b = this.flameBarData[this.hoveredBarIndex]
+          if (!b) return null
+          const tx = Math.min(Math.max(b.cx - 38, 4), 560)
+          const ty = Math.max(b.y - 50, 4)
+          return { tx, ty, cx: tx + 38 }
+        },
+        flameAvgY() {
+          const commits = this.dailyCommits
+          if (!commits.length) return null
+          const avg = commits.reduce((a, b) => a + b, 0) / commits.length
+          const max = Math.max(...commits, 1)
+          return parseFloat((250 - (avg / max) * 210).toFixed(1))
+        },
+        flameMonthRange() {
+          const bars = this.flameBarData
+          if (!bars.length) return ''
+          return bars[0].shortLabel + ' – ' + bars[bars.length - 1].shortLabel
         }
       },
       
@@ -1507,10 +1574,22 @@
 .dc-badge.blue { color: #3b82f6; }
 .dc-badge.green { color: #22c55e; }
 
-/* Charts */
 .dash-charts { display: grid; grid-template-columns: 1fr 300px; gap: 16px; align-items: start; }
-.flame-chart { padding: 10px 14px 12px; }
+.flame-chart { padding: 10px 14px 12px; position: relative; }
 .fc-svg { display: block; overflow: visible; }
+.fc-html-layer { position: absolute; top: 10px; left: 14px; right: 14px; bottom: 12px; pointer-events: none; }
+.fc-date-lbl { position: absolute; bottom: 0; transform: translateX(-50%); font-size: 8px; color: rgba(255,255,255,0.3); font-family: system-ui,sans-serif; white-space: nowrap; line-height: 1; letter-spacing: -0.2px; }
+.fc-date-today { color: #ff5520 !important; font-weight: 700; }
+.fc-date-weekend { color: rgba(160,120,255,0.55); }
+.fc-peak-lbl { position: absolute; transform: translate(-50%, calc(-100% - 6px)); font-size: 9px; color: #ffaa00; font-weight: 700; font-family: system-ui,sans-serif; text-shadow: 0 0 6px rgba(255,170,0,0.5); }
+.fc-avg-lbl { position: absolute; right: 0; transform: translateY(-50%); font-size: 8px; color: rgba(255,120,0,0.65); font-family: system-ui,sans-serif; white-space: nowrap; padding: 1px 4px; background: rgba(0,0,0,0.4); border-radius: 3px; }
+.fc-month-badge { position: absolute; top: 0; right: 0; font-size: 9px; color: rgba(255,255,255,0.25); font-family: system-ui,sans-serif; letter-spacing: 0.3px; }
+.fc-tip { position: absolute; width: 76px; padding: 6px 0; background: rgba(14,14,22,0.95); border: 1px solid rgba(255,69,0,0.5); border-radius: 6px; text-align: center; z-index: 10; box-shadow: 0 4px 16px rgba(255,69,0,0.15); }
+.fc-tip-count { font-size: 11px; color: #ff6030; font-weight: 700; font-family: system-ui,sans-serif; }
+.fc-tip-date { font-size: 9px; color: rgba(200,200,220,0.55); font-family: system-ui,sans-serif; margin-top: 2px; }
+.light-theme .fc-date-lbl { color: rgba(0,0,0,0.4); }
+.light-theme .fc-date-weekend { color: rgba(100,60,200,0.5); }
+.light-theme .fc-month-badge { color: rgba(0,0,0,0.3); }
 
 /* Repo ring stats */
 .rs-rings { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; padding: 10px 12px 8px; }
