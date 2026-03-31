@@ -583,7 +583,7 @@ export default {
       } catch (e) { return {} }
     },
 
-    async openProfile(login) {
+    openProfile(login) {
       const contributor = this.contributors.find(c => c.login === login)
       if (!contributor) return
       this.selectedContributor = contributor
@@ -592,15 +592,6 @@ export default {
       this.showModal = true
       this.fetchContributorData(login)
       if (typeof document !== 'undefined') document.body.style.overflow = 'hidden'
-      // fetch server BG (overrides localStorage if available)
-      try {
-        const res = await fetch(`/api/profile-bg/${login}`)
-        if (res.ok) {
-          const data = await res.json()
-          const style = this.bgStyleFromData(data)
-          if (Object.keys(style).length) this.contributorBgStyle = style
-        }
-      } catch (e) {}
     },
 
     closeModal() {

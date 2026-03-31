@@ -615,25 +615,9 @@ export default {
       } catch (e) { console.error('[PanelProfile] fetchUserInfo:', e) }
     },
 
-    async loadProfileBg() {
+    loadProfileBg() {
       if (!this.userLogin) return
-      // 1. Try server API
-      try {
-        const res = await fetch(`/api/profile-bg/${this.userLogin}`)
-        if (res.ok) {
-          const data = await res.json()
-          if (data.presetId && data.presetId !== 'default') {
-            this.activeBgId = data.presetId
-            this.customBgColor = data.customColor || '#1a1a2e'
-            this.customBgUrl = data.customUrl || ''
-            this.customBgUrlInput = data.customUrl || ''
-            this.bgSyncStatus = 'synced'
-            this.bgSyncLabel = 'Synced'
-            return
-          }
-        }
-      } catch (e) {}
-      // 2. Fallback to localStorage
+      if (typeof localStorage === 'undefined') return
       try {
         const saved = JSON.parse(localStorage.getItem(`wildfire-bg-${this.userLogin}`) || 'null')
         if (saved) {
@@ -642,32 +626,24 @@ export default {
           this.customBgUrl = saved.customUrl || ''
           this.customBgUrlInput = saved.customUrl || ''
         }
-      } catch (e) {}
-    },
-
-    async saveBg() {
-      if (!this.userLogin) return
-      const data = { login: this.userLogin, presetId: this.activeBgId, customColor: this.customBgColor, customUrl: this.customBgUrl }
-      // localStorage always
-      localStorage.setItem(`wildfire-bg-${this.userLogin}`, JSON.stringify(data))
-      // server sync
-      this.bgSyncStatus = 'saving'
-      this.bgSyncLabel = 'Saving…'
-      try {
-        const res = await fetch('/api/profile-bg', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        })
-        if (res.ok) {
-          this.bgSyncStatus = 'synced'
-          this.bgSyncLabel = 'Synced'
-        } else {
-          throw new Error('server error')
-        }
+        this.bgSyncStatus = 'synced'
+        this.bgSyncLabel = 'Saved'
       } catch (e) {
         this.bgSyncStatus = 'local'
-        this.bgSyncLabel = 'Local only'
+        this.bgSyncLabel = 'Error'
+      }
+    },
+
+    saveBg() {
+      if (!this.userLogin || typeof localStorage === 'undefined') return
+      const data = { login: this.userLogin, presetId: this.activeBgId, customColor: this.customBgColor, customUrl: this.customBgUrl }
+      try {
+        localStorage.setItem(`wildfire-bg-${this.userLogin}`, JSON.stringify(data))
+        this.bgSyncStatus = 'synced'
+        this.bgSyncLabel = 'Saved'
+      } catch (e) {
+        this.bgSyncStatus = 'local'
+        this.bgSyncLabel = 'Error'
       }
     },
 
