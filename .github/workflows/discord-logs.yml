@@ -1,4 +1,4 @@
-name: Deploy Monitor
+name: VPS Deploy Monitor
 
 on:
   push:
@@ -6,11 +6,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  monitor:
+  deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Check deploy status on VPS
-        id: check
+      - name: Deploy to VPS
+        id: deploy
         continue-on-error: true
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -22,22 +22,23 @@ jobs:
             git pull origin main
             npm install
             npm run docs:build
-            echo "SUCCESS"
+            echo "DEPLOY_SUCCESS"
 
-      - name: Send Discord notification
+      - name: Send Discord result
+        if: always()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_LOGS_WEBHOOK }}
         run: |
-          if [ "${{ steps.check.outcome }}" == "success" ]; then
-            STATUS="success"
-            COLOR="3066993"
+          if [ "${{ steps.deploy.outcome }}" == "success" ]; then
             TITLE="✅ Deploy Reușit"
-            DESCRIPTION="Deploy-ul pe VPS s-a realizat cu succes"
+            COLOR="3066993"
+            DESC="Build-ul și deploy-ul pe VPS s-au realizat cu succes"
+            STATUS="SUCCESS"
           else
-            STATUS="failure"
-            COLOR="15158332"
             TITLE="❌ Deploy Eșuat"
-            DESCRIPTION="Deploy-ul pe VPS a eșuat. Verifică log-urile în GitHub Actions."
+            COLOR="15158332"
+            DESC="Build-ul sau deploy-ul pe VPS a eșuat"
+            STATUS="FAILED"
           fi
 
           curl -X POST "$DISCORD_WEBHOOK" \
@@ -46,14 +47,14 @@ jobs:
               \"embeds\": [{
                 \"title\": \"$TITLE\",
                 \"color\": $COLOR,
-                \"description\": \"$DESCRIPTION\",
+                \"description\": \"$DESC\",
                 \"fields\": [
                   {\"name\": \"🌿 Branch\", \"value\": \"${{ github.ref_name }}\", \"inline\": true},
-                  {\"name\": \"📝 Commit\", \"value\": \"${{ github.sha }}\", \"inline\": true},
+                  {\"name\": \"📝 Commit\", \"value\": \"\`${{ github.sha }}\`\", \"inline\": true},
                   {\"name\": \"👤 Author\", \"value\": \"${{ github.actor }}\", \"inline\": true},
-                  {\"name\": \"📁 Status\", \"value\": \"$STATUS\", \"inline\": true}
+                  {\"name\": \"📊 Status\", \"value\": \"$STATUS\", \"inline\": true},
+                  {\"name\": \"🕐 Time\", \"value\": \"$(date '+%Y-%m-%d %H:%M:%S')\", \"inline\": true}
                 ],
-                \"footer\": {\"text\": \"Wildfire.ro Deploy Monitor\"},
-                \"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"
+                \"footer\": {\"text\": \"Wildfire.ro VPS Deploy\"}
               }]
             }"
