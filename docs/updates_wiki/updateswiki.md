@@ -7,7 +7,7 @@ outline: deep
   :tags="[
     { text: 'information', component: 'PageTagRed' },
     { text: 'connect', component: 'PageTagGreen' },
-    { text: 'faq', component: 'PageTagPurple' }
+    { text: 'faq', component: 'PageTagPurple' },
     { text: 'support', component: 'PageTagBlue' }
   ]"
   :path="['Home', 'Updates', 'Changelogs']"
