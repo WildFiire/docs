@@ -142,6 +142,8 @@
 </template>
 
 <script>
+import panelConfig from '../../panel.config.js'
+
 export default {
   name: 'PanelLogin',
   
@@ -160,7 +162,7 @@ export default {
   
   computed: {
     githubClientId() {
-      return this.$githubClientId || window.__GITHUB_CLIENT_ID || import.meta.env.VITE_GITHUB_CLIENT_ID
+      return this.$githubClientId || window.__GITHUB_CLIENT_ID || import.meta.env.VITE_GITHUB_CLIENT_ID || panelConfig.githubClientId
     }
   },
   
