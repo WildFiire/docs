@@ -3,145 +3,35 @@ name: Deploy DOCS to VPS
 on:
   push:
     branches:
-      - main
-  workflow_dispatch:
+      - main # Trigger deployment when pushing to the main branch
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     
     steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
-
-      - name: Get changed files
-        id: changed
-        run: |
-          ALL_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
-          FILES_COUNT=$(echo "$ALL_FILES" | grep -c . || echo "0")
-
-          if [ "$FILES_COUNT" -le 25 ]; then
-            FILES=$(echo "$ALL_FILES" | sed 's/^/• /')
-          else
-            FILES=$(echo "$ALL_FILES" | head -25 | sed 's/^/• /')
-            FILES="$FILES"$'\n'"• ... și $((FILES_COUNT - 25)) more"
-          fi
-
-          {
-            echo "files<<EOF"
-            echo "$FILES"
-            echo "EOF"
-            echo "files_count=$FILES_COUNT"
-          } >> "$GITHUB_OUTPUT"
-
-      - name: Get commit details
-        id: commit
-        run: |
-          COMMIT_MSG=$(git log -1 --pretty=format:"%s")
-          COMMIT_AUTHOR=$(git log -1 --pretty=format:"%an")
-          COMMIT_EMAIL=$(git log -1 --pretty=format:"%ae")
-          COMMIT_DATE=$(git log -1 --pretty=format:"%ad" --date=iso)
-          
-          echo "message=$COMMIT_MSG" >> $GITHUB_OUTPUT
-          echo "author=$COMMIT_AUTHOR" >> $GITHUB_OUTPUT
-          echo "email=$COMMIT_EMAIL" >> $GITHUB_OUTPUT
-          echo "date=$COMMIT_DATE" >> $GITHUB_OUTPUT
-
       - name: Deploy to VPS
-        id: deploy
-        continue-on-error: true
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
+          host: ${{ secrets.VPS_HOST }}       # Your VPS IP or domain
+          username: ${{ secrets.VPS_USER }}   # e.g., root or ubuntu
+          password: ${{ secrets.VPS_PASSWORD }} # A private SSH password for authentication
           script: |
+            # Navigate to the project directory
             cd /var/www/wiki
+            
+            # Pull the latest changes from the main branch
             git fetch --all
             git reset --hard origin/main
+            
+            # Install dependencies
             npm install
+            
+            # Create the .env file with the GitHub Token
             echo "VITE_GITHUB_TOKEN=${{ secrets.VITE_GITHUB_TOKEN }}" > .env
-            npm run docs:build 2>&1
-            echo "DEPLOY_SUCCESS"
-
-      - name: Get error details from VPS
-        if: failure()
-        id: error
-        uses: appleboy/ssh-action@v1.0.3
-        continue-on-error: true
-        with:
-          host: ${{ secrets.VPS_HOST }}
-          username: ${{ secrets.VPS_USER }}
-          password: ${{ secrets.VPS_PASSWORD }}
-          script: |
-            cd /var/www/wiki
-            if [ -f build.log ]; then
-              cat build.log | grep -E "error|Error|ERROR|failed|Failed|ReferenceError|TypeError|SyntaxError" | tail -20
-            else
-              echo "No build log found"
-            fi
-
-      - name: Send Discord - Success
-        if: success()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_LOGS_WEBHOOK }}
-        run: |
-          COMMIT_MSG="${{ steps.commit.outputs.message }}"
-          COMMIT_AUTHOR="${{ steps.commit.outputs.author }}"
-          FILES_COUNT="${{ steps.changed.outputs.files_count }}"
-          FILES_LIST="${{ steps.changed.outputs.files }}"
-          
-          curl -X POST "$DISCORD_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"embeds\": [{
-                \"title\": \"✅ Deploy Reușit\",
-                \"color\": 3066993,
-                \"description\": \"Site-ul a fost deploy-uit cu succes pe VPS\",
-                \"fields\": [
-                  {\"name\": \"🌿 Branch\", \"value\": \"${{ github.ref_name }}\", \"inline\": true},
-                  {\"name\": \"📝 Commit\", \"value\": \"[${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\", \"inline\": true},
-                  {\"name\": \"👤 Author\", \"value\": \"$COMMIT_AUTHOR\", \"inline\": true},
-                  {\"name\": \"💬 Mesaj\", \"value\": \"$COMMIT_MSG\", \"inline\": false},
-                  {\"name\": \"📁 Fișiere modificate\", \"value\": \"$FILES_COUNT\", \"inline\": true},
-                  {\"name\": \"📂 Detalii\", \"value\": \"\`\`\`\n$FILES_LIST\n\`\`\`\", \"inline\": false}
-                ],
-                \"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"
-              }]
-            }"
-
-      - name: Send Discord - Failure
-        if: failure()
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_LOGS_WEBHOOK }}
-        run: |
-          COMMIT_MSG="${{ steps.commit.outputs.message }}"
-          COMMIT_AUTHOR="${{ steps.commit.outputs.author }}"
-          FILES_COUNT="${{ steps.changed.outputs.files_count }}"
-          FILES_LIST="${{ steps.changed.outputs.files }}"
-          ERROR_DETAIL="${{ steps.error.outputs.stdout }}"
-          
-          if [ -z "$ERROR_DETAIL" ]; then
-            ERROR_DETAIL="Eroare necunoscută. Verifică log-urile în GitHub Actions."
-          fi
-          
-          curl -X POST "$DISCORD_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"embeds\": [{
-                \"title\": \"❌ Deploy Eșuat\",
-                \"color\": 15158332,
-                \"description\": \"Deploy-ul pe VPS a eșuat\",
-                \"fields\": [
-                  {\"name\": \"🌿 Branch\", \"value\": \"${{ github.ref_name }}\", \"inline\": true},
-                  {\"name\": \"📝 Commit\", \"value\": \"[${{ github.sha }}](https://github.com/${{ github.repository }}/commit/${{ github.sha }})\", \"inline\": true},
-                  {\"name\": \"👤 Author\", \"value\": \"$COMMIT_AUTHOR\", \"inline\": true},
-                  {\"name\": \"💬 Mesaj\", \"value\": \"$COMMIT_MSG\", \"inline\": false},
-                  {\"name\": \"📁 Fișiere modificate\", \"value\": \"$FILES_COUNT\", \"inline\": true},
-                  {\"name\": \"📂 Detalii\", \"value\": \"\`\`\`\n$FILES_LIST\n\`\`\`\", \"inline\": false},
-                  {\"name\": \"⚠️ Eroare\", \"value\": \"\`\`\`\n${ERROR_DETAIL:0:900}\n\`\`\`\", \"inline\": false}
-                ],
-                \"timestamp\": \"$(date -u +'%Y-%m-%dT%H:%M:%SZ')\"
-              }]
-            }"
+            
+            # Build the static VitePress files
+            npm run docs:build
+            
+            # Optional: Restart any web servers if necessary (though Nginx serves dist automatically)
+            # sudo systemctl reload nginx
