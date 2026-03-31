@@ -2,6 +2,7 @@ import express from 'express'
 import { createRequire } from 'module'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
+import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { config } from 'dotenv'
 
 config()
@@ -48,6 +49,39 @@ app.post('/api/github/token', async (req, res) => {
   } catch (err) {
     res.status(500).json({ error: err.message })
   }
+})
+
+// Persistent JSON file store for profile backgrounds
+const bgFilePath = join(__dirname, 'profile-backgrounds.json')
+
+function loadBgs() {
+  try {
+    if (existsSync(bgFilePath)) {
+      return JSON.parse(readFileSync(bgFilePath, 'utf-8'))
+    }
+  } catch (e) { console.error('Failed to load profile backgrounds:', e) }
+  return {}
+}
+
+function saveBgs(data) {
+  try {
+    writeFileSync(bgFilePath, JSON.stringify(data, null, 2), 'utf-8')
+  } catch (e) { console.error('Failed to save profile backgrounds:', e) }
+}
+
+let profileBgs = loadBgs()
+
+app.get('/api/profile-bg/:login', (req, res) => {
+  const bg = profileBgs[req.params.login]
+  res.json(bg || { presetId: 'default', customColor: '#1a1a2e', customUrl: '' })
+})
+
+app.post('/api/profile-bg', (req, res) => {
+  const { login, presetId, customColor, customUrl } = req.body
+  if (!login) return res.status(400).json({ error: 'login required' })
+  profileBgs[login] = { presetId: presetId || 'default', customColor: customColor || '#1a1a2e', customUrl: customUrl || '' }
+  saveBgs(profileBgs)
+  res.json({ ok: true })
 })
 
 app.use(express.static(join(__dirname, 'docs/.vitepress/dist')))

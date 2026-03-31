@@ -56,6 +56,57 @@
       </div>
     </div>
 
+    <!-- Top Contributor Spotlight + Podium -->
+    <div class="ct-spotlight" v-if="topContributorData">
+      <!-- #1 Hero -->
+      <div class="ct-hero" @click="openProfile(topContributorData.login)">
+        <div class="ct-hero-glow"></div>
+        <div class="ct-crown">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="#ffd700" stroke="none"><path d="M2 20h20M4 20l2-8 4 4 2-7 2 7 4-4 2 8"/></svg>
+        </div>
+        <div class="ct-hero-avatar-wrap">
+          <img :src="topContributorData.avatar_url" :alt="topContributorData.login" class="ct-hero-avatar">
+          <span class="ct-rank-badge">#1</span>
+        </div>
+        <div class="ct-hero-body">
+          <div class="ct-hero-name">{{ topContributorData.login }}</div>
+          <div class="ct-hero-label">CHAMPION · ALL TIME LEADER</div>
+          <div class="ct-hero-stats">
+            <div class="ct-hs-item">
+              <span class="ct-hs-val">{{ formatNumber(topContributorData.commits || 0) }}</span>
+              <span class="ct-hs-lbl">Commits</span>
+            </div>
+            <div class="ct-hs-sep"></div>
+            <div class="ct-hs-item">
+              <span class="ct-hs-val">{{ topContributorData.prs || 0 }}</span>
+              <span class="ct-hs-lbl">PRs</span>
+            </div>
+            <div class="ct-hs-sep"></div>
+            <div class="ct-hs-item">
+              <span class="ct-hs-val">{{ topContributorData.impact ? topContributorData.impact.toFixed(1) : 0 }}%</span>
+              <span class="ct-hs-lbl">Impact</span>
+            </div>
+          </div>
+          <div class="ct-hero-bar-wrap">
+            <div class="ct-hero-bar" style="width:100%"></div>
+          </div>
+        </div>
+        <div class="ct-view-btn">VIEW →</div>
+      </div>
+      <!-- #2 + #3 podium -->
+      <div class="ct-podium">
+        <div v-for="(c, i) in podiumContributors.slice(1, 3)" :key="c.login" class="ct-pod-card" :class="i === 0 ? 'pod-silver' : 'pod-bronze'" @click="openProfile(c.login)">
+          <span class="ct-pod-rank">{{ i === 0 ? '#2' : '#3' }}</span>
+          <img :src="c.avatar_url" :alt="c.login" class="ct-pod-avatar">
+          <span class="ct-pod-name">{{ c.login }}</span>
+          <span class="ct-pod-commits">{{ formatNumber(c.commits || 0) }} commits</span>
+          <div class="ct-pod-bar-wrap">
+            <div class="ct-pod-bar" :style="{ width: (c.commits / topContributorData.commits * 100) + '%' }"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- Search and Filter -->
     <div class="contributors-toolbar">
       <div class="search-box">
@@ -438,6 +489,15 @@ export default {
       return [...this.contributors].sort((a, b) => (b.commits || 0) - (a.commits || 0))[0]?.login || '—'
     },
 
+    topContributorData() {
+      if (!this.contributors.length) return null
+      return [...this.contributors].sort((a, b) => (b.commits || 0) - (a.commits || 0))[0] || null
+    },
+
+    podiumContributors() {
+      return [...this.contributors].sort((a, b) => (b.commits || 0) - (a.commits || 0))
+    },
+
     selectedLevel() {
       if (!this.selectedContributor) return this.levels[0]
       const c = this.selectedContributor.commits || 0
@@ -489,34 +549,58 @@ export default {
   },
 
   methods: {
-    readBgStyle(login) {
+    bgPresetMap() {
+      return {
+        fire:     'linear-gradient(135deg,#200800 0%,#5c1500 50%,#8b1500 100%)',
+        ocean:    'linear-gradient(135deg,#001428 0%,#003060 50%,#005980 100%)',
+        forest:   'linear-gradient(135deg,#0a150a 0%,#1a3c1a 50%,#2d5a27 100%)',
+        galaxy:   'linear-gradient(135deg,#0d0221 0%,#2d1b69 50%,#11998e 100%)',
+        gold:     'linear-gradient(135deg,#1a1000 0%,#4a3000 50%,#8a6000 100%)',
+        neon:     'linear-gradient(135deg,#001a00 0%,#003a00 50%,#005a10 100%)',
+        midnight: 'linear-gradient(135deg,#0a0015 0%,#1a0035 50%,#2a0050 100%)',
+        rose:     'linear-gradient(135deg,#1a0010 0%,#3d0025 50%,#6b0040 100%)',
+        aurora:   'linear-gradient(135deg,#000d1a 0%,#002a1f 45%,#1a0035 100%)',
+        carbon:   'linear-gradient(135deg,#0a0a0a 0%,#1a1a1a 50%,#111 100%)',
+        sunset:   'linear-gradient(135deg,#1a0500 0%,#5a1500 40%,#9b3400 75%,#c85000 100%)'
+      }
+    },
+
+    bgStyleFromData(data) {
+      if (!data || !data.presetId || data.presetId === 'default') return {}
+      if (data.presetId === 'url' && data.customUrl)
+        return { backgroundImage: `url('${data.customUrl}')`, backgroundSize: 'cover', backgroundPosition: 'center' }
+      if (data.presetId === 'custom' && data.customColor)
+        return { background: data.customColor }
+      const val = this.bgPresetMap()[data.presetId]
+      return val ? { background: val } : {}
+    },
+
+    readBgStyleLocal(login) {
       if (typeof localStorage === 'undefined') return {}
       try {
         const saved = JSON.parse(localStorage.getItem(`wildfire-bg-${login}`) || 'null')
-        if (!saved) return {}
-        if (saved.customUrl) return { backgroundImage: `url('${saved.customUrl}')`, backgroundSize: 'cover', backgroundPosition: 'center' }
-        if (saved.presetId === 'custom' && saved.customColor) return { background: saved.customColor }
-        const presets = {
-          fire:   'linear-gradient(135deg, #200800 0%, #5c1500 50%, #8b1500 100%)',
-          ocean:  'linear-gradient(135deg, #001428 0%, #003060 50%, #005980 100%)',
-          forest: 'linear-gradient(135deg, #0a150a 0%, #1a3c1a 50%, #2d5a27 100%)',
-          galaxy: 'linear-gradient(135deg, #0d0221 0%, #2d1b69 50%, #11998e 100%)',
-          gold:   'linear-gradient(135deg, #1a1000 0%, #4a3000 50%, #8a6000 100%)'
-        }
-        if (saved.presetId && presets[saved.presetId]) return { background: presets[saved.presetId] }
-      } catch (e) {}
-      return {}
+        return this.bgStyleFromData(saved)
+      } catch (e) { return {} }
     },
 
-    openProfile(login) {
+    async openProfile(login) {
       const contributor = this.contributors.find(c => c.login === login)
       if (!contributor) return
       this.selectedContributor = contributor
       this.contributorGHData = {}
-      this.contributorBgStyle = this.readBgStyle(login)
+      this.contributorBgStyle = this.readBgStyleLocal(login)
       this.showModal = true
       this.fetchContributorData(login)
       if (typeof document !== 'undefined') document.body.style.overflow = 'hidden'
+      // fetch server BG (overrides localStorage if available)
+      try {
+        const res = await fetch(`/api/profile-bg/${login}`)
+        if (res.ok) {
+          const data = await res.json()
+          const style = this.bgStyleFromData(data)
+          if (Object.keys(style).length) this.contributorBgStyle = style
+        }
+      } catch (e) {}
     },
 
     closeModal() {
@@ -680,14 +764,57 @@ export default {
   letter-spacing: 0.5px;
 }
 
+/* Spotlight + Podium */
+.ct-spotlight { display: grid; grid-template-columns: 1fr 260px; gap: 16px; margin-bottom: 20px; }
+
+.ct-hero { position: relative; background: linear-gradient(135deg, rgba(255,215,0,0.08) 0%, rgba(255,69,0,0.07) 100%); border: 1px solid rgba(255,215,0,0.2); border-radius: 16px; padding: 20px 20px 16px; display: flex; align-items: center; gap: 18px; cursor: pointer; overflow: hidden; transition: all 0.2s ease; }
+.ct-hero:hover { border-color: rgba(255,215,0,0.4); transform: translateY(-2px); box-shadow: 0 8px 32px rgba(255,215,0,0.12); }
+.ct-hero-glow { position: absolute; top: -40px; left: -40px; width: 200px; height: 200px; background: radial-gradient(circle, rgba(255,215,0,0.1) 0%, transparent 70%); pointer-events: none; }
+.ct-crown { position: absolute; top: 12px; right: 16px; opacity: 0.7; }
+.ct-hero-avatar-wrap { position: relative; flex-shrink: 0; }
+.ct-hero-avatar { width: 72px; height: 72px; border-radius: 50%; border: 3px solid rgba(255,215,0,0.7); box-shadow: 0 0 20px rgba(255,215,0,0.25); }
+.ct-rank-badge { position: absolute; bottom: -4px; right: -4px; background: linear-gradient(135deg, #ffd700, #ffb700); color: #000; font-size: 9px; font-weight: 900; padding: 2px 5px; border-radius: 8px; border: 1px solid rgba(0,0,0,0.1); }
+.ct-hero-body { flex: 1; min-width: 0; }
+.ct-hero-name { font-size: 18px; font-weight: 800; color: var(--text-primary); margin-bottom: 2px; }
+.ct-hero-label { font-size: 9px; font-weight: 700; color: rgba(255,215,0,0.7); letter-spacing: 0.8px; text-transform: uppercase; margin-bottom: 12px; }
+.ct-hero-stats { display: flex; align-items: center; gap: 0; margin-bottom: 10px; }
+.ct-hs-item { display: flex; flex-direction: column; align-items: center; padding: 0 14px; }
+.ct-hs-item:first-child { padding-left: 0; }
+.ct-hs-val { font-size: 15px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
+.ct-hs-lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.3px; }
+.ct-hs-sep { width: 1px; height: 24px; background: var(--border-color); flex-shrink: 0; }
+.ct-hero-bar-wrap { height: 4px; background: rgba(255,215,0,0.1); border-radius: 2px; overflow: hidden; }
+.ct-hero-bar { height: 100%; background: linear-gradient(90deg, #ffd700, #ff8c42); border-radius: 2px; }
+.ct-view-btn { position: absolute; bottom: 14px; right: 16px; font-size: 9px; font-weight: 700; color: rgba(255,215,0,0.6); letter-spacing: 0.5px; }
+
+.ct-podium { display: flex; flex-direction: column; gap: 10px; }
+.ct-pod-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 14px; display: flex; align-items: center; gap: 10px; cursor: pointer; transition: all 0.15s ease; position: relative; overflow: hidden; }
+.ct-pod-card:hover { transform: translateY(-1px); box-shadow: 0 4px 16px rgba(0,0,0,0.2); }
+.pod-silver { border-color: rgba(192,192,192,0.25); }
+.pod-silver:hover { border-color: rgba(192,192,192,0.5); }
+.pod-bronze { border-color: rgba(205,127,50,0.25); }
+.pod-bronze:hover { border-color: rgba(205,127,50,0.5); }
+.ct-pod-rank { font-size: 12px; font-weight: 900; flex-shrink: 0; width: 26px; text-align: center; }
+.pod-silver .ct-pod-rank { color: #c0c0c0; }
+.pod-bronze .ct-pod-rank { color: #cd7f32; }
+.ct-pod-avatar { width: 36px; height: 36px; border-radius: 50%; flex-shrink: 0; border: 2px solid var(--border-color); }
+.pod-silver .ct-pod-avatar { border-color: rgba(192,192,192,0.5); }
+.pod-bronze .ct-pod-avatar { border-color: rgba(205,127,50,0.5); }
+.ct-pod-name { font-size: 12px; font-weight: 600; color: var(--text-primary); flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ct-pod-commits { font-size: 10px; color: var(--text-muted); flex-shrink: 0; white-space: nowrap; }
+.ct-pod-bar-wrap { position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--border-color); }
+.ct-pod-bar { height: 100%; border-radius: 1px; }
+.pod-silver .ct-pod-bar { background: linear-gradient(90deg, #a0a0a0, #c0c0c0); }
+.pod-bronze .ct-pod-bar { background: linear-gradient(90deg, #a05a20, #cd7f32); }
+
 /* Toolbar */
 .contributors-toolbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 16px;
   margin-bottom: 20px;
   flex-wrap: wrap;
+  gap: 12px;
 }
 
 .search-box {
@@ -1023,6 +1150,9 @@ export default {
   .contributors-header {
     grid-template-columns: repeat(2, 1fr);
   }
+  .ct-spotlight { grid-template-columns: 1fr; }
+  .ct-podium { flex-direction: row; }
+  .ct-pod-card { flex: 1; }
 }
 
 /* ── Contributor Modal ── */
@@ -1342,5 +1472,23 @@ export default {
   .sort-controls {
     justify-content: center;
   }
+}
+
+@media (max-width: 640px) {
+  .ct-spotlight { grid-template-columns: 1fr; }
+  .ct-hero { flex-wrap: wrap; gap: 12px; padding: 14px; }
+  .ct-hero-avatar { width: 56px; height: 56px; }
+  .ct-hero-name { font-size: 15px; }
+  .ct-hero-stats { gap: 0; }
+  .ct-hs-item { padding: 0 10px; }
+  .ct-podium { flex-direction: column; }
+  .contributors-header { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+  .stat-card { padding: 14px; gap: 10px; }
+  .stat-value { font-size: 20px; }
+  .sort-controls { flex-wrap: wrap; }
+  .sort-btn { padding: 6px 12px; font-size: 11px; }
+  .contributors-table { min-width: 600px; }
+  .impact-cell { display: none; }
+  .activity-cell { display: none; }
 }
 </style>

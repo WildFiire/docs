@@ -189,72 +189,134 @@
                   <span class="dc-badge">{{ dailyCommits.reduce((a, b) => a + b, 0) }} commits</span>
                 </div>
                 <div class="flame-chart">
-                  <svg class="fc-svg" viewBox="0 0 640 300" preserveAspectRatio="none" width="100%" height="300"
-                    @mouseleave="hoveredBarIndex = null">
-                    <defs>
-                      <linearGradient id="fcBarGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#ff4500" stop-opacity="1"/>
-                        <stop offset="55%" stop-color="#ff6020" stop-opacity="0.85"/>
-                        <stop offset="100%" stop-color="#ff7040" stop-opacity="0.4"/>
-                      </linearGradient>
-                      <linearGradient id="fcBarGradHov" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#ffaa00" stop-opacity="1"/>
-                        <stop offset="50%" stop-color="#ff6a00" stop-opacity="1"/>
-                        <stop offset="100%" stop-color="#ffb060" stop-opacity="0.85"/>
-                      </linearGradient>
-                      <linearGradient id="fcAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%" stop-color="#ff4500" stop-opacity="0.22"/>
-                        <stop offset="100%" stop-color="#ff4500" stop-opacity="0"/>
-                      </linearGradient>
-                      <filter id="fcGlow" x="-60%" y="-60%" width="220%" height="220%">
-                        <feGaussianBlur stdDeviation="4" result="blur"/>
-                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                      </filter>
-                    </defs>
-                    <line x1="5" y1="60" x2="635" y2="60" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4,8" pointer-events="none"/>
-                    <line x1="5" y1="120" x2="635" y2="120" stroke="rgba(255,255,255,0.025)" stroke-width="1" stroke-dasharray="4,8" pointer-events="none"/>
-                    <line x1="5" y1="180" x2="635" y2="180" stroke="rgba(255,255,255,0.03)" stroke-width="1" stroke-dasharray="4,6" pointer-events="none"/>
-                    <line x1="5" y1="240" x2="635" y2="240" stroke="rgba(255,255,255,0.06)" stroke-width="1" pointer-events="none"/>
-                    <line v-if="flameAvgY !== null" x1="5" :y1="flameAvgY" x2="630" :y2="flameAvgY"
-                      stroke="rgba(255,120,0,0.45)" stroke-width="1.5" stroke-dasharray="5,4" pointer-events="none"/>
-                    <path :d="flamePath" fill="url(#fcAreaGrad)" pointer-events="none"/>
-                    <rect v-for="(b, i) in flameBarData" :key="'col'+i"
-                      :x="b.x" y="10" :width="b.w" height="250" rx="2" ry="2"
-                      :fill="b.isWeekend ? 'rgba(120,80,255,0.07)' : (b.commits > 0 ? 'rgba(255,69,0,0.04)' : 'rgba(255,255,255,0.014)')"
-                      pointer-events="none"/>
-                    <rect v-if="hoveredBarIndex !== null && flameBarData[hoveredBarIndex]"
-                      :x="flameBarData[hoveredBarIndex].x" y="10"
-                      :width="flameBarData[hoveredBarIndex].w" height="250"
-                      rx="3" ry="3" fill="rgba(255,69,0,0.09)" pointer-events="none"/>
-                    <rect v-for="(b, i) in flameBarData" :key="i"
-                      :x="b.x" :y="b.y" :width="b.w" :height="b.h" rx="3" ry="3"
-                      :fill="b.commits > 0 ? (hoveredBarIndex === i ? 'url(#fcBarGradHov)' : 'url(#fcBarGrad)') : 'rgba(255,69,0,0.11)'"
-                      :filter="hoveredBarIndex === i && b.commits > 0 ? 'url(#fcGlow)' : ''"
-                      :style="{ opacity: hoveredBarIndex !== null && hoveredBarIndex !== i && b.commits > 0 ? 0.3 : 1, transition: 'opacity 0.15s', cursor: 'crosshair' }"
-                      @mouseover="hoveredBarIndex = i"
-                    />
-                    <circle v-if="flameBarData.length"
-                      :cx="flameBarData[flameBarData.length - 1].cx" cy="252" r="3"
-                      fill="#ff4500" filter="url(#fcGlow)" pointer-events="none"/>
-                    <g v-if="flamePeak" pointer-events="none">
-                      <circle :cx="flamePeak.cx" :cy="flamePeak.y - 2" r="4" fill="#ffaa00" filter="url(#fcGlow)" opacity="0.9"/>
-                      <circle :cx="flamePeak.cx" :cy="flamePeak.y - 2" r="2.5" fill="#fff" opacity="0.9"/>
-                    </g>
-                  </svg>
-                  <div class="fc-html-layer">
-                    <div class="fc-month-badge">{{ flameMonthRange }}</div>
-                    <div v-if="flamePeak" class="fc-peak-lbl"
-                      :style="{ left: (flamePeak.cx / 640 * 100) + '%', top: ((flamePeak.y - 2) / 300 * 100) + '%' }">{{ flamePeak.commits }}</div>
-                    <div v-if="flameAvgY !== null" class="fc-avg-lbl"
-                      :style="{ top: (flameAvgY / 300 * 100) + '%' }">AVG {{ repoPulse.avgPerDay }}</div>
-                    <span v-for="(b, i) in flameBarData" :key="'hl'+i"
-                      class="fc-date-lbl"
-                      :class="{ 'fc-date-today': i === flameBarData.length - 1, 'fc-date-weekend': b.isWeekend }"
-                      :style="{ left: (b.cx / 640 * 100) + '%' }">{{ b.dayLabel }}</span>
-                    <div v-if="tooltipPos && hoveredBarIndex !== null" class="fc-tip"
-                      :style="{ left: (tooltipPos.tx / 640 * 100) + '%', top: (tooltipPos.ty / 300 * 100) + '%' }">
-                      <div class="fc-tip-count">{{ flameBarData[hoveredBarIndex].commits === 0 ? 'No commits' : flameBarData[hoveredBarIndex].commits + (flameBarData[hoveredBarIndex].commits !== 1 ? ' commits' : ' commit') }}</div>
-                      <div class="fc-tip-date">{{ flameBarData[hoveredBarIndex].shortLabel }}</div>
+                  <!-- KPI Strip -->
+                  <div class="fc-kpi-row">
+                    <div class="fc-kpi">
+                      <span class="fc-kpi-v">{{ dailyCommits.reduce((a,b)=>a+b,0) }}</span>
+                      <span class="fc-kpi-l">TOTAL</span>
+                    </div>
+                    <div class="fc-kpi fc-kpi-accent">
+                      <span class="fc-kpi-v">{{ flamePeak ? flamePeak.commits : 0 }}</span>
+                      <span class="fc-kpi-l">PEAK DAY</span>
+                    </div>
+                    <div class="fc-kpi fc-kpi-green">
+                      <span class="fc-kpi-v">{{ commitStreak }}</span>
+                      <span class="fc-kpi-l">STREAK</span>
+                    </div>
+                    <div class="fc-kpi">
+                      <span class="fc-kpi-v">{{ activeDaysPct }}%</span>
+                      <span class="fc-kpi-l">ACTIVE</span>
+                    </div>
+                    <div class="fc-kpi">
+                      <span class="fc-kpi-v">{{ repoPulse.avgPerDay }}</span>
+                      <span class="fc-kpi-l">AVG / DAY</span>
+                    </div>
+                  </div>
+                  <!-- Main chart -->
+                  <div style="position:relative">
+                    <svg class="fc-svg" viewBox="0 0 640 200" preserveAspectRatio="none" width="100%" height="200"
+                      @mousemove="onFlameMouseMove" @mouseleave="hoveredBarIndex = null">
+                      <defs>
+                        <linearGradient id="fcBarGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#ff4500" stop-opacity="1"/>
+                          <stop offset="55%" stop-color="#ff6020" stop-opacity="0.85"/>
+                          <stop offset="100%" stop-color="#ff7040" stop-opacity="0.4"/>
+                        </linearGradient>
+                        <linearGradient id="fcBarGradHov" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#ffbb00" stop-opacity="1"/>
+                          <stop offset="50%" stop-color="#ff6a00" stop-opacity="1"/>
+                          <stop offset="100%" stop-color="#ffb060" stop-opacity="0.85"/>
+                        </linearGradient>
+                        <linearGradient id="fcAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                          <stop offset="0%" stop-color="#ff4500" stop-opacity="0.2"/>
+                          <stop offset="100%" stop-color="#ff4500" stop-opacity="0"/>
+                        </linearGradient>
+                        <filter id="fcGlow" x="-60%" y="-60%" width="220%" height="220%">
+                          <feGaussianBlur stdDeviation="4" result="blur"/>
+                          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                        </filter>
+                      </defs>
+                      <!-- Grid lines -->
+                      <line x1="0" y1="35" x2="640" y2="35" stroke="rgba(255,255,255,0.025)" stroke-width="1" pointer-events="none"/>
+                      <line x1="0" y1="80" x2="640" y2="80" stroke="rgba(255,255,255,0.025)" stroke-width="1" pointer-events="none"/>
+                      <line x1="0" y1="125" x2="640" y2="125" stroke="rgba(255,255,255,0.03)" stroke-width="1" pointer-events="none"/>
+                      <line x1="0" y1="162" x2="640" y2="162" stroke="rgba(255,255,255,0.07)" stroke-width="1" pointer-events="none"/>
+                      <!-- Avg dashed line -->
+                      <line v-if="flameAvgY !== null" x1="0" :y1="flameAvgY" x2="640" :y2="flameAvgY"
+                        stroke="rgba(255,120,0,0.4)" stroke-width="1.5" stroke-dasharray="5,4" pointer-events="none"/>
+                      <!-- Area fill (smooth) -->
+                      <path :d="flamePath" fill="url(#fcAreaGrad)" pointer-events="none"/>
+                      <!-- 7-day rolling average line -->
+                      <path v-if="movingAvgPath" :d="movingAvgPath"
+                        fill="none" stroke="rgba(255,200,60,0.7)" stroke-width="2"
+                        stroke-linecap="round" stroke-linejoin="round" pointer-events="none"/>
+                      <!-- Weekend + column bg shading -->
+                      <rect v-for="(b, i) in flameBarData" :key="'col'+i"
+                        :x="b.x" y="0" :width="b.w" height="165"
+                        :fill="b.isWeekend ? 'rgba(120,80,255,0.065)' : 'transparent'"
+                        pointer-events="none" rx="1"/>
+                      <!-- Hover column highlight -->
+                      <rect v-if="hoveredBarIndex !== null && flameBarData[hoveredBarIndex]"
+                        :x="flameBarData[hoveredBarIndex].x" y="0"
+                        :width="flameBarData[hoveredBarIndex].w" height="165"
+                        rx="3" fill="rgba(255,69,0,0.11)" pointer-events="none"/>
+                      <!-- Bars — pointer-events none, mouse captured by overlay below -->
+                      <rect v-for="(b, i) in flameBarData" :key="i"
+                        :x="b.x" :y="b.y" :width="b.w" :height="b.h" rx="3" ry="3"
+                        :fill="b.commits > 0 ? (hoveredBarIndex === i ? 'url(#fcBarGradHov)' : 'url(#fcBarGrad)') : 'rgba(255,69,0,0.1)'"
+                        :filter="hoveredBarIndex === i && b.commits > 0 ? 'url(#fcGlow)' : ''"
+                        :opacity="hoveredBarIndex !== null && hoveredBarIndex !== i && b.commits > 0 ? 0.28 : 1"
+                        pointer-events="none"/>
+                      <!-- Peak marker -->
+                      <g v-if="flamePeak" pointer-events="none">
+                        <circle :cx="flamePeak.cx" :cy="flamePeak.y - 3" r="4.5" fill="#ffaa00" filter="url(#fcGlow)" opacity="0.9"/>
+                        <circle :cx="flamePeak.cx" :cy="flamePeak.y - 3" r="2.5" fill="#fff" opacity="1"/>
+                      </g>
+                      <!-- Today dot -->
+                      <circle v-if="flameBarData.length"
+                        :cx="flameBarData[flameBarData.length-1].cx" cy="163" r="3"
+                        fill="#ff4500" filter="url(#fcGlow)" pointer-events="none"/>
+                      <!-- Transparent full-area mouse trap — the ONLY element handling events -->
+                      <rect x="0" y="0" width="640" height="200" fill="transparent" style="cursor:crosshair"/>
+                    </svg>
+                    <!-- HTML label + tooltip layer -->
+                    <div class="fc-html-layer">
+                      <div class="fc-month-badge">{{ flameMonthRange }}</div>
+                      <div v-if="flamePeak" class="fc-peak-lbl"
+                        :style="{ left: (flamePeak.cx / 640 * 100) + '%', top: ((flamePeak.y - 3) / 200 * 100) + '%' }">{{ flamePeak.commits }}</div>
+                      <div v-if="flameAvgY !== null" class="fc-avg-lbl"
+                        :style="{ top: (flameAvgY / 200 * 100) + '%' }">AVG {{ repoPulse.avgPerDay }}</div>
+                      <span v-for="(b, i) in flameBarData" :key="'hl'+i"
+                        class="fc-date-lbl"
+                        :class="{ 'fc-date-today': i === flameBarData.length - 1, 'fc-date-weekend': b.isWeekend }"
+                        :style="{ left: (b.cx / 640 * 100) + '%' }">{{ b.dayLabel }}</span>
+                      <div v-if="hoveredBarIndex !== null && tooltipPos" class="fc-tip"
+                        :style="{ left: (tooltipPos.tx / 640 * 100) + '%', top: (tooltipPos.ty / 200 * 100) + '%' }">
+                        <div class="fc-tip-count">{{ flameBarData[hoveredBarIndex].commits === 0 ? 'No commits' : flameBarData[hoveredBarIndex].commits + (flameBarData[hoveredBarIndex].commits !== 1 ? ' commits' : ' commit') }}</div>
+                        <div class="fc-tip-date">{{ flameBarData[hoveredBarIndex].fullLabel }}</div>
+                        <div v-if="flameBarData[hoveredBarIndex].commits > 0" class="fc-tip-pct">{{ Math.round(flameBarData[hoveredBarIndex].pct * 100) }}% of peak</div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- Intensity heatmap strip -->
+                  <div class="fc-heatmap-wrap">
+                    <span class="fc-hm-label">INTENSITY</span>
+                    <div class="fc-heatmap-row">
+                      <div v-for="(cell, i) in heatmapCells" :key="'hc'+i"
+                        class="fc-hm-cell"
+                        :class="'fc-hm-' + cell.intensity"
+                        :title="cell.label"
+                        @mouseenter="hoveredBarIndex = i"
+                        @mouseleave="hoveredBarIndex = null"/>
+                    </div>
+                    <div class="fc-hm-legend">
+                      <span>Less</span>
+                      <div class="fc-hm-cell fc-hm-0"/>
+                      <div class="fc-hm-cell fc-hm-1"/>
+                      <div class="fc-hm-cell fc-hm-2"/>
+                      <div class="fc-hm-cell fc-hm-3"/>
+                      <div class="fc-hm-cell fc-hm-4"/>
+                      <span>More</span>
                     </div>
                   </div>
                 </div>
@@ -300,55 +362,79 @@
             </div>
 
             <!-- Feeds Row -->
-            <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg><span>COMMUNITY</span></div>
-            <div class="dash-feeds">
-              <div class="dash-card feed-panel">
-                <div class="dc-head">
-                  <div class="dc-head-left">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
-                    RECENT COMMITS
-                  </div>
-                  <span class="dc-badge">{{ recentCommits.length }}</span>
+            <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg><span>RECENT COMMITS</span><span class="dsl-badge">{{ recentCommits.length }}</span></div>
+            <div class="dash-card commits-panel">
+              <div class="dc-head">
+                <div class="dc-head-left">
+                  <span class="live-dot-sm"></span>
+                  LATEST PUSHES
                 </div>
-                <div class="feed-rows">
-                  <div v-for="commit in recentCommits.slice(0, 6)" :key="commit.id" class="feed-row" @click="openCommit(commit.url)">
-                    <img :src="`https://github.com/${commit.author}.png`" :alt="commit.author" class="fr-avatar">
-                    <div class="fr-body">
-                      <span class="fr-msg">{{ truncate(commit.message, 46) }}</span>
-                      <div class="fr-meta">
-                        <span class="fr-author">@{{ commit.author }}</span>
-                        <span class="fr-sep">·</span>
-                        <span class="fr-time">{{ timeAgo(commit.date) }}</span>
-                      </div>
-                    </div>
-                    <code class="fr-hash">{{ commit.id }}</code>
-                    <svg class="fr-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                <span class="dc-badge">last {{ recentCommits.slice(0,6).length }} of {{ recentCommits.length }}</span>
+              </div>
+              <div class="commits-grid">
+                <div v-for="commit in recentCommits.slice(0, 6)" :key="commit.id" class="commit-card" @click="openCommit(commit.url)">
+                  <div class="cc-top">
+                    <img :src="commit.avatar || `https://github.com/${commit.author}.png`" :alt="commit.author" class="cc-avatar">
+                    <code class="cc-hash">{{ commit.id }}</code>
+                    <svg class="cc-arrow" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </div>
+                  <div class="cc-msg">{{ truncate(commit.message, 68) }}</div>
+                  <div class="cc-meta">
+                    <span class="cc-author">@{{ commit.author }}</span>
+                    <span class="cc-sep">·</span>
+                    <span class="cc-time">{{ timeAgo(commit.date) }}</span>
                   </div>
                 </div>
+                <div v-if="recentCommits.length === 0" class="ipr-empty" style="grid-column:1/-1">No commits yet</div>
+              </div>
+            </div>
+
+            <!-- Top Contributors -->
+            <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>TOP CONTRIBUTORS</span><span class="dsl-badge">{{ topContributors.length }}</span></div>
+            <div class="tc-layout">
+              <!-- Left: #1 Champion Hero -->
+              <div class="tc-hero-col" v-if="topContributors[0]" @click="openProfile(topContributors[0].login)">
+                <div class="tc-hero-glow"></div>
+                <div class="tc-crown-wrap">
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="#ffd700"><path d="M2 20h20M4 20l2-10 4 5 2-8 2 8 4-5 2 10z"/></svg>
+                </div>
+                <div class="tc-hero-avatar-ring">
+                  <img :src="topContributors[0].avatar_url" :alt="topContributors[0].login" class="tc-hero-avatar">
+                </div>
+                <div class="tc-hero-badge">#1 CHAMPION</div>
+                <div class="tc-hero-name">{{ topContributors[0].login }}</div>
+                <div class="tc-hero-stats">
+                  <div class="tc-hstat">
+                    <span class="tc-hstat-val">{{ formatNumber(topContributors[0].contributions) }}</span>
+                    <span class="tc-hstat-lbl">COMMITS</span>
+                  </div>
+                  <div class="tc-hstat-sep"></div>
+                  <div class="tc-hstat">
+                    <span class="tc-hstat-val">100%</span>
+                    <span class="tc-hstat-lbl">SHARE</span>
+                  </div>
+                </div>
+                <div class="tc-hero-bar-wrap">
+                  <div class="tc-hero-bar"></div>
+                </div>
+                <div class="tc-hero-cta">VIEW PROFILE →</div>
               </div>
 
-              <div class="dash-card feed-panel">
-                <div class="dc-head">
-                  <div class="dc-head-left">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-                    TOP CONTRIBUTORS
+              <!-- Right: #2-#10 Grid -->
+              <div class="tc-grid-col">
+                <div v-for="(c, i) in topContributors.slice(1, 10)" :key="c.login"
+                  class="tc-card"
+                  :class="i === 0 ? 'tc-card-silver' : i === 1 ? 'tc-card-bronze' : ''"
+                  @click="openProfile(c.login)">
+                  <div class="tc-card-rank" :class="i === 0 ? 'tcr-silver' : i === 1 ? 'tcr-bronze' : 'tcr-plain'">{{ i + 2 }}</div>
+                  <img :src="c.avatar_url" :alt="c.login" class="tc-card-avatar">
+                  <div class="tc-card-name">{{ c.login }}</div>
+                  <div class="tc-card-bar-wrap">
+                    <div class="tc-card-bar" :style="{ width: (c.contributions / maxContributions * 100) + '%' }"></div>
                   </div>
-                  <span class="dc-badge">TOP 5</span>
+                  <div class="tc-card-commits">{{ formatNumber(c.contributions) }}</div>
                 </div>
-                <div class="contrib-rows">
-                  <div v-for="(c, i) in topContributors.slice(0, 5)" :key="c.login" class="cr-row" @click="openProfile(c.login)">
-                    <span class="cr-rank" :class="'rank-' + (i + 1)">{{ i + 1 }}</span>
-                    <img :src="c.avatar_url" :alt="c.login" class="cr-avatar">
-                    <div class="cr-info">
-                      <div class="cr-name-row">
-                        <span class="cr-name">{{ c.login }}</span>
-                        <span class="cr-pct">{{ Math.round(c.contributions / maxContributions * 100) }}%</span>
-                      </div>
-                      <div class="cr-bar"><div class="cr-fill" :style="{ width: (c.contributions / maxContributions * 100) + '%' }"></div></div>
-                    </div>
-                    <span class="cr-count">{{ formatNumber(c.contributions) }}</span>
-                  </div>
-                </div>
+                <div v-if="topContributors.length <= 1" class="ipr-empty" style="grid-column:1/-1">No other contributors yet</div>
               </div>
             </div>
 
@@ -358,46 +444,326 @@
               <div class="dash-card ipr-panel">
                 <div class="dc-head">
                   <div class="dc-head-left">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#3b82f6"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1"/></svg>
+                    <span class="ipr-status-dot issue-dot"></span>
                     OPEN ISSUES
                   </div>
-                  <span class="dc-badge blue">{{ recentIssues.length }}</span>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span class="dc-badge blue">{{ recentIssues.length }}</span>
+                    <button class="ipr-new-btn" @click.stop="openNewIssue()" title="New issue">
+                      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
                 </div>
                 <div class="ipr-list">
-                  <div v-for="issue in recentIssues.slice(0, 5)" :key="issue.id" class="ipr-row" @click="openIssue(issue.url)">
+                  <div v-for="issue in recentIssues.slice(0, 7)" :key="issue.id" class="ipr-row" @click="openIssue(issue.url)">
                     <img :src="issue.avatar || `https://github.com/${issue.author}.png`" :alt="issue.author" class="ipr-avatar">
-                    <div class="ipr-num-wrap"><span class="ipr-dot issue-dot"></span><span class="ipr-num">#{{ issue.number }}</span></div>
                     <div class="ipr-body">
-                      <span class="ipr-title">{{ truncate(issue.title, 34) }}</span>
-                      <span class="ipr-meta">@{{ issue.author }} · {{ timeAgo(issue.date) }}</span>
+                      <div class="ipr-title-row">
+                        <span class="ipr-num-badge blue">#{{ issue.number }}</span>
+                        <span class="ipr-title">{{ truncate(issue.title, 38) }}</span>
+                      </div>
+                      <div class="ipr-meta-row">
+                        <span class="ipr-author">@{{ issue.author }}</span>
+                        <span class="ipr-sep">·</span>
+                        <span class="ipr-time">{{ timeAgo(issue.date) }}</span>
+                      </div>
                     </div>
                     <svg class="ipr-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </div>
-                  <div v-if="recentIssues.length === 0" class="ipr-empty">No open issues</div>
+                  <div v-if="recentIssues.length === 0" class="ipr-empty">
+                    <span>No open issues</span>
+                  </div>
                 </div>
               </div>
               <div class="dash-card ipr-panel">
                 <div class="dc-head">
                   <div class="dc-head-left">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="#22c55e"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>
+                    <span class="ipr-status-dot pr-dot"></span>
                     OPEN PULL REQUESTS
                   </div>
-                  <span class="dc-badge green">{{ recentPRs.length }}</span>
+                  <div style="display:flex;align-items:center;gap:8px">
+                    <span class="dc-badge green">{{ recentPRs.length }}</span>
+                    <button class="ipr-new-btn" @click.stop="openNewPR()" title="New PR">
+                      <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+                    </button>
+                  </div>
                 </div>
                 <div class="ipr-list">
-                  <div v-for="pr in recentPRs.slice(0, 5)" :key="pr.id" class="ipr-row" @click="openPR(pr.url)">
+                  <div v-for="pr in recentPRs.slice(0, 7)" :key="pr.id" class="ipr-row" @click="openPR(pr.url)">
                     <img :src="pr.avatar || `https://github.com/${pr.author}.png`" :alt="pr.author" class="ipr-avatar">
-                    <div class="ipr-num-wrap"><span class="ipr-dot pr-dot"></span><span class="ipr-num">#{{ pr.number }}</span></div>
                     <div class="ipr-body">
-                      <span class="ipr-title">{{ truncate(pr.title, 34) }}</span>
-                      <span class="ipr-meta">@{{ pr.author }} · {{ timeAgo(pr.date) }}</span>
+                      <div class="ipr-title-row">
+                        <span class="ipr-num-badge green">#{{ pr.number }}</span>
+                        <span class="ipr-title">{{ truncate(pr.title, 38) }}</span>
+                      </div>
+                      <div class="ipr-meta-row">
+                        <span class="ipr-author">@{{ pr.author }}</span>
+                        <span class="ipr-sep">·</span>
+                        <span class="ipr-time">{{ timeAgo(pr.date) }}</span>
+                      </div>
                     </div>
                     <svg class="ipr-arrow" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
                   </div>
-                  <div v-if="recentPRs.length === 0" class="ipr-empty">No open pull requests</div>
+                  <div v-if="recentPRs.length === 0" class="ipr-empty">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" opacity=".3"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>
+                    <span>No open pull requests</span>
+                  </div>
                 </div>
               </div>
             </div>
+
+            <!-- Live Overview -->
+            <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>LIVE OVERVIEW</span></div>
+            <div class="dash-weekly">
+              <div class="dash-card activity-timeline-card">
+                <div class="dc-head">
+                  <div class="dc-head-left">
+                    <span class="live-dot-sm"></span>
+                    LIVE ACTIVITY
+                  </div>
+                  <span class="dc-badge">{{ auditLog.length }} events</span>
+                </div>
+                <div class="at-list">
+                  <div v-for="event in auditLog.slice(0, 10)" :key="event.id" class="at-row" :class="'at-' + event.type" @click="event.url && openCommit(event.url)">
+                    <div class="at-line"></div>
+                    <div class="at-icon-wrap" :class="'ati-' + event.type">
+                      <svg v-if="event.type === 'commit'" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
+                      <svg v-else-if="event.type === 'pr'" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>
+                      <svg v-else viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1"/></svg>
+                    </div>
+                    <img :src="event.avatar || `https://github.com/${event.author}.png`" :alt="event.author" class="at-avatar">
+                    <div class="at-body">
+                      <span class="at-msg">{{ truncate(event.message, 48) }}</span>
+                      <div class="at-meta">
+                        <span class="at-author">@{{ event.author }}</span>
+                        <span class="at-sep">·</span>
+                        <span class="at-time">{{ timeAgo(event.timestamp) }}</span>
+                        <span v-if="event.number" class="at-num">#{{ event.number }}</span>
+                      </div>
+                    </div>
+                    <span class="at-type-pill" :class="'pill-' + event.type">{{ event.type }}</span>
+                  </div>
+                  <div v-if="!auditLog.length" class="ipr-empty">No activity yet</div>
+                </div>
+              </div>
+
+              <div class="dash-card repo-health-card">
+                <div class="dc-head">
+                  <div class="dc-head-left">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    REPO HEALTH
+                  </div>
+                  <span class="dc-badge">LIVE</span>
+                </div>
+                <div class="rh-rows">
+                  <div class="rh-row">
+                    <div class="rh-label">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#22c55e"><polyline points="20 6 9 17 4 12"/></svg>
+                      Commit Velocity
+                    </div>
+                    <div class="rh-bar-wrap">
+                      <div class="rh-bar green" :style="{ width: Math.min(repoPulse.avgPerDay / 10 * 100, 100) + '%' }"></div>
+                    </div>
+                    <span class="rh-val">{{ repoPulse.avgPerDay }}/d</span>
+                  </div>
+                  <div class="rh-row">
+                    <div class="rh-label">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#3b82f6"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                      Active Days
+                    </div>
+                    <div class="rh-bar-wrap">
+                      <div class="rh-bar blue" :style="{ width: activeDaysPct + '%' }"></div>
+                    </div>
+                    <span class="rh-val">{{ activeDaysPct }}%</span>
+                  </div>
+                  <div class="rh-row">
+                    <div class="rh-label">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#f59e0b"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.07-2.14-.22-4.05 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.15.43-2.29 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+                      Current Streak
+                    </div>
+                    <div class="rh-bar-wrap">
+                      <div class="rh-bar orange" :style="{ width: Math.min(commitStreak / 30 * 100, 100) + '%' }"></div>
+                    </div>
+                    <span class="rh-val">{{ commitStreak }}d</span>
+                  </div>
+                  <div class="rh-row">
+                    <div class="rh-label">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#8b5cf6"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>
+                      Open PRs
+                    </div>
+                    <div class="rh-bar-wrap">
+                      <div class="rh-bar purple" :style="{ width: Math.min(recentPRs.length / 20 * 100, 100) + '%' }"></div>
+                    </div>
+                    <span class="rh-val">{{ recentPRs.length }}</span>
+                  </div>
+                  <div class="rh-row">
+                    <div class="rh-label">
+                      <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="#e74c3c"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1"/></svg>
+                      Open Issues
+                    </div>
+                    <div class="rh-bar-wrap">
+                      <div class="rh-bar red" :style="{ width: Math.min(recentIssues.length / 20 * 100, 100) + '%' }"></div>
+                    </div>
+                    <span class="rh-val">{{ recentIssues.length }}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg><span>QUICK ACTIONS</span></div>
+            <div class="qa-row">
+              <button class="qa-btn qa-blue" @click="openNewIssue()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1"/></svg>
+                <span>New Issue</span>
+              </button>
+              <button class="qa-btn qa-green" @click="openNewPR()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>
+                <span>New Pull Request</span>
+              </button>
+              <button class="qa-btn qa-orange" @click="currentView = 'contributors'">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                <span>All Contributors</span>
+              </button>
+              <button class="qa-btn qa-purple" @click="currentView = 'audit'">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                <span>Audit Log</span>
+              </button>
+              <button class="qa-btn qa-red" @click="currentView = 'analytics'">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <span>Analytics</span>
+              </button>
+              <button class="qa-btn qa-teal" @click="refreshAllData()">
+                <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                <span>Sync Now</span>
+              </button>
+            </div>
+
+            <!-- Activity Calendar -->
+            <div class="dash-slabel">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>ACTIVITY CALENDAR</span>
+            </div>
+            <div class="act-cal-card" :class="{ 'act-cal-expanded': calendarExpanded }">
+              <div class="act-cal-meta">
+                <div class="act-cal-meta-left">
+                  <span class="act-cal-title">{{ currentCalMonthLabel }}</span>
+                  <span class="act-cal-badge">{{ heatmapCells.filter(c => !c.isEmpty && c.commits > 0).length }} active days</span>
+                </div>
+                <div class="act-cal-meta-right">
+                  <div class="act-cal-legend">
+                    <span>Less</span>
+                    <span class="acl-cell intensity-0"></span>
+                    <span class="acl-cell intensity-1"></span>
+                    <span class="acl-cell intensity-2"></span>
+                    <span class="acl-cell intensity-3"></span>
+                    <span class="acl-cell intensity-4"></span>
+                    <span>More</span>
+                  </div>
+                  <button class="act-cal-toggle" @click="calendarExpanded = !calendarExpanded" :title="calendarExpanded ? 'Collapse' : 'Expand'">
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5">
+                      <polyline v-if="calendarExpanded" points="18 15 12 9 6 15"/>
+                      <polyline v-else points="6 9 12 15 18 9"/>
+                    </svg>
+                  </button>
+                </div>
+              </div>
+              <div class="act-cal-months">
+                <button
+                  v-for="month in availableCalMonths"
+                  :key="month.key"
+                  class="acm-btn"
+                  :class="{ 'acm-active': selectedCalMonth === month.key }"
+                  @click="selectedCalMonth = month.key; selectedCalCell = null"
+                >{{ month.label }}<span class="acm-count" v-if="month.total > 0">{{ month.total }}</span></button>
+              </div>
+              <div class="act-cal-dow">
+                <span v-for="(d, i) in ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']" :key="i">{{ d }}</span>
+              </div>
+              <div class="act-cal-grid">
+                <div
+                  v-for="(cell, i) in heatmapCells"
+                  :key="i"
+                  class="act-cal-cell"
+                  :class="[cell.isEmpty ? 'act-cal-cell-empty' : 'intensity-' + cell.intensity, { 'act-cal-cell-selected': !cell.isEmpty && selectedCalCell && selectedCalCell.dateStr === cell.dateStr }]"
+                  :title="cell.isEmpty ? '' : cell.label + ' · ' + cell.commits + (cell.commits === 1 ? ' commit' : ' commits')"
+                  @click="cell.isEmpty || selectCalCell(cell)"
+                >
+                  <span v-if="!cell.isEmpty" class="acc-day">{{ cell.dayNum }}</span>
+                </div>
+              </div>
+              <div class="act-cal-detail" v-if="calendarExpanded && selectedCalCell">
+                <div class="acd-header">
+                  <div class="acd-date-info">
+                    <span class="acd-date-full">{{ selectedCalCell.fullLabel }}</span>
+                    <div class="acd-stats-row">
+                      <span class="acd-stat-pill">{{ selectedCalCell.commits }} commit{{ selectedCalCell.commits !== 1 ? 's' : '' }}</span>
+                      <a class="acd-gh-link" :href="`https://github.com/${repoOwner}/${repoName}/commits?since=${selectedCalCell.dateStr}T00:00:00Z&until=${selectedCalCell.dateStr}T23:59:59Z`" target="_blank">View on GitHub →</a>
+                    </div>
+                  </div>
+                  <button class="acd-close" @click="selectedCalCell = null">
+                    <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+                  </button>
+                </div>
+                <div class="acd-empty" v-if="selectedCalCell.commits === 0">No activity on this day.</div>
+                <div class="acd-no-data" v-else-if="selectedDayCommits.length === 0">
+                  {{ selectedCalCell.commits }} commit{{ selectedCalCell.commits !== 1 ? 's' : '' }} — not in loaded history.
+                  <a :href="`https://github.com/${repoOwner}/${repoName}/commits?since=${selectedCalCell.dateStr}T00:00:00Z&until=${selectedCalCell.dateStr}T23:59:59Z`" target="_blank">View on GitHub</a>
+                </div>
+                <div class="acd-commits" v-else>
+                  <div class="acd-commit-row" v-for="commit in selectedDayCommits" :key="commit.sha">
+                    <img :src="commit.avatar" :alt="commit.author" class="acd-avatar">
+                    <div class="acd-commit-body">
+                      <div class="acd-commit-msg" @click="openCommit(commit.url)">{{ commit.message }}</div>
+                      <div class="acd-commit-meta">
+                        <span class="acd-author">@{{ commit.author }}</span>
+                        <code class="acd-sha" @click="openCommit(commit.url)">{{ commit.id }}</code>
+                        <template v-if="commitFilesCache[commit.sha]">
+                          <span class="acd-files-count">{{ commitFilesCache[commit.sha].files }} files</span>
+                          <span class="acd-additions">+{{ commitFilesCache[commit.sha].additions }}</span>
+                          <span class="acd-deletions">−{{ commitFilesCache[commit.sha].deletions }}</span>
+                        </template>
+                        <span v-else class="acd-loading">loading…</span>
+                      </div>
+                      <div class="acd-file-chips" v-if="commitFilesCache[commit.sha] && commitFilesCache[commit.sha].fileNames.length">
+                        <span class="acd-file-chip" v-for="f in commitFilesCache[commit.sha].fileNames" :key="f">{{ f.split('/').pop() }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Weekly Rhythm -->
+            <div class="dash-slabel">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+              <span>WEEKLY RHYTHM</span>
+            </div>
+            <div class="week-rhythm-card">
+              <div class="wrc-header">
+                <span class="wrc-title">Commit patterns by day of week · last 90 days</span>
+                <span class="wrc-peak" v-if="weekdayPeak && weekdayPeak.avg > 0">
+                  Peak: <strong>{{ weekdayPeak.name }}</strong> ({{ weekdayPeak.avg }}/day avg)
+                </span>
+              </div>
+              <div class="wrc-bars">
+                <div
+                  v-for="(day, i) in weekdayPattern"
+                  :key="day.name"
+                  class="wrc-row"
+                  :class="{ 'wrc-weekend': day.isWeekend, 'wrc-peak': weekdayPeak && day.name === weekdayPeak.name }"
+                >
+                  <span class="wrc-day">{{ day.name }}</span>
+                  <div class="wrc-track">
+                    <div class="wrc-fill" :style="{ width: (day.pct * 100) + '%' }"></div>
+                    <div class="wrc-fill-glow" v-if="weekdayPeak && day.name === weekdayPeak.name" :style="{ width: (day.pct * 100) + '%' }"></div>
+                  </div>
+                  <span class="wrc-avg">{{ day.avg }}<span class="wrc-unit">/d</span></span>
+                  <span class="wrc-total">{{ day.total }}</span>
+                </div>
+              </div>
+            </div>
+
           </div>
 
           <PanelFiles 
@@ -521,9 +887,15 @@
           allContributorsData: [],
           auditLog: [],
           hoveredBarIndex: null,
+          selectedCalCell: null,
+          selectedCalMonth: '',
+          calendarCommits: [],
+          calendarDailyMap: {},
+          commitFilesCache: {},
           dailyCommits: [],
           weeklyCommits: [],
           languageStats: [],
+          calendarExpanded: false,
           
           navItems: [
             { id: 'dashboard', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>', label: 'DASHBOARD' },
@@ -555,9 +927,6 @@
             { id: 'prs',          label: 'OPEN PULLS',     value: String(this.repoStats.openPRs),                 icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>',                                                                                                                                   bg: 'rgba(46,204,113,0.2)',  color: '#2ecc71' },
             { id: 'issues',       label: 'OPEN ISSUES',    value: String(this.repoStats.openIssues),              icon: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1"/></svg>',                                                                                                                                                 bg: 'rgba(243,156,18,0.2)',  color: '#f39c12' }
           ]
-        },
-        maxContributions() {
-          return Math.max(...this.topContributors.map(c => c.contributions), 1)
         },
         repoRings() {
           const s = this.repoStats
@@ -591,14 +960,14 @@
           if (!commits.length) return []
           const max = Math.max(...commits, 1)
           const totalBars = commits.length
-          const barW = 20, step = 21, baseline = 250, maxBarH = 210
+          const barW = 20, step = 21, baseline = 165, maxBarH = 148
           const startX = (640 - totalBars * step + (step - barW)) / 2
           const now = new Date()
           return commits.map((c, i) => {
             const d = new Date(now)
             d.setDate(d.getDate() - (totalBars - 1 - i))
             const pct = max > 0 ? c / max : 0
-            const h = c > 0 ? Math.max(pct * maxBarH, 5) : 7
+            const h = c > 0 ? Math.max(pct * maxBarH, 5) : 4
             const x = startX + i * step
             return {
               commits: c,
@@ -609,6 +978,7 @@
               h: parseFloat(h.toFixed(1)),
               cx: parseFloat((x + barW / 2).toFixed(1)),
               shortLabel: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+              fullLabel: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
               dayLabel: String(d.getDate()),
               isWeekend: d.getDay() === 0 || d.getDay() === 6
             }
@@ -616,10 +986,15 @@
         },
         flamePath() {
           const bars = this.flameBarData
-          if (!bars.length) return ''
-          const baseline = 250
-          const pts = bars.map(b => `${b.cx},${b.y}`)
-          return `M${bars[0].cx},${baseline} ${pts.map(p => `L${p}`).join(' ')} L${bars[bars.length - 1].cx},${baseline} Z`
+          if (bars.length < 2) return ''
+          const baseline = 165
+          let d = `M${bars[0].cx},${baseline} L${bars[0].cx},${bars[0].y}`
+          for (let i = 1; i < bars.length; i++) {
+            const cp1x = bars[i-1].cx + (bars[i].cx - bars[i-1].cx) / 3
+            const cp2x = bars[i].cx - (bars[i].cx - bars[i-1].cx) / 3
+            d += ` C${cp1x},${bars[i-1].y} ${cp2x},${bars[i].y} ${bars[i].cx},${bars[i].y}`
+          }
+          return d + ` L${bars[bars.length-1].cx},${baseline} Z`
         },
         flamePeak() {
           const bars = this.flameBarData
@@ -635,22 +1010,150 @@
           if (this.hoveredBarIndex === null) return null
           const b = this.flameBarData[this.hoveredBarIndex]
           if (!b) return null
-          const tx = Math.min(Math.max(b.cx - 38, 4), 560)
-          const ty = Math.max(b.y - 50, 4)
-          return { tx, ty, cx: tx + 38 }
+          const tx = Math.min(Math.max(b.cx - 44, 2), 548)
+          const ty = Math.max(b.y - 56, 2)
+          return { tx, ty }
         },
         flameAvgY() {
           const commits = this.dailyCommits
           if (!commits.length) return null
           const avg = commits.reduce((a, b) => a + b, 0) / commits.length
           const max = Math.max(...commits, 1)
-          return parseFloat((250 - (avg / max) * 210).toFixed(1))
+          return parseFloat((165 - (avg / max) * 148).toFixed(1))
+        },
+        commitStreak() {
+          const c = this.dailyCommits
+          let s = 0
+          for (let i = c.length - 1; i >= 0; i--) { if (c[i] > 0) s++; else break }
+          return s
+        },
+        activeDaysPct() {
+          const c = this.dailyCommits
+          if (!c.length) return 0
+          return Math.round(c.filter(v => v > 0).length / c.length * 100)
+        },
+        availableCalMonths() {
+          const now = new Date()
+          return Array.from({ length: 3 }, (_, i) => {
+            const d = new Date(now.getFullYear(), now.getMonth() - (2 - i), 1)
+            const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
+            let total = 0
+            Object.entries(this.calendarDailyMap).forEach(([ds, cnt]) => {
+              if (ds.slice(0, 7) === key) total += cnt
+            })
+            return {
+              key,
+              label: d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+              shortLabel: d.toLocaleDateString('en-US', { month: 'short' }),
+              total
+            }
+          })
+        },
+        currentCalMonthLabel() {
+          const month = this.selectedCalMonth || (() => {
+            const n = new Date()
+            return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}`
+          })()
+          const found = this.availableCalMonths.find(m => m.key === month)
+          return found ? found.label : month
+        },
+        heatmapCells() {
+          const month = this.selectedCalMonth || (() => {
+            const n = new Date()
+            return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}`
+          })()
+          const [y, m] = month.split('-').map(Number)
+          const daysInMonth = new Date(y, m, 0).getDate()
+          const firstDow = new Date(y, m - 1, 1).getDay()
+          const allCounts = Object.values(this.calendarDailyMap)
+          const max = allCounts.length ? Math.max(...allCounts, 1) : 1
+          const cells = []
+          for (let p = 0; p < firstDow; p++) {
+            cells.push({ isEmpty: true, commits: 0, intensity: 0, dateStr: null, dayNum: null, label: '', fullLabel: '' })
+          }
+          for (let d = 1; d <= daysInMonth; d++) {
+            const dateStr = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`
+            const c = this.calendarDailyMap[dateStr] || 0
+            const pct = c / max
+            const intensity = c === 0 ? 0 : pct < 0.25 ? 1 : pct < 0.5 ? 2 : pct < 0.75 ? 3 : 4
+            const date = new Date(y, m - 1, d)
+            cells.push({
+              isEmpty: false, commits: c, intensity, dateStr, dayNum: d,
+              label: date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
+              fullLabel: date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
+            })
+          }
+          return cells
+        },
+        selectedDayCommits() {
+          if (!this.selectedCalCell) return []
+          return this.calendarCommits.filter(c => c.date.slice(0, 10) === this.selectedCalCell.dateStr)
+        },
+        movingAvgPath() {
+          const commits = this.dailyCommits
+          const bars = this.flameBarData
+          if (!bars.length || commits.length < 4) return ''
+          const max = Math.max(...commits, 1)
+          const baseline = 165, maxBarH = 148
+          const points = []
+          for (let i = 3; i < commits.length; i++) {
+            const win = commits.slice(Math.max(0, i - 6), i + 1)
+            const avg = win.reduce((a, b) => a + b, 0) / win.length
+            const y = (baseline - (avg / max) * maxBarH).toFixed(1)
+            points.push(`${bars[i].cx},${y}`)
+          }
+          if (points.length < 2) return ''
+          return 'M' + points.join(' L')
         },
         flameMonthRange() {
           const bars = this.flameBarData
           if (!bars.length) return ''
           return bars[0].shortLabel + ' – ' + bars[bars.length - 1].shortLabel
-        }
+        },
+        weeklyDayData() {
+          const last7 = this.dailyCommits.slice(-7)
+          const max = Math.max(...last7, 1)
+          const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+          const now = new Date()
+          return last7.map((count, i) => {
+            const d = new Date(now)
+            d.setDate(d.getDate() - (6 - i))
+            return { count, pct: count / max, label: days[d.getDay()] }
+          })
+        },
+        maxContributions() {
+          if (!this.topContributors.length) return 1
+          return Math.max(...this.topContributors.map(c => c.contributions || 0), 1)
+        },
+        weekdayPattern() {
+          const names = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
+          const totals = [0,0,0,0,0,0,0]
+          const counts = [0,0,0,0,0,0,0]
+          const raw = this.dailyCommits
+          const len = Math.min(raw.length, 90)
+          const data = raw.slice(-len)
+          const now = new Date()
+          data.forEach((count, i) => {
+            const d = new Date(now)
+            d.setDate(d.getDate() - (len - 1 - i))
+            const wd = d.getDay()
+            totals[wd] += count
+            counts[wd]++
+          })
+          const avgs = totals.map((t, i) => counts[i] > 0 ? t / counts[i] : 0)
+          const max = Math.max(...avgs, 1)
+          return names.map((name, i) => ({
+            name,
+            avg: parseFloat(avgs[i].toFixed(1)),
+            total: totals[i],
+            pct: avgs[i] / max,
+            isWeekend: i === 0 || i === 6
+          }))
+        },
+        weekdayPeak() {
+          if (!this.weekdayPattern.length) return null
+          return this.weekdayPattern.reduce((a, b) => b.avg > a.avg ? b : a)
+        },
       },
       
       watch: {},
@@ -710,6 +1213,17 @@
     this.refreshAllData()
     setInterval(() => this.refreshAllData(), 30000)
   },
+    
+    onFlameMouseMove(e) {
+      const svg = e.currentTarget
+      const rect = svg.getBoundingClientRect()
+      const x = ((e.clientX - rect.left) / rect.width) * 640
+      const bars = this.flameBarData
+      if (!bars.length) { this.hoveredBarIndex = null; return }
+      const step = 640 / bars.length
+      const idx = Math.min(Math.max(Math.floor(x / step), 0), bars.length - 1)
+      this.hoveredBarIndex = idx
+    },
     
     handleLogout() {
       localStorage.removeItem('github_token')
@@ -891,19 +1405,68 @@
             timestamp: commit.commit.author.date,
             message: commit.commit.message.split('\n')[0],
             author: commit.author?.login || commit.commit.author.name,
+            avatar: commit.author?.avatar_url || `https://github.com/${commit.author?.login || commit.commit.author.name}.png`,
             url: commit.html_url,
             hash: commit.sha
           })
         })
-        
+        try {
+          const auditMixRes = await fetch(`${baseUrl}/issues?state=all&sort=updated&direction=desc&per_page=30&_=${Date.now()}`, { headers })
+          if (auditMixRes.ok) {
+            const auditItems = await auditMixRes.json()
+            auditItems.forEach(item => {
+              const isPR = !!item.pull_request
+              this.auditLog.push({
+                id: `${isPR ? 'pr' : 'issue'}-${item.id}`,
+                type: isPR ? 'pr' : 'issue',
+                timestamp: item.updated_at,
+                message: item.title,
+                author: item.user?.login || '—',
+                avatar: item.user?.avatar_url || `https://github.com/${item.user?.login}.png`,
+                url: item.html_url,
+                number: item.number,
+                state: item.state,
+                labels: item.labels?.map(l => ({ name: l.name, color: l.color })) || []
+              })
+            })
+          }
+        } catch (e) {}
+        this.auditLog.sort((a, b) => new Date(b.timestamp) - new Date(a.timestamp))
+
         this.recentCommits = allCommits.slice(0, 10).map(commit => ({
           id: commit.sha.substring(0, 7),
           message: commit.commit.message.split('\n')[0],
           author: commit.author?.login || commit.commit.author.name,
+          avatar: commit.author?.avatar_url || `https://github.com/${commit.author?.login || commit.commit.author.name}.png`,
           date: commit.commit.author.date,
           url: commit.html_url
         }))
-        
+
+        const calMap = {}
+        const cutoff90 = new Date(); cutoff90.setDate(cutoff90.getDate() - 90)
+        allCommits.forEach(c => {
+          const date = new Date(c.commit.author.date)
+          if (date >= cutoff90) {
+            const dk = date.toISOString().slice(0, 10)
+            calMap[dk] = (calMap[dk] || 0) + 1
+          }
+        })
+        this.calendarDailyMap = calMap
+        const nowD = new Date()
+        this.selectedCalMonth = `${nowD.getFullYear()}-${String(nowD.getMonth() + 1).padStart(2, '0')}`
+        const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 90)
+        this.calendarCommits = allCommits
+          .filter(c => new Date(c.commit.author.date) >= cutoff)
+          .map(c => ({
+            id: c.sha.substring(0, 7),
+            sha: c.sha,
+            message: c.commit.message.split('\n')[0],
+            author: c.author?.login || c.commit.author.name,
+            avatar: c.author?.avatar_url || `https://github.com/${c.author?.login || c.commit.author.name}.png`,
+            date: c.commit.author.date,
+            url: c.html_url
+          }))
+
         this.lastUpdateTime = new Date().toLocaleTimeString()
         
         console.log('GitHub data fetched successfully')
@@ -1009,6 +1572,35 @@
     },
     openNewPR() {
       window.open(`https://github.com/${this.repoOwner}/${this.repoName}/compare`, '_blank')
+    },
+    async selectCalCell(cell) {
+      if (this.selectedCalCell && this.selectedCalCell.dateStr === cell.dateStr) {
+        this.selectedCalCell = null
+        return
+      }
+      this.selectedCalCell = cell
+      const commits = this.selectedDayCommits
+      for (const commit of commits) {
+        if (this.commitFilesCache[commit.sha]) continue
+        try {
+          const res = await fetch(
+            `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/commits/${commit.sha}`,
+            { headers: { Authorization: `token ${this.githubToken}`, Accept: 'application/vnd.github.v3+json' } }
+          )
+          if (res.ok) {
+            const data = await res.json()
+            this.commitFilesCache = {
+              ...this.commitFilesCache,
+              [commit.sha]: {
+                files: data.files?.length || 0,
+                additions: data.stats?.additions || 0,
+                deletions: data.stats?.deletions || 0,
+                fileNames: (data.files || []).slice(0, 6).map(f => f.filename)
+              }
+            }
+          }
+        } catch (e) {}
+      }
     }
   }
 }
@@ -1193,6 +1785,7 @@
   padding: 2px 6px;
   border-radius: 4px;
   letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 .brand-sub {
@@ -1276,14 +1869,13 @@
 }
 
 .nav-badge {
-  background: rgba(255,69,0,0.15);
+  background: var(--bg-tertiary);
   color: var(--accent);
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
-  margin-left: auto;
+  padding: 3px 10px;
+  border-radius: 20px;
+  font-size: 10px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
 .sidebar-footer {
@@ -1306,14 +1898,23 @@
   overflow: hidden;
 }
 
-.sf-user:hover { background: var(--bg-tertiary); }
-
 .sf-avatar {
   width: 32px;
   height: 32px;
   border-radius: 50%;
   border: 2px solid var(--accent);
   flex-shrink: 0;
+}
+
+.sf-online {
+  position: absolute;
+  bottom: 2px;
+  right: 2px;
+  width: 12px;
+  height: 12px;
+  background: var(--success);
+  border-radius: 50%;
+  border: 2px solid var(--bg-secondary);
 }
 
 .sf-info { flex: 1; min-width: 0; }
@@ -1529,7 +2130,7 @@
 .dw-glow { position: absolute; top: -60px; left: -60px; width: 240px; height: 240px; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%); pointer-events: none; }
 .dw-left { display: flex; align-items: center; gap: 14px; }
 .dw-avatar-wrap { position: relative; flex-shrink: 0; }
-.dw-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--bg-secondary); box-shadow: 0 0 0 2px var(--accent); }
+.dw-avatar { width: 44px; height: 44px; border-radius: 50%; border: 2px solid var(--border-color); box-shadow: 0 0 0 2px var(--accent); }
 .dw-online { position: absolute; bottom: 2px; right: 2px; width: 12px; height: 12px; background: var(--success); border-radius: 50%; border: 2px solid var(--bg-secondary); }
 .dw-text h2 { font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 0 0 3px; }
 .dw-name { color: var(--accent); }
@@ -1537,8 +2138,7 @@
 .dw-stats { display: flex; align-items: center; gap: 16px; }
 .dws-item { display: flex; flex-direction: column; align-items: center; gap: 2px; }
 .dws-val { font-size: 16px; font-weight: 700; color: var(--text-primary); line-height: 1.2; }
-.dws-val.positive { color: var(--success); }
-.dws-lbl { font-size: 9px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.dws-lbl { font-size: 9px; text-transform: uppercase; color: var(--text-muted); letter-spacing: 0.4px; }
 .dws-sep { width: 1px; height: 28px; background: var(--border-color); }
 
 /* Repo Pulse Unified Strip */
@@ -1577,19 +2177,48 @@
 .dash-charts { display: grid; grid-template-columns: 1fr 300px; gap: 16px; align-items: start; }
 .flame-chart { padding: 10px 14px 12px; position: relative; }
 .fc-svg { display: block; overflow: visible; }
-.fc-html-layer { position: absolute; top: 10px; left: 14px; right: 14px; bottom: 12px; pointer-events: none; }
+.fc-html-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; overflow: hidden; }
 .fc-date-lbl { position: absolute; bottom: 0; transform: translateX(-50%); font-size: 8px; color: rgba(255,255,255,0.3); font-family: system-ui,sans-serif; white-space: nowrap; line-height: 1; letter-spacing: -0.2px; }
 .fc-date-today { color: #ff5520 !important; font-weight: 700; }
 .fc-date-weekend { color: rgba(160,120,255,0.55); }
 .fc-peak-lbl { position: absolute; transform: translate(-50%, calc(-100% - 6px)); font-size: 9px; color: #ffaa00; font-weight: 700; font-family: system-ui,sans-serif; text-shadow: 0 0 6px rgba(255,170,0,0.5); }
 .fc-avg-lbl { position: absolute; right: 0; transform: translateY(-50%); font-size: 8px; color: rgba(255,120,0,0.65); font-family: system-ui,sans-serif; white-space: nowrap; padding: 1px 4px; background: rgba(0,0,0,0.4); border-radius: 3px; }
 .fc-month-badge { position: absolute; top: 0; right: 0; font-size: 9px; color: rgba(255,255,255,0.25); font-family: system-ui,sans-serif; letter-spacing: 0.3px; }
-.fc-tip { position: absolute; width: 76px; padding: 6px 0; background: rgba(14,14,22,0.95); border: 1px solid rgba(255,69,0,0.5); border-radius: 6px; text-align: center; z-index: 10; box-shadow: 0 4px 16px rgba(255,69,0,0.15); }
-.fc-tip-count { font-size: 11px; color: #ff6030; font-weight: 700; font-family: system-ui,sans-serif; }
-.fc-tip-date { font-size: 9px; color: rgba(200,200,220,0.55); font-family: system-ui,sans-serif; margin-top: 2px; }
+.fc-tip { position: absolute; width: 90px; padding: 7px 4px 6px; background: rgba(10,10,18,0.97); border: 1px solid rgba(255,69,0,0.5); border-radius: 7px; text-align: center; z-index: 10; box-shadow: 0 4px 18px rgba(255,69,0,0.18); pointer-events: none; }
+.fc-tip-count { font-size: 12px; color: #ff6030; font-weight: 700; font-family: system-ui,sans-serif; line-height: 1.2; }
+.fc-tip-date { font-size: 9px; color: rgba(200,200,220,0.6); font-family: system-ui,sans-serif; margin-top: 2px; }
+.fc-tip-pct { font-size: 8px; color: rgba(255,150,0,0.7); font-family: system-ui,sans-serif; margin-top: 2px; }
+
+.fc-kpi-row { display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.05); margin-bottom: 4px; }
+.fc-kpi { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 8px 4px; border-right: 1px solid rgba(255,255,255,0.05); }
+.fc-kpi:last-child { border-right: none; }
+.fc-kpi-v { font-size: 18px; font-weight: 800; color: var(--text-primary); line-height: 1; font-family: system-ui,sans-serif; letter-spacing: -0.5px; }
+.fc-kpi-l { font-size: 8px; color: rgba(255,255,255,0.35); margin-top: 3px; letter-spacing: 0.5px; font-family: system-ui,sans-serif; }
+.fc-kpi-accent .fc-kpi-v { color: #ff5520; }
+.fc-kpi-green .fc-kpi-v { color: #22c55e; }
+
+.fc-heatmap-wrap { display: flex; align-items: center; gap: 8px; padding: 10px 14px 6px; border-top: 1px solid rgba(255,255,255,0.05); margin-top: 4px; flex-wrap: wrap; overflow: hidden; }
+.fc-hm-label { font-size: 8px; color: rgba(255,255,255,0.3); letter-spacing: 0.6px; white-space: nowrap; font-family: system-ui,sans-serif; flex-shrink: 0; }
+.fc-heatmap-row { display: flex; gap: 2px; flex: 1; align-items: center; min-width: 0; overflow: hidden; }
+.fc-hm-cell { flex: 1 1 auto; min-width: 6px; max-width: 18px; height: 14px; border-radius: 3px; cursor: default; transition: transform 0.1s; }
+.fc-hm-cell:hover { transform: scaleY(1.3); }
+.fc-hm-0 { background: rgba(255,69,0,0.08); }
+.fc-hm-1 { background: rgba(255,69,0,0.25); }
+.fc-hm-2 { background: rgba(255,69,0,0.45); }
+.fc-hm-3 { background: rgba(255,69,0,0.68); }
+.fc-hm-4 { background: rgba(255,69,0,0.92); box-shadow: 0 0 6px rgba(255,69,0,0.4); }
+.fc-hm-legend { display: flex; align-items: center; gap: 3px; flex-shrink: 0; }
+.fc-hm-legend span { font-size: 7px; color: rgba(255,255,255,0.25); font-family: system-ui,sans-serif; }
+.fc-hm-legend .fc-hm-cell { width: 10px; min-width: 10px; max-width: 10px; height: 10px; flex: 0 0 10px; }
+
 .light-theme .fc-date-lbl { color: rgba(0,0,0,0.4); }
 .light-theme .fc-date-weekend { color: rgba(100,60,200,0.5); }
 .light-theme .fc-month-badge { color: rgba(0,0,0,0.3); }
+.light-theme .fc-kpi-l { color: rgba(0,0,0,0.4); }
+.light-theme .fc-hm-label { color: rgba(0,0,0,0.35); }
+.light-theme .fc-hm-0 { background: rgba(255,69,0,0.06); }
+.light-theme .fc-tip { background: rgba(255,255,255,0.97); border-color: rgba(255,69,0,0.4); }
+.light-theme .fc-tip-date { color: rgba(0,0,0,0.5); }
 
 /* Repo ring stats */
 .rs-rings { display: grid; grid-template-columns: repeat(2, 1fr); gap: 6px; padding: 10px 12px 8px; }
@@ -1609,68 +2238,268 @@
 .lang-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
 .lang-key em { font-style: normal; color: var(--text-secondary); font-weight: 600; }
 
-/* Feeds */
-.dash-feeds { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
-.feed-rows { display: flex; flex-direction: column; }
-.feed-row { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border-color); position: relative; }
-.feed-row:last-child { border-bottom: none; }
-.feed-row:hover { background: var(--bg-tertiary); }
-.feed-row:hover::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; background: var(--accent); border-radius: 0 2px 2px 0; }
-.fr-avatar { width: 30px; height: 30px; border-radius: 50%; border: 2px solid var(--border-color); flex-shrink: 0; transition: border-color 0.15s; }
-.feed-row:hover .fr-avatar { border-color: var(--accent); }
-.fr-body { flex: 1; min-width: 0; }
-.fr-msg { display: block; font-size: 11px; color: var(--text-primary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-.fr-meta { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text-muted); }
-.fr-author { color: var(--accent); font-weight: 600; }
-.fr-sep { opacity: 0.4; }
-.fr-time { color: var(--text-muted); }
-.fr-hash { background: rgba(255,69,0,0.1); border: 1px solid rgba(255,69,0,0.2); padding: 2px 6px; border-radius: 4px; font-size: 9px; color: var(--accent); font-family: monospace; flex-shrink: 0; letter-spacing: 0.5px; }
-.fr-arrow { color: var(--text-muted); flex-shrink: 0; opacity: 0; transition: opacity 0.15s; }
-.feed-row:hover .fr-arrow { opacity: 1; color: var(--accent); }
+/* Recent Commits Grid */
+.commits-panel { padding: 0; overflow: hidden; }
+.commits-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0; }
+.commit-card { padding: 12px 14px; cursor: pointer; border-right: 1px solid var(--border-color); border-bottom: 1px solid var(--border-color); transition: background 0.15s; position: relative; overflow: hidden; }
+.commit-card:nth-child(3n) { border-right: none; }
+.commit-card:nth-last-child(-n+3) { border-bottom: none; }
+.commit-card:hover { background: var(--bg-tertiary); }
+.commit-card:hover::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.15s; }
+.commit-card:hover::before { opacity: 1; background: var(--accent); }
+.cc-top { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+.cc-avatar { width: 24px; height: 24px; border-radius: 50%; border: 1.5px solid var(--border-color); flex-shrink: 0; }
+.commit-card:hover .cc-avatar { border-color: var(--accent); }
+.cc-hash { background: rgba(255,69,0,0.1); border: 1px solid rgba(255,69,0,0.2); padding: 1px 6px; border-radius: 4px; font-size: 9px; color: var(--accent); font-family: monospace; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; letter-spacing: 0.3px; }
+.cc-arrow { color: var(--text-muted); flex-shrink: 0; opacity: 0; transition: opacity 0.15s; }
+.commit-card:hover .cc-arrow { opacity: 1; color: var(--accent); }
+.cc-msg { font-size: 11.5px; color: var(--text-primary); font-weight: 500; line-height: 1.4; margin-bottom: 6px; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden; min-height: 32px; }
+.cc-meta { display: flex; align-items: center; gap: 4px; font-size: 10px; color: var(--text-muted); }
+.cc-author { color: var(--accent); font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cc-sep { opacity: 0.4; flex-shrink: 0; }
+.cc-time { white-space: nowrap; flex-shrink: 0; }
 
-/* Top Contributors */
-.contrib-rows { display: flex; flex-direction: column; }
-.cr-row { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border-color); }
-.cr-row:last-child { border-bottom: none; }
-.cr-row:hover { background: var(--bg-tertiary); }
-.cr-rank { width: 20px; height: 20px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 700; background: var(--bg-tertiary); color: var(--text-muted); flex-shrink: 0; }
-.rank-1 { background: linear-gradient(135deg, #ffd700, #ffb700); color: #000; box-shadow: 0 2px 8px rgba(255,215,0,0.4); }
-.rank-2 { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); color: #333; }
-.rank-3 { background: linear-gradient(135deg, #cd7f32, #a05a20); color: #fff; }
-.cr-avatar { width: 32px; height: 32px; border-radius: 50%; border: 2px solid var(--border-color); flex-shrink: 0; transition: border-color 0.15s; }
-.cr-row:hover .cr-avatar { border-color: var(--accent); }
-.cr-info { flex: 1; min-width: 0; }
-.cr-name-row { display: flex; align-items: center; justify-content: space-between; margin-bottom: 4px; }
-.cr-name { font-size: 11px; font-weight: 600; color: var(--text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.cr-pct { font-size: 9px; color: var(--text-muted); flex-shrink: 0; margin-left: 4px; }
-.cr-bar { height: 4px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden; }
-.cr-fill { height: 100%; background: linear-gradient(90deg, var(--accent), #ff8c42); border-radius: 2px; transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1); }
-.cr-count { font-size: 12px; font-weight: 700; color: var(--accent); flex-shrink: 0; min-width: 28px; text-align: right; }
+/* Top Contributors — 2-col layout */
+.tc-layout { display: grid; grid-template-columns: 220px 1fr; gap: 16px; }
+
+.tc-hero-col { position: relative; background: linear-gradient(160deg, rgba(255,215,0,0.09) 0%, rgba(255,69,0,0.07) 100%); border: 1px solid rgba(255,215,0,0.25); border-radius: 16px; padding: 24px 18px 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; overflow: hidden; transition: all 0.2s; }
+.tc-hero-col:hover { border-color: rgba(255,215,0,0.5); box-shadow: 0 0 32px rgba(255,215,0,0.1); transform: translateY(-2px); }
+.tc-hero-glow { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 160px; height: 160px; background: radial-gradient(circle, rgba(255,215,0,0.18) 0%, transparent 70%); pointer-events: none; }
+.tc-crown-wrap { position: relative; z-index: 1; }
+.tc-hero-avatar-ring { width: 90px; height: 90px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #ffd700, #ff8c42); box-shadow: 0 0 24px rgba(255,215,0,0.35); flex-shrink: 0; }
+.tc-hero-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-secondary); }
+.tc-hero-badge { background: linear-gradient(135deg, #ffd700, #ffb700); color: #000; font-size: 8px; font-weight: 900; padding: 3px 10px; border-radius: 12px; letter-spacing: 1.2px; text-transform: uppercase; box-shadow: 0 2px 10px rgba(255,215,0,0.4); }
+.tc-hero-name { font-size: 15px; font-weight: 800; color: var(--text-primary); text-align: center; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tc-hero-stats { display: flex; align-items: center; gap: 0; width: 100%; justify-content: center; }
+.tc-hstat { display: flex; flex-direction: column; align-items: center; padding: 0 12px; }
+.tc-hstat-val { font-size: 14px; font-weight: 700; color: #ffd700; line-height: 1.2; }
+.tc-hstat-lbl { font-size: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
+.tc-hstat-sep { width: 1px; height: 20px; background: rgba(255,215,0,0.2); flex-shrink: 0; }
+.tc-hero-bar-wrap { width: 100%; height: 4px; background: rgba(255,215,0,0.12); border-radius: 2px; overflow: hidden; }
+.tc-hero-bar { width: 100%; height: 100%; background: linear-gradient(90deg, #ffd700, #ff8c42); border-radius: 2px; }
+.tc-hero-cta { font-size: 9px; font-weight: 700; color: rgba(255,215,0,0.55); letter-spacing: 0.5px; margin-top: 2px; }
+
+.tc-grid-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-content: start; }
+.tc-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; }
+.tc-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+.tc-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.15s; }
+.tc-card:hover::before { opacity: 1; background: var(--accent); }
+.tc-card-silver { border-color: rgba(192,192,192,0.3); }
+.tc-card-silver:hover { border-color: rgba(192,192,192,0.7); box-shadow: 0 4px 16px rgba(192,192,192,0.15); }
+.tc-card-silver::after { background: #c0c0c0; }
+.tc-card-bronze { border-color: rgba(205,127,50,0.3); }
+.tc-card-bronze:hover { border-color: rgba(205,127,50,0.7); box-shadow: 0 4px 16px rgba(205,127,50,0.15); }
+.tc-card-bronze::after { background: #cd7f32; }
+.tc-card-rank { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; flex-shrink: 0; }
+.tcr-silver { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); color: #222; }
+.tcr-bronze { background: linear-gradient(135deg, #cd7f32, #a05a20); color: #fff; }
+.tcr-plain { background: var(--bg-tertiary); color: var(--text-muted); }
+.tc-card-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--border-color); transition: border-color 0.15s; }
+.tc-card-silver .tc-card-avatar { border-color: rgba(192,192,192,0.5); }
+.tc-card-bronze .tc-card-avatar { border-color: rgba(205,127,50,0.5); }
+.tc-card:hover .tc-card-avatar { border-color: var(--accent); }
+.tc-card-name { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: center; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tc-card-bar-wrap { width: 100%; height: 3px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden; }
+.tc-card-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #ff8c42); border-radius: 2px; transition: width 0.8s ease; }
+.tc-card-silver .tc-card-bar { background: linear-gradient(90deg, #a0a0a0, #c0c0c0); }
+.tc-card-bronze .tc-card-bar { background: linear-gradient(90deg, #a05a20, #cd7f32); }
+.tc-card-commits { font-size: 10px; font-weight: 700; color: var(--accent); }
+.tc-card-silver .tc-card-commits { color: #c0c0c0; }
+.tc-card-bronze .tc-card-commits { color: #cd7f32; }
+
+/* Quick Actions Row */
+.qa-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+.qa-btn { display: flex; align-items: center; gap: 8px; padding: 10px 18px; border-radius: 10px; border: 1px solid var(--border-color); background: var(--bg-secondary); color: var(--text-secondary); font-size: 12px; font-weight: 600; cursor: pointer; transition: all 0.2s; flex: 1; min-width: 120px; justify-content: center; }
+.qa-btn:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
+.qa-blue:hover  { border-color: #3b82f6; color: #3b82f6; background: rgba(59,130,246,0.08); }
+.qa-green:hover { border-color: #22c55e; color: #22c55e; background: rgba(34,197,94,0.08); }
+.qa-orange:hover { border-color: #f59e0b; color: #f59e0b; background: rgba(245,158,11,0.08); }
+.qa-purple:hover { border-color: #8b5cf6; color: #8b5cf6; background: rgba(139,92,246,0.08); }
+.qa-red:hover   { border-color: var(--accent); color: var(--accent); background: rgba(255,69,0,0.08); }
+.qa-teal:hover  { border-color: #14b8a6; color: #14b8a6; background: rgba(20,184,166,0.08); }
+
+/* Activity Calendar — collapsed = compact strip, expanded = full grid */
+.act-cal-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
+.act-cal-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.act-cal-meta-left { display: flex; align-items: center; gap: 8px; min-width: 0; }
+.act-cal-meta-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.act-cal-title { font-size: 11px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
+.act-cal-badge { font-size: 9px; font-weight: 700; background: rgba(255,69,0,0.12); color: var(--accent); padding: 2px 8px; border-radius: 20px; border: 1px solid rgba(255,69,0,0.25); white-space: nowrap; }
+.act-cal-legend { display: flex; align-items: center; gap: 2px; font-size: 9px; color: var(--text-muted); }
+.acl-cell { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
+.acl-cell.intensity-0 { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); }
+.acl-cell.intensity-1 { background: rgba(255,69,0,0.22); }
+.acl-cell.intensity-2 { background: rgba(255,69,0,0.48); }
+.acl-cell.intensity-3 { background: rgba(255,69,0,0.72); }
+.acl-cell.intensity-4 { background: #ff4500; }
+.act-cal-toggle { background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-muted); width: 22px; height: 22px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0; transition: all 0.15s; }
+.act-cal-toggle:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,69,0,0.09); }
+.act-cal-months { display: none; }
+.act-cal-dow { display: none; }
+.act-cal-grid { display: flex; flex-wrap: nowrap; gap: 2px; flex: 1; min-width: 0; overflow: hidden; align-items: center; }
+.act-cal-cell { width: 12px; height: 12px; flex-shrink: 0; border-radius: 2px; cursor: pointer; transition: box-shadow 0.12s; position: relative; }
+.act-cal-cell-empty { display: none; }
+.act-cal-cell.intensity-0 { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); }
+.act-cal-cell.intensity-1 { background: rgba(255,69,0,0.22); }
+.act-cal-cell.intensity-2 { background: rgba(255,69,0,0.48); }
+.act-cal-cell.intensity-3 { background: rgba(255,69,0,0.72); }
+.act-cal-cell.intensity-4 { background: #ff4500; box-shadow: 0 0 4px rgba(255,69,0,0.4); }
+.act-cal-cell-selected { outline: 2px solid var(--accent) !important; outline-offset: 1px; z-index: 2; }
+.acc-day { display: none; }
+/* Expanded state */
+.act-cal-expanded { flex-direction: column !important; align-items: stretch !important; padding: 14px 16px 16px !important; gap: 10px !important; }
+.act-cal-expanded .act-cal-meta { width: 100%; justify-content: space-between; }
+.act-cal-expanded .act-cal-months { display: flex; gap: 6px; flex-wrap: wrap; }
+.acm-btn { background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-muted); font-size: 10px; font-weight: 600; padding: 3px 10px; border-radius: 16px; cursor: pointer; transition: all 0.15s; display: flex; align-items: center; gap: 4px; }
+.acm-btn:hover { border-color: var(--accent); color: var(--accent); }
+.acm-active { background: rgba(255,69,0,0.12) !important; border-color: rgba(255,69,0,0.4) !important; color: var(--accent) !important; }
+.acm-count { font-size: 8px; background: rgba(255,69,0,0.2); color: var(--accent); padding: 1px 4px; border-radius: 8px; font-weight: 700; }
+.act-cal-expanded .act-cal-dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
+.act-cal-dow span { font-size: 9px; font-weight: 700; color: var(--text-muted); text-align: center; opacity: 0.5; }
+.act-cal-expanded .act-cal-grid { display: grid !important; grid-template-columns: repeat(7, 1fr); gap: 3px; flex: none; overflow: visible; }
+.act-cal-expanded .act-cal-cell { width: auto !important; height: auto !important; aspect-ratio: 1; min-height: 28px; border-radius: 4px; }
+.act-cal-expanded .act-cal-cell-empty { display: block; background: transparent !important; cursor: default; pointer-events: none; }
+.act-cal-expanded .acc-day { display: block; position: absolute; bottom: 2px; left: 0; right: 0; text-align: center; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.5); pointer-events: none; line-height: 1; }
+
+.act-cal-detail { width: 100%; margin-top: 12px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; }
+.acd-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 12px 14px 10px; border-bottom: 1px solid var(--border-color); gap: 8px; }
+.acd-date-info { display: flex; flex-direction: column; gap: 5px; min-width: 0; }
+.acd-date-full { font-size: 12px; font-weight: 700; color: var(--text-primary); }
+.acd-stats-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.acd-stat-pill { font-size: 10px; font-weight: 700; background: rgba(255,69,0,0.15); color: var(--accent); border: 1px solid rgba(255,69,0,0.25); padding: 2px 8px; border-radius: 20px; }
+.acd-gh-link { font-size: 10px; color: var(--text-muted); text-decoration: none; opacity: 0.7; transition: opacity 0.15s; }
+.acd-gh-link:hover { opacity: 1; color: var(--accent); }
+.acd-close { background: none; border: 1px solid var(--border-color); color: var(--text-muted); width: 22px; height: 22px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0; transition: all 0.15s; }
+.acd-close:hover { border-color: var(--accent); color: var(--accent); }
+.acd-empty { padding: 14px; font-size: 11px; color: var(--text-muted); text-align: center; }
+.acd-no-data { padding: 12px 14px; font-size: 11px; color: var(--text-muted); }
+.acd-no-data a { color: var(--accent); text-decoration: none; }
+.acd-commits { display: flex; flex-direction: column; gap: 0; max-height: 260px; overflow-y: auto; }
+.acd-commit-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border-color); transition: background 0.12s; }
+.acd-commit-row:last-child { border-bottom: none; }
+.acd-commit-row:hover { background: var(--bg-hover); }
+.acd-avatar { width: 26px; height: 26px; border-radius: 50%; flex-shrink: 0; border: 1px solid var(--border-color); }
+.acd-commit-body { display: flex; flex-direction: column; gap: 4px; min-width: 0; flex: 1; }
+.acd-commit-msg { font-size: 11px; font-weight: 600; color: var(--text-primary); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.acd-commit-msg:hover { color: var(--accent); }
+.acd-commit-meta { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+.acd-author { font-size: 10px; color: var(--text-muted); }
+.acd-sha { font-size: 9px; background: var(--bg-primary); color: var(--accent); padding: 1px 5px; border-radius: 4px; cursor: pointer; font-family: monospace; border: 1px solid var(--border-color); }
+.acd-sha:hover { border-color: var(--accent); }
+.acd-files-count { font-size: 10px; color: var(--text-muted); background: rgba(255,255,255,0.05); padding: 1px 5px; border-radius: 4px; }
+.acd-additions { font-size: 10px; color: #22c55e; font-weight: 600; }
+.acd-deletions { font-size: 10px; color: #ef4444; font-weight: 600; }
+.acd-loading { font-size: 10px; color: var(--text-muted); opacity: 0.6; font-style: italic; }
+.acd-file-chips { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 2px; }
+.acd-file-chip { font-size: 9px; background: rgba(255,255,255,0.05); color: var(--text-muted); padding: 1px 6px; border-radius: 4px; border: 1px solid var(--border-color); font-family: monospace; white-space: nowrap; max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+
+/* Weekly Rhythm */
+.week-rhythm-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 16px; padding: 18px 20px; margin-bottom: 8px; }
+.wrc-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 16px; flex-wrap: wrap; gap: 8px; }
+.wrc-title { font-size: 11px; color: var(--text-muted); }
+.wrc-peak { font-size: 11px; color: var(--text-muted); }
+.wrc-peak strong { color: var(--accent); }
+.wrc-bars { display: flex; flex-direction: column; gap: 9px; }
+.wrc-row { display: flex; align-items: center; gap: 12px; }
+.wrc-day { font-size: 11px; font-weight: 600; color: var(--text-muted); width: 30px; flex-shrink: 0; }
+.wrc-weekend .wrc-day { color: rgba(255,255,255,0.35); }
+.wrc-track { flex: 1; height: 10px; background: var(--bg-tertiary); border-radius: 5px; overflow: hidden; position: relative; }
+.wrc-fill { height: 100%; border-radius: 5px; background: linear-gradient(90deg, rgba(255,69,0,0.5), rgba(255,69,0,0.8)); transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.wrc-peak .wrc-fill { background: linear-gradient(90deg, #ff4500, #ff8c42); box-shadow: 0 0 10px rgba(255,69,0,0.4); }
+.wrc-fill-glow { position: absolute; top: 0; left: 0; height: 100%; border-radius: 5px; background: rgba(255,150,60,0.3); filter: blur(4px); pointer-events: none; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.wrc-weekend .wrc-fill { background: linear-gradient(90deg, rgba(100,100,120,0.3), rgba(100,100,120,0.5)); }
+.wrc-avg { font-size: 11px; font-weight: 700; color: var(--text-primary); width: 36px; text-align: right; flex-shrink: 0; white-space: nowrap; }
+.wrc-unit { font-size: 9px; font-weight: 400; color: var(--text-muted); }
+.wrc-total { font-size: 10px; color: var(--text-muted); width: 32px; text-align: right; flex-shrink: 0; }
 
 /* Issues + PRs */
 .dash-ipr { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+.ipr-panel { padding: 0; overflow: hidden; }
 .ipr-list { display: flex; flex-direction: column; }
-.ipr-row { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border-color); }
+.ipr-row { display: flex; align-items: center; gap: 10px; padding: 10px 16px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border-color); position: relative; }
 .ipr-row:last-child { border-bottom: none; }
 .ipr-row:hover { background: var(--bg-tertiary); }
-.ipr-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; border: 1px solid var(--border-color); }
-.ipr-num-wrap { display: flex; align-items: center; gap: 5px; flex-shrink: 0; }
-.ipr-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+.ipr-row:hover::before { content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px; border-radius: 0 2px 2px 0; }
+.ipr-panel:first-child .ipr-row:hover::before { background: #3b82f6; }
+.ipr-panel:last-child .ipr-row:hover::before { background: #22c55e; }
+.ipr-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; border: 2px solid var(--border-color); transition: border-color 0.15s; }
+.ipr-row:hover .ipr-avatar { border-color: var(--accent); }
+.ipr-status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; display: inline-block; margin-right: 4px; }
 .issue-dot { background: #3b82f6; box-shadow: 0 0 6px rgba(59,130,246,0.5); }
 .pr-dot { background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.5); }
-.ipr-num { font-size: 10px; color: var(--text-muted); font-weight: 600; min-width: 28px; }
 .ipr-body { flex: 1; min-width: 0; }
-.ipr-title { display: block; font-size: 11px; color: var(--text-primary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
-.ipr-meta { font-size: 10px; color: var(--text-muted); display: block; }
+.ipr-title-row { display: flex; align-items: center; gap: 6px; margin-bottom: 3px; }
+.ipr-num-badge { font-size: 9px; font-weight: 700; padding: 1px 5px; border-radius: 4px; flex-shrink: 0; font-family: monospace; }
+.ipr-num-badge.blue { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.25); }
+.ipr-num-badge.green { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
+.ipr-title { font-size: 11px; color: var(--text-primary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.ipr-meta-row { display: flex; align-items: center; gap: 4px; font-size: 10px; }
+.ipr-author { color: var(--accent); font-weight: 600; }
+.ipr-sep { color: var(--text-muted); opacity: 0.4; }
+.ipr-time { color: var(--text-muted); }
 .ipr-arrow { color: var(--text-muted); opacity: 0; transition: opacity 0.15s; flex-shrink: 0; }
 .ipr-row:hover .ipr-arrow { opacity: 1; color: var(--accent); }
-.ipr-empty { padding: 24px; text-align: center; color: var(--text-muted); font-size: 12px; }
+.ipr-empty { padding: 28px 16px; text-align: center; color: var(--text-muted); font-size: 12px; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.ipr-new-btn { background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-muted); width: 22px; height: 22px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; flex-shrink: 0; padding: 0; }
+.ipr-new-btn:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,69,0,0.08); }
+
+/* Live Overview */
+.dash-weekly { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+.activity-timeline-card { padding: 0; overflow: hidden; }
+.repo-health-card { padding: 0; overflow: hidden; }
+
+/* Live dot small */
+.live-dot-sm { width: 7px; height: 7px; border-radius: 50%; background: #22c55e; box-shadow: 0 0 6px rgba(34,197,94,0.6); display: inline-block; animation: livePulse 1.5s ease infinite; flex-shrink: 0; }
+
+/* Activity Timeline */
+.at-list { display: flex; flex-direction: column; max-height: 380px; overflow-y: auto; }
+.at-list::-webkit-scrollbar { width: 3px; }
+.at-list::-webkit-scrollbar-track { background: transparent; }
+.at-list::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 2px; }
+.at-row { display: flex; align-items: center; gap: 9px; padding: 9px 14px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border-color); position: relative; }
+.at-row:last-child { border-bottom: none; }
+.at-row:hover { background: var(--bg-tertiary); }
+.at-icon-wrap { width: 18px; height: 18px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.ati-commit { background: rgba(255,69,0,0.2); color: #ff6030; border: 1px solid rgba(255,69,0,0.3); }
+.ati-pr { background: rgba(34,197,94,0.2); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); }
+.ati-issue { background: rgba(59,130,246,0.2); color: #3b82f6; border: 1px solid rgba(59,130,246,0.3); }
+.at-avatar { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--border-color); flex-shrink: 0; }
+.at-body { flex: 1; min-width: 0; }
+.at-msg { display: block; font-size: 11px; color: var(--text-primary); font-weight: 500; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
+.at-meta { display: flex; align-items: center; gap: 4px; font-size: 9px; }
+.at-author { color: var(--accent); font-weight: 600; }
+.at-sep { color: var(--text-muted); opacity: 0.4; }
+.at-time { color: var(--text-muted); }
+.at-num { background: var(--bg-tertiary); color: var(--text-muted); padding: 1px 4px; border-radius: 3px; font-family: monospace; font-size: 9px; }
+.at-type-pill { font-size: 8px; font-weight: 700; padding: 2px 6px; border-radius: 10px; flex-shrink: 0; text-transform: uppercase; letter-spacing: 0.5px; }
+.pill-commit { background: rgba(255,69,0,0.12); color: #ff6030; border: 1px solid rgba(255,69,0,0.2); }
+.pill-pr { background: rgba(34,197,94,0.12); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+.pill-issue { background: rgba(59,130,246,0.12); color: #3b82f6; border: 1px solid rgba(59,130,246,0.2); }
+
+/* Repo Health */
+.rh-rows { display: flex; flex-direction: column; padding: 4px 0 8px; }
+.rh-row { display: flex; align-items: center; gap: 10px; padding: 8px 16px; }
+.rh-label { display: flex; align-items: center; gap: 5px; font-size: 10px; color: var(--text-muted); white-space: nowrap; width: 130px; flex-shrink: 0; }
+.rh-bar-wrap { flex: 1; height: 5px; background: var(--bg-tertiary); border-radius: 3px; overflow: hidden; }
+.rh-bar { height: 100%; border-radius: 3px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); min-width: 4px; }
+.rh-bar.green { background: linear-gradient(90deg, #16a34a, #22c55e); }
+.rh-bar.blue { background: linear-gradient(90deg, #1d4ed8, #3b82f6); }
+.rh-bar.orange { background: linear-gradient(90deg, #c2410c, #f97316); }
+.rh-bar.purple { background: linear-gradient(90deg, #6d28d9, #8b5cf6); }
+.rh-bar.red { background: linear-gradient(90deg, #b91c1c, #e74c3c); }
+.rh-val { font-size: 10px; font-weight: 700; color: var(--text-primary); flex-shrink: 0; min-width: 36px; text-align: right; font-family: system-ui,sans-serif; }
+
+/* dc-badge colors */
+.dc-badge.blue { background: rgba(59,130,246,0.15); color: #3b82f6; border: 1px solid rgba(59,130,246,0.25); }
+.dc-badge.green { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.25); }
 
 @media (max-width: 1200px) {
   .kpi-row { grid-template-columns: repeat(3, 1fr); }
   .dash-charts { grid-template-columns: 1fr; }
-  .dash-feeds { grid-template-columns: 1fr; }
   .dash-ipr { grid-template-columns: 1fr; }
+  .dash-weekly { grid-template-columns: 1fr; }
+  .tc-layout { grid-template-columns: 180px 1fr; }
+  .tc-grid-col { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 900px) {
@@ -1680,6 +2509,21 @@
   .logout-btn { justify-content: center; padding: 8px; }
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .rps-brand { display: none; }
+  .rh-label { width: 110px; }
+  .tc-layout { grid-template-columns: 1fr; }
+  .tc-hero-col { flex-direction: row; padding: 16px; gap: 14px; align-items: center; border-radius: 12px; }
+  .tc-hero-avatar-ring { width: 64px; height: 64px; flex-shrink: 0; }
+  .tc-crown-wrap { display: none; }
+  .tc-hero-bar-wrap, .tc-hero-cta { display: none; }
+  .tc-grid-col { grid-template-columns: repeat(4, 1fr); }
+  .commits-grid { grid-template-columns: repeat(2, 1fr); }
+  .commit-card:nth-child(3n) { border-right: 1px solid var(--border-color); }
+  .commit-card:nth-child(2n) { border-right: none; }
+  .commit-card:nth-last-child(-n+2) { border-bottom: none; }
+  .commit-card:nth-last-child(-n+3) { border-bottom: 1px solid var(--border-color); }
+  .qa-row { gap: 8px; }
+  .qa-btn { min-width: 0; padding: 8px 10px; font-size: 11px; }
+  .qa-btn span { display: none; }
 }
 
 @media (max-width: 640px) {
@@ -1692,9 +2536,7 @@
     transition: transform 0.25s ease;
     box-shadow: 6px 0 28px rgba(0,0,0,0.7);
   }
-  .dashboard-sidebar:not(.collapsed) {
-    transform: translateX(0);
-  }
+  .dashboard-sidebar:not(.collapsed) { transform: translateX(0); }
   .dashboard-sidebar:not(.collapsed) .brand-text { display: flex !important; }
   .dashboard-sidebar:not(.collapsed) .nav-label { display: block !important; }
   .dashboard-sidebar:not(.collapsed) .nav-badge { display: inline !important; }
@@ -1711,6 +2553,25 @@
   .action-btn { padding: 6px 10px; }
   .btn-text { display: none; }
   .rs-rings { grid-template-columns: repeat(2, 1fr); }
+  .dash-ipr { grid-template-columns: 1fr; }
+  .dash-weekly { grid-template-columns: 1fr; }
+  .rh-label { width: 100px; font-size: 9px; }
+  .ipr-num-badge { display: none; }
+  .fc-kpi-row { flex-wrap: wrap; }
+  .fc-kpi { min-width: 60px; }
+  .fc-heatmap-wrap { padding: 8px 10px 6px; gap: 6px; }
+  .fc-hm-label { display: none; }
+  .fc-heatmap-row { gap: 1px; }
+  .fc-hm-cell { height: 10px; min-width: 4px; }
+  .fc-hm-legend { display: none; }
+  .tc-layout { grid-template-columns: 1fr; }
+  .tc-grid-col { grid-template-columns: repeat(3, 1fr); }
+  .commits-grid { grid-template-columns: 1fr; }
+  .commit-card { border-right: none !important; }
+  .commit-card:nth-last-child(-n+1) { border-bottom: none; }
+  .qa-row { gap: 8px; }
+  .qa-btn { min-width: 0; padding: 8px 10px; font-size: 11px; }
+  .qa-btn span { display: none; }
 }
 
 @media (max-width: 420px) {
@@ -1719,5 +2580,6 @@
   .dashboard-header { flex-wrap: wrap; gap: 6px; }
   .header-right { width: 100%; }
   .action-btn { flex: 1; justify-content: center; }
+  .tc-grid-col { grid-template-columns: repeat(2, 1fr); }
 }
 </style>

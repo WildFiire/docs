@@ -233,6 +233,13 @@
         </div>
         
         <div class="modal-body">
+          <div class="modal-author-row">
+            <img :src="selectedEvent.avatar || `https://github.com/${selectedEvent.author}.png`" :alt="selectedEvent.author" class="modal-author-avatar">
+            <div class="modal-author-info">
+              <span class="modal-author-name">@{{ selectedEvent.author }}</span>
+              <span class="modal-author-when">{{ formatTimeAgo(selectedEvent.timestamp) }}</span>
+            </div>
+          </div>
           <h3>{{ selectedEvent.message }}</h3>
           
           <div class="modal-details">
@@ -1045,6 +1052,42 @@ export default {
   padding: 20px;
 }
 
+.modal-author-row { 
+  display: flex; 
+  align-items: center; 
+  gap: 12px; 
+  margin-bottom: 16px; 
+  padding: 10px 14px; 
+  background: var(--bg-tertiary); 
+  border-radius: 10px; 
+  border: 1px solid var(--border-color); 
+}
+
+.modal-author-avatar { 
+  width: 44px; 
+  height: 44px; 
+  border-radius: 50%; 
+  border: 2px solid var(--accent); 
+  flex-shrink: 0; 
+}
+
+.modal-author-info { 
+  display: flex; 
+  flex-direction: column; 
+  gap: 2px; 
+}
+
+.modal-author-name { 
+  font-size: 13px; 
+  font-weight: 700; 
+  color: var(--accent); 
+}
+
+.modal-author-when { 
+  font-size: 11px; 
+  color: var(--text-muted); 
+}
+
 .modal-body h3 {
   font-size: 16px;
   color: var(--text-primary);
@@ -1138,6 +1181,60 @@ export default {
   .event-header {
     flex-direction: column;
     align-items: flex-start;
+  }
+}
+
+@media (max-width: 640px) {
+  .filter-group {
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .filter-btn {
+    font-size: 11px;
+    padding: 6px 10px;
+  }
+  .search-box input {
+    width: 100%;
+    min-width: 0;
+  }
+  .search-group {
+    flex-direction: column;
+    gap: 8px;
+    width: 100%;
+  }
+  .search-box {
+    width: 100%;
+  }
+  .date-btn {
+    width: 100%;
+    justify-content: center;
+  }
+  .event-card {
+    padding: 12px;
+  }
+  .message-text {
+    font-size: 12px;
+  }
+  .modal-content {
+    width: 96%;
+    border-radius: 14px;
+  }
+  .modal-body {
+    padding: 14px;
+  }
+  .modal-author-row {
+    padding: 8px 10px;
+    gap: 10px;
+  }
+  .modal-author-avatar {
+    width: 36px;
+    height: 36px;
+  }
+  .modal-body h3 {
+    font-size: 13px;
+  }
+  .pagination {
+    padding: 12px;
   }
 }
 </style>
