@@ -213,7 +213,7 @@
                     </div>
                   </div>
                   <!-- Main chart -->
-                  <div style="position:relative">
+                  <div style="position:relative;cursor:crosshair" @mousemove="onFlameMouseMove" @mouseleave="hoveredBarIndex = null">
                     <svg class="fc-svg" viewBox="0 0 640 200" preserveAspectRatio="none" width="100%" height="200"
                       @mousemove="onFlameMouseMove" @mouseleave="hoveredBarIndex = null">
                       <defs>
@@ -302,10 +302,10 @@
                   <div class="fc-heatmap-wrap">
                     <span class="fc-hm-label">INTENSITY</span>
                     <div class="fc-heatmap-row">
-                      <div v-for="(cell, i) in heatmapCells" :key="'hc'+i"
+                      <div v-for="(b, i) in flameBarData" :key="'hc'+i"
                         class="fc-hm-cell"
-                        :class="'fc-hm-' + cell.intensity"
-                        :title="cell.label"
+                        :class="'fc-hm-' + (b.commits === 0 ? 0 : b.pct < 0.25 ? 1 : b.pct < 0.5 ? 2 : b.pct < 0.75 ? 3 : 4)"
+                        :title="b.fullLabel + ': ' + b.commits + ' commit' + (b.commits !== 1 ? 's' : '')"
                         @mouseenter="hoveredBarIndex = i"
                         @mouseleave="hoveredBarIndex = null"/>
                     </div>
