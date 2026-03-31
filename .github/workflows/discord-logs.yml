@@ -1,0 +1,234 @@
+name: 🚀 VitePress Deploy & Notifications
+
+on:
+  push:
+    branches: [main, develop]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # ia tot istoricul pentru commit logs
+      
+      - name: 📦 Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+      
+      - name: 🔧 Install dependencies
+        run: npm ci
+      
+      - name: 📝 Get commit info
+        id: commit-info
+        run: |
+          # Ultimele 5 commit-uri
+          COMMIT_LOG=$(git log -5 --pretty=format:"%h - %s (%an)" | sed 's/"/\\"/g')
+          echo "commit_log<<EOF" >> $GITHUB_OUTPUT
+          echo "$COMMIT_LOG" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          
+          # Autorul
+          AUTHOR_NAME=$(git log -1 --pretty=format:"%an")
+          AUTHOR_EMAIL=$(git log -1 --pretty=format:"%ae")
+          echo "author_name=$AUTHOR_NAME" >> $GITHUB_OUTPUT
+          echo "author_email=$AUTHOR_EMAIL" >> $GITHUB_OUTPUT
+      
+      - name: 📂 Get changed files
+        id: changed-files
+        run: |
+          # Toate fișierele modificate în ultimul commit
+          CHANGED_FILES=$(git diff --name-only HEAD~1 HEAD)
+          TOTAL_FILES=$(echo "$CHANGED_FILES" | wc -l)
+          
+          # Arată până la 100 de fișiere
+          if [ $TOTAL_FILES -le 100 ]; then
+            FILE_LIST=$(echo "$CHANGED_FILES" | sed 's/^/• /' | sed 's/"/\\"/g')
+          else
+            FILE_LIST=$(echo "$CHANGED_FILES" | head -100 | sed 's/^/• /' | sed 's/"/\\"/g')
+            FILE_LIST="$FILE_LIST\n\n• ... și $((TOTAL_FILES - 100)) fișiere"
+          fi
+          
+          echo "files<<EOF" >> $GITHUB_OUTPUT
+          echo "$FILE_LIST" >> $GITHUB_OUTPUT
+          echo "EOF" >> $GITHUB_OUTPUT
+          echo "total=$TOTAL_FILES" >> $GITHUB_OUTPUT
+      
+      - name: 🏗️ Build VitePress
+        id: build
+        continue-on-error: true
+        run: |
+          # Build cu captură de erori
+          npm run docs:build 2>&1 | tee build.log
+          echo "exit_code=$?" >> $GITHUB_OUTPUT
+          
+          # Extrage erorile dacă există
+          if [ $? -ne 0 ]; then
+            ERRORS=$(grep -E "error|Error|ERROR|failed|Failed" build.log | tail -50 | sed 's/"/\\"/g')
+            echo "errors<<EOF" >> $GITHUB_OUTPUT
+            echo "$ERRORS" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+            
+            # Prima eroare cu linia exactă
+            FIRST_ERROR=$(grep -E "error|Error|ERROR" build.log | head -1 | sed 's/"/\\"/g')
+            echo "first_error=$FIRST_ERROR" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 🚀 Deploy to VPS
+        if: steps.build.outputs.exit_code == 0
+        id: deploy
+        continue-on-error: true
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.VPS_SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          
+          # Adaugă host la known_hosts
+          ssh-keyscan -H ${{ secrets.VPS_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+          
+          # Deploy cu rsync
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no" \
+            docs/.vitepress/dist/ \
+            ${{ secrets.VPS_USER }}@${{ secrets.VPS_HOST }}:${{ secrets.VPS_PATH }} 2>&1 | tee deploy.log
+          
+          if [ ${PIPESTATUS[0]} -eq 0 ]; then
+            echo "status=success" >> $GITHUB_OUTPUT
+          else
+            echo "status=failed" >> $GITHUB_OUTPUT
+            DEPLOY_ERROR=$(cat deploy.log | grep -i error | tail -20 | sed 's/"/\\"/g')
+            echo "error<<EOF" >> $GITHUB_OUTPUT
+            echo "$DEPLOY_ERROR" >> $GITHUB_OUTPUT
+            echo "EOF" >> $GITHUB_OUTPUT
+          fi
+      
+      - name: 📢 Send Discord Notification
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+          REPO="${{ github.repository }}"
+          BRANCH="${{ github.ref_name }}"
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          COMMIT_SHA="${{ github.sha }}"
+          SHORT_SHA="${COMMIT_SHA:0:7}"
+          AUTHOR="${{ steps.commit-info.outputs.author_name }}"
+          COMMIT_LOG="${{ steps.commit-info.outputs.commit_log }}"
+          FILES_CHANGED="${{ steps.changed-files.outputs.files }}"
+          TOTAL_FILES="${{ steps.changed-files.outputs.total }}"
+          BUILD_EXIT="${{ steps.build.outputs.exit_code }}"
+          BUILD_ERROR="${{ steps.build.outputs.first_error }}"
+          DEPLOY_STATUS="${{ steps.deploy.outputs.status }}"
+          
+          # Determină statusul final
+          if [ "$BUILD_EXIT" == "0" ] && [ "$DEPLOY_STATUS" == "success" ]; then
+            STATUS="✅ SUCCESS"
+            COLOR="3066993"
+            TITLE="✅ Deployment Successful"
+          elif [ "$BUILD_EXIT" != "0" ]; then
+            STATUS="❌ BUILD FAILED"
+            COLOR="15158332"
+            TITLE="❌ Build Failed"
+          else
+            STATUS="⚠️ DEPLOY FAILED"
+            COLOR="15105570"
+            TITLE="⚠️ Deployment Failed"
+          fi
+          
+          # Construiește descrierea în funcție de status
+          if [ "$BUILD_EXIT" != "0" ]; then
+            DESCRIPTION="**🔨 Build Error:**\n\`\`\`\n$BUILD_ERROR\n\`\`\`\n**📝 Check logs above for details**"
+          elif [ "$DEPLOY_STATUS" != "success" ]; then
+            DESCRIPTION="**⚠️ Deploy Error:**\n\`\`\`\n${{ steps.deploy.outputs.error }}\n\`\`\`\n**✅ Build was successful, but deployment to VPS failed**"
+          else
+            DESCRIPTION="**✅ Build successful**\n**✅ Deployed to VPS**\n\n**📁 Total files changed:** $TOTAL_FILES"
+          fi
+          
+          # Trimite embed-ul
+          jq -n \
+            --arg title "$TITLE" \
+            --arg color "$COLOR" \
+            --arg status "$STATUS" \
+            --arg repo "$REPO" \
+            --arg branch "$BRANCH" \
+            --arg commit_msg "$COMMIT_MSG" \
+            --arg commit_sha "[$SHORT_SHA](https://github.com/$REPO/commit/$COMMIT_SHA)" \
+            --arg author "$AUTHOR" \
+            --arg timestamp "$TIMESTAMP" \
+            --arg commit_log "$COMMIT_LOG" \
+            --arg files "$FILES_CHANGED" \
+            --arg total_files "$TOTAL_FILES" \
+            --arg description "$DESCRIPTION" \
+            '{
+              embeds: [{
+                title: $title,
+                color: ($color | tonumber),
+                description: $description,
+                fields: [
+                  {
+                    name: "📦 Repository",
+                    value: $repo,
+                    inline: true
+                  },
+                  {
+                    name: "🌿 Branch",
+                    value: $branch,
+                    inline: true
+                  },
+                  {
+                    name: "📝 Commit",
+                    value: $commit_sha,
+                    inline: true
+                  },
+                  {
+                    name: "👤 Author",
+                    value: $author,
+                    inline: true
+                  },
+                  {
+                    name: "💬 Commit Message",
+                    value: ($commit_msg | if length > 100 then .[0:100] + "..." else . end),
+                    inline: false
+                  },
+                  {
+                    name: "📜 Last 5 Commits",
+                    value: "```\n" + $commit_log + "\n```",
+                    inline: false
+                  },
+                  {
+                    name: "📁 Changed Files (\($total_files\) files)",
+                    value: "```\n" + $files + "\n```",
+                    inline: false
+                  }
+                ],
+                footer: {
+                  text: "VitePress Deploy • " + $status,
+                  icon_url: "https://vitepress.dev/vitepress-logo-large.png"
+                },
+                timestamp: $timestamp
+              }]
+            }' | curl -s -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d @-
+      
+      - name: 📢 Send Error Details (if build failed)
+        if: steps.build.outputs.exit_code != 0
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+        run: |
+          FULL_ERRORS="${{ steps.build.outputs.errors }}"
+          
+          jq -n \
+            --arg errors "$FULL_ERRORS" \
+            '{
+              embeds: [{
+                title: "🔍 Detailed Build Errors",
+                color: 15158332,
+                description: "```\n" + ($errors | if length > 1900 then .[0:1900] + "\n... (truncated)" else . end) + "\n```",
+                footer: {
+                  text: "Check the full log in GitHub Actions"
+                }
+              }]
+            }' | curl -s -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d @-
