@@ -67,16 +67,16 @@
               {{ tag.text }}
             </component>
           </div>
-          <div class="updated-by">
+          <div v-if="effectiveUsername" class="updated-by">
             <span class="orbitron-font">{{ updatedByText }}</span>
             <a 
-              :href="`https://github.com/${updatedByUsername}`" 
+              :href="`https://github.com/${effectiveUsername}`" 
               target="_blank" 
               class="github-profile"
-              :data-username="updatedByUsername"
-              :data-tags="'show-wildfire show-dev show-wiki show-staff'"
+              :data-username="effectiveUsername"
+              :data-tags="dataTags"
             >
-              <img :src="`https://github.com/${updatedByUsername}.png`" :alt="updatedByUsername">
+              <img :src="`https://github.com/${effectiveUsername}.png`" :alt="effectiveUsername">
             </a>
           </div>
         </div>
@@ -87,6 +87,8 @@
 
 <script setup>
 import { computed, ref, onMounted } from 'vue'
+import { useData } from 'vitepress'
+import { USER_TAGS } from '../data/userTags'
 
 // Props definition
 const props = defineProps({
@@ -124,10 +126,6 @@ const props = defineProps({
     type: Array,
     default: () => []
   },
-  updatedByUsername: {
-    type: String,
-    default: 'iannc69'
-  },
   updatedByText: {
     type: String,
     default: 'updated by'
@@ -144,6 +142,15 @@ const props = defineProps({
     type: String,
     default: 'default-page'
   }
+})
+
+const { frontmatter } = useData()
+const effectiveUsername = computed(() => frontmatter.value.gitLastCommitter || '')
+const dataTags = computed(() => {
+  const u = effectiveUsername.value
+  if (!u) return ''
+  const tags = USER_TAGS[u] || USER_TAGS[u.toLowerCase()] || []
+  return tags.map(t => `show-${t}`).join(' ')
 })
 
 // View counter logic

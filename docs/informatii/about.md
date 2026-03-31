@@ -13,7 +13,6 @@ outline: deep
   background="/wallpaper/backgroundwf.webp"
   :blur-amount="8"
   icon="/icons/wildfire.webp"
-  updated-by-username="iannc69"
   page-id="about-page"
   badge-text="Despre Noi"
   badge-icon="lucide:heart"

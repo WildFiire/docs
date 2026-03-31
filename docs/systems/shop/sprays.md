@@ -1,4 +1,4 @@
-﻿---
+---
 outline: deep
 ---
 
@@ -13,7 +13,6 @@ outline: deep
   background="/wallpaper/backgroundwf.webp"
   :blur-amount="6"
   icon="/icons/wildfire.webp"
-  updated-by-username="iannc69"
   page-id="shop-sprays"
   badge-text="Spray-uri"
   badge-icon="lucide:brush"

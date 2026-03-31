@@ -1,6 +1,8 @@
 // config.mts
 import { defineConfig } from 'vitepress'
 
+const _commitCache = new Map<string, string | null>()
+
 export default defineConfig({
   title: "Wildfire.ro Docs",
   description: "Documentația platformei Wildfire - informații, sisteme, resurse și comunitate",
@@ -418,6 +420,51 @@ export default defineConfig({
     darkModeSwitchLabel: 'Mod întunecat',
     lightModeSwitchTitle: 'Comută la modul luminos',
     darkModeSwitchTitle: 'Comută la modul întunecat'
+  },
+
+  async transformPageData(pageData, ctx) {
+    try {
+      const token = process.env.VITE_GITHUB_TOKEN
+      if (!token) return
+
+      // Full repo-relative path (e.g. docs/informatii/about.md)
+      const repoPath = ('docs/' + pageData.relativePath).replace(/\\/g, '/')
+
+      if (_commitCache.has(repoPath)) {
+        const login = _commitCache.get(repoPath)
+        if (login) pageData.frontmatter.gitLastCommitter = login
+        return
+      }
+
+      // commits?path= resolves through merge commits → returns actual PR author
+      const res = await fetch(
+        `https://api.github.com/repos/Wildfiire/docs/commits?path=${encodeURIComponent(repoPath)}&per_page=1`,
+        { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } }
+      )
+      if (!res.ok) { _commitCache.set(repoPath, null); return }
+
+      const data = await res.json() as any[]
+      const commit = data[0]
+      if (!commit) { _commitCache.set(repoPath, null); return }
+
+      // author.login = GitHub account of the person who wrote the content
+      // If merge commit hides author, fall back to checking associated PR
+      let login: string | null = commit.author?.login || null
+
+      if (!login) {
+        const prRes = await fetch(
+          `https://api.github.com/repos/Wildfiire/docs/commits/${commit.sha}/pulls`,
+          { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } }
+        )
+        if (prRes.ok) {
+          const prs = await prRes.json() as any[]
+          login = prs[0]?.user?.login || null
+        }
+      }
+
+      _commitCache.set(repoPath, login)
+      if (login) pageData.frontmatter.gitLastCommitter = login
+    } catch {}
   },
 
   markdown: {

@@ -14,7 +14,6 @@ outline: deep
   background="/wallpaper/backgroundwf.webp"
   :blur-amount="6"
   icon="/icons/wildfire.webp"
-  updated-by-username="iannc69"
   page-id="mvp-anthem"
   badge-text="MVP Anthem"
   badge-icon="lucide:star"

@@ -123,7 +123,7 @@
                 
                 <!-- 10. CONTRIBUTOR -->
                 <span class="square-tag tag-contributor">
-                  <img src="/icons/contributor.svg" alt="contributor" class="tag-icon" @error="handleIconError">
+                  <img src="/icons/wildfire.webp" alt="contributor" class="tag-icon" @error="handleIconError">
                   <span>CONTRIBUTOR</span>
                 </span>
                 
@@ -349,6 +349,13 @@ export default {
         )
         
         this.user.contributions = contributor ? contributor.contributions : 0
+        
+        if (this.user.contributions > 0) {
+          const extra = ['show-contributor', 'show-wildfire']
+            .filter(c => !this.tagClasses.includes(c))
+            .join(' ')
+          if (extra) this.tagClasses = (this.tagClasses + ' ' + extra).trim()
+        }
         
       } catch (error) {
         console.error('❌ Eroare contribuții:', error)

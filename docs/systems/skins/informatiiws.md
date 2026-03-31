@@ -13,7 +13,6 @@ outline: deep
   background="/wallpaper/backgroundwf.webp"
   :blur-amount="6"
   icon="/icons/wildfire.webp"
-  updated-by-username="iannc69"
   page-id="sistem-skin-uri"
   badge-text="WeaponSkins"
 />

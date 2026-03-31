@@ -14,7 +14,6 @@ outline: deep
   background="/wallpaper/backgroundwf.webp"
   :blur-amount="6"
   icon="/icons/wildfire.webp"
-  updated-by-username="iannc69"
   page-id="regulament-go"
   badge-text="Rules"
 />

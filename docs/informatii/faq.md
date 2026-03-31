@@ -13,7 +13,6 @@ outline: deep
   background="/wallpaper/backgroundwf.webp"
   :blur-amount="8"
   icon="/icons/wildfire.webp"
-  updated-by-username="iannc69"
   page-id="about-faq"
   badge-text="Intrebari"
   badge-icon="lucide:shield-question-mark"
