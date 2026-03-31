@@ -391,50 +391,61 @@
 
             <!-- Top Contributors -->
             <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg><span>TOP CONTRIBUTORS</span><span class="dsl-badge">{{ topContributors.length }}</span></div>
-            <div class="tc-layout">
-              <!-- Left: #1 Champion Hero -->
-              <div class="tc-hero-col" v-if="topContributors[0]" @click="openProfile(topContributors[0].login)">
-                <div class="tc-hero-glow"></div>
-                <div class="tc-crown-wrap">
-                  <svg viewBox="0 0 24 24" width="28" height="28" fill="#ffd700"><path d="M2 20h20M4 20l2-10 4 5 2-8 2 8 4-5 2 10z"/></svg>
-                </div>
-                <div class="tc-hero-avatar-ring">
-                  <img :src="topContributors[0].avatar_url" :alt="topContributors[0].login" class="tc-hero-avatar">
-                </div>
-                <div class="tc-hero-badge">#1 CHAMPION</div>
-                <div class="tc-hero-name">{{ topContributors[0].login }}</div>
-                <div class="tc-hero-stats">
-                  <div class="tc-hstat">
-                    <span class="tc-hstat-val">{{ formatNumber(topContributors[0].contributions) }}</span>
-                    <span class="tc-hstat-lbl">COMMITS</span>
-                  </div>
-                  <div class="tc-hstat-sep"></div>
-                  <div class="tc-hstat">
-                    <span class="tc-hstat-val">100%</span>
-                    <span class="tc-hstat-lbl">SHARE</span>
+            <div class="tc-list">
+              <div
+                v-for="(c, i) in topContributors.slice(0, 10)"
+                :key="c.login"
+                class="tc-row"
+                @click="openProfile(c.login)"
+              >
+                <div class="tc-rank-badge" :class="i===0?'tcr-1':i===1?'tcr-2':i===2?'tcr-3':'tcr-n'">{{ i + 1 }}</div>
+                <img :src="c.avatar_url" :alt="c.login" class="tc-avatar">
+                <div class="tc-info">
+                  <div class="tc-name">{{ c.login }}</div>
+                  <div class="tc-bar-row">
+                    <div class="tc-bar-track">
+                      <div class="tc-bar-fill"
+                        :style="{ width: (c.contributions / maxContributions * 100) + '%', background: i===0 ? 'linear-gradient(90deg,#ffd700,#ff8c42)' : i===1 ? 'linear-gradient(90deg,#a0a0a0,#c0c0c0)' : i===2 ? 'linear-gradient(90deg,#a05a20,#cd7f32)' : 'linear-gradient(90deg,var(--accent),#ff8c42)' }"
+                      ></div>
+                    </div>
+                    <span class="tc-commits-badge">{{ formatNumber(c.contributions) }}</span>
                   </div>
                 </div>
-                <div class="tc-hero-bar-wrap">
-                  <div class="tc-hero-bar"></div>
-                </div>
-                <div class="tc-hero-cta">VIEW PROFILE →</div>
               </div>
+              <div v-if="!topContributors.length" class="tc-empty">No contributors yet</div>
+            </div>
 
-              <!-- Right: #2-#10 Grid -->
-              <div class="tc-grid-col">
-                <div v-for="(c, i) in topContributors.slice(1, 10)" :key="c.login"
-                  class="tc-card"
-                  :class="i === 0 ? 'tc-card-silver' : i === 1 ? 'tc-card-bronze' : ''"
-                  @click="openProfile(c.login)">
-                  <div class="tc-card-rank" :class="i === 0 ? 'tcr-silver' : i === 1 ? 'tcr-bronze' : 'tcr-plain'">{{ i + 2 }}</div>
-                  <img :src="c.avatar_url" :alt="c.login" class="tc-card-avatar">
-                  <div class="tc-card-name">{{ c.login }}</div>
-                  <div class="tc-card-bar-wrap">
-                    <div class="tc-card-bar" :style="{ width: (c.contributions / maxContributions * 100) + '%' }"></div>
+            <!-- Recent Feedbacks -->
+            <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg><span>RECENT FEEDBACK</span><span class="dsl-badge">{{ recentFeedbacks.length }}</span></div>
+            <div class="fb-mini">
+              <div v-if="feedbackLoading" class="fb-mini-loading">
+                <div class="fb-mini-spinner"></div> Loading feedbacks…
+              </div>
+              <div v-else-if="!recentFeedbacks.length" class="fb-mini-empty">No feedback submitted yet</div>
+              <div v-else class="fb-mini-list">
+                <div v-for="fb in recentFeedbacks" :key="fb.id" class="fb-mini-row">
+                  <div class="fb-mini-dot" :class="fb.sentiment==='good'?'fb-dot-good':'fb-dot-bad'">
+                    <svg v-if="fb.sentiment==='good'" viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3H14z"/></svg>
+                    <svg v-else viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M10 15v4a3 3 0 0 0 3 3l4-9V2H5.72a2 2 0 0 0-2 1.7l-1.38 9a2 2 0 0 0 2 2.3H10z"/></svg>
                   </div>
-                  <div class="tc-card-commits">{{ formatNumber(c.contributions) }}</div>
+                  <div class="fb-mini-body">
+                    <div class="fb-mini-page">{{ fb.pageTitle }}</div>
+                    <div class="fb-mini-comment" v-if="fb.comment">{{ fb.comment }}</div>
+                    <div class="fb-mini-meta">
+                      <div class="fb-mini-stars" v-if="fb.stars > 0">
+                        <svg v-for="s in fb.stars" :key="s" viewBox="0 0 24 24" width="8" height="8" fill="#ffd700" stroke="#ffd700" stroke-width="1"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                      </div>
+                      <span class="fb-mini-time">{{ timeAgo(fb.createdAt) }}</span>
+                    </div>
+                  </div>
                 </div>
-                <div v-if="topContributors.length <= 1" class="ipr-empty" style="grid-column:1/-1">No other contributors yet</div>
+              </div>
+              <div class="fb-mini-footer">
+                <span class="fb-mini-total">{{ feedbackTotal }} total feedbacks</span>
+                <button class="fb-mini-link" @click="currentView = 'feedbacks'">
+                  VIEW ALL
+                  <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </button>
               </div>
             </div>
 
@@ -799,6 +810,12 @@
             :is-light-theme="isLightTheme"
           />
 
+          <PanelFeedbacks
+            v-else-if="currentView === 'feedbacks'"
+            :github-token="githubToken"
+            :is-light-theme="isLightTheme"
+          />
+
           <PanelProfile
             v-else-if="currentView === 'profile'"
             :user-login="userLogin"
@@ -824,6 +841,7 @@
     import PanelAudit from './PanelAudit.vue'
     import PanelAnalytics from './PanelAnalytics.vue'
     import PanelProfile from './PanelProfile.vue'
+    import PanelFeedbacks from './PanelFeedbacks.vue'
 
     export default {
       name: 'Dashboard',
@@ -834,7 +852,8 @@
         PanelContributors,
         PanelAudit,
         PanelAnalytics,
-        PanelProfile
+        PanelProfile,
+        PanelFeedbacks
       },
       
       props: {
@@ -896,6 +915,9 @@
           weeklyCommits: [],
           languageStats: [],
           calendarExpanded: false,
+          recentFeedbacks: [],
+          feedbackLoading: false,
+          feedbackTotal: 0,
           
           navItems: [
             { id: 'dashboard', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>', label: 'DASHBOARD' },
@@ -903,7 +925,8 @@
             { id: 'contributors', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>', label: 'CONTRIBUTORS', badge: 'LIVE' },
             { id: 'audit', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>', label: 'AUDIT', badge: 'LIVE' },
             { id: 'analytics', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/><circle cx="12" cy="16" r="5"/><path d="M12 11v5"/></svg>', label: 'ANALYTICS' },
-            { id: 'profile', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>', label: 'MY PROFILE' }
+            { id: 'profile', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>', label: 'MY PROFILE' },
+            { id: 'feedbacks', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>', label: 'FEEDBACKS' }
           ]
         }
       },
@@ -1034,8 +1057,8 @@
         },
         availableCalMonths() {
           const now = new Date()
-          return Array.from({ length: 3 }, (_, i) => {
-            const d = new Date(now.getFullYear(), now.getMonth() - (2 - i), 1)
+          return Array.from({ length: 12 }, (_, i) => {
+            const d = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1)
             const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
             let total = 0
             Object.entries(this.calendarDailyMap).forEach(([ds, cnt]) => {
@@ -1273,8 +1296,43 @@
       }
       
       this.isSyncing = true
-      await this.fetchAllGitHubData()
+      await Promise.all([
+        this.fetchAllGitHubData(),
+        this.loadRecentFeedbacks()
+      ])
       this.isSyncing = false
+    },
+    
+    async loadRecentFeedbacks() {
+      if (!this.githubToken) return
+      this.feedbackLoading = true
+      try {
+        const query = `query { repository(owner: "WildFiire", name: "docs") { discussions(first: 20, orderBy: { field: CREATED_AT, direction: DESC }) { nodes { id title body url createdAt } } } }`
+        const res = await fetch('https://api.github.com/graphql', {
+          method: 'POST',
+          headers: { 'Authorization': `Bearer ${this.githubToken}`, 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query })
+        })
+        if (!res.ok) return
+        const data = await res.json()
+        const nodes = data.data?.repository?.discussions?.nodes || []
+        const feedbacks = nodes
+          .filter(n => /^\[(GOOD|BAD)\]/i.test(n.title))
+          .map(n => {
+            const sentiment = /^\[GOOD\]/i.test(n.title) ? 'good' : 'bad'
+            const starsMatch = n.title.match(/\((\d)★/)
+            const stars = starsMatch ? parseInt(starsMatch[1]) : 0
+            const pageMatch = n.body.match(/\*\*Page:\*\*\s*(.+)/m)
+            const commentMatch = n.body.match(/### Comment:\n([\s\S]+?)(\n---|\n##|$)/)
+            const pagePath = pageMatch ? pageMatch[1].trim() : '—'
+            const pageName = pagePath.replace(/\.md$/, '').split('/').pop().replace(/[-_]/g, ' ')
+            const pageTitle = pageName.charAt(0).toUpperCase() + pageName.slice(1) || 'Feedback'
+            return { id: n.id, sentiment, stars, pagePath, pageTitle, comment: commentMatch ? commentMatch[1].trim() : '', createdAt: n.createdAt }
+          })
+        this.feedbackTotal = feedbacks.length
+        this.recentFeedbacks = feedbacks.slice(0, 4)
+      } catch (e) {}
+      finally { this.feedbackLoading = false }
     },
     
     async fetchAllGitHubData() {
@@ -1443,10 +1501,10 @@
         }))
 
         const calMap = {}
-        const cutoff90 = new Date(); cutoff90.setDate(cutoff90.getDate() - 90)
+        const cutoff365 = new Date(); cutoff365.setDate(cutoff365.getDate() - 365)
         allCommits.forEach(c => {
           const date = new Date(c.commit.author.date)
-          if (date >= cutoff90) {
+          if (date >= cutoff365) {
             const dk = date.toISOString().slice(0, 10)
             calMap[dk] = (calMap[dk] || 0) + 1
           }
@@ -1454,9 +1512,8 @@
         this.calendarDailyMap = calMap
         const nowD = new Date()
         this.selectedCalMonth = `${nowD.getFullYear()}-${String(nowD.getMonth() + 1).padStart(2, '0')}`
-        const cutoff = new Date(); cutoff.setDate(cutoff.getDate() - 90)
         this.calendarCommits = allCommits
-          .filter(c => new Date(c.commit.author.date) >= cutoff)
+          .filter(c => new Date(c.commit.author.date) >= cutoff365)
           .map(c => ({
             id: c.sha.substring(0, 7),
             sha: c.sha,
@@ -2177,7 +2234,7 @@
 .dash-charts { display: grid; grid-template-columns: 1fr 300px; gap: 16px; align-items: start; }
 .flame-chart { padding: 10px 14px 12px; position: relative; }
 .fc-svg { display: block; overflow: visible; }
-.fc-html-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; overflow: hidden; }
+.fc-html-layer { position: absolute; top: 0; left: 0; right: 0; bottom: 0; pointer-events: none; overflow: visible; }
 .fc-date-lbl { position: absolute; bottom: 0; transform: translateX(-50%); font-size: 8px; color: rgba(255,255,255,0.3); font-family: system-ui,sans-serif; white-space: nowrap; line-height: 1; letter-spacing: -0.2px; }
 .fc-date-today { color: #ff5520 !important; font-weight: 700; }
 .fc-date-weekend { color: rgba(160,120,255,0.55); }
@@ -2259,53 +2316,51 @@
 .cc-sep { opacity: 0.4; flex-shrink: 0; }
 .cc-time { white-space: nowrap; flex-shrink: 0; }
 
-/* Top Contributors — 2-col layout */
-.tc-layout { display: grid; grid-template-columns: 220px 1fr; gap: 16px; }
+/* Top Contributors — compact ranked list */
+.tc-list { display: grid; grid-template-columns: repeat(2, 1fr); gap: 0; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
+.tc-row { display: flex; align-items: center; gap: 10px; padding: 9px 14px; cursor: pointer; transition: background 0.15s; border-bottom: 1px solid var(--border-color); border-right: 1px solid var(--border-color); position: relative; }
+.tc-row:nth-child(2n) { border-right: none; }
+.tc-row:nth-last-child(-n+2) { border-bottom: none; }
+.tc-row:nth-last-child(1):nth-child(2n+1) { border-bottom: none; }
+.tc-row:hover { background: var(--bg-tertiary); }
+.tc-rank-badge { width: 22px; height: 22px; border-radius: 6px; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; flex-shrink: 0; }
+.tcr-1 { background: linear-gradient(135deg, #ffd700, #ffb300); color: #000; box-shadow: 0 0 8px rgba(255,215,0,0.35); }
+.tcr-2 { background: linear-gradient(135deg, #c0c0c0, #909090); color: #222; }
+.tcr-3 { background: linear-gradient(135deg, #cd7f32, #9a5a1e); color: #fff; }
+.tcr-n { background: var(--bg-tertiary); color: var(--text-muted); border: 1px solid var(--border-color); }
+.tc-avatar { width: 28px; height: 28px; border-radius: 50%; flex-shrink: 0; border: 1.5px solid var(--border-color); transition: border-color 0.15s; }
+.tc-row:hover .tc-avatar { border-color: var(--accent); }
+.tc-info { flex: 1; min-width: 0; }
+.tc-name { font-size: 11px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.tc-bar-row { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+.tc-bar-track { flex: 1; height: 3px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden; }
+.tc-bar-fill { height: 100%; border-radius: 2px; transition: width 0.8s cubic-bezier(0.4,0,0.2,1); }
+.tc-commits-badge { font-size: 9px; font-weight: 700; color: var(--text-muted); white-space: nowrap; flex-shrink: 0; }
+.tc-row:hover .tc-commits-badge { color: var(--accent); }
+.tc-empty { padding: 24px; text-align: center; color: var(--text-muted); font-size: 12px; grid-column: 1/-1; }
 
-.tc-hero-col { position: relative; background: linear-gradient(160deg, rgba(255,215,0,0.09) 0%, rgba(255,69,0,0.07) 100%); border: 1px solid rgba(255,215,0,0.25); border-radius: 16px; padding: 24px 18px 20px; display: flex; flex-direction: column; align-items: center; gap: 8px; cursor: pointer; overflow: hidden; transition: all 0.2s; }
-.tc-hero-col:hover { border-color: rgba(255,215,0,0.5); box-shadow: 0 0 32px rgba(255,215,0,0.1); transform: translateY(-2px); }
-.tc-hero-glow { position: absolute; top: -30px; left: 50%; transform: translateX(-50%); width: 160px; height: 160px; background: radial-gradient(circle, rgba(255,215,0,0.18) 0%, transparent 70%); pointer-events: none; }
-.tc-crown-wrap { position: relative; z-index: 1; }
-.tc-hero-avatar-ring { width: 90px; height: 90px; border-radius: 50%; padding: 3px; background: linear-gradient(135deg, #ffd700, #ff8c42); box-shadow: 0 0 24px rgba(255,215,0,0.35); flex-shrink: 0; }
-.tc-hero-avatar { width: 100%; height: 100%; border-radius: 50%; object-fit: cover; border: 2px solid var(--bg-secondary); }
-.tc-hero-badge { background: linear-gradient(135deg, #ffd700, #ffb700); color: #000; font-size: 8px; font-weight: 900; padding: 3px 10px; border-radius: 12px; letter-spacing: 1.2px; text-transform: uppercase; box-shadow: 0 2px 10px rgba(255,215,0,0.4); }
-.tc-hero-name { font-size: 15px; font-weight: 800; color: var(--text-primary); text-align: center; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tc-hero-stats { display: flex; align-items: center; gap: 0; width: 100%; justify-content: center; }
-.tc-hstat { display: flex; flex-direction: column; align-items: center; padding: 0 12px; }
-.tc-hstat-val { font-size: 14px; font-weight: 700; color: #ffd700; line-height: 1.2; }
-.tc-hstat-lbl { font-size: 8px; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.5px; }
-.tc-hstat-sep { width: 1px; height: 20px; background: rgba(255,215,0,0.2); flex-shrink: 0; }
-.tc-hero-bar-wrap { width: 100%; height: 4px; background: rgba(255,215,0,0.12); border-radius: 2px; overflow: hidden; }
-.tc-hero-bar { width: 100%; height: 100%; background: linear-gradient(90deg, #ffd700, #ff8c42); border-radius: 2px; }
-.tc-hero-cta { font-size: 9px; font-weight: 700; color: rgba(255,215,0,0.55); letter-spacing: 0.5px; margin-top: 2px; }
-
-.tc-grid-col { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; align-content: start; }
-.tc-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; padding: 12px 12px 10px; display: flex; flex-direction: column; align-items: center; gap: 6px; cursor: pointer; transition: all 0.15s; position: relative; overflow: hidden; }
-.tc-card:hover { transform: translateY(-2px); box-shadow: 0 4px 16px rgba(0,0,0,0.3); }
-.tc-card::before { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; opacity: 0; transition: opacity 0.15s; }
-.tc-card:hover::before { opacity: 1; background: var(--accent); }
-.tc-card-silver { border-color: rgba(192,192,192,0.3); }
-.tc-card-silver:hover { border-color: rgba(192,192,192,0.7); box-shadow: 0 4px 16px rgba(192,192,192,0.15); }
-.tc-card-silver::after { background: #c0c0c0; }
-.tc-card-bronze { border-color: rgba(205,127,50,0.3); }
-.tc-card-bronze:hover { border-color: rgba(205,127,50,0.7); box-shadow: 0 4px 16px rgba(205,127,50,0.15); }
-.tc-card-bronze::after { background: #cd7f32; }
-.tc-card-rank { width: 22px; height: 22px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 9px; font-weight: 800; flex-shrink: 0; }
-.tcr-silver { background: linear-gradient(135deg, #c0c0c0, #a0a0a0); color: #222; }
-.tcr-bronze { background: linear-gradient(135deg, #cd7f32, #a05a20); color: #fff; }
-.tcr-plain { background: var(--bg-tertiary); color: var(--text-muted); }
-.tc-card-avatar { width: 48px; height: 48px; border-radius: 50%; border: 2px solid var(--border-color); transition: border-color 0.15s; }
-.tc-card-silver .tc-card-avatar { border-color: rgba(192,192,192,0.5); }
-.tc-card-bronze .tc-card-avatar { border-color: rgba(205,127,50,0.5); }
-.tc-card:hover .tc-card-avatar { border-color: var(--accent); }
-.tc-card-name { font-size: 11px; font-weight: 600; color: var(--text-primary); text-align: center; max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-.tc-card-bar-wrap { width: 100%; height: 3px; background: var(--bg-tertiary); border-radius: 2px; overflow: hidden; }
-.tc-card-bar { height: 100%; background: linear-gradient(90deg, var(--accent), #ff8c42); border-radius: 2px; transition: width 0.8s ease; }
-.tc-card-silver .tc-card-bar { background: linear-gradient(90deg, #a0a0a0, #c0c0c0); }
-.tc-card-bronze .tc-card-bar { background: linear-gradient(90deg, #a05a20, #cd7f32); }
-.tc-card-commits { font-size: 10px; font-weight: 700; color: var(--accent); }
-.tc-card-silver .tc-card-commits { color: #c0c0c0; }
-.tc-card-bronze .tc-card-commits { color: #cd7f32; }
+/* Feedback mini widget */
+.fb-mini { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; }
+.fb-mini-list { display: flex; flex-direction: column; }
+.fb-mini-row { display: flex; align-items: flex-start; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--border-color); cursor: default; transition: background 0.12s; }
+.fb-mini-row:last-child { border-bottom: none; }
+.fb-mini-row:hover { background: var(--bg-tertiary); }
+.fb-mini-dot { width: 20px; height: 20px; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+.fb-dot-good { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.2); }
+.fb-dot-bad  { background: rgba(239,68,68,0.15);  color: #ef4444; border: 1px solid rgba(239,68,68,0.2); }
+.fb-mini-body { flex: 1; min-width: 0; }
+.fb-mini-page { font-size: 11px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; text-transform: capitalize; }
+.fb-mini-comment { font-size: 10px; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-top: 2px; }
+.fb-mini-meta { display: flex; align-items: center; gap: 6px; margin-top: 3px; }
+.fb-mini-stars { display: flex; align-items: center; gap: 1px; }
+.fb-mini-time { font-size: 9px; color: var(--text-muted); }
+.fb-mini-loading { padding: 20px; text-align: center; color: var(--text-muted); font-size: 11px; display: flex; align-items: center; justify-content: center; gap: 8px; }
+.fb-mini-spinner { width: 14px; height: 14px; border: 1.5px solid var(--border-color); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; flex-shrink: 0; }
+.fb-mini-empty { padding: 18px; text-align: center; color: var(--text-muted); font-size: 11px; }
+.fb-mini-footer { padding: 8px 14px; border-top: 1px solid var(--border-color); display: flex; align-items: center; justify-content: space-between; }
+.fb-mini-total { font-size: 9px; color: var(--text-muted); }
+.fb-mini-link { font-size: 9px; font-weight: 700; color: var(--accent); background: none; border: none; cursor: pointer; padding: 0; display: flex; align-items: center; gap: 3px; transition: opacity 0.15s; letter-spacing: 0.3px; }
+.fb-mini-link:hover { opacity: 0.8; }
 
 /* Quick Actions Row */
 .qa-row { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
@@ -2318,33 +2373,35 @@
 .qa-red:hover   { border-color: var(--accent); color: var(--accent); background: rgba(255,69,0,0.08); }
 .qa-teal:hover  { border-color: #14b8a6; color: #14b8a6; background: rgba(20,184,166,0.08); }
 
-/* Activity Calendar — collapsed = compact strip, expanded = full grid */
+/* Activity Calendar — collapsed = compact circle strip, expanded = glow grid */
+@keyframes calPulse { 0%,100%{ box-shadow:0 0 4px rgba(255,69,0,0.5),0 0 8px rgba(255,69,0,0.3); } 50%{ box-shadow:0 0 8px rgba(255,69,0,0.9),0 0 18px rgba(255,69,0,0.5); } }
 .act-cal-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px; padding: 10px 14px; display: flex; align-items: center; gap: 10px; }
 .act-cal-meta { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .act-cal-meta-left { display: flex; align-items: center; gap: 8px; min-width: 0; }
 .act-cal-meta-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
 .act-cal-title { font-size: 11px; font-weight: 600; color: var(--text-secondary); white-space: nowrap; }
 .act-cal-badge { font-size: 9px; font-weight: 700; background: rgba(255,69,0,0.12); color: var(--accent); padding: 2px 8px; border-radius: 20px; border: 1px solid rgba(255,69,0,0.25); white-space: nowrap; }
-.act-cal-legend { display: flex; align-items: center; gap: 2px; font-size: 9px; color: var(--text-muted); }
-.acl-cell { width: 8px; height: 8px; border-radius: 2px; display: inline-block; }
-.acl-cell.intensity-0 { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.1); }
-.acl-cell.intensity-1 { background: rgba(255,69,0,0.22); }
-.acl-cell.intensity-2 { background: rgba(255,69,0,0.48); }
-.acl-cell.intensity-3 { background: rgba(255,69,0,0.72); }
-.acl-cell.intensity-4 { background: #ff4500; }
+.act-cal-legend { display: flex; align-items: center; gap: 3px; font-size: 9px; color: var(--text-muted); }
+.acl-cell { width: 7px; height: 7px; border-radius: 50%; display: inline-block; }
+.acl-cell.intensity-0 { background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); }
+.acl-cell.intensity-1 { background: rgba(255,69,0,0.28); }
+.acl-cell.intensity-2 { background: rgba(255,69,0,0.52); }
+.acl-cell.intensity-3 { background: rgba(255,100,0,0.78); }
+.acl-cell.intensity-4 { background: #ff4500; box-shadow: 0 0 4px rgba(255,69,0,0.7); }
 .act-cal-toggle { background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-muted); width: 22px; height: 22px; border-radius: 6px; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; padding: 0; transition: all 0.15s; }
 .act-cal-toggle:hover { border-color: var(--accent); color: var(--accent); background: rgba(255,69,0,0.09); }
 .act-cal-months { display: none; }
 .act-cal-dow { display: none; }
-.act-cal-grid { display: flex; flex-wrap: nowrap; gap: 2px; flex: 1; min-width: 0; overflow: hidden; align-items: center; }
-.act-cal-cell { width: 12px; height: 12px; flex-shrink: 0; border-radius: 2px; cursor: pointer; transition: box-shadow 0.12s; position: relative; }
+.act-cal-grid { display: flex; flex-wrap: nowrap; gap: 3px; flex: 1; min-width: 0; overflow: hidden; align-items: center; }
+.act-cal-cell { width: 9px; height: 9px; flex-shrink: 0; border-radius: 50%; cursor: pointer; transition: all 0.15s; position: relative; }
 .act-cal-cell-empty { display: none; }
-.act-cal-cell.intensity-0 { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.07); }
-.act-cal-cell.intensity-1 { background: rgba(255,69,0,0.22); }
-.act-cal-cell.intensity-2 { background: rgba(255,69,0,0.48); }
-.act-cal-cell.intensity-3 { background: rgba(255,69,0,0.72); }
-.act-cal-cell.intensity-4 { background: #ff4500; box-shadow: 0 0 4px rgba(255,69,0,0.4); }
-.act-cal-cell-selected { outline: 2px solid var(--accent) !important; outline-offset: 1px; z-index: 2; }
+.act-cal-cell.intensity-0 { background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); }
+.act-cal-cell.intensity-1 { background: rgba(255,69,0,0.28); }
+.act-cal-cell.intensity-2 { background: rgba(255,69,0,0.52); }
+.act-cal-cell.intensity-3 { background: rgba(255,100,0,0.78); box-shadow: 0 0 3px rgba(255,69,0,0.4); }
+.act-cal-cell.intensity-4 { background: #ff4500; animation: calPulse 2s ease-in-out infinite; }
+.act-cal-cell:hover { transform: scale(1.5); z-index: 3; }
+.act-cal-cell-selected { outline: 2px solid var(--accent) !important; outline-offset: 2px; z-index: 2; }
 .acc-day { display: none; }
 /* Expanded state */
 .act-cal-expanded { flex-direction: column !important; align-items: stretch !important; padding: 14px 16px 16px !important; gap: 10px !important; }
@@ -2354,12 +2411,14 @@
 .acm-btn:hover { border-color: var(--accent); color: var(--accent); }
 .acm-active { background: rgba(255,69,0,0.12) !important; border-color: rgba(255,69,0,0.4) !important; color: var(--accent) !important; }
 .acm-count { font-size: 8px; background: rgba(255,69,0,0.2); color: var(--accent); padding: 1px 4px; border-radius: 8px; font-weight: 700; }
-.act-cal-expanded .act-cal-dow { display: grid; grid-template-columns: repeat(7, 1fr); gap: 3px; }
-.act-cal-dow span { font-size: 9px; font-weight: 700; color: var(--text-muted); text-align: center; opacity: 0.5; }
-.act-cal-expanded .act-cal-grid { display: grid !important; grid-template-columns: repeat(7, 1fr); gap: 3px; flex: none; overflow: visible; }
-.act-cal-expanded .act-cal-cell { width: auto !important; height: auto !important; aspect-ratio: 1; min-height: 28px; border-radius: 4px; }
-.act-cal-expanded .act-cal-cell-empty { display: block; background: transparent !important; cursor: default; pointer-events: none; }
-.act-cal-expanded .acc-day { display: block; position: absolute; bottom: 2px; left: 0; right: 0; text-align: center; font-size: 9px; font-weight: 600; color: rgba(255,255,255,0.5); pointer-events: none; line-height: 1; }
+.act-cal-expanded .act-cal-dow { display: grid; grid-template-columns: repeat(7, 20px); gap: 3px; }
+.act-cal-dow span { font-size: 8px; font-weight: 700; color: var(--text-muted); text-align: center; opacity: 0.5; }
+.act-cal-expanded .act-cal-grid { display: grid !important; grid-template-columns: repeat(7, 20px); gap: 3px; flex: none; overflow: visible; }
+.act-cal-expanded .act-cal-cell { width: 20px !important; height: 20px !important; border-radius: 4px !important; aspect-ratio: unset !important; min-height: unset !important; transform: none !important; }
+.act-cal-expanded .act-cal-cell.intensity-4 { animation: calPulse 2.5s ease-in-out infinite; }
+.act-cal-expanded .act-cal-cell:hover { transform: scale(1.2) !important; z-index: 3; }
+.act-cal-expanded .act-cal-cell-empty { display: block; background: transparent !important; border: 1px dashed rgba(255,255,255,0.05) !important; cursor: default; pointer-events: none; }
+.act-cal-expanded .acc-day { display: flex; align-items: center; justify-content: center; position: absolute; inset: 0; font-size: 7px; font-weight: 700; color: rgba(255,255,255,0.5); pointer-events: none; line-height: 1; }
 
 .act-cal-detail { width: 100%; margin-top: 12px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; }
 .acd-header { display: flex; align-items: flex-start; justify-content: space-between; padding: 12px 14px 10px; border-bottom: 1px solid var(--border-color); gap: 8px; }
@@ -2498,8 +2557,7 @@
   .dash-charts { grid-template-columns: 1fr; }
   .dash-ipr { grid-template-columns: 1fr; }
   .dash-weekly { grid-template-columns: 1fr; }
-  .tc-layout { grid-template-columns: 180px 1fr; }
-  .tc-grid-col { grid-template-columns: repeat(3, 1fr); }
+  .tc-list { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 900px) {
@@ -2510,12 +2568,7 @@
   .kpi-row { grid-template-columns: repeat(2, 1fr); }
   .rps-brand { display: none; }
   .rh-label { width: 110px; }
-  .tc-layout { grid-template-columns: 1fr; }
-  .tc-hero-col { flex-direction: row; padding: 16px; gap: 14px; align-items: center; border-radius: 12px; }
-  .tc-hero-avatar-ring { width: 64px; height: 64px; flex-shrink: 0; }
-  .tc-crown-wrap { display: none; }
-  .tc-hero-bar-wrap, .tc-hero-cta { display: none; }
-  .tc-grid-col { grid-template-columns: repeat(4, 1fr); }
+  .tc-list { grid-template-columns: 1fr; }
   .commits-grid { grid-template-columns: repeat(2, 1fr); }
   .commit-card:nth-child(3n) { border-right: 1px solid var(--border-color); }
   .commit-card:nth-child(2n) { border-right: none; }
@@ -2564,8 +2617,6 @@
   .fc-heatmap-row { gap: 1px; }
   .fc-hm-cell { height: 10px; min-width: 4px; }
   .fc-hm-legend { display: none; }
-  .tc-layout { grid-template-columns: 1fr; }
-  .tc-grid-col { grid-template-columns: repeat(3, 1fr); }
   .commits-grid { grid-template-columns: 1fr; }
   .commit-card { border-right: none !important; }
   .commit-card:nth-last-child(-n+1) { border-bottom: none; }
@@ -2580,6 +2631,8 @@
   .dashboard-header { flex-wrap: wrap; gap: 6px; }
   .header-right { width: 100%; }
   .action-btn { flex: 1; justify-content: center; }
-  .tc-grid-col { grid-template-columns: repeat(2, 1fr); }
+  .commits-grid { grid-template-columns: 1fr; }
+  .commit-card { border-right: none !important; }
+  .commit-card:nth-last-child(-n+1) { border-bottom: none; }
 }
 </style>
