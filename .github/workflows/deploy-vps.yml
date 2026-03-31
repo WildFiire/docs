@@ -3,7 +3,8 @@ name: Deploy DOCS to VPS
 on:
   push:
     branches:
-      - main # Trigger deployment when pushing to the main branch
+      - main
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -11,27 +12,62 @@ jobs:
     
     steps:
       - name: Deploy to VPS
+        id: deploy
+        continue-on-error: true
         uses: appleboy/ssh-action@v1.0.3
         with:
-          host: ${{ secrets.VPS_HOST }}       # Your VPS IP or domain
-          username: ${{ secrets.VPS_USER }}   # e.g., root or ubuntu
-          password: ${{ secrets.VPS_PASSWORD }} # A private SSH password for authentication
+          host: ${{ secrets.VPS_HOST }}
+          username: ${{ secrets.VPS_USER }}
+          password: ${{ secrets.VPS_PASSWORD }}
           script: |
-            # Navigate to the project directory
             cd /var/www/wiki
-            
-            # Pull the latest changes from the main branch
             git fetch --all
             git reset --hard origin/main
-            
-            # Install dependencies
             npm install
-            
-            # Create the .env file with the GitHub Token
             echo "VITE_GITHUB_TOKEN=${{ secrets.VITE_GITHUB_TOKEN }}" > .env
-            
-            # Build the static VitePress files
             npm run docs:build
-            
-            # Optional: Restart any web servers if necessary (though Nginx serves dist automatically)
-            # sudo systemctl reload nginx
+            echo "DEPLOY_SUCCESS"
+
+      - name: Send Discord - Success
+        if: success()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_LOGS_WEBHOOK }}
+        run: |
+          curl -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "embeds": [{
+                "title": "✅ Deploy Reușit",
+                "color": 3066993,
+                "description": "Site-ul a fost deploy-uit cu succes pe VPS",
+                "fields": [
+                  {"name": "🌿 Branch", "value": "${{ github.ref_name }}", "inline": true},
+                  {"name": "📝 Commit", "value": "'"${{ github.sha }}"'", "inline": true},
+                  {"name": "👤 Author", "value": "${{ github.actor }}", "inline": true},
+                  {"name": "📁 Repository", "value": "${{ github.repository }}", "inline": true}
+                ],
+                "timestamp": "'"$(date -u +"%Y-%m-%dT%H:%M:%SZ")"'"
+              }]
+            }'
+
+      - name: Send Discord - Failure
+        if: failure()
+        env:
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_LOGS_WEBHOOK }}
+        run: |
+          curl -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d '{
+              "embeds": [{
+                "title": "❌ Deploy Eșuat",
+                "color": 15158332,
+                "description": "Deploy-ul pe VPS a eșuat. Verifică log-urile în GitHub Actions",
+                "fields": [
+                  {"name": "🌿 Branch", "value": "${{ github.ref_name }}", "inline": true},
+                  {"name": "📝 Commit", "value": "'"${{ github.sha }}"'", "inline": true},
+                  {"name": "👤 Author", "value": "${{ github.actor }}", "inline": true},
+                  {"name": "📁 Repository", "value": "${{ github.repository }}", "inline": true}
+                ],
+                "timestamp": "'"$(date -u +"%Y-%m-%dT%H:%M:%SZ")"'"
+              }]
+            }'
