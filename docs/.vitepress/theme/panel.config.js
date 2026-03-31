@@ -1,3 +1,3 @@
 export default {
-  githubClientId: ''
+  githubClientId: 'Ov23li7SD3qyCDbDZ4NZ'
 }

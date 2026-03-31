@@ -142,6 +142,8 @@
 </template>
 
 <script>
+import panelConfig from '../../panel.config.js'
+
 export default {
   name: 'PanelLogin',
   
@@ -187,7 +189,7 @@ export default {
       this.isLoading = true
       this.error = null
       
-      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID
+      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID || panelConfig.githubClientId
       
       if (!githubClientId) {
         this.error = 'GitHub Client ID not configured. Contact administrator.'
@@ -241,7 +243,7 @@ export default {
     },
     
     async pollForToken() {
-      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID
+      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID || panelConfig.githubClientId
       
       try {
         console.log('[PanelLogin] Polling for token...')
