@@ -792,6 +792,8 @@
             :total-commits="repoStats.totalCommits"
             :is-light-theme="isLightTheme"
             :github-token="githubToken"
+            :repo-owner="repoOwner"
+            :repo-name="repoName"
           />
 
           <PanelAudit 
