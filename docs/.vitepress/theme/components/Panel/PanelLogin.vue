@@ -154,13 +154,26 @@ export default {
       deviceCode: '',
       verificationUri: '',
       intervalId: null,
-      deviceToken: ''
+      deviceToken: '',
+      githubClientId: ''
     }
   },
   
-  mounted() {
+  async mounted() {
     const savedTheme = localStorage.getItem('wildfire-theme')
     if (savedTheme === 'light') this.isLightTheme = true
+
+    try {
+      const res = await fetch('/api/config')
+      if (res.ok) {
+        const cfg = await res.json()
+        if (cfg.githubClientId) {
+          this.githubClientId = cfg.githubClientId
+          return
+        }
+      }
+    } catch (_) {}
+    this.githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID || ''
   },
   
   beforeUnmount() {
@@ -187,7 +200,7 @@ export default {
       this.isLoading = true
       this.error = null
       
-      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID
+      const githubClientId = this.githubClientId
       
       if (!githubClientId) {
         this.error = 'GitHub Client ID not configured. Contact administrator.'
@@ -197,7 +210,7 @@ export default {
       
       try {
         console.log('[PanelLogin] Starting device flow, clientId:', githubClientId ? 'set' : 'missing')
-        const deviceResponse = await fetch('https://github.com/login/device/code', {
+        const deviceResponse = await fetch('/api/github/device-code', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -241,11 +254,11 @@ export default {
     },
     
     async pollForToken() {
-      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID
+      const githubClientId = this.githubClientId
       
       try {
         console.log('[PanelLogin] Polling for token...')
-        const response = await fetch('https://github.com/login/oauth/access_token', {
+        const response = await fetch('/api/github/token', {
           method: 'POST',
           headers: {
             'Accept': 'application/json',
@@ -290,18 +303,25 @@ export default {
           clearInterval(this.intervalId)
           this.intervalId = null
           
-          // Fetch user info
-          const userResponse = await fetch('https://api.github.com/user', {
-            headers: {
-              'Authorization': `token ${data.access_token}`,
-              'Accept': 'application/vnd.github.v3+json'
-            }
-          })
-          
-          const user = await userResponse.json()
-          console.log('[PanelLogin] User fetched:', user.login)
-          
           localStorage.setItem('github_token', data.access_token)
+          
+          let user = { login: '', avatar_url: '', name: '' }
+          try {
+            const userResponse = await fetch('https://api.github.com/user', {
+              headers: {
+                'Authorization': `token ${data.access_token}`,
+                'Accept': 'application/vnd.github.v3+json'
+              }
+            })
+            if (userResponse.ok) {
+              const userData = await userResponse.json()
+              if (userData.login) user = userData
+            }
+          } catch (userErr) {
+            console.warn('[PanelLogin] User info fetch failed, proceeding with token only:', userErr)
+          }
+          
+          console.log('[PanelLogin] User fetched:', user.login)
           localStorage.setItem('github_user', JSON.stringify({
             login: user.login,
             avatar_url: user.avatar_url,
@@ -313,6 +333,7 @@ export default {
             token: data.access_token,
             user: user
           })
+          return
         }
         
       } catch (err) {

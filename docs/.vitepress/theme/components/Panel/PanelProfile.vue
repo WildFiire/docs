@@ -1110,6 +1110,10 @@ export default {
   padding: 24px;
 }
 
+.activity-card {
+  padding-bottom: 16px;
+}
+
 .card-header {
   display: flex;
   align-items: center;
@@ -1140,7 +1144,7 @@ export default {
 }
 
 .mini-chart-wrapper {
-  height: 160px;
+  height: 240px;
   position: relative;
 }
 
