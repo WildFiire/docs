@@ -142,8 +142,6 @@
 </template>
 
 <script>
-import panelConfig from '../../panel.config.js'
-
 export default {
   name: 'PanelLogin',
   
@@ -157,6 +155,12 @@ export default {
       verificationUri: '',
       intervalId: null,
       deviceToken: ''
+    }
+  },
+  
+  computed: {
+    githubClientId() {
+      return this.$githubClientId || window.__GITHUB_CLIENT_ID || import.meta.env.VITE_GITHUB_CLIENT_ID
     }
   },
   
@@ -189,16 +193,14 @@ export default {
       this.isLoading = true
       this.error = null
       
-      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID || panelConfig.githubClientId
-      
-      if (!githubClientId) {
+      if (!this.githubClientId) {
         this.error = 'GitHub Client ID not configured. Contact administrator.'
         this.isLoading = false
         return
       }
       
       try {
-        console.log('[PanelLogin] Starting device flow, clientId:', githubClientId ? 'set' : 'missing')
+        console.log('[PanelLogin] Starting device flow, clientId:', this.githubClientId ? 'set' : 'missing')
         const deviceResponse = await fetch('/api/github/device-code', {
           method: 'POST',
           headers: {
@@ -206,7 +208,7 @@ export default {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            client_id: githubClientId,
+            client_id: this.githubClientId,
             scope: 'repo read:user read:org'
           })
         })
@@ -243,8 +245,6 @@ export default {
     },
     
     async pollForToken() {
-      const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID || panelConfig.githubClientId
-      
       try {
         console.log('[PanelLogin] Polling for token...')
         const response = await fetch('/api/github/token', {
@@ -254,12 +254,11 @@ export default {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            client_id: githubClientId,
+            client_id: this.githubClientId,
             device_code: this.deviceToken,
             grant_type: 'urn:ietf:params:oauth:grant-type:device_code'
           })
         })
-        
         const data = await response.json()
         console.log('[PanelLogin] Poll response:', JSON.stringify(data))
         

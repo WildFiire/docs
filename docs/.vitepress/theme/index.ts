@@ -10,16 +10,19 @@ declare global {
   interface ImportMeta {
     env: {
       VITE_GITHUB_TOKEN: string
+      VITE_GITHUB_CLIENT_ID: string
     }
   }
 
   interface Window {
     __GITHUB_TOKEN: string
+    __GITHUB_CLIENT_ID: string
   }
 }
 
 // 🔥 Get token from Vite env (SSR-safe)
 const githubToken = import.meta.env.VITE_GITHUB_TOKEN || ''
+const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID || ''
 
 // Import componente principale
 import WikiHome from './components/WikiHome.vue'
@@ -162,7 +165,8 @@ export default {
     app.component('PageTagAmber', PageTagAmber)
     app.component('PageTagGray', PageTagGray)
 
-    // 🔥 Adăugăm token-ul global
+    // 🔥 Adăugăm token-ul și client ID global
     app.config.globalProperties.$githubToken = githubToken
+    app.config.globalProperties.$githubClientId = githubClientId
   }
 } satisfies Theme
