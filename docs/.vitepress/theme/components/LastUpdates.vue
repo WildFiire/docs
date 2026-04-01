@@ -2,234 +2,38 @@
   <div class="last-updates">
     <div class="updates-header">
       <h2 class="section-title"><span>Recently Updated</span></h2>
-      <span class="updates-badge">6 noi</span>
+      <span class="updates-badge">{{ cards.length }} noi</span>
     </div>
     
     <div class="updates-grid">
-      <!-- SLOT 1 -->
-      <div v-if="card1.active" class="update-card" :style="cardGradient(card1.tagColor, 1)">
+      <div v-for="(card, index) in cards" :key="card.link" class="update-card" :style="cardGradient(card.tagColor, index + 1)">
         <div class="card-glow"></div>
         <div class="card-content">
           <div class="card-category">
-            <span class="category-dot" :class="card1.dotClass"></span>
-            <span class="category-name" :style="{ color: getHexColor(card1.tagColor) }">{{ card1.category }}</span>
+            <span class="category-dot" :class="card.dotClass"></span>
+            <span class="category-name" :style="{ color: getHexColor(card.tagColor) }">{{ card.category }}</span>
           </div>
-          <h3 class="card-title">{{ card1.title }}</h3>
+          <h3 class="card-title">{{ card.title }}</h3>
           <div class="card-meta">
             <span class="meta-date">
               <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
                 <circle cx="12" cy="12" r="10"/>
                 <polyline points="12 6 12 12 16 14"/>
               </svg>
-              {{ card1.date }}
+              {{ card.date }}
             </span>
             <div class="updated-by">
-              <img :src="card1.avatarUrl" class="github-avatar" :alt="card1.username">
-              <span>by <a :href="card1.profileUrl" target="_blank">{{ card1.username }}</a></span>
+              <img :src="card.avatarUrl" class="github-avatar" :alt="card.username">
+              <span>by <a :href="card.profileUrl" target="_blank">{{ card.username }}</a></span>
             </div>
           </div>
           <div class="card-footer">
             <div class="card-tags">
-              <WildfireTag :color="card1.tagColor" :text="card1.tag1" class="small-tag" :icon="getTagIcon(card1.tag1)" />
-              <WildfireTag :color="card1.tagColor" :text="card1.tag2" class="small-tag" :icon="getTagIcon(card1.tag2)" />
+              <WildfireTag v-if="card.tag1" :color="card.tagColor" :text="card.tag1" class="small-tag" :icon="getTagIcon(card.tag1)" />
+              <WildfireTag v-if="card.tag2" :color="card.tagColor" :text="card.tag2" class="small-tag" :icon="getTagIcon(card.tag2)" />
             </div>
-            <a :href="card1.link" class="card-button" :style="{ color: getHexColor(card1.tagColor) }">
-              <span>{{ card1.buttonText }}</span>
-              <span class="button-arrow">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- SLOT 2 -->
-      <div v-if="card2.active" class="update-card" :style="cardGradient(card2.tagColor, 2)">
-        <div class="card-glow"></div>
-        <div class="card-content">
-          <div class="card-category">
-            <span class="category-dot" :class="card2.dotClass"></span>
-            <span class="category-name" :style="{ color: getHexColor(card2.tagColor) }">{{ card2.category }}</span>
-          </div>
-          <h3 class="card-title">{{ card2.title }}</h3>
-          <div class="card-meta">
-            <span class="meta-date">
-              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              {{ card2.date }}
-            </span>
-            <div class="updated-by">
-              <img :src="card2.avatarUrl" class="github-avatar" :alt="card2.username">
-              <span>by <a :href="card2.profileUrl" target="_blank">{{ card2.username }}</a></span>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <WildfireTag :color="card2.tagColor" :text="card2.tag1" class="small-tag" :icon="getTagIcon(card2.tag1)" />
-              <WildfireTag :color="card2.tagColor" :text="card2.tag2" class="small-tag" :icon="getTagIcon(card2.tag2)" />
-            </div>
-            <a :href="card2.link" class="card-button" :style="{ color: getHexColor(card2.tagColor) }">
-              <span>{{ card2.buttonText }}</span>
-              <span class="button-arrow">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- SLOT 3 -->
-      <div v-if="card3.active" class="update-card" :style="cardGradient(card3.tagColor, 3)">
-        <div class="card-glow"></div>
-        <div class="card-content">
-          <div class="card-category">
-            <span class="category-dot" :class="card3.dotClass"></span>
-            <span class="category-name" :style="{ color: getHexColor(card3.tagColor) }">{{ card3.category }}</span>
-          </div>
-          <h3 class="card-title">{{ card3.title }}</h3>
-          <div class="card-meta">
-            <span class="meta-date">
-              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              {{ card3.date }}
-            </span>
-            <div class="updated-by">
-              <img :src="card3.avatarUrl" class="github-avatar" :alt="card3.username">
-              <span>by <a :href="card3.profileUrl" target="_blank">{{ card3.username }}</a></span>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <WildfireTag :color="card3.tagColor" :text="card3.tag1" class="small-tag" :icon="getTagIcon(card3.tag1)" />
-              <WildfireTag :color="card3.tagColor" :text="card3.tag2" class="small-tag" :icon="getTagIcon(card3.tag2)" />
-            </div>
-            <a :href="card3.link" class="card-button" :style="{ color: getHexColor(card3.tagColor) }">
-              <span>{{ card3.buttonText }}</span>
-              <span class="button-arrow">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- SLOT 4 -->
-      <div v-if="card4.active" class="update-card" :style="cardGradient(card4.tagColor, 4)">
-        <div class="card-glow"></div>
-        <div class="card-content">
-          <div class="card-category">
-            <span class="category-dot" :class="card4.dotClass"></span>
-            <span class="category-name" :style="{ color: getHexColor(card4.tagColor) }">{{ card4.category }}</span>
-          </div>
-          <h3 class="card-title">{{ card4.title }}</h3>
-          <div class="card-meta">
-            <span class="meta-date">
-              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              {{ card4.date }}
-            </span>
-            <div class="updated-by">
-              <img :src="card4.avatarUrl" class="github-avatar" :alt="card4.username">
-              <span>by <a :href="card4.profileUrl" target="_blank">{{ card4.username }}</a></span>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <WildfireTag :color="card4.tagColor" :text="card4.tag1" class="small-tag" :icon="getTagIcon(card4.tag1)" />
-              <WildfireTag :color="card4.tagColor" :text="card4.tag2" class="small-tag" :icon="getTagIcon(card4.tag2)" />
-            </div>
-            <a :href="card4.link" class="card-button" :style="{ color: getHexColor(card4.tagColor) }">
-              <span>{{ card4.buttonText }}</span>
-              <span class="button-arrow">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- SLOT 5 -->
-      <div v-if="card5.active" class="update-card" :style="cardGradient(card5.tagColor, 5)">
-        <div class="card-glow"></div>
-        <div class="card-content">
-          <div class="card-category">
-            <span class="category-dot" :class="card5.dotClass"></span>
-            <span class="category-name" :style="{ color: getHexColor(card5.tagColor) }">{{ card5.category }}</span>
-          </div>
-          <h3 class="card-title">{{ card5.title }}</h3>
-          <div class="card-meta">
-            <span class="meta-date">
-              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              {{ card5.date }}
-            </span>
-            <div class="updated-by">
-              <img :src="card5.avatarUrl" class="github-avatar" :alt="card5.username">
-              <span>by <a :href="card5.profileUrl" target="_blank">{{ card5.username }}</a></span>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <WildfireTag :color="card5.tagColor" :text="card5.tag1" class="small-tag" :icon="getTagIcon(card5.tag1)" />
-              <WildfireTag :color="card5.tagColor" :text="card5.tag2" class="small-tag" :icon="getTagIcon(card5.tag2)" />
-            </div>
-            <a :href="card5.link" class="card-button" :style="{ color: getHexColor(card5.tagColor) }">
-              <span>{{ card5.buttonText }}</span>
-              <span class="button-arrow">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </span>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      <!-- SLOT 6 -->
-      <div v-if="card6.active" class="update-card" :style="cardGradient(card6.tagColor, 6)">
-        <div class="card-glow"></div>
-        <div class="card-content">
-          <div class="card-category">
-            <span class="category-dot" :class="card6.dotClass"></span>
-            <span class="category-name" :style="{ color: getHexColor(card6.tagColor) }">{{ card6.category }}</span>
-          </div>
-          <h3 class="card-title">{{ card6.title }}</h3>
-          <div class="card-meta">
-            <span class="meta-date">
-              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              {{ card6.date }}
-            </span>
-            <div class="updated-by">
-              <img :src="card6.avatarUrl" class="github-avatar" :alt="card6.username">
-              <span>by <a :href="card6.profileUrl" target="_blank">{{ card6.username }}</a></span>
-            </div>
-          </div>
-          <div class="card-footer">
-            <div class="card-tags">
-              <WildfireTag :color="card6.tagColor" :text="card6.tag1" class="small-tag" :icon="getTagIcon(card6.tag1)" />
-              <WildfireTag :color="card6.tagColor" :text="card6.tag2" class="small-tag" :icon="getTagIcon(card6.tag2)" />
-            </div>
-            <a :href="card6.link" class="card-button" :style="{ color: getHexColor(card6.tagColor) }">
-              <span>{{ card6.buttonText }}</span>
+            <a :href="card.link" class="card-button" :style="{ color: getHexColor(card.tagColor) }">
+              <span>{{ card.buttonText }}</span>
               <span class="button-arrow">
                 <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
                   <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -255,121 +59,19 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import WildfireTag from './WildfireTag.vue'
+import cards from 'virtual:last-updates'
 
-// Reactive theme state
-const isDark = ref(true) // default dark
+const isDark = ref(true)
 
-// Check theme on mount and listen for changes
 onMounted(() => {
-  // Initial check
   isDark.value = document.documentElement.classList.contains('dark')
-  
-  // Create observer to watch for class changes on html element
-  const observer = new MutationObserver((mutations) => {
-    mutations.forEach((mutation) => {
-      if (mutation.attributeName === 'class') {
-        isDark.value = document.documentElement.classList.contains('dark')
-      }
-    })
+  const observer = new MutationObserver(() => {
+    isDark.value = document.documentElement.classList.contains('dark')
   })
-  
-  observer.observe(document.documentElement, { attributes: true })
-  
-  // Cleanup
+  observer.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
   onUnmounted(() => observer.disconnect())
-})
-
-const card1 = ref({
-  active: true,
-  dotClass: 'dot-red',
-  category: 'PANEL',
-  title: 'DASHBOARD',
-  date: '09.03.2026',
-  username: 'iannc69',
-  avatarUrl: 'https://github.com/iannc69.png',
-  profileUrl: 'https://github.com/iannc69',
-  tagColor: 'red',
-  tag1: 'API',
-  tag2: 'STATS',
-  link: '/panel/panel',
-  buttonText: 'ACUM'
-})
-const card2 = ref({
-  active: true,
-  dotClass: 'dot-purple',
-  category: 'INFORMATII',
-  title: 'REGULAMENT GO',
-  date: '09.03.2026',
-  username: 'iannc69',
-  avatarUrl: 'https://github.com/iannc69.png',
-  profileUrl: 'https://github.com/iannc69',
-  tagColor: 'purple',
-  tag1: 'RULES',
-  tag2: 'INFO',
-  link: '/informatii/regulamente/go/regulament-go',
-  buttonText: 'CITESTE'
-})
-const card3 = ref({
-  active: true,
-  dotClass: 'dot-red',
-  category: 'INFORMATII',
-  title: 'REGULAMENT GO-VIP',
-  date: '09.03.2026',
-  username: 'iannc69',
-  avatarUrl: 'https://github.com/iannc69.png',
-  profileUrl: 'https://github.com/iannc69',
-  tagColor: 'red',
-  tag1: 'RULES',
-  tag2: 'VIP',
-  link: '/informatii/regulamente/go/regulament-vip-go',
-  buttonText: 'CITESTE'
-})
-const card4 = ref({
-  active: true,
-  dotClass: 'dot-green',
-  category: 'INFORMATII',
-  title: 'REGULAMENT GO STAFF',
-  date: '09.03.2026',
-  username: 'iannc69',
-  avatarUrl: 'https://github.com/iannc69.png',
-  profileUrl: 'https://github.com/iannc69',
-  tagColor: 'green',
-  tag1: 'RULES',
-  tag2: 'STAFF',
-  link: '/informatii/regulamente/go/regulament-staff-go',
-  buttonText: 'CITESTE'
-})
-const card5 = ref({
-  active: true,
-  dotClass: 'dot-purple',
-  category: 'ORGANIZATION',
-  title: 'TEAM',
-  date: '16.03.2026',
-  username: 'iannc69',
-  avatarUrl: 'https://github.com/iannc69.png',
-  profileUrl: 'https://github.com/iannc69',
-  tagColor: 'purple',
-  tag1: 'CHART',
-  tag2: 'TEAM',
-  link: '/team',
-  buttonText: 'CITESTE'
-})
-const card6 = ref({
-  active: true,
-  dotClass: 'dot-pink',
-  category: 'INFORMATII',
-  title: 'Frequently Asked Questions',
-  date: '09.03.2026',
-  username: 'iannc69',
-  avatarUrl: 'https://github.com/iannc69.png',
-  profileUrl: 'https://github.com/iannc69',
-  tagColor: 'pink',
-  tag1: 'INFO',
-  tag2: 'FAQ',
-  link: '/informatii/regulamente/go/regulament-go',
-  buttonText: 'CITESTE'
 })
 
 const hexColors = {
@@ -383,7 +85,6 @@ function getHexColor(color) {
 
 function getTagIcon(tag) {
   const tagLower = String(tag || '').toLowerCase()
-  
   if (tagLower.includes('new') || tagLower.includes('nou')) {
     return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>'
   }
@@ -402,17 +103,12 @@ function getTagIcon(tag) {
   if (tagLower.includes('info')) {
     return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>'
   }
-  
-  // Default - dot
   return '<svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="6"/></svg>'
 }
 
 function cardGradient(color, index) {
   const mainColor = getHexColor(color)
-  
-  // Folosim valoarea reactivă isDark
   if (isDark.value) {
-    // DARK MODE - fundal închis cu gradient
     const darkBase = '#0a0a0a'
     const positions = [
       'circle at 20% 30%',
@@ -423,7 +119,6 @@ function cardGradient(color, index) {
       'circle at 60% 40%'
     ]
     const pos = positions[(index - 1) % positions.length]
-    
     return {
       background: `radial-gradient(${pos}, ${mainColor}20, transparent 70%),
                    linear-gradient(145deg, ${darkBase}, #121212)`,
@@ -431,7 +126,6 @@ function cardGradient(color, index) {
       boxShadow: `0 4px 12px -4px ${mainColor}30`
     }
   } else {
-    // LIGHT MODE - FUNDAL ALB PUR
     return {
       background: '#ffffff',
       border: `1px solid ${mainColor}40`,
@@ -439,17 +133,6 @@ function cardGradient(color, index) {
     }
   }
 }
-
-const activeCards = computed(() => {
-  let count = 0
-  if (card1.value.active) count++
-  if (card2.value.active) count++
-  if (card3.value.active) count++
-  if (card4.value.active) count++
-  if (card5.value.active) count++
-  if (card6.value.active) count++
-  return count
-})
 </script>
 
 <style scoped>

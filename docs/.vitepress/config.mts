@@ -1,5 +1,12 @@
 // config.mts
 import { defineConfig } from 'vitepress'
+import { fileURLToPath } from 'url'
+import path from 'path'
+import { lastUpdatesPlugin } from './plugins/lastUpdatesPlugin'
+
+const __vitepressDir = fileURLToPath(new URL('.', import.meta.url))
+const docsDir = path.resolve(__vitepressDir, '..')
+const repoRoot = path.resolve(__vitepressDir, '../..')
 
 const _commitCache = new Map<string, string | null>()
 
@@ -475,6 +482,8 @@ export default defineConfig({
   },
 
   vite: {
+    plugins: [lastUpdatesPlugin(docsDir, repoRoot)],
+
     build: {
       rollupOptions: {
         output: {
