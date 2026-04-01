@@ -2,7 +2,6 @@
 outline: deep
 ---
 
-
 <CaseHeader 
   title="Regulament GO"
   :tags="[
@@ -17,7 +16,6 @@ outline: deep
   page-id="regulament-go"
   badge-text="Rules"
 />
-
 
 <!-- STILURI CU SUPORT LIGHT/DARK THEME -->
 <style>
