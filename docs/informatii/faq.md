@@ -1462,7 +1462,6 @@ img, svg, .panel-icon, .panel-icon svg, .nav-icon, [class*="icon"] {
     <span class="panel-number">!top</span> - afiseaza top-ul
   </div>
 </div>
-
 </div>
 
 <!-- INFO BOX -->
