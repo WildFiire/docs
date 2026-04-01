@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <linearGradient id="r5g" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#c084fc"/>
+      <stop offset="100%" stop-color="#6d28d9"/>
+    </linearGradient>
+  </defs>
+  <circle cx="32" cy="34" r="24" fill="url(#r5g)" stroke="#8b5cf6" stroke-width="2.5"/>
+  <circle cx="32" cy="34" r="19" fill="none" stroke="rgba(200,160,255,0.35)" stroke-width="1.5"/>
+  <path d="M32 20 L35.4 29.6 L46 29.6 L37.8 35.6 L40.9 45.4 L32 39.5 L23.1 45.4 L26.2 35.6 L18 29.6 L28.6 29.6 Z" fill="rgba(255,255,255,0.9)" stroke="rgba(200,160,255,0.4)" stroke-width="0.8" stroke-linejoin="round"/>
+  <text x="32" y="58" text-anchor="middle" font-size="9" font-weight="900" font-family="system-ui,sans-serif" fill="rgba(255,255,255,0.9)" letter-spacing="0.3">ELITE</text>
+</svg>

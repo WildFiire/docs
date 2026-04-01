@@ -357,6 +357,14 @@ export default {
   --text-muted: #8a8a95;
   --accent: #ff4500;
   --accent-glow: rgba(255, 69, 0, 0.2);
+  --accent-dim: rgba(255,69,0,0.08);
+  --accent-soft: rgba(255,69,0,0.15);
+  --accent-mid: rgba(255,69,0,0.28);
+  --accent-strong: rgba(255,69,0,0.45);
+  --accent-heavy: rgba(255,69,0,0.68);
+  --accent-solid: rgba(255,69,0,0.88);
+  --accent-alt: #ff6030;
+  --accent-alt2: #ff8c42;
   --border-color: #1f1f24;
   --shadow-color: rgba(0, 0, 0, 0.5);
   --error: #e74c3c;
@@ -381,6 +389,14 @@ export default {
   --text-muted: #666;
   --accent: #ff4500;
   --accent-glow: rgba(255, 69, 0, 0.1);
+  --accent-dim: rgba(255,69,0,0.06);
+  --accent-soft: rgba(255,69,0,0.12);
+  --accent-mid: rgba(255,69,0,0.22);
+  --accent-strong: rgba(255,69,0,0.38);
+  --accent-heavy: rgba(255,69,0,0.58);
+  --accent-solid: rgba(255,69,0,0.78);
+  --accent-alt: #ff6030;
+  --accent-alt2: #ff8c42;
   --border-color: #ddd;
   --shadow-color: rgba(0, 0, 0, 0.1);
 }

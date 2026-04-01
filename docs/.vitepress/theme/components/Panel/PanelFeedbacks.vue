@@ -330,6 +330,11 @@ export default {
   --text-secondary: #e0e0e0;
   --text-muted:   #8a8a95;
   --accent:       #ff4500;
+  --accent-glow: rgba(255,69,0,0.2);
+  --accent-dim: rgba(255,69,0,0.08); --accent-soft: rgba(255,69,0,0.15);
+  --accent-mid: rgba(255,69,0,0.28); --accent-strong: rgba(255,69,0,0.45);
+  --accent-heavy: rgba(255,69,0,0.68); --accent-solid: rgba(255,69,0,0.88);
+  --accent-alt: #ff6030; --accent-alt2: #ff8c42;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -339,14 +344,17 @@ export default {
   box-sizing: border-box;
 }
 .panel-feedbacks.light-theme {
-  --bg-primary:   #f5f5f7;
+  --bg-primary:   #f0f0f5;
   --bg-secondary: #ffffff;
-  --bg-tertiary:  #e8e8ed;
-  --border-color: #ddd;
-  --text-primary: #333;
-  --text-secondary: #4a4a55;
-  --text-muted:   #666;
+  --bg-tertiary:  #e2e2ea;
+  --border-color: #c4c4d0;
+  --text-primary: #0f0f14;
+  --text-secondary: #2a2a38;
+  --text-muted:   #4a4a5a;
 }
+.panel-feedbacks.light-theme .pf-card:hover { border-color:rgba(0,0,0,0.18); box-shadow:0 4px 18px rgba(0,0,0,0.1); }
+.panel-feedbacks.light-theme .pf-card-good:hover { border-left-color:#22c55e; }
+.panel-feedbacks.light-theme .pf-card-bad:hover  { border-left-color:#ef4444; }
 .panel-feedbacks::-webkit-scrollbar { width: 4px; }
 .panel-feedbacks::-webkit-scrollbar-track { background: transparent; }
 .panel-feedbacks::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
@@ -365,7 +373,7 @@ export default {
 .pf-filter-row { display: flex; align-items: center; gap: 3px; }
 .pf-filter-btn { background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-muted); font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 6px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.4px; }
 .pf-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
-.pf-filter-btn.active { background: rgba(255,69,0,0.12); border-color: rgba(255,69,0,0.4); color: var(--accent); }
+.pf-filter-btn.active { background: var(--accent-dim); border-color: var(--accent-strong); color: var(--accent); }
 .pf-refresh-btn { background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-muted); width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
 .pf-refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
 .pf-refresh-btn:disabled { opacity: 0.5; cursor: default; }
@@ -387,8 +395,8 @@ export default {
 .pf-loading { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 14px; padding: 60px 20px; color: var(--text-muted); font-size: 13px; }
 .pf-spinner { width: 32px; height: 32px; border: 2px solid var(--border-color); border-top-color: var(--accent); border-radius: 50%; animation: spin 0.8s linear infinite; }
 .pf-error { display: flex; flex-direction: column; align-items: center; gap: 10px; padding: 50px 20px; color: #ef4444; font-size: 12px; text-align: center; }
-.pf-retry-btn { background: rgba(255,69,0,0.12); border: 1px solid rgba(255,69,0,0.3); color: var(--accent); padding: 6px 16px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 600; transition: all 0.15s; }
-.pf-retry-btn:hover { background: rgba(255,69,0,0.2); }
+.pf-retry-btn { background: var(--accent-dim); border: 1px solid var(--accent-mid); color: var(--accent); padding: 6px 16px; border-radius: 8px; cursor: pointer; font-size: 11px; font-weight: 600; transition: all 0.15s; }
+.pf-retry-btn:hover { background: var(--accent-soft); }
 .pf-empty { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 60px 20px; color: var(--text-muted); }
 .pf-empty span { font-size: 14px; font-weight: 600; }
 .pf-empty p { font-size: 11px; margin: 0; opacity: 0.6; }

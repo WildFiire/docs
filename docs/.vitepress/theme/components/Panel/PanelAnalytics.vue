@@ -324,6 +324,10 @@ export default {
     totalCommits: {
       type: Number,
       default: 0
+    },
+    panelTheme: {
+      type: String,
+      default: 'fire'
     }
   },
   
@@ -460,6 +464,12 @@ export default {
     isLightTheme() {
       this.initActivityChart()
       this.initPRChart()
+    },
+    panelTheme() {
+      this.$nextTick(() => {
+        this.initActivityChart()
+        this.initPRChart()
+      })
     }
   },
   
@@ -477,6 +487,22 @@ export default {
   methods: {
     setPeriod(period) {
       this.period = period
+    },
+    
+    getAccentColor() {
+      if (this.$el) {
+        const v = getComputedStyle(this.$el).getPropertyValue('--accent').trim()
+        if (v) return v
+      }
+      return '#ff4500'
+    },
+
+    getAccentGlow() {
+      if (this.$el) {
+        const v = getComputedStyle(this.$el).getPropertyValue('--accent-glow').trim()
+        if (v) return v
+      }
+      return 'rgba(255,69,0,0.1)'
     },
     
     initActivityChart() {
@@ -499,11 +525,11 @@ export default {
           datasets: [{
             label: 'Commits',
             data: this.chartData,
-            borderColor: '#ff4500',
-            backgroundColor: 'rgba(255, 69, 0, 0.1)',
+            borderColor: this.getAccentColor(),
+            backgroundColor: this.getAccentGlow(),
             tension: 0.4,
             fill: true,
-            pointBackgroundColor: '#ff4500',
+            pointBackgroundColor: this.getAccentColor(),
             pointBorderColor: '#fff',
             pointBorderWidth: 2,
             pointRadius: 4,
@@ -520,7 +546,7 @@ export default {
               backgroundColor: isLight ? '#fff' : '#1a1a22',
               titleColor: isLight ? '#333' : '#fff',
               bodyColor: isLight ? '#666' : '#e0e0e0',
-              borderColor: '#ff4500',
+              borderColor: this.getAccentColor(),
               borderWidth: 2,
               callbacks: {
                 label: (context) => `Commits: ${context.raw}`
@@ -565,7 +591,7 @@ export default {
           labels: ['Open', 'Merged', 'Closed'],
           datasets: [{
             data: [this.prStats.open, this.prStats.merged, this.prStats.closed],
-            backgroundColor: ['#ff4500', '#2ecc71', '#e74c3c'],
+            backgroundColor: [this.getAccentColor(), '#2ecc71', '#e74c3c'],
             borderWidth: 0
           }]
         },
@@ -600,10 +626,11 @@ export default {
     },
     
     getHeatmapColor(week, day) {
+      const accent = this.getAccentColor()
       const intensity = Math.random()
-      if (intensity > 0.8) return '#ff4500'
-      if (intensity > 0.5) return '#ff6b35'
-      if (intensity > 0.2) return '#ffa07a'
+      if (intensity > 0.8) return accent
+      if (intensity > 0.5) return accent + 'cc'
+      if (intensity > 0.2) return accent + '66'
       return '#2a2a30'
     },
     
@@ -626,7 +653,7 @@ export default {
         'Go': '#00add8',
         'Rust': '#dea584'
       }
-      return colors[lang] || '#ff4500'
+      return colors[lang] || this.getAccentColor()
     },
     
     formatNumber(num) {
@@ -660,6 +687,14 @@ export default {
   --text-muted: #8a8a95;
   --accent: #ff4500;
   --accent-glow: rgba(255, 69, 0, 0.2);
+  --accent-dim: rgba(255,69,0,0.08); 
+  --accent-soft: rgba(255,69,0,0.15);
+  --accent-mid: rgba(255,69,0,0.28); 
+  --accent-strong: rgba(255,69,0,0.45);
+  --accent-heavy: rgba(255,69,0,0.68); 
+  --accent-solid: rgba(255,69,0,0.88);
+  --accent-alt: #ff6030; 
+  --accent-alt2: #ff8c42;
   --success: #2ecc71;
   --danger: #e74c3c;
   
@@ -667,14 +702,19 @@ export default {
 }
 
 .panel-analytics.light-theme {
+  --bg-primary: #f0f0f5;
   --bg-secondary: #ffffff;
-  --bg-tertiary: #e8e8ed;
-  --border-color: #ddd;
-  --text-primary: #333;
-  --text-secondary: #4a4a55;
-  --text-muted: #666;
+  --bg-tertiary: #e2e2ea;
+  --border-color: #c4c4d0;
+  --text-primary: #0f0f14;
+  --text-secondary: #2a2a38;
+  --text-muted: #4a4a5a;
   --accent-glow: rgba(255, 69, 0, 0.1);
 }
+
+.panel-analytics.light-theme .stat-card:hover { box-shadow:0 8px 20px rgba(0,0,0,0.1); }
+.panel-analytics.light-theme .contributor-bar { background:rgba(0,0,0,0.1); }
+.panel-analytics.light-theme .contributor-item:hover { background:rgba(0,0,0,0.04); }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
@@ -1020,6 +1060,8 @@ export default {
   background: linear-gradient(90deg, #2a2a30, #ffa07a, #ff4500);
   border-radius: 5px;
 }
+
+.panel-analytics.light-theme .legend-gradient { background: linear-gradient(90deg, #e0e0ea, #ffa07a, #ff4500); }
 
 /* PR Analytics */
 .pr-analytics {

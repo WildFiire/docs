@@ -1,6 +1,6 @@
 <!-- docs\.vitepress\theme\components\Panel\FileTreeNode.vue -->
 <template>
-  <div class="file-tree-node" :style="{ paddingLeft: (level * 16) + 'px' }">
+  <div class="file-tree-node" :class="{ 'light-theme': isLightTheme }" :style="{ paddingLeft: (level * 16) + 'px' }">
 
     <!-- ── Directory ── -->
     <div
@@ -57,6 +57,7 @@
         :level="level + 1"
         :search-query="searchQuery"
         :selected-path="selectedPath"
+        :is-light-theme="isLightTheme"
         @select="handleSelect"
       />
     </div>
@@ -84,10 +85,11 @@ export default {
   },
 
   props: {
-    node:         { type: Object, required: true },
-    level:        { type: Number, default: 0 },
-    searchQuery:  { type: String, default: '' },
-    selectedPath: { type: String, default: '' }
+    node:          { type: Object, required: true },
+    level:         { type: Number, default: 0 },
+    searchQuery:   { type: String, default: '' },
+    selectedPath:  { type: String, default: '' },
+    isLightTheme:  { type: Boolean, default: false }
   },
 
   computed: {
@@ -152,6 +154,21 @@ export default {
   --node-dot-bg: rgba(255,255,255,0.15);
   --node-indent-bg: rgba(255,255,255,0.06);
   --node-avatar-border: rgba(255,255,255,0.15);
+}
+.file-tree-node.light-theme {
+  --node-dir-color: rgba(0,0,0,0.65);
+  --node-dir-hover: #111;
+  --node-chevron-color: rgba(0,0,0,0.25);
+  --node-chevron-hover: rgba(0,0,0,0.55);
+  --node-count-color: rgba(0,0,0,0.4);
+  --node-count-bg: rgba(0,0,0,0.07);
+  --node-editor-bg: rgba(0,0,0,0.04);
+  --node-editor-border: rgba(0,0,0,0.1);
+  --node-editor-login: rgba(0,0,0,0.55);
+  --node-editor-time: rgba(0,0,0,0.35);
+  --node-dot-bg: rgba(0,0,0,0.15);
+  --node-indent-bg: rgba(0,0,0,0.08);
+  --node-avatar-border: rgba(0,0,0,0.12);
 }
 
 /* ── Item base ── */

@@ -231,6 +231,52 @@
   scrollbar-color: #ff4500 var(--vp-c-bg-alt) !important;
 }
 
+/* Dashboard panel overrides — higher specificity beats the rules above */
+.wildfire-dashboard ::-webkit-scrollbar,
+.wildfire-dashboard::-webkit-scrollbar {
+  width: 4px !important;
+  height: 4px !important;
+}
+
+.wildfire-dashboard ::-webkit-scrollbar-track,
+.wildfire-dashboard::-webkit-scrollbar-track {
+  background: transparent !important;
+  border-left: none !important;
+}
+
+.wildfire-dashboard ::-webkit-scrollbar-thumb,
+.wildfire-dashboard::-webkit-scrollbar-thumb {
+  background: var(--accent) !important;
+  border-radius: 6px !important;
+  box-shadow: 0 0 6px var(--accent-glow) !important;
+  border: none !important;
+}
+
+.wildfire-dashboard ::-webkit-scrollbar-thumb:hover,
+.wildfire-dashboard::-webkit-scrollbar-thumb:hover {
+  background: var(--accent-alt) !important;
+  box-shadow: 0 0 10px var(--accent-glow) !important;
+}
+
+.wildfire-dashboard * {
+  scrollbar-color: var(--accent) transparent !important;
+  scrollbar-width: thin !important;
+}
+
+/* Hide scrollbar on contributor profile modal popout */
+.wildfire-dashboard .cm-shell,
+.cm-shell {
+  scrollbar-width: none !important;
+  -ms-overflow-style: none !important;
+}
+
+.wildfire-dashboard .cm-shell::-webkit-scrollbar,
+.cm-shell::-webkit-scrollbar {
+  display: none !important;
+  width: 0 !important;
+  height: 0 !important;
+}
+
 /*=============================================================================
   7. FONT PAGINA PRINCIPALĂ - PĂSTRĂM ORBITRON (comentat momentan)
 =============================================================================*/

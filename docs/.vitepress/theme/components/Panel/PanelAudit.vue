@@ -440,6 +440,14 @@ export default {
   --text-muted: #8a8a95;
   --accent: #ff4500;
   --accent-glow: rgba(255, 69, 0, 0.2);
+  --accent-dim: rgba(255,69,0,0.08); 
+  --accent-soft: rgba(255,69,0,0.15);
+  --accent-mid: rgba(255,69,0,0.28); 
+  --accent-strong: rgba(255,69,0,0.45);
+  --accent-heavy: rgba(255,69,0,0.68); 
+  --accent-solid: rgba(255,69,0,0.88);
+  --accent-alt: #ff6030; 
+  --accent-alt2: #ff8c42;
   --commit-color: #3498db;
   --pr-color: #2ecc71;
   --issue-color: #e74c3c;
@@ -448,14 +456,19 @@ export default {
 }
 
 .panel-audit.light-theme {
+  --bg-primary: #f0f0f5;
   --bg-secondary: #ffffff;
-  --bg-tertiary: #e8e8ed;
-  --border-color: #ddd;
-  --text-primary: #333;
-  --text-secondary: #4a4a55;
-  --text-muted: #666;
+  --bg-tertiary: #e2e2ea;
+  --border-color: #c4c4d0;
+  --text-primary: #0f0f14;
+  --text-secondary: #2a2a38;
+  --text-muted: #4a4a5a;
   --accent-glow: rgba(255, 69, 0, 0.1);
 }
+
+.panel-audit.light-theme .event-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.1); }
+.panel-audit.light-theme .modal-overlay { background:rgba(0,0,0,0.45); }
+.panel-audit.light-theme .modal-content { background:#fff; border:1px solid #c4c4d0; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

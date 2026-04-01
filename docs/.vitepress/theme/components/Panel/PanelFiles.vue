@@ -80,7 +80,7 @@
           </div>
           <div v-else-if="viewMode==='tree'">
             <div v-if="!filteredTree.length" class="fe-empty">No files match</div>
-            <FileTreeNode v-for="item in filteredTree" :key="item.path" :node="item" :level="0" :search-query="searchQuery" :selected-path="selectedFile ? selectedFile.path : ''" @select="selectFile"/>
+            <FileTreeNode v-for="item in filteredTree" :key="item.path" :node="item" :level="0" :search-query="searchQuery" :selected-path="selectedFile ? selectedFile.path : ''" :is-light-theme="isLightTheme" @select="selectFile"/>
           </div>
           <div v-else class="fe-flat-list">
             <div v-if="!filteredFlat.length" class="fe-empty">No files match</div>
@@ -461,6 +461,11 @@ export default {
   --text-primary: #f0f0f5;
   --text-muted: #7a7a8a;
   --accent: #ff4500;
+  --accent-glow: rgba(255,69,0,0.2);
+  --accent-dim: rgba(255,69,0,0.08); --accent-soft: rgba(255,69,0,0.15);
+  --accent-mid: rgba(255,69,0,0.28); --accent-strong: rgba(255,69,0,0.45);
+  --accent-heavy: rgba(255,69,0,0.68); --accent-solid: rgba(255,69,0,0.88);
+  --accent-alt: #ff6030; --accent-alt2: #ff8c42;
   display: flex; flex-direction: column; gap: 12px; animation: feFadeIn 0.3s ease;
 }
 @keyframes feFadeIn { from { opacity:0; transform:translateY(8px) } to { opacity:1; transform:none } }
@@ -486,16 +491,16 @@ export default {
 /* ── Top Bar ── */
 .fe-topbar { display:flex; align-items:center; gap:12px; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:14px; padding:12px 16px; flex-wrap:wrap; }
 .fe-title { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:700; color:var(--text-primary); letter-spacing:0.5px; white-space:nowrap; }
-.fe-badge { background:rgba(255,69,0,0.15); color:var(--accent); font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; border:1px solid rgba(255,69,0,0.25); }
+.fe-badge { background:var(--accent-soft); color:var(--accent); font-size:10px; font-weight:700; padding:2px 8px; border-radius:20px; border:1px solid var(--accent-mid); }
 .fe-search { display:flex; align-items:center; gap:8px; flex:1; min-width:180px; background:var(--bg-tertiary); border:1px solid var(--border-color); border-radius:24px; padding:7px 14px; transition:all 0.15s; color:var(--text-muted); }
-.fe-search.focused { border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,69,0,0.1); }
+.fe-search.focused { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim); }
 .fe-search input { flex:1; background:none; border:none; outline:none; color:var(--text-primary); font-size:12px; }
 .fe-search input::placeholder { color:var(--text-muted); font-size:11px; }
 .fe-clear { background:none; border:none; cursor:pointer; color:var(--text-muted); padding:0 2px; line-height:1; font-size:12px; transition:color 0.15s; }
 .fe-clear:hover { color:var(--accent); }
 .fe-view-toggle { display:flex; gap:4px; align-items:center; }
 .fe-view-toggle > button { background:var(--bg-tertiary); border:1px solid var(--border-color); color:var(--text-muted); width:28px; height:28px; border-radius:7px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
-.fe-view-toggle > button.active { background:rgba(255,69,0,0.12); border-color:rgba(255,69,0,0.4); color:var(--accent); }
+.fe-view-toggle > button.active { background:var(--accent-dim); border-color:var(--accent-strong); color:var(--accent); }
 .fe-view-toggle > button:hover:not(.active) { border-color:var(--accent); color:var(--accent); }
 .fe-sort-wrap { position:relative; }
 .fe-sort-btn { display:flex; align-items:center; gap:5px; background:var(--bg-tertiary); border:1px solid var(--border-color); color:var(--text-muted); padding:5px 10px; border-radius:7px; cursor:pointer; font-size:11px; font-weight:600; transition:all 0.15s; white-space:nowrap; }
@@ -509,7 +514,7 @@ export default {
 .fe-chips { display:flex; gap:6px; flex-wrap:wrap; }
 .fe-chip { display:flex; align-items:center; gap:5px; padding:4px 10px; border-radius:20px; border:1px solid var(--border-color); background:var(--bg-secondary); color:var(--text-muted); font-size:10px; font-weight:600; cursor:pointer; transition:all 0.15s; }
 .fe-chip:hover { border-color:var(--text-muted); color:var(--text-primary); }
-.fe-chip.active { background:rgba(255,69,0,0.1); border-color:var(--accent); color:var(--accent); }
+.fe-chip.active { background:var(--accent-dim); border-color:var(--accent); color:var(--accent); }
 .fe-chip-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
 .fe-chip-ct { background:rgba(255,255,255,0.06); padding:1px 5px; border-radius:8px; font-size:9px; }
 .panel-files.light-theme .fe-chip-ct { background:rgba(0,0,0,0.08); }
@@ -543,7 +548,7 @@ export default {
 .fe-flat-list { display:flex; flex-direction:column; gap:1px; }
 .fe-flat-row { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:7px; cursor:pointer; transition:background 0.12s; }
 .fe-flat-row:hover { background:var(--bg-tertiary); }
-.fe-flat-row.selected { background:rgba(255,69,0,0.1); outline:1px solid rgba(255,69,0,0.25); }
+.fe-flat-row.selected { background:var(--accent-dim); outline:1px solid var(--accent-mid); }
 .fe-flat-icon { flex-shrink:0; display:flex; }
 .fe-flat-name { font-size:11px; font-weight:600; color:var(--text-primary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; flex:1; }
 .fe-flat-dir { font-size:9px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:100px; font-family:monospace; }
@@ -605,7 +610,7 @@ export default {
 
 /* ── Light theme fine-tuning ── */
 .panel-files.light-theme .fe-sort-menu { box-shadow:0 8px 24px rgba(0,0,0,0.12); }
-.panel-files.light-theme .fe-flat-row.selected { background:rgba(255,69,0,0.08); outline:1px solid rgba(255,69,0,0.2); }
+.panel-files.light-theme .fe-flat-row.selected { background:var(--accent-dim); outline:1px solid var(--accent-soft); }
 .panel-files.light-theme .feph-path { color:#888; }
 .panel-files.light-theme .fems-lbl { color:#999; }
 .panel-files.light-theme .fe-preview-head { background:rgba(0,0,0,0.02); }

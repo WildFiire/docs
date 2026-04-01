@@ -99,8 +99,9 @@
         <div class="ctc-body">
           <div class="ctc-name">{{ c.login }}</div>
           <div class="ctc-level">
-            <span class="ctc-level-dot" :style="{ background: getLevelColor(getContributorLevel(c).key) }"></span>
+            <img :src="'/medals/' + getContributorLevel(c).key + '.svg'" class="ctc-level-medal" :alt="getContributorLevel(c).label">
             {{ getContributorLevel(c).label }}
+            <span class="ctc-ach-badge" v-if="getAchievementCountFor(c) > 0">{{ getAchievementCountFor(c) }}✦</span>
           </div>
           <div class="ctc-stats">
             <div class="ctcs-item">
@@ -143,12 +144,12 @@
   <!-- ════════════ MODAL ════════════ -->
   <transition name="modal-fade">
     <div class="cm-backdrop" v-if="showModal" @click.self="closeModal">
-      <div class="cm-shell" :class="['level-' + selectedLevel.key, { 'light-theme': isLightTheme }]">
+      <div class="cm-shell" :class="{ 'light-theme': isLightTheme }">
 
         <!-- Decorative background layer -->
         <div class="cm-bg-layer">
-          <div class="cm-orb cm-orb-1" :style="{ background: getLevelGlow(selectedLevel.key) }"></div>
-          <div class="cm-orb cm-orb-2" :style="{ background: getLevelGlow(selectedLevel.key) }"></div>
+          <div class="cm-orb cm-orb-1"></div>
+          <div class="cm-orb cm-orb-2"></div>
           <div class="cm-scan-line"></div>
         </div>
 
@@ -167,21 +168,41 @@
 
           <!-- ── Hero Section ── -->
           <div class="cm-hero">
-            <div class="cm-hero-bg" :style="{ background: getLevelHeroBg(selectedLevel.key) }"></div>
-            <div class="cm-avatar-frame" :style="{ '--ring-color': getLevelColor(selectedLevel.key) }">
+            <div class="cm-hero-bg" :style="modalBgUrls[selectedContributor.login] ? { backgroundImage: `url('${modalBgUrls[selectedContributor.login]}')`, backgroundSize: 'cover', backgroundPosition: 'center' } : {}"></div>
+            <div class="cm-avatar-frame">
               <div class="cm-avatar-ring"></div>
               <img :src="selectedContributor.avatar_url" :alt="selectedContributor.login" class="cm-avatar">
               <div class="cm-avatar-pulse"></div>
+              <img :src="'/medals/' + selectedLevel.key + '.svg'" class="cm-level-medal-badge" :alt="selectedLevel.label" :title="selectedLevel.label + ' level'">
             </div>
             <div class="cm-hero-info">
               <div class="cm-hero-name-row">
                 <h2 class="cm-hero-name">{{ contributorGHData.name || selectedContributor.login }}</h2>
-                <div class="cm-level-chip" :class="selectedLevel.key" :style="{ '--lc': getLevelColor(selectedLevel.key) }">
+                <div class="cm-level-chip" :class="selectedLevel.key">
                   <span v-html="getLevelIcon(selectedLevel.key)"></span>
                   {{ selectedLevel.label }}
                 </div>
               </div>
               <div class="cm-hero-login">@{{ selectedContributor.login }}</div>
+              <p class="cm-hero-bio" v-if="contributorGHData.bio">{{ contributorGHData.bio }}</p>
+              <div class="cm-hero-chips" v-if="contributorGHData.location || contributorGHData.company || contributorGHData.blog || contributorGHData.twitter_username">
+                <span class="cm-hero-chip" v-if="contributorGHData.location">
+                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+                  {{ contributorGHData.location }}
+                </span>
+                <span class="cm-hero-chip" v-if="contributorGHData.company">
+                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>
+                  {{ contributorGHData.company }}
+                </span>
+                <a v-if="contributorGHData.blog" :href="contributorGHData.blog.startsWith('http') ? contributorGHData.blog : 'https://' + contributorGHData.blog" target="_blank" class="cm-hero-chip link">
+                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
+                  Website
+                </a>
+                <a v-if="contributorGHData.twitter_username" :href="'https://twitter.com/' + contributorGHData.twitter_username" target="_blank" class="cm-hero-chip link">
+                  <svg viewBox="0 0 24 24" width="10" height="10" fill="currentColor"><path d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z"/></svg>
+                  @{{ contributorGHData.twitter_username }}
+                </a>
+              </div>
               <div class="cm-hero-rank-row">
                 <div class="cm-rank-pill">
                   <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
@@ -195,6 +216,43 @@
             </div>
           </div>
 
+          <!-- ── Quick Stats Bar ── -->
+          <div class="cm-quick-stats">
+            <div class="cm-qs-item">
+              <span class="cm-qs-val" style="color:var(--accent)">{{ formatNumber(selectedContributor.commits || 0) }}</span>
+              <span class="cm-qs-lbl">Commits</span>
+            </div>
+            <div class="cm-qs-div"></div>
+            <div class="cm-qs-item">
+              <span class="cm-qs-val">{{ selectedContributor.prs || 0 }}</span>
+              <span class="cm-qs-lbl">Pull Requests</span>
+            </div>
+            <div class="cm-qs-div"></div>
+            <div class="cm-qs-item">
+              <span class="cm-qs-val">{{ selectedContributor.impact ? selectedContributor.impact.toFixed(1) + '%' : '0%' }}</span>
+              <span class="cm-qs-lbl">Impact</span>
+            </div>
+            <div class="cm-qs-div"></div>
+            <div class="cm-qs-item">
+              <span class="cm-qs-val">#{{ selectedRank }}</span>
+              <span class="cm-qs-lbl">Global Rank</span>
+            </div>
+            <template v-if="contributorGHData.followers !== undefined">
+              <div class="cm-qs-div"></div>
+              <div class="cm-qs-item">
+                <span class="cm-qs-val">{{ formatNumber(contributorGHData.followers || 0) }}</span>
+                <span class="cm-qs-lbl">Followers</span>
+              </div>
+            </template>
+            <template v-if="contributorGHData.public_repos !== undefined">
+              <div class="cm-qs-div"></div>
+              <div class="cm-qs-item">
+                <span class="cm-qs-val">{{ formatNumber(contributorGHData.public_repos || 0) }}</span>
+                <span class="cm-qs-lbl">Public Repos</span>
+              </div>
+            </template>
+          </div>
+
           <!-- ── Tab Bar ── -->
           <div class="cm-tabs">
             <button class="cm-tab" :class="{ active: modalTab==='stats' }" @click="modalTab='stats'">
@@ -204,7 +262,7 @@
             <button class="cm-tab" :class="{ active: modalTab==='achievements' }" @click="modalTab='achievements'">
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="5"/><path d="M8.5 13L6 22h12l-2.5-9"/></svg>
               Achievements
-              <span class="cm-tab-badge" :style="{ background: getLevelColor(selectedLevel.key) }">{{ selectedUnlockedCount }}</span>
+              <span class="cm-tab-badge">{{ selectedUnlockedCount }}</span>
             </button>
             <button class="cm-tab" :class="{ active: modalTab==='info' }" @click="modalTab='info'">
               <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
@@ -245,10 +303,10 @@
             <div class="cm-contrib-bar">
               <div class="cm-contrib-labels">
                 <span>{{ selectedContributor.login }}</span>
-                <span class="cm-contrib-pct" :style="{ color: getLevelColor(selectedLevel.key) }">{{ Math.round(selectedContributor.commits / maxCommits * 100) }}%</span>
+                <span class="cm-contrib-pct">{{ Math.round(selectedContributor.commits / maxCommits * 100) }}%</span>
               </div>
               <div class="cm-bar-track">
-                <div class="cm-bar-fill" :style="{ width: (selectedContributor.commits / maxCommits * 100)+'%', background: getLevelColor(selectedLevel.key) }"></div>
+                <div class="cm-bar-fill" :style="{ width: (selectedContributor.commits / maxCommits * 100)+'%' }"></div>
               </div>
             </div>
 
@@ -256,14 +314,38 @@
             <div class="cm-xp-section">
               <div class="cm-xp-labels">
                 <span>{{ selectedContributor.commits || 0 }} commits</span>
-                <span v-if="selectedNextLevel" :style="{ color: getLevelColor(selectedLevel.key) }">{{ selectedNextLevel.minCommits }} → {{ selectedNextLevel.label }}</span>
+                <span v-if="selectedNextLevel" style="color:var(--accent)">{{ selectedNextLevel.minCommits }} → {{ selectedNextLevel.label }}</span>
                 <span v-else style="color:#ffd700">MAX LEVEL</span>
               </div>
               <div class="cm-xp-track">
-                <div class="cm-xp-fill" :style="{ width: selectedXpProgress+'%', background: getLevelColor(selectedLevel.key) }"></div>
-                <div class="cm-xp-glow" :style="{ width: selectedXpProgress+'%', background: getLevelColor(selectedLevel.key) }"></div>
+                <div class="cm-xp-fill" :style="{ width: selectedXpProgress+'%' }"></div>
+                <div class="cm-xp-glow" :style="{ width: selectedXpProgress+'%' }"></div>
               </div>
               <div class="cm-xp-progress-text">{{ selectedXpProgress.toFixed(0) }}% to next level</div>
+            </div>
+
+            <div class="cm-section-title" style="margin-top:22px">LEVEL ROADMAP</div>
+            <div class="cm-level-track">
+              <div v-for="(lvl, li) in levels" :key="lvl.key"
+                class="cm-lvl-step"
+                :class="{ earned: (selectedContributor.commits || 0) >= lvl.minCommits, active: lvl.key === selectedLevel.key }">
+                <div class="cm-lvl-connector" v-if="li > 0" :class="{ filled: (selectedContributor.commits || 0) >= lvl.minCommits }"></div>
+                <img :src="'/medals/' + lvl.key + '.svg'" class="cm-lvl-img" :alt="lvl.label">
+                <span class="cm-lvl-name">{{ lvl.label }}</span>
+                <span class="cm-lvl-min">{{ lvl.minCommits }}+</span>
+              </div>
+            </div>
+
+            <div class="cm-section-title" style="margin-top:22px">RANK MEDALS</div>
+            <div class="cm-rank-medals-row">
+              <div v-for="rm in rankMedals" :key="rm.threshold"
+                class="cm-rm-item"
+                :class="{ earned: typeof selectedRank === 'number' && selectedRank <= rm.threshold }">
+                <img :src="rm.img" class="cm-rm-img" :class="{ locked: !(typeof selectedRank === 'number' && selectedRank <= rm.threshold) }">
+                <span class="cm-rm-label">{{ rm.label }}</span>
+                <span class="cm-rm-val" :style="{ color: rm.color }" v-if="typeof selectedRank === 'number' && selectedRank <= rm.threshold">✓ Earned</span>
+                <span class="cm-rm-val" v-else>Top {{ rm.threshold }}</span>
+              </div>
             </div>
           </div>
 
@@ -271,7 +353,7 @@
           <div class="cm-panel" v-show="modalTab==='achievements'">
             <div class="cm-ach-header">
               <span class="cm-section-title">ACHIEVEMENTS</span>
-              <span class="cm-ach-count" :style="{ color: getLevelColor(selectedLevel.key) }">{{ selectedUnlockedCount }}/{{ achievements.length }}</span>
+              <span class="cm-ach-count">{{ selectedUnlockedCount }}/{{ achievements.length }}</span>
             </div>
             <div class="cm-ach-grid">
               <div
@@ -343,22 +425,30 @@
               <div class="cm-section-title">30-DAY COMMIT ACTIVITY</div>
               <div class="cm-chart-wrap">
                 <svg class="cm-act-chart" viewBox="0 0 300 56" preserveAspectRatio="none" width="100%" height="56">
-                  <rect x="0" y="0" width="300" height="56" fill="rgba(255,255,255,0.02)" rx="4"/>
+                  <rect x="0" y="0" width="300" height="56" :fill="isLightTheme ? 'rgba(0,0,0,0.02)' : 'rgba(255,255,255,0.02)'" rx="4"/>
                   <g v-for="(day, i) in contributorActivity" :key="day.date">
                     <rect
                       :x="i * (300/30) + 0.5"
                       :y="day.count > 0 ? 56 - Math.max((day.count / Math.max(activityMax,1)) * 50, 4) : 52"
                       :width="300/30 - 2"
                       :height="day.count > 0 ? Math.max((day.count / Math.max(activityMax,1)) * 50, 4) : 4"
-                      :fill="day.count > 0 ? getLevelColor(selectedLevel.key) : 'rgba(255,255,255,0.04)'"
-                      :opacity="day.count > 0 ? 0.55 + (day.count / Math.max(activityMax,1)) * 0.45 : 1"
+                      :fill="day.count > 0 ? 'var(--accent)' : (isLightTheme ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.04)')"
+                      :opacity="hoveredActivityDay !== null ? (hoveredActivityDay === i ? 1 : 0.22) : (day.count > 0 ? 0.55 + (day.count / Math.max(activityMax,1)) * 0.45 : 1)"
                       rx="2"
+                      style="cursor:pointer"
+                      @mouseenter="hoveredActivityDay = i"
+                      @mouseleave="hoveredActivityDay = null"
                     />
                   </g>
                 </svg>
+                <div v-if="hoveredActivityDay !== null && contributorActivity[hoveredActivityDay]" class="cm-act-tip"
+                  :style="{ left: ((hoveredActivityDay + 0.5) / 30 * 100) + '%' }">
+                  <span class="cm-act-tip-count">{{ contributorActivity[hoveredActivityDay].count > 0 ? contributorActivity[hoveredActivityDay].count + (contributorActivity[hoveredActivityDay].count === 1 ? ' commit' : ' commits') : 'No commits' }}</span>
+                  <span class="cm-act-tip-date">{{ formatActivityDate(contributorActivity[hoveredActivityDay].date) }}</span>
+                </div>
                 <div class="cm-chart-labels">
                   <span>30d ago</span>
-                  <span :style="{ color: getLevelColor(selectedLevel.key) }">{{ activityTotal }} commits</span>
+                  <span style="color:var(--accent)">{{ activityTotal }} commits</span>
                   <span>Today</span>
                 </div>
               </div>
@@ -393,7 +483,7 @@
 
           <!-- ── Actions ── -->
           <div class="cm-actions">
-            <a :href="`https://github.com/${selectedContributor.login}`" target="_blank" class="cm-btn primary" :style="{ '--btn-color': getLevelColor(selectedLevel.key) }">
+            <a :href="`https://github.com/${selectedContributor.login}`" target="_blank" class="cm-btn primary">
               <svg viewBox="0 0 24 24" width="15" height="15" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
               GitHub Profile
             </a>
@@ -437,6 +527,8 @@ export default {
       favoriteFiles: [],
       favoriteLanguages: [],
       contributorBgStyle: {},
+      modalBgUrls: {},
+      hoveredActivityDay: null,
       levels: [
         { key: 'newcomer', label: 'Newcomer', minCommits: 0   },
         { key: 'bronze',   label: 'Bronze',   minCommits: 5   },
@@ -458,7 +550,18 @@ export default {
         { id: 'top10',        title: 'Top 10',          desc: 'Reach top 10 contributors',      type: 'rank',    threshold: 10,  color: '#3b82f6', rarity: 'common',    icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>' },
         { id: 'top5',         title: 'Elite',           desc: 'Reach top 5 contributors',       type: 'rank',    threshold: 5,   color: '#8b5cf6', rarity: 'rare',      icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>' },
         { id: 'top3',         title: 'Podium',          desc: 'Reach top 3 contributors',       type: 'rank',    threshold: 3,   color: '#f59e0b', rarity: 'epic',      icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M8 6l4-4 4 4"/><path d="M12 2v10.3"/><path d="M2 20h20"/></svg>' },
-        { id: 'rank1',        title: 'Champion',        desc: '#1 Top contributor of all time', type: 'rank',    threshold: 1,   color: '#ffd700', rarity: 'legendary', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>' }
+        { id: 'rank1',        title: 'Champion',        desc: '#1 Top contributor of all time', type: 'rank',    threshold: 1,   color: '#ffd700', rarity: 'legendary', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>' },
+        { id: 'impact_10',   title: 'Heavy Hitter',    desc: '10%+ repository impact',         type: 'impact',  threshold: 10,  color: '#ec4899', rarity: 'rare',      icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>' },
+        { id: 'impact_25',   title: 'Cornerstone',     desc: '25%+ repository impact',         type: 'impact',  threshold: 25,  color: '#f97316', rarity: 'epic',      icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/></svg>' },
+        { id: 'impact_50',   title: 'Pillar',          desc: '50%+ repository impact',         type: 'impact',  threshold: 50,  color: '#ffd700', rarity: 'legendary', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><line x1="9" y1="22" x2="9" y2="12"/><line x1="15" y1="22" x2="15" y2="12"/></svg>' },
+        { id: 'commits_350', title: 'Titan',           desc: 'Reach 350 commits',              type: 'commits', threshold: 350, color: '#ff6a00', rarity: 'legendary', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>' },
+        { id: 'commits_500', title: 'Immortal',        desc: 'Reach 500 commits',              type: 'commits', threshold: 500, color: '#ff0000', rarity: 'legendary', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>' }
+      ],
+      rankMedals: [
+        { threshold: 1,  label: 'Champion', img: '/medals/rank1.svg',  color: '#ffd700' },
+        { threshold: 3,  label: 'Podium',   img: '/medals/rank3.svg',  color: '#f59e0b' },
+        { threshold: 5,  label: 'Elite',    img: '/medals/rank5.svg',  color: '#8b5cf6' },
+        { threshold: 10, label: 'Top 10',   img: '/medals/rank10.svg', color: '#3b82f6' }
       ]
     }
   },
@@ -589,7 +692,34 @@ export default {
       this.showModal = true
       this.fetchContributorData(login)
       this.fetchContributorActivity(login)
+      this.fetchContributorReadmeBg(login)
       if (typeof document !== 'undefined') document.body.style.overflow = 'hidden'
+    },
+
+    async fetchContributorReadmeBg(login) {
+      if (this.modalBgUrls[login] !== undefined) return
+      const branches = ['main', 'master']
+      for (const branch of branches) {
+        try {
+          const res = await fetch(`https://raw.githubusercontent.com/${login}/${login}/${branch}/README.md`)
+          if (!res.ok) continue
+          const text = await res.text()
+          const url = this._extractReadmeBgUrl(text)
+          this.modalBgUrls = { ...this.modalBgUrls, [login]: url || null }
+          return
+        } catch (_) {}
+      }
+      this.modalBgUrls = { ...this.modalBgUrls, [login]: null }
+    },
+
+    _extractReadmeBgUrl(text) {
+      const mdImg = text.match(/!\[.*?\]\((https?:\/\/[^\s)]+\.(?:jpg|jpeg|png|webp|gif)(?:\?[^\s)]*)?)\)/i)
+      if (mdImg) return mdImg[1]
+      const imgur = text.match(/(https?:\/\/i\.imgur\.com\/[A-Za-z0-9]+\.(?:jpg|jpeg|png|webp|gif))/i)
+      if (imgur) return imgur[1]
+      const htmlImg = text.match(/<img[^>]+src=["'](https?:\/\/[^\s"']+)["']/i)
+      if (htmlImg) return htmlImg[1]
+      return null
     },
 
     closeModal() {
@@ -683,10 +813,26 @@ export default {
       const commits = this.selectedContributor.commits || 0
       const prs = this.selectedContributor.prs || 0
       const rank = this.selectedRank
+      const impact = this.selectedContributor.impact || 0
       if (a.type === 'commits') return commits >= a.threshold
       if (a.type === 'prs')     return prs >= a.threshold
       if (a.type === 'rank')    return typeof rank === 'number' && rank <= a.threshold
+      if (a.type === 'impact')  return impact >= a.threshold
       return false
+    },
+
+    getAchievementCountFor(c) {
+      const commits = c.commits || 0
+      const prs = c.prs || 0
+      const rank = this.sortedRankMap[c.login]
+      const impact = c.impact || 0
+      return this.achievements.filter(a => {
+        if (a.type === 'commits') return commits >= a.threshold
+        if (a.type === 'prs')     return prs >= a.threshold
+        if (a.type === 'rank')    return typeof rank === 'number' && rank <= a.threshold
+        if (a.type === 'impact')  return impact >= a.threshold
+        return false
+      }).length
     },
 
     getContributorLevel(c) {
@@ -697,12 +843,18 @@ export default {
     },
 
     getLevelColor(key) {
-      const map = { newcomer:'#6b7280', bronze:'#cd7f32', silver:'#c0c0c0', gold:'#ffd700', platinum:'#88d4e8', legend:'#ff4500' }
+      if (key === 'legend') {
+        return (this.$el ? (getComputedStyle(this.$el).getPropertyValue('--accent') || '').trim() : '') || '#ff4500'
+      }
+      const map = { newcomer:'#6b7280', bronze:'#cd7f32', silver:'#c0c0c0', gold:'#ffd700', platinum:'#88d4e8' }
       return map[key] || '#8a8a95'
     },
 
     getLevelGlow(key) {
-      const map = { newcomer:'rgba(107,114,128,0.3)', bronze:'rgba(205,127,50,0.35)', silver:'rgba(192,192,192,0.3)', gold:'rgba(255,215,0,0.4)', platinum:'rgba(136,212,232,0.35)', legend:'rgba(255,69,0,0.5)' }
+      if (key === 'legend') {
+        return (this.$el ? (getComputedStyle(this.$el).getPropertyValue('--accent-glow') || '').trim() : '') || 'rgba(255,69,0,0.3)'
+      }
+      const map = { newcomer:'rgba(107,114,128,0.3)', bronze:'rgba(205,127,50,0.35)', silver:'rgba(192,192,192,0.3)', gold:'rgba(255,215,0,0.4)', platinum:'rgba(136,212,232,0.35)' }
       return map[key] || 'rgba(100,100,100,0.2)'
     },
 
@@ -744,6 +896,12 @@ export default {
       return icons[key] || icons.newcomer
     },
 
+    formatActivityDate(dateStr) {
+      try {
+        return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
+      } catch { return dateStr }
+    },
+
     formatJoined(dateStr) {
       try {
         const d = new Date(dateStr)
@@ -770,6 +928,11 @@ export default {
   --text-primary: #f0f0f5;
   --text-muted:   #7a7a8a;
   --accent: #ff4500;
+  --accent-glow: rgba(255,69,0,0.2);
+  --accent-dim: rgba(255,69,0,0.08); --accent-soft: rgba(255,69,0,0.15);
+  --accent-mid: rgba(255,69,0,0.28); --accent-strong: rgba(255,69,0,0.45);
+  --accent-heavy: rgba(255,69,0,0.68); --accent-solid: rgba(255,69,0,0.88);
+  --accent-alt: #ff6030; --accent-alt2: #ff8c42;
   --success: #22c55e;
   --gold:   #ffd700;
   --silver: #c0c0c0;
@@ -777,7 +940,10 @@ export default {
   display: flex; flex-direction: column; gap: 16px; animation: ctFade 0.3s ease;
 }
 @keyframes ctFade { from { opacity:0; transform:translateY(8px) } to { opacity:1; transform:none } }
-.panel-contributors.light-theme { --bg-primary:#f0f0f5; --bg-secondary:#fff; --bg-tertiary:#e8e8f0; --border-color:#ddd; --text-primary:#222; --text-muted:#666; }
+.panel-contributors.light-theme { --bg-primary:#f0f0f5; --bg-secondary:#fff; --bg-tertiary:#e2e2ea; --border-color:#c4c4d0; --text-primary:#0f0f14; --text-secondary:#2a2a38; --text-muted:#4a4a5a; }
+.panel-contributors.light-theme .ct-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.1); }
+.panel-contributors.light-theme .ct-toolbar { background:rgba(0,0,0,0.03); border-color:#c4c4d0; }
+.panel-contributors.light-theme .ct-search { background:#fff; border-color:#c4c4d0; color:#0f0f14; }
 
 /* ── Header Stats ── */
 .contributors-header { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
@@ -815,7 +981,7 @@ export default {
 /* ── Toolbar ── */
 .ct-toolbar { display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap; }
 .ct-search { display:flex; align-items:center; gap:8px; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:24px; padding:8px 14px; min-width:220px; transition:all 0.15s; color:var(--text-muted); }
-.ct-search.focused { border-color:var(--accent); box-shadow:0 0 0 3px rgba(255,69,0,0.1); }
+.ct-search.focused { border-color:var(--accent); box-shadow:0 0 0 3px var(--accent-dim); }
 .ct-search input { flex:1; background:none; border:none; outline:none; color:var(--text-primary); font-size:12px; }
 .ct-search input::placeholder { color:var(--text-muted); }
 .ct-clear { background:none; border:none; cursor:pointer; color:var(--text-muted); padding:0 2px; font-size:12px; transition:color 0.15s; }
@@ -823,7 +989,7 @@ export default {
 .ct-sort-group { display:flex; gap:6px; flex-wrap:wrap; }
 .ct-sort-btn { display:flex; align-items:center; gap:5px; padding:7px 14px; background:var(--bg-secondary); border:1px solid var(--border-color); border-radius:20px; color:var(--text-muted); font-size:11px; font-weight:600; cursor:pointer; transition:all 0.15s; }
 .ct-sort-btn:hover { border-color:var(--accent); color:var(--accent); }
-.ct-sort-btn.active { background:rgba(255,69,0,0.1); border-color:rgba(255,69,0,0.4); color:var(--accent); }
+.ct-sort-btn.active { background:var(--accent-dim); border-color:var(--accent-strong); color:var(--accent); }
 .ct-sort-dir { font-size:13px; font-weight:700; }
 
 /* ── Card Grid ── */
@@ -880,28 +1046,23 @@ export default {
 
 /* ════════════ MODAL ════════════ */
 .cm-backdrop { position:fixed; inset:0; background:rgba(0,0,0,0.85); backdrop-filter:blur(12px); z-index:1000; display:flex; align-items:center; justify-content:center; padding:20px; }
-.cm-shell { position:relative; background:#0d0d12; border:1px solid #1f1f2c; border-radius:24px; width:100%; max-width:600px; max-height:92vh; overflow-y:auto; box-shadow:0 30px 80px rgba(0,0,0,0.7); overflow-x:hidden; }
+.cm-shell { position:relative; background:#0d0d12; border:1px solid #1f1f2c; border-top:2px solid var(--accent); border-radius:24px; width:100%; max-width:860px; max-height:92vh; overflow-y:auto; overflow-x:hidden; box-shadow:0 30px 80px rgba(0,0,0,0.7), 0 0 40px var(--accent-glow); scrollbar-width:none; -ms-overflow-style:none; }
 .cm-shell.light-theme { background:#fff; border-color:#ddd; }
-.cm-shell::-webkit-scrollbar { width:3px; }
-.cm-shell::-webkit-scrollbar-track { background:transparent; }
-.cm-shell::-webkit-scrollbar-thumb { background:#2a2a35; border-radius:2px; }
+.cm-shell::-webkit-scrollbar { display:none !important; width:0 !important; height:0 !important; }
 
-/* Level-specific shell border */
-.cm-shell.level-gold { border-color:rgba(255,215,0,0.3); box-shadow:0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(255,215,0,0.06); }
-.cm-shell.level-legend { border-color:rgba(255,69,0,0.3); box-shadow:0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(255,69,0,0.08); }
-.cm-shell.level-platinum { border-color:rgba(136,212,232,0.25); }
+/* Neutral shell border for all levels */
 
 /* Background layer */
 .cm-bg-layer { position:absolute; inset:0; pointer-events:none; overflow:hidden; border-radius:24px; z-index:0; }
-.cm-orb { position:absolute; border-radius:50%; filter:blur(60px); opacity:0.18; }
-.cm-orb-1 { width:300px; height:300px; top:-100px; right:-80px; }
-.cm-orb-2 { width:200px; height:200px; bottom:0; left:-60px; opacity:0.1; }
+.cm-orb { position:absolute; border-radius:50%; filter:blur(60px); }
+.cm-orb-1 { width:300px; height:300px; top:-100px; right:-80px; background:var(--accent-dim); opacity:0.7; }
+.cm-orb-2 { width:200px; height:200px; bottom:0; left:-60px; background:var(--accent-dim); opacity:0.4; }
 .cm-scan-line { position:absolute; top:0; left:0; right:0; height:1px; background:linear-gradient(90deg,transparent,rgba(255,255,255,0.06),transparent); animation:cmScan 4s ease-in-out infinite; }
 @keyframes cmScan { 0%,100% { top:0; opacity:0 } 50% { top:100%; opacity:1 } }
 
 /* Close */
 .cm-close { position:absolute; top:14px; right:14px; z-index:10; width:32px; height:32px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); border-radius:8px; color:rgba(255,255,255,0.5); cursor:pointer; display:flex; align-items:center; justify-content:center; transition:all 0.15s; }
-.cm-close:hover { background:rgba(255,69,0,0.15); border-color:rgba(255,69,0,0.4); color:#ff4500; }
+.cm-close:hover { background:var(--accent-soft); border-color:var(--accent-strong); color:var(--accent); }
 
 /* Loading */
 .cm-loading { display:flex; flex-direction:column; align-items:center; gap:14px; padding:60px; color:rgba(255,255,255,0.5); font-size:13px; position:relative; z-index:1; }
@@ -909,9 +1070,9 @@ export default {
 @keyframes cmSpin { to { transform:rotate(360deg) } }
 
 /* ── Hero ── */
-.cm-hero { position:relative; padding:32px 24px 24px; display:flex; gap:20px; align-items:flex-start; z-index:1; }
-.cm-hero-bg { position:absolute; inset:0; z-index:0; }
-.cm-avatar-frame { position:relative; flex-shrink:0; z-index:1; --ring-color:#ff4500; width:88px; height:88px; }
+.cm-hero { position:relative; padding:32px 28px 24px; display:flex; gap:22px; align-items:flex-start; z-index:1; }
+.cm-hero-bg { position:absolute; inset:0; z-index:0; background:linear-gradient(135deg, var(--accent-dim) 0%, transparent 55%); }
+.cm-avatar-frame { position:relative; flex-shrink:0; z-index:1; --ring-color:var(--accent); width:88px; height:88px; }
 .cm-avatar-ring { position:absolute; inset:-4px; border-radius:50%; border:2px solid var(--ring-color); opacity:0.8; animation:cmRingPulse 2.5s ease-in-out infinite; }
 @keyframes cmRingPulse { 0%,100% { transform:scale(1); opacity:0.8 } 50% { transform:scale(1.06); opacity:0.4 } }
 .cm-avatar-pulse { position:absolute; inset:-10px; border-radius:50%; border:1px solid var(--ring-color); opacity:0; animation:cmRingPulse 2.5s ease-in-out infinite 0.8s; }
@@ -919,20 +1080,27 @@ export default {
 .cm-hero-info { flex:1; min-width:0; z-index:1; padding-top:6px; }
 .cm-hero-name-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
 .cm-hero-name { font-size:20px; font-weight:800; color:#fff; margin:0; }
-.cm-hero-login { font-size:11px; color:rgba(255,255,255,0.45); margin-bottom:10px; }
+.cm-hero-login { font-size:11px; color:rgba(255,255,255,0.45); margin-bottom:6px; }
+.cm-hero-bio { font-size:11px; color:rgba(255,255,255,0.5); margin:0 0 8px; line-height:1.5; max-height:48px; overflow:hidden; display:-webkit-box; -webkit-line-clamp:2; line-clamp:2; -webkit-box-orient:vertical; }
+.cm-hero-chips { display:flex; flex-wrap:wrap; gap:5px; margin-bottom:8px; }
+.cm-hero-chip { display:inline-flex; align-items:center; gap:4px; font-size:9.5px; color:rgba(255,255,255,0.45); background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.08); padding:3px 8px; border-radius:20px; }
+.cm-hero-chip.link { color:rgba(136,212,232,0.8); border-color:rgba(136,212,232,0.15); text-decoration:none; }
+.cm-hero-chip.link:hover { color:#88d4e8; border-color:rgba(136,212,232,0.35); }
+.cm-shell.light-theme .cm-hero-bio { color:rgba(0,0,0,0.5); }
+.cm-shell.light-theme .cm-hero-chip { color:rgba(0,0,0,0.45); background:rgba(0,0,0,0.05); border-color:rgba(0,0,0,0.1); }
 .cm-hero-rank-row { display:flex; gap:8px; flex-wrap:wrap; }
 .cm-rank-pill { display:flex; align-items:center; gap:5px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.1); border-radius:20px; padding:4px 10px; font-size:10px; font-weight:700; color:rgba(255,255,255,0.6); }
-.cm-badge-unlocked { display:flex; align-items:center; gap:5px; background:rgba(255,69,0,0.1); border:1px solid rgba(255,69,0,0.25); border-radius:20px; padding:4px 10px; font-size:10px; font-weight:700; color:rgba(255,69,0,0.8); }
+.cm-badge-unlocked { display:flex; align-items:center; gap:5px; background:var(--accent-dim); border:1px solid var(--accent-mid); border-radius:20px; padding:4px 10px; font-size:10px; font-weight:700; color:var(--accent-heavy); }
 
 /* Level chip */
-.cm-level-chip { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; border:1px solid var(--lc, #888); color:var(--lc, #888); background:color-mix(in srgb, var(--lc, #888) 12%, transparent); }
+.cm-level-chip { display:inline-flex; align-items:center; gap:5px; padding:3px 10px; border-radius:20px; font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:0.4px; border:1px solid var(--accent-mid); color:var(--accent); background:var(--accent-dim); }
 
 /* ── Tabs ── */
 .cm-tabs { display:flex; border-bottom:1px solid rgba(255,255,255,0.07); padding:0 24px; position:relative; z-index:1; background:rgba(0,0,0,0.2); }
 .cm-tab { display:flex; align-items:center; gap:7px; padding:12px 16px; font-size:11px; font-weight:700; color:rgba(255,255,255,0.4); background:none; border:none; border-bottom:2px solid transparent; margin-bottom:-1px; cursor:pointer; transition:all 0.15s; position:relative; }
 .cm-tab:hover { color:rgba(255,255,255,0.7); }
 .cm-tab.active { color:#fff; border-bottom-color:var(--accent); }
-.cm-tab-badge { font-size:9px; font-weight:800; padding:1px 5px; border-radius:8px; color:#fff; margin-left:2px; }
+.cm-tab-badge { font-size:9px; font-weight:800; padding:1px 5px; border-radius:8px; color:#fff; margin-left:2px; background:var(--accent); }
 
 /* ── Panels ── */
 .cm-panel { padding:20px 24px; position:relative; z-index:1; }
@@ -948,21 +1116,21 @@ export default {
 /* Contribution bar */
 .cm-contrib-bar { margin-bottom:20px; }
 .cm-contrib-labels { display:flex; justify-content:space-between; font-size:11px; color:rgba(255,255,255,0.4); margin-bottom:6px; }
-.cm-contrib-pct { font-weight:800; }
+.cm-contrib-pct { font-weight:800; color:var(--accent); }
 .cm-bar-track { height:8px; background:rgba(255,255,255,0.06); border-radius:4px; overflow:hidden; }
-.cm-bar-fill { height:100%; border-radius:4px; transition:width 0.6s cubic-bezier(.34,1.56,.64,1); }
+.cm-bar-fill { height:100%; border-radius:4px; transition:width 0.6s cubic-bezier(.34,1.56,.64,1); background:var(--accent); }
 
 /* XP bar */
 .cm-xp-section { margin-bottom:4px; }
 .cm-xp-labels { display:flex; justify-content:space-between; font-size:10px; color:rgba(255,255,255,0.35); margin-bottom:6px; }
 .cm-xp-track { height:10px; background:rgba(255,255,255,0.06); border-radius:5px; overflow:hidden; position:relative; }
-.cm-xp-fill { height:100%; border-radius:5px; transition:width 0.8s cubic-bezier(.34,1.56,.64,1); position:relative; z-index:1; }
-.cm-xp-glow { position:absolute; top:0; left:0; height:100%; border-radius:5px; filter:blur(6px); opacity:0.5; transition:width 0.8s; }
+.cm-xp-fill { height:100%; border-radius:5px; transition:width 0.8s cubic-bezier(.34,1.56,.64,1); position:relative; z-index:1; background:var(--accent); }
+.cm-xp-glow { position:absolute; top:0; left:0; height:100%; border-radius:5px; filter:blur(6px); opacity:0.5; transition:width 0.8s; background:var(--accent); }
 .cm-xp-progress-text { font-size:9px; color:rgba(255,255,255,0.25); margin-top:4px; text-align:right; }
 
 /* Achievements */
 .cm-ach-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:14px; }
-.cm-ach-count { font-size:11px; font-weight:700; }
+.cm-ach-count { font-size:11px; font-weight:700; color:var(--accent); }
 .cm-ach-grid { display:grid; grid-template-columns:repeat(auto-fill, minmax(88px, 1fr)); gap:8px; }
 .cm-ach-item { position:relative; display:flex; flex-direction:column; align-items:center; gap:5px; padding:12px 6px 10px; border-radius:12px; border:1px solid rgba(255,255,255,0.06); background:rgba(255,255,255,0.03); text-align:center; cursor:default; transition:transform 0.15s, box-shadow 0.15s; overflow:hidden; }
 .cm-ach-item.unlocked:hover { transform:translateY(-2px); }
@@ -990,10 +1158,21 @@ export default {
 .cm-ghs-lbl { font-size:8px; font-weight:600; color:rgba(255,255,255,0.3); text-transform:uppercase; letter-spacing:0.4px; }
 .cm-joined { font-size:10px; color:rgba(255,255,255,0.25); text-align:center; }
 
+/* Quick Stats Bar */
+.cm-quick-stats { display:flex; align-items:center; justify-content:center; flex-wrap:wrap; gap:0; padding:14px 24px; background:rgba(255,255,255,0.03); border-bottom:1px solid rgba(255,255,255,0.06); position:relative; z-index:1; }
+.cm-qs-item { display:flex; flex-direction:column; align-items:center; gap:2px; padding:0 18px; text-align:center; }
+.cm-qs-val { font-size:18px; font-weight:800; color:#fff; line-height:1.2; }
+.cm-qs-lbl { font-size:9px; font-weight:600; color:rgba(255,255,255,0.35); text-transform:uppercase; letter-spacing:0.5px; }
+.cm-qs-div { width:1px; height:30px; background:rgba(255,255,255,0.08); flex-shrink:0; }
+.cm-shell.light-theme .cm-quick-stats { background:rgba(0,0,0,0.03); border-color:rgba(0,0,0,0.07); }
+.cm-shell.light-theme .cm-qs-val { color:#111; }
+.cm-shell.light-theme .cm-qs-lbl { color:rgba(0,0,0,0.4); }
+.cm-shell.light-theme .cm-qs-div { background:rgba(0,0,0,0.1); }
+
 /* Actions */
 .cm-actions { display:flex; gap:10px; padding:0 24px 24px; position:relative; z-index:1; }
 .cm-btn { flex:1; padding:11px 20px; border-radius:11px; font-size:12px; font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:8px; text-decoration:none; transition:all 0.2s; border:none; }
-.cm-btn.primary { background:var(--btn-color, #ff4500); color:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.3); }
+.cm-btn.primary { background:var(--btn-color, var(--accent)); color:#fff; box-shadow:0 4px 16px rgba(0,0,0,0.3); }
 .cm-btn.primary:hover { opacity:0.85; transform:translateY(-1px); }
 .cm-btn.secondary { background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.1); color:rgba(255,255,255,0.6); }
 .cm-btn.secondary:hover { background:rgba(255,255,255,0.1); color:#fff; }
@@ -1019,11 +1198,31 @@ export default {
 .cm-shell.light-theme .cm-gh-stats { background:rgba(0,0,0,0.06); }
 .cm-shell.light-theme .cm-btn.secondary { background:rgba(0,0,0,0.05); border-color:rgba(0,0,0,0.12); color:#555; }
 .cm-shell.light-theme .cm-close { background:rgba(0,0,0,0.05); border-color:rgba(0,0,0,0.1); color:#888; }
+.cm-shell.light-theme .cm-loading { color:#888; }
+.cm-shell.light-theme .cm-spinner { border-color:rgba(0,0,0,0.1); border-top-color:var(--accent); }
+.cm-shell.light-theme .cm-section-title { color:rgba(0,0,0,0.4); }
+.cm-shell.light-theme .cm-contrib-labels { color:rgba(0,0,0,0.4); }
+.cm-shell.light-theme .cm-bar-track { background:rgba(0,0,0,0.07); }
+.cm-shell.light-theme .cm-xp-labels { color:rgba(0,0,0,0.4); }
+.cm-shell.light-theme .cm-xp-track { background:rgba(0,0,0,0.07); }
+.cm-shell.light-theme .cm-xp-progress-text { color:rgba(0,0,0,0.35); }
+.cm-shell.light-theme .cm-ach-icon { background:rgba(0,0,0,0.04); }
+.cm-shell.light-theme .cm-joined { color:rgba(0,0,0,0.35); }
+.cm-shell.light-theme .cm-avatar { border-color:#e0e0e8; }
+.cm-shell.light-theme .cm-tab:hover { color:rgba(0,0,0,0.6); }
+.panel-contributors.light-theme .ct-card:hover { border-color:rgba(0,0,0,0.15); box-shadow:0 8px 28px rgba(0,0,0,0.1); }
 
 /* ── Activity Tab ── */
 .cm-act-loading { display:flex; align-items:center; gap:10px; padding:32px 0; color:rgba(255,255,255,0.4); font-size:12px; }
 .cm-act-empty { font-size:11px; color:rgba(255,255,255,0.3); padding:12px 0; }
-.cm-chart-wrap { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:12px; }
+.cm-chart-wrap { background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:12px; position:relative; }
+.cm-act-tip { position:absolute; bottom:34px; transform:translateX(-50%); background:#16161e; border:1px solid var(--accent-mid); border-radius:7px; padding:5px 9px; pointer-events:none; z-index:10; display:flex; flex-direction:column; align-items:center; gap:2px; white-space:nowrap; }
+.cm-act-tip::after { content:''; position:absolute; top:100%; left:50%; transform:translateX(-50%); border:4px solid transparent; border-top-color:var(--accent-mid); }
+.cm-act-tip-count { font-size:11px; font-weight:700; color:var(--accent); }
+.cm-act-tip-date { font-size:9px; color:rgba(255,255,255,0.45); }
+.cm-shell.light-theme .cm-act-tip { background:#fff; box-shadow:0 4px 14px rgba(0,0,0,0.12); }
+.cm-shell.light-theme .cm-act-tip::after { border-top-color:var(--accent-mid); }
+.cm-shell.light-theme .cm-act-tip-date { color:rgba(0,0,0,0.45); }
 .cm-act-chart { display:block; border-radius:4px; }
 .cm-chart-labels { display:flex; justify-content:space-between; margin-top:6px; font-size:9px; color:rgba(255,255,255,0.25); }
 .cm-langs { display:flex; flex-direction:column; gap:8px; }
@@ -1058,6 +1257,74 @@ export default {
 /* Modal transition */
 .modal-fade-enter-active, .modal-fade-leave-active { transition:opacity 0.2s ease; }
 .modal-fade-enter-from, .modal-fade-leave-to { opacity:0; }
+
+/* ── Card level medal + achievement badge ── */
+.ctc-level { display:flex; align-items:center; gap:5px; font-size:10px; font-weight:600; color:var(--text-muted); }
+.ctc-level-medal { width:18px; height:18px; flex-shrink:0; }
+.ctc-ach-badge { font-size:8px; font-weight:800; background:var(--accent-dim); border:1px solid var(--accent-mid); color:var(--accent); padding:1px 6px; border-radius:8px; margin-left:auto; flex-shrink:0; }
+
+/* ── Hero level medal badge ── */
+.cm-level-medal-badge { position:absolute; bottom:-6px; right:-6px; width:30px; height:30px; z-index:2; filter:drop-shadow(0 2px 5px rgba(0,0,0,0.5)); }
+
+/* ── Level milestone track ── */
+.cm-level-track { display:flex; align-items:flex-start; overflow-x:auto; padding-bottom:6px; }
+.cm-level-track::-webkit-scrollbar { height:2px; }
+.cm-level-track::-webkit-scrollbar-thumb { background:rgba(255,255,255,0.08); border-radius:1px; }
+.cm-lvl-step { display:flex; flex-direction:column; align-items:center; gap:4px; flex:1; min-width:52px; position:relative; padding:0 4px; }
+.cm-lvl-connector { position:absolute; top:15px; right:50%; width:100%; height:2px; background:rgba(255,255,255,0.07); z-index:0; }
+.cm-lvl-connector.filled { background:var(--accent-mid); }
+.cm-lvl-img { width:32px; height:32px; position:relative; z-index:1; opacity:0.2; filter:grayscale(1) brightness(0.55); transition:all 0.25s; }
+.cm-lvl-step.earned .cm-lvl-img { opacity:1; filter:none; }
+.cm-lvl-step.active .cm-lvl-img { transform:scale(1.2); filter:drop-shadow(0 0 7px var(--accent-strong)); }
+.cm-lvl-name { font-size:8px; font-weight:700; color:rgba(255,255,255,0.22); text-align:center; position:relative; z-index:1; }
+.cm-lvl-step.earned .cm-lvl-name { color:rgba(255,255,255,0.62); }
+.cm-lvl-step.active .cm-lvl-name { color:var(--accent-alt2); }
+.cm-lvl-min { font-size:7px; color:rgba(255,255,255,0.13); position:relative; z-index:1; }
+.cm-lvl-step.earned .cm-lvl-min { color:rgba(255,255,255,0.28); }
+
+/* ── Rank medals row ── */
+.cm-rank-medals-row { display:flex; gap:8px; flex-wrap:wrap; }
+.cm-rm-item { display:flex; flex-direction:column; align-items:center; gap:5px; flex:1; min-width:64px; padding:12px 8px 10px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.06); border-radius:12px; transition:all 0.15s; }
+.cm-rm-item.earned { background:rgba(255,255,255,0.07); border-color:rgba(255,255,255,0.14); }
+.cm-rm-img { width:40px; height:40px; transition:opacity 0.2s, filter 0.2s; }
+.cm-rm-img.locked { opacity:0.16; filter:grayscale(1); }
+.cm-rm-label { font-size:9px; font-weight:700; color:rgba(255,255,255,0.38); text-align:center; }
+.cm-rm-item.earned .cm-rm-label { color:rgba(255,255,255,0.72); }
+.cm-rm-val { font-size:9px; font-weight:700; color:rgba(255,255,255,0.18); }
+
+/* ── Light theme: card grid ── */
+.panel-contributors.light-theme .stat-card { background:#fff; border-color:#dde0ea; }
+.panel-contributors.light-theme .stat-icon { background:#ededf5; }
+.panel-contributors.light-theme .ct-podium-wrap { background:#fff; border-color:#dde0ea; }
+.panel-contributors.light-theme .ct-pod-img { border-color:#fff; }
+.panel-contributors.light-theme .ct-pod-name { color:#1a1a28; }
+.panel-contributors.light-theme .ct-pod-commits { color:#555; }
+.panel-contributors.light-theme .ct-card { background:#fff; border-color:#dde0ea; }
+.panel-contributors.light-theme .ct-card:hover { border-color:rgba(0,0,0,0.18) !important; }
+.panel-contributors.light-theme .ctc-rank-badge { background:#ededf5; border-color:#dde0ea; }
+.panel-contributors.light-theme .ctc-bar-track { background:#e8e8f2; }
+.panel-contributors.light-theme .ctcs-sep { background:#dde0ea; }
+.panel-contributors.light-theme .ctc-ach-badge { background:var(--accent-dim); border-color:var(--accent-soft); }
+.panel-contributors.light-theme .ct-sort-btn { background:#fff; border-color:#dde0ea; }
+.panel-contributors.light-theme .ct-page-btn { background:#fff; border-color:#dde0ea; }
+.panel-contributors.light-theme .ct-page-num { background:#fff; border-color:#dde0ea; }
+
+/* ── Light theme: level track ── */
+.cm-shell.light-theme .cm-level-track::-webkit-scrollbar-thumb { background:rgba(0,0,0,0.1); }
+.cm-shell.light-theme .cm-lvl-connector { background:rgba(0,0,0,0.08); }
+.cm-shell.light-theme .cm-lvl-connector.filled { background:var(--accent-mid); }
+.cm-shell.light-theme .cm-lvl-name { color:rgba(0,0,0,0.22); }
+.cm-shell.light-theme .cm-lvl-step.earned .cm-lvl-name { color:rgba(0,0,0,0.58); }
+.cm-shell.light-theme .cm-lvl-step.active .cm-lvl-name { color:var(--accent); }
+.cm-shell.light-theme .cm-lvl-min { color:rgba(0,0,0,0.15); }
+.cm-shell.light-theme .cm-lvl-step.earned .cm-lvl-min { color:rgba(0,0,0,0.3); }
+
+/* ── Light theme: rank medals ── */
+.cm-shell.light-theme .cm-rm-item { background:rgba(0,0,0,0.025); border-color:rgba(0,0,0,0.07); }
+.cm-shell.light-theme .cm-rm-item.earned { background:rgba(0,0,0,0.05); border-color:rgba(0,0,0,0.12); }
+.cm-shell.light-theme .cm-rm-label { color:rgba(0,0,0,0.38); }
+.cm-shell.light-theme .cm-rm-item.earned .cm-rm-label { color:rgba(0,0,0,0.62); }
+.cm-shell.light-theme .cm-rm-val { color:rgba(0,0,0,0.22); }
 
 /* Responsive */
 @media (max-width: 1200px) { .contributors-header { grid-template-columns:repeat(2,1fr); } }
