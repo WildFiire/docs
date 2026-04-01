@@ -197,6 +197,9 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
 
   // Resolve real GitHub login for each card in parallel
   const token = process.env.VITE_GITHUB_TOKEN || ''
+  if (!token) {
+    console.warn('[lastUpdatesPlugin] VITE_GITHUB_TOKEN not found — falling back to git email heuristic for usernames')
+  }
   const logins = await Promise.all(top6.map(c => resolveGitHubLogin(c.sha, token)))
 
   return top6.map(({ timestamp: _t, sha: _s, ...card }, i) => {
