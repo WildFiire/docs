@@ -605,10 +605,11 @@ onUnmounted(() => {
 /* Restul stilurilor rămân exact la fel */
 .wildfire-home {
   position: relative;
-  max-width: 1200px;
+  max-width: 100%;
   margin: 0 auto;
   padding: 100px 24px 80px;
   min-height: 100vh;
+  overflow-x: hidden;
 }
 
 .wildfire-wallpaper,
