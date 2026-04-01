@@ -1,6 +1,7 @@
 import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
+import { commitCache } from './commitCache'
 
 const VIRTUAL_ID = 'virtual:last-updates'
 const RESOLVED_ID = '\0virtual:last-updates'
@@ -259,9 +260,13 @@ export function lastUpdatesPlugin(docsDir: string, repoRoot: string): any {
 
     handleHotUpdate({ file, server }: { file: string; server: any }) {
       if (file.endsWith('.md')) {
+        // Invalidate lastUpdates virtual module
         cachedPromise = null
         const mod = server.moduleGraph.getModuleById(RESOLVED_ID)
         if (mod) server.moduleGraph.invalidateModule(mod)
+        // Invalidate transformPageData cache so updated-by re-fetches for this file
+        const repoPath = 'docs/' + path.relative(docsDir, file).replace(/\\/g, '/')
+        commitCache.delete(repoPath)
         server.ws.send({ type: 'full-reload' })
       }
     }

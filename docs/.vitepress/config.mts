@@ -3,12 +3,11 @@ import { defineConfig } from 'vitepress'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import { lastUpdatesPlugin } from './plugins/lastUpdatesPlugin'
+import { commitCache } from './plugins/commitCache'
 
 const __vitepressDir = fileURLToPath(new URL('.', import.meta.url))
 const docsDir = path.resolve(__vitepressDir, '..')
 const repoRoot = path.resolve(__vitepressDir, '../..')
-
-const _commitCache = new Map<string, string | null>()
 
 export default defineConfig({
   title: "Wildfire.ro Docs",
@@ -437,8 +436,8 @@ export default defineConfig({
       // Full repo-relative path (e.g. docs/informatii/about.md)
       const repoPath = ('docs/' + pageData.relativePath).replace(/\\/g, '/')
 
-      if (_commitCache.has(repoPath)) {
-        const login = _commitCache.get(repoPath)
+      if (commitCache.has(repoPath)) {
+        const login = commitCache.get(repoPath)
         if (login) pageData.frontmatter.gitLastCommitter = login
         return
       }
@@ -448,11 +447,11 @@ export default defineConfig({
         `https://api.github.com/repos/Wildfiire/docs/commits?path=${encodeURIComponent(repoPath)}&per_page=1`,
         { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } }
       )
-      if (!res.ok) { _commitCache.set(repoPath, null); return }
+      if (!res.ok) { commitCache.set(repoPath, null); return }
 
       const data = await res.json() as any[]
       const commit = data[0]
-      if (!commit) { _commitCache.set(repoPath, null); return }
+      if (!commit) { commitCache.set(repoPath, null); return }
 
       // author.login = GitHub account of the person who wrote the content
       // If merge commit hides author, fall back to checking associated PR
@@ -469,7 +468,7 @@ export default defineConfig({
         }
       }
 
-      _commitCache.set(repoPath, login)
+      commitCache.set(repoPath, login)
       if (login) pageData.frontmatter.gitLastCommitter = login
     } catch {}
   },

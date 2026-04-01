@@ -1,7 +1,6 @@
 ---
 outline: deep
 ---
-
 <CaseHeader 
   title="Intrebari Frecvente"
   :tags="[

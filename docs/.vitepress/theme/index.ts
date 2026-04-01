@@ -41,6 +41,7 @@ import Team from './components/Team.vue'
 import Terms from './components/Terms.vue'
 import Privacy from './components/Privacy.vue'
 import FeedbackWidget from './components/FeedbackWidget.vue'
+import DocUserWidget from './components/DocUserWidget.vue'
 import CaseHeader from './components/CaseHeader.vue'
 import ContributorsWF from './components/ContributorsWF.vue'
 import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/VPNavBarAppearance.vue'
@@ -93,11 +94,7 @@ export default {
 
       // Navbar
       'sidebar-nav-before': () => h(NavSearch),
-      // 'sidebar-nav-after': () =>
-      //   h('div', { class: 'sidebar-bottom' }, [
-      //     h(VPNavBarAppearance),
-      //     h(VPNavBarSocialLinks),
-      //   ]),
+      'sidebar-nav-after': () => h(DocUserWidget),
 
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,

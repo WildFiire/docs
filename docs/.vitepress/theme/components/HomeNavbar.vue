@@ -48,6 +48,49 @@
           <span class="switch-thumb" :class="{ 'dark': isDark }"></span>
         </button>
 
+        <!-- USER WIDGET -->
+        <div class="hn-user-wrap" ref="userWrapRef">
+          <button class="hn-user-trigger" @click="userOpen = !userOpen" :title="navUser ? (navUser.name || navUser.login) : 'Panel'">
+            <img v-if="navUser" :src="navUser.avatar_url" class="hn-user-avatar" :alt="navUser.login" />
+            <span v-else class="hn-user-fallback">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+            </span>
+            <span v-if="navUser" class="hn-online-dot"></span>
+          </button>
+          <transition name="hn-pop">
+            <div v-if="userOpen" class="hn-user-dropdown">
+              <template v-if="navUser">
+                <div class="hn-dp-profile">
+                  <img :src="navUser.avatar_url" class="hn-dp-avatar" :alt="navUser.login" />
+                  <div class="hn-dp-info">
+                    <span class="hn-dp-name">{{ navUser.name || navUser.login }}</span>
+                    <span class="hn-dp-login">@{{ navUser.login }}</span>
+                  </div>
+                </div>
+                <div class="hn-divider"></div>
+                <a href="/panel" class="hn-btn primary">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+                  Go to Panel
+                </a>
+                <button class="hn-btn ghost" @click="navLogout">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg>
+                  Logout
+                </button>
+              </template>
+              <template v-else>
+                <div class="hn-guest">
+                  <span class="hn-guest-title">Wildfire Panel</span>
+                  <span class="hn-guest-sub">Login with GitHub to access the docs panel.</span>
+                </div>
+                <a href="/panel" class="hn-btn primary full">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                  Login with GitHub
+                </a>
+              </template>
+            </div>
+          </transition>
+        </div>
+
         <!-- DISCORD CTA - IMPROVED -->
         <a
           href="https://discord.gg/Knu76DhE9h"
@@ -140,6 +183,23 @@ const isMobile = ref(false)
 const lastScrollY = ref(0)
 const isNavHidden = ref(false)
 
+const navUser = ref<{ login: string; avatar_url: string; name: string } | null>(null)
+const userOpen = ref(false)
+const userWrapRef = ref<HTMLElement | null>(null)
+
+const navLogout = () => {
+  localStorage.removeItem('github_token')
+  localStorage.removeItem('github_user')
+  navUser.value = null
+  userOpen.value = false
+}
+
+const onUserOutsideClick = (e: MouseEvent) => {
+  if (userWrapRef.value && !userWrapRef.value.contains(e.target as Node)) {
+    userOpen.value = false
+  }
+}
+
 const navItems = computed(() => theme.value.nav || [])
 const socialLinks = computed(() => theme.value.socialLinks || [])
 
@@ -194,17 +254,131 @@ watch(isMobile, (newVal) => {
 onMounted(() => {
   window.addEventListener('scroll', onScroll)
   window.addEventListener('resize', checkMobile)
+  document.addEventListener('click', onUserOutsideClick)
   checkMobile()
+  try {
+    const raw = localStorage.getItem('github_user')
+    if (raw && localStorage.getItem('github_token')) {
+      navUser.value = JSON.parse(raw)
+    }
+  } catch {}
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', onScroll)
   window.removeEventListener('resize', checkMobile)
+  document.removeEventListener('click', onUserOutsideClick)
   document.body.style.overflow = ''
 })
 </script>
 
 <style scoped>
+/* ===== USER WIDGET ===== */
+.hn-user-wrap {
+  position: relative;
+}
+.hn-user-trigger {
+  position: relative;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 69, 0, 0.35);
+  background: rgba(255,255,255,0.05);
+  cursor: pointer;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  overflow: visible;
+  flex-shrink: 0;
+}
+.hn-user-trigger:hover {
+  border-color: #ff4500;
+  box-shadow: 0 0 0 3px rgba(255,69,0,0.15);
+}
+.hn-user-avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+}
+.hn-user-fallback {
+  color: rgba(255,255,255,0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hn-user-trigger:hover .hn-user-fallback { color: #ff4500; }
+.hn-online-dot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+  border-radius: 50%;
+  border: 2px solid #0a0a0a;
+}
+.hn-user-dropdown {
+  position: absolute;
+  top: calc(100% + 10px);
+  right: 0;
+  width: 210px;
+  background: #111;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 12px;
+  padding: 10px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.7);
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  z-index: 1000;
+}
+.hn-dp-profile {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 3px 2px;
+}
+.hn-dp-avatar {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,69,0,0.4);
+  flex-shrink: 0;
+}
+.hn-dp-info { display: flex; flex-direction: column; min-width: 0; }
+.hn-dp-name { font-size: 12.5px; font-weight: 600; color: #f0f0f0; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.hn-dp-login { font-size: 11px; color: #555; }
+.hn-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 2px 0; }
+.hn-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 9px;
+  border-radius: 7px;
+  font-size: 12px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+  border: none;
+  width: 100%;
+  text-align: left;
+}
+.hn-btn.primary { background: rgba(255,69,0,0.15); color: #ff6a33; border: 1px solid rgba(255,69,0,0.25); }
+.hn-btn.primary:hover { background: rgba(255,69,0,0.25); color: #ff8050; }
+.hn-btn.primary.full { justify-content: center; }
+.hn-btn.ghost { background: transparent; color: #555; }
+.hn-btn.ghost:hover { background: rgba(255,255,255,0.05); color: #aaa; }
+.hn-guest { display: flex; flex-direction: column; gap: 4px; padding: 4px 2px 2px; }
+.hn-guest-title { font-size: 12.5px; font-weight: 700; color: #e0e0e0; }
+.hn-guest-sub { font-size: 11px; color: #555; line-height: 1.5; }
+.hn-pop-enter-active, .hn-pop-leave-active { transition: opacity 0.15s ease, transform 0.15s ease; }
+.hn-pop-enter-from, .hn-pop-leave-to { opacity: 0; transform: scale(0.93) translateY(-4px); }
+
 /* ===== FONT ORBITRON ===== */
 @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
 
