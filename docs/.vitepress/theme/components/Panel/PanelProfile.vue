@@ -221,8 +221,8 @@
           <span>peak <strong>{{ activityStats.peak }}</strong>/day</span>
         </div>
       </div>
-      <div class="pp-act-wrap" @mouseleave="actHovered = -1">
-        <svg viewBox="0 0 660 150" preserveAspectRatio="xMidYMid meet" width="100%" height="150" style="display:block;overflow:visible">
+      <div class="pp-act-wrap">
+        <svg viewBox="0 0 660 150" preserveAspectRatio="xMidYMid meet" width="100%" height="150" style="display:block;overflow:visible;cursor:crosshair" @mousemove="onActMouseMove($event)" @mouseleave="actHovered = -1">
           <defs>
             <linearGradient id="pp-bar-grad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" style="stop-color:var(--accent-alt)" stop-opacity="1"/>
@@ -237,18 +237,18 @@
               <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
             </filter>
           </defs>
-          <line v-for="gy in [30,60,90,120]" :key="'g'+gy" x1="4" :y1="gy" x2="656" :y2="gy" :stroke="isLightTheme ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.04)'" stroke-width="1"/>
-          <g v-for="(bar, i) in actBars" :key="'b'+i">
+          <line v-for="gy in [30,60,90,120]" :key="'g'+gy" x1="4" :y1="gy" x2="656" :y2="gy" :stroke="isLightTheme ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.04)'" stroke-width="1" pointer-events="none"/>
+          <g v-for="(bar, i) in actBars" :key="'b'+i" pointer-events="none">
             <rect :x="bar.x" :y="bar.y" :width="bar.w" :height="bar.h"
               :fill="bar.hot ? 'url(#pp-bar-hot)' : 'url(#pp-bar-grad)'"
               rx="2"
               :fill-opacity="bar.commits === 0 ? 0.12 : (actHovered >= 0 && actHovered !== i ? 0.35 : 1)"
               :filter="actHovered === i && bar.commits > 0 ? 'url(#pp-bar-glow)' : ''"
             />
-            <rect :x="bar.x - 1" y="0" :width="bar.w + 2" height="150" fill="transparent" style="cursor:crosshair" @mouseenter="actHovered = i"/>
           </g>
-          <circle v-if="actPeak" :cx="actPeak.cx" :cy="actPeak.y - 5" r="4.5" style="fill:var(--accent-alt2)" filter="url(#pp-bar-glow)" opacity="0.95"/>
-          <text v-for="bar in actLabelBars" :key="'al'+bar.i" :x="bar.cx" y="147" text-anchor="middle" font-size="8.5" :fill="isLightTheme ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.28)'" font-family="system-ui,sans-serif">{{ bar.dayLabel }}</text>
+          <circle v-if="actPeak" :cx="actPeak.cx" :cy="actPeak.y - 5" r="4.5" style="fill:var(--accent-alt2)" filter="url(#pp-bar-glow)" opacity="0.95" pointer-events="none"/>
+          <text v-for="bar in actLabelBars" :key="'al'+bar.i" :x="bar.cx" y="147" text-anchor="middle" font-size="8.5" :fill="isLightTheme ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.28)'" font-family="system-ui,sans-serif" pointer-events="none">{{ bar.dayLabel }}</text>
+          <rect x="0" y="0" width="660" height="150" fill="transparent"/>
         </svg>
         <div v-if="actHovered >= 0 && actBars[actHovered]" class="pp-act-tip" :style="actTipStyle">
           <div class="pp-tip-val">{{ actBars[actHovered].commits }}<span>{{ actBars[actHovered].commits !== 1 ? ' commits' : ' commit' }}</span></div>
@@ -750,6 +750,14 @@ export default {
   },
 
   methods: {
+    onActMouseMove(e) {
+      const svg = e.currentTarget
+      const rect = svg.getBoundingClientRect()
+      const x = ((e.clientX - rect.left) / rect.width) * 660
+      const idx = Math.min(Math.max(Math.floor(x / (660 / 30)), 0), 29)
+      this.actHovered = idx
+    },
+
     checkAchievement(a) {
       if (a.type === 'commits') return this.myStats.commits >= a.threshold
       if (a.type === 'prs')     return this.myStats.prs >= a.threshold
