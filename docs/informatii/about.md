@@ -751,5 +751,4 @@ html:not(.dark) .about-root {
     Vrei să faci parte din treaba asta? Intri pe server, bagi câteva runde, vezi tu cum e. Dacă ți se potrivește vibe-ul, rămâi. Dacă nu, măcar ai încercat.
   </div>
 </div>
-
 </div>

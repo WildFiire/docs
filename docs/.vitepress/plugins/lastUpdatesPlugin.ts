@@ -100,25 +100,40 @@ function parseCaseHeader(content: string): ParsedHeader | null {
   }
 }
 
-function getGitInfo(filepath: string, repoRoot: string): { timestamp: number; username: string; date: string } {
+function getGitInfo(filepath: string, repoRoot: string): { timestamp: number; username: string; date: string; sha: string } {
   try {
     const rel = path.relative(repoRoot, filepath).replace(/\\/g, '/')
-    const raw = execSync(`git log -1 --format="%ct|%ae|%an" -- "${rel}"`, {
+    const raw = execSync(`git log -1 --format="%ct|%ae|%an|%H" -- "${rel}"`, {
       cwd: repoRoot,
       encoding: 'utf-8',
       stdio: ['pipe', 'pipe', 'pipe']
     }).trim().replace(/^"|"$/g, '')
 
     if (!raw) {
-      return { timestamp: Math.floor(Date.now() / 1000), username: 'unknown', date: formatDate(new Date()) }
+      return { timestamp: Math.floor(Date.now() / 1000), username: 'unknown', date: formatDate(new Date()), sha: '' }
     }
 
-    const [ts, email, name] = raw.split('|')
+    const [ts, email, name, sha] = raw.split('|')
     const timestamp = parseInt(ts) || 0
     const username = extractUsername(email || '', name || '')
-    return { timestamp, username, date: formatDate(new Date(timestamp * 1000)) }
+    return { timestamp, username, date: formatDate(new Date(timestamp * 1000)), sha: sha || '' }
   } catch {
-    return { timestamp: 0, username: 'unknown', date: '—' }
+    return { timestamp: 0, username: 'unknown', date: '—', sha: '' }
+  }
+}
+
+async function resolveGitHubLogin(sha: string, token: string): Promise<string | null> {
+  if (!sha || !token) return null
+  try {
+    const res = await fetch(
+      `https://api.github.com/repos/Wildfiire/docs/commits/${sha}`,
+      { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } }
+    )
+    if (!res.ok) return null
+    const data = await res.json() as { author?: { login?: string } }
+    return data.author?.login || null
+  } catch {
+    return null
   }
 }
 
@@ -137,9 +152,9 @@ function walkMd(dir: string): string[] {
   return out
 }
 
-function buildCards(docsDir: string, repoRoot: string): UpdateCard[] {
+async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard[]> {
   const files = walkMd(docsDir)
-  const results: Array<UpdateCard & { timestamp: number }> = []
+  const results: Array<UpdateCard & { timestamp: number; sha: string }> = []
 
   for (const filepath of files) {
     try {
@@ -166,6 +181,7 @@ function buildCards(docsDir: string, repoRoot: string): UpdateCard[] {
         link,
         date: git.date,
         timestamp: git.timestamp,
+        sha: git.sha,
         username: git.username,
         avatarUrl: `https://github.com/${git.username}.png`,
         profileUrl: `https://github.com/${git.username}`,
@@ -177,12 +193,31 @@ function buildCards(docsDir: string, repoRoot: string): UpdateCard[] {
   }
 
   results.sort((a, b) => b.timestamp - a.timestamp)
-  return results.slice(0, 6).map(({ timestamp: _t, ...rest }) => rest) as UpdateCard[]
+  const top6 = results.slice(0, 6)
+
+  // Resolve real GitHub login for each card in parallel
+  const token = process.env.VITE_GITHUB_TOKEN || ''
+  const logins = await Promise.all(top6.map(c => resolveGitHubLogin(c.sha, token)))
+
+  return top6.map(({ timestamp: _t, sha: _s, ...card }, i) => {
+    const login = logins[i]
+    if (login) {
+      card.username = login
+      card.avatarUrl = `https://github.com/${login}.png`
+      card.profileUrl = `https://github.com/${login}`
+    }
+    return card as UpdateCard
+  })
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function lastUpdatesPlugin(docsDir: string, repoRoot: string): any {
-  let cached: UpdateCard[] | null = null
+  let cachedPromise: Promise<UpdateCard[]> | null = null
+
+  function getCards(): Promise<UpdateCard[]> {
+    if (!cachedPromise) cachedPromise = buildCards(docsDir, repoRoot)
+    return cachedPromise
+  }
 
   return {
     name: 'vitepress-last-updates',
@@ -193,18 +228,18 @@ export function lastUpdatesPlugin(docsDir: string, repoRoot: string): any {
     },
 
     buildStart() {
-      cached = buildCards(docsDir, repoRoot)
+      cachedPromise = buildCards(docsDir, repoRoot)
     },
 
-    load(id: string) {
+    async load(id: string) {
       if (id !== RESOLVED_ID) return
-      if (!cached) cached = buildCards(docsDir, repoRoot)
-      return `export default ${JSON.stringify(cached)}`
+      const cards = await getCards()
+      return `export default ${JSON.stringify(cards)}`
     },
 
     handleHotUpdate({ file, server }: { file: string; server: any }) {
       if (file.endsWith('.md')) {
-        cached = null
+        cachedPromise = null
         const mod = server.moduleGraph.getModuleById(RESOLVED_ID)
         if (mod) server.moduleGraph.invalidateModule(mod)
         server.ws.send({ type: 'full-reload' })
