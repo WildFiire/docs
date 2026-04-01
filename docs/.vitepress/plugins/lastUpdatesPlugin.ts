@@ -100,38 +100,54 @@ function parseCaseHeader(content: string): ParsedHeader | null {
   }
 }
 
-function getGitInfo(filepath: string, repoRoot: string): { timestamp: number; username: string; date: string; sha: string } {
+function getGitInfo(filepath: string, repoRoot: string): { timestamp: number; username: string; date: string } {
   try {
     const rel = path.relative(repoRoot, filepath).replace(/\\/g, '/')
-    const raw = execSync(`git log -1 --format="%ct|%ae|%an|%H" -- "${rel}"`, {
+    const raw = execSync(`git log -1 --format="%ct|%ae|%an" -- "${rel}"`, {
       cwd: repoRoot,
       encoding: 'utf-8',
       stdio: ['pipe', 'pipe', 'pipe']
     }).trim().replace(/^"|"$/g, '')
 
     if (!raw) {
-      return { timestamp: Math.floor(Date.now() / 1000), username: 'unknown', date: formatDate(new Date()), sha: '' }
+      return { timestamp: Math.floor(Date.now() / 1000), username: 'unknown', date: formatDate(new Date()) }
     }
 
-    const [ts, email, name, sha] = raw.split('|')
+    const [ts, email, name] = raw.split('|')
     const timestamp = parseInt(ts) || 0
     const username = extractUsername(email || '', name || '')
-    return { timestamp, username, date: formatDate(new Date(timestamp * 1000)), sha: sha || '' }
+    return { timestamp, username, date: formatDate(new Date(timestamp * 1000)) }
   } catch {
-    return { timestamp: 0, username: 'unknown', date: '—', sha: '' }
+    return { timestamp: 0, username: 'unknown', date: '—' }
   }
 }
 
-async function resolveGitHubLogin(sha: string, token: string): Promise<string | null> {
-  if (!sha || !token) return null
+async function resolveAuthorLogin(docsRelPath: string, token: string): Promise<string | null> {
+  if (!docsRelPath || !token) return null
   try {
+    // commits?path= resolves through merge commits → returns actual PR author (same as transformPageData)
+    const repoPath = 'docs/' + docsRelPath.replace(/\\/g, '/')
     const res = await fetch(
-      `https://api.github.com/repos/Wildfiire/docs/commits/${sha}`,
+      `https://api.github.com/repos/Wildfiire/docs/commits?path=${encodeURIComponent(repoPath)}&per_page=1`,
       { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } }
     )
     if (!res.ok) return null
-    const data = await res.json() as { author?: { login?: string } }
-    return data.author?.login || null
+    const data = await res.json() as any[]
+    const commit = data[0]
+    if (!commit) return null
+    let login: string | null = commit.author?.login || null
+    // If merge commit hides author, check associated PR
+    if (!login) {
+      const prRes = await fetch(
+        `https://api.github.com/repos/Wildfiire/docs/commits/${commit.sha}/pulls`,
+        { headers: { Authorization: `token ${token}`, Accept: 'application/vnd.github.v3+json' } }
+      )
+      if (prRes.ok) {
+        const prs = await prRes.json() as any[]
+        login = prs[0]?.user?.login || null
+      }
+    }
+    return login
   } catch {
     return null
   }
@@ -154,7 +170,7 @@ function walkMd(dir: string): string[] {
 
 async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard[]> {
   const files = walkMd(docsDir)
-  const results: Array<UpdateCard & { timestamp: number; sha: string }> = []
+  const results: Array<UpdateCard & { timestamp: number; docsRelPath: string }> = []
 
   for (const filepath of files) {
     try {
@@ -181,7 +197,7 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
         link,
         date: git.date,
         timestamp: git.timestamp,
-        sha: git.sha,
+        docsRelPath: rel.replace(/\\/g, '/'),
         username: git.username,
         avatarUrl: `https://github.com/${git.username}.png`,
         profileUrl: `https://github.com/${git.username}`,
@@ -196,13 +212,14 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
   const top6 = results.slice(0, 6)
 
   // Resolve real GitHub login for each card in parallel
+  // Uses commits?path= so PR submitter is returned, not the merger
   const token = process.env.VITE_GITHUB_TOKEN || ''
   if (!token) {
     console.warn('[lastUpdatesPlugin] VITE_GITHUB_TOKEN not found — falling back to git email heuristic for usernames')
   }
-  const logins = await Promise.all(top6.map(c => resolveGitHubLogin(c.sha, token)))
+  const logins = await Promise.all(top6.map(c => resolveAuthorLogin(c.docsRelPath, token)))
 
-  return top6.map(({ timestamp: _t, sha: _s, ...card }, i) => {
+  return top6.map(({ timestamp: _t, docsRelPath: _p, ...card }, i) => {
     const login = logins[i]
     if (login) {
       card.username = login
