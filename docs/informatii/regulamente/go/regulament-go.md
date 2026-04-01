@@ -810,3 +810,4 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </li>
   </ul>
 </div>
+sloboz tare
