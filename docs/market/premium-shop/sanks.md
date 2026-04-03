@@ -122,7 +122,7 @@ html:not(.dark) .cases-wf .gs-tip {
       <li><Icon icon="lucide:crown" width="18" height="18" color="#ff8c00" /><span><span class="cases-highlight">Exclusiv VIP</span> — doar jucătorii cu rang VIP pot folosi Sank Sounds</span></li>
       <li><Icon icon="lucide:volume-2" width="18" height="18" color="#ff8c00" /><span><span class="cases-highlight">Volum independent</span> — fiecare jucător își poate ajusta volumul Sank Sounds separat</span></li>
       <li><Icon icon="lucide:clock" width="18" height="18" color="#ff8c00" /><span><span class="cases-highlight">Cooldown system</span> — după un Sank, toți jucătorii trebuie să aștepte înainte de următorul</span></li>
-      <li><Icon icon="lucide:calendar" width="18" height="18" color="#ff8c00" /><span><span class="cases-highlight">Sank of the Day</span> — un sunet special disponibil zilnic la preț redus</span></li>
+      <li><Icon icon="lucide:calendar" width="18" height="18" color="#ff8c00" /><span><span class="cases-highlight">Sank of the Day</span> — cel mai popular sank (adica sound) din ziua respectiva</span></li>
       <li><Icon icon="lucide:sparkles" width="18" height="18" color="#ff8c00" /><span><span class="cases-highlight">Sank Custom</span> — poți cumpăra un sunet personalizat cu orice text dorești</span></li>
     </ul>
   </div>
