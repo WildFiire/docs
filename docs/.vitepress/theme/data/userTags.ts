@@ -5,8 +5,8 @@
  *                 supporter, booster, partner, contributor, wiki, trusted, pro, vip
  */
 export const USER_TAGS: Record<string, string[]> = {
-  'iannC69':   ['wildfire', 'founder', 'dev', 'wiki'],
-  'Hashh-sys': ['wildfire', 'staff', 'wiki'],
-  'SteveUlt':  ['wildfire', 'dev'],
-  'iann-debug': ['wildfire', 'dev'],
+  'iannC69':    ['wildfire', 'staff', 'dev', 'wiki'],
+  'Hashh-sys':  ['wildfire', 'wiki'],
+  'SteveUlt':   ['wildfire', 'wiki'],
+  'iann-debug': ['wildfire', 'wiki'],
 }
