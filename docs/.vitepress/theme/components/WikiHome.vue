@@ -910,7 +910,6 @@ onUnmounted(() => {
   background-size: 200px 200px, 180px 180px, 150px 150px, 220px 220px, 190px 190px, 210px 210px;
   background-position: 0 0;
   opacity: 0.4;
-  animation: particlesMove 60s linear infinite;
 }
 
 /* ===== SPOTLIGHTS FINE ÎN COLȚURI ===== */
@@ -1513,79 +1512,23 @@ onUnmounted(() => {
 }
 
 @keyframes fireFlicker {
-  0% {
-    background-position: 0% 50%;
-    text-shadow: 0 0 5px rgba(255, 69, 0, 0.3);
-  }
-  25% {
-    background-position: 50% 50%;
-    text-shadow: 0 0 8px rgba(255, 87, 34, 0.4);
-  }
-  50% {
-    background-position: 100% 50%;
-    text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
-  }
-  75% {
-    background-position: 50% 50%;
-    text-shadow: 0 0 8px rgba(255, 87, 34, 0.4);
-  }
-  100% {
-    background-position: 0% 50%;
-    text-shadow: 0 0 5px rgba(255, 69, 0, 0.3);
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
 }
 
 @keyframes roFlicker {
-  0% {
-    background-position: 0% 50%;
-    text-shadow: 0 0 5px rgba(255, 69, 0, 0.3);
-  }
-  25% {
-    background-position: 50% 50%;
-    text-shadow: 0 0 8px rgba(255, 87, 34, 0.4);
-  }
-  50% {
-    background-position: 100% 50%;
-    text-shadow: 0 0 10px rgba(255, 69, 0, 0.5);
-  }
-  75% {
-    background-position: 50% 50%;
-    text-shadow: 0 0 8px rgba(255, 87, 34, 0.4);
-  }
-  100% {
-    background-position: 0% 50%;
-    text-shadow: 0 0 5px rgba(255, 69, 0, 0.3);
-  }
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.85; }
 }
 
 @keyframes fireGlow {
-  0% {
-    opacity: 0.15;
-    filter: blur(4px);
-  }
-  50% {
-    opacity: 0.3;
-    filter: blur(6px);
-  }
-  100% {
-    opacity: 0.15;
-    filter: blur(4px);
-  }
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.3; }
 }
 
 @keyframes roGlow {
-  0% {
-    opacity: 0.15;
-    filter: blur(4px);
-  }
-  50% {
-    opacity: 0.3;
-    filter: blur(6px);
-  }
-  100% {
-    opacity: 0.15;
-    filter: blur(4px);
-  }
+  0%, 100% { opacity: 0.15; }
+  50% { opacity: 0.3; }
 }
 
 .dark .wild-white,
@@ -1741,9 +1684,8 @@ onUnmounted(() => {
 }
 
 @keyframes borderRotate {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
 }
 
 .dark .home-search-button {

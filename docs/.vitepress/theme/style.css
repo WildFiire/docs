@@ -231,7 +231,7 @@ html, body {
 }
 
 /* Firefox */
-* {
+html {
   scrollbar-width: thin !important;
   scrollbar-color: #ff4500 var(--vp-c-bg-alt) !important;
 }

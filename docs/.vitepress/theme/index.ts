@@ -1,4 +1,4 @@
-import { h } from 'vue'
+import { h, defineAsyncComponent } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme, { VPButton } from 'vitepress/theme'
 import './style.css'
@@ -45,15 +45,15 @@ import DocUserWidget from './components/DocUserWidget.vue'
 import CaseHeader from './components/CaseHeader.vue'
 import ContributorsWF from './components/ContributorsWF.vue'
 import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/VPNavBarAppearance.vue'
-import Dashboard from './components/Panel/Dashboard.vue'
-import PanelSidebar from './components/Panel/PanelSidebar.vue'
-import PanelHeader from './components/Panel/PanelHeader.vue'
-import PanelFiles from './components/Panel/PanelFiles.vue'
-import FileTreeNode from './components/Panel/FileTreeNode.vue'
-import PanelContributors from './components/Panel/PanelContributors.vue'
-import PanelAudit from './components/Panel/PanelAudit.vue'
-import PanelAnalytics from './components/Panel/PanelAnalytics.vue'
-import PanelLogin from './components/Panel/PanelLogin.vue'
+const Dashboard = defineAsyncComponent(() => import('./components/Panel/Dashboard.vue'))
+const PanelSidebar = defineAsyncComponent(() => import('./components/Panel/PanelSidebar.vue'))
+const PanelHeader = defineAsyncComponent(() => import('./components/Panel/PanelHeader.vue'))
+const PanelFiles = defineAsyncComponent(() => import('./components/Panel/PanelFiles.vue'))
+const FileTreeNode = defineAsyncComponent(() => import('./components/Panel/FileTreeNode.vue'))
+const PanelContributors = defineAsyncComponent(() => import('./components/Panel/PanelContributors.vue'))
+const PanelAudit = defineAsyncComponent(() => import('./components/Panel/PanelAudit.vue'))
+const PanelAnalytics = defineAsyncComponent(() => import('./components/Panel/PanelAnalytics.vue'))
+const PanelLogin = defineAsyncComponent(() => import('./components/Panel/PanelLogin.vue'))
 // import VPNavBarSocialLinks from 'vitepress/dist/client/theme-default/components/VPNavBarSocialLinks.vue'
 
 // NOILE COMPONENTE PENTRU DASHBOARD
