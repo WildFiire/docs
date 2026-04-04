@@ -33,9 +33,3 @@ jobs:
             # Build the static VitePress files
             npm run docs:build
             
-            # Apply Nginx cache headers config if not already included
-            NGINX_CONF="/etc/nginx/conf.d/wiki-cache.conf"
-            if [ ! -f "$NGINX_CONF" ] || ! diff -q /var/www/wiki/nginx-cache.conf "$NGINX_CONF" > /dev/null 2>&1; then
-              sudo cp /var/www/wiki/nginx-cache.conf "$NGINX_CONF"
-              sudo nginx -t && sudo systemctl reload nginx
-            fi
