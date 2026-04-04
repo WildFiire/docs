@@ -49,12 +49,6 @@ export default defineConfig({
       fetchpriority: 'low'
     }],
 
-    // META PENTRU CACHE
-    ['meta', {
-      'http-equiv': 'Cache-Control',
-      content: 'public, max-age=31536000, immutable'
-    }],
-
     // VIEWPORT OPTIMIZAT
     ['meta', {
       name: 'viewport',
@@ -498,10 +492,14 @@ export default defineConfig({
       rollupOptions: {
         output: {
           manualChunks: {
-            vendor: ['vue']
+            vendor: ['vue'],
+            utils: ['lodash'],
+            icons: ['@iconify/vue'],
+            charts: ['chart.js']
           }
         }
       },
+      cssCodeSplit: true,
       target: 'es2018',
       minify: 'esbuild',
       cssMinify: true,
