@@ -676,15 +676,15 @@ onMounted(() => {
 }
 
 :root.dark .bottom-link {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 :root.dark .bottom-dot {
-  color: rgba(255, 255, 255, 0.15);
+  color: rgba(255, 255, 255, 0.5);
 }
 
 :root.dark .back-to-top {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.65);
 }
 
 
@@ -785,7 +785,7 @@ onMounted(() => {
 }
 
 :root:not(.dark) .bottom-dot {
-  color: #ccc;
+  color: #888;
 }
 
 :root:not(.dark) .back-to-top {
