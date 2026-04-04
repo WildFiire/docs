@@ -1569,7 +1569,7 @@ onUnmounted(() => {
   border: 1px solid var(--vp-c-divider);
   border-radius: 30px;
   font-size: 13px;
-  transition: all 0.2s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease;
 }
 
 .feature-badge:hover {
@@ -1605,7 +1605,7 @@ onUnmounted(() => {
   font-weight: 600;
   font-size: 16px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: transform 0.3s ease, gap 0.3s ease;
   box-shadow: 0 4px 12px rgba(255, 69, 0, 0.25);
   border: none;
 }

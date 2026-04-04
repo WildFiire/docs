@@ -556,7 +556,7 @@ html:not(.dark) .logo-text .wild {
   flex-shrink: 0;
   border: 2px solid #ff4500;
   background: transparent;
-  transition: all 0.3s ease;
+  transition: border-color 0.3s ease, transform 0.3s ease;
   cursor: pointer;
   padding: 0;
 }
