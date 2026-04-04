@@ -24,13 +24,6 @@ export default defineConfig({
     // PRECONNECT PENTRU GOOGLE FONTS (non-blocking)
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', {
-      rel: 'stylesheet',
-      href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap',
-      media: 'print',
-      onload: "this.media='all'"
-    }],
-    ['noscript', {}, '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap">'],
 
     // PRELOAD PENTRU LCP
     ['link', {
@@ -497,7 +490,7 @@ export default defineConfig({
           }
         }
       },
-      cssCodeSplit: false,
+      cssCodeSplit: true,
       target: 'es2018',
       minify: 'esbuild',
       cssMinify: true,

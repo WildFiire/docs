@@ -59,6 +59,19 @@ const PanelAudit = defineAsyncComponent(() => import('./components/Panel/PanelAu
 const PanelAnalytics = defineAsyncComponent(() => import('./components/Panel/PanelAnalytics.vue'))
 const PanelLogin = defineAsyncComponent(() => import('./components/Panel/PanelLogin.vue'))
 
+// Load Google Fonts after first paint (non-blocking, off critical path)
+if (typeof window !== 'undefined') {
+  const loadFonts = () => {
+    if (document.getElementById('gf')) return
+    const l = document.createElement('link')
+    l.id = 'gf'
+    l.rel = 'stylesheet'
+    l.href = 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap'
+    document.head.appendChild(l)
+  }
+  requestAnimationFrame(() => requestAnimationFrame(loadFonts))
+}
+
 // Defer popout until first user interaction - reduces unused JS on initial load
 if (typeof window !== 'undefined') {
   const loadPopout = () => {
