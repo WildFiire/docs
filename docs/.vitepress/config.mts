@@ -481,7 +481,7 @@ export default defineConfig({
     plugins: [lastUpdatesPlugin(docsDir, repoRoot)],
 
     build: {
-      cssCodeSplit: true,
+      cssCodeSplit: false,
       target: 'es2018',
       minify: 'esbuild',
       cssMinify: true,
