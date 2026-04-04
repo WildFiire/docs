@@ -32,12 +32,14 @@ import WildfireTag from './components/WildfireTag.vue'
 import DocUserWidget from './components/DocUserWidget.vue'
 import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/VPNavBarAppearance.vue'
 
-// Componente lazy — CSS/JS split în chunk-uri separate, nu blochează FCP/LCP
-const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
-const Changelogs = defineAsyncComponent(() => import('./components/Changelogs.vue'))
-const WikiUpdatesGrid = defineAsyncComponent(() => import('./components/WikiUpdatesGrid.vue'))
+// Statice — deja importate static în WikiHome.vue, nu pot fi split
+import LastUpdates from './components/LastUpdates.vue'
+import WikiUpdatesGrid from './components/WikiUpdatesGrid.vue'
 const LatestWikiUpdates = WikiUpdatesGrid
-const AboutWiki = defineAsyncComponent(() => import('./components/AboutWiki.vue'))
+import AboutWiki from './components/AboutWiki.vue'
+import Changelogs from './components/Changelogs.vue'
+
+// Componente lazy — CSS/JS split în chunk-uri separate, nu blochează FCP/LCP
 const StatsGithub = defineAsyncComponent(() => import('./components/StatsGithub.vue'))
 const Team = defineAsyncComponent(() => import('./components/Team.vue'))
 const Terms = defineAsyncComponent(() => import('./components/Terms.vue'))

@@ -493,8 +493,6 @@ export default defineConfig({
         output: {
           manualChunks: {
             vendor: ['vue'],
-            utils: ['lodash'],
-            icons: ['@iconify/vue'],
             charts: ['chart.js']
           }
         }
