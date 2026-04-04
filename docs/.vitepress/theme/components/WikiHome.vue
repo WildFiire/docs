@@ -180,12 +180,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, onMounted, computed, onUnmounted, watch } from 'vue'
+import { ref, onMounted, computed, onUnmounted, watch, defineAsyncComponent } from 'vue'
 import { useData } from 'vitepress'
-import LastUpdates from './LastUpdates.vue'
 import HomeNavbar from './HomeNavbar.vue'
-import WikiUpdatesGrid from './WikiUpdatesGrid.vue'
-import AboutWiki from './AboutWiki.vue'
+const LastUpdates = defineAsyncComponent(() => import('./LastUpdates.vue'))
+const WikiUpdatesGrid = defineAsyncComponent(() => import('./WikiUpdatesGrid.vue'))
+const AboutWiki = defineAsyncComponent(() => import('./AboutWiki.vue'))
 
 const { page, theme } = useData()
 
