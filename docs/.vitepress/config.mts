@@ -33,13 +33,12 @@ export default defineConfig({
       fetchpriority: 'high',
       type: 'image/webp'
     }],
-
-    // PRELOAD PENTRU BACKGROUND
     ['link', {
       rel: 'preload',
       as: 'image',
       href: '/wallpaper/poza102.webp',
-      fetchpriority: 'low'
+      fetchpriority: 'high',
+      type: 'image/webp'
     }],
 
     // VIEWPORT OPTIMIZAT
@@ -482,15 +481,7 @@ export default defineConfig({
     plugins: [lastUpdatesPlugin(docsDir, repoRoot)],
 
     build: {
-      rollupOptions: {
-        output: {
-          manualChunks: {
-            vendor: ['vue'],
-            charts: ['chart.js']
-          }
-        }
-      },
-      cssCodeSplit: false,
+      cssCodeSplit: true,
       target: 'es2018',
       minify: 'esbuild',
       cssMinify: true,
