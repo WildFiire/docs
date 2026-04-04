@@ -32,22 +32,21 @@ import WildfireTag from './components/WildfireTag.vue'
 import DocUserWidget from './components/DocUserWidget.vue'
 import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/VPNavBarAppearance.vue'
 
-// Componente lazy — CSS/JS split în chunk-uri separate, nu blochează FCP/LCP
-const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
-const WikiUpdatesGrid = defineAsyncComponent(() => import('./components/WikiUpdatesGrid.vue'))
+import LastUpdates from './components/LastUpdates.vue'
+import WikiUpdatesGrid from './components/WikiUpdatesGrid.vue'
 const LatestWikiUpdates = WikiUpdatesGrid
-const AboutWiki = defineAsyncComponent(() => import('./components/AboutWiki.vue'))
-const Changelogs = defineAsyncComponent(() => import('./components/Changelogs.vue'))
-const StatsGithub = defineAsyncComponent(() => import('./components/StatsGithub.vue'))
-const Team = defineAsyncComponent(() => import('./components/Team.vue'))
-const Terms = defineAsyncComponent(() => import('./components/Terms.vue'))
-const Privacy = defineAsyncComponent(() => import('./components/Privacy.vue'))
+import AboutWiki from './components/AboutWiki.vue'
+import Changelogs from './components/Changelogs.vue'
+import StatsGithub from './components/StatsGithub.vue'
+import Team from './components/Team.vue'
+import Terms from './components/Terms.vue'
+import Privacy from './components/Privacy.vue'
 import FeedbackWidget from './components/FeedbackWidget.vue'
 import CaseHeader from './components/CaseHeader.vue'
 import ContributorsWF from './components/ContributorsWF.vue'
 import SiteMap from './components/SiteMap.vue'
-const PageNotFound = defineAsyncComponent(() => import('./components/PageNotFound.vue'))
-const FileTreeItem = defineAsyncComponent(() => import('./components/FileTreeItem.vue'))
+import PageNotFound from './components/PageNotFound.vue'
+import FileTreeItem from './components/FileTreeItem.vue'
 
 // Panel — lazy (numai pe /panel)
 const Dashboard = defineAsyncComponent(() => import('./components/Panel/Dashboard.vue'))
