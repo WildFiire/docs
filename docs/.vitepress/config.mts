@@ -490,7 +490,7 @@ export default defineConfig({
           }
         }
       },
-      cssCodeSplit: true,
+      cssCodeSplit: false,
       target: 'es2018',
       minify: 'esbuild',
       cssMinify: true,
