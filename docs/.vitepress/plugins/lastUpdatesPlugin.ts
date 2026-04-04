@@ -200,7 +200,7 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
         timestamp: git.timestamp,
         docsRelPath: rel.replace(/\\/g, '/'),
         username: git.username,
-        avatarUrl: `https://github.com/${git.username}.png`,
+        avatarUrl: `https://github.com/${git.username}.png?size=44`,
         profileUrl: `https://github.com/${git.username}`,
         buttonText: badgeText ? badgeText.toUpperCase() : 'CITESTE'
       })
@@ -224,7 +224,7 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
     const login = logins[i]
     if (login) {
       card.username = login
-      card.avatarUrl = `https://github.com/${login}.png`
+      card.avatarUrl = `https://github.com/${login}.png?size=44`
       card.profileUrl = `https://github.com/${login}`
     }
     return card as UpdateCard

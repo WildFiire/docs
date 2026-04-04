@@ -26,7 +26,7 @@
           
           <div class="contributor-header">
             <div class="contributor-avatar">
-              <img :src="`https://github.com/${topContributor.login}.png`" :alt="topContributor.login">
+              <img :src="`https://github.com/${topContributor.login}.png?size=160`" :alt="topContributor.login">
               <span class="avatar-ring"></span>
               <span class="avatar-crown">
                 <svg viewBox="0 0 24 24" width="24" height="24" fill="gold" stroke="none">
@@ -251,7 +251,7 @@
                 </div>
                 
                 <div class="top3-avatar">
-                  <img :src="`https://github.com/${contributor.login}.png`" :alt="contributor.login">
+                  <img :src="`https://github.com/${contributor.login}.png?size=64`" :alt="contributor.login">
                   <span class="avatar-glow"></span>
                 </div>
                 
@@ -369,7 +369,7 @@
                  @click="openIssue(issue.url)">
               
               <div class="item-avatar">
-                <img :src="`https://github.com/${issue.author}.png`" :alt="issue.author">
+                <img :src="`https://github.com/${issue.author}.png?size=44`" :alt="issue.author">
               </div>
               
               <div class="item-badge issue">#{{ issue.number }}</div>
@@ -407,7 +407,7 @@
                  @click="openPR(pr.url)">
               
               <div class="item-avatar">
-                <img :src="`https://github.com/${pr.author}.png`" :alt="pr.author">
+                <img :src="`https://github.com/${pr.author}.png?size=44`" :alt="pr.author">
               </div>
               
               <div class="item-badge pr">#{{ pr.number }}</div>

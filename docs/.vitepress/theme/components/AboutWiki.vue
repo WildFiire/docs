@@ -22,7 +22,7 @@
         </div>
         
         <div class="wiki-cta">
-          <a href="informatii/about" class="wiki-cta-link orbitron-font">
+          <a href="informatii/about" class="wiki-cta-link orbitron-font" aria-label="Explorează tot">
             <span class="typing-text orbitron-font" :class="{ 'typing-complete': wikiCTATyped }">{{ displayWikiCTA }}<span v-if="!wikiCTATyped" class="cursor"></span></span>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
