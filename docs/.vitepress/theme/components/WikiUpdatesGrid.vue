@@ -548,7 +548,7 @@
                 <span class="how-to-tag">PASUL 01</span>
                 <div class="how-to-line"></div>
               </div>
-              <h4>Găsește ceva de îmbunătățit</h4>
+              <h3>Găsește ceva de îmbunătățit</h3>
               <p>O greșeală, un exemplu neclar, o pagină lipsă. Orice pagină poate fi mai bună.</p>
             </div>
           </div>
@@ -570,7 +570,7 @@
                 <span class="how-to-tag">PASUL 02</span>
                 <div class="how-to-line"></div>
               </div>
-              <h4>Deschide un Pull Request</h4>
+              <h3>Deschide un Pull Request</h3>
               <p>Fork, modifici, faci PR. Durează 5 minute și ajută pe toată lumea.</p>
             </div>
           </div>
@@ -588,7 +588,7 @@
                 <span class="how-to-tag">PASUL 03</span>
                 <div class="how-to-line"></div>
               </div>
-              <h4>Apari în istoric</h4>
+              <h3>Apari în istoric</h3>
               <p>Contribuția ta rămâne în wiki și e vizibilă pentru toată lumea.</p>
             </div>
           </div>
@@ -1178,8 +1178,6 @@ export default {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
-
 /* ===== FONT ORBITRON DOAR PENTRU TITLURI ȘI ELEMENTE IMPORTANTE ===== */
 .header-tag,
 .cards-title,

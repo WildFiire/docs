@@ -48,7 +48,7 @@
               <p class="card-desc orbitron-font">Toate regulile și normele de comportament pentru comunitate</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.systems }} pagini</span>
-                <a href="/informatii/regulamente/go/regulament-go" class="card-link">
+                <a href="/informatii/regulamente/go/regulament-go" class="card-link" aria-label="Regulamente - Vezi pagina">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
@@ -69,7 +69,7 @@
               <p class="card-desc orbitron-font">Sisteme specifice serverului și funcționalități unice</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.regulamente }} pagini</span>
-                <a href="/systems/skins/knives" class="card-link">
+                <a href="/systems/skins/knives" class="card-link" aria-label="Sisteme - Vezi pagina">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
@@ -91,7 +91,7 @@
               <p class="card-desc orbitron-font">Toate informațiile despre marketplace-ul serverului</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.market }} pagini</span>
-                <a href="/market/payment-methods" class="card-link">
+                <a href="/market/payment-methods" class="card-link" aria-label="Shop - Vezi pagina">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
@@ -116,7 +116,7 @@
               <p class="card-desc orbitron-font">Documentație și ghiduri</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.info }} pagini</span>
-                <a href="/informatii/faq" class="card-link">
+                <a href="/informatii/faq" class="card-link" aria-label="Info & Guides - Vezi pagina">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
@@ -138,7 +138,7 @@
               <p class="card-desc orbitron-font">Fire Coins și Credits</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.currency }} pagini</span>
-                <a href="/currency/credits" class="card-link">
+                <a href="/currency/credits" class="card-link" aria-label="Currency - Vezi pagina">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>
@@ -159,7 +159,7 @@
               <p class="card-desc orbitron-font">Toate caracteristicile personalizate disponibile</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.vip }} pagini</span>
-                <a href="market/premium-shop/mvp" class="card-link">
+                <a href="market/premium-shop/mvp" class="card-link" aria-label="Custom features - Vezi pagina">
                   <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
                     <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
                   </svg>

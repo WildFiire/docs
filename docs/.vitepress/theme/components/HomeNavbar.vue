@@ -220,6 +220,7 @@
         target="_blank"
         rel="noopener noreferrer"
         class="mobile-menu-social-link"
+        :aria-label="social.ariaLabel"
         v-html="social.icon.svg"
       >
       </a>

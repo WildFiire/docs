@@ -209,9 +209,6 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
-
 .orbitron-font {
   font-family: 'Orbitron', sans-serif !important;
 }
@@ -613,11 +610,11 @@ onMounted(() => {
 }
 
 :root.dark .brand-tagline {
-  color: #666;
+  color: #999;
 }
 
 :root.dark .brand-text {
-  color: rgba(255, 255, 255, 0.45);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 :root.dark .social-link {
@@ -669,7 +666,7 @@ onMounted(() => {
 }
 
 :root.dark .copyright {
-  color: rgba(255, 255, 255, 0.3);
+  color: rgba(255, 255, 255, 0.55);
 }
 
 :root.dark .version-badge {

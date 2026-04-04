@@ -520,8 +520,6 @@ onUnmounted(() => {
 
 <style scoped>
 /* ===== FONT ORBITRON DOAR PENTRU ELEMENTELE CHEIE ===== */
-@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&display=swap');
-
 .orbitron-font {
   font-family: 'Orbitron', sans-serif;
   letter-spacing: 0.3px;

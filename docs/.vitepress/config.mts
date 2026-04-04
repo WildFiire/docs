@@ -21,6 +21,16 @@ export default defineConfig({
     ['link', { rel: 'icon', href: '/icons/wildfire.webp' }],
     ['meta', { name: 'theme-color', content: '#ff4000ff' }],
 
+    // PRECONNECT PENTRU GOOGLE FONTS (non-blocking)
+    ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
+    ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    ['link', {
+      rel: 'stylesheet',
+      href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap',
+      media: 'print',
+      onload: "this.media='all'"
+    }],
+
     // PRELOAD PENTRU LCP
     ['link', {
       rel: 'preload',
