@@ -727,31 +727,46 @@ export default {
 
     // Adaugă event listener pentru scroll
     window.addEventListener('scroll', this.handleScroll);
-    
-    // Încărcare inițială
-    await this.fetchAllGitHubData(githubToken);
-    
-    // Refresh la 30 SECUNDE
-    this.refreshInterval = setInterval(() => {
-      this.fetchAllGitHubData(githubToken);
-    }, 30000);
-    
-    // Refresh la focus
-    window.addEventListener('focus', () => {
-      this.fetchAllGitHubData(githubToken);
-    });
-    
-    // Refresh la visibility change
-    document.addEventListener('visibilitychange', () => {
-      if (document.visibilityState === 'visible') {
+
+    // Funcție pentru pornirea fetch-ului și a refresh-urilor
+    const startFetching = async () => {
+      await this.fetchAllGitHubData(githubToken);
+
+      // Refresh la 30 SECUNDE
+      this.refreshInterval = setInterval(() => {
         this.fetchAllGitHubData(githubToken);
-      }
-    });
-    
-    // Aplică efectul de scroll după ce datele sunt încărcate
-    setTimeout(() => {
-      this.handleScroll();
-    }, 500);
+      }, 30000);
+
+      // Refresh la focus
+      window.addEventListener('focus', () => {
+        this.fetchAllGitHubData(githubToken);
+      });
+
+      // Refresh la visibility change
+      document.addEventListener('visibilitychange', () => {
+        if (document.visibilityState === 'visible') {
+          this.fetchAllGitHubData(githubToken);
+        }
+      });
+
+      // Aplică efectul de scroll după ce datele sunt încărcate
+      setTimeout(() => {
+        this.handleScroll();
+      }, 500);
+    };
+
+    // Defer fetch until component enters viewport (300px margin ahead)
+    if (typeof window !== 'undefined' && window.IntersectionObserver) {
+      const fetchObserver = new IntersectionObserver((entries) => {
+        if (entries[0].isIntersecting) {
+          fetchObserver.disconnect();
+          startFetching();
+        }
+      }, { rootMargin: '300px' });
+      this.$nextTick(() => fetchObserver.observe(this.$el));
+    } else {
+      startFetching();
+    }
   },
 
   beforeUnmount() {
