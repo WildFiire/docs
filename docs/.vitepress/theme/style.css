@@ -981,6 +981,13 @@ body:has(.VPLocalSearchBox)::before {
 }
 
 /*=============================================================================
+  18. HIDE DEFAULT NAVBAR ON HOME PAGE (no JS flash on production SSR)
+=============================================================================*/
+body:has(.VPContent.is-home) .VPNav {
+  display: none !important;
+}
+
+/*=============================================================================
   19. TOC OUTLINE TITLE
 =============================================================================*/
 .VPDocAsideOutline .outline-title {
