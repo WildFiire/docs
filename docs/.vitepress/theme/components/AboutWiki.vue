@@ -48,11 +48,7 @@
               <p class="card-desc orbitron-font">Toate regulile și normele de comportament pentru comunitate</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.systems }} pagini</span>
-                <a href="/informatii/regulamente/go/regulament-go" class="card-link" aria-label="Regulamente - Vezi pagina">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
+                <a href="/informatii/regulamente/go/regulament-go" class="card-link" aria-label="Regulamente - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
               </div>
             </div>
           </div>
@@ -69,11 +65,7 @@
               <p class="card-desc orbitron-font">Sisteme specifice serverului și funcționalități unice</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.regulamente }} pagini</span>
-                <a href="/systems/skins/knives" class="card-link" aria-label="Sisteme - Vezi pagina">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
+                <a href="/systems/skins/knives" class="card-link" aria-label="Sisteme - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
               </div>
             </div>
           </div>
@@ -91,11 +83,7 @@
               <p class="card-desc orbitron-font">Toate informațiile despre marketplace-ul serverului</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.market }} pagini</span>
-                <a href="/market/payment-methods" class="card-link" aria-label="Shop - Vezi pagina">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
+                <a href="/market/payment-methods" class="card-link" aria-label="Shop - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
               </div>
             </div>
           </div>
@@ -116,11 +104,7 @@
               <p class="card-desc orbitron-font">Documentație și ghiduri</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.info }} pagini</span>
-                <a href="/informatii/faq" class="card-link" aria-label="Info & Guides - Vezi pagina">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
+                <a href="/informatii/faq" class="card-link" aria-label="Info & Guides - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
               </div>
             </div>
           </div>
@@ -138,11 +122,7 @@
               <p class="card-desc orbitron-font">Fire Coins și Credits</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.currency }} pagini</span>
-                <a href="/currency/credits" class="card-link" aria-label="Currency - Vezi pagina">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
+                <a href="/currency/credits" class="card-link" aria-label="Currency - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
               </div>
             </div>
           </div>
@@ -159,11 +139,7 @@
               <p class="card-desc orbitron-font">Toate caracteristicile personalizate disponibile</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.vip }} pagini</span>
-                <a href="market/premium-shop/mvp" class="card-link" aria-label="Custom features - Vezi pagina">
-                  <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                    <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-                  </svg>
-                </a>
+                <a href="market/premium-shop/mvp" class="card-link" aria-label="Custom features - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
               </div>
             </div>
           </div>
@@ -414,14 +390,15 @@ defineExpose({
 
 .card-badge {
   font-size: 10px;
-  padding: 4px 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  line-height: 1;
+  padding: 3px 10px;
+  background: rgba(255, 69, 0, 0.08);
+  color: #ff8c00;
+  border: 1px solid rgba(255, 69, 0, 0.22);
+  border-radius: 6px;
+  line-height: 1.6;
   display: inline-flex;
   align-items: center;
+  letter-spacing: 0.3px;
 }
 
 .wiki-showcase {
@@ -522,28 +499,25 @@ defineExpose({
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  padding: 10px 24px;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 40px;
-  color: white;
+  padding: 9px 22px;
+  background: transparent;
+  border: 1px solid rgba(255, 69, 0, 0.3);
+  border-radius: 8px;
+  color: #ff4500;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
 }
 
 .wiki-cta-link:hover {
-  background: #ff4500;
-  color: white;
-  gap: 14px;
+  background: rgba(255, 69, 0, 0.08);
   border-color: #ff4500;
+  gap: 14px;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 69, 0, 0.12);
 }
 
 .wiki-cta-link svg {
   transition: transform 0.2s ease;
-}
-
-.wiki-cta-link:hover svg {
-  transform: translateX(4px);
 }
 
 .wiki-right {
@@ -562,11 +536,11 @@ defineExpose({
 .wiki-card {
   position: relative;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(8px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 16px;
-  padding: 16px;
-  transition: all 0.2s ease;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-left: 2px solid rgba(255, 69, 0, 0.25);
+  border-radius: 12px;
+  padding: 18px 16px;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -574,49 +548,47 @@ defineExpose({
 }
 
 .wiki-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(255, 69, 0, 0.3);
+  transform: translateY(-3px);
+  border-color: rgba(255, 255, 255, 0.1);
+  border-left-color: #ff4500;
   background: rgba(255, 255, 255, 0.05);
 }
 
 .card-glow {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 0;
-  height: 0;
-  background: radial-gradient(circle, rgba(255, 69, 0, 0.1) 0%, transparent 70%);
+  inset: 0;
+  background: radial-gradient(ellipse at 0% 0%, rgba(255, 69, 0, 0.06) 0%, transparent 60%);
   opacity: 0;
-  transition: all 0.3s ease;
+  transition: opacity 0.3s ease;
   pointer-events: none;
   z-index: 0;
 }
 
 .wiki-card:hover .card-glow {
-  width: 200px;
-  height: 200px;
   opacity: 1;
-  transform: translate(-50%, -50%);
 }
 
 .card-icon {
-  width: 36px;
-  height: 36px;
+  width: 38px;
+  height: 38px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
+  background: rgba(255, 69, 0, 0.08);
+  border: 1px solid rgba(255, 69, 0, 0.2);
   border-radius: 10px;
-  color: #ff4500;
-  margin-bottom: 12px;
-  transition: all 0.2s ease;
+  color: #ff8c00;
+  margin-bottom: 14px;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   position: relative;
   z-index: 2;
+  flex-shrink: 0;
 }
 
 .wiki-card:hover .card-icon {
   background: #ff4500;
-  color: white;
+  color: #fff;
+  border-color: #ff4500;
 }
 
 .card-content {
@@ -651,44 +623,37 @@ defineExpose({
   min-height: 40px;
 }
 
-.card-badge {
-  font-size: 10px;
-  padding: 4px 10px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 20px;
-  color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  line-height: 1;
+.card-link {
   display: inline-flex;
   align-items: center;
-}
-
-.card-link {
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 50%;
-  color: white;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  gap: 5px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.4);
+  text-decoration: none;
+  transition: color 0.2s ease, gap 0.2s ease;
   padding: 0;
   line-height: 1;
   flex-shrink: 0;
+  font-family: 'Orbitron', sans-serif !important;
 }
 
 .card-link svg {
-  width: 14px;
-  height: 14px;
+  width: 12px;
+  height: 12px;
   display: block;
+  transition: transform 0.2s ease;
 }
 
 .card-link:hover {
-  background: #ff4500;
-  transform: translateX(3px);
-  border-color: transparent;
+  color: #ff8c00;
+  gap: 7px;
+}
+
+.card-link:hover svg {
+  transform: translateX(2px);
 }
 
 /* ===== EFFECT DE TYPING ===== */
@@ -727,36 +692,31 @@ defineExpose({
   transform: translateY(0);
 }
 
-/* Delay-uri pentru carduri */
 .wiki-left.revealed {
   transition-delay: 0.05s;
 }
 
-.wiki-card:nth-child(1).revealed {
-  transition-delay: 0.1s;
-}
-
-.wiki-card:nth-child(2).revealed {
-  transition-delay: 0.15s;
-}
-
-.wiki-card:nth-child(3).revealed {
-  transition-delay: 0.2s;
-}
-
-.wiki-card:nth-child(4).revealed {
-  transition-delay: 0.25s;
-}
-
-.wiki-card:nth-child(5).revealed {
-  transition-delay: 0.3s;
-}
-
-.wiki-card:nth-child(6).revealed {
-  transition-delay: 0.35s;
-}
+.wiki-card:nth-child(1).revealed { transition-delay: 0.1s; }
+.wiki-card:nth-child(2).revealed { transition-delay: 0.15s; }
+.wiki-card:nth-child(3).revealed { transition-delay: 0.2s; }
+.wiki-card:nth-child(4).revealed { transition-delay: 0.25s; }
+.wiki-card:nth-child(5).revealed { transition-delay: 0.3s; }
+.wiki-card:nth-child(6).revealed { transition-delay: 0.35s; }
 
 /* Light theme adjustments */
+html:not(.dark) .wiki-card {
+  background: #ffffff;
+  border-color: rgba(0, 0, 0, 0.07);
+  border-left-color: rgba(255, 69, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
+}
+
+html:not(.dark) .wiki-card:hover {
+  background: #fafafa;
+  border-left-color: #ff4500;
+  box-shadow: 0 8px 20px rgba(255, 69, 0, 0.08);
+}
+
 html:not(.dark) .wiki-title {
   color: #0f172a;
 }
@@ -765,52 +725,34 @@ html:not(.dark) .wiki-description p {
   color: #334155;
 }
 
-html:not(.dark) .wiki-card {
-  background: #ffffff;
-  border-color: rgba(0, 0, 0, 0.08);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+html:not(.dark) .card-desc {
+  color: #64748b;
 }
 
-html:not(.dark) .wiki-card:hover {
-  background: #ffffff;
-  border-color: rgba(255, 69, 0, 0.2);
-  box-shadow: 0 8px 16px rgba(255, 69, 0, 0.05);
+html:not(.dark) .card-badge {
+  color: #c94400;
+}
+
+html:not(.dark) .wiki-cta-link {
+  color: #ff4500;
+  border-color: rgba(255, 69, 0, 0.3);
+}
+
+html:not(.dark) .wiki-cta-link:hover {
+  background: rgba(255, 69, 0, 0.07);
+  border-color: #ff4500;
 }
 
 html:not(.dark) .card-title {
   color: #0f172a;
 }
 
-html:not(.dark) .card-desc {
-  color: #64748b;
-}
-
-html:not(.dark) .card-badge {
-  background: #f8fafc;
-  color: #334155;
-  border-color: rgba(0, 0, 0, 0.05);
-}
-
-html:not(.dark) .wiki-cta-link {
-  background: #f8fafc;
-  border-color: rgba(0, 0, 0, 0.05);
-  color: #0f172a;
-}
-
-html:not(.dark) .wiki-cta-link:hover {
-  background: #ff4500;
-  color: white;
-}
-
 html:not(.dark) .card-link {
-  background: #f8fafc;
-  border-color: rgba(0, 0, 0, 0.05);
-  color: #0f172a;
+  color: rgba(0, 0, 0, 0.35);
 }
 
 html:not(.dark) .card-link:hover {
-  background: #ff4500;
-  color: white;
+  color: #ff4500;
 }
 
 @media (max-width: 1024px) {
@@ -818,12 +760,12 @@ html:not(.dark) .card-link:hover {
     grid-template-columns: 1fr;
     gap: 30px;
   }
-  
+
   .wiki-left {
     text-align: center;
     align-items: center;
   }
-  
+
   .wiki-header {
     align-items: center;
   }
@@ -833,7 +775,7 @@ html:not(.dark) .card-link:hover {
   .wiki-title {
     font-size: 28px;
   }
-  
+
   .wiki-row {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -843,7 +785,7 @@ html:not(.dark) .card-link:hover {
   .wiki-title {
     font-size: 24px;
   }
-  
+
   .wiki-row {
     grid-template-columns: 1fr;
   }

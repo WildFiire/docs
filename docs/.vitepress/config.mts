@@ -3,6 +3,7 @@ import { defineConfig } from 'vitepress'
 import { fileURLToPath } from 'url'
 import path from 'path'
 import { lastUpdatesPlugin } from './plugins/lastUpdatesPlugin'
+import { newPagesPlugin } from './plugins/newPagesPlugin'
 import { commitCache } from './plugins/commitCache'
 
 const __vitepressDir = fileURLToPath(new URL('.', import.meta.url))
@@ -95,19 +96,20 @@ export default defineConfig({
       .version-tag {
         display: inline-block;
         padding: 2px 8px;
-        background: rgba(34, 197, 94, 0.1);
-        border: 1px solid #22c55e;
-        border-radius: 20px;
+        background: rgba(255, 69, 0, 0.08);
+        border: 1px solid rgba(255, 69, 0, 0.3);
+        border-radius: 6px;
         font-weight: 600;
         font-size: 10px;
-        color: #22c55e;
+        color: #ff5c1a;
         margin-left: 0.5rem;
         vertical-align: middle;
         transition: all 0.2s ease;
       }
       
       .version-tag:hover {
-        background: #22c55e;
+        background: #ff4500;
+        border-color: #ff4500;
         color: white;
       }
       
@@ -478,7 +480,7 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [lastUpdatesPlugin(docsDir, repoRoot)],
+    plugins: [lastUpdatesPlugin(docsDir, repoRoot), newPagesPlugin(docsDir, repoRoot)],
 
     build: {
       cssCodeSplit: false,

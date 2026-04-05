@@ -496,6 +496,21 @@ body:not(.home) *,
   position: relative !important;
   z-index: 100 !important;
   pointer-events: auto !important;
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  padding: 5px 12px !important;
+  border-radius: 6px !important;
+  border: 1px solid rgba(255, 69, 0, 0.2) !important;
+  color: var(--vp-c-text-2) !important;
+  background: rgba(255, 69, 0, 0.04) !important;
+  transition: all 0.2s ease !important;
+  text-decoration: none !important;
+}
+
+.VPDocFooter .edit-link-button:hover {
+  border-color: rgba(255, 69, 0, 0.5) !important;
+  color: #ff4500 !important;
+  background: rgba(255, 69, 0, 0.08) !important;
 }
 
 /* ===========MODAL SEARCH MENU - LIQUID GLASS ================== */
@@ -669,4 +684,298 @@ body:has(.VPLocalSearchBox)::before {
   position: center;
   left: 50%;
   transform: translateX(-50%);
+}
+
+/*=============================================================================
+  11. PAGE TRANSITIONS
+=============================================================================*/
+.VPContent {
+  transition: opacity 0.22s ease, transform 0.22s ease;
+}
+
+.vp-doc-transition-enter-from,
+.vp-doc-transition-leave-to {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+/*=============================================================================
+  12. SIDEBAR "NEW" BADGE
+=============================================================================*/
+.sidebar-new-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 6px;
+  padding: 0px 5px 1px;
+  background: rgba(255, 69, 0, 0.1);
+  color: #ff4500;
+  font-size: 8.5px;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 69, 0, 0.35);
+  vertical-align: middle;
+  line-height: 1.8;
+  flex-shrink: 0;
+  text-transform: uppercase;
+  animation: badge-pulse 3.5s ease-in-out infinite;
+}
+
+.dark .sidebar-new-badge {
+  background: rgba(255, 69, 0, 0.12);
+  color: #ff6a33;
+  border-color: rgba(255, 69, 0, 0.3);
+}
+
+@keyframes badge-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.65; }
+}
+
+/*=============================================================================
+  13. ACTIVE TOC HIGHLIGHT ENHANCEMENT
+=============================================================================*/
+.VPDocOutlineItem a.active {
+  color: var(--wf-orange) !important;
+  font-weight: 600 !important;
+}
+
+.VPDocOutlineItem a.active::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 1em;
+  background: linear-gradient(180deg, #ff4500, #ff8c00);
+  border-radius: 2px;
+  margin-right: 6px;
+  vertical-align: middle;
+  position: relative;
+  top: -1px;
+}
+
+.VPDocOutlineItem a {
+  transition: color 0.15s ease, padding-left 0.15s ease;
+}
+
+.VPDocOutlineItem a:hover {
+  color: var(--wf-orange) !important;
+}
+
+/*=============================================================================
+  14. LAST UPDATED BADGE REDESIGN
+=============================================================================*/
+.VPLastUpdated {
+  font-size: 11.5px !important;
+  color: var(--vp-c-text-2) !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  padding: 5px 12px 5px 10px !important;
+  background: rgba(255, 69, 0, 0.04) !important;
+  border: 1px solid rgba(255, 69, 0, 0.18) !important;
+  border-radius: 6px !important;
+  letter-spacing: 0.2px !important;
+}
+
+.VPLastUpdated::before {
+  content: '◷';
+  font-size: 13px;
+  color: #ff8c00;
+  flex-shrink: 0;
+  line-height: 1;
+}
+
+.VPLastUpdated time {
+  color: var(--vp-c-text-2) !important;
+  font-weight: 500;
+}
+
+.VPDocFooter {
+  padding-top: 1.25rem !important;
+}
+
+/*=============================================================================
+  15. MARKDOWN IMAGE — ZOOMABLE CURSOR HINT
+=============================================================================*/
+.vp-doc img {
+  cursor: zoom-in;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  border-radius: 8px;
+}
+
+.vp-doc img:hover {
+  transform: scale(1.02);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
+}
+
+/*=============================================================================
+  16. SKELETON LOADERS
+=============================================================================*/
+@keyframes skeleton-shimmer {
+  0% { background-position: -400px 0; }
+  100% { background-position: 400px 0; }
+}
+
+.skeleton {
+  background: linear-gradient(
+    90deg,
+    var(--vp-c-bg-soft) 25%,
+    var(--vp-c-bg-elv) 50%,
+    var(--vp-c-bg-soft) 75%
+  );
+  background-size: 800px 100%;
+  animation: skeleton-shimmer 1.5s infinite linear;
+  border-radius: 6px;
+}
+
+.skeleton-card {
+  border-radius: 16px;
+  overflow: hidden;
+  background: var(--vp-c-bg-soft);
+  padding: 16px;
+  border: 1px solid var(--vp-c-divider);
+}
+
+.skeleton-line {
+  height: 12px;
+  margin-bottom: 8px;
+  border-radius: 4px;
+}
+
+.skeleton-line.wide   { width: 80%; }
+.skeleton-line.medium { width: 55%; }
+.skeleton-line.narrow { width: 35%; }
+
+.skeleton-avatar {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.skeleton-title {
+  height: 16px;
+  width: 65%;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+.skeleton-badge {
+  height: 20px;
+  width: 60px;
+  border-radius: 20px;
+}
+
+/*=============================================================================
+  17. READING TIME META (injected via DocEnhancements after h1)
+=============================================================================*/
+.reading-time-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vp-c-text-3);
+  margin-top: -8px;
+  margin-bottom: 20px;
+  padding: 4px 12px 4px 10px;
+  background: var(--vp-c-bg-soft);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 20px;
+  width: fit-content;
+}
+
+.reading-time-meta svg {
+  color: #ff8c00;
+  flex-shrink: 0;
+}
+
+/* reading-time inside CaseHeader footer */
+.cases-wf .reading-time-meta {
+  margin: 0;
+  padding: 3px 10px 3px 8px;
+  font-size: 11px;
+  background: rgba(255, 140, 0, 0.08);
+  border-color: rgba(255, 140, 0, 0.25);
+  border-radius: 6px;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.cases-wf .reading-time-meta svg {
+  color: #ff8c00;
+  width: 12px;
+  height: 12px;
+}
+
+/*=============================================================================
+  18. PAGER LINKS (prev / next page in VPDocFooter)
+=============================================================================*/
+.VPDocFooter .prev-next {
+  gap: 10px !important;
+  border-top: none !important;
+  padding-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+.VPDocFooter .pager {
+  flex: 1 !important;
+}
+
+.VPDocFooter .pager-link {
+  padding: 14px 18px !important;
+  background: var(--vp-c-bg-soft) !important;
+  border: 1px solid rgba(255, 69, 0, 0.14) !important;
+  border-radius: 10px !important;
+  text-decoration: none !important;
+  transition: border-color 0.2s ease, background 0.2s ease, box-shadow 0.2s ease, transform 0.18s ease !important;
+}
+
+.VPDocFooter .pager-link:hover {
+  border-color: rgba(255, 69, 0, 0.38) !important;
+  background: rgba(255, 69, 0, 0.04) !important;
+  box-shadow: 0 4px 18px rgba(255, 69, 0, 0.08) !important;
+  transform: translateY(-2px) !important;
+  text-decoration: none !important;
+}
+
+.VPDocFooter .pager-link .desc {
+  font-size: 10px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.1em !important;
+  color: #ff4500 !important;
+  margin-bottom: 5px !important;
+  opacity: 1 !important;
+}
+
+.VPDocFooter .pager-link .title {
+  font-size: 13.5px !important;
+  font-weight: 600 !important;
+  color: var(--vp-c-text-1) !important;
+  line-height: 1.4 !important;
+  transition: color 0.18s ease !important;
+}
+
+.VPDocFooter .pager-link:hover .title {
+  color: #ff5c1a !important;
+}
+
+.dark .VPDocFooter .pager-link {
+  border-color: rgba(255, 69, 0, 0.1) !important;
+  background: rgba(255, 255, 255, 0.03) !important;
+}
+
+.dark .VPDocFooter .pager-link:hover {
+  border-color: rgba(255, 69, 0, 0.3) !important;
+  background: rgba(255, 69, 0, 0.05) !important;
+  box-shadow: 0 4px 20px rgba(255, 69, 0, 0.1) !important;
+}
+
+.dark .VPDocFooter .pager-link .title {
+  color: rgba(255, 255, 255, 0.85) !important;
+}
+
+.dark .VPDocFooter .pager-link:hover .title {
+  color: #ff6a33 !important;
 }

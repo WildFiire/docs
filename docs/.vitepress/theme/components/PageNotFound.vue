@@ -53,6 +53,35 @@
         </a>
       </div>
 
+      <!-- Quick links -->
+      <div class="quick-links">
+        <p class="quick-links-label">Navigare rapidă</p>
+        <div class="quick-links-grid">
+          <a href="/" class="quick-link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+            Acasă
+          </a>
+          <a href="/informatii/about" class="quick-link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="16" x2="12" y2="12"/><circle cx="12" cy="8" r="1" fill="currentColor"/></svg>
+            Despre
+          </a>
+          <a href="/informatii/faq" class="quick-link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+            FAQ
+          </a>
+          <a href="/team" class="quick-link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            Echipa
+          </a>
+        </div>
+
+        <button class="search-trigger" @click="openSearch">
+          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          Caută în documentație
+          <kbd>K</kbd>
+        </button>
+      </div>
+
       <!-- Quote simplu -->
       <div class="not-found-quote">
         din cenușă, ardem mai tare
@@ -93,6 +122,13 @@ onMounted(() => {
 onBeforeUnmount(() => {
   clearInterval(interval)
 })
+
+const openSearch = () => {
+  const btn = document.querySelector<HTMLButtonElement>('.VPNavBarSearch button, .DocSearch-Button')
+  if (btn) { btn.click(); return }
+  const kbdEvent = new KeyboardEvent('keydown', { key: 'k', metaKey: true, bubbles: true })
+  document.dispatchEvent(kbdEvent)
+}
 </script>
 
 <style scoped>
@@ -529,5 +565,85 @@ onBeforeUnmount(() => {
     font-size: 18px;
     letter-spacing: 1px;
   }
+}
+
+/* Quick links */
+.quick-links {
+  margin-top: 8px;
+  margin-bottom: 8px;
+  width: 100%;
+  text-align: center;
+}
+
+.quick-links-label {
+  font-size: 11px;
+  color: #555;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  margin-bottom: 12px;
+}
+
+.quick-links-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-bottom: 14px;
+}
+
+.quick-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 14px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 140, 0, 0.12);
+  border-radius: 30px;
+  color: #aaa;
+  text-decoration: none;
+  font-size: 13px;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.quick-link:hover {
+  background: rgba(255, 140, 0, 0.08);
+  border-color: rgba(255, 140, 0, 0.3);
+  color: #ff8c00;
+  transform: translateY(-2px);
+}
+
+.quick-link svg {
+  flex-shrink: 0;
+}
+
+.search-trigger {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px dashed rgba(255, 140, 0, 0.2);
+  border-radius: 30px;
+  color: #666;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.search-trigger:hover {
+  background: rgba(255, 140, 0, 0.07);
+  border-color: rgba(255, 140, 0, 0.4);
+  color: #ff8c00;
+}
+
+.search-trigger kbd {
+  background: rgba(255, 140, 0, 0.15);
+  border: 1px solid rgba(255, 140, 0, 0.3);
+  border-radius: 4px;
+  padding: 1px 6px;
+  font-size: 11px;
+  font-family: monospace;
+  color: #ff8c00;
 }
 </style>

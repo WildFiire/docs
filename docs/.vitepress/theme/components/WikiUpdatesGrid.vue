@@ -18,6 +18,23 @@
              ref="card1Ref">
           <div class="card-glow"></div>
           <div class="card-border"></div>
+
+          <!-- Skeleton overlay when loading -->
+          <div v-if="isLoading && !topContributor.login" class="card-skeleton-overlay">
+            <div style="display:flex;gap:14px;align-items:center;margin-bottom:16px">
+              <div class="skeleton skeleton-avatar" style="width:64px;height:64px;border-radius:50%"></div>
+              <div style="flex:1">
+                <div class="skeleton skeleton-badge" style="width:120px;margin-bottom:8px"></div>
+                <div class="skeleton skeleton-title" style="width:140px"></div>
+                <div style="display:flex;gap:8px;margin-top:8px">
+                  <div class="skeleton skeleton-badge"></div>
+                  <div class="skeleton skeleton-badge"></div>
+                </div>
+              </div>
+            </div>
+            <div class="skeleton skeleton-line medium"></div>
+          </div>
+
           <div class="click-indicator">
             <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2">
               <path d="M5 12h14M12 5l7 7-7 7"/>
@@ -1193,6 +1210,17 @@ export default {
 </script>
 
 <style scoped>
+/* ===== SKELETON OVERLAY ===== */
+.card-skeleton-overlay {
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  padding: 20px;
+  background: var(--vp-c-bg-soft, rgba(10,10,10,0.95));
+  z-index: 5;
+  pointer-events: none;
+}
+
 /* ===== FONT ORBITRON DOAR PENTRU TITLURI ȘI ELEMENTE IMPORTANTE ===== */
 .header-tag,
 .cards-title,
@@ -1534,13 +1562,13 @@ export default {
   inset: 0;
   border-radius: 24px;
   padding: 1px;
-  background: linear-gradient(145deg, rgba(255, 69, 0, 0.3), #ff4500, transparent);
+  background: linear-gradient(135deg, #ff4500 0%, rgba(255, 140, 0, 0.6) 40%, transparent 65%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
-  opacity: 0.3;
-  transition: opacity 0.3s ease;
+  opacity: 0.45;
+  transition: opacity 0.35s ease;
 }
 
 .feature-card:hover .card-border {
@@ -2675,29 +2703,29 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 16px;
-  border-radius: 30px;
+  padding: 9px 18px;
+  border-radius: 8px;
   font-size: 13px;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   cursor: pointer;
 }
 
 .cta-button.primary {
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  background: #ff4500;
   color: white;
   border: none;
 }
 
 .cta-button.secondary {
-  background: rgba(255, 69, 0, 0.1);
+  background: transparent;
   border: 1px solid rgba(255, 69, 0, 0.3);
   color: var(--vp-c-text-1);
 }
 
 .cta-button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 5px 15px -5px rgba(255, 69, 0, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 69, 0, 0.12);
 }
 
 .cta-button.secondary:hover {
@@ -2741,21 +2769,18 @@ export default {
   gap: 6px;
   width: 100%;
   padding: 8px 12px;
-  background: rgba(0, 0, 0, 0.2);
+  background: transparent;
   border: 1px solid rgba(255, 69, 0, 0.25);
-  border-radius: 30px;
+  border-radius: 8px;
   color: #ff4500;
   font-size: 12px;
   text-decoration: none;
   transition: all 0.2s ease;
   cursor: pointer;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   letter-spacing: 0.3px;
 }
 
 .dark .view-all-updates-btn {
-  background: rgba(0, 0, 0, 0.4);
   border-color: rgba(255, 69, 0, 0.3);
 }
 

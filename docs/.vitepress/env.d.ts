@@ -1,3 +1,8 @@
+declare module 'virtual:new-pages' {
+  const paths: string[]
+  export default paths
+}
+
 declare module 'virtual:last-updates' {
   export interface UpdateCard {
     title: string

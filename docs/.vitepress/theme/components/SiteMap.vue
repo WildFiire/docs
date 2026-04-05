@@ -63,45 +63,39 @@
             </ul>
           </div>
 
-          <!-- Column 4: Wiki Stats (Tech Panel) -->
+          <!-- Column 4: Wiki Stats -->
           <div class="footer-col stats-col">
             <h4 class="col-title orbitron-font">WIKI STATS</h4>
             <div class="stats-panel">
-              <!-- Scanline overlay -->
-              <div class="scanline-overlay"></div>
-
-              <div class="stat-item">
-                <div class="stat-header">
-                  <span class="stat-label orbitron-font">SECTIONS</span>
-                  <span class="stat-value orbitron-font">{{ wikiStats.sections }}</span>
+              <div class="stat-grid">
+                <div class="stat-item">
+                  <span class="stat-number orbitron-font">{{ wikiStats.sections }}</span>
+                  <span class="stat-label-text orbitron-font">SECȚIUNI</span>
                 </div>
-                <div class="stat-bar">
-                  <div class="stat-bar-fill" :style="{ width: wikiStats.sectionsPercent + '%' }"></div>
+                <div class="stat-item">
+                  <span class="stat-number orbitron-font">{{ wikiStats.pages }}</span>
+                  <span class="stat-label-text orbitron-font">PAGINI</span>
                 </div>
-              </div>
-
-              <div class="stat-item">
-                <div class="stat-header">
-                  <span class="stat-label orbitron-font">PAGES</span>
-                  <span class="stat-value orbitron-font">{{ wikiStats.pages }}</span>
-                </div>
-                <div class="stat-bar">
-                  <div class="stat-bar-fill" :style="{ width: wikiStats.pagesPercent + '%' }"></div>
+                <div class="stat-item accent">
+                  <span class="stat-number orbitron-font">99.9%</span>
+                  <span class="stat-label-text orbitron-font">UPTIME</span>
                 </div>
               </div>
-
-              <div class="stat-item">
-                <div class="stat-header">
-                  <span class="stat-label orbitron-font">UPTIME</span>
-                  <span class="stat-value orbitron-font">99.9%</span>
+              <div class="stat-bar-list">
+                <div class="stat-bar-item">
+                  <div class="stat-bar-header">
+                    <span class="stat-bar-label orbitron-font">PAGES</span>
+                    <span class="stat-bar-val orbitron-font">{{ wikiStats.pages }}</span>
+                  </div>
+                  <div class="stat-track"><div class="stat-fill pages" :style="{ width: wikiStats.pagesPercent + '%' }"></div></div>
                 </div>
-                <div class="stat-bar">
-                  <div class="stat-bar-fill accent" style="width: 99.9%"></div>
+                <div class="stat-bar-item">
+                  <div class="stat-bar-header">
+                    <span class="stat-bar-label orbitron-font">UPTIME</span>
+                    <span class="stat-bar-val orbitron-font">99.9%</span>
+                  </div>
+                  <div class="stat-track"><div class="stat-fill uptime" style="width:99.9%"></div></div>
                 </div>
-              </div>
-
-              <div class="stat-indicators">
-                <span class="indicator-dot" v-for="n in 6" :key="n" :style="{ animationDelay: (n * 0.2) + 's' }"></span>
               </div>
             </div>
           </div>
@@ -114,7 +108,7 @@
         <div class="footer-bottom">
           <div class="footer-bottom-left">
             <p class="copyright orbitron-font">
-              © 2021–{{ currentYear }} wildfire.ro — All rights reserved.
+              2021–{{ currentYear }} wildfire.ro — All rights reserved.
               <span class="version-badge orbitron-font">v{{ wikiVersion }}</span>
             </p>
           </div>
@@ -416,95 +410,97 @@ onMounted(() => {
 
 /* ===== STATS PANEL ===== */
 .stats-panel {
-  position: relative;
-  padding: 18px 16px;
-  border-radius: 8px;
-  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
 }
 
-.scanline-overlay {
-  position: absolute;
-  inset: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    transparent,
-    transparent 2px,
-    rgba(255, 69, 0, 0.015) 2px,
-    rgba(255, 69, 0, 0.015) 4px
-  );
-  pointer-events: none;
-  z-index: 0;
+.stat-grid {
+  display: flex;
+  border: 1px solid rgba(255, 69, 0, 0.12);
+  border-radius: 10px;
+  overflow: hidden;
 }
 
 .stat-item {
-  position: relative;
-  z-index: 1;
-  margin-bottom: 16px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 14px 6px 10px;
+  gap: 4px;
 }
 
-.stat-item:last-of-type {
-  margin-bottom: 0;
+.stat-item + .stat-item {
+  border-left: 1px solid rgba(255, 69, 0, 0.1);
 }
 
-.stat-header {
+.stat-number {
+  font-size: 22px;
+  font-weight: 800;
+  color: #ff8c00;
+  line-height: 1;
+}
+
+.stat-item.accent .stat-number {
+  color: #22c55e;
+}
+
+.stat-label-text {
+  font-size: 7.5px;
+  letter-spacing: 1.2px;
+  opacity: 0.38;
+  text-transform: uppercase;
+}
+
+.stat-bar-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.stat-bar-item { margin: 0; }
+
+.stat-bar-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 6px;
+  margin-bottom: 5px;
 }
 
-.stat-label {
-  font-size: 10px;
-  font-weight: 500;
+.stat-bar-label {
+  font-size: 9px;
   letter-spacing: 1.5px;
-  opacity: 0.7;
+  opacity: 0.5;
 }
 
-.stat-value {
-  font-size: 11px;
+.stat-bar-val {
+  font-size: 10px;
   font-weight: 700;
-  color: #ff4500;
+  color: #ff8c00;
 }
 
-.stat-bar {
+.stat-track {
   width: 100%;
   height: 3px;
-  border-radius: 2px;
+  border-radius: 3px;
+  background: rgba(255, 255, 255, 0.07);
   overflow: hidden;
 }
 
-.stat-bar-fill {
+.stat-fill {
   height: 100%;
-  border-radius: 2px;
+  border-radius: 3px;
+  background: linear-gradient(90deg, #ff4500, #ff8c00);
+  transition: width 1.2s cubic-bezier(.4,0,.2,1);
+}
+
+.stat-fill.pages {
+  background: linear-gradient(90deg, #ff6b35, #ffb347);
+}
+
+.stat-fill.uptime {
   background: linear-gradient(90deg, #22c55e, #4ade80);
-  /* background: linear-gradient(90deg, #ff4500, #ff6b35); */
-  transition: width 1s ease;
-  position: relative;
-}
-
-.stat-bar-fill.accent {
-  background: linear-gradient(90deg, #22c55e, #4ade80);
-}
-
-.stat-indicators {
-  display: flex;
-  gap: 5px;
-  margin-top: 14px;
-  padding-top: 12px;
-}
-
-.indicator-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 1px;
-  background: #ff4500;
-  opacity: 0.3;
-  animation: dotBlink 2.5s ease-in-out infinite;
-}
-
-@keyframes dotBlink {
-  0%, 100% { opacity: 0.15; }
-  50% { opacity: 0.6; }
 }
 
 /* ===== SEPARATOR ===== */
@@ -639,21 +635,13 @@ onMounted(() => {
   color: rgba(255, 255, 255, 0.5);
 }
 
-:root.dark .stats-panel {
+:root.dark .stat-grid {
   background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 69, 0, 0.1);
 }
 
-:root.dark .stat-label {
-  color: rgba(255, 255, 255, 0.5);
-}
-
-:root.dark .stat-bar {
-  background: rgba(255, 255, 255, 0.06);
-}
-
-:root.dark .stat-indicators {
-  border-top: 1px solid rgba(255, 69, 0, 0.08);
+:root.dark .stat-bar-label,
+:root.dark .stat-label-text {
+  color: rgba(255, 255, 255, 0.45);
 }
 
 :root.dark .footer-separator {
@@ -744,21 +732,17 @@ onMounted(() => {
   color: #333;
 }
 
-:root:not(.dark) .stats-panel {
-  background: rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(255, 69, 0, 0.1);
+:root:not(.dark) .stat-grid {
+  background: rgba(0, 0, 0, 0.01);
 }
 
-:root:not(.dark) .stat-label {
+:root:not(.dark) .stat-bar-label,
+:root:not(.dark) .stat-label-text {
   color: #555;
 }
 
-:root:not(.dark) .stat-bar {
+:root:not(.dark) .stat-track {
   background: rgba(0, 0, 0, 0.06);
-}
-
-:root:not(.dark) .stat-indicators {
-  border-top: 1px solid rgba(255, 69, 0, 0.08);
 }
 
 :root:not(.dark) .footer-separator {

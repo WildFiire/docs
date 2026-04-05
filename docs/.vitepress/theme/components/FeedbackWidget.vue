@@ -1,148 +1,137 @@
 <template>
-  <div class="feedback-wrapper">
-    <div class="feedback-glass">
-      <div class="feedback-header">
-        <div class="header-icon">
-          <Icon icon="lucide:message-square" class="icon" />
+  <div class="fw-wrap">
+
+    <div class="fw-separator">
+      <span class="fw-sep-text">Page Feedback</span>
+    </div>
+
+    <div class="fw-card">
+      <div class="fw-accent-bar"></div>
+
+      <div v-if="!submitted" class="fw-body">
+        <div class="fw-prompt">
+          <span class="fw-prompt-icon">
+            <Icon icon="lucide:flame" />
+          </span>
+          <div class="fw-prompt-text">
+            <span class="fw-label">Was this helpful?</span>
+            <span class="fw-sub">{{ formattedPageTitle }}</span>
+          </div>
         </div>
-        <div class="header-text">
-          <h3>Was this page helpful?</h3>
-          <p>Your feedback on <strong>{{ formattedPageTitle }}</strong> helps us improve</p>
+
+        <div class="fw-votes">
+          <button
+            :class="['fw-vote', 'fw-vote--yes', { 'fw-vote--active': selected === 'good' }]"
+            @click="selectFeedback('good')"
+            :disabled="submitting"
+          >
+            <Icon icon="lucide:thumbs-up" class="fw-vote-icon" />
+            <span>Yes</span>
+          </button>
+          <button
+            :class="['fw-vote', 'fw-vote--no', { 'fw-vote--active': selected === 'bad' }]"
+            @click="selectFeedback('bad')"
+            :disabled="submitting"
+          >
+            <Icon icon="lucide:thumbs-down" class="fw-vote-icon" />
+            <span>No</span>
+          </button>
         </div>
       </div>
-      
-      <div class="feedback-actions">
-        <button 
-          :class="['btn-feedback', { active: selected === 'good' }]"
-          @click="selectFeedback('good')"
-          :disabled="submitting"
-        >
-          <Icon icon="lucide:thumbs-up" />
-          <span>Yes, helpful</span>
-        </button>
-        
-        <button 
-          :class="['btn-feedback', { active: selected === 'bad' }]"
-          @click="selectFeedback('bad')"
-          :disabled="submitting"
-        >
-          <Icon icon="lucide:thumbs-down" />
-          <span>No, not helpful</span>
-        </button>
-      </div>
-      
-      <transition name="slide">
-        <div v-if="selected && !submitted" class="feedback-detail">
-          <div class="textarea-wrapper">
-            <textarea 
-              v-model="comment" 
-              :placeholder="`Please tell us what made this page ${selected === 'good' ? 'helpful' : 'not helpful'}...`"
+
+      <transition name="fw-expand">
+        <div v-if="selected && !submitted" class="fw-detail">
+          <div class="fw-divider"></div>
+
+          <div class="fw-textarea-wrap">
+            <textarea
+              v-model="comment"
+              :placeholder="`Tell us what made this page ${selected === 'good' ? 'helpful' : 'not helpful'}...`"
               rows="3"
               :disabled="submitting"
-              class="comment-input"
+              class="fw-textarea"
               :maxlength="maxChars"
               autofocus
             ></textarea>
-            <div class="char-counter" :class="{ warning: comment.length > maxChars * 0.9 }">
-              <Icon icon="lucide:message-square" class="counter-icon" />
-              <span>{{ comment.length }}/{{ maxChars }}</span>
-            </div>
+            <span class="fw-char" :class="{ 'fw-char--warn': comment.length > maxChars * 0.85 }">
+              {{ comment.length }}/{{ maxChars }}
+            </span>
           </div>
-          
-          <div class="footer-actions">
-            <div class="rating-section">
-              <div class="stars-container">
-                <button 
-                  v-for="star in 5" 
-                  :key="star"
-                  @click="selectRating(star)"
-                  :disabled="submitting"
-                  class="star-btn"
-                  :class="{ active: rating >= star }"
-                >
-                  <Icon :icon="rating >= star ? 'lucide:star' : 'lucide:star'" class="star-icon" :class="{ filled: rating >= star }" />
-                </button>
-              </div>
-              <span class="rating-label" v-if="rating">({{ getRatingText() }})</span>
-              <span class="rating-label muted" v-else>Rate (optional)</span>
-            </div>
-            
-            <div class="action-buttons">
-              <button 
-                @click="submitFeedback" 
-                :disabled="!comment.trim() || submitting || comment.length > maxChars"
-                :class="['btn-submit', { active: comment.trim() && comment.length <= maxChars }]"
-              >
-                <Icon icon="lucide:send" v-if="!submitting" />
-                <Icon icon="lucide:loader-circle" class="spin" v-else />
-                {{ submitting ? 'Sending...' : 'Send' }}
-              </button>
-              <button 
-                @click="resetSelection" 
+
+          <div class="fw-footer">
+            <div class="fw-stars">
+              <button
+                v-for="star in 5"
+                :key="star"
+                @click="selectRating(star)"
                 :disabled="submitting"
-                class="btn-cancel"
-              >
-                <Icon icon="lucide:x" />
+                class="fw-star"
+                :class="{ 'fw-star--on': rating >= star }"
+              >★</button>
+              <span class="fw-star-label">{{ rating ? getRatingText() : 'Rate (optional)' }}</span>
+            </div>
+
+            <div class="fw-actions">
+              <button @click="resetSelection" :disabled="submitting" class="fw-btn fw-btn--ghost">
                 Cancel
               </button>
+              <button
+                @click="submitFeedback"
+                :disabled="!comment.trim() || submitting || comment.length > maxChars"
+                class="fw-btn fw-btn--primary"
+                :class="{ 'fw-btn--ready': comment.trim() && comment.length <= maxChars }"
+              >
+                <Icon icon="lucide:send" v-if="!submitting" class="fw-btn-icon" />
+                <Icon icon="lucide:loader-circle" class="fw-btn-icon fw-spin" v-else />
+                {{ submitting ? 'Sending...' : 'Send feedback' }}
+              </button>
             </div>
           </div>
-          
-          <div v-if="!comment.trim()" class="input-hint">
-            <Icon icon="lucide:info" class="hint-icon" />
-            <span>Please share your thoughts before submitting</span>
-          </div>
-          <div v-if="comment.length > maxChars" class="input-hint error-hint">
-            <Icon icon="lucide:alert-circle" class="hint-icon" />
-            <span>Maximum {{ maxChars }} characters allowed</span>
+
+          <div v-if="error" class="fw-error">
+            <Icon icon="lucide:alert-triangle" />
+            {{ errorMessage }}
           </div>
         </div>
       </transition>
-      
-      <transition name="fade">
-        <div v-if="submitted" class="success-state">
-          <Icon icon="lucide:check-circle-2" class="success-icon" />
-          <div class="success-text">
-            <strong>Thank you!</strong>
-            <span>Your feedback has been submitted</span>
+
+      <transition name="fw-fade">
+        <div v-if="submitted" class="fw-success">
+          <div class="fw-success-icon">
+            <Icon icon="lucide:check-circle-2" />
           </div>
-          <div class="success-links">
-            <a :href="discussionUrl" target="_blank" rel="noopener noreferrer" class="github-link">
+          <div class="fw-success-body">
+            <strong>Thank you for your feedback!</strong>
+            <span>Your input helps improve the documentation.</span>
+          </div>
+          <div class="fw-success-actions">
+            <a v-if="discussionUrl" :href="discussionUrl" target="_blank" rel="noopener noreferrer" class="fw-link">
               <Icon icon="lucide:github" />
-              <span>View on GitHub</span>
+              View discussion
             </a>
-            <button @click="reset" class="again-link">
+            <button @click="reset" class="fw-link fw-link--muted">
               <Icon icon="lucide:refresh-cw" />
-              <span>Submit again</span>
+              Submit again
             </button>
           </div>
         </div>
       </transition>
-      
-      <transition name="fade">
-        <div v-if="error" class="error-state">
-          <Icon icon="lucide:alert-triangle" class="error-icon" />
-          <span>{{ errorMessage }}</span>
-        </div>
-      </transition>
     </div>
-    
-    <!-- Toast Notification Premium -->
-    <transition name="toast">
-      <div v-if="toast.show" class="toast-notification" :class="toast.type">
-        <div class="toast-icon-wrapper">
-          <Icon :icon="toast.icon" class="toast-icon" />
-        </div>
-        <div class="toast-content">
+
+    <transition name="fw-toast">
+      <div v-if="toast.show" class="fw-toast" :class="`fw-toast--${toast.type}`">
+        <Icon :icon="toast.icon" class="fw-toast-icon" />
+        <div class="fw-toast-body">
           <strong>{{ toast.title }}</strong>
           <span>{{ toast.message }}</span>
         </div>
-        <button @click="toast.show = false" class="toast-close">
+        <button @click="toast.show = false" class="fw-toast-close">
           <Icon icon="lucide:x" />
         </button>
-        <div class="toast-progress"></div>
+        <div class="fw-toast-bar"></div>
       </div>
     </transition>
+
   </div>
 </template>
 
@@ -382,780 +371,598 @@ const reset = () => {
   errorMessage.value = ''
   discussionUrl.value = ''
 }
+
 </script>
 
 <style scoped>
-.feedback-wrapper {
-  margin-top: 2.5rem;
-  width: 100%;
-}
-
-.feedback-glass {
-  position: relative;
-  background: var(--vp-c-bg-soft);
-  backdrop-filter: blur(12px);
-  border-radius: 24px;
-  padding: 1.25rem;
-  transition: all 0.3s ease;
-  border: 1px solid rgba(249, 115, 22, 0.2);
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-}
-
-.feedback-glass::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  padding: 1px;
-  background: linear-gradient(135deg, #f97316, #ff8c42, #f97316);
-  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-  -webkit-mask-composite: xor;
-  mask-composite: exclude;
-  pointer-events: none;
-  opacity: 0.6;
-}
-
-.feedback-glass::after {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 24px;
-  background: radial-gradient(circle at 50% 0%, rgba(249, 115, 22, 0.15), transparent 70%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
-}
-
-.feedback-glass:hover::after {
-  opacity: 1;
-}
-
-.feedback-glass:hover {
-  transform: translateY(-2px);
-  border-color: rgba(249, 115, 22, 0.3);
-  box-shadow: 0 8px 24px rgba(249, 115, 22, 0.1);
-}
-
-.feedback-header {
-  display: flex;
-  gap: 1rem;
-  margin-bottom: 1.25rem;
-  align-items: flex-start;
-  position: relative;
-  z-index: 1;
-}
-
-.header-icon {
-  flex-shrink: 0;
-  width: 44px;
-  height: 44px;
-  background: linear-gradient(135deg, rgba(249, 115, 22, 0.12), rgba(255, 140, 66, 0.08));
-  border-radius: 14px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  backdrop-filter: blur(4px);
-  border: 1px solid rgba(249, 115, 22, 0.2);
-  transition: all 0.2s ease;
-}
-
-.feedback-glass:hover .header-icon {
-  transform: scale(1.02);
-  border-color: rgba(249, 115, 22, 0.35);
-}
-
-.header-icon .icon {
-  width: 22px;
-  height: 22px;
-  color: #f97316;
-}
-
-.header-text {
-  flex: 1;
-}
-
-.header-text h3 {
-  font-size: 1rem;
-  font-weight: 600;
-  margin: 0 0 0.25rem 0;
-  color: var(--vp-c-text-1);
-}
-
-.header-text p {
-  font-size: 0.8125rem;
-  margin: 0;
-  color: var(--vp-c-text-2);
-  line-height: 1.4;
-}
-
-.header-text strong {
-  color: #f97316;
-  font-weight: 600;
-}
-
-.feedback-actions {
-  display: flex;
-  gap: 0.75rem;
-  margin-bottom: 0.5rem;
-  position: relative;
-  z-index: 1;
-}
-
-.btn-feedback {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1rem;
-  background: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 14px;
-  cursor: pointer;
-  transition: all 0.25s ease;
-  font-size: 0.8125rem;
-  font-weight: 500;
-  color: var(--vp-c-text-2);
-}
-
-.btn-feedback svg {
-  width: 1rem;
-  height: 1rem;
-  transition: all 0.2s ease;
-}
-
-.btn-feedback:hover {
-  transform: translateY(-2px);
-  border-color: #f97316;
-  background: rgba(249, 115, 22, 0.05);
-  color: #f97316;
-}
-
-.btn-feedback:hover svg {
-  transform: scale(1.1);
-}
-
-.btn-feedback.active {
-  background: linear-gradient(135deg, #f97316, #ff8c42);
-  border-color: #f97316;
-  color: white;
-  box-shadow: 0 4px 12px rgba(249, 115, 22, 0.25);
-}
-
-.btn-feedback.active svg {
-  color: white;
-}
-
-.btn-feedback:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-  transform: none;
-}
-
-.feedback-detail {
-  margin-top: 1rem;
-  animation: slideIn 0.25s ease;
-  position: relative;
-  z-index: 1;
-}
-
-.textarea-wrapper {
-  position: relative;
-}
-
-.comment-input {
-  width: 100%;
-  padding: 0.75rem 1rem;
-  padding-right: 4rem;
-  background: var(--vp-c-bg);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 14px;
-  color: var(--vp-c-text-1);
-  font-family: inherit;
-  font-size: 0.8125rem;
-  line-height: 1.5;
-  resize: vertical;
-  transition: all 0.2s ease;
-}
-
-.comment-input:focus {
-  outline: none;
-  border-color: #f97316;
-  box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.08);
-}
-
-.comment-input::placeholder {
-  color: var(--vp-c-text-3);
-  font-size: 0.75rem;
-}
-
-.char-counter {
-  position: absolute;
-  bottom: 0.75rem;
-  right: 0.75rem;
-  display: flex;
-  align-items: center;
-  gap: 0.25rem;
-  font-size: 0.7rem;
-  color: var(--vp-c-text-3);
-  background: var(--vp-c-bg);
-  padding: 0.25rem 0.5rem;
-  border-radius: 8px;
-  backdrop-filter: blur(4px);
-  transition: all 0.2s ease;
-  pointer-events: none;
-}
-
-.char-counter.warning {
-  color: #f97316;
-}
-
-.counter-icon {
-  width: 0.7rem;
-  height: 0.7rem;
-}
-
-.footer-actions {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-
-.rating-section {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-.stars-container {
-  display: flex;
-  gap: 0.25rem;
-}
-
-.star-btn {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  padding: 0.25rem;
-  transition: all 0.2s ease;
-}
-
-.star-icon {
-  width: 1.125rem;
-  height: 1.125rem;
-  color: var(--vp-c-text-3);
-  transition: all 0.2s ease;
-}
-
-.star-icon.filled {
-  color: #fbbf24;
-  fill: #fbbf24;
-}
-
-.star-btn:hover .star-icon {
-  transform: scale(1.1);
-  color: #fbbf24;
-}
-
-.star-btn.active .star-icon {
-  color: #fbbf24;
-  fill: #fbbf24;
-}
-
-.star-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.rating-label {
-  font-size: 0.7rem;
-  color: #fbbf24;
-  font-weight: 500;
-}
-
-.rating-label.muted {
-  color: var(--vp-c-text-3);
-}
-
-.action-buttons {
-  display: flex;
-  gap: 0.5rem;
-}
-
-.btn-submit,
-.btn-cancel {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5rem;
-  padding: 0.5rem 1rem;
-  border-radius: 12px;
-  font-size: 0.75rem;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  border: none;
-  background: transparent;
-}
-
-.btn-submit svg,
-.btn-cancel svg {
-  width: 0.875rem;
-  height: 0.875rem;
-}
-
-.btn-submit {
-  background: rgba(249, 115, 22, 0.25);
-  color: rgba(255, 255, 255, 0.5);
-}
-
-.btn-submit.active {
-  background: linear-gradient(135deg, #f97316, #ff8c42);
-  color: white;
-  box-shadow: 0 2px 8px rgba(249, 115, 22, 0.2);
-}
-
-.btn-submit.active:hover:not(:disabled) {
-  transform: translateY(-1px);
-  box-shadow: 0 6px 16px rgba(249, 115, 22, 0.3);
-}
-
-.btn-submit:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.btn-cancel {
-  border: 1px solid var(--vp-c-divider);
-  color: var(--vp-c-text-2);
-}
-
-.btn-cancel:hover:not(:disabled) {
-  border-color: #f97316;
-  color: #f97316;
-  background: rgba(249, 115, 22, 0.05);
-}
-
-.input-hint {
-  display: flex;
-  align-items: center;
-  gap: 0.375rem;
-  margin-top: 0.75rem;
-  padding: 0.5rem 0.75rem;
-  background: rgba(249, 115, 22, 0.04);
-  border-radius: 10px;
-  font-size: 0.7rem;
-  color: var(--vp-c-text-3);
-  animation: fadeIn 0.2s ease;
-}
-
-.input-hint.error-hint {
-  background: rgba(239, 68, 68, 0.08);
-  color: #f87171;
-}
-
-.hint-icon {
-  width: 0.75rem;
-  height: 0.75rem;
-  color: #f97316;
-}
-
-.error-hint .hint-icon {
-  color: #f87171;
-}
-
-.success-state {
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  flex-wrap: wrap;
-  padding: 0.75rem 1rem;
-  background: rgba(249, 115, 22, 0.08);
-  border-radius: 14px;
-  border: 1px solid rgba(249, 115, 22, 0.15);
-  animation: fadeIn 0.25s ease;
-}
-
-.success-icon {
-  width: 1.125rem;
-  height: 1.125rem;
-  color: #f97316;
-  flex-shrink: 0;
-}
-
-.success-text {
-  flex: 1;
-}
-
-.success-text strong {
-  font-size: 0.8125rem;
-  color: #f97316;
-  display: block;
-}
-
-.success-text span {
-  font-size: 0.75rem;
-  color: var(--vp-c-text-2);
-}
-
-.success-links {
-  display: flex;
-  gap: 0.75rem;
-}
-
-.github-link,
-.again-link {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.375rem;
-  font-size: 0.75rem;
-  padding: 0.25rem 0.625rem;
-  border-radius: 8px;
-  text-decoration: none;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  background: transparent;
-  border: none;
-}
-
-.github-link svg,
-.again-link svg {
-  width: 0.75rem;
-  height: 0.75rem;
-}
-
-.github-link {
-  color: #f97316;
-}
-
-.github-link:hover {
-  background: rgba(249, 115, 22, 0.08);
-  text-decoration: underline;
-}
-
-.again-link {
-  color: var(--vp-c-text-2);
-}
-
-.again-link:hover {
-  color: #f97316;
-  background: rgba(249, 115, 22, 0.05);
-}
-
-.error-state {
-  margin-top: 1rem;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.625rem 1rem;
-  background: var(--vp-c-danger-soft);
-  border-radius: 12px;
-  font-size: 0.75rem;
-  color: var(--vp-c-danger);
-  border: 1px solid var(--vp-c-danger-soft);
-  animation: fadeIn 0.2s ease;
-}
-
-.error-icon {
-  width: 1rem;
-  height: 1rem;
-  color: var(--vp-c-danger);
-  flex-shrink: 0;
-}
-
-.spin {
-  animation: spin 0.6s linear infinite;
-}
-
-/* Toast Notification Premium */
-.toast-notification {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  padding: 1rem 1.25rem;
-  background: var(--vp-c-bg);
-  backdrop-filter: blur(20px);
-  border-radius: 20px;
-  border: 1px solid rgba(249, 115, 22, 0.3);
-  box-shadow: 0 20px 35px -10px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(249, 115, 22, 0.1) inset;
-  z-index: 10000;
-  max-width: 380px;
-  min-width: 280px;
-  animation: toastSlideIn 0.4s cubic-bezier(0.34, 1.2, 0.64, 1);
-  overflow: hidden;
-}
-
-.toast-notification.success {
-  border-left: 4px solid #10b981;
-  background: linear-gradient(135deg, var(--vp-c-bg), rgba(16, 185, 129, 0.05));
-}
-
-.toast-notification.error {
-  border-left: 4px solid #ef4444;
-  background: linear-gradient(135deg, var(--vp-c-bg), rgba(239, 68, 68, 0.05));
-}
-
-.toast-icon-wrapper {
-  flex-shrink: 0;
-  width: 40px;
-  height: 40px;
-  background: rgba(249, 115, 22, 0.1);
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.toast-icon {
-  width: 1.5rem;
-  height: 1.5rem;
-}
-
-.toast-notification.success .toast-icon-wrapper {
-  background: rgba(16, 185, 129, 0.15);
-}
-
-.toast-notification.success .toast-icon {
-  color: #10b981;
-}
-
-.toast-notification.error .toast-icon-wrapper {
-  background: rgba(239, 68, 68, 0.15);
-}
-
-.toast-notification.error .toast-icon {
-  color: #ef4444;
-}
-
-.toast-content {
-  flex: 1;
-}
-
-.toast-content strong {
-  display: block;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
-  margin-bottom: 0.125rem;
-}
-
-.toast-content span {
-  font-size: 0.75rem;
-  color: var(--vp-c-text-2);
-  line-height: 1.4;
-}
-
-.toast-close {
-  background: transparent;
-  border: none;
-  cursor: pointer;
-  color: var(--vp-c-text-3);
-  padding: 0.25rem;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-  flex-shrink: 0;
-}
-
-.toast-close:hover {
-  color: var(--vp-c-text-1);
-  background: rgba(0, 0, 0, 0.05);
-}
-
-.toast-close svg {
-  width: 1rem;
-  height: 1rem;
-}
-
-.toast-progress {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 3px;
-  background: linear-gradient(90deg, #f97316, #ff8c42);
-  width: 100%;
-  animation: toastProgress 4s linear forwards;
-}
-
-.toast-notification.success .toast-progress {
-  background: linear-gradient(90deg, #10b981, #34d399);
-}
-
-.toast-notification.error .toast-progress {
-  background: linear-gradient(90deg, #ef4444, #f87171);
-}
-
-@keyframes toastSlideIn {
-  from {
-    opacity: 0;
-    transform: translateX(100%) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0) scale(1);
-  }
-}
-
-@keyframes toastProgress {
-  from {
+  /* ── Wrapper ──────────────────────────────────────────── */
+  .fw-wrap {
+    margin-top: 2.5rem;
+    margin-bottom: 2.5rem;
     width: 100%;
+    position: relative;
   }
-  to {
-    width: 0%;
-  }
-}
 
-.toast-enter-active,
-.toast-leave-active {
-  transition: all 0.3s ease;
-}
+  .fw-separator {
+    margin-bottom: 0.75rem;
+  }
 
-.toast-enter-from,
-.toast-leave-to {
-  opacity: 0;
-  transform: translateX(100%) scale(0.9);
-}
+  .fw-sep-text {
+    font-size: 0.6875rem;
+    font-weight: 600;
+    color: var(--vp-c-text-3);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    white-space: nowrap;
+  }
 
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateY(-8px);
+  /* ── Card ─────────────────────────────────────────────── */
+  .fw-card {
+    background: var(--vp-c-bg-soft);
+    border: 1px solid rgba(255, 69, 0, 0.14);
+    border-radius: 10px;
+    overflow: hidden;
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(-4px);
+  .fw-card:hover {
+    border-color: rgba(255, 69, 0, 0.28);
+    box-shadow: 0 4px 20px rgba(255, 69, 0, 0.06);
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
 
-@keyframes spin {
-  from {
-    transform: rotate(0deg);
+  .fw-accent-bar {
+    height: 2px;
+    background: linear-gradient(90deg, #ff4500, #ff8c00 60%, transparent);
   }
-  to {
-    transform: rotate(360deg);
-  }
-}
 
-.slide-enter-active,
-.slide-leave-active {
-  transition: all 0.25s ease;
-  overflow: hidden;
-}
+  /* ── Body row ─────────────────────────────────────────── */
+  .fw-body {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.875rem 1.125rem;
+  }
 
-.slide-enter-from,
-.slide-leave-to {
-  opacity: 0;
-  transform: translateY(-8px);
-}
+  .fw-prompt {
+    display: flex;
+    align-items: center;
+    gap: 0.625rem;
+    min-width: 0;
+  }
 
-.fade-enter-active,
-.fade-leave-active {
-  transition: all 0.2s ease;
-}
-
-.fade-enter-from,
-.fade-leave-to {
-  opacity: 0;
-  transform: translateY(-4px);
-}
-
-@media (max-width: 640px) {
-  .feedback-glass {
-    padding: 1rem;
-  }
-  
-  .feedback-header {
-    gap: 0.75rem;
-  }
-  
-  .header-icon {
-    width: 38px;
-    height: 38px;
-  }
-  
-  .header-icon .icon {
-    width: 19px;
-    height: 19px;
-  }
-  
-  .header-text h3 {
-    font-size: 0.9375rem;
-  }
-  
-  .header-text p {
-    font-size: 0.75rem;
-  }
-  
-  .btn-feedback {
-    padding: 0.5rem 0.75rem;
-    font-size: 0.75rem;
-  }
-  
-  .btn-feedback span {
-    font-size: 0.75rem;
-  }
-  
-  .footer-actions {
-    flex-direction: column;
-    align-items: stretch;
-    gap: 0.75rem;
-  }
-  
-  .rating-section {
+  .fw-prompt-icon {
+    display: flex;
+    align-items: center;
     justify-content: center;
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: rgba(255, 69, 0, 0.08);
+    border: 1px solid rgba(255, 69, 0, 0.16);
+    color: #ff4500;
+    flex-shrink: 0;
+    font-size: 15px;
   }
-  
-  .action-buttons {
-    justify-content: center;
-  }
-  
-  .btn-submit,
-  .btn-cancel {
-    flex: 1;
-  }
-  
-  .success-state {
+
+  .fw-prompt-text {
+    display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    min-width: 0;
+  }
+
+  .fw-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--vp-c-text-1);
+    white-space: nowrap;
+  }
+
+  .fw-sub {
+    font-size: 0.75rem;
+    color: var(--vp-c-text-3);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 240px;
+  }
+
+  /* ── Vote buttons ─────────────────────────────────────── */
+  .fw-votes {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .fw-vote {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.45rem 1rem;
+    border-radius: 6px;
+    border: 1px solid var(--vp-c-divider);
+    background: var(--vp-c-bg);
+    color: var(--vp-c-text-2);
+    font-size: 0.8125rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: inherit;
+  }
+
+  .fw-vote-icon {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    transition: transform 0.2s ease;
+  }
+
+  .fw-vote:hover:not(:disabled) {
+    border-color: rgba(255, 69, 0, 0.4);
+    color: #ff4500;
+    background: rgba(255, 69, 0, 0.04);
+  }
+
+  .fw-vote:hover:not(:disabled) .fw-vote-icon {
+    transform: scale(1.15);
+  }
+
+  .fw-vote--active {
+    background: linear-gradient(135deg, #ff4500, #ff7a00) !important;
+    border-color: #ff4500 !important;
+    color: white !important;
+    box-shadow: 0 2px 10px rgba(255, 69, 0, 0.25);
+  }
+
+  .fw-vote:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  /* ── Divider ──────────────────────────────────────────── */
+  .fw-divider {
+    height: 1px;
+    background: var(--vp-c-divider);
+    margin: 0 1.125rem;
+  }
+
+  /* ── Detail section ───────────────────────────────────── */
+  .fw-detail {
+    padding: 0.875rem 1.125rem 1rem;
+  }
+
+  /* ── Textarea ─────────────────────────────────────────── */
+  .fw-textarea-wrap {
+    position: relative;
+  }
+
+  .fw-textarea {
+    width: 100%;
+    padding: 0.625rem 0.875rem;
+    background: var(--vp-c-bg);
+    border: 1px solid var(--vp-c-divider);
+    border-radius: 8px;
+    color: var(--vp-c-text-1);
+    font-family: inherit;
+    font-size: 0.8125rem;
+    line-height: 1.55;
+    resize: none;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    display: block;
+    box-sizing: border-box;
+  }
+
+  .fw-textarea:focus {
+    outline: none;
+    border-color: rgba(255, 69, 0, 0.45);
+    box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.07);
+  }
+
+  .fw-textarea::placeholder {
+    color: var(--vp-c-text-3);
+    font-size: 0.775rem;
+  }
+
+  .fw-char {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.625rem;
+    font-size: 0.675rem;
+    color: var(--vp-c-text-3);
+    pointer-events: none;
+    transition: color 0.18s ease;
+  }
+
+  .fw-char--warn {
+    color: #ff4500;
+  }
+
+  /* ── Footer row ───────────────────────────────────────── */
+  .fw-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.625rem;
+    flex-wrap: wrap;
+  }
+
+  /* ── Stars ────────────────────────────────────────────── */
+  .fw-stars {
+    display: flex;
+    align-items: center;
+    gap: 0.05rem;
+  }
+
+  .fw-star {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    font-size: 1.05rem;
+    color: var(--vp-c-text-3);
+    padding: 0 0.1rem;
+    transition: color 0.15s ease, transform 0.15s ease;
+    line-height: 1;
+  }
+
+  .fw-star:hover,
+  .fw-star--on {
+    color: #f59e0b;
+    transform: scale(1.18);
+  }
+
+  .fw-star:disabled {
+    cursor: not-allowed;
+    opacity: 0.5;
+  }
+
+  .fw-star-label {
+    font-size: 0.7rem;
+    color: var(--vp-c-text-3);
+    margin-left: 0.4rem;
+    white-space: nowrap;
+  }
+
+  /* ── Action buttons ───────────────────────────────────── */
+  .fw-actions {
+    display: flex;
     gap: 0.5rem;
   }
-  
-  .success-links {
+
+  .fw-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    padding: 0.4rem 0.875rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.18s ease;
+    font-family: inherit;
+    border: none;
+    white-space: nowrap;
+  }
+
+  .fw-btn-icon {
+    width: 13px;
+    height: 13px;
+    flex-shrink: 0;
+  }
+
+  .fw-btn--ghost {
+    background: transparent;
+    border: 1px solid var(--vp-c-divider);
+    color: var(--vp-c-text-2);
+  }
+
+  .fw-btn--ghost:hover:not(:disabled) {
+    border-color: rgba(255, 69, 0, 0.3);
+    color: #ff4500;
+    background: rgba(255, 69, 0, 0.04);
+  }
+
+  .fw-btn--primary {
+    background: rgba(255, 69, 0, 0.1);
+    color: rgba(255, 100, 0, 0.45);
+  }
+
+  .fw-btn--primary.fw-btn--ready {
+    background: linear-gradient(135deg, #ff4500, #ff7a00);
+    color: white;
+    box-shadow: 0 2px 8px rgba(255, 69, 0, 0.2);
+  }
+
+  .fw-btn--primary.fw-btn--ready:hover:not(:disabled) {
+    box-shadow: 0 4px 14px rgba(255, 69, 0, 0.32);
+    transform: translateY(-1px);
+  }
+
+  .fw-btn:disabled {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+
+  .fw-spin {
+    animation: fw-spin 0.7s linear infinite;
+  }
+
+  /* ── Error ────────────────────────────────────────────── */
+  .fw-error {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.625rem;
+    padding: 0.5rem 0.75rem;
+    background: rgba(239, 68, 68, 0.06);
+    border: 1px solid rgba(239, 68, 68, 0.2);
+    border-radius: 6px;
+    font-size: 0.75rem;
+    color: #ef4444;
+  }
+
+  /* ── Success state ────────────────────────────────────── */
+  .fw-success {
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 1rem 1.125rem;
+    flex-wrap: wrap;
+  }
+
+  .fw-success-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(255, 69, 0, 0.08);
+    border: 1px solid rgba(255, 69, 0, 0.18);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ff4500;
+    flex-shrink: 0;
+    font-size: 1.1rem;
+  }
+
+  .fw-success-body {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .fw-success-body strong {
+    display: block;
+    font-size: 0.875rem;
+    color: var(--vp-c-text-1);
+    margin-bottom: 0.125rem;
+  }
+
+  .fw-success-body span {
+    font-size: 0.75rem;
+    color: var(--vp-c-text-2);
+  }
+
+  .fw-success-actions {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+  }
+
+  .fw-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    font-size: 0.775rem;
+    padding: 0.3rem 0.65rem;
+    border-radius: 6px;
+    color: #ff4500;
+    text-decoration: none;
+    background: rgba(255, 69, 0, 0.06);
+    border: 1px solid rgba(255, 69, 0, 0.15);
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.18s ease;
+  }
+
+  .fw-link:hover {
+    background: rgba(255, 69, 0, 0.1);
+    border-color: rgba(255, 69, 0, 0.3);
+  }
+
+  .fw-link--muted {
+    color: var(--vp-c-text-2);
+    background: transparent;
+    border-color: var(--vp-c-divider);
+  }
+
+  .fw-link--muted:hover {
+    color: #ff4500;
+    background: rgba(255, 69, 0, 0.05);
+    border-color: rgba(255, 69, 0, 0.2);
+  }
+
+  /* ── Toast ────────────────────────────────────────────── */
+  .fw-toast {
+    position: fixed;
+    bottom: 1.75rem;
+    right: 1.75rem;
+    display: flex;
+    align-items: center;
+    gap: 0.875rem;
+    padding: 0.875rem 1.125rem;
+    background: var(--vp-c-bg);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 10px;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.15), 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 10000;
+    max-width: 360px;
+    min-width: 260px;
+    overflow: hidden;
+  }
+
+  .fw-toast--success {
+    border-left: 3px solid #10b981;
+  }
+
+  .fw-toast--error {
+    border-left: 3px solid #ef4444;
+  }
+
+  .fw-toast-icon {
+    width: 1.25rem;
+    height: 1.25rem;
+    flex-shrink: 0;
+  }
+
+  .fw-toast--success .fw-toast-icon { color: #10b981; }
+  .fw-toast--error .fw-toast-icon { color: #ef4444; }
+
+  .fw-toast-body {
+    flex: 1;
+  }
+
+  .fw-toast-body strong {
+    display: block;
+    font-size: 0.8125rem;
+    font-weight: 600;
+    color: var(--vp-c-text-1);
+    margin-bottom: 0.1rem;
+  }
+
+  .fw-toast-body span {
+    font-size: 0.75rem;
+    color: var(--vp-c-text-2);
+  }
+
+  .fw-toast-close {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: var(--vp-c-text-3);
+    display: flex;
+    align-items: center;
+    padding: 0.2rem;
+    border-radius: 4px;
+    transition: color 0.15s ease;
+  }
+
+  .fw-toast-close:hover { color: var(--vp-c-text-1); }
+
+  .fw-toast-close svg {
+    width: 0.875rem;
+    height: 0.875rem;
+  }
+
+  .fw-toast-bar {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 2px;
     width: 100%;
-    justify-content: flex-start;
+    animation: fw-toast-bar 4s linear forwards;
   }
-  
-  .char-counter {
-    font-size: 0.65rem;
-    padding: 0.2rem 0.4rem;
+
+  .fw-toast--success .fw-toast-bar { background: #10b981; }
+  .fw-toast--error .fw-toast-bar { background: #ef4444; }
+
+  /* ── Transitions ──────────────────────────────────────── */
+  .fw-expand-enter-active,
+  .fw-expand-leave-active {
+    transition: opacity 0.22s ease, transform 0.22s ease;
   }
-  
-  .toast-notification {
-    bottom: 1rem;
-    right: 1rem;
-    left: 1rem;
-    max-width: none;
+
+  .fw-expand-enter-from,
+  .fw-expand-leave-to {
+    opacity: 0;
+    transform: translateY(-6px);
   }
-}
+
+  .fw-fade-enter-active,
+  .fw-fade-leave-active {
+    transition: opacity 0.2s ease;
+  }
+
+  .fw-fade-enter-from,
+  .fw-fade-leave-to {
+    opacity: 0;
+  }
+
+  .fw-toast-enter-active,
+  .fw-toast-leave-active {
+    transition: all 0.3s ease;
+  }
+
+  .fw-toast-enter-from,
+  .fw-toast-leave-to {
+    opacity: 0;
+    transform: translateX(100%) scale(0.92);
+  }
+
+  /* ── Keyframes ────────────────────────────────────────── */
+  @keyframes fw-spin {
+    to { transform: rotate(360deg); }
+  }
+
+  @keyframes fw-toast-bar {
+    from { width: 100%; }
+    to   { width: 0%; }
+  }
+
+  /* ── Mobile ───────────────────────────────────────────── */
+  @media (max-width: 640px) {
+    .fw-body {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+    }
+
+    .fw-votes {
+      width: 100%;
+    }
+
+    .fw-vote {
+      flex: 1;
+      justify-content: center;
+    }
+
+    .fw-detail {
+      padding: 0.75rem 1rem;
+    }
+
+    .fw-footer {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .fw-stars {
+      justify-content: center;
+    }
+
+    .fw-actions {
+      justify-content: flex-end;
+    }
+
+    .fw-success {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.75rem;
+      padding: 0.875rem 1rem;
+    }
+
+    .fw-success-actions {
+      width: 100%;
+    }
+
+    .fw-sub {
+      max-width: 180px;
+    }
+
+    .fw-toast {
+      bottom: 1rem;
+      right: 1rem;
+      left: 1rem;
+      max-width: none;
+    }
+  }
 </style>

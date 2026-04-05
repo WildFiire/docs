@@ -1,44 +1,58 @@
 <template>
   <div class="last-updates">
     <div class="updates-header">
-      <h2 class="section-title"><span>Recently Updated</span></h2>
-      <span class="updates-badge">{{ cards.length }} noi</span>
+      <div class="title-group">
+        <span class="section-overline">WIKI</span>
+        <h2 class="section-title">Recently Updated</h2>
+      </div>
+      <span class="updates-badge" :class="{ skeleton: !mounted }">
+        <svg v-if="mounted" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+        <span>{{ mounted ? cards.length + '\u00a0activ' : '' }}</span>
+      </span>
     </div>
-    
-    <div class="updates-grid">
+
+    <!-- Skeleton state (before hydration) -->
+    <div v-if="!mounted" class="updates-grid">
+      <div v-for="n in 6" :key="'sk-' + n" class="update-card skeleton-card">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+          <span class="skeleton skeleton-avatar"></span>
+          <span class="skeleton skeleton-badge"></span>
+        </div>
+        <div class="skeleton skeleton-title"></div>
+        <div class="skeleton skeleton-line wide"></div>
+        <div class="skeleton skeleton-line medium"></div>
+        <div style="display:flex;justify-content:space-between;margin-top:12px">
+          <span class="skeleton skeleton-badge"></span>
+          <span class="skeleton skeleton-badge" style="width:80px"></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Real cards -->
+    <div v-else class="updates-grid">
       <div v-for="(card, index) in cards" :key="card.link" class="update-card" :style="cardGradient(card.tagColor, index + 1)">
         <div class="card-glow"></div>
+        <div class="card-number" :style="{ color: getHexColor(card.tagColor) }">{{ String(index + 1).padStart(2, '0') }}</div>
         <div class="card-content">
-          <div class="card-category">
+          <span class="card-category-pill" :style="{ color: getHexColor(card.tagColor), background: getHexColor(card.tagColor) + '18', borderColor: getHexColor(card.tagColor) + '38' }">
             <span class="category-dot" :class="card.dotClass"></span>
-            <span class="category-name" :style="{ color: getHexColor(card.tagColor) }">{{ card.category }}</span>
-          </div>
+            {{ card.category }}
+          </span>
           <h3 class="card-title">{{ card.title }}</h3>
-          <div class="card-meta">
-            <span class="meta-date">
-              <svg class="meta-icon" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="10"/>
-                <polyline points="12 6 12 12 16 14"/>
-              </svg>
-              {{ card.date }}
-            </span>
-            <div class="updated-by">
-              <img :src="card.avatarUrl" class="github-avatar" :alt="card.username">
-              <span>by <a :href="card.profileUrl" target="_blank">{{ card.username }}</a></span>
-            </div>
+          <div v-if="card.tag1 || card.tag2" class="card-tags">
+            <WildfireTag v-if="card.tag1" :color="card.tagColor" :text="card.tag1" class="small-tag" :icon="getTagIcon(card.tag1)" />
+            <WildfireTag v-if="card.tag2" :color="card.tagColor" :text="card.tag2" class="small-tag" :icon="getTagIcon(card.tag2)" />
           </div>
           <div class="card-footer">
-            <div class="card-tags">
-              <WildfireTag v-if="card.tag1" :color="card.tagColor" :text="card.tag1" class="small-tag" :icon="getTagIcon(card.tag1)" />
-              <WildfireTag v-if="card.tag2" :color="card.tagColor" :text="card.tag2" class="small-tag" :icon="getTagIcon(card.tag2)" />
+            <div class="card-meta-row">
+              <img :src="card.avatarUrl" class="github-avatar" :alt="card.username">
+              <a :href="card.profileUrl" target="_blank" class="author-name">{{ card.username }}</a>
+              <span class="author-sep">·</span>
+              <span class="meta-date">{{ card.date }}</span>
             </div>
             <a :href="card.link" class="card-button" :style="{ color: getHexColor(card.tagColor) }">
               <span>{{ card.buttonText }}</span>
-              <span class="button-arrow">
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-                  <path d="M5 12h14M12 5l7 7-7 7"/>
-                </svg>
-              </span>
+              <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </a>
           </div>
         </div>
@@ -64,8 +78,10 @@ import WildfireTag from './WildfireTag.vue'
 import cards from 'virtual:last-updates'
 
 const isDark = ref(true)
+const mounted = ref(false)
 
 onMounted(() => {
+  mounted.value = true
   isDark.value = document.documentElement.classList.contains('dark')
   const observer = new MutationObserver(() => {
     isDark.value = document.documentElement.classList.contains('dark')
@@ -109,27 +125,20 @@ function getTagIcon(tag) {
 function cardGradient(color, index) {
   const mainColor = getHexColor(color)
   if (isDark.value) {
-    const darkBase = '#0a0a0a'
-    const positions = [
-      'circle at 20% 30%',
-      'circle at 80% 20%',
-      'circle at 40% 70%',
-      'circle at 70% 60%',
-      'circle at 30% 80%',
-      'circle at 60% 40%'
-    ]
+    const positions = ['ellipse at 12% 45%', 'ellipse at 15% 70%', 'ellipse at 8% 25%', 'ellipse at 18% 60%', 'ellipse at 10% 35%', 'ellipse at 14% 80%']
     const pos = positions[(index - 1) % positions.length]
     return {
-      background: `radial-gradient(${pos}, ${mainColor}20, transparent 70%),
-                   linear-gradient(145deg, ${darkBase}, #121212)`,
-      border: `1px solid ${mainColor}30`,
-      boxShadow: `0 4px 12px -4px ${mainColor}30`
+      background: `radial-gradient(${pos}, ${mainColor}32 0%, transparent 58%), #13171f`,
+      border: `1px solid ${mainColor}28`,
+      borderLeft: `4px solid ${mainColor}`,
+      boxShadow: `0 4px 24px -6px ${mainColor}35`
     }
   } else {
     return {
-      background: '#ffffff',
+      background: `linear-gradient(150deg, ${mainColor}0d 0%, #ffffff 48%)`,
       border: `1px solid ${mainColor}40`,
-      boxShadow: `0 4px 12px -4px ${mainColor}40, 0 1px 3px rgba(0,0,0,0.05)`
+      borderLeft: `4px solid ${mainColor}`,
+      boxShadow: `0 2px 16px -4px ${mainColor}38, 0 1px 3px rgba(0,0,0,0.05)`
     }
   }
 }
@@ -233,34 +242,65 @@ svg {
 /* ===== HEADER ===== */
 .updates-header {
   display: flex;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
-  margin-bottom: 24px;
+  margin-bottom: 28px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid rgba(255, 69, 0, 0.12);
+}
+
+.title-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.section-overline {
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: #ff4500;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.section-overline::before {
+  content: '';
+  display: inline-block;
+  width: 20px;
+  height: 2px;
+  background: linear-gradient(90deg, #ff4500, #ff8c00);
+  border-radius: 1px;
 }
 
 .section-title {
-  font-size: 24px;
+  font-size: clamp(22px, 4vw, 28px);
   font-weight: 700;
   margin: 0;
-  color: var(--text-primary);
-}
-
-.section-title span {
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  letter-spacing: -0.5px;
+  line-height: 1.15;
+  background: linear-gradient(135deg, var(--text-primary) 55%, #ff6030 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
 }
 
 .updates-badge {
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
-  color: white;
-  padding: 4px 16px;
-  border-radius: 30px;
-  font-size: 13px;
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  background: rgba(255, 69, 0, 0.08);
+  color: #ff8c00;
+  padding: 5px 12px;
+  border-radius: 8px;
+  font-size: 12px;
   font-weight: 600;
-  box-shadow: 0 4px 12px rgba(255, 69, 0, 0.25);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid rgba(255, 69, 0, 0.2);
+  letter-spacing: 0.3px;
+  white-space: nowrap;
 }
 
 /* ===== GRID CARDURI ===== */
@@ -273,23 +313,18 @@ svg {
 
 .update-card {
   position: relative;
-  border-radius: 16px;
-  padding: 16px;
-  transition: all 0.3s cubic-bezier(0.2, 0.9, 0.4, 1);
+  border-radius: 12px;
+  padding: 20px 18px 16px;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
   display: flex;
   flex-direction: column;
   overflow: hidden;
-  min-height: 160px;
+  min-height: 176px;
   background: var(--bg-card);
 }
 
 .update-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 12px 24px -8px rgba(255, 69, 0, 0.3);
-}
-
-html:not(.dark) .update-card:hover {
-  box-shadow: 0 12px 24px -8px rgba(255, 69, 0, 0.2);
+  transform: translateY(-3px);
 }
 
 .card-glow {
@@ -315,14 +350,47 @@ html:not(.dark) .card-glow {
 .card-content {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
-/* ===== CATEGORIE ===== */
-.card-category {
-  display: flex;
+/* ===== CARD NUMBER WATERMARK ===== */
+.card-number {
+  position: absolute;
+  bottom: -4px;
+  right: 14px;
+  font-family: 'Orbitron', sans-serif;
+  font-size: 58px;
+  font-weight: 900;
+  line-height: 1;
+  opacity: 0.06;
+  pointer-events: none;
+  user-select: none;
+  z-index: 1;
+  letter-spacing: -2px;
+  transition: opacity 0.3s;
+}
+
+.update-card:hover .card-number {
+  opacity: 0.1;
+}
+
+/* ===== CATEGORY PILL ===== */
+.card-category-pill {
+  display: inline-flex;
   align-items: center;
-  gap: 6px;
-  margin-bottom: 10px;
+  gap: 5px;
+  padding: 4px 10px 4px 8px;
+  border-radius: 6px;
+  border: 1px solid;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif !important;
+  margin-bottom: 12px;
+  align-self: flex-start;
 }
 
 .category-dot {
@@ -337,87 +405,14 @@ html:not(.dark) .card-glow {
   transform: scale(1.2);
 }
 
-.category-name {
-  font-size: 11px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-}
-
 /* ===== TITLU ===== */
 .card-title {
-  font-size: 16px;
+  font-size: 15px;
   font-weight: 800;
-  margin: 0 0 12px 0;
-  line-height: 1.3;
+  margin: 0 0 14px 0;
+  line-height: 1.35;
   color: var(--text-primary);
-}
-
-/* ===== META ===== */
-.card-meta {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-bottom: 12px;
-  padding-bottom: 10px;
-  border-bottom: 1px solid var(--border-light);
-  font-size: 11px;
-}
-
-.meta-date {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  color: var(--text-tertiary);
-  background: var(--meta-bg);
-  padding: 4px 10px;
-  border-radius: 30px;
-  font-family: inherit; /* Păstrează fontul default */
-}
-
-.meta-icon {
-  stroke: currentColor;
-  opacity: 0.8;
-}
-
-.updated-by {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-
-.updated-by span {
-  color: var(--text-tertiary);
-  font-family: inherit; /* Păstrează fontul default */
-}
-
-.updated-by a {
-  color: #ff4500;
-  font-weight: 600;
-  text-decoration: none;
-  margin-left: 2px;
-  transition: all 0.2s;
-  font-family: inherit; /* Păstrează fontul default */
-}
-
-.updated-by a:hover {
-  text-decoration: underline;
-  filter: brightness(1.2);
-}
-
-.github-avatar {
-  width: 22px;
-  height: 22px;
-  border-radius: 50%;
-  border: 2px solid #ff4500;
-  display: block;
-  object-fit: cover;
-  flex-shrink: 0;
-  transition: transform 0.2s;
-}
-
-.update-card:hover .github-avatar {
-  transform: scale(1.1);
+  flex: 1;
 }
 
 /* ===== FOOTER ===== */
@@ -426,15 +421,71 @@ html:not(.dark) .card-glow {
   align-items: center;
   justify-content: space-between;
   margin-top: auto;
-  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-light);
+  gap: 6px;
+}
+
+.card-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 11px;
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+}
+
+.author-name {
+  color: var(--text-tertiary);
+  text-decoration: none;
+  font-weight: 500;
+  transition: color 0.15s;
+  font-family: inherit;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.author-name:hover {
+  color: #ff4500;
+}
+
+.author-sep {
+  color: var(--text-tertiary);
+  opacity: 0.35;
+  flex-shrink: 0;
+}
+
+.meta-date {
+  color: var(--text-tertiary);
+  font-family: inherit;
+  font-size: 11px;
+  white-space: nowrap;
+  opacity: 0.7;
+}
+
+.github-avatar {
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255, 69, 0, 0.25);
+  display: block;
+  object-fit: cover;
+  flex-shrink: 0;
+  opacity: 0.8;
+  transition: opacity 0.2s, border-color 0.2s;
+}
+
+.update-card:hover .github-avatar {
+  opacity: 1;
 }
 
 .card-tags {
   display: flex;
-  gap: 6px;
+  gap: 5px;
   flex-wrap: wrap;
-  flex: 1;
-  min-width: 0;
+  margin-bottom: 12px;
 }
 
 /* ===== TAGS ===== */
@@ -487,42 +538,34 @@ html:not(.dark) :deep(.wildfire-tag.small-tag) {
 .card-button {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
+  gap: 5px;
   text-decoration: none;
-  font-size: 11px;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 30px;
-  background: var(--button-bg);
-  transition: all 0.2s;
-  border: 1px solid var(--border-light);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-family: 'Orbitron', sans-serif !important;
   white-space: nowrap;
   flex-shrink: 0;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid currentColor;
+  opacity: 0.65;
+  transition: all 0.2s ease;
 }
 
 .card-button:hover {
   gap: 8px;
-  border-color: currentColor;
+  opacity: 1;
+  transform: translateY(-1px);
 }
 
-html:not(.dark) .card-button:hover {
-  background: #ffffff;
-}
-
-.button-arrow {
-  display: inline-flex;
-  align-items: center;
+.card-button svg {
   transition: transform 0.2s;
 }
 
-.button-arrow svg {
-  width: 14px;
-  height: 14px;
-  stroke: currentColor;
-}
-
-.card-button:hover .button-arrow {
-  transform: translateX(4px);
+.card-button:hover svg {
+  transform: translateX(3px);
 }
 
 /* ===== FOOTER PRINCIPAL ===== */
@@ -535,22 +578,24 @@ html:not(.dark) .card-button:hover {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: white;
+  color: #ff4500;
   text-decoration: none;
-  font-size: 14px;
+  font-size: 11px;
   font-weight: 600;
-  padding: 10px 28px;
-  border-radius: 30px;
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
-  transition: all 0.3s;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 4px 12px rgba(255, 69, 0, 0.25);
+  padding: 9px 22px;
+  border-radius: 8px;
+  background: transparent;
+  border: 1px solid rgba(255, 69, 0, 0.3);
+  transition: all 0.25s ease;
+  box-shadow: none;
 }
 
 .view-all-link:hover {
   gap: 12px;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 69, 0, 0.35);
+  background: rgba(255, 69, 0, 0.07);
+  border-color: #ff4500;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 14px rgba(255, 69, 0, 0.12);
 }
 
 .arrow {
@@ -620,13 +665,13 @@ html:not(.dark) .card-button:hover {
   .card-title {
     font-size: 15px;
   }
-  .card-meta {
+  .card-meta-row {
     flex-wrap: wrap;
-    gap: 8px;
+    gap: 4px;
   }
   .github-avatar {
-    width: 20px;
-    height: 20px;
+    width: 18px;
+    height: 18px;
   }
   .view-all-link {
     padding: 8px 22px;

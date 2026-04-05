@@ -43,9 +43,20 @@
           </a>
         </div>
 
-        <!-- DARK MODE SWITCH - CUSTOM ORANGE -->
-        <button class="theme-switch" @click="toggleTheme" :title="isDark ? 'Light mode' : 'Dark mode'">
-          <span class="switch-thumb" :class="{ 'dark': isDark }"></span>
+        <!-- DARK MODE TOGGLE - ICON -->
+        <button class="theme-toggle" @click="toggleTheme" :title="isDark ? 'Light mode' : 'Dark mode'" :aria-label="isDark ? 'Light mode' : 'Dark mode'">
+          <span class="toggle-track">
+            <svg v-if="isDark" class="toggle-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="12" cy="12" r="5"/>
+              <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
+              <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+              <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
+              <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+            </svg>
+            <svg v-else class="toggle-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+            </svg>
+          </span>
         </button>
 
         <!-- USER WIDGET -->
@@ -483,8 +494,7 @@ onUnmounted(() => {
 .nav-cta span,
 .mobile-bottom-link,
 .mobile-menu a span,
-.mobile-menu-discord span,
-.theme-switch {
+.mobile-menu-discord span {
   font-family: 'Orbitron', sans-serif !important;
   letter-spacing: 0.3px;
 }
@@ -546,63 +556,44 @@ html:not(.dark) .logo-text .wild {
   font-size: 14px;
 }
 
-/* ===== CUSTOM THEME SWITCH - ORANGE ===== */
-.theme-switch {
-  position: relative;
-  border-radius: 30px;
-  display: block;
-  width: 44px;
-  height: 24px;
-  flex-shrink: 0;
-  border: 2px solid #ff4500;
-  background: transparent;
-  transition: border-color 0.3s ease, transform 0.3s ease;
+/* ===== THEME TOGGLE - ICON BUTTON ===== */
+.theme-toggle {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  border: 1px solid rgba(255, 69, 0, 0.28);
+  background: rgba(255, 69, 0, 0.06);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.2s ease, border-color 0.2s ease, transform 0.25s ease, box-shadow 0.2s ease;
   padding: 0;
 }
 
-.theme-switch.mobile {
-  width: 40px;
-  height: 22px;
-  border-width: 2px;
+.toggle-track {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
 }
 
-.theme-switch .switch-thumb {
-  position: absolute;
-  top: 2px;
-  left: 2px;
-  display: inline-block;
-  width: 16px;
-  height: 16px;
-  border-radius: 50%;
-  background: #ff4500;
-  box-shadow: 0 2px 5px rgba(255, 69, 0, 0.3);
-  transition: transform 0.3s ease;
+.toggle-icon {
+  color: #ff8c00;
+  transition: transform 0.3s ease, opacity 0.2s ease;
 }
 
-.theme-switch.mobile .switch-thumb {
-  width: 14px;
-  height: 14px;
-  top: 2px;
-  left: 2px;
+.theme-toggle:hover {
+  background: rgba(255, 69, 0, 0.12);
+  border-color: rgba(255, 140, 0, 0.7);
+  transform: rotate(20deg) scale(1.08);
+  box-shadow: 0 0 14px rgba(255, 140, 0, 0.25);
 }
 
-.theme-switch .switch-thumb.dark {
-  transform: translateX(20px);
-}
-
-.theme-switch.mobile .switch-thumb.dark {
-  transform: translateX(18px);
-}
-
-.theme-switch:hover {
-  border-color: #ff4500;
-  box-shadow: 0 0 10px rgba(255, 69, 0, 0.3);
-}
-
-.theme-switch:hover .switch-thumb {
-  background: #ff4500;
-  box-shadow: 0 0 12px rgba(255, 69, 0, 0.5);
+.theme-toggle:hover .toggle-icon {
+  color: #ff8c00;
 }
 
 /* ===== NAVBAR MAIN ===== */
@@ -626,28 +617,45 @@ html:not(.dark) .logo-text .wild {
 .nav-inner {
   width: 100%;
   max-width: 1050px;
-  height: 52px;
+  height: 54px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 0 20px;
-  border-radius: 60px;
+  padding: 0 18px;
+  border-radius: 14px;
   transition: all 0.3s ease;
   pointer-events: auto;
+  position: relative;
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.nav-inner::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 15%;
+  right: 15%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.45), rgba(255, 140, 0, 0.35), transparent);
+  border-radius: 0 0 2px 2px;
+  pointer-events: none;
 }
 
 .dark .nav-inner {
-  background: #000000;
-  box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.8);
+  background: rgba(8, 8, 8, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.55), inset 0 1px 0 rgba(255, 255, 255, 0.03);
 }
 
 html:not(.dark) .nav-inner {
-  background: #ffffff;
-  box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.1);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(0, 0, 0, 0.07);
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.07);
 }
 
 .nav.scrolled .nav-inner {
-  box-shadow: 0 5px 20px -5px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.35);
 }
 
 /* ===== LOGO ===== */
@@ -685,63 +693,69 @@ html:not(.dark) .nav-inner {
 /* ===== NAVIGATION LINKS ===== */
 .nav-links {
   display: flex;
-  gap: 20px;
+  gap: 2px;
 }
 
 .nav-links a {
   font-size: 12px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   position: relative;
-  padding: 4px 0;
+  padding: 5px 10px;
+  border-radius: 7px;
 }
 
 .dark .nav-links a {
-  color: rgba(255, 255, 255, 0.7);
+  color: rgba(255, 255, 255, 0.6);
 }
 
 .dark .nav-links a:hover {
-  color: #ffffff;
+  color: rgba(255, 255, 255, 0.95);
+  background: rgba(255, 255, 255, 0.07);
 }
 
 html:not(.dark) .nav-links a {
-  color: rgba(0, 0, 0, 0.7);
+  color: rgba(0, 0, 0, 0.65);
 }
 
 html:not(.dark) .nav-links a:hover {
-  color: #000000;
+  color: rgba(0, 0, 0, 0.9);
+  background: rgba(0, 0, 0, 0.05);
 }
 
 .nav-links a::after {
-  content: '';
-  position: absolute;
-  bottom: -2px;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 0;
-  height: 2px;
-  background: linear-gradient(90deg, #ff4500, #ff8c00);
-  transition: width 0.3s ease;
-  border-radius: 2px;
-}
-
-.nav-links a:hover::after,
-.nav-links a.active::after {
-  width: 70%;
+  display: none;
 }
 
 .nav-links a.active {
   color: #ff4500;
   font-weight: 600;
+  background: rgba(255, 69, 0, 0.08);
+}
+
+.nav-links a[href="/panel"] {
+  color: #ff5c1a;
+  box-shadow: inset 0 0 0 1px rgba(255, 69, 0, 0.25);
+}
+
+.dark .nav-links a[href="/panel"] {
+  color: #ff6a33;
+  box-shadow: inset 0 0 0 1px rgba(255, 69, 0, 0.22);
+}
+
+.nav-links a[href="/panel"]:hover {
+  box-shadow: inset 0 0 0 1px rgba(255, 69, 0, 0.55);
+  background: rgba(255, 69, 0, 0.1);
+  color: #ff4500;
 }
 
 /* ===== RIGHT SECTION ===== */
 .nav-right {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 12px;
 }
 
 /* ===== SOCIAL LINKS - SVG DOAR ALB PE DARK MODE ===== */
@@ -807,38 +821,38 @@ html:not(.dark) .nav-social-link:hover :deep(svg) {
 .nav-cta {
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 7px;
   font-size: 11px;
   font-weight: 600;
-  padding: 6px 16px;
-  border-radius: 30px;
+  padding: 6px 14px;
+  border-radius: 8px;
   text-decoration: none;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  background: linear-gradient(135deg, #ff4500, #ff8c00, #ff4500);
-  background-size: 200% auto;
-  color: #ffffff;
-  border: none;
-  box-shadow: 0 4px 15px rgba(255, 69, 0, 0.3);
+  background: rgba(88, 101, 242, 0.1);
+  color: #7289da;
+  border: 1px solid rgba(88, 101, 242, 0.28);
+  box-shadow: none;
 }
 
 .nav-cta:hover {
-  background-position: right center;
-  transform: translateY(-2px);
-  box-shadow: 0 8px 25px rgba(255, 69, 0, 0.5);
+  background: rgba(88, 101, 242, 0.18);
+  border-color: rgba(88, 101, 242, 0.5);
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(88, 101, 242, 0.18);
 }
 
 .nav-cta .discord-icon {
-  fill: white;
+  fill: #7289da;
   stroke: none;
-  width: 16px;
-  height: 16px;
-  transition: transform 0.3s ease;
+  width: 15px;
+  height: 15px;
+  transition: transform 0.2s ease;
 }
 
 .nav-cta:hover .discord-icon {
-  transform: rotate(5deg) scale(1.1);
+  transform: scale(1.1);
 }
 
 /* ===== MOBILE TOGGLE ===== */

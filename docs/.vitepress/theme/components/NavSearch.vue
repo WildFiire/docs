@@ -2,7 +2,7 @@
   <button v-if="!isHomePage" class="nav-search-button" @click.prevent.stop="openSearch" type="button">
     <img src="/icons/searchbutton.svg" class="nav-icon" alt="search">
     <span class="nav-search-text">Caută...</span>
-    <span class="nav-search-shortcut">Ctrl K</span>
+    <span class="nav-search-shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
   </button>
 </template>
 
@@ -41,114 +41,126 @@ const openSearch = (e: MouseEvent) => {
 .nav-search-button {
   display: flex;
   align-items: center;
-  border-radius: 10px;
-  padding: 0 14px;
-  height: 42px;
+  border-radius: 8px;
+  padding: 0 11px 0 13px;
+  height: 38px;
   width: calc(100% - 8px);
-  margin: 16px 4px 6px;
+  margin: 14px 4px 6px;
   cursor: pointer;
-  transition: all 0.2s ease;
   font-family: inherit;
   outline: none;
+  position: relative;
+  overflow: hidden;
+  background: var(--vp-c-bg-elv);
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: border-color 0.18s ease, background 0.18s ease, box-shadow 0.18s ease;
+}
 
-  /* LIGHT */
-  background: #f5f5f5;
-  border: 1px solid #e0e0e0;
+.nav-search-button::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 20%;
+  bottom: 20%;
+  width: 2px;
+  border-radius: 0 2px 2px 0;
+  background: #ff4500;
+  opacity: 0.55;
+  transition: opacity 0.18s ease, top 0.18s ease, bottom 0.18s ease;
 }
 
 .nav-search-button:hover {
-  border-color: #ff4500;
-  background: #efefef;
-  box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.1);
+  border-color: rgba(255, 69, 0, 0.4);
+  background: rgba(255, 69, 0, 0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(255, 69, 0, 0.07);
+}
+
+.nav-search-button:hover::before {
+  opacity: 1;
+  top: 10%;
+  bottom: 10%;
 }
 
 .nav-icon {
-  width: 16px;
-  height: 16px;
-  margin-right: 10px;
+  width: 14px;
+  height: 14px;
+  margin-right: 9px;
   flex-shrink: 0;
-  filter: brightness(0) invert(0.4);
-  transition: filter 0.2s ease;
+  opacity: 0.3;
+  transition: opacity 0.18s ease, filter 0.18s ease;
 }
 
 .nav-search-button:hover .nav-icon {
-  filter: brightness(0) saturate(100%) invert(35%) sepia(90%) saturate(800%) hue-rotate(5deg) brightness(110%);
+  opacity: 0.65;
+  filter: invert(40%) sepia(80%) saturate(900%) hue-rotate(5deg) brightness(110%);
 }
 
 .nav-search-text {
   flex: 1;
-  color: #999;
-  font-size: 14px;
+  color: var(--vp-c-text-3);
+  font-size: 13px;
   font-weight: 400;
   text-align: left;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
+  transition: color 0.18s ease;
 }
 
 .nav-search-button:hover .nav-search-text {
-  color: #ff4500;
+  color: var(--vp-c-text-2);
 }
 
 .nav-search-shortcut {
-  font-size: 11px;
-  font-weight: 600;
-  padding: 3px 8px;
-  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
   margin-left: 8px;
-  background: #e8e8e8;
-  color: #888;
-  border: 1px solid #ddd;
-  white-space: nowrap;
   flex-shrink: 0;
-  transition: all 0.2s ease;
 }
 
-.nav-search-button:hover .nav-search-shortcut {
-  background: #ff4500;
-  color: #ffffff;
-  border-color: #ff4500;
+.nav-search-shortcut kbd {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  font-weight: 600;
+  font-family: ui-monospace, monospace;
+  padding: 2px 6px 3px;
+  border-radius: 5px;
+  background: var(--vp-c-bg-soft);
+  color: var(--vp-c-text-3);
+  border: 1px solid var(--vp-c-divider);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.12);
+  letter-spacing: 0.03em;
+  line-height: 1;
+  white-space: nowrap;
+  transition: color 0.18s ease, border-color 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+}
+
+.nav-search-button:hover .nav-search-shortcut kbd {
+  color: #ff4500;
+  border-color: rgba(255, 69, 0, 0.3);
+  box-shadow: 0 2px 0 rgba(255, 69, 0, 0.2);
+  background: rgba(255, 69, 0, 0.04);
 }
 
 /* DARK */
 .dark .nav-search-button {
-  background: #0a0a0a;
-  border: 1px solid #2a2a2a;
+  background: var(--vp-c-bg-elv);
+  border-color: var(--vp-c-divider);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
 
 .dark .nav-search-button:hover {
-  background: #111111;
-  border-color: #ff4500;
-  box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.12);
+  border-color: rgba(255, 69, 0, 0.38);
+  background: rgba(255, 69, 0, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(255, 69, 0, 0.07);
 }
 
-.dark .nav-icon {
-  filter: brightness(0) invert(0.5);
+.dark .nav-search-shortcut kbd {
+  background: rgba(255, 255, 255, 0.04);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.35);
 }
-
-.dark .nav-search-button:hover .nav-icon {
-  filter: brightness(0) saturate(100%) invert(55%) sepia(90%) saturate(800%) hue-rotate(5deg) brightness(120%);
-}
-
-.dark .nav-search-text {
-  color: #666;
-}
-
-.dark .nav-search-button:hover .nav-search-text {
-  color: #ff4500;
-}
-
-.dark .nav-search-shortcut {
-  background: #1a1a1a;
-  color: #555;
-  border: 1px solid #333;
-}
-
-.dark .nav-search-button:hover .nav-search-shortcut {
-  background: #ff4500;
-  color: #ffffff;
-  border-color: #ff4500;
-}
-
-
 </style>

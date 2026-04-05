@@ -102,10 +102,15 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 .ctr-card {
   padding: 14px 18px 18px;
   border-radius: 10px;
-  border: 1px solid var(--vp-c-divider);
-  background: transparent;
+  border: 1px solid rgba(255, 69, 0, 0.12);
+  background: var(--vp-c-bg-soft);
   position: relative;
   overflow: hidden;
+  transition: border-color 0.2s ease;
+}
+
+.ctr-card:hover {
+  border-color: rgba(255, 69, 0, 0.22);
 }
 
 /* Brand accent line at top */
@@ -116,7 +121,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, var(--vp-c-brand-1), var(--vp-c-brand-2));
+  background: linear-gradient(90deg, #ff4500, #ff8c00, transparent);
   border-radius: 10px 10px 0 0;
 }
 
@@ -135,35 +140,36 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-icon {
-  color: var(--vp-c-brand-1);
+  color: #ff4500;
   flex-shrink: 0;
-  opacity: 0.85;
+  opacity: 0.8;
 }
 
 .ctr-title {
   font-size: 11px;
   font-weight: 600;
   color: var(--vp-c-text-2);
-  letter-spacing: 0.01em;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 .ctr-count {
   font-size: 10px;
-  font-weight: 600;
-  color: var(--vp-c-brand-1);
-  background: var(--vp-c-brand-soft);
-  border: 1px solid var(--vp-c-brand-1);
+  font-weight: 700;
+  color: #ff4500;
+  background: rgba(255, 69, 0, 0.08);
+  border: 1px solid rgba(255, 69, 0, 0.2);
   border-radius: 999px;
-  padding: 1px 8px;
-  line-height: 1.6;
-  opacity: 0.9;
+  padding: 1px 9px;
+  line-height: 1.7;
+  letter-spacing: 0.03em;
 }
 
 /* ── Grid ────────────────────────────── */
 .ctr-grid {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px 10px;
+  gap: 14px 12px;
 }
 
 /* ── Avatar ──────────────────────────── */
@@ -178,7 +184,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 
 @keyframes ctr-pop-in {
   from { opacity: 0; transform: translateY(6px) scale(0.88); }
-  to   { opacity: 1; transform: translateY(0)   scale(1); }
+  to   { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 .ctr-avatar-wrap:hover {
@@ -191,11 +197,11 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   height: 44px;
   border-radius: 50%;
   padding: 2px;
-  background: var(--vp-c-brand-1);
-  box-shadow: 0 2px 6px rgba(255, 69, 0, 0.15);
+  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  box-shadow: 0 2px 8px rgba(255, 69, 0, 0.18);
   position: relative;
   overflow: hidden;
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.25s ease, transform 0.25s ease;
 }
 
 /* Shine sweep */
@@ -206,12 +212,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   left: -75%;
   width: 50%;
   height: 200%;
-  background: linear-gradient(
-    90deg,
-    transparent,
-    rgba(255, 255, 255, 0.38),
-    transparent
-  );
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
   transform: skewX(-15deg);
   opacity: 0;
   pointer-events: none;
@@ -219,11 +220,12 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-avatar-wrap:hover .ctr-avatar-ring {
-  box-shadow: 0 6px 20px rgba(255, 69, 0, 0.30);
+  box-shadow: 0 6px 18px rgba(255, 69, 0, 0.32);
+  transform: scale(1.05);
 }
 
 .ctr-avatar-wrap:hover .ctr-avatar-ring::before {
-  animation: ctr-shine 0.55s ease forwards;
+  animation: ctr-shine 0.5s ease forwards;
 }
 
 @keyframes ctr-shine {
@@ -237,11 +239,11 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   height: 100%;
   border-radius: 50%;
   object-fit: cover;
-  transition: filter 0.3s ease;
+  transition: filter 0.25s ease;
 }
 
 .ctr-avatar-wrap:hover .ctr-avatar-img {
-  filter: brightness(1.07);
+  filter: brightness(1.06);
 }
 
 /* ── Username ────────────────────────── */
@@ -254,11 +256,11 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   text-overflow: ellipsis;
   white-space: nowrap;
   text-align: center;
-  transition: color 0.2s ease;
+  transition: color 0.18s ease;
 }
 
 .ctr-avatar-wrap:hover .ctr-name {
-  color: var(--vp-c-brand-1);
+  color: #ff4500;
 }
 
 /* ── Skeleton ────────────────────────── */
@@ -286,8 +288,8 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 @keyframes ctr-shimmer {
-  0%, 100% { opacity: 0.4; }
-  50%       { opacity: 0.9; }
+  0%, 100% { opacity: 0.35; }
+  50%       { opacity: 0.8; }
 }
 
 /* ── Responsive ──────────────────────── */

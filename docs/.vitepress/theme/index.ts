@@ -31,6 +31,9 @@ import NavSearch from './components/NavSearch.vue'
 import WildfireTag from './components/WildfireTag.vue'
 import DocUserWidget from './components/DocUserWidget.vue'
 import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/VPNavBarAppearance.vue'
+import ReadingProgressBar from './components/ReadingProgressBar.vue'
+import BackToTop from './components/BackToTop.vue'
+import DocEnhancements from './components/DocEnhancements.vue'
 
 import LastUpdates from './components/LastUpdates.vue'
 import WikiUpdatesGrid from './components/WikiUpdatesGrid.vue'
@@ -107,7 +110,6 @@ export default {
       // Home page
       'home-hero-before': () => h(WikiHome),
 
-
       // 🔥 ADĂUGĂ FEEDBACK DUPĂ CONȚINUTUL PAGINII
       'doc-footer-before': () => h(FeedbackWidget),
 
@@ -117,17 +119,18 @@ export default {
 
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,
-      // 'nav-bar-content-after': () => h(NavSearch),
 
       // Footer
       'layout-bottom': () => h(SiteMap),
 
       // 🔥 CONTRIBUTORS - jos înainte de footer
       'aside-outline-after': () => h(ContributorsWF),
-      // 'aside-bottom': () => h(ContributorsWF),
 
       // Not Found Page
-      'not-found': () => h(PageNotFound)
+      'not-found': () => h(PageNotFound),
+
+      // 🔥 Global UX enhancements
+      'layout-top': () => [h(BackToTop), h(DocEnhancements)]
     })
   },
 
@@ -184,5 +187,76 @@ export default {
     // 🔥 Adăugăm token-ul și client ID global
     app.config.globalProperties.$githubToken = githubToken
     app.config.globalProperties.$githubClientId = githubClientId
+
+    // 🔥 Sidebar "New" badge injection (git-based, last 7 days)
+    if (typeof window !== 'undefined') {
+      import('virtual:new-pages').then(({ default: newPages }: { default: string[] }) => {
+        if (!newPages.length) return
+
+        const inject = () => {
+          // 1. Inject on individual new page links
+          document.querySelectorAll<HTMLAnchorElement>('.VPSidebarItem a.link').forEach(el => {
+            const href = el.getAttribute('href')
+            if (href && newPages.includes(href) && !el.querySelector('.sidebar-new-badge')) {
+              const badge = document.createElement('span')
+              badge.className = 'sidebar-new-badge'
+              badge.textContent = 'NEW'
+              el.appendChild(badge)
+            }
+          })
+
+          // 2. Bubble up: mark sub-section headers (not top-level) that contain a new page
+          document.querySelectorAll('.VPSidebarItem:not(.level-0)').forEach(section => {
+            const itemsContainer = section.querySelector(':scope > .items')
+            if (!itemsContainer) return
+            if (!itemsContainer.querySelector('.sidebar-new-badge')) return
+            const textEl = section.querySelector<HTMLElement>(
+              ':scope > .item .text, :scope > .item > button .text'
+            )
+            if (textEl && !textEl.querySelector('.sidebar-new-badge')) {
+              const badge = document.createElement('span')
+              badge.className = 'sidebar-new-badge'
+              badge.textContent = 'NEW'
+              textEl.appendChild(badge)
+            }
+          })
+        }
+
+        let debounce: ReturnType<typeof setTimeout>
+        const obs = new MutationObserver(() => {
+          clearTimeout(debounce)
+          debounce = setTimeout(inject, 30)
+        })
+
+        const startObserving = () => {
+          inject()
+          const sidebar = document.querySelector('.VPSidebar')
+          if (sidebar) {
+            obs.observe(sidebar, { childList: true, subtree: true })
+          } else {
+            // Sidebar not mounted yet — watch body until it appears
+            const bodyObs = new MutationObserver(() => {
+              const s = document.querySelector('.VPSidebar')
+              if (s) {
+                bodyObs.disconnect()
+                obs.observe(s, { childList: true, subtree: true })
+                inject()
+              }
+            })
+            bodyObs.observe(document.body, { childList: true, subtree: false })
+          }
+        }
+
+        // Two rAFs = after Vue's first committed render
+        requestAnimationFrame(() => requestAnimationFrame(startObserving))
+      }).catch(() => {})
+    }
+
+    // 🔥 Page fade transition on SPA route change
+    if (typeof window !== 'undefined') {
+      const style = document.createElement('style')
+      style.textContent = `.vp-doc,.VPDoc{animation:none}.page-entering .vp-doc,.page-entering .VPDoc{opacity:0;transform:translateY(6px)}.page-entering .vp-doc,.page-entering .VPDoc{transition:opacity 0.25s ease,transform 0.25s ease}`
+      document.head.appendChild(style)
+    }
   }
 } satisfies Theme
