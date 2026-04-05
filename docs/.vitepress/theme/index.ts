@@ -1,4 +1,4 @@
-import { h, defineAsyncComponent } from 'vue'
+import { h, defineAsyncComponent, nextTick } from 'vue'
 import type { Theme } from 'vitepress'
 import DefaultTheme, { VPButton } from 'vitepress/theme'
 import './style.css'
@@ -134,7 +134,7 @@ export default {
     })
   },
 
-  enhanceApp({ app }) {
+  enhanceApp({ app, router }) {
     // Componente principale
     app.component('WikiHome', WikiHome)
     app.component('HomeNavbar', HomeNavbar)
@@ -205,7 +205,7 @@ export default {
             }
           })
 
-          // 2. Bubble up: mark sub-section headers (not top-level) that contain a new page
+          // 2. Bubble up: mark sub-section headers that contain a new page
           document.querySelectorAll('.VPSidebarItem:not(.level-0)').forEach(section => {
             const itemsContainer = section.querySelector(':scope > .items')
             if (!itemsContainer) return
@@ -222,33 +222,42 @@ export default {
           })
         }
 
-        let debounce: ReturnType<typeof setTimeout>
-        const obs = new MutationObserver(() => {
-          clearTimeout(debounce)
-          debounce = setTimeout(inject, 30)
-        })
+        let moDebounce: ReturnType<typeof setTimeout>
+        let sidebarObserver: MutationObserver | null = null
 
-        const startObserving = () => {
-          inject()
+        const attachObserver = (sidebar: Element) => {
+          sidebarObserver?.disconnect()
+          sidebarObserver = new MutationObserver(() => {
+            // Vue wiped our badges — re-inject after its batch update settles
+            clearTimeout(moDebounce)
+            moDebounce = setTimeout(inject, 50)
+          })
+          sidebarObserver.observe(sidebar, { childList: true, subtree: true })
+        }
+
+        const setupBadges = () => {
           const sidebar = document.querySelector('.VPSidebar')
           if (sidebar) {
-            obs.observe(sidebar, { childList: true, subtree: true })
+            inject()
+            attachObserver(sidebar)
           } else {
-            // Sidebar not mounted yet — watch body until it appears
-            const bodyObs = new MutationObserver(() => {
+            // sidebar not in DOM yet (e.g. mobile) — watch for it
+            const bodyWatch = new MutationObserver(() => {
               const s = document.querySelector('.VPSidebar')
-              if (s) {
-                bodyObs.disconnect()
-                obs.observe(s, { childList: true, subtree: true })
-                inject()
-              }
+              if (s) { bodyWatch.disconnect(); inject(); attachObserver(s) }
             })
-            bodyObs.observe(document.body, { childList: true, subtree: false })
+            bodyWatch.observe(document.body, { childList: true, subtree: false })
           }
         }
 
-        // Two rAFs = after Vue's first committed render
-        requestAnimationFrame(() => requestAnimationFrame(startObserving))
+        // Re-inject after every SPA navigation (nextTick waits for Vue's sidebar re-render)
+        router.onAfterRouteChange = () => {
+          nextTick(() => requestAnimationFrame(setupBadges))
+        }
+
+        // Initial load: the dynamic import resolves after onAfterRouteChange already
+        // fired, so hook it manually. nextTick ensures Vue has finished hydration.
+        nextTick(() => requestAnimationFrame(setupBadges))
       }).catch(() => {})
     }
 

@@ -6,14 +6,6 @@
       @click="scrollToTop"
       :aria-label="`Back to top (${Math.round(progress)}%)`"
     >
-      <svg class="progress-ring" viewBox="0 0 44 44" width="44" height="44">
-        <circle class="ring-bg" cx="22" cy="22" r="17" />
-        <circle
-          class="ring-fill"
-          cx="22" cy="22" r="17"
-          :stroke-dashoffset="dashOffset"
-        />
-      </svg>
       <svg class="arrow-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M18 15l-6-6-6 6"/>
       </svg>
@@ -22,16 +14,10 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 
 const progress = ref(0)
 const visible = ref(false)
-
-const CIRCUMFERENCE = 2 * Math.PI * 17
-
-const dashOffset = computed(() => {
-  return CIRCUMFERENCE - (progress.value / 100) * CIRCUMFERENCE
-})
 
 function update() {
   const el = document.documentElement
@@ -81,28 +67,6 @@ onUnmounted(() => {
   transform: translateY(-3px) scale(1.06);
   box-shadow: 0 8px 24px rgba(255, 69, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
   border-color: rgba(255, 69, 0, 0.55);
-}
-
-.progress-ring {
-  position: absolute;
-  top: 0;
-  left: 0;
-  transform: rotate(-90deg);
-}
-
-.ring-bg {
-  fill: none;
-  stroke: rgba(255, 69, 0, 0.15);
-  stroke-width: 2.5;
-}
-
-.ring-fill {
-  fill: none;
-  stroke: #ff4500;
-  stroke-width: 2.5;
-  stroke-dasharray: 106.81;
-  stroke-linecap: round;
-  transition: stroke-dashoffset 0.15s linear;
 }
 
 .arrow-icon {

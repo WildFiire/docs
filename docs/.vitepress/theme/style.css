@@ -979,3 +979,41 @@ body:has(.VPLocalSearchBox)::before {
 .dark .VPDocFooter .pager-link:hover .title {
   color: #ff6a33 !important;
 }
+
+/*=============================================================================
+  19. TOC OUTLINE TITLE
+=============================================================================*/
+.VPDocAsideOutline .outline-title {
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.8px !important;
+  color: var(--vp-c-text-3) !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 8px !important;
+  padding-bottom: 10px !important;
+  margin-bottom: 4px !important;
+  border-bottom: 1px solid var(--vp-c-divider) !important;
+  position: relative !important;
+}
+
+.VPDocAsideOutline .outline-title::before {
+  content: '';
+  display: inline-block;
+  width: 3px;
+  height: 12px;
+  background: linear-gradient(180deg, #ff4500, #ff8c00);
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.dark .VPDocAsideOutline .outline-title {
+  color: rgba(255, 255, 255, 0.35) !important;
+  border-bottom-color: rgba(255, 255, 255, 0.06) !important;
+}
+
+html:not(.dark) .VPDocAsideOutline .outline-title {
+  color: rgba(0, 0, 0, 0.4) !important;
+  border-bottom-color: rgba(0, 0, 0, 0.08) !important;
+}

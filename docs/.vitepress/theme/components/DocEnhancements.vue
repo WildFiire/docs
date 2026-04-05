@@ -44,34 +44,52 @@ const lightboxAlt = ref('')
 const navHint = ref(false)
 
 // ── Reading Time ─────────────────────────────────────────────
+function doInject() {
+  const docEl = document.querySelector('.vp-doc')
+  if (!docEl) return false
+
+  document.querySelectorAll('.reading-time-meta').forEach(el => el.remove())
+
+  const text = docEl.innerText || docEl.textContent || ''
+  const words = text.trim().split(/\s+/).filter(Boolean).length
+  const minutes = Math.ceil(words / 200)
+  if (minutes < 2) return true // page too short — skip but mark as done
+
+  const meta = document.createElement('div')
+  meta.className = 'reading-time-meta'
+  meta.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>${minutes} min citire</span>`
+
+  const rightBadges = document.querySelector('.cases-wf .breadcrumb .right-badges')
+  if (rightBadges) {
+    rightBadges.appendChild(meta)
+    return true
+  }
+
+  const h1 = docEl.querySelector('h1')
+  if (!h1) return false
+
+  // Start after h1, then skip past any .wildfire-tag siblings
+  let anchor = h1
+  let next = h1.nextElementSibling
+  while (next && next.querySelector('.wildfire-tag')) {
+    anchor = next
+    next = next.nextElementSibling
+  }
+  anchor.insertAdjacentElement('afterend', meta)
+  return true
+}
+
 function injectReadingTime() {
   nextTick(() => {
-    const docEl = document.querySelector('.vp-doc')
-    if (!docEl) return
-
-    // Remove any existing badge first (anywhere on page)
-    document.querySelectorAll('.reading-time-meta').forEach(el => el.remove())
-
-    const text = docEl.innerText || docEl.textContent || ''
-    const words = text.trim().split(/\s+/).filter(Boolean).length
-    const minutes = Math.ceil(words / 200)
-    if (minutes < 2) return
-
-    const meta = document.createElement('div')
-    meta.className = 'reading-time-meta'
-    meta.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>${minutes} min citire</span>`
-
-    // If CaseHeader is present, inject after the .tags row in footer-section
-    const caseTags = document.querySelector('.cases-wf .footer-section .tags')
-    if (caseTags) {
-      caseTags.insertAdjacentElement('afterend', meta)
-      return
-    }
-
-    // Fallback: inject before the h1
-    const h1 = docEl.querySelector('h1')
-    if (!h1) return
-    h1.insertAdjacentElement('beforebegin', meta)
+    requestAnimationFrame(() => {
+      if (!doInject()) {
+        // h1 not in DOM yet — retry a few times
+        let attempts = 0
+        const retry = setInterval(() => {
+          if (doInject() || ++attempts >= 8) clearInterval(retry)
+        }, 80)
+      }
+    })
   })
 }
 
@@ -116,23 +134,67 @@ function handleKeyNav(e) {
   router.go(target.link)
 }
 
+// ── Reading Progress Ring ────────────────────────────────────
+const CIRC = 2 * Math.PI * 6 // r=6 → ≈37.7
+
+function getProgressRingEl() {
+  return document.getElementById('doc-progress-ring-circle')
+}
+
+function injectProgressRing() {
+  nextTick(() => {
+    requestAnimationFrame(() => {
+      const title = document.querySelector('.outline-title')
+      if (!title || title.querySelector('#doc-progress-ring')) return
+      const svg = document.createElement('div')
+      svg.id = 'doc-progress-ring'
+      svg.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" style="display:block;flex-shrink:0">
+        <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,69,0,0.18)" stroke-width="1.5"/>
+        <circle id="doc-progress-ring-circle" cx="8" cy="8" r="6" fill="none"
+          stroke="#ff4500" stroke-width="1.5"
+          stroke-dasharray="${CIRC.toFixed(2)}" stroke-dashoffset="${CIRC.toFixed(2)}"
+          stroke-linecap="round" transform="rotate(-90 8 8)"
+          style="transition:stroke-dashoffset 0.15s ease"/>
+      </svg>`
+      title.style.display = 'flex'
+      title.style.alignItems = 'center'
+      title.style.gap = '8px'
+      title.appendChild(svg)
+      updateProgressRing()
+    })
+  })
+}
+
+function updateProgressRing() {
+  const circle = getProgressRingEl()
+  if (!circle) return
+  const scrollTop = window.scrollY
+  const docH = document.documentElement.scrollHeight - window.innerHeight
+  const progress = docH > 0 ? Math.min(scrollTop / docH, 1) : 0
+  circle.setAttribute('stroke-dashoffset', (CIRC * (1 - progress)).toFixed(2))
+}
+
 // ── Route change: re-inject reading time & reset lightbox ───
 watch(() => page.value.relativePath, () => {
   closeLightbox()
   injectReadingTime()
+  injectProgressRing()
 })
 
 onMounted(() => {
   document.addEventListener('click', handleCopyClick)
   document.addEventListener('click', handleImgClick)
   window.addEventListener('keydown', handleKeyNav)
+  window.addEventListener('scroll', updateProgressRing, { passive: true })
   injectReadingTime()
+  injectProgressRing()
 })
 
 onUnmounted(() => {
   document.removeEventListener('click', handleCopyClick)
   document.removeEventListener('click', handleImgClick)
   window.removeEventListener('keydown', handleKeyNav)
+  window.removeEventListener('scroll', updateProgressRing)
   clearTimeout(copyTimer)
   clearTimeout(hintTimer)
   document.body.style.overflow = ''
@@ -144,26 +206,46 @@ onUnmounted(() => {
 :deep(.reading-time-meta) {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--vp-c-text-2);
-  margin-bottom: 10px;
-  padding: 3px 10px 3px 8px;
-  background: rgba(255, 69, 0, 0.05);
-  border: 1px solid rgba(255, 69, 0, 0.2);
-  border-radius: 6px;
-  width: fit-content;
-  letter-spacing: 0.4px;
+  gap: 5px;
+  backdrop-filter: blur(4px);
+  padding: 4px 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 69, 0, 0.4);
+  flex-shrink: 0;
+  cursor: default;
+  user-select: none;
+}
+
+html.dark :deep(.reading-time-meta) {
+  background: rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 69, 0, 0.5);
+}
+
+html:not(.dark) :deep(.reading-time-meta) {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 69, 0, 0.35);
 }
 
 :deep(.reading-time-meta svg) {
-  color: #ff8c00;
+  color: var(--vp-c-brand-1);
+  opacity: 0.9;
   flex-shrink: 0;
 }
 
 :deep(.reading-time-meta span) {
-  color: var(--vp-c-text-2);
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--vp-c-brand-1);
+  letter-spacing: 0.3px;
+}
+
+@media (max-width: 480px) {
+  :deep(.reading-time-meta span) {
+    display: none;
+  }
+  :deep(.reading-time-meta) {
+    padding: 4px 7px;
+  }
 }
 
 /* ── Copy toast ─────────────────────────────────────── */
