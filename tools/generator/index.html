@@ -1,0 +1,1296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🔥 WildFire Page Generator</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0a;--panel:#111;--card:#161616;--border:rgba(255,255,255,0.07);
+  --accent:#ff8c00;--accent-dim:rgba(255,140,0,0.12);--accent-border:rgba(255,140,0,0.3);
+  --text:#e0e0e0;--muted:#666;--dim:#999;--r:8px;
+}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;height:100vh;display:flex;flex-direction:column;overflow:hidden;font-size:13px}
+
+/* ── Header ── */
+#hdr{background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:14px;padding:0 18px;height:50px;flex-shrink:0}
+#hdr h1{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:800;color:var(--accent);white-space:nowrap;letter-spacing:.5px}
+.ttabs{display:flex;gap:4px}
+.ttab{background:none;border:1px solid var(--border);color:var(--dim);padding:4px 13px;border-radius:20px;cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;transition:all .18s}
+.ttab:hover{border-color:var(--accent);color:var(--accent)}
+.ttab.on{background:var(--accent);border-color:var(--accent);color:#000}
+.hdr-status{margin-left:auto;font-size:11px;color:var(--muted)}
+
+/* ── Main ── */
+#main{display:flex;flex:1;overflow:hidden}
+
+/* ── Left panel ── */
+#lp{width:330px;flex-shrink:0;background:var(--panel);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow-y:auto}
+#lp::-webkit-scrollbar{width:3px}
+#lp::-webkit-scrollbar-thumb{background:var(--accent-border);border-radius:2px}
+.sec{border-bottom:1px solid var(--border);padding:13px 15px}
+.sec-hd{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;color:var(--accent);letter-spacing:1px;text-transform:uppercase;margin-bottom:11px;display:flex;justify-content:space-between;align-items:center}
+.sec-hd span{color:var(--muted);font-size:10px;font-family:'Inter',sans-serif;letter-spacing:0;text-transform:none}
+.fg{margin-bottom:9px}
+.fl{display:block;font-size:11px;color:var(--dim);margin-bottom:3px}
+input[type=text],textarea,select{width:100%;background:var(--card);border:1px solid var(--border);color:var(--text);padding:6px 9px;border-radius:var(--r);font-family:inherit;font-size:12px;outline:none;resize:vertical;transition:border-color .18s}
+input[type=text]:focus,textarea:focus,select:focus{border-color:var(--accent)}
+select{cursor:pointer;height:32px}
+#tags-row{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:6px;min-height:4px}
+.tchip{background:var(--accent-dim);border:1px solid var(--accent-border);color:var(--accent);padding:2px 7px;border-radius:20px;font-size:11px;display:flex;align-items:center;gap:4px;font-family:'Orbitron',sans-serif;font-weight:600}
+.tchip button{background:none;border:none;color:var(--accent);cursor:pointer;font-size:13px;line-height:1;opacity:.6}
+.tchip button:hover{opacity:1}
+.tag-add-row{display:flex;gap:5px}
+.tag-add-row input{flex:1}
+.tag-add-row select{flex:1}
+.tag-add-row button{flex-shrink:0;background:var(--accent-dim);border:1px solid var(--accent-border);color:var(--accent);padding:5px 10px;border-radius:var(--r);cursor:pointer;font-weight:700;font-size:13px;transition:all .15s}
+.tag-add-row button:hover{background:rgba(255,140,0,.22)}
+
+/* ── Block list ── */
+#blk-list{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}
+.blk{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:7px 9px;display:flex;align-items:center;gap:7px;transition:border-color .18s}
+.blk:hover{border-color:rgba(255,140,0,.25)}
+.blk-badge{background:var(--accent-dim);color:var(--accent);padding:2px 6px;border-radius:4px;font-size:9.5px;font-family:'Orbitron',sans-serif;font-weight:700;flex-shrink:0;white-space:nowrap}
+.blk-txt{flex:1;font-size:11px;color:var(--dim);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.blk-acts{display:flex;gap:3px;flex-shrink:0}
+.bi{background:none;border:1px solid var(--border);color:var(--dim);width:22px;height:22px;border-radius:5px;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:11px;transition:all .15s}
+.bi:hover{border-color:var(--accent);color:var(--accent)}
+.bi.del:hover{border-color:#ff4444;color:#ff4444}
+#no-blocks{text-align:center;color:var(--muted);font-size:12px;padding:18px 0}
+#add-wrap{position:relative}
+#add-btn{width:100%;background:var(--accent-dim);border:1px dashed var(--accent-border);color:var(--accent);padding:8px;border-radius:var(--r);cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;transition:all .2s}
+#add-btn:hover{background:rgba(255,140,0,.2);border-style:solid}
+#add-dd{position:absolute;bottom:calc(100% + 4px);left:0;right:0;background:#1a1a1a;border:1px solid var(--border);border-radius:var(--r);padding:5px;display:none;z-index:50;box-shadow:0 4px 20px rgba(0,0,0,.5)}
+#add-dd.open{display:block}
+.add-opt{padding:7px 10px;border-radius:6px;cursor:pointer;font-size:12px;display:flex;align-items:center;gap:8px;transition:background .15s}
+.add-opt:hover{background:var(--accent-dim);color:var(--accent)}
+.add-opt-ico{width:16px;text-align:center;font-size:13px}
+
+/* ── Right panel ── */
+#rp{flex:1;display:flex;flex-direction:column;overflow:hidden}
+#prev-wrap{flex:1;overflow:hidden;background:#1b1b1f;position:relative}
+#prev-frame{width:100%;height:100%;border:none;background:#1b1b1f}
+#prev-loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;color:var(--muted);font-family:'Orbitron',sans-serif;font-size:11px;pointer-events:none}
+
+/* ── Output ── */
+#out-wrap{height:185px;display:flex;flex-direction:column;background:var(--panel);border-top:1px solid var(--border)}
+#out-bar{display:flex;align-items:center;gap:7px;padding:7px 13px;border-bottom:1px solid var(--border);flex-shrink:0}
+#out-bar > span{font-family:'Orbitron',sans-serif;font-size:10px;color:var(--accent);font-weight:700;letter-spacing:1px;flex:1}
+#md-out{flex:1;background:#080808;border:none;color:#bbb;font-family:'Courier New',monospace;font-size:11.5px;padding:9px 13px;resize:none;outline:none}
+#save-row{display:flex;gap:7px;padding:7px 13px;border-top:1px solid var(--border);flex-shrink:0;align-items:center}
+#save-path{flex:1;font-size:12px}
+.btn{background:var(--accent);color:#000;border:none;padding:6px 13px;border-radius:var(--r);cursor:pointer;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:.5px;white-space:nowrap;transition:all .2s}
+.btn:hover{background:#ffae42}
+.btn.sec{background:var(--card);border:1px solid var(--border);color:var(--text)}
+.btn.sec:hover{border-color:var(--accent);color:var(--accent)}
+.btn.ok{background:#00c851}
+.btn.ok:hover{background:#00d95c}
+
+/* ── Modal ── */
+#ov{position:fixed;inset:0;background:rgba(0,0,0,.72);z-index:200;display:none;align-items:center;justify-content:center}
+#ov.open{display:flex}
+#modal{background:#141414;border:1px solid rgba(255,255,255,.09);border-radius:14px;padding:22px;width:500px;max-width:95vw;max-height:85vh;overflow-y:auto;box-shadow:0 20px 60px rgba(0,0,0,.7)}
+#modal h2{font-family:'Orbitron',sans-serif;font-size:12px;color:var(--accent);margin-bottom:16px;letter-spacing:.5px}
+.mf{margin-bottom:12px}
+.mf label{display:block;font-size:11px;color:var(--dim);margin-bottom:4px}
+#m-footer{display:flex;justify-content:flex-end;gap:7px;margin-top:18px}
+.faq-pair{background:var(--card);border:1px solid var(--border);border-radius:var(--r);padding:10px;margin-bottom:7px}
+.faq-pair-hd{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px;font-size:11px;color:var(--accent);font-family:'Orbitron',sans-serif}
+
+/* ── Toast ── */
+#toast{position:fixed;bottom:18px;right:18px;background:#111;border:1px solid var(--accent);color:var(--accent);padding:9px 16px;border-radius:var(--r);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;z-index:300;opacity:0;transform:translateY(8px);transition:all .3s;pointer-events:none}
+#toast.on{opacity:1;transform:translateY(0)}
+#toast.err{border-color:#ff4444;color:#ff4444}
+</style>
+</head>
+<body>
+
+<div id="hdr">
+  <h1>🔥 WF PAGE GENERATOR</h1>
+  <div class="ttabs" id="ttabs"></div>
+  <span class="hdr-status" id="hdr-status">Ready</span>
+</div>
+
+<div id="main">
+  <!-- Left Panel -->
+  <div id="lp">
+
+    <!-- CaseHeader -->
+    <div class="sec">
+      <div class="sec-hd">CaseHeader</div>
+      <div class="fg"><label class="fl">Page Title</label>
+        <input type="text" id="f-title" placeholder="e.g. Sank Sounds" oninput="us()"></div>
+      <div class="fg"><label class="fl">Badge Text</label>
+        <input type="text" id="f-badge" placeholder="e.g. Sounds" oninput="us()"></div>
+      <div class="fg"><label class="fl">Badge Icon</label>
+        <input type="text" id="f-icon" placeholder="lucide:music" oninput="us()"></div>
+      <div class="fg"><label class="fl">Page ID</label>
+        <input type="text" id="f-pid" placeholder="sank-sounds" oninput="us()"></div>
+      <div class="fg"><label class="fl">Path (comma-separated)</label>
+        <input type="text" id="f-path" placeholder="Home, Market, Premium Shop" oninput="us()"></div>
+      <div class="fg"><label class="fl">Tags</label>
+        <div id="tags-row"></div>
+        <div class="tag-add-row">
+          <input type="text" id="tag-txt" placeholder="tag text">
+          <select id="tag-col">
+            <option value="PageTagOrange">Orange</option>
+            <option value="PageTagRed">Red</option>
+            <option value="PageTagBlue">Blue</option>
+            <option value="PageTagGreen">Green</option>
+            <option value="PageTagPurple">Purple</option>
+            <option value="PageTagYellow">Yellow</option>
+          </select>
+          <button onclick="addTag()">+</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Content Blocks -->
+    <div class="sec" style="flex:1;min-height:0">
+      <div class="sec-hd">Content Blocks <span id="blk-cnt"></span></div>
+      <div id="blk-list"></div>
+      <div id="add-wrap">
+        <button id="add-btn" onclick="toggleDD()">+ ADD BLOCK</button>
+        <div id="add-dd"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Right Panel -->
+  <div id="rp">
+    <div id="prev-wrap">
+      <div id="prev-loading">LOADING PREVIEW...</div>
+      <iframe id="prev-frame" title="Page Preview"></iframe>
+    </div>
+    <div id="out-wrap">
+      <div id="out-bar">
+        <span>MARKDOWN OUTPUT</span>
+        <button class="btn sec" onclick="copyMD()">📋 COPY</button>
+      </div>
+      <textarea id="md-out" readonly></textarea>
+      <div id="save-row">
+        <input type="text" id="save-path" placeholder="e.g. market/premium-shop/my-page.md">
+        <button class="btn ok" onclick="saveFile()">💾 SAVE FILE</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div id="ov" onclick="ovClick(event)">
+  <div id="modal">
+    <h2 id="m-title">Edit Block</h2>
+    <div id="m-body"></div>
+    <div id="m-footer">
+      <button class="btn sec" onclick="closeModal()">Cancel</button>
+      <button class="btn" onclick="saveModal()">Save Block</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ═══════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════
+let S = {
+  tmpl: 'wf-system',
+  hdr: { title:'', badge:'', icon:'lucide:star', pid:'', path:'Home, Systems', tags:[] },
+  blocks: []
+};
+let _id = 0;
+const uid = () => String(++_id);
+let editId = null;
+let wikiCSS = '';
+
+// ═══════════════════════════════════════════════
+// TEMPLATE META
+// ═══════════════════════════════════════════════
+const TM = {
+  'wf-system':   { label:'wf-system',   wrapper:'wf-system',   prefix:'wf-system',   defPath:'Home, Systems'    },
+  'wf-market':   { label:'wf-market',   wrapper:'wf-market',   prefix:'wf-market',   defPath:'Home, Market'     },
+  'wf-currency': { label:'wf-currency', wrapper:null,          prefix:'wf-currency', defPath:'Home, Currency'   },
+  'wf-info':     { label:'wf-info',     wrapper:null,          prefix:'wf-info',     defPath:'Home, Informatii' },
+};
+
+const BTYPES = {
+  'wf-system':   [
+    {t:'section-title',l:'Section Title',i:'📌'},{t:'card',l:'Card',i:'🃏'},{t:'tip',l:'Tip Box',i:'💡'},
+    {t:'key-row',l:'Key Row',i:'⌨'},{t:'type-grid',l:'Type Grid',i:'▦'},
+    {t:'stat-row',l:'Stat Row',i:'📊'},{t:'badge-group',l:'Badge Group',i:'🏷'},
+    {t:'custom-list',l:'Custom List',i:'📋'},{t:'info-box',l:'Info Box',i:'📦'},
+    {t:'media',l:'Image / GIF / Video',i:'🖼'},{t:'link-button',l:'Link Button',i:'🔗'},
+  ],
+  'wf-market':   [
+    {t:'section-title',l:'Section Title',i:'📌'},{t:'card',l:'Card',i:'🃏'},{t:'tip',l:'Tip Box',i:'💡'},
+    {t:'price-card',l:'Price Card',i:'💰'},{t:'stat-row',l:'Stat Row',i:'📊'},{t:'badge-group',l:'Badge Group',i:'🏷'},
+    {t:'custom-list',l:'Custom List',i:'📋'},{t:'info-box',l:'Info Box',i:'📦'},
+    {t:'media',l:'Image / GIF / Video',i:'🖼'},{t:'link-button',l:'Link Button',i:'🔗'},
+  ],
+  'wf-currency': [
+    {t:'section-title',l:'Section Title',i:'📌'},{t:'card',l:'Card',i:'🃏'},{t:'tip',l:'Tip Box',i:'💡'},
+    {t:'feature-chips',l:'Feature Chips',i:'✨'},{t:'stat-row',l:'Stat Row',i:'📊'},{t:'badge-group',l:'Badge Group',i:'🏷'},
+    {t:'info-box',l:'Info Box',i:'📦'},
+    {t:'media',l:'Image / GIF / Video',i:'🖼'},{t:'link-button',l:'Link Button',i:'🔗'},
+  ],
+  'wf-info': [
+    {t:'info-section-title',l:'Section Title',i:'📌'},{t:'info-card',l:'Rule Card',i:'🃏'},
+    {t:'punish-card',l:'Punish Card',i:'⚖'},{t:'collapse-group',l:'FAQ Collapse',i:'❓'},
+    {t:'badge-group',l:'Badge Group',i:'🏷'},{t:'info-box',l:'Info Box',i:'📦'},{t:'divider',l:'Divider',i:'─'},
+    {t:'media',l:'Image / GIF / Video',i:'🖼'},{t:'link-button',l:'Link Button',i:'🔗'},
+  ],
+};
+
+// ═══════════════════════════════════════════════
+// DEFAULT BLOCK DATA
+// ═══════════════════════════════════════════════
+function defBlock(type) {
+  const b = { id:uid(), type };
+  switch(type) {
+    case 'section-title':      return {...b, num:'1.0', title:'Section Title', icon:'lucide:star'};
+    case 'info-section-title': return {...b, num:'1.0', title:'Section Title'};
+    case 'card':               return {...b, icon:'lucide:info', number:'', highlight:'Title', body:'Content here.', variant:'', mediaUrl:'', mediaLabel:'', mediaCaption:'', btnText:'', btnUrl:''};
+    case 'stat-row':           return {...b, items:'1,234\nActive Users\n99.9%\nUptime\n50+\nFeatures'};
+    case 'badge-group':        return {...b, items:'TAG 1|orange\nTAG 2|green\nTAG 3|blue'};
+    case 'info-card':          return {...b, number:'1.1', text:'Rule content here.', mediaUrl:'', mediaLabel:'', mediaCaption:''};
+    case 'tip':                return {...b, variant:'', icon:'lucide:info', body:'Tip content here.'};
+    case 'custom-list':        return {...b, items:'Item one\nItem two\nItem three'};
+    case 'info-box':           return {...b, items:'Note one\nNote two'};
+    case 'collapse-group':     return {...b, items:[{q:'Question here?',a:'Answer here.'}]};
+    case 'divider':            return b;
+    case 'key-row':            return {...b, label:'Movement', keys:'W, A, S, D'};
+    case 'type-grid':          return {...b, items:[{name:'Type 1',desc:'Description here.'},{name:'Type 2',desc:'Description here.'}]};
+    case 'price-card':         return {...b, name:'Package Name', price:'10', currency:'EUR', desc:'Package description here.', features:'Feature one\nFeature two'};
+    case 'feature-chips':      return {...b, items:'Feature one\nFeature two\nFeature three'};
+    case 'punish-card':        return {...b, number:'1.1', text:'Rule text here.', badges:'MUTE, GAG', punishments:'BAN TEMPORAR'};
+    case 'media':              return {...b, url:'', alt:'', label:'', caption:'', linkText:''};
+    case 'link-button':        return {...b, text:'Click Here', url:'https://', style:'primary'};
+    default:                   return b;
+  }
+}
+
+// ═══════════════════════════════════════════════
+// HTML PREVIEW GENERATORS
+// ═══════════════════════════════════════════════
+const esc = s => String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+
+function getMediaType(url) {
+  if (!url) return 'img';
+  const lo = url.toLowerCase();
+  if (/\.(mp4|webm|ogg|mov)(\?|$)/.test(lo)) return 'video';
+  if (/youtube\.com\/watch|youtu\.be\//.test(lo)) return 'youtube';
+  if (/\.(gif|png|jpg|jpeg|webp|svg|avif|bmp)(\?|$)/.test(lo)) return 'img';
+  return 'link';
+}
+function getYoutubeId(url) {
+  const m = url.match(/(?:youtu\.be\/|youtube\.com.*[?&]v=)([^&\s]+)/);
+  return m ? m[1] : '';
+}
+
+function blkHTML(b) {
+  const p = TM[S.tmpl].prefix;
+  switch(b.type) {
+    case 'section-title':      return hST(b,p);
+    case 'info-section-title': return hIST(b);
+    case 'card':               return hCard(b,p);
+    case 'info-card':          return hIC(b);
+    case 'punish-card':        return hPunishCard(b);
+    case 'tip':                return hTip(b,p);
+    case 'custom-list':        return hList(b,p);
+    case 'info-box':           return hBox(b,p);
+    case 'collapse-group':     return hCollapse(b);
+    case 'divider':            return '<div class="wf-info-divider"></div>';
+    case 'key-row':            return hKeyRow(b);
+    case 'type-grid':          return hTypeGrid(b);
+    case 'stat-row':           return hStatRow(b);
+    case 'badge-group':        return hBadgeGroup(b);
+    case 'price-card':         return hPriceCard(b);
+    case 'feature-chips':      return hFeatureChips(b);
+    case 'media':              return hMedia(b);
+    case 'link-button':        return hLinkBtn(b);
+    default: return '';
+  }
+}
+
+const CIRC_SVG = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+const PLAY_SVG = `<svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>`;
+const CHEV_SVG = `<svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>`;
+
+function hST(b,p) {
+  const t = (b.title||'Section').toUpperCase();
+  return `<div style="display:flex;align-items:center;gap:16px;margin:40px 0 25px 0;padding-bottom:12px;border-bottom:2px solid rgba(255,140,0,0.2);" class="${p}-title-hover">
+  <span style="font-size:28px;font-weight:800;line-height:1;display:inline-block;background:linear-gradient(135deg,#ff8c00,#ff5500,#ff4400);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;" class="${p}-font"><svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display:inline-block;vertical-align:middle;margin-right:8px;"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>${esc(b.num?b.num+' ':'')}${esc(t)}</span>
+</div>`;
+}
+
+function hIST(b) {
+  return `<div class="wf-info-title">${PLAY_SVG}<span>${esc(b.num?b.num+' ':'')}${esc((b.title||'Section').toUpperCase())}</span></div>`;
+}
+
+function hCardMedia(b) {
+  const url = b.mediaUrl||'';
+  if (!url) return '';
+  const type = getMediaType(url);
+  const label = b.mediaLabel ? `<div style="position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);padding:4px 12px;border-radius:20px;font-size:11px;font-family:'Orbitron',monospace;color:#ff8c00;">${esc(b.mediaLabel)}</div>` : '';
+  const cap   = b.mediaCaption ? `<div style="text-align:center;padding:10px 12px 4px;font-size:12px;color:#999;">${esc(b.mediaCaption)}</div>` : '';
+  let el;
+  if (type==='video') el=`<video src="${url}" controls style="width:100%;max-width:800px;height:auto;display:block;margin:0 auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.2);"></video>`;
+  else if (type==='youtube'){const id=getYoutubeId(url);el=`<iframe src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:12px;display:block;margin:0 auto;box-shadow:0 4px 20px rgba(0,0,0,0.2);"></iframe>`;}
+  else el=`<img src="${url}" alt="${esc(b.mediaLabel||'')}" style="width:100%;max-width:800px;height:auto;display:block;margin:0 auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.2);" loading="lazy">`;
+  return `<div style="margin:24px 0;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,rgba(255,140,0,0.1),rgba(255,140,0,0.02));border:1px solid rgba(255,140,0,0.2);padding:8px;"><div style="position:relative;border-radius:12px;overflow:hidden;">${el}${label}</div>${cap}</div>`;
+}
+
+function hCard(b,p) {
+  const num   = b.number ? `<span class="${p}-number">${esc(b.number)}</span> ` : '';
+  const hl    = b.highlight ? `<span class="${p}-highlight">${esc(b.highlight)}</span>` : '';
+  const media = hCardMedia(b);
+  const btn   = b.btnText ? `<div style="margin-top:12px;"><a href="${b.btnUrl||'#'}" target="_blank" style="display:inline-block;background:linear-gradient(135deg,#ff8c00,#ff6b35);color:#000;padding:7px 18px;border-radius:6px;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;text-decoration:none;">${esc(b.btnText)}</a></div>` : '';
+  const vMap  = {success:'border-color:rgba(0,200,81,0.4);',danger:'border-color:rgba(255,68,68,0.4);',pro:'border-color:rgba(159,122,234,0.4);'};
+  const varStyle = vMap[b.variant]||'';
+  return `<div class="${p}-card" style="${varStyle}">
+  <div class="${p}-icon">${CIRC_SVG}</div>
+  <div class="${p}-content">${num}${hl}
+    <p>${esc(b.body||'')}</p>
+    ${media}${btn}
+  </div>
+</div>`;
+}
+
+function hIC(b) {
+  const sm  = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+  const num = b.number ? `<span class="wf-info-number wf-info-font">${esc(b.number)}</span> ` : '';
+  const media = hCardMedia(b);
+  return `<div class="wf-info-card"><div class="wf-info-icon">${sm}</div><div class="wf-info-content">${num}${esc(b.text||'')}${media}</div></div>`;
+}
+
+function hTip(b,p) {
+  const cls = b.variant ? ` ${b.variant}` : '';
+  const col = b.variant==='orange'?'#ff8c00':b.variant==='red'?'#ff4444':'#00c851';
+  return `<div class="${p}-tip${cls}">
+  <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="${col}" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+  <span>${esc(b.body||'')}</span>
+</div>`;
+}
+
+function hList(b,p) {
+  const ck = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const lis = (b.items||'').split('\n').filter(l=>l.trim()).map(l=>`<li>${ck}<span>${esc(l)}</span></li>`).join('');
+  return `<ul class="${p}-custom-list">${lis}</ul>`;
+}
+
+function hBox(b,p) {
+  const inf = `<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`;
+  const cls = S.tmpl==='wf-info'?'wf-info-box':`${p}-box`;
+  const lis = (b.items||'').split('\n').filter(l=>l.trim()).map(l=>`<li>${inf}<span>${esc(l)}</span></li>`).join('');
+  return `<div class="${cls}"><ul>${lis}</ul></div>`;
+}
+
+function hCollapse(b) {
+  const items = (b.items||[]).map(it=>`
+  <div class="wf-info-collapse-item">
+    <div class="wf-info-collapse-header" onclick="this.classList.toggle('active');this.nextElementSibling.classList.toggle('show')">
+      <div class="wf-info-collapse-icon">${PLAY_SVG}</div>
+      <span class="wf-info-collapse-title">${esc(it.q||'')}</span>
+      ${CHEV_SVG}
+    </div>
+    <div class="wf-info-collapse-content"><p>${esc(it.a||'')}</p></div>
+  </div>`).join('');
+  return `<div class="wf-info-collapse">${items}</div>`;
+}
+
+function hKeyRow(b) {
+  const keys = (b.keys||'').split(',').map(k=>k.trim()).filter(Boolean);
+  const label = b.label ? `<span style="font-size:12px;color:#999;margin-right:10px;font-family:'Inter',sans-serif;">${esc(b.label)}:</span>` : '';
+  const keyHtml = keys.map(k=>`<span class="wf-system-key-button">${esc(k)}</span>`).join('');
+  return `<div class="wf-system-key-row"><span class="wf-system-key-item">${label}${keyHtml}</span></div>`;
+}
+
+function hTypeGrid(b) {
+  const cards = (b.items||[]).map(it=>`<div class="wf-system-type-card"><span class="wf-system-type-name">${esc(it.name||'')}</span><p style="font-size:12px;color:#999;margin:4px 0 0;">${esc(it.desc||'')}</p></div>`).join('');
+  return `<div class="wf-system-type-grid">${cards}</div>`;
+}
+
+function hPriceCard(b) {
+  const p = TM[S.tmpl].prefix;
+  const feats = (b.features||'').split('\n').filter(l=>l.trim());
+  const ck = `<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const featHtml = feats.length ? `<div style="display:flex;flex-direction:column;gap:5px;margin-top:10px;">${feats.map(f=>`<span style="display:flex;align-items:center;gap:6px;font-size:12px;">${ck}${esc(f)}</span>`).join('')}</div>` : '';
+  return `<div class="${p}-card" style="text-align:center;">
+  <div class="${p}-content" style="width:100%;">
+    <div style="font-family:'Orbitron',sans-serif;font-size:30px;font-weight:800;color:#ff8c00;margin-bottom:4px;">${esc(b.price||'0')} <span style="font-size:16px;opacity:0.7;">${esc(b.currency||'EUR')}</span></div>
+    <span class="${p}-highlight" style="font-size:16px;">${esc(b.name||'Package')}</span>
+    <p style="margin-top:8px;">${esc(b.desc||'')}</p>
+    ${featHtml}
+  </div>
+</div>`;
+}
+
+function hFeatureChips(b) {
+  const ck = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>`;
+  const chips = (b.items||'').split('\n').filter(l=>l.trim()).map(l=>`<span class="wf-currency-feature">${ck}${esc(l)}</span>`).join('');
+  return `<div class="wf-currency-features" style="flex-wrap:wrap;gap:8px;">${chips}</div>`;
+}
+
+function hPunishCard(b) {
+  const sm = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`;
+  const punishments = (b.punishments||'').split(',').map(p=>p.trim()).filter(Boolean);
+  const badges      = (b.badges||'').split(',').map(p=>p.trim()).filter(Boolean);
+  const punHtml   = punishments.map(p=>`<span class="wf-info-punish wf-info-font">${esc(p)}</span>`).join(' ');
+  const badgeHtml = badges.map(p=>`<span class="wf-info-badge wf-info-font">${esc(p)}</span>`).join(' ');
+  const num = b.number ? `<span class="wf-info-number wf-info-font">${esc(b.number)}</span> ` : '';
+  return `<div class="wf-info-card"><div class="wf-info-icon">${sm}</div><div class="wf-info-content">${num}${esc(b.text||'')}<div style="margin-top:6px;display:flex;flex-wrap:wrap;gap:5px;">${badgeHtml}${punHtml}</div></div></div>`;
+}
+
+function hMedia(b) {
+  const url  = b.url||'';
+  const type = getMediaType(url);
+  const lbl  = b.label ? `<div style="position:absolute;bottom:12px;right:12px;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);padding:4px 12px;border-radius:20px;font-size:11px;font-family:'Orbitron',monospace;color:#ff8c00;">${esc(b.label)}</div>` : '';
+  const cap  = b.caption ? `<div style="text-align:center;padding:10px 12px 4px;font-size:12px;color:#999;">${esc(b.caption)}</div>` : '';
+  if (!url) return `<div style="margin:20px 0;padding:20px;background:rgba(255,255,255,0.04);border:1px dashed rgba(255,255,255,0.1);border-radius:12px;text-align:center;color:#555;font-size:12px;">No media URL set — click Edit to add one</div>`;
+  if (type==='link') return `<div style="margin:20px 0;padding:16px;background:rgba(255,140,0,0.06);border:1px solid rgba(255,140,0,0.25);border-radius:12px;text-align:center;"><a href="${url}" target="_blank" style="color:#ff8c00;font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;text-decoration:none;">${esc(b.linkText||url)}</a></div>`;
+  let el;
+  if (type==='video') el=`<video src="${url}" controls style="width:100%;max-width:800px;height:auto;display:block;margin:0 auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.2);"></video>`;
+  else if (type==='youtube'){const id=getYoutubeId(url);el=`<iframe src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen style="width:100%;aspect-ratio:16/9;border-radius:12px;display:block;margin:0 auto;box-shadow:0 4px 20px rgba(0,0,0,0.2);"></iframe>`;}
+  else el=`<img src="${url}" alt="${esc(b.alt||b.label||'')}" style="width:100%;max-width:800px;height:auto;display:block;margin:0 auto;border-radius:12px;box-shadow:0 4px 20px rgba(0,0,0,0.2);" loading="lazy">`;
+  return `<div style="margin:24px 0;border-radius:16px;overflow:hidden;background:linear-gradient(135deg,rgba(255,140,0,0.1),rgba(255,140,0,0.02));border:1px solid rgba(255,140,0,0.2);padding:8px;"><div style="position:relative;border-radius:12px;overflow:hidden;">${el}${lbl}</div>${cap}</div>`;
+}
+
+function hStatRow(b) {
+  const lines = (b.items||'').split('\n').filter(l=>l.trim());
+  const pairs = [];
+  for(let i=0;i<lines.length;i+=2){if(lines[i]&&lines[i+1])pairs.push({val:lines[i],lbl:lines[i+1]});}
+  const cols = pairs.map(p=>`<div style="flex:1;min-width:100px;text-align:center;padding:16px 12px;background:rgba(255,140,0,0.05);border:1px solid rgba(255,140,0,0.15);border-radius:12px;"><div style="font-family:'Orbitron',sans-serif;font-size:22px;font-weight:800;color:#ff8c00;">${esc(p.val)}</div><div style="font-size:11px;text-transform:uppercase;letter-spacing:0.5px;opacity:0.6;margin-top:4px;font-family:'Orbitron',sans-serif;">${esc(p.lbl)}</div></div>`).join('');
+  return `<div style="display:flex;gap:12px;flex-wrap:wrap;margin:20px 0;">${cols}</div>`;
+}
+
+function hBadgeGroup(b) {
+  const C = {
+    orange:{bg:'rgba(255,140,0,0.15)',  bdr:'rgba(255,140,0,0.4)',  col:'#ff9a1a'},
+    green: {bg:'rgba(72,187,120,0.15)', bdr:'rgba(72,187,120,0.4)', col:'#68d391'},
+    blue:  {bg:'rgba(66,153,225,0.15)', bdr:'rgba(66,153,225,0.4)', col:'#63b3ed'},
+    red:   {bg:'rgba(255,68,68,0.15)',  bdr:'rgba(255,68,68,0.4)',  col:'#ff7070'},
+    purple:{bg:'rgba(159,122,234,0.15)',bdr:'rgba(159,122,234,0.4)',col:'#b794f4'},
+  };
+  const chips = (b.items||'').split('\n').filter(l=>l.trim()).map(line=>{
+    const [txt,col='orange'] = line.split('|');
+    const c = C[col.trim()]||C.orange;
+    return `<span style="display:inline-block;background:${c.bg};border:1px solid ${c.bdr};color:${c.col};padding:5px 14px;border-radius:20px;font-size:11px;font-weight:700;font-family:'Orbitron',sans-serif;letter-spacing:0.3px;">${esc(txt.trim())}</span>`;
+  }).join('');
+  return `<div style="display:flex;flex-wrap:wrap;gap:6px;margin:16px 0;">${chips}</div>`;
+}
+
+function hLinkBtn(b) {
+  const STMAP = {
+    primary:  'background:linear-gradient(135deg,#ff8c00,#ff6b35);color:#000;border:none;',
+    secondary:'background:transparent;border:1.5px solid rgba(255,140,0,0.5);color:#ff8c00;',
+    glow:     'background:linear-gradient(135deg,#ff8c00,#ff6b35);color:#000;border:none;box-shadow:0 0 20px rgba(255,140,0,0.5),0 0 40px rgba(255,140,0,0.2);',
+    discord:  'background:#5865F2;color:#fff;border:none;',
+    download: 'background:linear-gradient(135deg,#00c851,#00a844);color:#fff;border:none;',
+    cta:      'background:linear-gradient(135deg,#ff8c00,#ff6b35);color:#000;border:none;width:100%;max-width:480px;padding:14px 40px;font-size:13px;',
+  };
+  const s = STMAP[b.style]||STMAP.primary;
+  const DL = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" style="display:inline-block;vertical-align:middle;margin-right:5px;"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>`;
+  const DC = `<svg width="15" height="15" viewBox="0 0 127.14 96.36" fill="currentColor" style="display:inline-block;vertical-align:middle;margin-right:5px;"><path d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.11 0A72.37 72.37 0 0 0 45.64 0a105.89 105.89 0 0 0-26.25 8.09C2.79 32.65-1.71 56.6.54 80.21a105.73 105.73 0 0 0 32.17 16.15 77.7 77.7 0 0 0 6.89-11.11 68.42 68.42 0 0 1-10.85-5.18c.91-.66 1.8-1.34 2.66-2a75.57 75.57 0 0 0 64.32 0c.87.71 1.76 1.39 2.66 2a68.68 68.68 0 0 1-10.87 5.19 77 77 0 0 0 6.89 11.1 105.25 105.25 0 0 0 32.19-16.14c2.64-27.38-4.51-51.11-18.9-72.15z"/></svg>`;
+  const icon = b.style==='download'?DL:b.style==='discord'?DC:'';
+  return `<div style="text-align:center;margin:16px 0;"><a href="${b.url||'#'}" target="_blank" style="${s}display:inline-block;padding:10px 26px;border-radius:8px;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:0.5px;text-decoration:none;">${icon}${esc(b.text||'Click Here')}</a></div>`;
+}
+
+// ═══════════════════════════════════════════════
+// MARKDOWN GENERATORS
+// ═══════════════════════════════════════════════
+function blkMD(b) {
+  const p = TM[S.tmpl].prefix;
+  switch(b.type) {
+    case 'section-title':      return mdST(b,p);
+    case 'info-section-title': return mdIST(b);
+    case 'card':               return mdCard(b,p);
+    case 'info-card':          return mdIC(b);
+    case 'punish-card':        return mdPunishCard(b);
+    case 'tip':                return mdTip(b,p);
+    case 'custom-list':        return mdList(b,p);
+    case 'info-box':           return mdBox(b,p);
+    case 'collapse-group':     return mdCollapse(b);
+    case 'divider':            return '\n<div class="wf-info-divider"></div>\n';
+    case 'key-row':            return mdKeyRow(b);
+    case 'type-grid':          return mdTypeGrid(b);
+    case 'stat-row':           return mdStatRow(b);
+    case 'badge-group':        return mdBadgeGroup(b);
+    case 'price-card':         return mdPriceCard(b,p);
+    case 'feature-chips':      return mdFeatureChips(b);
+    case 'media':              return mdMedia(b);
+    case 'link-button':        return mdLinkBtn(b);
+    default: return '';
+  }
+}
+
+function mdST(b,p) {
+  const t  = (b.title||'Section').toUpperCase();
+  const n  = b.num ? b.num+' ' : '';
+  const ic = b.icon||'lucide:star';
+  return `
+### ${n}${t}
+
+<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="${p}-title-hover">
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="${p}-font"><Icon icon="${ic}" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />${n}${t}</span>
+</div>
+`;
+}
+
+function mdIST(b) {
+  const t = (b.title||'Section').toUpperCase();
+  const n = b.num ? b.num+' ' : '';
+  return `
+### ${n}${t}
+
+<div class="wf-info-title">
+  <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+  <span>${n}${t}</span>
+</div>
+`;
+}
+
+function mdCardMedia(b) {
+  const url = b.mediaUrl||'';
+  if (!url) return '';
+  const type = getMediaType(url);
+  const label = b.mediaLabel ? `    <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">${b.mediaLabel}</div>` : '';
+  const cap   = b.mediaCaption ? `  <div style="text-align: center; padding: 10px 12px 4px; font-size: 12px; color: var(--vp-c-text-2);">${b.mediaCaption}</div>` : '';
+  let el;
+  if (type==='video') el=`    <video src="${url}" controls style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"></video>`;
+  else if (type==='youtube'){const id=getYoutubeId(url);el=`    <iframe src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen style="width: 100%; aspect-ratio: 16/9; border-radius: 12px; display: block; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"></iframe>`;}
+  else el=`    <img src="${url}" alt="${b.mediaLabel||''}" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">`;
+  return `
+  <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
+    <div style="position: relative; border-radius: 12px; overflow: hidden;">
+${el}
+${label}
+    </div>
+${cap}
+  </div>`;
+}
+
+function mdCard(b,p) {
+  const ic    = b.icon||'lucide:info';
+  const nm    = b.number ? `\n    <span class="${p}-number">${b.number}</span>` : '';
+  const hl    = b.highlight ? ` <span class="${p}-highlight">${b.highlight}</span>` : '';
+  const media = mdCardMedia(b);
+  const vMap  = {success:' border-color: rgba(0,200,81,0.4);',danger:' border-color: rgba(255,68,68,0.4);',pro:' border-color: rgba(159,122,234,0.4);'};
+  const varStyle = vMap[b.variant]||'';
+  const styleAttr = varStyle ? ` style="${varStyle.trim()}"` : '';
+  const btn   = b.btnText ? `
+<div style="margin-top: 12px;">
+  <a href="${b.btnUrl||'#'}" target="_blank" style="display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff6b35); color: #000; padding: 7px 18px; border-radius: 6px; font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; text-decoration: none;">${b.btnText}</a>
+</div>` : '';
+  return `
+<div class="${p}-card"${styleAttr}>
+  <div class="${p}-icon"><Icon icon="${ic}" width="18" height="18" color="#ff8c00" /></div>
+  <div class="${p}-content">${nm}${hl}
+    <p>${b.body||''}</p>${media}${btn}
+  </div>
+</div>
+`;
+}
+
+function mdIC(b) {
+  const nm    = b.number ? `<span class="wf-info-number wf-info-font">${b.number}</span> ` : '';
+  const media = mdCardMedia(b);
+  return `
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    ${nm}${b.text||''}${media}
+  </div>
+</div>
+`;
+}
+
+function mdTip(b,p) {
+  const cls = b.variant ? ` ${b.variant}` : '';
+  const col = b.variant==='orange'?'#ff8c00':b.variant==='red'?'#ff4444':'#00c851';
+  const ic  = b.icon || (b.variant==='orange'?'lucide:info':b.variant==='red'?'lucide:alert-triangle':'lucide:check-circle');
+  return `
+<div class="${p}-tip${cls}">
+  <Icon icon="${ic}" width="22" height="22" color="${col}" />
+  <span>${b.body||''}</span>
+</div>
+`;
+}
+
+function mdList(b,p) {
+  const lis = (b.items||'').split('\n').filter(l=>l.trim())
+    .map(l=>`  <li><Icon icon="lucide:check" width="18" height="18" color="#ff8c00" /><span>${l}</span></li>`).join('\n');
+  return `
+<ul class="${p}-custom-list">
+${lis}
+</ul>
+`;
+}
+
+function mdBox(b,p) {
+  const cls = S.tmpl==='wf-info'?'wf-info-box':`${p}-box`;
+  const lis = (b.items||'').split('\n').filter(l=>l.trim())
+    .map(l=>`    <li><Icon icon="lucide:info" width="20" height="20" color="currentColor" /><span>${l}</span></li>`).join('\n');
+  return `
+<div class="${cls}">
+  <ul>
+${lis}
+  </ul>
+</div>
+`;
+}
+
+function mdCollapse(b) {
+  const items = (b.items||[]).map(it=>`  <div class="wf-info-collapse-item">
+    <div class="wf-info-collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
+      <div class="wf-info-collapse-icon">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
+      </div>
+      <span class="wf-info-collapse-title">${it.q||''}</span>
+      <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+    <div class="wf-info-collapse-content">
+      <p>${it.a||''}</p>
+    </div>
+  </div>`).join('\n');
+  return `
+<div class="wf-info-collapse">
+${items}
+</div>
+`;
+}
+
+function genMD() {
+  const h = S.hdr, tm = TM[S.tmpl];
+  const paths = (h.path||'Home').split(',').map(s=>`'${s.trim()}'`).join(', ');
+  const tags  = h.tags.map(t=>`    { text: '${t.text}', component: '${t.col}' }`).join(',\n');
+  let md = `---\noutline: deep\n---\n\n`;
+  md += `<CaseHeader \n  title="${h.title||'New Page'}"\n`;
+  if (tags) md += `  :tags="[\n${tags}\n  ]"\n`;
+  md += `  :path="[${paths}]"\n`;
+  md += `  background="/wallpaper/backgroundwf.webp"\n`;
+  md += `  :blur-amount="6"\n`;
+  md += `  icon="/icons/wildfire.webp"\n`;
+  if (h.pid)   md += `  page-id="${h.pid}"\n`;
+  if (h.badge) md += `  badge-text="${h.badge}"\n`;
+  if (h.icon)  md += `  badge-icon="${h.icon}"\n`;
+  md += `/>\n\n`;
+  if (tm.wrapper) md += `<div class="${tm.wrapper}">\n\n`;
+  md += S.blocks.map(blkMD).join('');
+  if (tm.wrapper) md += `\n</div>\n`;
+  return md;
+}
+
+function mdKeyRow(b) {
+  const keys = (b.keys||'').split(',').map(k=>k.trim()).filter(Boolean);
+  const p = TM[S.tmpl].prefix;
+  const label = b.label ? `<span style="font-size: 12px; color: #999; margin-right: 10px;">${b.label}:</span>` : '';
+  const keyHtml = keys.map(k=>`<span class="${p}-key-button">${k}</span>`).join('');
+  return `\n<div class="${p}-key-row"><span class="${p}-key-item">${label}${keyHtml}</span></div>\n`;
+}
+
+function mdTypeGrid(b) {
+  const p = TM[S.tmpl].prefix;
+  const cards = (b.items||[]).map(it=>`  <div class="${p}-type-card"><span class="${p}-type-name">${it.name||''}</span><p>${it.desc||''}</p></div>`).join('\n');
+  return `\n<div class="${p}-type-grid">\n${cards}\n</div>\n`;
+}
+
+function mdPriceCard(b,p) {
+  const feats = (b.features||'').split('\n').filter(l=>l.trim());
+  const featMD = feats.length ? `\n    <div style="display: flex; flex-direction: column; gap: 5px; margin-top: 10px;">${feats.map(f=>`\n      <span style="display: flex; align-items: center; gap: 6px; font-size: 12px;"><Icon icon="lucide:check" width="13" height="13" color="#ff8c00" />${f}</span>`).join('')}\n    </div>` : '';
+  return `\n<div class="${p}-card" style="text-align: center;">
+  <div class="${p}-content" style="width: 100%;">
+    <div style="font-family: 'Orbitron', sans-serif; font-size: 30px; font-weight: 800; color: #ff8c00; margin-bottom: 4px;">${b.price||'0'} <span style="font-size: 16px; opacity: 0.7;">${b.currency||'EUR'}</span></div>
+    <span class="${p}-highlight" style="font-size: 16px;">${b.name||'Package'}</span>
+    <p style="margin-top: 8px;">${b.desc||''}</p>${featMD}
+  </div>
+</div>\n`;
+}
+
+function mdFeatureChips(b) {
+  const items = (b.items||'').split('\n').filter(l=>l.trim());
+  const chips = items.map(l=>`  <span class="wf-currency-feature"><Icon icon="lucide:check" width="12" height="12" />${l}</span>`).join('\n');
+  return `\n<div class="wf-currency-features">\n${chips}\n</div>\n`;
+}
+
+function mdPunishCard(b) {
+  const punishments = (b.punishments||'').split(',').map(p=>p.trim()).filter(Boolean);
+  const badges      = (b.badges||'').split(',').map(p=>p.trim()).filter(Boolean);
+  const punMD   = punishments.map(p=>`<span class="wf-info-punish wf-info-font">${p}</span>`).join(' ');
+  const badgeMD = badges.map(p=>`<span class="wf-info-badge wf-info-font">${p}</span>`).join(' ');
+  const num = b.number ? `<span class="wf-info-number wf-info-font">${b.number}</span> ` : '';
+  return `\n<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+  </div>
+  <div class="wf-info-content">
+    ${num}${b.text||''}
+    <div style="margin-top: 6px; display: flex; flex-wrap: wrap; gap: 5px;">${badgeMD}${punMD}</div>
+  </div>
+</div>\n`;
+}
+
+function mdMedia(b) {
+  const url  = b.url||'';
+  if (!url) return '';
+  const type = getMediaType(url);
+  const lbl  = b.label ? `    <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">${b.label}</div>` : '';
+  const cap  = b.caption ? `  <div style="text-align: center; padding: 10px 12px 4px; font-size: 12px; color: var(--vp-c-text-2);">${b.caption}</div>` : '';
+  if (type==='link') return `\n<div style="margin: 20px 0; padding: 16px; background: rgba(255,140,0,0.06); border: 1px solid rgba(255,140,0,0.25); border-radius: 12px; text-align: center;">\n  <a href="${url}" target="_blank" style="color: #ff8c00; font-family: 'Orbitron', sans-serif; font-size: 12px; font-weight: 700; text-decoration: none;">${b.linkText||url}</a>\n</div>\n`;
+  let el;
+  if (type==='video') el=`  <video src="${url}" controls style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"></video>`;
+  else if (type==='youtube'){const id=getYoutubeId(url);el=`  <iframe src="https://www.youtube.com/embed/${id}" frameborder="0" allowfullscreen style="width: 100%; aspect-ratio: 16/9; border-radius: 12px; display: block; margin: 0 auto; box-shadow: 0 4px 20px rgba(0,0,0,0.2);"></iframe>`;}
+  else el=`  <img src="${url}" alt="${b.alt||b.label||''}" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">`;
+  return `\n<div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">\n  <div style="position: relative; border-radius: 12px; overflow: hidden;">\n${el}\n${lbl}\n  </div>\n${cap}\n</div>\n`;
+}
+
+function mdStatRow(b) {
+  const lines = (b.items||'').split('\n').filter(l=>l.trim());
+  const pairs = [];
+  for(let i=0;i<lines.length;i+=2){if(lines[i]&&lines[i+1])pairs.push({val:lines[i],lbl:lines[i+1]});}
+  const cols = pairs.map(p=>`  <div style="flex: 1; min-width: 100px; text-align: center; padding: 16px 12px; background: rgba(255,140,0,0.05); border: 1px solid rgba(255,140,0,0.15); border-radius: 12px;"><div style="font-family: 'Orbitron', sans-serif; font-size: 22px; font-weight: 800; color: #ff8c00;">${p.val}</div><div style="font-size: 11px; text-transform: uppercase; letter-spacing: 0.5px; opacity: 0.6; margin-top: 4px;">${p.lbl}</div></div>`).join('\n');
+  return `\n<div style="display: flex; gap: 12px; flex-wrap: wrap; margin: 20px 0;">\n${cols}\n</div>\n`;
+}
+
+function mdBadgeGroup(b) {
+  const C = {
+    orange:{bg:'rgba(255,140,0,0.15)',  bdr:'rgba(255,140,0,0.4)',  col:'#ff9a1a'},
+    green: {bg:'rgba(72,187,120,0.15)', bdr:'rgba(72,187,120,0.4)', col:'#68d391'},
+    blue:  {bg:'rgba(66,153,225,0.15)', bdr:'rgba(66,153,225,0.4)', col:'#63b3ed'},
+    red:   {bg:'rgba(255,68,68,0.15)',  bdr:'rgba(255,68,68,0.4)',  col:'#ff7070'},
+    purple:{bg:'rgba(159,122,234,0.15)',bdr:'rgba(159,122,234,0.4)',col:'#b794f4'},
+  };
+  const chips = (b.items||'').split('\n').filter(l=>l.trim()).map(line=>{
+    const parts = line.split('|'); const txt=parts[0].trim(); const col=(parts[1]||'orange').trim();
+    const c = C[col]||C.orange;
+    return `  <span style="display: inline-block; background: ${c.bg}; border: 1px solid ${c.bdr}; color: ${c.col}; padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: 700; font-family: 'Orbitron', sans-serif; letter-spacing: 0.3px;">${txt}</span>`;
+  }).join('\n');
+  return `\n<div style="display: flex; flex-wrap: wrap; gap: 6px; margin: 16px 0;">\n${chips}\n</div>\n`;
+}
+
+function mdLinkBtn(b) {
+  const STMAP = {
+    primary:  'background: linear-gradient(135deg, #ff8c00, #ff6b35); color: #000; border: none;',
+    secondary:'background: transparent; border: 1.5px solid rgba(255,140,0,0.5); color: #ff8c00;',
+    glow:     'background: linear-gradient(135deg, #ff8c00, #ff6b35); color: #000; border: none; box-shadow: 0 0 20px rgba(255,140,0,0.5), 0 0 40px rgba(255,140,0,0.2);',
+    discord:  'background: #5865F2; color: #fff; border: none;',
+    download: 'background: linear-gradient(135deg, #00c851, #00a844); color: #fff; border: none;',
+    cta:      'background: linear-gradient(135deg, #ff8c00, #ff6b35); color: #000; border: none; width: 100%; max-width: 480px; padding: 14px 40px; font-size: 13px;',
+  };
+  const s = STMAP[b.style]||STMAP.primary;
+  const iconComp = b.style==='discord'
+    ? `<Icon icon="logos:discord-icon" width="15" height="15" style="display: inline-block; vertical-align: middle; margin-right: 5px;" />`
+    : b.style==='download'
+    ? `<Icon icon="lucide:download" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 5px;" />`
+    : '';
+  return `\n<div style="text-align: center; margin: 16px 0;">\n  <a href="${b.url||'#'}" target="_blank" style="${s} display: inline-block; padding: 10px 26px; border-radius: 8px; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 700; letter-spacing: 0.5px; text-decoration: none;">${iconComp}${b.text||'Click Here'}</a>\n</div>\n`;
+}
+
+// ═══════════════════════════════════════════════
+// CASEHEADER SIMULATION
+// ═══════════════════════════════════════════════
+const TAG_COLORS = {
+  PageTagOrange: { bg:'rgba(255,140,0,0.18)',  color:'#ff9a1a', border:'rgba(255,140,0,0.4)'  },
+  PageTagRed:    { bg:'rgba(255,68,68,0.15)',   color:'#ff7070', border:'rgba(255,68,68,0.4)'   },
+  PageTagBlue:   { bg:'rgba(66,153,225,0.15)',  color:'#63b3ed', border:'rgba(66,153,225,0.4)'  },
+  PageTagGreen:  { bg:'rgba(72,187,120,0.15)',  color:'#68d391', border:'rgba(72,187,120,0.4)'  },
+  PageTagPurple: { bg:'rgba(159,122,234,0.15)', color:'#b794f4', border:'rgba(159,122,234,0.4)' },
+  PageTagYellow: { bg:'rgba(237,211,91,0.15)',  color:'#ecc94b', border:'rgba(237,211,91,0.4)'  },
+};
+
+const CH_CSS = `
+.gen-ch{width:100%;margin-bottom:24px;}
+.gen-ch-hero{position:relative;overflow:hidden;border-radius:28px;min-height:200px;background:#111;border:1px solid rgba(255,69,0,0.32);box-shadow:0 4px 24px rgba(0,0,0,0.4);transition:all .3s;}
+.gen-ch-hero:hover{border-color:rgba(255,69,0,0.55);box-shadow:0 8px 32px rgba(0,0,0,0.5);transform:translateY(-2px);}
+.gen-ch-bg{position:absolute;top:-20px;left:-20px;right:-20px;bottom:-20px;z-index:0;transform:scale(1.1);}
+.gen-ch-bg img{width:100%;height:100%;object-fit:cover;opacity:0.42;}
+.gen-ch-ov{position:absolute;inset:0;z-index:1;background:linear-gradient(135deg,rgba(255,69,0,0.08) 0%,rgba(0,0,0,0.22) 50%,rgba(255,69,0,0.08) 100%);pointer-events:none;}
+.gen-ch-floating{position:absolute;inset:0;z-index:1;pointer-events:none;overflow:hidden;}
+.gen-fi{position:absolute;filter:drop-shadow(0 0 12px rgba(255,69,0,0.4));animation:genFloat 28s infinite ease-in-out;}
+.gen-fi1{top:8%;left:2%;animation-duration:28s;}
+.gen-fi2{top:15%;right:5%;animation-duration:32s;animation-delay:-4s;}
+.gen-fi3{bottom:12%;left:8%;animation-duration:26s;animation-delay:-8s;}
+.gen-fi4{top:45%;right:12%;animation-duration:35s;animation-delay:-3s;}
+@keyframes genFloat{0%{transform:translate(0,0) rotate(0deg);}25%{transform:translate(40px,-15px) rotate(4deg);}50%{transform:translate(-30px,20px) rotate(-3deg);}75%{transform:translate(50px,10px) rotate(5deg);}100%{transform:translate(0,0) rotate(0deg);}}
+.gen-ch-cnt{position:relative;z-index:2;padding:28px 28px 20px;}
+.gen-ch-bc-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:8px;flex-wrap:wrap;}
+.gen-ch-bc{display:inline-flex;align-items:center;gap:5px;background:rgba(0,0,0,0.38);backdrop-filter:blur(8px);padding:4px 12px;border-radius:8px;border:1px solid rgba(255,69,0,0.38);}
+.gen-bc-item{color:#ff8c00;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:500;}
+.gen-bc-active{color:rgba(255,255,255,0.55);font-family:'Orbitron',sans-serif;font-size:10px;}
+.gen-sep{color:rgba(255,140,0,0.45);font-size:10px;margin:0 1px;}
+.gen-ch-bc-right{display:flex;align-items:center;gap:6px;}
+.gen-ch-views,.gen-ch-badge-pill{display:flex;align-items:center;gap:5px;background:rgba(0,0,0,0.55);backdrop-filter:blur(4px);padding:4px 10px;border-radius:16px;border:1px solid rgba(255,69,0,0.48);}
+.gen-ch-views span,.gen-ch-badge-pill span{font-size:10px;color:#ff8c00;font-family:'Orbitron',sans-serif;font-weight:600;}
+.gen-ch-views svg,.gen-ch-badge-pill svg{flex-shrink:0;}
+.gen-ch-title-row{display:flex;align-items:center;gap:12px;margin-bottom:18px;}
+.gen-ch-icon{width:52px;height:52px;object-fit:contain;filter:drop-shadow(0 2px 8px rgba(0,0,0,0.5));}
+.gen-ch-h1{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:700;background:linear-gradient(135deg,#ff8c00,#ff6b35,#ffae42,#ff8c00);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;margin:0;line-height:1.2;background-size:300% 200%;animation:genGrad 7s ease infinite;}
+@keyframes genGrad{0%{background-position:0% 50%;}50%{background-position:100% 50%;}100%{background-position:0% 50%;}}
+.gen-ch-footer{border-top:1px solid rgba(255,69,0,0.22);padding-top:14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+.gen-ch-tags{display:flex;align-items:center;gap:7px;flex-wrap:wrap;}
+.gen-tag{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:600;padding:3px 10px;border-radius:20px;border:1px solid;letter-spacing:0.3px;}
+`;
+
+const SVG = {
+  home:  `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>`,
+  eye:   `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>`,
+  circ:  `<svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>`,
+  chev:  `<svg width="9" height="9" viewBox="0 0 24 24" fill="none" stroke="rgba(255,140,0,0.5)" stroke-width="2.5"><polyline points="9 18 15 12 9 6"/></svg>`,
+};
+
+function buildCaseHeaderHTML() {
+  const h   = S.hdr;
+  const base = 'http://localhost:3001';
+  const bgURL   = `${base}/public/wallpaper/backgroundwf.webp`;
+  const iconURL = `${base}/public/icons/wildfire.webp`;
+
+  const paths = (h.path||'Home').split(',').map(s=>s.trim());
+  const bcItems = paths.map((p,i) => {
+    const isLast = i === paths.length - 1;
+    const seg = `<span class="${isLast?'gen-bc-active':'gen-bc-item'}">${esc(p)}</span>`;
+    return (i > 0 ? `<span class="gen-sep">${SVG.chev}</span>` : '') + seg;
+  }).join('');
+
+  const tagsHTML = h.tags.length
+    ? h.tags.map(t => { const c = TAG_COLORS[t.col]||TAG_COLORS.PageTagOrange;
+        return `<span class="gen-tag" style="background:${c.bg};color:${c.color};border-color:${c.border}">${esc(t.text)}</span>`; }).join('')
+    : `<span class="gen-tag" style="background:rgba(255,140,0,0.15);color:#ff9a1a;border-color:rgba(255,140,0,0.35)">page</span>`;
+
+  return `<div class="gen-ch">
+  <div class="gen-ch-hero">
+    <div class="gen-ch-bg" style="filter:blur(${h.blurAmount||6}px) brightness(0.65)"><img src="${bgURL}" alt=""></div>
+    <div class="gen-ch-floating">
+      <img src="${iconURL}" class="gen-fi gen-fi1" style="width:55px;opacity:0.22;">
+      <img src="${iconURL}" class="gen-fi gen-fi2" style="width:72px;opacity:0.16;">
+      <img src="${iconURL}" class="gen-fi gen-fi3" style="width:44px;opacity:0.28;">
+      <img src="${iconURL}" class="gen-fi gen-fi4" style="width:62px;opacity:0.18;">
+    </div>
+    <div class="gen-ch-ov"></div>
+    <div class="gen-ch-cnt">
+      <div class="gen-ch-bc-row">
+        <div class="gen-ch-bc">${SVG.home}${bcItems}</div>
+        <div class="gen-ch-bc-right">
+          <div class="gen-ch-views">${SVG.eye}<span>1</span></div>
+          <div class="gen-ch-badge-pill">${SVG.circ}<span>${esc(h.badge||'Page')}</span></div>
+        </div>
+      </div>
+      <div class="gen-ch-title-row">
+        <img src="${iconURL}" alt="icon" class="gen-ch-icon">
+        <h1 class="gen-ch-h1">${esc(h.title||'New Page')}</h1>
+      </div>
+      <div class="gen-ch-footer"><div class="gen-ch-tags">${tagsHTML}</div></div>
+    </div>
+  </div>
+</div>`;
+}
+
+// ═══════════════════════════════════════════════
+// PREVIEW IFRAME
+// ═══════════════════════════════════════════════
+let prevBlobURL = null;
+
+function buildPreviewHTML() {
+  const tm = TM[S.tmpl];
+  const inner = S.blocks.map(blkHTML).join('\n');
+  const content = tm.wrapper ? `<div class="${tm.wrapper}">${inner}</div>` : inner;
+  return `<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+<meta charset="UTF-8">
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;800;900&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>${wikiCSS}</style>
+<style>${CH_CSS}
+*,*::before,*::after{box-sizing:border-box}
+html,body{background:#1b1b1f;color:#e0e0e0;font-family:'Inter',sans-serif;padding:32px 24px;margin:0;line-height:1.6;font-size:14px;}
+body{max-width:780px;margin:0 auto;}
+h1,h2,h3,h4{color:#f0f0f0;margin:0}
+code{background:rgba(255,255,255,0.08);padding:2px 6px;border-radius:4px;font-family:'Courier New',monospace;font-size:12px}
+p{margin:6px 0}
+</style>
+</head>
+<body>${buildCaseHeaderHTML()}${content}</body>
+</html>`;
+}
+
+function updatePreview() {
+  const frame = document.getElementById('prev-frame');
+  const html  = buildPreviewHTML();
+  const blob  = new Blob([html], { type:'text/html' });
+  const url   = URL.createObjectURL(blob);
+  if (prevBlobURL) URL.revokeObjectURL(prevBlobURL);
+  prevBlobURL = url;
+  frame.src   = url;
+  document.getElementById('prev-loading').style.display = 'none';
+  frame.style.display = 'block';
+}
+
+// ═══════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════
+function render() {
+  updatePreview();
+  document.getElementById('md-out').value = genMD();
+
+  const cnt = S.blocks.length;
+  document.getElementById('blk-cnt').textContent = cnt ? `${cnt} block${cnt>1?'s':''}` : '';
+
+  const list = document.getElementById('blk-list');
+  if (!cnt) {
+    list.innerHTML = '<div id="no-blocks">No blocks yet. Add content below.</div>';
+  } else {
+    list.innerHTML = S.blocks.map((b,i) => {
+      const mv = (i>0 ? `<button class="bi" onclick="mvBlk('${b.id}','up')" title="Up">↑</button>` : '') +
+                 (i<S.blocks.length-1 ? `<button class="bi" onclick="mvBlk('${b.id}','dn')" title="Down">↓</button>` : '');
+      return `<div class="blk">
+        <span class="blk-badge">${b.type.replace(/-/g,'·')}</span>
+        <span class="blk-txt">${blkPreview(b)}</span>
+        <div class="blk-acts">${mv}
+          <button class="bi" onclick="editBlk('${b.id}')" title="Edit">✏</button>
+          <button class="bi del" onclick="delBlk('${b.id}')" title="Delete">✕</button>
+        </div></div>`;
+    }).join('');
+  }
+
+  rebuildDD();
+}
+
+function blkPreview(b) {
+  switch(b.type) {
+    case 'section-title':
+    case 'info-section-title': return esc(`${b.num||''} ${b.title||''}`.trim());
+    case 'card':               return esc(b.highlight||b.body||'');
+    case 'info-card':          return esc(`${b.number||''} ${b.text||''}`.trim());
+    case 'tip':                return esc(b.body||'');
+    case 'custom-list':
+    case 'info-box':           return esc((b.items||'').split('\n')[0]||'');
+    case 'collapse-group':     return esc(b.items?.[0]?.q||'FAQ group');
+    case 'divider':            return '── divider ──';
+    case 'key-row':            return esc(`${b.label||''}: ${b.keys||''}`);
+    case 'type-grid':          return esc(b.items?.[0]?.name||'type grid');
+    case 'price-card':         return esc(`${b.price||'0'} ${b.currency||'EUR'} — ${b.name||''}`);
+    case 'feature-chips':      return esc((b.items||'').split('\n')[0]||'');
+    case 'punish-card':        return esc(`${b.number||''} ${b.text||''}`.trim());
+    case 'media':              return esc(b.url ? `[${getMediaType(b.url)}] ${b.url.split('/').pop()}` : 'no url set');
+    case 'link-button':        return esc(`${b.text||'Link'} → ${b.url||''}`);
+    default: return b.type;
+  }
+}
+
+// ═══════════════════════════════════════════════
+// BLOCK CRUD
+// ═══════════════════════════════════════════════
+function addBlk(type) {
+  S.blocks.push(defBlock(type));
+  toggleDD(false);
+  render();
+}
+
+function delBlk(id) {
+  S.blocks = S.blocks.filter(b=>b.id!==id);
+  render();
+}
+
+function mvBlk(id, dir) {
+  const i = S.blocks.findIndex(b=>b.id===id);
+  if (i<0) return;
+  if (dir==='up'  && i>0)               [S.blocks[i],S.blocks[i-1]]=[S.blocks[i-1],S.blocks[i]];
+  if (dir==='dn'  && i<S.blocks.length-1) [S.blocks[i],S.blocks[i+1]]=[S.blocks[i+1],S.blocks[i]];
+  render();
+}
+
+// ═══════════════════════════════════════════════
+// MODAL
+// ═══════════════════════════════════════════════
+function editBlk(id) {
+  const b = S.blocks.find(x=>x.id===id);
+  if (!b) return;
+  editId = id;
+  const TITLES = {'section-title':'Section Title','info-section-title':'Section Title','card':'Card','info-card':'Rule Card','punish-card':'Punish Card','tip':'Tip Box','custom-list':'Custom List','info-box':'Info Box','collapse-group':'FAQ Collapse','divider':'Divider','key-row':'Key Row','type-grid':'Type Grid','stat-row':'Stat Row','badge-group':'Badge Group','price-card':'Price Card','feature-chips':'Feature Chips','media':'Image / GIF / Video','link-button':'Link Button'};
+  document.getElementById('m-title').textContent = 'Edit: ' + (TITLES[b.type]||b.type);
+  document.getElementById('m-body').innerHTML    = buildMF(b);
+  document.getElementById('ov').classList.add('open');
+}
+
+const field = (id,lbl,val,ph='')=>
+  `<div class="mf"><label>${lbl}</label><input type="text" id="mf-${id}" value="${esc(val||'')}" placeholder="${ph}"></div>`;
+const area = (id,lbl,val)=>
+  `<div class="mf"><label>${lbl}</label><textarea id="mf-${id}" rows="4">${val||''}</textarea></div>`;
+const sel = (id,lbl,val,opts)=>
+  `<div class="mf"><label>${lbl}</label><select id="mf-${id}">${opts.map(o=>`<option value="${o.v}"${o.v===val?' selected':''}>${o.l}</option>`).join('')}</select></div>`;
+
+function buildMF(b) {
+  const p = TM[S.tmpl].prefix;
+  switch(b.type) {
+    case 'section-title':
+      return field('num','Section Number (e.g. 1.0)',b.num)
+           + field('title','Title',b.title)
+           + field('icon','Icon (lucide:xxx)',b.icon,'lucide:star');
+    case 'info-section-title':
+      return field('num','Section Number',b.num)+field('title','Title',b.title);
+    case 'card':
+      return field('icon',`Icon (lucide:xxx)`,b.icon,'lucide:info')
+           + sel('variant','Card Variant',b.variant||'',[{v:'',l:'Default (orange)'},{v:'success',l:'Success (green border)'},{v:'danger',l:'Danger (red border)'},{v:'pro',l:'Pro (purple border)'}])
+           + field('number',`Number/Label pill (optional)`,b.number)
+           + field('highlight','Highlight text (optional)',b.highlight)
+           + area('body','Body content',b.body)
+           + `<div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07);"><label style="font-size:10px;letter-spacing:1px;opacity:0.45;text-transform:uppercase;">Inline Media (optional)</label></div>`
+           + field('mediaUrl','Image / GIF / Video URL',b.mediaUrl,'/img/photo.gif')
+           + field('mediaLabel','Watermark label (bottom-right)',b.mediaLabel,'e.g. !cases menu')
+           + field('mediaCaption','Caption below media',b.mediaCaption)
+           + `<div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07);"><label style="font-size:10px;letter-spacing:1px;opacity:0.45;text-transform:uppercase;">Inline Button (optional)</label></div>`
+           + field('btnText','Button label (empty = hidden)',b.btnText,'e.g. Learn More')
+           + field('btnUrl','Button URL',b.btnUrl,'https://');
+    case 'info-card':
+      return field('number','Rule Number (e.g. 1.1)',b.number)
+           + area('text','Rule text',b.text)
+           + `<div style="margin-top:14px;padding-top:12px;border-top:1px solid rgba(255,255,255,0.07);"><label style="font-size:10px;letter-spacing:1px;opacity:0.45;text-transform:uppercase;">Inline Media (optional)</label></div>`
+           + field('mediaUrl','Image / GIF / Video URL',b.mediaUrl,'/img/photo.gif')
+           + field('mediaLabel','Watermark label',b.mediaLabel)
+           + field('mediaCaption','Caption below media',b.mediaCaption);
+    case 'tip':
+      return sel('variant','Variant',b.variant,[{v:'',l:'Green (default)'},{v:'orange',l:'Orange'},{v:'red',l:'Red'}])
+           + field('icon','Icon (lucide:xxx)',b.icon,'lucide:info')
+           + area('body','Tip text',b.body);
+    case 'custom-list': return area('items','Items (one per line)',b.items);
+    case 'info-box':    return area('items','Items (one per line)',b.items);
+    case 'key-row':
+      return field('label','Label (e.g. Movement)',b.label)+field('keys','Keys, comma-separated (e.g. W, A, S, D)',b.keys);
+    case 'type-grid': {
+      const tg = (b.items||[]).map((it,idx)=>`
+        <div class="faq-pair"><div class="faq-pair-hd"><span>Item #${idx+1}</span><button class="bi del" onclick="rmTGItem(${idx})">✕</button></div>
+          <input type="text" id="mf-tg-name-${idx}" value="${esc(it.name||'')}" placeholder="Name" style="margin-bottom:5px">
+          <input type="text" id="mf-tg-desc-${idx}" value="${esc(it.desc||'')}" placeholder="Description"></div>`).join('');
+      return `<div id="tg-c">${tg}</div><button class="btn sec" onclick="addTGItem()" style="width:100%;margin-top:4px;font-size:10px">+ ADD ITEM</button>`;
+    }
+    case 'price-card':
+      return field('name','Package Name',b.name)+field('price','Price',b.price)+field('currency','Currency',b.currency,'EUR')
+           + area('desc','Description',b.desc)+area('features','Features (one per line)',b.features);
+    case 'feature-chips': return area('items','Features (one per line)',b.items);
+    case 'stat-row':      return area('items','Stat pairs: value on odd lines, label on even lines',b.items);
+    case 'badge-group':   return area('items','Badges — one per line — Format: Label|color  (orange/green/blue/red/purple)',b.items);
+    case 'punish-card':
+      return field('number','Rule Number (e.g. 1.1)',b.number)+area('text','Rule text',b.text)
+           + field('badges','Sanction badges, comma-separated (e.g. MUTE, GAG)',b.badges)
+           + field('punishments','Punishment badges, comma-separated (e.g. BAN TEMPORAR)',b.punishments);
+    case 'media': {
+      const mt = getMediaType(b.url||'');
+      return sel('mtype','Type (auto-detected)',mt,[{v:'img',l:'Image / GIF'},{v:'video',l:'Video (.mp4)'},{v:'youtube',l:'YouTube'},{v:'link',l:'Link (no file)'}])
+           + field('url','URL or path (e.g. /crates/my.gif, https://...)',b.url)
+           + field('alt','Alt text (for accessibility)',b.alt)
+           + field('label','Watermark label (bottom-right over image)',b.label,'e.g. !cases menu navigation')
+           + field('caption','Caption below media (optional)',b.caption)
+           + field('linkText','Link display text (only for link type)',b.linkText);
+    }
+    case 'link-button':
+      return field('text','Button text',b.text)
+           + field('url','URL (href)',b.url,'https://')
+           + sel('style','Style',b.style,[{v:'primary',l:'Primary (orange gradient)'},{v:'secondary',l:'Secondary (outline)'},{v:'glow',l:'Glow (neon orange)'},{v:'discord',l:'Discord (purple + icon)'},{v:'download',l:'Download (green + icon)'},{v:'cta',l:'CTA (full-width wide)'}]);
+    case 'collapse-group': {
+      const pairs = (b.items||[]).map((it,idx)=>`
+        <div class="faq-pair">
+          <div class="faq-pair-hd"><span>Q&A #${idx+1}</span>
+            <button class="bi del" onclick="rmFAQ(${idx})">✕</button></div>
+          <input type="text" id="mf-fq-${idx}" value="${esc(it.q||'')}" placeholder="Question" style="margin-bottom:5px">
+          <textarea id="mf-fa-${idx}" rows="2" placeholder="Answer">${it.a||''}</textarea>
+        </div>`).join('');
+      return `<div id="faq-c">${pairs}</div>
+        <button class="btn sec" onclick="addFAQ()" style="width:100%;margin-top:4px;font-size:10px">+ ADD Q&A</button>`;
+    }
+    case 'divider': return '<p style="color:var(--dim);font-size:12px;">No configurable options.</p>';
+    default: return '';
+  }
+}
+
+function addFAQ() {
+  const b = S.blocks.find(x=>x.id===editId);
+  if (!b) return;
+  b.items = b.items||[];
+  b.items.push({q:'',a:''});
+  document.getElementById('m-body').innerHTML = buildMF(b);
+}
+function addTGItem() {
+  const b = S.blocks.find(x=>x.id===editId);
+  if (!b) return;
+  b.items = b.items||[];
+  b.items.push({name:'',desc:''});
+  document.getElementById('m-body').innerHTML = buildMF(b);
+}
+function rmTGItem(idx) {
+  const b = S.blocks.find(x=>x.id===editId);
+  if (!b||!b.items) return;
+  b.items.splice(idx,1);
+  document.getElementById('m-body').innerHTML = buildMF(b);
+}
+
+function rmFAQ(idx) {
+  const b = S.blocks.find(x=>x.id===editId);
+  if (!b||!b.items) return;
+  b.items.splice(idx,1);
+  document.getElementById('m-body').innerHTML = buildMF(b);
+}
+
+function saveModal() {
+  const b = S.blocks.find(x=>x.id===editId);
+  if (!b) { closeModal(); return; }
+  const v = id => { const el=document.getElementById(`mf-${id}`); return el?el.value:''; };
+  switch(b.type) {
+    case 'section-title':      b.num=v('num');b.title=v('title');b.icon=v('icon');break;
+    case 'info-section-title': b.num=v('num');b.title=v('title');break;
+    case 'card':               b.icon=v('icon');b.variant=v('variant');b.number=v('number');b.highlight=v('highlight');b.body=v('body');b.mediaUrl=v('mediaUrl');b.mediaLabel=v('mediaLabel');b.mediaCaption=v('mediaCaption');b.btnText=v('btnText');b.btnUrl=v('btnUrl');break;
+    case 'info-card':          b.number=v('number');b.text=v('text');b.mediaUrl=v('mediaUrl');b.mediaLabel=v('mediaLabel');b.mediaCaption=v('mediaCaption');break;
+    case 'tip':                b.variant=v('variant');b.icon=v('icon');b.body=v('body');break;
+    case 'custom-list':        b.items=v('items');break;
+    case 'info-box':           b.items=v('items');break;
+    case 'collapse-group': {
+      const items=[]; let i=0;
+      while(true){ const qe=document.getElementById(`mf-fq-${i}`); if(!qe)break;
+        items.push({q:qe.value,a:(document.getElementById(`mf-fa-${i}`)||{}).value||''}); i++; }
+      b.items=items; break;
+    }
+    case 'key-row':       b.label=v('label');b.keys=v('keys');break;
+    case 'type-grid': {
+      const tgItems=[];let ti=0;
+      while(true){const ne=document.getElementById(`mf-tg-name-${ti}`);if(!ne)break;
+        tgItems.push({name:ne.value,desc:(document.getElementById(`mf-tg-desc-${ti}`)||{}).value||''});ti++;}
+      b.items=tgItems;break;
+    }
+    case 'price-card':    b.name=v('name');b.price=v('price');b.currency=v('currency');b.desc=v('desc');b.features=v('features');break;
+    case 'feature-chips': b.items=v('items');break;
+    case 'stat-row':      b.items=v('items');break;
+    case 'badge-group':   b.items=v('items');break;
+    case 'punish-card':   b.number=v('number');b.text=v('text');b.badges=v('badges');b.punishments=v('punishments');break;
+    case 'media':         b.url=v('url');b.alt=v('alt');b.label=v('label');b.caption=v('caption');b.linkText=v('linkText');break;
+    case 'link-button':   b.text=v('text');b.url=v('url');b.style=v('style');break;
+  }
+  closeModal(); render();
+}
+
+function closeModal() { document.getElementById('ov').classList.remove('open'); editId=null; }
+function ovClick(e)   { if(e.target===document.getElementById('ov')) closeModal(); }
+
+// ═══════════════════════════════════════════════
+// TEMPLATE SWITCH
+// ═══════════════════════════════════════════════
+function setTmpl(t) {
+  S.tmpl = t; S.blocks = [];
+  document.getElementById('f-path').value = TM[t].defPath;
+  S.hdr.path = TM[t].defPath;
+  document.querySelectorAll('.ttab').forEach(el=>el.classList.toggle('on',el.dataset.t===t));
+  render();
+}
+
+// ═══════════════════════════════════════════════
+// ADD DROPDOWN
+// ═══════════════════════════════════════════════
+let ddOpen=false;
+function toggleDD(force) {
+  ddOpen = force!==undefined ? force : !ddOpen;
+  document.getElementById('add-dd').classList.toggle('open',ddOpen);
+}
+document.addEventListener('click',e=>{ if(!e.target.closest('#add-wrap')) toggleDD(false); });
+
+function rebuildDD() {
+  document.getElementById('add-dd').innerHTML = (BTYPES[S.tmpl]||[]).map(t=>
+    `<div class="add-opt" onclick="addBlk('${t.t}')">
+      <span class="add-opt-ico">${t.i}</span><span>${t.l}</span>
+    </div>`).join('');
+}
+
+// ═══════════════════════════════════════════════
+// HEADER FORM
+// ═══════════════════════════════════════════════
+function us() {
+  S.hdr.title = document.getElementById('f-title').value;
+  S.hdr.badge = document.getElementById('f-badge').value;
+  S.hdr.icon  = document.getElementById('f-icon').value;
+  S.hdr.pid   = document.getElementById('f-pid').value;
+  S.hdr.path  = document.getElementById('f-path').value;
+  render();
+}
+
+function renderTags() {
+  document.getElementById('tags-row').innerHTML = S.hdr.tags.map((t,i)=>
+    `<span class="tchip">${esc(t.text)}<button onclick="rmTag(${i})">×</button></span>`).join('');
+}
+
+function addTag() {
+  const txt=document.getElementById('tag-txt').value.trim(), col=document.getElementById('tag-col').value;
+  if (!txt) return;
+  S.hdr.tags.push({text:txt,col});
+  document.getElementById('tag-txt').value='';
+  renderTags(); render();
+}
+
+function rmTag(i) { S.hdr.tags.splice(i,1); renderTags(); render(); }
+
+// ═══════════════════════════════════════════════
+// COPY & SAVE
+// ═══════════════════════════════════════════════
+function copyMD() {
+  navigator.clipboard.writeText(document.getElementById('md-out').value)
+    .then(()=>toast('Copied to clipboard!'));
+}
+
+async function saveFile() {
+  const fp = document.getElementById('save-path').value.trim();
+  if (!fp) { toast('Enter a file path!',true); return; }
+  try {
+    const r = await fetch('/api/save',{method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({filepath:fp,content:document.getElementById('md-out').value})});
+    const d = await r.json();
+    if (d.success) toast('✅ Saved: '+d.saved);
+    else toast(d.error||'Save failed',true);
+  } catch(e) { toast('Error: '+e.message,true); }
+}
+
+// ═══════════════════════════════════════════════
+// TOAST
+// ═══════════════════════════════════════════════
+let toastT=null;
+function toast(msg,err=false) {
+  const el=document.getElementById('toast');
+  el.textContent=msg;
+  el.className='on'+(err?' err':'');
+  clearTimeout(toastT);
+  toastT=setTimeout(()=>el.className='',2800);
+}
+
+// ═══════════════════════════════════════════════
+// INIT
+// ═══════════════════════════════════════════════
+async function init() {
+  // Build template tabs
+  document.getElementById('ttabs').innerHTML = Object.entries(TM).map(([k,m])=>
+    `<button class="ttab ${k===S.tmpl?'on':''}" data-t="${k}" onclick="setTmpl('${k}')">${m.label}</button>`
+  ).join('');
+
+  // Set defaults
+  document.getElementById('f-path').value = TM[S.tmpl].defPath;
+  S.hdr.path = TM[S.tmpl].defPath;
+
+  // Load wiki CSS
+  document.getElementById('hdr-status').textContent = 'Loading CSS...';
+  try {
+    wikiCSS = await fetch('/api/style').then(r=>r.text());
+    document.getElementById('hdr-status').textContent = 'CSS loaded ✓';
+  } catch(e) {
+    document.getElementById('hdr-status').textContent = 'CSS load failed';
+    console.warn(e);
+  }
+
+  rebuildDD();
+  render();
+}
+
+init();
+</script>
+</body>
+</html>

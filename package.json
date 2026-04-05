@@ -11,7 +11,8 @@
     "docs:dev": "dotenv -e .env -- vitepress dev docs",
     "docs:build": "dotenv -e .env -- vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "start": "node server.js"
+    "start": "node server.js",
+    "generator": "node tools/generator/server.js"
   },
   "dependencies": {
     "@iconify/json": "^2.2.453",

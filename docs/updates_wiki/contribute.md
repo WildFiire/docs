@@ -792,7 +792,7 @@ html:not(.dark) .contribute-wrapper {
 </div>
 
 <!-- MAIN CARDS GRID -->
-### <span style="display: none;">Cum poți contribui</span>
+### Cum poți contribui
 <div class="contribute-grid">
 
   <!-- Card 1: Developer -->
@@ -938,7 +938,7 @@ html:not(.dark) .contribute-wrapper {
 </div>
 
 <!-- STEPS SECTION -->
-### <span style="display: none;">Cum începi</span>
+### Cum începi
 <div class="contribute-steps">
   <div class="contribute-steps-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -976,7 +976,7 @@ html:not(.dark) .contribute-wrapper {
 </div>
 
 <!-- REWARDS SECTION -->
-### <span style="display: none;">Ce primești în schimb</span>
+### Ce primești în schimb
 <div class="contribute-rewards">
   <div class="contribute-rewards-content">
     <h3>
@@ -1023,7 +1023,7 @@ html:not(.dark) .contribute-wrapper {
 </div>
 
 <!-- FAQ SECTION -->
-### <span style="display: none;">Întrebări frecvente</span>
+### Întrebări frecvente
 <div class="contribute-faq">
   <div class="contribute-faq-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
