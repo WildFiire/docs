@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isHomePage" class="wildfire-home orbitron-font">
+  <div v-if="isMounted && isHomePage" class="wildfire-home orbitron-font">
     <HomeNavbar v-if="isHomePage" />
     
     <img 
@@ -193,6 +193,7 @@ const isHomePage = computed(() => {
   return page.value.relativePath === 'index.md' || page.value.relativePath === 'index'
 })
 
+const isMounted = ref(false)
 const isHovered = ref(false)
 const isOverlayLoaded = ref(false)
 const logoStart = ref(false)
@@ -474,10 +475,11 @@ const handleScroll = () => {
 }
 
 watch(isHomePage, (newValue) => {
-  toggleDefaultNavbar(newValue)
+  if (typeof document !== 'undefined') toggleDefaultNavbar(newValue)
 }, { immediate: true })
 
 onMounted(() => {
+  isMounted.value = true
   toggleDefaultNavbar(isHomePage.value)
   
   // Nu mai fetch-uim GitHub aici - totul e în WikiUpdatesGrid
