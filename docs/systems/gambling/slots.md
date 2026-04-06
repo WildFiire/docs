@@ -13,7 +13,7 @@ outline: deep
   :blur-amount="6"
   icon="/icons/wildfire.webp"
   page-id="slots-page"
-  badge-text="SLOTS"
+  badge-text="Slots"
   badge-icon="lucide:coins"
 />
 

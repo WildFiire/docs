@@ -1,4 +1,6 @@
 <template>
+  <!-- Space-reserving placeholder prevents footer CLS while component mounts -->
+  <div v-if="!isMounted && isHomePage" class="wildfire-home-placeholder" aria-hidden="true"></div>
   <div v-if="isMounted && isHomePage" class="wildfire-home orbitron-font">
     <HomeNavbar v-if="isHomePage" />
     
@@ -577,6 +579,13 @@ onUnmounted(() => {
   font-weight: 500 !important;
   font-size: 11px;
   text-transform: uppercase;
+}
+
+/* Placeholder rezervă spațiu înainte de mount — previne CLS footer */
+.wildfire-home-placeholder {
+  min-height: 100vh;
+  visibility: hidden;
+  pointer-events: none;
 }
 
 /* Restul stilurilor rămân exact la fel */
@@ -1398,6 +1407,7 @@ onUnmounted(() => {
   text-align: center;
   display: inline-block;
   text-transform: uppercase;
+  min-height: 1.2em;
 }
 
 /* Culori pentru typing */
