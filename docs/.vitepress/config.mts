@@ -20,14 +20,17 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', href: '/icons/wildfire.webp' }],
-    ['script', { src: 'https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js', async: '' }],
     ['meta', { name: 'theme-color', content: '#ff4000ff' }],
 
-    // PRECONNECT PENTRU GOOGLE FONTS
+    // PRECONNECT — must come before any script/link that uses these origins
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    // Static stylesheet — makes preconnect hints actually useful and loads Orbitron before JS runs
-    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap' }],
+    ['link', { rel: 'preconnect', href: 'https://cdn.jsdelivr.net' }],
+
+    // Iconify — async so it doesn't block HTML parsing
+    ['script', { src: 'https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js', async: '' }],
+    // Non-blocking font load — dynamically inserted stylesheets never block rendering
+    ['script', {}, `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap';document.head.appendChild(l)})()`],
 
     // PRELOAD PENTRU LCP
     ['link', {
