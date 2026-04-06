@@ -23,9 +23,11 @@ export default defineConfig({
     ['script', { src: 'https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js', async: '' }],
     ['meta', { name: 'theme-color', content: '#ff4000ff' }],
 
-    // PRECONNECT PENTRU GOOGLE FONTS (non-blocking)
+    // PRECONNECT PENTRU GOOGLE FONTS
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
+    // Static stylesheet — makes preconnect hints actually useful and loads Orbitron before JS runs
+    ['link', { rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap' }],
 
     // PRELOAD PENTRU LCP
     ['link', {
