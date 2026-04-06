@@ -284,8 +284,8 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: '<iconify-icon icon="solar:refresh-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Roulette', link: '/systems/gambling/roulette' },
-              { text: '<iconify-icon icon="solar:hand-money-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Bet Teams', link: '/systems/gambling/bet-teams' },
-              { text: '<iconify-icon icon="solar:card-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Blackjack', link: '/systems/gambling/blackjack' },
+              { text: '<iconify-icon icon="solar:hand-money-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Slots', link: '/systems/gambling/slots' },
+              { text: '<iconify-icon icon="solar:card-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Dices', link: '/systems/gambling/dices' },
             ]
           },
 
@@ -476,7 +476,7 @@ export default defineConfig({
 
       commitCache.set(repoPath, login)
       if (login) pageData.frontmatter.gitLastCommitter = login
-    } catch {}
+    } catch { }
   },
 
   markdown: {
