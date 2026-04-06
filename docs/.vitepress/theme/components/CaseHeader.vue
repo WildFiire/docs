@@ -60,7 +60,7 @@
             <img src="/icons/tag.svg" alt="tag" class="tag-icon">
             <component 
               :is="tag.component" 
-              v-for="(tag, idx) in tags" 
+              v-for="(tag, idx) in effectiveTags" 
               :key="idx"
               class="orbitron-font tag"
             >
@@ -144,7 +144,23 @@ const props = defineProps({
   }
 })
 
-const { frontmatter } = useData()
+const SECTION_TAG_COMPONENT = {
+  informatii: 'PageTagOrange',
+  currency: 'PageTagGreen',
+  systems: 'PageTagRed',
+  market: 'PageTagPurple',
+  updates_wiki: 'PageTagAmber',
+}
+
+const { frontmatter, page } = useData()
+
+const effectiveTags = computed(() => {
+  const rel = page.value?.relativePath || ''
+  const section = rel.split('/')[0]
+  const comp = SECTION_TAG_COMPONENT[section]
+  if (!comp) return props.tags
+  return props.tags.map(t => ({ ...t, component: comp }))
+})
 const effectiveUsername = computed(() => frontmatter.value.gitLastCommitter || '')
 const dataTags = computed(() => {
   const u = effectiveUsername.value

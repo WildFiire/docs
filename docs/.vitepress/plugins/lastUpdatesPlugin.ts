@@ -6,6 +6,14 @@ import { commitCache } from './commitCache'
 const VIRTUAL_ID = 'virtual:last-updates'
 const RESOLVED_ID = '\0virtual:last-updates'
 
+const SECTION_COLOR_MAP: Record<string, string> = {
+  informatii: 'orange',
+  currency: 'green',
+  systems: 'red',
+  market: 'purple',
+  updates_wiki: 'amber',
+}
+
 const COLOR_MAP: Record<string, string> = {
   PageTagRed: 'red',
   PageTagBlue: 'blue',
@@ -183,7 +191,8 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
       const git = getGitInfo(filepath, repoRoot)
       const rel = path.relative(docsDir, filepath)
       const link = '/' + rel.replace(/\\/g, '/').replace(/\.md$/, '')
-      const tagColor = tags[0] ? (COLOR_MAP[tags[0].component] || 'red') : 'red'
+      const sectionFolder = rel.split(/[\\/]/)[0]
+      const tagColor = SECTION_COLOR_MAP[sectionFolder] || (tags[0] ? (COLOR_MAP[tags[0].component] || 'red') : 'red')
       const category = pathArr.length >= 2
         ? pathArr[pathArr.length - 2]
         : (pathArr[0] || title)

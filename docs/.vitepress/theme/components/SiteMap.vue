@@ -62,43 +62,6 @@
               <li><a href="https://servertracker.gg/communities/wildfirero" class="col-link" target="_blank" rel="noopener">Vote Us</a></li>
             </ul>
           </div>
-
-          <!-- Column 4: Wiki Stats -->
-          <div class="footer-col stats-col">
-            <h4 class="col-title orbitron-font">WIKI STATS</h4>
-            <div class="stats-panel">
-              <div class="stat-grid">
-                <div class="stat-item">
-                  <span class="stat-number orbitron-font">{{ wikiStats.sections }}</span>
-                  <span class="stat-label-text orbitron-font">SECȚIUNI</span>
-                </div>
-                <div class="stat-item">
-                  <span class="stat-number orbitron-font">{{ wikiStats.pages }}</span>
-                  <span class="stat-label-text orbitron-font">PAGINI</span>
-                </div>
-                <div class="stat-item accent">
-                  <span class="stat-number orbitron-font">99.9%</span>
-                  <span class="stat-label-text orbitron-font">UPTIME</span>
-                </div>
-              </div>
-              <div class="stat-bar-list">
-                <div class="stat-bar-item">
-                  <div class="stat-bar-header">
-                    <span class="stat-bar-label orbitron-font">PAGES</span>
-                    <span class="stat-bar-val orbitron-font">{{ wikiStats.pages }}</span>
-                  </div>
-                  <div class="stat-track"><div class="stat-fill pages" :style="{ width: wikiStats.pagesPercent + '%' }"></div></div>
-                </div>
-                <div class="stat-bar-item">
-                  <div class="stat-bar-header">
-                    <span class="stat-bar-label orbitron-font">UPTIME</span>
-                    <span class="stat-bar-val orbitron-font">99.9%</span>
-                  </div>
-                  <div class="stat-track"><div class="stat-fill uptime" style="width:99.9%"></div></div>
-                </div>
-              </div>
-            </div>
-          </div>
         </div>
 
         <!-- Separator -->
@@ -156,39 +119,6 @@ const socialLinks = computed(() => {
   }
 
   return links
-})
-
-const wikiStats = computed(() => {
-  const config = theme.value
-  let pages = 0
-
-  // Count all pages (items with a link) recursively
-  const countPages = (items) => {
-    if (!items || !Array.isArray(items)) return
-    items.forEach(item => {
-      if (item.link) pages++
-      if (item.items && Array.isArray(item.items)) {
-        countPages(item.items)
-      }
-    })
-  }
-
-  // Sections = top-level sidebar categories (Informații, Currency, Systems, Market, etc.)
-  let sections = 0
-  if (config.sidebar && Array.isArray(config.sidebar)) {
-    sections = config.sidebar.length
-    config.sidebar.forEach(section => {
-      if (section.link) pages++
-      if (section.items) countPages(section.items)
-    })
-  }
-
-  return {
-    sections,
-    sectionsPercent: Math.min((sections / 10) * 100, 100),
-    pages,
-    pagesPercent: Math.min((pages / 60) * 100, 100)
-  }
 })
 
 const scrollToTop = () => {
@@ -289,7 +219,7 @@ onMounted(() => {
 /* ===== GRID ===== */
 .footer-grid {
   display: grid;
-  grid-template-columns: 1.6fr 0.8fr 0.8fr 1.2fr;
+  grid-template-columns: 1.6fr 0.8fr 0.8fr;
   gap: 48px;
 }
 
@@ -406,101 +336,6 @@ onMounted(() => {
 .col-link:hover {
   color: #ff4500 !important;
   transform: translateX(3px);
-}
-
-/* ===== STATS PANEL ===== */
-.stats-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.stat-grid {
-  display: flex;
-  border: 1px solid rgba(255, 69, 0, 0.12);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-.stat-item {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 14px 6px 10px;
-  gap: 4px;
-}
-
-.stat-item + .stat-item {
-  border-left: 1px solid rgba(255, 69, 0, 0.1);
-}
-
-.stat-number {
-  font-size: 22px;
-  font-weight: 800;
-  color: #ff8c00;
-  line-height: 1;
-}
-
-.stat-item.accent .stat-number {
-  color: #22c55e;
-}
-
-.stat-label-text {
-  font-size: 7.5px;
-  letter-spacing: 1.2px;
-  opacity: 0.38;
-  text-transform: uppercase;
-}
-
-.stat-bar-list {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.stat-bar-item { margin: 0; }
-
-.stat-bar-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-}
-
-.stat-bar-label {
-  font-size: 9px;
-  letter-spacing: 1.5px;
-  opacity: 0.5;
-}
-
-.stat-bar-val {
-  font-size: 10px;
-  font-weight: 700;
-  color: #ff8c00;
-}
-
-.stat-track {
-  width: 100%;
-  height: 3px;
-  border-radius: 3px;
-  background: rgba(255, 255, 255, 0.07);
-  overflow: hidden;
-}
-
-.stat-fill {
-  height: 100%;
-  border-radius: 3px;
-  background: linear-gradient(90deg, #ff4500, #ff8c00);
-  transition: width 1.2s cubic-bezier(.4,0,.2,1);
-}
-
-.stat-fill.pages {
-  background: linear-gradient(90deg, #ff6b35, #ffb347);
-}
-
-.stat-fill.uptime {
-  background: linear-gradient(90deg, #22c55e, #4ade80);
 }
 
 /* ===== SEPARATOR ===== */
@@ -635,15 +470,6 @@ onMounted(() => {
   color: rgba(255, 255, 255, 0.5);
 }
 
-:root.dark .stat-grid {
-  background: rgba(255, 255, 255, 0.02);
-}
-
-:root.dark .stat-bar-label,
-:root.dark .stat-label-text {
-  color: rgba(255, 255, 255, 0.45);
-}
-
 :root.dark .footer-separator {
   background: linear-gradient(90deg,
     transparent 0%,
@@ -732,19 +558,6 @@ onMounted(() => {
   color: #333;
 }
 
-:root:not(.dark) .stat-grid {
-  background: rgba(0, 0, 0, 0.01);
-}
-
-:root:not(.dark) .stat-bar-label,
-:root:not(.dark) .stat-label-text {
-  color: #555;
-}
-
-:root:not(.dark) .stat-track {
-  background: rgba(0, 0, 0, 0.06);
-}
-
 :root:not(.dark) .footer-separator {
   background: linear-gradient(90deg,
     transparent 0%,
@@ -789,14 +602,6 @@ onMounted(() => {
     grid-template-columns: 1.5fr 1fr 1fr;
     gap: 36px;
   }
-
-  .stats-col {
-    grid-column: 1 / -1;
-  }
-
-  .stats-panel {
-    max-width: 360px;
-  }
 }
 
 @media (max-width: 768px) {
@@ -815,14 +620,6 @@ onMounted(() => {
 
   .brand-col {
     grid-column: 1 / -1;
-  }
-
-  .stats-col {
-    grid-column: 1 / -1;
-  }
-
-  .stats-panel {
-    max-width: 100%;
   }
 
   .footer-bottom {
@@ -856,8 +653,7 @@ onMounted(() => {
     gap: 32px;
   }
 
-  .brand-col,
-  .stats-col {
+  .brand-col {
     grid-column: auto;
   }
 

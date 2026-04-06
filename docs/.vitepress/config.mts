@@ -20,6 +20,7 @@ export default defineConfig({
 
   head: [
     ['link', { rel: 'icon', href: '/icons/wildfire.webp' }],
+    ['script', { src: 'https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js', async: '' }],
     ['meta', { name: 'theme-color', content: '#ff4000ff' }],
 
     // PRECONNECT PENTRU GOOGLE FONTS (non-blocking)
@@ -69,15 +70,21 @@ export default defineConfig({
     // CSS PENTRU STILIZARE ICONITE SI VERSIUNE
     ['style', {}, `
       .nav-icon {
+        display: inline-block;
         vertical-align: middle;
-        margin-right: 8px;
+        margin-right: 6px;
         width: 16px;
         height: 16px;
+        position: relative;
+        top: -1px;
+      }
+      
+      img.nav-icon {
         filter: brightness(0.9);
         transition: filter 0.2s;
       }
       
-      .nav-icon:hover {
+      img.nav-icon:hover {
         filter: brightness(1.2);
       }
       
@@ -177,22 +184,22 @@ export default defineConfig({
 
     nav: [
       {
-        text: '<img src="/icons/acasa.svg" class="nav-icon" width="16" height="16" alt=""> Acasă',
+        text: '<iconify-icon icon="solar:home-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Acasă',
         link: '/'
       },
       {
-        text: '<img src="/icons/wildfire.webp" class="nav-icon" width="16" height="16" alt=""> Informații',
+        text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informații',
         link: '/informatii/about'
       },
       {
-        text: '<img src="/icons/faq.svg" class="nav-icon" width="16" height="16" alt=""> FAQ',
+        text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> FAQ',
         link: '/informatii/faq'
       }, {
-        text: '<img src="/icons/github.svg" class="nav-icon" width="16" height="16" alt=""> Dashboard',
+        text: '<iconify-icon icon="solar:chart-square-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Dashboard',
         link: '/panel'
       },
       {
-        text: '<img src="/icons/team.svg" class="nav-icon" width="16" height="16" alt=""> Echipa',
+        text: '<iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Echipa',
         link: '/team'
       },
     ],
@@ -200,24 +207,24 @@ export default defineConfig({
     sidebar: [
       // SECȚIUNEA INFORMAȚII
       {
-        text: '<img src="/icons/wildfire.webp" class="nav-icon" width="16" height="16" alt=""> Informații',
+        text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informații',
         collapsed: false,
         items: [
-          { text: '<img src="/icons/despre.png" class="nav-icon" width="16" height="16" alt=""> Despre Wildfire', link: '/informatii/about' },
-          { text: '<img src="/icons/faq.svg" class="nav-icon" width="16" height="16" alt=""> Întrebări frecvente', link: '/informatii/faq' },
+          { text: '<iconify-icon icon="lucide-star" class="nav-icon" width="16" height="16"></iconify-icon> Despre Wildfire', link: '/informatii/about' },
+          { text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Întrebări frecvente', link: '/informatii/faq' },
 
           // REGULAMENTE
           {
-            text: '<img src="/icons/regulament.svg" class="nav-icon" width="16" height="16" alt=""> Regulament',
+            text: '<iconify-icon icon="solar:document-text-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament',
             collapsed: true,
             items: [
               {
-                text: 'Regulament GO',
+                text: '<iconify-icon icon="solar:gamepad-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament GO',
                 collapsed: true,
                 items: [
-                  { text: 'Regulament Jucatori', link: '/informatii/regulamente/go/regulament-go' },
-                  { text: 'Regulament STAFF', link: '/informatii/regulamente/go/regulament-staff-go' },
-                  { text: 'Regulament VIP', link: '/informatii/regulamente/go/regulament-vip-go' }
+                  { text: '<iconify-icon icon="solar:user-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament Jucatori', link: '/informatii/regulamente/go/regulament-go' },
+                  { text: '<iconify-icon icon="solar:shield-user-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament STAFF', link: '/informatii/regulamente/go/regulament-staff-go' },
+                  { text: '<iconify-icon icon="solar:crown-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament VIP', link: '/informatii/regulamente/go/regulament-vip-go' }
                 ]
               },
               // {
@@ -245,69 +252,69 @@ export default defineConfig({
 
       // SECȚIUNEA CURRENCY
       {
-        text: '<img src="/icons/currency.svg" class="nav-icon" width="16" height="16" alt=""> Currency',
+        text: '<iconify-icon icon="solar:dollar-minimalistic-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Currency',
         collapsed: false,
         items: [
-          { text: '<img src="/icons/firecoin.svg" class="nav-icon" width="16" height="16" alt=""> Phoenix Coins', link: '/currency/fire-coins' },
+          { text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Phoenix Coins', link: '/currency/fire-coins' },
           // { text: '<img src="/icons/credits.svg" class="nav-icon" width="16" height="16" alt=""> Credits', link: '/currency/credits' },
         ]
       },
 
       // SECȚIUNEA SYSTEMS
       {
-        text: '<img src="/icons/sisteme.svg" class="nav-icon" width="16" height="16" alt=""> Systems',
+        text: '<iconify-icon icon="solar:cpu-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Systems',
         collapsed: false,
         items: [
           // SUBSECȚIUNEA SKINS
           {
-            text: '<img src="/icons/skins.svg" class="nav-icon" width="16" height="16" alt=""> WeaponSkins',
+            text: '<iconify-icon icon="lucide-swords" class="nav-icon" width="16" height="16"></iconify-icon> WeaponSkins',
             collapsed: true,
             items: [
-              { text: '<img src="/icons/introduction.svg" class="nav-icon" width="16" height="16" alt=""> Informatii', link: '/systems/skins/informatiiws' },
-              { text: '<img src="/icons/cases.svg" class="nav-icon" width="16" height="16" alt=""> Cases', link: '/systems/skins/cases' },
-              { text: '<img src="/icons/gloves.svg" class="nav-icon" width="16" height="16" alt=""> Gloves', link: '/systems/skins/gloves' },
-              { text: '<img src="/icons/agents.svg" class="nav-icon" width="16" height="16" alt=""> Agents', link: '/systems/skins/agents' },
-              { text: '<img src="/icons/knives.svg" class="nav-icon" width="16" height="16" alt=""> Knife Skins', link: '/systems/skins/knives' },
+              { text: '<iconify-icon icon="solar:info-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informatii', link: '/systems/skins/informatiiws' },
+              { text: '<iconify-icon icon="solar:box-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Cases', link: '/systems/skins/cases' },
+              { text: '<iconify-icon icon="solar:hand-shake-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Gloves', link: '/systems/skins/gloves' },
+              { text: '<iconify-icon icon="solar:user-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Agents', link: '/systems/skins/agents' },
+              { text: '<iconify-icon icon="lucide-sparkles" class="nav-icon" width="16" height="16"></iconify-icon> Knife Skins', link: '/systems/skins/knives' },
             ]
           },
 
           // SUBSECȚIUNEA GAMBLING
           {
-            text: '<img src="/icons/gambling.svg" class="nav-icon" width="16" height="16" alt=""> Gambling',
+            text: '<iconify-icon icon="lucide-clover" class="nav-icon" width="16" height="16"></iconify-icon> Gambling',
             collapsed: true,
             items: [
-              { text: '<img src="/icons/roulette.svg" class="nav-icon" width="16" height="16" alt=""> Roulette', link: '/systems/gambling/roulette' },
-              { text: '<img src="/icons/bet-teams.svg" class="nav-icon" width="16" height="16" alt=""> Bet Teams', link: '/systems/gambling/bet-teams' },
-              { text: '<img src="/icons/blackjack.svg" class="nav-icon" width="16" height="16" alt=""> Blackjack', link: '/systems/gambling/blackjack' },
+              { text: '<iconify-icon icon="solar:refresh-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Roulette', link: '/systems/gambling/roulette' },
+              { text: '<iconify-icon icon="solar:hand-money-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Bet Teams', link: '/systems/gambling/bet-teams' },
+              { text: '<iconify-icon icon="solar:card-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Blackjack', link: '/systems/gambling/blackjack' },
             ]
           },
 
           // SUBSECȚIUNEA IN-GAME SHOP
           {
-            text: '<img src="/icons/shop.svg" class="nav-icon" width="16" height="16" alt=""> In-Game Shop (Credite)',
+            text: '<iconify-icon icon="solar:shop-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> In-Game Shop (Credite)',
             collapsed: true,
             items: [
-              { text: '<img src="/icons/trails.svg" class="nav-icon" width="16" height="16" alt=""> Trail-uri', link: '/systems/shop/trails' },
-              { text: '<img src="/icons/effects.svg" class="nav-icon" width="16" height="16" alt=""> Effecte vizuale', link: '/systems/shop/effects' },
-              { text: '<img src="/icons/pins.svg" class="nav-icon" width="16" height="16" alt=""> Wildfire Pins & Badges', link: '/systems/shop/pins' },
-              { text: '<img src="/icons/chat.svg" class="nav-icon" width="16" height="16" alt=""> Chat & Tag-uri', link: '/systems/shop/chat-tags' },
-              { text: '<img src="/icons/sprays.svg" class="nav-icon" width="16" height="16" alt=""> Spray-uri', link: '/systems/shop/sprays' },
+              { text: '<iconify-icon icon="solar:stars-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Trail-uri', link: '/systems/shop/trails' },
+              { text: '<iconify-icon icon="solar:magic-stick-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Effecte vizuale', link: '/systems/shop/effects' },
+              { text: '<iconify-icon icon="solar:pin-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Wildfire Pins & Badges', link: '/systems/shop/pins' },
+              { text: '<iconify-icon icon="solar:chat-round-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Chat & Tag-uri', link: '/systems/shop/chat-tags' },
+              { text: '<iconify-icon icon="solar:airbuds-case-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Spray-uri', link: '/systems/shop/sprays' },
             ]
           },
 
           // SUBSECȚIUNEA OTHER SYSTEMS
           {
-            text: '<img src="/icons/other.svg" class="nav-icon" width="16" height="16" alt=""> Other Systems',
+            text: '<iconify-icon icon="solar:layers-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Other Systems',
             collapsed: true,
             items: [
-              { text: '<img src="/icons/hit-effect.svg" class="nav-icon" width="16" height="16" alt=""> Hit Effect', link: '/systems/other/hit-effect' },
-              { text: '<img src="/icons/music.svg" class="nav-icon" width="16" height="16" alt=""> Music Kits', link: '/systems/other/music-kits' },
-              { text: '<img src="/icons/gold-member.svg" class="nav-icon" width="16" height="16" alt=""> Gold Member', link: '/systems/other/gold-member' },
-              { text: '<img src="/icons/map-chooser.svg" class="nav-icon" width="16" height="16" alt=""> Map Chooser / RTV', link: '/systems/other/map-chooser' },
-              { text: '<img src="/icons/rank-phases.svg" class="nav-icon" width="16" height="16" alt=""> Rank Phases (Grind)', link: '/systems/other/rank-phases' },
-              { text: '<img src="/icons/afk.svg" class="nav-icon" width="16" height="16" alt=""> AFK Manager', link: '/systems/other/afk-manager' },
-              { text: '<img src="/icons/teambalance.svg" class="nav-icon" width="16" height="16" alt=""> Teambalance', link: '/systems/other/teambalance' },
-              { text: '<img src="/icons/chat-filter.svg" class="nav-icon" width="16" height="16" alt=""> Chat Filter', link: '/systems/other/chat-filter' },
+              { text: '<iconify-icon icon="solar:target-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Hit Effect', link: '/systems/other/hit-effect' },
+              { text: '<iconify-icon icon="solar:music-note-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Music Kits', link: '/systems/other/music-kits' },
+              { text: '<iconify-icon icon="solar:crown-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Gold Member', link: '/systems/other/gold-member' },
+              { text: '<iconify-icon icon="solar:map-point-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Map Chooser / RTV', link: '/systems/other/map-chooser' },
+              { text: '<iconify-icon icon="solar:chart-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Rank Phases (Grind)', link: '/systems/other/rank-phases' },
+              { text: '<iconify-icon icon="lucide-user" class="nav-icon" width="16" height="16"></iconify-icon> AFK Manager', link: '/systems/other/afk-manager' },
+              { text: '<iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Teambalance', link: '/systems/other/teambalance' },
+              { text: '<iconify-icon icon="solar:filter-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Chat Filter', link: '/systems/other/chat-filter' },
             ]
           },
         ]
@@ -315,55 +322,55 @@ export default defineConfig({
 
       // SECȚIUNEA MARKET (DONATIONS)
       {
-        text: '<img src="/icons/market.svg" class="nav-icon" width="16" height="16" alt=""> Market (Donations)',
+        text: '<iconify-icon icon="solar:shop-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Market (Donations)',
         collapsed: false,
         items: [
           // SUBSECȚIUNEA PREMIUM SHOP
           {
-            text: '<img src="/icons/premium-shop.svg" class="nav-icon" width="16" height="16" alt=""> Premium Shop',
+            text: '<iconify-icon icon="solar:star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Premium Shop',
             collapsed: true,
             items: [
-              { text: '<img src="/icons/mvp.svg" class="nav-icon" width="16" height="16" alt=""> Custom MVP', link: '/market/premium-shop/mvp' },
-              { text: '<img src="/icons/custom-badge.svg" class="nav-icon" width="16" height="16" alt=""> Custom Badge / Pin', link: '/market/premium-shop/custom-badge' },
-              { text: '<img src="/icons/entry.svg" class="nav-icon" width="16" height="16" alt=""> Entry Sounds', link: '/market/premium-shop/entrysounds' },
-              { text: '<img src="/icons/sank.svg" class="nav-icon" width="16" height="16" alt=""> Sank Sounds', link: '/market/premium-shop/sanks' },
+              { text: '<iconify-icon icon="solar:medal-ribbon-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom MVP', link: '/market/premium-shop/mvp' },
+              { text: '<iconify-icon icon="solar:shield-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom Badge / Pin', link: '/market/premium-shop/custom-badge' },
+              { text: '<iconify-icon icon="lucide-door-open" class="nav-icon" width="16" height="16"></iconify-icon> Entry Sounds', link: '/market/premium-shop/entrysounds' },
+              { text: '<iconify-icon icon="solar:volume-loud-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Sank Sounds', link: '/market/premium-shop/sanks' },
             ]
           },
 
           // SUBSECȚIUNEA FIRE COINS PACKS
           {
-            text: '<img src="/icons/firecoin.svg" class="nav-icon" width="16" height="16" alt=""> Fire Coins Packs',
+            text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Fire Coins Packs',
             collapsed: true,
             items: [
-              { text: '<img src="/icons/pack.svg" class="nav-icon" width="16" height="16" alt=""> Pachete', link: '/market/firecoins/pachete' },
+              { text: '<iconify-icon icon="solar:box-minimalistic-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Pachete', link: '/market/firecoins/pachete' },
             ]
           },
 
           // SUBSECȚIUNEA CREDITS PACKS
           {
-            text: '<img src="/icons/credits-title.svg" class="nav-icon" width="16" height="16" alt=""> Credits Packs',
+            text: '<iconify-icon icon="solar:wallet-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Credits Packs',
             collapsed: true,
             items: [
-              { text: '<img src="/icons/credits.svg" class="nav-icon" width="16" height="16" alt=""> Pachete de Credite', link: '/market/credits/pachete_credite' },
+              { text: '<iconify-icon icon="solar:wallet-money-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Pachete de Credite', link: '/market/credits/pachete_credite' },
             ]
           },
 
           // SUBSECȚIUNEA VIP TIERS
           {
-            text: '<img src="/icons/vip.svg" class="nav-icon" width="16" height="16" alt=""> VIP Tiers',
+            text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Tiers',
             collapsed: true,
             items: [
-              { text: '<img src="/icons/vip.svg" class="nav-icon" width="16" height="16" alt=""> VIP 1', link: '/market/vip/1' },
-              { text: '<img src="/icons/vip.svg" class="nav-icon" width="16" height="16" alt=""> VIP 2', link: '/market/vip/2' },
-              { text: '<img src="/icons/vip.svg" class="nav-icon" width="16" height="16" alt=""> VIP 3', link: '/market/vip/3' },
-              { text: '<img src="/icons/vip.svg" class="nav-icon" width="16" height="16" alt=""> VIP 4', link: '/market/vip/4' },
-              { text: '<img src="/icons/vip.svg" class="nav-icon" width="16" height="16" alt=""> VIP 5', link: '/market/vip/5' },
+              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 1', link: '/market/vip/1' },
+              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 2', link: '/market/vip/2' },
+              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 3', link: '/market/vip/3' },
+              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 4', link: '/market/vip/4' },
+              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 5', link: '/market/vip/5' },
             ]
           },
 
           // METODE DE PLATĂ
           {
-            text: '<img src="/icons/payment.svg" class="nav-icon" width="16" height="16" alt=""> Metode de plată',
+            text: '<iconify-icon icon="solar:card-recive-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Metode de plată',
             link: '/market/payment-methods'
           },
         ]
@@ -371,11 +378,11 @@ export default defineConfig({
 
       // SECȚIUNEA "RECENT GUI" CU VERSION TAG (ACELAȘI DESIGN CA ÎN FOOTER)
       {
-        text: '<img src="/icons/vsc.svg" class="nav-icon" width="16" height="16" alt=""> 3.0.0 <span class="version-tag">v3.0.0</span>',
+        text: '<iconify-icon icon="solar:code-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> 3.0.0 <span class="version-tag">v3.0.0</span>',
         collapsed: true,
         items: [
-          { text: '<img src="/icons/web.svg" class="nav-icon" width="16" height="16" alt=""> Actualizari', link: '/updates_wiki/updateswiki' },
-          { text: '<img src="/icons/trusted.svg" class="nav-icon" width="16" height="16" alt=""> Cum poti contribui?', link: '/updates_wiki/contribute' }
+          { text: '<iconify-icon icon="solar:global-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Actualizari', link: '/updates_wiki/updateswiki' },
+          { text: '<iconify-icon icon="solar:hand-heart-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Cum poti contribui?', link: '/updates_wiki/contribute' }
         ]
       }
     ],

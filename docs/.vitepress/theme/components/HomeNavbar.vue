@@ -286,10 +286,12 @@ const navItems = computed(() => theme.value.nav || [])
 const socialLinks = computed(() => theme.value.socialLinks || [])
 
 const isActive = (link: string) => route.path === link
-const cleanText = (t: string) => t.replace(/<img.*?>/, '').trim()
+const cleanText = (t: string) => t.replace(/<[^>]+>/g, '').trim()
 const getIconFromText = (text: string) => {
-  const match = text.match(/<img.*?>/)
-  return match ? match[0] : ''
+  const iconify = text.match(/<iconify-icon[^>]*><\/iconify-icon>/)
+  if (iconify) return iconify[0]
+  const img = text.match(/<img[^>]*>/)
+  return img ? img[0] : ''
 }
 
 const toggle = () => {

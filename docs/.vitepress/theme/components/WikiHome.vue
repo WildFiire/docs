@@ -136,11 +136,6 @@
           </button>
         </div>
 
-        <div class="community-tag delayed-tag">
-          <span class="tag-badge typing-text orbitron-font" :class="{ 'typing-complete': tagTyped }">{{ displayTag }}<span v-if="!tagTyped" class="cursor"></span></span>
-          <span class="tag-year orbitron-font">since 2021</span>
-        </div>
-
         <!-- Last Updates -->
         <div class="last-updates-wrapper reveal-element" ref="lastUpdatesRef">
           <LastUpdates />
@@ -148,11 +143,6 @@
 
         <!-- About Wiki Component -->
         <AboutWiki :startTyping="startWikiTyping" ref="aboutWikiRef" />
-
-        <!-- Wiki Updates Grid -->
-        <div class="updates-grid-section reveal-element" ref="updatesGridRef">
-              <WikiUpdatesGrid />
-        </div>
         
       </div>
     </main>
@@ -184,7 +174,6 @@ import { ref, onMounted, computed, onUnmounted, watch } from 'vue'
 import { useData } from 'vitepress'
 import HomeNavbar from './HomeNavbar.vue'
 import LastUpdates from './LastUpdates.vue'
-import WikiUpdatesGrid from './WikiUpdatesGrid.vue'
 import AboutWiki from './AboutWiki.vue'
 
 const { page, theme } = useData()
@@ -204,7 +193,6 @@ let boomTimeout: ReturnType<typeof setTimeout> | null = null
 const aboutWikiRef = ref<InstanceType<typeof AboutWiki> | null>(null)
 const startWikiTyping = ref(false)
 const lastUpdatesRef = ref<HTMLElement | null>(null)
-const updatesGridRef = ref<HTMLElement | null>(null)
 
 // Titlu 
 const displayTitle = ref('')
@@ -412,8 +400,7 @@ const isElementInViewport = (el: HTMLElement | null) => {
 
 const applyRevealEffect = () => {
   const elements = [
-    lastUpdatesRef.value,
-    updatesGridRef.value
+    lastUpdatesRef.value
   ].filter(el => el !== null)
 
   elements.forEach(el => {
@@ -442,7 +429,6 @@ const handleScroll = () => {
   
   const wikiSection = document.getElementById('wiki-section')
   const updatesSection = document.querySelector('.last-updates-wrapper')
-  const updatesGrid = updatesGridRef.value
   
   if (wikiSection) {
     const wikiRect = wikiSection.getBoundingClientRect()
@@ -458,15 +444,6 @@ const handleScroll = () => {
     if (updatesRect.top < windowHeight/2 && updatesRect.bottom > 0) {
       activeSection.value = 'updates'
     } else if (activeSection.value === 'updates') {
-      activeSection.value = ''
-    }
-  }
-  
-  if (updatesGrid) {
-    const gridRect = updatesGrid.getBoundingClientRect()
-    if (gridRect.top < windowHeight/2 && gridRect.bottom > 0) {
-      activeSection.value = 'updates-grid'
-    } else if (activeSection.value === 'updates-grid') {
       activeSection.value = ''
     }
   }

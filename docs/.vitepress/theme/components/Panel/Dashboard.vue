@@ -183,6 +183,83 @@
               <div class="rps-item"><span class="rps-val" :class="commitTrend >= 0 ? 'rps-pos' : 'rps-neg'">{{ commitTrend >= 0 ? '+' : '' }}{{ commitTrend }}%</span><span class="rps-lbl">30D TREND</span></div>
             </div>
 
+            <!-- Wiki Stats -->
+            <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>WIKI OVERVIEW</span></div>
+            <div class="wiki-stats-card">
+              <div class="wsc-header">
+                <div class="wsc-header-left">
+                  <div class="wsc-icon-wrap">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
+                  </div>
+                  <div>
+                    <div class="wsc-title">WIKI OVERVIEW</div>
+                    <div class="wsc-sub">Wildfire Documentation Hub</div>
+                  </div>
+                </div>
+                <div class="wsc-live-badge"><span class="wsc-live-dot"></span><span>LIVE</span></div>
+              </div>
+
+              <div class="wsc-kpis">
+                <div class="wsc-kpi" style="--kpi-c: var(--accent)">
+                  <Icon icon="solar:widget-bold-duotone" width="18" height="18" />
+                  <span class="wsc-kpi-val">{{ wikiStats.sections }}</span>
+                  <span class="wsc-kpi-lbl">SECTIUNI</span>
+                </div>
+                <div class="wsc-kpi" style="--kpi-c: #3b82f6">
+                  <Icon icon="solar:document-text-bold-duotone" width="18" height="18" />
+                  <span class="wsc-kpi-val">{{ wikiStats.pages }}</span>
+                  <span class="wsc-kpi-lbl">PAGINI</span>
+                </div>
+                <div class="wsc-kpi" style="--kpi-c: #22c55e">
+                  <Icon icon="solar:pulse-bold-duotone" width="18" height="18" />
+                  <span class="wsc-kpi-val">99.9%</span>
+                  <span class="wsc-kpi-lbl">UPTIME</span>
+                </div>
+                <div class="wsc-kpi" style="--kpi-c: #8b5cf6">
+                  <Icon icon="solar:chart-square-bold-duotone" width="18" height="18" />
+                  <span class="wsc-kpi-val">{{ Math.round(wikiStats.pages / Math.max(wikiStats.sections, 1)) }}</span>
+                  <span class="wsc-kpi-lbl">AVG / SEC</span>
+                </div>
+              </div>
+
+              <div class="wsc-body">
+                <div class="wsc-breakdown">
+                  <div class="wsc-bk-title">SECTION BREAKDOWN</div>
+                  <div v-for="(sec, i) in wikiStats.sectionBreakdown" :key="sec.text" class="wsc-bk-row">
+                    <span class="wsc-bk-name">{{ sec.text }}</span>
+                    <div class="wsc-bk-track">
+                      <div class="wsc-bk-fill" :style="{ width: sec.pct + '%', background: ['var(--accent)','#3b82f6','#22c55e','#8b5cf6','#f59e0b','#ec4899'][i % 6] }"></div>
+                    </div>
+                    <span class="wsc-bk-count">{{ sec.pages }}</span>
+                  </div>
+                  <div v-if="!wikiStats.sectionBreakdown.length" class="wsc-bk-empty">No sections found</div>
+                </div>
+
+                <div class="wsc-ring-wrap">
+                  <div class="wsc-ring-svg-wrap">
+                    <svg viewBox="0 0 100 100" width="110" height="110">
+                      <circle cx="50" cy="50" r="38" fill="none" stroke="var(--bg-tertiary)" stroke-width="8"/>
+                      <circle cx="50" cy="50" r="38" fill="none" stroke="var(--accent)" stroke-width="8"
+                        :stroke-dasharray="238.76" :stroke-dashoffset="238.76 * (1 - wikiStats.pagesPercent / 100)"
+                        stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)"/>
+                      <circle cx="50" cy="50" r="27" fill="none" stroke="var(--bg-tertiary)" stroke-width="6"/>
+                      <circle cx="50" cy="50" r="27" fill="none" stroke="#3b82f6" stroke-width="6"
+                        :stroke-dasharray="169.6" :stroke-dashoffset="169.6 * (1 - Math.min(wikiStats.sections / 10, 1))"
+                        stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)"/>
+                    </svg>
+                    <div class="wsc-ring-center">
+                      <span class="wsc-ring-val">{{ Math.round(wikiStats.pagesPercent) }}%</span>
+                      <span class="wsc-ring-lbl">COVERAGE</span>
+                    </div>
+                  </div>
+                  <div class="wsc-ring-legend">
+                    <div class="wsc-rl-item"><span class="wsc-rl-dot" style="background:var(--accent)"></span>Pages</div>
+                    <div class="wsc-rl-item"><span class="wsc-rl-dot" style="background:#3b82f6"></span>Sections</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
             <!-- Charts Row -->
             <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>ACTIVITY &amp; METRICS</span></div>
             <div class="dash-charts">
@@ -862,6 +939,7 @@
 </template>
 
 <script>
+    import { useData } from 'vitepress'
     import PanelLogin from './PanelLogin.vue'
     import PanelFiles from './PanelFiles.vue'
     import PanelContributors from './PanelContributors.vue'
@@ -869,6 +947,7 @@
     import PanelAnalytics from './PanelAnalytics.vue'
     import PanelProfile from './PanelProfile.vue'
     import PanelFeedbacks from './PanelFeedbacks.vue'
+    import { Icon } from '@iconify/vue'
 
     export default {
       name: 'Dashboard',
@@ -880,7 +959,13 @@
         PanelAudit,
         PanelAnalytics,
         PanelProfile,
-        PanelFeedbacks
+        PanelFeedbacks,
+        Icon
+      },
+      
+      setup() {
+        const { theme } = useData()
+        return { vpTheme: theme }
       },
       
       props: {
@@ -960,6 +1045,35 @@
       },
       
       computed: {
+        wikiStats() {
+          const config = this.vpTheme || {}
+          let pages = 0
+          const countPages = (items) => {
+            if (!items || !Array.isArray(items)) return
+            items.forEach(item => {
+              if (item.link) pages++
+              if (item.items) countPages(item.items)
+            })
+          }
+          let sections = 0
+          const sectionBreakdown = []
+          if (config.sidebar && Array.isArray(config.sidebar)) {
+            sections = config.sidebar.length
+            config.sidebar.forEach(section => {
+              const before = pages
+              if (section.link) pages++
+              if (section.items) countPages(section.items)
+              sectionBreakdown.push({ text: (section.text || '-').replace(/<[^>]*>/g, '').trim(), pages: pages - before })
+            })
+          }
+          const maxSec = Math.max(...sectionBreakdown.map(s => s.pages), 1)
+          return {
+            sections,
+            pages,
+            pagesPercent: Math.min((pages / 60) * 100, 100),
+            sectionBreakdown: sectionBreakdown.map(s => ({ ...s, pct: Math.round(s.pages / maxSec * 100) }))
+          }
+        },
         currentViewTitle() {
           const item = this.navItems.find(i => i.id === this.currentView)
           return item?.label || 'DASHBOARD'
@@ -2937,4 +3051,40 @@
   --accent-alt:    #06b6d4 !important;
   --accent-alt2:   #67e8f9 !important;
 }
+
+/* ── Wiki Stats Card ── */
+.wiki-stats-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-top: 2.5px solid var(--accent-mid); border-radius: 12px; overflow: hidden; }
+.wsc-header { display: flex; align-items: center; justify-content: space-between; padding: 11px 16px; border-bottom: 1px solid var(--border-color); }
+.wsc-header-left { display: flex; align-items: center; gap: 10px; }
+.wsc-icon-wrap { width: 30px; height: 30px; border-radius: 8px; background: var(--accent-dim); border: 1px solid var(--accent-soft); display: flex; align-items: center; justify-content: center; color: var(--accent); flex-shrink: 0; }
+.wsc-title { font-size: 12px; font-weight: 700; color: var(--text-primary); letter-spacing: 0.3px; }
+.wsc-sub { font-size: 10px; color: var(--text-muted); margin-top: 1px; }
+.wsc-live-badge { display: flex; align-items: center; gap: 5px; padding: 4px 10px; background: rgba(34,197,94,0.08); border: 1px solid rgba(34,197,94,0.2); border-radius: 20px; font-size: 9px; font-weight: 700; color: #22c55e; letter-spacing: 0.5px; flex-shrink: 0; }
+.wsc-live-dot { width: 6px; height: 6px; background: #22c55e; border-radius: 50%; animation: livePulse 1.5s ease infinite; flex-shrink: 0; }
+.wsc-kpis { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--border-color); }
+.wsc-kpi { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; padding: 14px 10px; border-right: 1px solid var(--border-color); position: relative; overflow: hidden; transition: background 0.15s; }
+.wsc-kpi:last-child { border-right: none; }
+.wsc-kpi::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: var(--kpi-c, var(--accent)); }
+.wsc-kpi:hover { background: var(--bg-tertiary); }
+.wsc-kpi svg, .wsc-kpi .iconify { color: var(--kpi-c, var(--accent)); opacity: 0.75; margin-bottom: 2px; }
+.wsc-kpi-val { font-size: 22px; font-weight: 800; color: var(--text-primary); line-height: 1; letter-spacing: -0.5px; }
+.wsc-kpi-lbl { font-size: 8px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.8px; }
+.wsc-body { display: grid; grid-template-columns: 1fr auto; }
+.wsc-breakdown { padding: 14px 18px; min-width: 0; }
+.wsc-bk-title { font-size: 9px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; margin-bottom: 10px; }
+.wsc-bk-row { display: flex; align-items: center; gap: 10px; margin-bottom: 8px; }
+.wsc-bk-row:last-child { margin-bottom: 0; }
+.wsc-bk-name { font-size: 10px; font-weight: 600; color: var(--text-secondary); width: 86px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; flex-shrink: 0; }
+.wsc-bk-track { flex: 1; height: 5px; background: var(--bg-tertiary); border-radius: 3px; overflow: hidden; }
+.wsc-bk-fill { height: 100%; border-radius: 3px; transition: width 0.9s cubic-bezier(0.4,0,0.2,1); opacity: 0.8; }
+.wsc-bk-count { font-size: 10px; font-weight: 700; color: var(--text-muted); width: 18px; text-align: right; flex-shrink: 0; }
+.wsc-bk-empty { font-size: 11px; color: var(--text-muted); padding: 12px 0; }
+.wsc-ring-wrap { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; padding: 14px 22px; border-left: 1px solid var(--border-color); }
+.wsc-ring-svg-wrap { position: relative; display: flex; align-items: center; justify-content: center; }
+.wsc-ring-center { position: absolute; display: flex; flex-direction: column; align-items: center; justify-content: center; pointer-events: none; }
+.wsc-ring-val { font-size: 17px; font-weight: 800; color: var(--text-primary); line-height: 1; }
+.wsc-ring-lbl { font-size: 7px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px; margin-top: 3px; }
+.wsc-ring-legend { display: flex; gap: 10px; }
+.wsc-rl-item { display: flex; align-items: center; gap: 4px; font-size: 9px; color: var(--text-muted); white-space: nowrap; }
+.wsc-rl-dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
 </style>
