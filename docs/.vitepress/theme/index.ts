@@ -24,7 +24,7 @@ declare global {
 const githubToken = import.meta.env.VITE_GITHUB_TOKEN || ''
 const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID || ''
 
-// Import componente principale - doar cele critice pentru above-the-fold
+// Componente critice — necesare pe prima randare, raman in theme.js
 import WikiHome from './components/WikiHome.vue'
 import HomeNavbar from './components/HomeNavbar.vue'
 import NavSearch from './components/NavSearch.vue'
@@ -34,22 +34,23 @@ import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/V
 import ReadingProgressBar from './components/ReadingProgressBar.vue'
 import BackToTop from './components/BackToTop.vue'
 import DocEnhancements from './components/DocEnhancements.vue'
-
-import LastUpdates from './components/LastUpdates.vue'
-import WikiUpdatesGrid from './components/WikiUpdatesGrid.vue'
-const LatestWikiUpdates = WikiUpdatesGrid
-import AboutWiki from './components/AboutWiki.vue'
-import Changelogs from './components/Changelogs.vue'
-import StatsGithub from './components/StatsGithub.vue'
-import Team from './components/Team.vue'
-import Terms from './components/Terms.vue'
-import Privacy from './components/Privacy.vue'
-import FeedbackWidget from './components/FeedbackWidget.vue'
 import CaseHeader from './components/CaseHeader.vue'
-import ContributorsWF from './components/ContributorsWF.vue'
-import SiteMap from './components/SiteMap.vue'
-import PageNotFound from './components/PageNotFound.vue'
-import FileTreeItem from './components/FileTreeItem.vue'
+
+// Componente lazy — split in chunks separate, nu blocheaza theme.js
+const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
+const WikiUpdatesGrid = defineAsyncComponent(() => import('./components/WikiUpdatesGrid.vue'))
+const LatestWikiUpdates = WikiUpdatesGrid
+const AboutWiki = defineAsyncComponent(() => import('./components/AboutWiki.vue'))
+const Changelogs = defineAsyncComponent(() => import('./components/Changelogs.vue'))
+const StatsGithub = defineAsyncComponent(() => import('./components/StatsGithub.vue'))
+const Team = defineAsyncComponent(() => import('./components/Team.vue'))
+const Terms = defineAsyncComponent(() => import('./components/Terms.vue'))
+const Privacy = defineAsyncComponent(() => import('./components/Privacy.vue'))
+const FeedbackWidget = defineAsyncComponent(() => import('./components/FeedbackWidget.vue'))
+const ContributorsWF = defineAsyncComponent(() => import('./components/ContributorsWF.vue'))
+const SiteMap = defineAsyncComponent(() => import('./components/SiteMap.vue'))
+const PageNotFound = defineAsyncComponent(() => import('./components/PageNotFound.vue'))
+const FileTreeItem = defineAsyncComponent(() => import('./components/FileTreeItem.vue'))
 
 // Panel — lazy (numai pe /panel)
 const Dashboard = defineAsyncComponent(() => import('./components/Panel/Dashboard.vue'))
