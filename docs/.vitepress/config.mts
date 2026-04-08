@@ -424,7 +424,40 @@ export default defineConfig({
 
     // SEARCH
     search: {
-      provider: 'local'
+      provider: 'local',
+      options: {
+        detailedView: true,
+        miniSearch: {
+          options: {
+            tokenize: (text: string) => {
+              return text
+                .toLowerCase()
+                .split(/[\s\-_.,;:!?()[\]{}"'`/\\<>]+/)
+                .filter((t: string) => t.length > 1)
+            }
+          },
+          searchOptions: {
+            fuzzy: 0.2,
+            prefix: true,
+            combineWith: 'OR',
+            boost: { title: 4, text: 2, titles: 1 }
+          }
+        },
+        translations: {
+          button: { buttonText: 'Caută', buttonAriaLabel: 'Caută' },
+          modal: {
+            displayDetails: 'Afișează detalii',
+            resetButtonTitle: 'Resetează',
+            backButtonTitle: 'Închide',
+            noResultsText: 'Nu s-au găsit rezultate pentru',
+            footer: {
+              selectText: 'selectează',
+              navigateText: 'navighează',
+              closeText: 'închide'
+            }
+          }
+        }
+      }
     },
 
     outline: {

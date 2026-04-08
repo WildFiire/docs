@@ -557,7 +557,7 @@ body:not(.home) *,
   flex-direction: column !important;
 }
 
-/* Rezultate search */
+/* ── Results list ── */
 .VPLocalSearchBox .results {
   background: transparent !important;
   border: none !important;
@@ -565,14 +565,17 @@ body:not(.home) *,
   overflow-y: auto !important;
   flex: 1 !important;
   overscroll-behavior: contain !important;
+  padding: 8px !important;
 }
 
+/* ── Individual result card ── */
 .VPLocalSearchBox .results .result {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  border-bottom: 1px solid rgba(128, 128, 128, 0.15) !important;
+  border-bottom: 1px solid rgba(128, 128, 128, 0.12) !important;
   border-radius: 0 !important;
+  margin-bottom: 2px !important;
 }
 
 .VPLocalSearchBox .results .result:last-child {
@@ -581,42 +584,187 @@ body:not(.home) *,
 
 .VPLocalSearchBox .results .result:hover,
 .VPLocalSearchBox .results .result.selected {
-  background: rgba(128, 128, 128, 0.08) !important;
-  border-radius: 8px !important;
+  background: rgba(255, 140, 0, 0.06) !important;
+  border-radius: 10px !important;
 }
 
 .dark .VPLocalSearchBox .results .result:hover,
 .dark .VPLocalSearchBox .results .result.selected {
-  background: rgba(255, 255, 255, 0.05) !important;
+  background: rgba(255, 140, 0, 0.08) !important;
 }
 
-/* Curata TOT ce e in interiorul rezultatelor */
-.VPLocalSearchBox .results *,
-.VPLocalSearchBox .results *::before,
-.VPLocalSearchBox .results *::after {
+.VPLocalSearchBox .results .result.selected {
+  border: 1px solid rgba(255, 140, 0, 0.25) !important;
+  border-radius: 10px !important;
+}
+
+.dark .VPLocalSearchBox .results .result.selected {
+  border: 1px solid rgba(255, 140, 0, 0.2) !important;
+}
+
+/* ── Result link area ── */
+.VPLocalSearchBox .results .result > a > div {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+/* ── Title row ── */
+.VPLocalSearchBox .results .titles {
+  color: var(--vp-c-text-1) !important;
+  font-size: 14px !important;
+  font-weight: 600 !important;
+  line-height: 1.5 !important;
+  padding: 6px 0 4px !important;
+}
+
+.VPLocalSearchBox .results .title {
+  color: var(--vp-c-text-1) !important;
+  font-weight: 600 !important;
+}
+
+/* ══════════════════════════════════════════════════════════════
+   EXCERPT — content preview. Nuclear reset so only clean
+   readable text shows, no custom component visual clutter.
+   ══════════════════════════════════════════════════════════════ */
+
+/* Base reset — strip all decoration */
+.VPLocalSearchBox .excerpt-wrapper,
+.VPLocalSearchBox .excerpt-wrapper *,
+.VPLocalSearchBox .excerpt,
+.VPLocalSearchBox .excerpt * {
   background: transparent !important;
   background-image: none !important;
   border: none !important;
   box-shadow: none !important;
   outline: none !important;
+  text-shadow: none !important;
+  -webkit-text-fill-color: unset !important;
 }
 
-/* Pastreaza border selected */
-.VPLocalSearchBox .results .result.selected {
-  border: 1px solid rgba(128, 128, 128, 0.3) !important;
-  border-radius: 8px !important;
+/* Main wrapper — high contrast, comfortable font */
+.VPLocalSearchBox .excerpt-wrapper {
+  font-size: 13.5px !important;
+  line-height: 1.75 !important;
+  color: rgba(235, 235, 245, 0.8) !important;
+  padding: 8px 14px 10px !important;
+  max-height: 200px !important;
+  overflow-y: auto !important;
+  scrollbar-width: thin !important;
 }
 
-.dark .VPLocalSearchBox .results .result.selected {
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+/* Light mode */
+:not(.dark) .VPLocalSearchBox .excerpt-wrapper {
+  color: rgba(60, 60, 67, 0.85) !important;
 }
 
-/* Cuvinte cheie portocaliu */
-.VPLocalSearchBox .results .result mark,
-.VPLocalSearchBox .results .result .wf-info-highlight {
-  color: var(--vp-c-brand) !important;
-  background: transparent !important;
+/* All text elements inherit */
+.VPLocalSearchBox .excerpt-wrapper p,
+.VPLocalSearchBox .excerpt-wrapper li,
+.VPLocalSearchBox .excerpt-wrapper span,
+.VPLocalSearchBox .excerpt-wrapper div,
+.VPLocalSearchBox .excerpt-wrapper td,
+.VPLocalSearchBox .excerpt-wrapper th,
+.VPLocalSearchBox .excerpt-wrapper a,
+.VPLocalSearchBox .excerpt-wrapper strong,
+.VPLocalSearchBox .excerpt-wrapper em,
+.VPLocalSearchBox .excerpt-wrapper h1,
+.VPLocalSearchBox .excerpt-wrapper h2,
+.VPLocalSearchBox .excerpt-wrapper h3,
+.VPLocalSearchBox .excerpt-wrapper h4 {
+  color: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* Paragraph spacing */
+.VPLocalSearchBox .excerpt-wrapper p {
+  margin: 3px 0 !important;
+  padding: 0 !important;
+}
+
+/* Lists — clean */
+.VPLocalSearchBox .excerpt-wrapper ul,
+.VPLocalSearchBox .excerpt-wrapper ol {
+  margin: 4px 0 !important;
+  padding-left: 18px !important;
+  list-style: disc !important;
+}
+
+.VPLocalSearchBox .excerpt-wrapper li {
+  margin: 2px 0 !important;
+  padding: 0 !important;
+}
+
+/* Inline code — orange pill */
+.VPLocalSearchBox .excerpt-wrapper code {
+  background: rgba(255, 140, 0, 0.1) !important;
+  color: #ff8c00 !important;
+  padding: 1px 5px !important;
+  border-radius: 3px !important;
+  font-size: 0.88em !important;
+  font-family: var(--vp-font-family-mono) !important;
+}
+
+/* ── Force-show all wf-* component content ── */
+.VPLocalSearchBox .excerpt-wrapper [class*="wf-info"],
+.VPLocalSearchBox .excerpt-wrapper [class*="wf-system"] {
+  display: block !important;
+  visibility: visible !important;
+  opacity: 1 !important;
+  max-height: none !important;
+  overflow: visible !important;
+  padding: 2px 0 !important;
+  margin: 0 !important;
+  position: static !important;
+  transform: none !important;
+  width: auto !important;
+  height: auto !important;
+  color: inherit !important;
+  font-size: inherit !important;
+  line-height: inherit !important;
+}
+
+/* ── Hide ALL decorative / visual noise ── */
+.VPLocalSearchBox .excerpt-wrapper svg,
+.VPLocalSearchBox .excerpt-wrapper img,
+.VPLocalSearchBox .excerpt-wrapper video,
+.VPLocalSearchBox .excerpt-wrapper iconify-icon,
+.VPLocalSearchBox .excerpt-wrapper .wf-system-icon,
+.VPLocalSearchBox .excerpt-wrapper .wf-system-number,
+.VPLocalSearchBox .excerpt-wrapper .wf-info-collapse-arrow,
+.VPLocalSearchBox .excerpt-wrapper .wf-info-collapse-icon,
+.VPLocalSearchBox .excerpt-wrapper .wf-info-icon {
+  display: none !important;
+}
+
+/* ── Matched keywords — orange highlight ── */
+.VPLocalSearchBox .results mark,
+.VPLocalSearchBox .excerpt-wrapper mark {
+  color: #ff8c00 !important;
+  background: rgba(255, 140, 0, 0.15) !important;
+  font-weight: 700 !important;
+  border-radius: 3px !important;
+  padding: 1px 3px !important;
+}
+
+.dark .VPLocalSearchBox .excerpt-wrapper mark {
+  background: rgba(255, 140, 0, 0.22) !important;
+}
+
+/* ── wf highlight classes ── */
+.VPLocalSearchBox .excerpt-wrapper .wf-info-highlight,
+.VPLocalSearchBox .excerpt-wrapper .wf-system-highlight {
+  color: #ff8c00 !important;
   font-weight: 600 !important;
+}
+
+/* ── wf-info-badge inline ── */
+.VPLocalSearchBox .excerpt-wrapper .wf-info-badge {
+  color: #ff8c00 !important;
+  font-weight: 600 !important;
+  font-size: inherit !important;
+  padding: 0 !important;
+  display: inline !important;
 }
 
 /* Animații */

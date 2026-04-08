@@ -9,7 +9,7 @@ outline: deep
     { text: 'go', component: 'PageTagBlue' },
     { text: 'server', component: 'PageTagBlue' }
   ]"
-  :path="['Home', 'Informatii', 'Regulament', 'GO','Jucatori']"
+  :path="['Home', 'Informatii', 'Regulament', 'GO']"
   background="/wallpaper/backgroundwf.webp"
   :blur-amount="6"
   icon="/icons/wildfire.webp"
