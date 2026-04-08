@@ -12,7 +12,8 @@ const PORT      = 3001;
 const app = express();
 app.use(express.json({ limit: '10mb' }));
 app.use(express.static(__dirname));
-app.use('/public', express.static(path.join(ROOT, 'docs/public')));
+app.use(express.static(path.join(ROOT, 'docs/public'))); // VitePress public/ served at root
+app.use(express.static(DOCS_DIR));                        // docs/ fallback for page-level assets
 
 app.get('/api/style', (_req, res) => {
   try   { res.type('css').send(readFileSync(STYLE_CSS, 'utf-8')); }
