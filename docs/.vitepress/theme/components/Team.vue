@@ -4,56 +4,8 @@
     <HomeNavbar />
 
     <div class="content-wrapper">
-      <!-- Background wallpaper -->
-      <img 
-        src="/wallpaper/poza102.webp"
-        alt=""
-        class="wildfire-wallpaper-base"
-        width="1920"
-        height="1080"
-        fetchpriority="high"
-        loading="eager"
-        decoding="async"
-        role="presentation"
-      />
-      
-      <!-- Background overlay -->
-      <div class="wildfire-overlay"></div>
-
-      <!-- Background cu licurici (light theme) -->
-      <div class="bg-effects" v-if="isLightTheme">
-        <div class="bg-orb top-orb"></div>
-        <div class="bg-orb bottom-orb"></div>
-        <div class="firefly" v-for="n in 25" :key="n" :style="fireflyStyle(n)"></div>
-        <div class="bg-grid"></div>
-      </div>
-
-      <!-- Dark theme background -->
-      <div class="wildfire-bg" v-if="!isLightTheme">
-        <div class="wildfire-base"></div>
-        <div class="wildfire-ember-left"></div>
-        <div class="wildfire-ember-right"></div>
-        <div class="wildfire-ember-bottom"></div>
-        <div class="wildfire-ember-top"></div>
-        <div class="wildfire-energy-line-1"></div>
-        <div class="wildfire-energy-line-2"></div>
-        <div class="wildfire-energy-line-3"></div>
-        <div class="wildfire-particles"></div>
-        <div class="wildfire-floating-particles">
-          <div class="wildfire-particle wildfire-particle-1"></div>
-          <div class="wildfire-particle wildfire-particle-2"></div>
-          <div class="wildfire-particle wildfire-particle-3"></div>
-          <div class="wildfire-particle wildfire-particle-4"></div>
-          <div class="wildfire-particle wildfire-particle-5"></div>
-          <div class="wildfire-particle wildfire-particle-6"></div>
-          <div class="wildfire-particle wildfire-particle-7"></div>
-          <div class="wildfire-particle wildfire-particle-8"></div>
-        </div>
-        <div class="wildfire-spotlight-tl"></div>
-        <div class="wildfire-spotlight-tr"></div>
-        <div class="wildfire-spotlight-bl"></div>
-        <div class="wildfire-spotlight-br"></div>
-      </div>
+      <CS2Background :scrollOpacity="0" :isDark="!isLightTheme" />
+      <CustomCursor />
 
       <!-- Team Page Content -->
       <div class="team-page">
@@ -214,6 +166,8 @@
 import { reactive, onMounted, ref, onBeforeUnmount, computed } from 'vue'
 import { useData } from 'vitepress'
 import HomeNavbar from './HomeNavbar.vue'
+import CS2Background from './CS2Background.vue'
+import CustomCursor from './CustomCursor.vue'
 
 const { isDark } = useData()
 const isLightTheme = computed(() => !isDark.value)
@@ -605,7 +559,10 @@ onBeforeUnmount(() => {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #ffffff;
   transition: all 0.3s ease;
+  cursor: none;
 }
+.org-page *, .org-page a, .org-page button { cursor: none !important; }
+@media (max-width: 1024px) { .org-page, .org-page *, .org-page a, .org-page button { cursor: auto !important; } }
 
 :deep(.home-navbar) {
   position: fixed;

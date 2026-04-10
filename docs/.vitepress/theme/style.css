@@ -6,9 +6,31 @@
 /*=============================================================================
   1. VARIABILE ȘI CULORI
 =============================================================================*/
+html {
+  scroll-behavior: smooth;
+}
+
 html, body {
   overflow-x: hidden;
   max-width: 100%;
+  cursor: none;
+}
+
+*, a, button, input, select, textarea, [role="button"] {
+  cursor: none !important;
+}
+
+.VPLocalSearchBox,
+.VPLocalSearchBox *,
+.backdrop,
+.backdrop * {
+  cursor: none !important;
+}
+
+@media (max-width: 1024px) {
+  html, body, *, a, button, input, select, textarea, [role="button"] {
+    cursor: auto !important;
+  }
 }
 
 :root {

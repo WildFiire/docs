@@ -348,6 +348,21 @@ export default {
 </script>
 
 <style scoped>
+.panel-login,
+.panel-login *,
+.panel-login a,
+.panel-login button,
+.panel-login input,
+.panel-login select,
+.panel-login textarea {
+  cursor: auto !important;
+}
+.panel-login button,
+.panel-login a,
+.panel-login [role="button"] {
+  cursor: pointer !important;
+}
+
 .panel-login {
   --bg-primary: #0a0a0c;
   --bg-secondary: #0f0f12;

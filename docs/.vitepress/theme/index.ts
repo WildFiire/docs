@@ -34,6 +34,7 @@ import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/V
 import ReadingProgressBar from './components/ReadingProgressBar.vue'
 import BackToTop from './components/BackToTop.vue'
 import DocEnhancements from './components/DocEnhancements.vue'
+import CustomCursor from './components/CustomCursor.vue'
 import CaseHeader from './components/CaseHeader.vue'
 
 // Componente lazy — split in chunks separate, nu blocheaza theme.js
@@ -120,7 +121,7 @@ export default {
       'not-found': () => h(PageNotFound),
 
       // 🔥 Global UX enhancements
-      'layout-top': () => [h(BackToTop), h(DocEnhancements)]
+      'layout-top': () => [h(BackToTop), h(DocEnhancements), h(CustomCursor)]
     })
   },
 

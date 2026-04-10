@@ -1814,6 +1814,21 @@
 </script>
 
 <style scoped>
+.wildfire-dashboard,
+.wildfire-dashboard *,
+.wildfire-dashboard a,
+.wildfire-dashboard button,
+.wildfire-dashboard input,
+.wildfire-dashboard select,
+.wildfire-dashboard textarea {
+  cursor: auto !important;
+}
+.wildfire-dashboard button,
+.wildfire-dashboard a,
+.wildfire-dashboard [role="button"] {
+  cursor: pointer !important;
+}
+
 .wildfire-dashboard {
   --bg-primary: #0a0a0c;
   --bg-secondary: #0f0f12;

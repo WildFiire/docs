@@ -54,18 +54,18 @@
         :key="card.link"
         :href="card.link"
         class="update-card"
-        :style="cardStyle(card.tagColor)"
+        :style="{ '--card-accent': getHexColor(card.tagColor) }"
       >
-        <!-- Top accent bar -->
-        <div class="card-accent-bar" :style="{ background: getHexColor(card.tagColor) }"></div>
+        <!-- Left accent strip -->
+        <div class="card-accent-strip" :style="{ background: getHexColor(card.tagColor) }"></div>
 
-        <!-- Title watermark -->
+        <!-- Watermark -->
         <div class="card-watermark" :style="{ color: getHexColor(card.tagColor) }">{{ card.category }}</div>
 
         <!-- Dot grid -->
         <div class="card-dots" :style="{ '--dot': getHexColor(card.tagColor) }"></div>
 
-        <!-- Hover glow -->
+        <!-- Hover shine -->
         <div class="card-shine" :style="{ '--clr': getHexColor(card.tagColor) }"></div>
 
         <div class="card-body">
@@ -227,8 +227,8 @@ html:not(.dark) .last-updates {
   align-items: flex-end;
   justify-content: space-between;
   gap: 20px;
-  margin-bottom: 32px;
-  padding-bottom: 24px;
+  margin-bottom: 20px;
+  padding-bottom: 16px;
   border-bottom: 1px solid var(--border);
   position: relative;
 }
@@ -276,7 +276,8 @@ html:not(.dark) .last-updates {
   opacity: 0.5;
 }
 .section-title {
-  font-size: clamp(24px, 3.5vw, 32px);
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: clamp(20px, 3.5vw, 28px);
   font-weight: 700;
   margin: 0;
   line-height: 1.1;
@@ -290,6 +291,7 @@ html:not(.dark) .last-updates {
   background-clip: text;
 }
 .section-sub {
+  font-family: 'Orbitron', sans-serif !important;
   margin: 0;
   font-size: 13px;
   color: var(--text-3);
@@ -367,77 +369,146 @@ html:not(.dark) .last-updates {
 .updates-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 14px;
-  margin-bottom: 32px;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
 /* ── Cards ── */
 .update-card {
   position: relative;
   border-radius: 14px;
-  border: 1px solid var(--card-border);
-  background: var(--card-bg);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
   overflow: hidden;
   text-decoration: none;
   display: flex;
-  flex-direction: column;
-  transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
-  min-height: 190px;
+  flex-direction: row;
+  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+  box-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+html:not(.dark) .update-card {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(0, 0, 0, 0.07);
+  box-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
 }
 .update-card:hover {
-  transform: translateY(-4px);
+  transform: translateY(-5px) scale(1.01);
+  border-color: color-mix(in srgb, var(--card-accent, #ff4500) 45%, transparent);
+  box-shadow:
+    0 12px 32px -8px color-mix(in srgb, var(--card-accent, #ff4500) 25%, transparent),
+    0 4px 16px -4px rgba(0, 0, 0, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 0 0 1px color-mix(in srgb, var(--card-accent, #ff4500) 10%, transparent);
+  background: rgba(255, 255, 255, 0.05);
 }
-.card-accent-bar {
-  height: 3px;
-  width: 100%;
-  flex-shrink: 0;
-  transition: height 0.2s;
+html:not(.dark) .update-card:hover {
+  background: rgba(255, 255, 255, 0.8);
+  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
 }
-.update-card:hover .card-accent-bar { height: 4px; }
 
+.card-accent-strip {
+  width: 3px;
+  flex-shrink: 0;
+  border-radius: 3px 0 0 3px;
+  transition: width 0.28s ease, box-shadow 0.28s ease;
+  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent, #ff4500) 20%, transparent);
+}
+.update-card:hover .card-accent-strip {
+  width: 5px;
+  box-shadow: 0 0 16px color-mix(in srgb, var(--card-accent, #ff4500) 45%, transparent);
+}
+
+/* Watermark */
 .card-watermark {
   position: absolute;
+  right: 12px;
   top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  transform: translateY(-50%);
   font-family: 'Orbitron', sans-serif;
   font-size: 42px;
   font-weight: 900;
   line-height: 1;
-  opacity: 0.06;
+  opacity: 0.04;
   pointer-events: none;
   user-select: none;
   letter-spacing: -2px;
-  transition: opacity 0.25s;
+  text-transform: uppercase;
   white-space: nowrap;
-  z-index: 1;
+  z-index: 0;
+  transition: opacity 0.35s ease, transform 0.35s ease;
 }
-.update-card:hover .card-watermark { opacity: 0.28; }
+.update-card:hover .card-watermark {
+  opacity: 0.1;
+  transform: translateY(-50%) scale(1.05);
+}
 
+/* Dot grid */
 .card-dots {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle, var(--dot) 1px, transparent 1px);
-  background-size: 18px 18px;
-  opacity: 0.07;
+  background-image: radial-gradient(circle, var(--dot) 0.8px, transparent 0.8px);
+  background-size: 16px 16px;
+  opacity: 0;
   pointer-events: none;
   z-index: 0;
-  transition: opacity 0.3s;
-  mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 85% 85% at 50% 50%, black 30%, transparent 100%);
+  transition: opacity 0.35s ease;
+  mask-image: radial-gradient(ellipse 70% 70% at 80% 50%, black 20%, transparent 80%);
+  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 80% 50%, black 20%, transparent 80%);
 }
-.update-card:hover .card-dots { opacity: 0.18; }
+.update-card:hover .card-dots {
+  opacity: 0.12;
+}
 
+/* Hover shine */
 .card-shine {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 50% 0%, color-mix(in srgb, var(--clr) 14%, transparent) 0%, transparent 65%);
+  background: linear-gradient(135deg, color-mix(in srgb, var(--clr) 12%, transparent) 0%, color-mix(in srgb, var(--clr) 4%, transparent) 40%, transparent 70%);
   opacity: 0;
   pointer-events: none;
-  transition: opacity 0.3s;
   z-index: 0;
+  transition: opacity 0.35s ease;
 }
-.update-card:hover .card-shine { opacity: 1; }
+.update-card:hover .card-shine {
+  opacity: 1;
+}
+
+/* Glass reflection line at top */
+.update-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0.06) 70%, transparent);
+  z-index: 3;
+  pointer-events: none;
+}
+html:not(.dark) .update-card::before {
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.3) 70%, transparent);
+}
+
+/* Bottom glow on hover */
+.update-card::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 15%;
+  right: 15%;
+  height: 2px;
+  background: var(--card-accent, #ff4500);
+  border-radius: 2px;
+  opacity: 0;
+  filter: blur(3px);
+  z-index: 3;
+  transition: opacity 0.3s ease;
+}
+.update-card:hover::after {
+  opacity: 0.5;
+}
 
 .card-body {
   position: relative;
@@ -445,7 +516,7 @@ html:not(.dark) .last-updates {
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 14px 16px 14px;
+  padding: 14px 16px 12px;
 }
 
 /* Category + inline tags */
@@ -454,7 +525,7 @@ html:not(.dark) .last-updates {
   align-items: center;
   gap: 6px;
   flex-wrap: wrap;
-  margin-bottom: 11px;
+  margin-bottom: 8px;
 }
 .card-category {
   display: inline-flex;
@@ -469,9 +540,12 @@ html:not(.dark) .last-updates {
   letter-spacing: 0.8px;
   text-transform: uppercase;
   flex-shrink: 0;
-  transition: filter 0.2s;
+  transition: filter 0.2s, box-shadow 0.2s;
 }
-.update-card:hover .card-category { filter: brightness(1.1); }
+.update-card:hover .card-category {
+  filter: brightness(1.15);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent, #ff4500) 20%, transparent);
+}
 .cat-dot {
   width: 6px;
   height: 6px;
@@ -495,13 +569,17 @@ html:not(.dark) .last-updates {
 /* Title */
 .card-title {
   font-family: 'Orbitron', sans-serif;
-  font-size: 13.5px;
+  font-size: 13px;
   font-weight: 800;
-  line-height: 1.4;
+  line-height: 1.35;
   color: var(--text-1);
-  margin: 0 0 10px;
-  letter-spacing: 0.2px;
+  margin: 0 0 8px;
+  letter-spacing: 0.3px;
   text-transform: uppercase;
+  transition: color 0.2s;
+}
+.update-card:hover .card-title {
+  color: color-mix(in srgb, var(--card-accent, #ff4500) 15%, var(--text-1));
 }
 
 /* Tags */
@@ -540,10 +618,10 @@ html:not(.dark) .last-updates {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 14px;
-  padding-top: 11px;
+  margin-top: 10px;
+  padding-top: 8px;
   border-top: 1px solid var(--border);
-  gap: 8px;
+  gap: 6px;
 }
 .card-author {
   display: flex;
@@ -558,8 +636,8 @@ html:not(.dark) .last-updates {
   flex-shrink: 0;
 }
 .author-avatar {
-  width: 28px;
-  height: 28px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   border: 1.5px solid var(--border);
   object-fit: cover;
@@ -611,15 +689,21 @@ html:not(.dark) .last-updates {
   font-weight: 700;
   letter-spacing: 0.5px;
   text-transform: uppercase;
-  padding: 4px 9px;
-  border-radius: 5px;
+  padding: 5px 10px;
+  border-radius: 6px;
   border: 1px solid;
   white-space: nowrap;
   flex-shrink: 0;
   opacity: 0.7;
-  transition: opacity 0.2s, gap 0.2s;
+  transition: opacity 0.2s, gap 0.2s, box-shadow 0.2s, background 0.2s;
+  background: transparent;
 }
-.update-card:hover .read-btn { opacity: 1; gap: 6px; }
+.update-card:hover .read-btn {
+  opacity: 1;
+  gap: 6px;
+  background: color-mix(in srgb, var(--card-accent, #ff4500) 8%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--card-accent, #ff4500) 15%, transparent);
+}
 .read-btn svg { transition: transform 0.2s; }
 .update-card:hover .read-btn svg { transform: translateX(3px); }
 
@@ -638,7 +722,7 @@ html:not(.dark) .last-updates {
   0% { background-position: -400px 0; }
   100% { background-position: 400px 0; }
 }
-.sk-card { min-height: 190px; cursor: default; }
+.sk-card { min-height: 150px; cursor: default; }
 .sk-card:hover { transform: none !important; }
 .sk-top-bar {
   height: 3px;
