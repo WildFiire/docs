@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="duw-wrap" ref="wrapRef">
     <div class="duw-divider-top"></div>
 
@@ -159,7 +159,7 @@ function logout() {
   height: 30px;
   border-radius: 50%;
   object-fit: cover;
-  border: 1.5px solid rgba(255, 69, 0, 0.4);
+  border: 1.5px solid rgba(255, 120, 0, 0.4);
   display: block;
 }
 .duw-online-dot {
@@ -249,10 +249,10 @@ function logout() {
 }
 .duw-item.highlight {
   color: #ff6a33;
-  background: rgba(255, 69, 0, 0.08);
+  background: rgba(255, 120, 0, 0.08);
 }
 .duw-item.highlight:hover {
-  background: rgba(255, 69, 0, 0.15);
+  background: rgba(255, 120, 0, 0.15);
 }
 .duw-item.danger {
   color: var(--vp-c-text-3);

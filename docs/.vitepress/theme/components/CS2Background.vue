@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="cs2-bg" :class="{ 'cs2-bg--light': !isDark }">
     <!-- Wallpaper image -->
     <img
@@ -10,6 +10,7 @@
       loading="eager"
       decoding="async"
       role="presentation"
+      :style="{ transform: `scale(${1.08 * bounceScale})`, filter: `brightness(${scrollBrightness}) saturate(${scrollSaturation})` }"
     />
     <!-- Dark overlay on top of wallpaper -->
     <div class="cs2-bg__overlay"></div>
@@ -54,13 +55,13 @@
     <!-- Vignette -->
     <div class="cs2-bg__vignette"></div>
 
-    <!-- Scroll darken (disabled) -->
-    <!-- <div class="cs2-bg__scroll-fade" :style="{ opacity: scrollOpacity }"></div> -->
+    <!-- Scroll darken overlay -->
+    <div class="cs2-bg__scroll-fade" :style="{ opacity: scrollDarken }"></div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted, onUnmounted } from 'vue'
 import NeuroNoiseBg from './NeuroNoiseBg.vue'
 
 const props = defineProps<{
@@ -70,6 +71,59 @@ const props = defineProps<{
 }>()
 
 const scrollOpacity = ref(props.scrollOpacity ?? 0)
+const bounceScale = ref(1)
+const scrollDarken = ref(0)
+const scrollBrightness = ref(1)
+const scrollSaturation = ref(1)
+let velocity = 0
+let bounceTarget = 1
+let bounceCurrent = 1
+let rafId: number | null = null
+
+const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+
+const onWheel = (e: WheelEvent) => {
+  if (e.ctrlKey) {
+    const delta = e.deltaY > 0 ? -0.04 : 0.04
+    velocity += delta
+  }
+}
+
+const onScroll = () => {
+  const scrollY = window.scrollY
+  const maxScroll = 800
+  const progress = Math.min(scrollY / maxScroll, 1)
+  scrollDarken.value = progress * 0.6
+  scrollBrightness.value = 1 - progress * 0.4
+  scrollSaturation.value = 1 - progress * 0.7
+}
+
+const updateParallax = () => {
+  // Zoom bounce spring
+  bounceTarget += velocity
+  bounceTarget = Math.max(0.92, Math.min(1.12, bounceTarget))
+  velocity *= 0.85
+  // Spring back to 1
+  const springForce = (1 - bounceTarget) * 0.06
+  bounceTarget += springForce
+  bounceCurrent = lerp(bounceCurrent, bounceTarget, 0.1)
+  bounceScale.value = Math.round(bounceCurrent * 1000) / 1000
+
+  rafId = requestAnimationFrame(updateParallax)
+}
+
+onMounted(() => {
+  window.addEventListener('wheel', onWheel, { passive: true })
+  window.addEventListener('scroll', onScroll, { passive: true })
+  onScroll()
+  rafId = requestAnimationFrame(updateParallax)
+})
+
+onUnmounted(() => {
+  window.removeEventListener('wheel', onWheel)
+  window.removeEventListener('scroll', onScroll)
+  if (rafId) cancelAnimationFrame(rafId)
+})
 
 const particleStyle = (n: number) => {
   const seed = n * 7.3
@@ -113,7 +167,7 @@ const particleStyle = (n: number) => {
 .cs2-bg__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(6, 6, 6, 0.96);
+  background: rgba(2, 2, 2, 0.98);
   transition: background 0.5s ease;
 }
 
@@ -143,7 +197,7 @@ const particleStyle = (n: number) => {
 .cs2-bg--light .cs2-bg__fire-bottom {
   background: linear-gradient(
     to top,
-    rgba(255, 69, 0, 0.06) 0%,
+    rgba(255, 120, 0, 0.06) 0%,
     rgba(255, 100, 0, 0.03) 30%,
     transparent 100%
   );
@@ -180,17 +234,17 @@ const particleStyle = (n: number) => {
 }
 
 .cs2-bg--light .cs2-bg__fire-edge--left {
-  background: linear-gradient(to right, rgba(255, 69, 0, 0.06) 0%, transparent 100%);
+  background: linear-gradient(to right, rgba(255, 120, 0, 0.06) 0%, transparent 100%);
 }
 .cs2-bg--light .cs2-bg__fire-edge--right {
-  background: linear-gradient(to left, rgba(255, 69, 0, 0.06) 0%, transparent 100%);
+  background: linear-gradient(to left, rgba(255, 120, 0, 0.06) 0%, transparent 100%);
 }
 
 .cs2-bg__heat-haze {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse 40% 30% at 30% 70%, rgba(255, 69, 0, 0.05) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 30% 70%, rgba(255, 120, 0, 0.05) 0%, transparent 70%),
     radial-gradient(ellipse 35% 25% at 70% 60%, rgba(255, 120, 0, 0.04) 0%, transparent 70%),
     radial-gradient(ellipse 25% 20% at 50% 80%, rgba(255, 80, 0, 0.06) 0%, transparent 60%);
   animation: heatShimmer 8s ease-in-out infinite alternate;
@@ -198,7 +252,7 @@ const particleStyle = (n: number) => {
 
 .cs2-bg--light .cs2-bg__heat-haze {
   background:
-    radial-gradient(ellipse 40% 30% at 30% 70%, rgba(255, 69, 0, 0.02) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 30% at 30% 70%, rgba(255, 120, 0, 0.02) 0%, transparent 70%),
     radial-gradient(ellipse 35% 25% at 70% 60%, rgba(255, 120, 0, 0.02) 0%, transparent 70%);
 }
 
@@ -232,7 +286,7 @@ const particleStyle = (n: number) => {
   height: 600px;
   top: -15%;
   left: -10%;
-  background: radial-gradient(circle, rgba(255, 69, 0, 0.18) 0%, rgba(255, 120, 0, 0.06) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.18) 0%, rgba(255, 120, 0, 0.06) 50%, transparent 70%);
   animation: orbFloat1 20s ease-in-out infinite;
 }
 
@@ -259,13 +313,13 @@ const particleStyle = (n: number) => {
   height: 250px;
   bottom: 30%;
   left: 15%;
-  background: radial-gradient(circle, rgba(255, 69, 0, 0.08) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.08) 0%, transparent 60%);
   animation: orbFloat4 22s ease-in-out infinite;
 }
 
 /* Light mode — much subtler orbs */
 .cs2-bg--light .cs2-bg__orb--1 {
-  background: radial-gradient(circle, rgba(255, 69, 0, 0.06) 0%, rgba(255, 120, 0, 0.02) 50%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.06) 0%, rgba(255, 120, 0, 0.02) 50%, transparent 70%);
 }
 .cs2-bg--light .cs2-bg__orb--2 {
   background: radial-gradient(circle, rgba(255, 100, 20, 0.05) 0%, transparent 60%);
@@ -274,7 +328,7 @@ const particleStyle = (n: number) => {
   background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
 }
 .cs2-bg--light .cs2-bg__orb--4 {
-  background: radial-gradient(circle, rgba(255, 69, 0, 0.03) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.03) 0%, transparent 60%);
 }
 
 @keyframes orbFloat1 {
@@ -313,7 +367,7 @@ const particleStyle = (n: number) => {
   width: 300px;
   top: 25%;
   left: -300px;
-  background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.35), rgba(255, 140, 0, 0.2), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 120, 0, 0.35), rgba(255, 140, 0, 0.2), transparent);
   animation: streak1 8s ease-in-out infinite;
   animation-delay: 2s;
 }
@@ -322,16 +376,16 @@ const particleStyle = (n: number) => {
   width: 200px;
   top: 65%;
   right: -200px;
-  background: linear-gradient(270deg, transparent, rgba(255, 100, 0, 0.3), rgba(255, 69, 0, 0.15), transparent);
+  background: linear-gradient(270deg, transparent, rgba(255, 100, 0, 0.3), rgba(255, 120, 0, 0.15), transparent);
   animation: streak2 10s ease-in-out infinite;
   animation-delay: 5s;
 }
 
 .cs2-bg--light .cs2-bg__streak--1 {
-  background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.15), rgba(255, 140, 0, 0.08), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 120, 0, 0.15), rgba(255, 140, 0, 0.08), transparent);
 }
 .cs2-bg--light .cs2-bg__streak--2 {
-  background: linear-gradient(270deg, transparent, rgba(255, 100, 0, 0.12), rgba(255, 69, 0, 0.06), transparent);
+  background: linear-gradient(270deg, transparent, rgba(255, 100, 0, 0.12), rgba(255, 120, 0, 0.06), transparent);
 }
 
 @keyframes streak1 {
@@ -358,13 +412,13 @@ const particleStyle = (n: number) => {
 .cs2-bg__particle {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 69, 0, 0.7);
+  background: rgba(255, 120, 0, 0.7);
   animation: particleDrift linear infinite;
   opacity: var(--p-opacity, 0.4);
 }
 
 .cs2-bg--light .cs2-bg__particle {
-  background: rgba(255, 69, 0, 0.4);
+  background: rgba(255, 120, 0, 0.4);
   opacity: calc(var(--p-opacity, 0.4) * 0.5);
 }
 
@@ -407,7 +461,7 @@ const particleStyle = (n: number) => {
 .cs2-bg__vignette {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse 70% 60% at center, transparent 40%, rgba(0, 0, 0, 0.5) 100%);
+  background: radial-gradient(ellipse 70% 60% at center, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
 }
 
 .cs2-bg--light .cs2-bg__vignette {

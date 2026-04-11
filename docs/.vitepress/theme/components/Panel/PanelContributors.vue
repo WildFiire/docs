@@ -1,4 +1,4 @@
-<!-- docs\.vitepress\theme\components\Panel\PanelContributors.vue -->
+﻿<!-- docs\.vitepress\theme\components\Panel\PanelContributors.vue -->
 <template>
   <div class="panel-contributors" :class="{ 'light-theme': isLightTheme }">
 
@@ -538,12 +538,12 @@ export default {
         { key: 'legend',   label: 'Legend',   minCommits: 200 }
       ],
       achievements: [
-        { id: 'first_commit', title: 'First Blood',     desc: 'Make your first commit',         type: 'commits', threshold: 1,   color: '#ff4500', rarity: 'common',    icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>' },
+        { id: 'first_commit', title: 'First Blood',     desc: 'Make your first commit',         type: 'commits', threshold: 1,   color: '#ff7800', rarity: 'common',    icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>' },
         { id: 'commits_5',    title: 'Getting Started', desc: 'Reach 5 commits',                type: 'commits', threshold: 5,   color: '#cd7f32', rarity: 'common',    icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' },
         { id: 'commits_20',   title: 'Silver Coder',    desc: 'Reach 20 commits',               type: 'commits', threshold: 20,  color: '#c0c0c0', rarity: 'rare',      icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>' },
         { id: 'commits_50',   title: 'Gold Coder',      desc: 'Reach 50 commits',               type: 'commits', threshold: 50,  color: '#ffd700', rarity: 'rare',      icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>' },
         { id: 'commits_100',  title: 'Platinum Coder',  desc: 'Reach 100 commits',              type: 'commits', threshold: 100, color: '#88d4e8', rarity: 'epic',      icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>' },
-        { id: 'commits_200',  title: 'Legend',          desc: 'Reach 200 commits',              type: 'commits', threshold: 200, color: '#ff4500', rarity: 'legendary', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>' },
+        { id: 'commits_200',  title: 'Legend',          desc: 'Reach 200 commits',              type: 'commits', threshold: 200, color: '#ff7800', rarity: 'legendary', icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>' },
         { id: 'first_pr',     title: 'Open Sesame',     desc: 'Open your first PR',             type: 'prs',     threshold: 1,   color: '#22c55e', rarity: 'common',    icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>' },
         { id: 'prs_5',        title: 'PR Machine',      desc: 'Open 5 pull requests',           type: 'prs',     threshold: 5,   color: '#4ade80', rarity: 'rare',      icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>' },
         { id: 'prs_10',       title: 'PR Legend',       desc: 'Open 10 pull requests',          type: 'prs',     threshold: 10,  color: '#22c55e', rarity: 'epic',      icon: '<svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>' },
@@ -750,7 +750,7 @@ export default {
         ts:   { name: 'TypeScript', color: '#3178c6' },
         tsx:  { name: 'TypeScript', color: '#3178c6' },
         jsx:  { name: 'JavaScript', color: '#f7df1e' },
-        md:   { name: 'Markdown',   color: '#ff4500' },
+        md:   { name: 'Markdown',   color: '#ff7800' },
         json: { name: 'JSON',       color: '#ffd700' },
         css:  { name: 'CSS',        color: '#264de4' },
         scss: { name: 'SCSS',       color: '#c6538c' },
@@ -844,7 +844,7 @@ export default {
 
     getLevelColor(key) {
       if (key === 'legend') {
-        return (this.$el ? (getComputedStyle(this.$el).getPropertyValue('--accent') || '').trim() : '') || '#ff4500'
+        return (this.$el ? (getComputedStyle(this.$el).getPropertyValue('--accent') || '').trim() : '') || '#ff7800'
       }
       const map = { newcomer:'#6b7280', bronze:'#cd7f32', silver:'#c0c0c0', gold:'#ffd700', platinum:'#88d4e8' }
       return map[key] || '#8a8a95'
@@ -852,7 +852,7 @@ export default {
 
     getLevelGlow(key) {
       if (key === 'legend') {
-        return (this.$el ? (getComputedStyle(this.$el).getPropertyValue('--accent-glow') || '').trim() : '') || 'rgba(255,69,0,0.3)'
+        return (this.$el ? (getComputedStyle(this.$el).getPropertyValue('--accent-glow') || '').trim() : '') || 'rgba(255, 120, 0,0.3)'
       }
       const map = { newcomer:'rgba(107,114,128,0.3)', bronze:'rgba(205,127,50,0.35)', silver:'rgba(192,192,192,0.3)', gold:'rgba(255,215,0,0.4)', platinum:'rgba(136,212,232,0.35)' }
       return map[key] || 'rgba(100,100,100,0.2)'
@@ -927,11 +927,11 @@ export default {
   --border-color: #1f1f28;
   --text-primary: #f0f0f5;
   --text-muted:   #7a7a8a;
-  --accent: #ff4500;
-  --accent-glow: rgba(255,69,0,0.2);
-  --accent-dim: rgba(255,69,0,0.08); --accent-soft: rgba(255,69,0,0.15);
-  --accent-mid: rgba(255,69,0,0.28); --accent-strong: rgba(255,69,0,0.45);
-  --accent-heavy: rgba(255,69,0,0.68); --accent-solid: rgba(255,69,0,0.88);
+  --accent: #ff7800;
+  --accent-glow: rgba(255, 120, 0,0.2);
+  --accent-dim: rgba(255, 120, 0,0.08); --accent-soft: rgba(255, 120, 0,0.15);
+  --accent-mid: rgba(255, 120, 0,0.28); --accent-strong: rgba(255, 120, 0,0.45);
+  --accent-heavy: rgba(255, 120, 0,0.68); --accent-solid: rgba(255, 120, 0,0.88);
   --accent-alt: #ff6030; --accent-alt2: #ff8c42;
   --success: #22c55e;
   --gold:   #ffd700;
@@ -961,7 +961,7 @@ export default {
 .ct-pod-slot:hover { transform:translateY(-4px); }
 .ct-crown-wrap { position:absolute; top:-28px; }
 .ct-pod-avatar-ring { width:64px; height:64px; border-radius:50%; padding:3px; }
-.ct-pod-avatar-ring.gold { background:linear-gradient(135deg,#ffd700,#ff8c00); box-shadow:0 0 20px rgba(255,215,0,0.4); }
+.ct-pod-avatar-ring.gold { background:linear-gradient(135deg,#ffd700,#ff7800); box-shadow:0 0 20px rgba(255,215,0,0.4); }
 .ct-pod-avatar-ring.silver { background:linear-gradient(135deg,#c0c0c0,#909090); box-shadow:0 0 14px rgba(192,192,192,0.3); }
 .ct-pod-avatar-ring.bronze { background:linear-gradient(135deg,#cd7f32,#8b4513); box-shadow:0 0 12px rgba(205,127,50,0.3); }
 .ct-pod-img { width:100%; height:100%; border-radius:50%; object-fit:cover; border:2px solid var(--bg-secondary); }
@@ -1028,7 +1028,7 @@ export default {
 .ctcs-sep { width:1px; height:24px; background:var(--border-color); flex-shrink:0; margin:0 8px; }
 .ctc-bar-track { height:3px; background:var(--bg-tertiary); border-radius:2px; overflow:hidden; }
 .ctc-bar-fill { height:100%; background:var(--accent); border-radius:2px; transition:width 0.4s; }
-.ctc-bar-fill.rank-gold { background:linear-gradient(90deg,#ffd700,#ff8c00); }
+.ctc-bar-fill.rank-gold { background:linear-gradient(90deg,#ffd700,#ff7800); }
 .ctc-bar-fill.rank-silver { background:linear-gradient(90deg,#a0a0a0,#c0c0c0); }
 .ctc-bar-fill.rank-bronze { background:linear-gradient(90deg,#a05a20,#cd7f32); }
 .ctc-arrow { position:absolute; bottom:12px; right:14px; font-size:12px; color:var(--text-muted); opacity:0; transition:all 0.2s; transform:translateX(-4px); }

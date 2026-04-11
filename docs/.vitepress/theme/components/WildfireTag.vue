@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <span class="wildfire-tag" :class="tagClass" :style="{ borderColor: tagData.color, boxShadow: `0 0 0 1px ${tagData.color}20` }">
     <span class="tag-dot" :class="dotClass" :style="{ backgroundColor: tagData.color }"></span>
     <slot>{{ text }}</slot>
@@ -21,7 +21,7 @@ const props = defineProps({
 
 const colorMap = {
   blue: { class: 'tag-blue', dot: 'dot-blue', color: '#3b82f6' },
-  orange: { class: 'tag-orange', dot: 'dot-orange', color: '#ff4500' },
+  orange: { class: 'tag-orange', dot: 'dot-orange', color: '#ff7800' },
   purple: { class: 'tag-purple', dot: 'dot-purple', color: '#8b5cf6' },
   green: { class: 'tag-green', dot: 'dot-green', color: '#10b981' },
   pink: { class: 'tag-pink', dot: 'dot-pink', color: '#ec4899' },
@@ -98,7 +98,7 @@ html:not(.dark) .wildfire-tag {
 
 /* DARK THEME TEXT */
 .tag-blue { color: #60a5fa !important; }
-.tag-orange { color: #ff8c00 !important; }
+.tag-orange { color: #ff7800 !important; }
 .tag-purple { color: #a78bfa !important; }
 .tag-green { color: #34d399 !important; }
 .tag-pink { color: #f472b6 !important; }

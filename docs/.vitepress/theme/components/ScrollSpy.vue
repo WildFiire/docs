@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div
     class="scroll-spy"
     :class="{ 'scroll-spy--visible': isVisible, 'scroll-spy--hovering': isHovering, 'scroll-spy--light': !isDark }"
@@ -147,18 +147,18 @@ onUnmounted(() => {
 
 /* Active dot */
 .scroll-spy__item--active .scroll-spy__dot {
-  background: #ff4500;
+  background: #ff7800;
   border-color: #ff6a00;
-  box-shadow: 0 0 8px rgba(255, 69, 0, 0.7), 0 0 20px rgba(255, 69, 0, 0.3);
+  box-shadow: 0 0 8px rgba(255, 120, 0, 0.7), 0 0 20px rgba(255, 120, 0, 0.3);
   animation: dotPulse 2.5s ease-in-out infinite;
 }
 @keyframes dotPulse {
-  0%, 100% { box-shadow: 0 0 8px rgba(255, 69, 0, 0.7), 0 0 20px rgba(255, 69, 0, 0.3); }
-  50% { box-shadow: 0 0 14px rgba(255, 69, 0, 0.9), 0 0 30px rgba(255, 69, 0, 0.45); }
+  0%, 100% { box-shadow: 0 0 8px rgba(255, 120, 0, 0.7), 0 0 20px rgba(255, 120, 0, 0.3); }
+  50% { box-shadow: 0 0 14px rgba(255, 120, 0, 0.9), 0 0 30px rgba(255, 120, 0, 0.45); }
 }
 
 .scroll-spy__item:hover .scroll-spy__dot {
-  background: rgba(255, 69, 0, 0.4);
+  background: rgba(255, 120, 0, 0.4);
   border-color: rgba(255, 100, 0, 0.5);
 }
 

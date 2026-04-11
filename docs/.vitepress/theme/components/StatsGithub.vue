@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="repo-stats-card">
     <!-- Ambient Background -->
     <div class="card-bg">
@@ -334,8 +334,8 @@ export default {
 }
 
 .repo-stats-card:hover {
-  border-color: #ff4500;
-  box-shadow: 0 12px 28px rgba(255,69,0,0.12);
+  border-color: #ff7800;
+  box-shadow: 0 12px 28px rgba(255, 120, 0,0.12);
 }
 
 /* Background Effects */
@@ -349,8 +349,8 @@ export default {
   position: absolute;
   inset: 0;
   background-image: 
-    linear-gradient(rgba(255,69,0,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,69,0,0.02) 1px, transparent 1px);
+    linear-gradient(rgba(255, 120, 0,0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 120, 0,0.02) 1px, transparent 1px);
   background-size: 24px 24px;
 }
 
@@ -360,14 +360,14 @@ export default {
   right: -50%;
   width: 200%;
   height: 200%;
-  background: radial-gradient(circle at center, rgba(255,69,0,0.04) 0%, transparent 70%);
+  background: radial-gradient(circle at center, rgba(255, 120, 0,0.04) 0%, transparent 70%);
   filter: blur(50px);
 }
 
 .bg-particles {
   position: absolute;
   inset: 0;
-  background-image: radial-gradient(circle at 20% 30%, rgba(255,69,0,0.02) 1px, transparent 1px);
+  background-image: radial-gradient(circle at 20% 30%, rgba(255, 120, 0,0.02) 1px, transparent 1px);
   background-size: 50px 50px;
 }
 
@@ -387,7 +387,7 @@ export default {
   flex: 1;
   background: rgba(255,255,255,0.03);
   backdrop-filter: blur(10px);
-  border: 1px solid rgba(255,69,0,0.12);
+  border: 1px solid rgba(255, 120, 0,0.12);
   border-radius: 16px;
   padding: 10px 8px;
   display: flex;
@@ -404,8 +404,8 @@ export default {
 }
 
 .stat-item:hover {
-  border-color: #ff4500;
-  background: rgba(255,69,0,0.05);
+  border-color: #ff7800;
+  background: rgba(255, 120, 0,0.05);
   transform: translateY(-1px);
 }
 
@@ -417,15 +417,15 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255,69,0,0.1);
-  color: #ff4500;
-  border: 1px solid rgba(255,69,0,0.15);
+  background: rgba(255, 120, 0,0.1);
+  color: #ff7800;
+  border: 1px solid rgba(255, 120, 0,0.15);
   transition: all 0.2s ease;
   flex-shrink: 0;
 }
 
 .stat-item:hover .stat-icon {
-  background: #ff4500;
+  background: #ff7800;
   color: white;
 }
 
@@ -446,14 +446,14 @@ export default {
 .stat-value {
   font-size: 16px;
   font-weight: 700;
-  color: #ff4500;
+  color: #ff7800;
   font-family: 'Orbitron', sans-serif;
   white-space: nowrap;
   transition: all 0.2s ease;
 }
 
 .stat-item:hover .stat-value {
-  color: #ff8c00;
+  color: #ff7800;
 }
 
 .stat-label {
@@ -467,7 +467,7 @@ export default {
 
 .stat-update {
   font-size: 10px;
-  color: #ff4500;
+  color: #ff7800;
   animation: spin 1s linear infinite;
   margin-left: 2px;
   flex-shrink: 0;
@@ -486,7 +486,7 @@ export default {
   align-items: center;
   justify-content: space-between;
   padding-top: 8px;
-  border-top: 1px solid rgba(255,69,0,0.1);
+  border-top: 1px solid rgba(255, 120, 0,0.1);
 }
 
 /* Repo Info */
@@ -495,7 +495,7 @@ export default {
   align-items: center;
   gap: 6px;
   padding: 4px 10px;
-  background: rgba(255,69,0,0.05);
+  background: rgba(255, 120, 0,0.05);
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.2s;
@@ -503,18 +503,18 @@ export default {
 }
 
 .repo-info:hover {
-  background: rgba(255,69,0,0.15);
+  background: rgba(255, 120, 0,0.15);
 }
 
 .repo-icon {
   width: 22px;
   height: 22px;
-  background: rgba(255,69,0,0.1);
+  background: rgba(255, 120, 0,0.1);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .repo-icon svg {
@@ -523,7 +523,7 @@ export default {
 }
 
 .repo-owner {
-  color: #ff4500;
+  color: #ff7800;
   font-weight: 600;
   font-family: 'Orbitron', sans-serif;
 }
@@ -550,15 +550,15 @@ export default {
   align-items: center;
   gap: 4px;
   padding: 4px 10px;
-  background: rgba(255,69,0,0.1);
-  border: 1px solid rgba(255,69,0,0.15);
+  background: rgba(255, 120, 0,0.1);
+  border: 1px solid rgba(255, 120, 0,0.15);
   border-radius: 30px;
 }
 
 .live-pulse {
   width: 6px;
   height: 6px;
-  background: #ff4500;
+  background: #ff7800;
   border-radius: 50%;
   animation: pulse 2s infinite;
 }
@@ -566,7 +566,7 @@ export default {
 .live-text {
   font-size: 9px;
   font-weight: 600;
-  color: #ff4500;
+  color: #ff7800;
   letter-spacing: 0.3px;
   font-family: 'Orbitron', sans-serif;
 }
@@ -582,16 +582,16 @@ export default {
   justify-content: center;
   width: 26px;
   height: 26px;
-  background: rgba(255,69,0,0.1);
-  border: 1px solid rgba(255,69,0,0.15);
+  background: rgba(255, 120, 0,0.1);
+  border: 1px solid rgba(255, 120, 0,0.15);
   border-radius: 50%;
-  color: #ff4500;
+  color: #ff7800;
   cursor: pointer;
   transition: all 0.2s;
 }
 
 .refresh-btn:hover:not(:disabled) {
-  background: #ff4500;
+  background: #ff7800;
   color: white;
   transform: rotate(180deg);
 }

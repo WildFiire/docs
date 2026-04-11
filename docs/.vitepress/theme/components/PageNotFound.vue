@@ -1,4 +1,4 @@
-<!-- .vitepress/theme/components/PageNotFound.vue -->
+﻿<!-- .vitepress/theme/components/PageNotFound.vue -->
 <template>
   <div class="not-found-page">
     <!-- Background abstract -->
@@ -229,8 +229,8 @@ const openSearch = () => {
   bottom: -10%;
   border: 2px solid transparent;
   border-radius: 50%;
-  border-top-color: #ff8c00;
-  border-bottom-color: #ff4500;
+  border-top-color: #ff7800;
+  border-bottom-color: #ff7800;
   animation: ringSpin 6s linear infinite;
   opacity: 0.5;
 }
@@ -297,7 +297,7 @@ const openSearch = () => {
 .zero {
   font-size: clamp(70px, 22vw, 130px);
   font-weight: 700;
-  color: #ff8c00;
+  color: #ff7800;
   line-height: 1;
   position: relative;
   z-index: 2;
@@ -374,7 +374,7 @@ const openSearch = () => {
 
 .timer-number {
   font-weight: 600;
-  color: #ff8c00;
+  color: #ff7800;
   background: rgba(255, 140, 0, 0.1);
   padding: 2px 8px;
   border-radius: 20px;
@@ -404,8 +404,8 @@ const openSearch = () => {
 }
 
 .timer-cancel:hover {
-  border-color: #ff8c00;
-  color: #ff8c00;
+  border-color: #ff7800;
+  color: #ff7800;
   background: rgba(255, 140, 0, 0.1);
 }
 
@@ -416,7 +416,7 @@ const openSearch = () => {
   justify-content: center;
   gap: clamp(6px, 1.5vw, 10px);
   padding: clamp(10px, 2.5vh, 14px) clamp(20px, 6vw, 32px);
-  background: linear-gradient(135deg, #ff8c00, #ff4500);
+  background: linear-gradient(135deg, #ff7800, #ff7800);
   color: white;
   text-decoration: none;
   border-radius: 40px;
@@ -609,7 +609,7 @@ const openSearch = () => {
 .quick-link:hover {
   background: rgba(255, 140, 0, 0.08);
   border-color: rgba(255, 140, 0, 0.3);
-  color: #ff8c00;
+  color: #ff7800;
   transform: translateY(-2px);
 }
 
@@ -634,7 +634,7 @@ const openSearch = () => {
 .search-trigger:hover {
   background: rgba(255, 140, 0, 0.07);
   border-color: rgba(255, 140, 0, 0.4);
-  color: #ff8c00;
+  color: #ff7800;
 }
 
 .search-trigger kbd {
@@ -644,6 +644,6 @@ const openSearch = () => {
   padding: 1px 6px;
   font-size: 11px;
   font-family: monospace;
-  color: #ff8c00;
+  color: #ff7800;
 }
 </style>

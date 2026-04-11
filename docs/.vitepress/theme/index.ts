@@ -36,6 +36,7 @@ import BackToTop from './components/BackToTop.vue'
 import DocEnhancements from './components/DocEnhancements.vue'
 import CustomCursor from './components/CustomCursor.vue'
 import CaseHeader from './components/CaseHeader.vue'
+import FluidLightbox from './components/FluidLightbox.vue'
 
 // Componente lazy — split in chunks separate, nu blocheaza theme.js
 const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
@@ -121,7 +122,7 @@ export default {
       'not-found': () => h(PageNotFound),
 
       // 🔥 Global UX enhancements
-      'layout-top': () => [h(BackToTop), h(DocEnhancements), h(CustomCursor)]
+      'layout-top': () => [h(BackToTop), h(DocEnhancements), h(CustomCursor), h(FluidLightbox)]
     })
   },
 

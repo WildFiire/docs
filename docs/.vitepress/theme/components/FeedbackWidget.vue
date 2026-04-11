@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="fw-wrap">
 
     <div class="fw-separator">
@@ -399,20 +399,20 @@ const reset = () => {
   /* ── Card ─────────────────────────────────────────────── */
   .fw-card {
     background: var(--vp-c-bg-soft);
-    border: 1px solid rgba(255, 69, 0, 0.14);
+    border: 1px solid rgba(255, 120, 0, 0.14);
     border-radius: 10px;
     overflow: hidden;
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .fw-card:hover {
-    border-color: rgba(255, 69, 0, 0.28);
-    box-shadow: 0 4px 20px rgba(255, 69, 0, 0.06);
+    border-color: rgba(255, 120, 0, 0.28);
+    box-shadow: 0 4px 20px rgba(255, 120, 0, 0.06);
   }
 
   .fw-accent-bar {
     height: 2px;
-    background: linear-gradient(90deg, #ff4500, #ff8c00 60%, transparent);
+    background: linear-gradient(90deg, #ff7800, #ff7800 60%, transparent);
   }
 
   /* ── Body row ─────────────────────────────────────────── */
@@ -438,9 +438,9 @@ const reset = () => {
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    background: rgba(255, 69, 0, 0.08);
-    border: 1px solid rgba(255, 69, 0, 0.16);
-    color: #ff4500;
+    background: rgba(255, 120, 0, 0.08);
+    border: 1px solid rgba(255, 120, 0, 0.16);
+    color: #ff7800;
     flex-shrink: 0;
     font-size: 15px;
   }
@@ -498,9 +498,9 @@ const reset = () => {
   }
 
   .fw-vote:hover:not(:disabled) {
-    border-color: rgba(255, 69, 0, 0.4);
-    color: #ff4500;
-    background: rgba(255, 69, 0, 0.04);
+    border-color: rgba(255, 120, 0, 0.4);
+    color: #ff7800;
+    background: rgba(255, 120, 0, 0.04);
   }
 
   .fw-vote:hover:not(:disabled) .fw-vote-icon {
@@ -508,10 +508,10 @@ const reset = () => {
   }
 
   .fw-vote--active {
-    background: linear-gradient(135deg, #ff4500, #ff7a00) !important;
-    border-color: #ff4500 !important;
+    background: linear-gradient(135deg, #ff7800, #ff7a00) !important;
+    border-color: #ff7800 !important;
     color: white !important;
-    box-shadow: 0 2px 10px rgba(255, 69, 0, 0.25);
+    box-shadow: 0 2px 10px rgba(255, 120, 0, 0.25);
   }
 
   .fw-vote:disabled {
@@ -554,8 +554,8 @@ const reset = () => {
 
   .fw-textarea:focus {
     outline: none;
-    border-color: rgba(255, 69, 0, 0.45);
-    box-shadow: 0 0 0 3px rgba(255, 69, 0, 0.07);
+    border-color: rgba(255, 120, 0, 0.45);
+    box-shadow: 0 0 0 3px rgba(255, 120, 0, 0.07);
   }
 
   .fw-textarea::placeholder {
@@ -574,7 +574,7 @@ const reset = () => {
   }
 
   .fw-char--warn {
-    color: #ff4500;
+    color: #ff7800;
   }
 
   /* ── Footer row ───────────────────────────────────────── */
@@ -657,24 +657,24 @@ const reset = () => {
   }
 
   .fw-btn--ghost:hover:not(:disabled) {
-    border-color: rgba(255, 69, 0, 0.3);
-    color: #ff4500;
-    background: rgba(255, 69, 0, 0.04);
+    border-color: rgba(255, 120, 0, 0.3);
+    color: #ff7800;
+    background: rgba(255, 120, 0, 0.04);
   }
 
   .fw-btn--primary {
-    background: rgba(255, 69, 0, 0.1);
+    background: rgba(255, 120, 0, 0.1);
     color: rgba(255, 100, 0, 0.45);
   }
 
   .fw-btn--primary.fw-btn--ready {
-    background: linear-gradient(135deg, #ff4500, #ff7a00);
+    background: linear-gradient(135deg, #ff7800, #ff7a00);
     color: white;
-    box-shadow: 0 2px 8px rgba(255, 69, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(255, 120, 0, 0.2);
   }
 
   .fw-btn--primary.fw-btn--ready:hover:not(:disabled) {
-    box-shadow: 0 4px 14px rgba(255, 69, 0, 0.32);
+    box-shadow: 0 4px 14px rgba(255, 120, 0, 0.32);
     transform: translateY(-1px);
   }
 
@@ -714,12 +714,12 @@ const reset = () => {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: rgba(255, 69, 0, 0.08);
-    border: 1px solid rgba(255, 69, 0, 0.18);
+    background: rgba(255, 120, 0, 0.08);
+    border: 1px solid rgba(255, 120, 0, 0.18);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ff4500;
+    color: #ff7800;
     flex-shrink: 0;
     font-size: 1.1rem;
   }
@@ -754,10 +754,10 @@ const reset = () => {
     font-size: 0.775rem;
     padding: 0.3rem 0.65rem;
     border-radius: 6px;
-    color: #ff4500;
+    color: #ff7800;
     text-decoration: none;
-    background: rgba(255, 69, 0, 0.06);
-    border: 1px solid rgba(255, 69, 0, 0.15);
+    background: rgba(255, 120, 0, 0.06);
+    border: 1px solid rgba(255, 120, 0, 0.15);
     cursor: pointer;
     font-family: inherit;
     font-weight: 500;
@@ -765,8 +765,8 @@ const reset = () => {
   }
 
   .fw-link:hover {
-    background: rgba(255, 69, 0, 0.1);
-    border-color: rgba(255, 69, 0, 0.3);
+    background: rgba(255, 120, 0, 0.1);
+    border-color: rgba(255, 120, 0, 0.3);
   }
 
   .fw-link--muted {
@@ -776,9 +776,9 @@ const reset = () => {
   }
 
   .fw-link--muted:hover {
-    color: #ff4500;
-    background: rgba(255, 69, 0, 0.05);
-    border-color: rgba(255, 69, 0, 0.2);
+    color: #ff7800;
+    background: rgba(255, 120, 0, 0.05);
+    border-color: rgba(255, 120, 0, 0.2);
   }
 
   /* ── Toast ────────────────────────────────────────────── */

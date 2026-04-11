@@ -1,4 +1,4 @@
-<!-- WildfireDocs.vue - Dashboard component with full configuration support -->
+﻿<!-- WildfireDocs.vue - Dashboard component with full configuration support -->
 <template>
   <div class="wildfire-docs" :class="{ 'light-theme': isLightTheme }">
     <!-- Dynamic Particle Background -->
@@ -922,7 +922,7 @@ export default {
       },
       theme: {
         default: 'dark',
-        accentColor: '#ff4500',
+        accentColor: '#ff7800',
         allowSwitch: true,
         particleBackground: true
       },
@@ -2238,16 +2238,16 @@ export default {
   --text-secondary: #e0e0e0;
   --text-muted: #8a8a95;
   --text-dim: #60606a;
-  --accent: #ff4500;
+  --accent: #ff7800;
   --accent-light: #ff5722;
-  --accent-glow: rgba(255, 69, 0, 0.2);
+  --accent-glow: rgba(255, 120, 0, 0.2);
   --accent-hover: #ff5722;
   --success: #2ecc71;
   --warning: #f39c12;
   --danger: #e74c3c;
   --info: #3498db;
   --card-bg: rgba(15, 15, 20, 0.9);
-  --card-border: rgba(255, 69, 0, 0.2);
+  --card-border: rgba(255, 120, 0, 0.2);
   --shadow-color: rgba(0, 0, 0, 0.5);
   --chart-grid: rgba(255, 255, 255, 0.03);
   --chart-text: #8a8a95;
@@ -2265,16 +2265,16 @@ export default {
   --text-secondary: #4a4a55;
   --text-muted: #666;
   --text-dim: #999;
-  --accent: #ff4500;
+  --accent: #ff7800;
   --accent-light: #ff5722;
-  --accent-glow: rgba(255, 69, 0, 0.1);
+  --accent-glow: rgba(255, 120, 0, 0.1);
   --accent-hover: #ff5722;
   --success: #27ae60;
   --warning: #e67e22;
   --danger: #c0392b;
   --info: #2980b9;
   --card-bg: rgba(255, 255, 255, 0.95);
-  --card-border: rgba(255, 69, 0, 0.15);
+  --card-border: rgba(255, 120, 0, 0.15);
   --shadow-color: rgba(0, 0, 0, 0.1);
   --chart-grid: rgba(0, 0, 0, 0.05);
   --chart-text: #666;

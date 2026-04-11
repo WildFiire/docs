@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <button v-if="!isHomePage" class="nav-search-button" @click.prevent.stop="openSearch" type="button">
     <img src="/icons/searchbutton.svg" class="nav-icon" alt="search">
     <span class="nav-search-text">Caută...</span>
@@ -65,15 +65,15 @@ const openSearch = (e: MouseEvent) => {
   bottom: 20%;
   width: 2px;
   border-radius: 0 2px 2px 0;
-  background: #ff4500;
+  background: #ff7800;
   opacity: 0.55;
   transition: opacity 0.18s ease, top 0.18s ease, bottom 0.18s ease;
 }
 
 .nav-search-button:hover {
-  border-color: rgba(255, 69, 0, 0.4);
-  background: rgba(255, 69, 0, 0.03);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(255, 69, 0, 0.07);
+  border-color: rgba(255, 120, 0, 0.4);
+  background: rgba(255, 120, 0, 0.03);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06), 0 0 0 3px rgba(255, 120, 0, 0.07);
 }
 
 .nav-search-button:hover::before {
@@ -140,10 +140,10 @@ const openSearch = (e: MouseEvent) => {
 }
 
 .nav-search-button:hover .nav-search-shortcut kbd {
-  color: #ff4500;
-  border-color: rgba(255, 69, 0, 0.3);
-  box-shadow: 0 2px 0 rgba(255, 69, 0, 0.2);
-  background: rgba(255, 69, 0, 0.04);
+  color: #ff7800;
+  border-color: rgba(255, 120, 0, 0.3);
+  box-shadow: 0 2px 0 rgba(255, 120, 0, 0.2);
+  background: rgba(255, 120, 0, 0.04);
 }
 
 /* DARK */
@@ -154,9 +154,9 @@ const openSearch = (e: MouseEvent) => {
 }
 
 .dark .nav-search-button:hover {
-  border-color: rgba(255, 69, 0, 0.38);
-  background: rgba(255, 69, 0, 0.04);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(255, 69, 0, 0.07);
+  border-color: rgba(255, 120, 0, 0.38);
+  background: rgba(255, 120, 0, 0.04);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2), 0 0 0 3px rgba(255, 120, 0, 0.07);
 }
 
 .dark .nav-search-shortcut kbd {

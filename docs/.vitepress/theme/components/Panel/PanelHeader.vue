@@ -1,4 +1,4 @@
-<!-- docs\.vitepress\theme\components\Panel\PanelHeader.vue -->
+﻿<!-- docs\.vitepress\theme\components\Panel\PanelHeader.vue -->
 <template>
   <header class="panel-header" :class="{ scrolled: isScrolled }">
     <div class="header-left">
@@ -105,14 +105,14 @@ export default {
   --border-color: #1f1f24;
   --text-primary: #ffffff;
   --text-muted: #8a8a95;
-  --accent: #ff4500;
-  --accent-glow: rgba(255, 69, 0, 0.2);
-  --accent-dim: rgba(255,69,0,0.08); 
-  --accent-soft: rgba(255,69,0,0.15);
-  --accent-mid: rgba(255,69,0,0.28); 
-  --accent-strong: rgba(255,69,0,0.45);
-  --accent-heavy: rgba(255,69,0,0.68); 
-  --accent-solid: rgba(255,69,0,0.88);
+  --accent: #ff7800;
+  --accent-glow: rgba(255, 120, 0, 0.2);
+  --accent-dim: rgba(255, 120, 0,0.08); 
+  --accent-soft: rgba(255, 120, 0,0.15);
+  --accent-mid: rgba(255, 120, 0,0.28); 
+  --accent-strong: rgba(255, 120, 0,0.45);
+  --accent-heavy: rgba(255, 120, 0,0.68); 
+  --accent-solid: rgba(255, 120, 0,0.88);
   --accent-alt: #ff6030; 
   --accent-alt2: #ff8c42;
   --success: #2ecc71;

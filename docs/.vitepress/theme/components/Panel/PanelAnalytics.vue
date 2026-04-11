@@ -1,4 +1,4 @@
-<!-- docs\.vitepress\theme\components\Panel\PanelAnalytics.vue -->
+﻿<!-- docs\.vitepress\theme\components\Panel\PanelAnalytics.vue -->
 <template>
   <div class="panel-analytics" :class="{ 'light-theme': isLightTheme }">
     <!-- Header -->
@@ -494,7 +494,7 @@ export default {
         const v = getComputedStyle(this.$el).getPropertyValue('--accent').trim()
         if (v) return v
       }
-      return '#ff4500'
+      return '#ff7800'
     },
 
     getAccentGlow() {
@@ -502,7 +502,7 @@ export default {
         const v = getComputedStyle(this.$el).getPropertyValue('--accent-glow').trim()
         if (v) return v
       }
-      return 'rgba(255,69,0,0.1)'
+      return 'rgba(255, 120, 0,0.1)'
     },
     
     initActivityChart() {
@@ -685,14 +685,14 @@ export default {
   --text-primary: #ffffff;
   --text-secondary: #e0e0e0;
   --text-muted: #8a8a95;
-  --accent: #ff4500;
-  --accent-glow: rgba(255, 69, 0, 0.2);
-  --accent-dim: rgba(255,69,0,0.08); 
-  --accent-soft: rgba(255,69,0,0.15);
-  --accent-mid: rgba(255,69,0,0.28); 
-  --accent-strong: rgba(255,69,0,0.45);
-  --accent-heavy: rgba(255,69,0,0.68); 
-  --accent-solid: rgba(255,69,0,0.88);
+  --accent: #ff7800;
+  --accent-glow: rgba(255, 120, 0, 0.2);
+  --accent-dim: rgba(255, 120, 0,0.08); 
+  --accent-soft: rgba(255, 120, 0,0.15);
+  --accent-mid: rgba(255, 120, 0,0.28); 
+  --accent-strong: rgba(255, 120, 0,0.45);
+  --accent-heavy: rgba(255, 120, 0,0.68); 
+  --accent-solid: rgba(255, 120, 0,0.88);
   --accent-alt: #ff6030; 
   --accent-alt2: #ff8c42;
   --success: #2ecc71;
@@ -709,7 +709,7 @@ export default {
   --text-primary: #0f0f14;
   --text-secondary: #2a2a38;
   --text-muted: #4a4a5a;
-  --accent-glow: rgba(255, 69, 0, 0.1);
+  --accent-glow: rgba(255, 120, 0, 0.1);
 }
 
 .panel-analytics.light-theme .stat-card:hover { box-shadow:0 8px 20px rgba(0,0,0,0.1); }
@@ -1057,11 +1057,11 @@ export default {
 .legend-gradient {
   width: 60px;
   height: 10px;
-  background: linear-gradient(90deg, #2a2a30, #ffa07a, #ff4500);
+  background: linear-gradient(90deg, #2a2a30, #ffa07a, #ff7800);
   border-radius: 5px;
 }
 
-.panel-analytics.light-theme .legend-gradient { background: linear-gradient(90deg, #e0e0ea, #ffa07a, #ff4500); }
+.panel-analytics.light-theme .legend-gradient { background: linear-gradient(90deg, #e0e0ea, #ffa07a, #ff7800); }
 
 /* PR Analytics */
 .pr-analytics {

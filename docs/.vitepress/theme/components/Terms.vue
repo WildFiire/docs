@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="org-page" :class="{ 'light-theme': isLightTheme }">
     <!-- HomeNavbar Component -->
     <HomeNavbar />
@@ -323,21 +323,21 @@ function fireflyStyle(n) {
 .top-orb {
   width: 500px; height: 500px;
   top: -150px; right: -150px;
-  background: radial-gradient(circle, #ff4500 0%, #ff8c00 50%, transparent 80%);
+  background: radial-gradient(circle, #ff7800 0%, #ff7800 50%, transparent 80%);
 }
 
 .bottom-orb {
   width: 600px; height: 600px;
   bottom: -200px; left: -150px;
-  background: radial-gradient(circle, #ff8c00 0%, #ff4500 50%, transparent 80%);
+  background: radial-gradient(circle, #ff7800 0%, #ff7800 50%, transparent 80%);
   animation-delay: -5s;
 }
 
 .bg-grid {
   position: absolute; inset: 0;
   background-image: 
-    linear-gradient(rgba(255, 69, 0, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 69, 0, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(255, 120, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 120, 0, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -442,7 +442,7 @@ function fireflyStyle(n) {
 .wildfire-spotlight-tl {
   position: absolute; top: 0; left: 0;
   width: 450px; height: 450px;
-  background: radial-gradient(circle at 20% 20%, rgba(255,69,0,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle at 20% 20%, rgba(255, 120, 0,0.18) 0%, transparent 70%);
   border-radius: 50%; filter: blur(80px); opacity: 0.3;
   animation: spotlightPulse 12s ease-in-out infinite; z-index: 1;
 }
@@ -479,19 +479,19 @@ function fireflyStyle(n) {
 .wildfire-particle {
   position: absolute;
   width: 4px; height: 4px;
-  background: rgba(255,69,0,0.6);
+  background: rgba(255, 120, 0,0.6);
   border-radius: 50%;
   filter: blur(1px);
-  box-shadow: 0 0 10px rgba(255,69,0,0.4);
+  box-shadow: 0 0 10px rgba(255, 120, 0,0.4);
 }
 
 .wildfire-particle-1 { top: 20%; left: 10%; width: 6px; height: 6px; background: rgba(255,85,0,0.7); animation: moveHorizontal 15s ease-in-out infinite; }
 .wildfire-particle-2 { top: 70%; right: 15%; width: 5px; height: 5px; background: rgba(255,100,0,0.7); animation: moveVertical 12s ease-in-out infinite; }
-.wildfire-particle-3 { top: 40%; left: 60%; width: 7px; height: 7px; background: rgba(255,69,0,0.8); animation: moveDiagonal 18s ease-in-out infinite; }
+.wildfire-particle-3 { top: 40%; left: 60%; width: 7px; height: 7px; background: rgba(255, 120, 0,0.8); animation: moveDiagonal 18s ease-in-out infinite; }
 .wildfire-particle-4 { bottom: 25%; left: 30%; width: 4px; height: 4px; background: rgba(255,140,0,0.6); animation: moveCircle 20s linear infinite; }
 .wildfire-particle-5 { top: 15%; right: 40%; width: 5px; height: 5px; background: rgba(255,68,0,0.7); animation: moveZigZag 14s ease-in-out infinite; }
 .wildfire-particle-6 { bottom: 40%; left: 70%; width: 6px; height: 6px; background: rgba(255,85,0,0.6); animation: moveWave 16s ease-in-out infinite; }
-.wildfire-particle-7 { top: 80%; left: 10%; width: 4px; height: 4px; background: rgba(255,69,0,0.7); animation: moveBounce 10s ease-in-out infinite; }
+.wildfire-particle-7 { top: 80%; left: 10%; width: 4px; height: 4px; background: rgba(255, 120, 0,0.7); animation: moveBounce 10s ease-in-out infinite; }
 .wildfire-particle-8 { top: 30%; right: 20%; width: 5px; height: 5px; background: rgba(255,100,0,0.7); animation: moveSpiral 22s linear infinite; }
 
 @keyframes emberGlow { 0%, 100% { opacity: 0.5; transform: translate(0,0) scale(1); } 50% { opacity: 0.7; transform: translate(10px,-10px) scale(1.05); } }
@@ -537,7 +537,7 @@ function fireflyStyle(n) {
 }
 
 .back-link:hover {
-  color: #ff8c00;
+  color: #ff7800;
   transform: translateX(-3px);
 }
 
@@ -551,7 +551,7 @@ function fireflyStyle(n) {
 }
 
 .light-theme .back-link:hover {
-  color: #ff8c00;
+  color: #ff7800;
 }
 
 /* ===== PAGE HEADER ===== */
@@ -563,7 +563,7 @@ function fireflyStyle(n) {
 }
 
 .header-icon {
-  color: #ff8c00;
+  color: #ff7800;
   display: flex;
   align-items: center;
 }
@@ -669,13 +669,13 @@ function fireflyStyle(n) {
   font-family: 'Orbitron', sans-serif !important;
   font-size: 1.1rem;
   font-weight: 600;
-  color: #ff8c00;
+  color: #ff7800;
   margin: 0 0 12px;
   letter-spacing: 0.02em;
 }
 
 .tos-num {
-  color: #ff8c00;
+  color: #ff7800;
   font-weight: 700;
 }
 
@@ -731,7 +731,7 @@ function fireflyStyle(n) {
 
 /* ===== INLINE LINK ===== */
 .inline-link {
-  color: #ff8c00;
+  color: #ff7800;
   text-decoration: none;
   font-weight: 500;
   border-bottom: 1px solid rgba(255, 140, 0, 0.3);
@@ -739,18 +739,18 @@ function fireflyStyle(n) {
 }
 
 .inline-link:hover {
-  color: #ff4500;
-  border-bottom-color: #ff4500;
+  color: #ff7800;
+  border-bottom-color: #ff7800;
 }
 
 .light-theme .inline-link {
-  color: #ff8c00;
+  color: #ff7800;
   border-bottom-color: rgba(255, 140, 0, 0.3);
 }
 
 .light-theme .inline-link:hover {
-  color: #ff4500;
-  border-bottom-color: #ff4500;
+  color: #ff7800;
+  border-bottom-color: #ff7800;
 }
 
 /* ===== RESPONSIVE ===== */
@@ -827,32 +827,32 @@ function fireflyStyle(n) {
 .corner-dot-tl {
   top: 0;
   left: 0;
-  border-top: 2px solid #ff8c00;
-  border-left: 2px solid #ff8c00;
+  border-top: 2px solid #ff7800;
+  border-left: 2px solid #ff7800;
   border-top-left-radius: 24px;
 }
 
 .corner-dot-tr {
   top: 0;
   right: 0;
-  border-top: 2px solid #ff8c00;
-  border-right: 2px solid #ff8c00;
+  border-top: 2px solid #ff7800;
+  border-right: 2px solid #ff7800;
   border-top-right-radius: 24px;
 }
 
 .corner-dot-bl {
   bottom: 0;
   left: 0;
-  border-bottom: 2px solid #ff8c00;
-  border-left: 2px solid #ff8c00;
+  border-bottom: 2px solid #ff7800;
+  border-left: 2px solid #ff7800;
   border-bottom-left-radius: 24px;
 }
 
 .corner-dot-br {
   bottom: 0;
   right: 0;
-  border-bottom: 2px solid #ff8c00;
-  border-right: 2px solid #ff8c00;
+  border-bottom: 2px solid #ff7800;
+  border-right: 2px solid #ff7800;
   border-bottom-right-radius: 24px;
 }
 
@@ -860,7 +860,7 @@ function fireflyStyle(n) {
 .light-theme .corner-dot-tr,
 .light-theme .corner-dot-bl,
 .light-theme .corner-dot-br {
-  border-color: #ff8c00;
+  border-color: #ff7800;
 }
 
 /* Responsive */

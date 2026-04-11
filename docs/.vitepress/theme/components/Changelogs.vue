@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="changelogs">
     <!-- FILTERS PANEL -->
     <div class="filters-panel">
@@ -732,8 +732,8 @@ export default {
 <style scoped>
 /* ===== CSS VARIABLES - DARK MODE DEFAULT ===== */
 .changelogs {
-  --primary: #ff8c00;
-  --primary-dark: #ff4500;
+  --primary: #ff7800;
+  --primary-dark: #ff7800;
   --primary-glow: rgba(255, 140, 0, 0.25);
   --primary-soft: rgba(255, 140, 0, 0.15);
   

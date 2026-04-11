@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="wiki-home-updates">
     <!-- LEFT SIDE - CARDURI CU PERSONALITATE (MULT SPRE STÂNGA) -->
     <div class="cards-zone">
@@ -164,7 +164,7 @@
             
             <div class="plus-content">
               <div class="plus-icon">
-                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#ff4500" stroke-width="2">
+                <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="#ff7800" stroke-width="2">
                   <circle cx="12" cy="12" r="10"/>
                   <path d="M12 8v8M8 12h8"/>
                 </svg>
@@ -1278,7 +1278,7 @@ export default {
   font-size: 11px;
   letter-spacing: 1px;
   text-transform: uppercase;
-  background: #ff4500;
+  background: #ff7800;
   color: white;
   padding: 4px 12px;
   border-radius: 30px;
@@ -1315,7 +1315,7 @@ export default {
 
 .title-gradient {
   font-weight: 800 !important;
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  background: linear-gradient(135deg, #ff7800, #ff7800);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -1388,7 +1388,7 @@ export default {
 .timeline-author {
   font-weight: 500 !important;
   font-size: 11px;
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .stat-label {
@@ -1508,12 +1508,12 @@ export default {
 .header-line {
   width: 30px;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #ff4500, #ff8c00, transparent);
+  background: linear-gradient(90deg, transparent, #ff7800, #ff7800, transparent);
 }
 
 .header-tag {
   font-size: 11px;
-  color: #ff4500;
+  color: #ff7800;
   text-transform: uppercase;
 }
 
@@ -1545,7 +1545,7 @@ export default {
 .card-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at 50% 0%, rgba(255, 69, 0, 0.3), transparent 70%);
+  background: radial-gradient(circle at 50% 0%, rgba(255, 120, 0, 0.3), transparent 70%);
   opacity: 0;
   transition: opacity 0.4s ease;
   pointer-events: none;
@@ -1562,7 +1562,7 @@ export default {
   inset: 0;
   border-radius: 24px;
   padding: 1px;
-  background: linear-gradient(135deg, #ff4500 0%, rgba(255, 140, 0, 0.6) 40%, transparent 65%);
+  background: linear-gradient(135deg, #ff7800 0%, rgba(255, 140, 0, 0.6) 40%, transparent 65%);
   -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
   -webkit-mask-composite: xor;
@@ -1590,7 +1590,7 @@ export default {
   position: absolute;
   top: 16px;
   right: 16px;
-  background: rgba(255, 69, 0, 0.2);
+  background: rgba(255, 120, 0, 0.2);
   backdrop-filter: blur(4px);
   width: 36px;
   height: 36px;
@@ -1598,13 +1598,13 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(255, 69, 0, 0.3);
+  border: 1px solid rgba(255, 120, 0, 0.3);
   opacity: 0;
   transform: scale(0.8);
   transition: all 0.3s ease;
   z-index: 10;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .click-indicator svg {
@@ -1619,7 +1619,7 @@ export default {
 }
 
 .clickable-item:hover {
-  background: rgba(255, 69, 0, 0.15);
+  background: rgba(255, 120, 0, 0.15);
   transform: translateX(4px);
 }
 
@@ -1632,7 +1632,7 @@ export default {
   opacity: 0;
   transform: translateX(-5px);
   transition: all 0.2s ease;
-  color: #ff4500;
+  color: #ff7800;
   margin-left: 4px;
   display: flex;
   align-items: center;
@@ -1653,12 +1653,12 @@ export default {
   padding: 4px 8px;
   border-radius: 20px;
   text-decoration: none;
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .clickable-link:hover {
   color: white !important;
-  background: #ff4500;
+  background: #ff7800;
   gap: 10px;
   padding: 4px 12px;
 }
@@ -1689,7 +1689,7 @@ export default {
 }
 
 .clickable-footer:hover {
-  background: rgba(255, 69, 0, 0.15);
+  background: rgba(255, 120, 0, 0.15);
   gap: 12px;
 }
 
@@ -1710,7 +1710,7 @@ export default {
 
 .clickable-button:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 20px -5px rgba(255, 69, 0, 0.4);
+  box-shadow: 0 10px 20px -5px rgba(255, 120, 0, 0.4);
 }
 
 .clickable-button:hover .button-arrow svg {
@@ -1729,13 +1729,13 @@ export default {
 /* ===== CARD 1: TOP CONTRIBUTOR ===== */
 .card-contributor {
   grid-column: span 2;
-  background: linear-gradient(145deg, rgba(255, 69, 0, 0.1), rgba(255, 140, 0, 0.05));
+  background: linear-gradient(145deg, rgba(255, 120, 0, 0.1), rgba(255, 140, 0, 0.05));
   backdrop-filter: blur(10px);
   padding: 24px;
 }
 
 .dark .card-contributor {
-  background: linear-gradient(145deg, rgba(255, 69, 0, 0.15), rgba(0, 0, 0, 0.3));
+  background: linear-gradient(145deg, rgba(255, 120, 0, 0.15), rgba(0, 0, 0, 0.3));
 }
 
 .contributor-header {
@@ -1755,7 +1755,7 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 3px solid #ff4500;
+  border: 3px solid #ff7800;
   position: relative;
   z-index: 2;
 }
@@ -1767,7 +1767,7 @@ export default {
   right: -5px;
   bottom: -5px;
   border-radius: 50%;
-  border: 1px solid #ff4500;
+  border: 1px solid #ff7800;
   animation: ringPulse 2s infinite;
 }
 
@@ -1798,7 +1798,7 @@ export default {
 .contributor-badge {
   display: inline-block;
   padding: 4px 12px;
-  background: #ff4500;
+  background: #ff7800;
   color: white;
   border-radius: 30px;
   font-size: 11px;
@@ -1837,7 +1837,7 @@ export default {
 .stat-value {
   font-size: 18px;
   font-weight: 700;
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .stat-label {
@@ -1850,7 +1850,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding-top: 16px;
-  border-top: 1px solid rgba(255, 69, 0, 0.2);
+  border-top: 1px solid rgba(255, 120, 0, 0.2);
 }
 
 .contributor-quote {
@@ -1860,7 +1860,7 @@ export default {
 }
 
 .contributor-link {
-  color: #ff4500;
+  color: #ff7800;
   text-decoration: none;
   font-size: 13px;
   display: inline-flex;
@@ -1894,7 +1894,7 @@ export default {
 .timeline-icon svg {
   width: 20px;
   height: 20px;
-  stroke: #ff4500;
+  stroke: #ff7800;
 }
 
 .timeline-title {
@@ -1921,7 +1921,7 @@ export default {
 .timeline-dot {
   width: 8px;
   height: 8px;
-  background: #ff4500;
+  background: #ff7800;
   border-radius: 50%;
   margin-top: 6px;
   animation: dotPulse 2s infinite;
@@ -1953,7 +1953,7 @@ export default {
 .timeline-emoji svg {
   width: 14px;
   height: 14px;
-  stroke: #ff4500;
+  stroke: #ff7800;
 }
 
 .timeline-message {
@@ -1969,7 +1969,7 @@ export default {
 }
 
 .timeline-author {
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .timeline-date {
@@ -1998,7 +1998,7 @@ export default {
 .stats-quick-icon svg {
   width: 20px;
   height: 20px;
-  stroke: #ff4500;
+  stroke: #ff7800;
 }
 
 .stats-quick-title {
@@ -2016,13 +2016,13 @@ export default {
 .stats-quick-item {
   text-align: center;
   padding: 12px;
-  background: rgba(255, 69, 0, 0.05);
+  background: rgba(255, 120, 0, 0.05);
   border-radius: 12px;
   transition: all 0.2s;
 }
 
 .stats-quick-item:hover {
-  background: rgba(255, 69, 0, 0.1);
+  background: rgba(255, 120, 0, 0.1);
   transform: scale(1.05);
 }
 
@@ -2030,7 +2030,7 @@ export default {
   display: block;
   font-size: 24px;
   font-weight: 700;
-  color: #ff4500;
+  color: #ff7800;
   line-height: 1.2;
 }
 
@@ -2042,7 +2042,7 @@ export default {
 
 /* ===== CARD 4: PLUS ===== */
 .card-plus {
-  background: linear-gradient(145deg, rgba(255, 69, 0, 0.05), rgba(255, 140, 0, 0.02));
+  background: linear-gradient(145deg, rgba(255, 120, 0, 0.05), rgba(255, 140, 0, 0.02));
   backdrop-filter: blur(10px);
   padding: 20px;
   display: flex;
@@ -2062,7 +2062,7 @@ export default {
 .plus-icon svg {
   width: 48px;
   height: 48px;
-  stroke: #ff4500;
+  stroke: #ff7800;
 }
 
 @keyframes pulse {
@@ -2092,7 +2092,7 @@ export default {
 }
 
 .plus-stat {
-  background: rgba(255, 69, 0, 0.05);
+  background: rgba(255, 120, 0, 0.05);
   padding: 4px 8px;
   border-radius: 20px;
   display: flex;
@@ -2111,10 +2111,10 @@ export default {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  color: #ff4500;
+  color: #ff7800;
   font-size: 13px;
   padding: 8px 16px;
-  border: 1px solid rgba(255, 69, 0, 0.3);
+  border: 1px solid rgba(255, 120, 0, 0.3);
   border-radius: 30px;
   text-decoration: none;
 }
@@ -2137,7 +2137,7 @@ export default {
   align-items: center;
   margin-bottom: 12px;
   padding-bottom: 8px;
-  border-bottom: 1px solid rgba(255, 69, 0, 0.15);
+  border-bottom: 1px solid rgba(255, 120, 0, 0.15);
 }
 
 .header-left {
@@ -2154,7 +2154,7 @@ export default {
 .widget-icon svg {
   width: 16px;
   height: 16px;
-  stroke: #ff4500;
+  stroke: #ff7800;
 }
 
 .widget-title {
@@ -2164,7 +2164,7 @@ export default {
 }
 
 .widget-badge {
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  background: linear-gradient(135deg, #ff7800, #ff7800);
   color: white;
   padding: 3px 8px;
   border-radius: 30px;
@@ -2178,7 +2178,7 @@ export default {
   padding: 2px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 40px;
-  border: 1px solid rgba(255, 69, 0, 0.1);
+  border: 1px solid rgba(255, 120, 0, 0.1);
 }
 
 .stat-chip {
@@ -2198,8 +2198,8 @@ export default {
 }
 
 .stat-chip.active {
-  background: rgba(255, 69, 0, 0.15);
-  color: #ff4500;
+  background: rgba(255, 120, 0, 0.15);
+  color: #ff7800;
 }
 
 .chip-count {
@@ -2261,15 +2261,15 @@ export default {
   padding: 6px 8px;
   background: rgba(0, 0, 0, 0.15);
   border-radius: 30px;
-  border: 1px solid rgba(255, 69, 0, 0.1);
+  border: 1px solid rgba(255, 120, 0, 0.1);
   transition: all 0.2s ease;
   min-height: 32px;
 }
 
 .list-item:hover {
-  background: rgba(255, 69, 0, 0.1);
+  background: rgba(255, 120, 0, 0.1);
   transform: translateX(4px);
-  border-color: rgba(255, 69, 0, 0.3);
+  border-color: rgba(255, 120, 0, 0.3);
 }
 
 .item-avatar {
@@ -2282,7 +2282,7 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 1.5px solid #ff4500;
+  border: 1.5px solid #ff7800;
   object-fit: cover;
 }
 
@@ -2331,7 +2331,7 @@ export default {
 }
 
 .item-meta span:first-child {
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .item-button {
@@ -2340,10 +2340,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 69, 0, 0.1);
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  background: rgba(255, 120, 0, 0.1);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   border-radius: 50%;
-  color: #ff4500;
+  color: #ff7800;
   cursor: pointer;
   transition: all 0.2s ease;
   flex-shrink: 0;
@@ -2356,7 +2356,7 @@ export default {
 }
 
 .item-button:hover {
-  background: #ff4500;
+  background: #ff7800;
   color: white;
   transform: scale(1.05);
 }
@@ -2368,7 +2368,7 @@ export default {
   padding: 8px;
   background: rgba(0, 0, 0, 0.1);
   border-radius: 30px;
-  border: 1px dashed rgba(255, 69, 0, 0.2);
+  border: 1px dashed rgba(255, 120, 0, 0.2);
   color: var(--text-tertiary);
   font-size: 9px;
   justify-content: center;
@@ -2395,7 +2395,7 @@ export default {
   gap: 3px;
   padding: 4px 6px;
   background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   border-radius: 30px;
   color: var(--text-secondary);
   cursor: pointer;
@@ -2410,16 +2410,16 @@ export default {
 }
 
 .quick-action-btn:hover {
-  background: rgba(255, 69, 0, 0.1);
-  border-color: #ff4500;
-  color: #ff4500;
+  background: rgba(255, 120, 0, 0.1);
+  border-color: #ff7800;
+  color: #ff7800;
 }
 
 .widget-footer {
   display: flex;
   gap: 8px;
   padding-top: 8px;
-  border-top: 1px solid rgba(255, 69, 0, 0.15);
+  border-top: 1px solid rgba(255, 120, 0, 0.15);
 }
 
 .widget-link {
@@ -2429,17 +2429,17 @@ export default {
   justify-content: center;
   gap: 3px;
   padding: 4px 8px;
-  background: rgba(255, 69, 0, 0.05);
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  background: rgba(255, 120, 0, 0.05);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   border-radius: 30px;
-  color: #ff4500;
+  color: #ff7800;
   font-size: 9px;
   text-decoration: none;
   transition: all 0.2s ease;
 }
 
 .widget-link:hover {
-  background: rgba(255, 69, 0, 0.1);
+  background: rgba(255, 120, 0, 0.1);
   gap: 5px;
 }
 
@@ -2483,7 +2483,7 @@ export default {
 .vertical-line {
   width: 4px;
   height: 80px;
-  background: linear-gradient(to bottom, #ff4500, #ff8c00, transparent);
+  background: linear-gradient(to bottom, #ff7800, #ff7800, transparent);
   margin-top: 8px;
 }
 
@@ -2496,7 +2496,7 @@ export default {
 .header-tag {
   font-size: 12px;
   letter-spacing: 3px;
-  color: #ff4500;
+  color: #ff7800;
   text-transform: uppercase;
   display: flex;
   align-items: center;
@@ -2521,7 +2521,7 @@ export default {
 }
 
 .title-gradient {
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  background: linear-gradient(135deg, #ff7800, #ff7800);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -2538,7 +2538,7 @@ export default {
   line-height: 1.7;
   color: var(--vp-c-text-1);
   margin: 0 0 12px;
-  border-left: 2px solid rgba(255, 69, 0, 0.3);
+  border-left: 2px solid rgba(255, 120, 0, 0.3);
   padding-left: 20px;
 }
 
@@ -2551,7 +2551,7 @@ export default {
 }
 
 .description-highlight {
-  color: #ff4500;
+  color: #ff7800;
   font-weight: 600;
 }
 
@@ -2582,7 +2582,7 @@ export default {
   opacity: 1;
   height: 20px;
   width: 3px;
-  box-shadow: 0 0 6px rgba(255, 69, 0, 0.5);
+  box-shadow: 0 0 6px rgba(255, 120, 0, 0.5);
 }
 
 .how-to-item:last-child {
@@ -2595,28 +2595,28 @@ export default {
   justify-content: center;
   width: 36px;
   height: 36px;
-  background: rgba(255, 69, 0, 0.05);
-  border: 1.5px solid rgba(255, 69, 0, 0.3);
+  background: rgba(255, 120, 0, 0.05);
+  border: 1.5px solid rgba(255, 120, 0, 0.3);
   border-radius: 50%;
   position: relative;
   z-index: 2;
   flex-shrink: 0;
   backdrop-filter: blur(4px);
   transition: all 0.3s ease;
-  box-shadow: 0 2px 8px rgba(255, 69, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(255, 120, 0, 0.1);
 }
 
 .how-to-item:hover .how-to-svg {
-  background: #ff4500;
-  border-color: #ff4500;
-  box-shadow: 0 4px 12px rgba(255, 69, 0, 0.3);
+  background: #ff7800;
+  border-color: #ff7800;
+  box-shadow: 0 4px 12px rgba(255, 120, 0, 0.3);
   transform: scale(1.03);
 }
 
 .how-to-svg svg {
   width: 18px;
   height: 18px;
-  stroke: #ff4500;
+  stroke: #ff7800;
   stroke-width: 2;
   transition: all 0.3s ease;
 }
@@ -2640,12 +2640,12 @@ export default {
 .how-to-tag {
   font-size: 8px;
   letter-spacing: 1px;
-  color: #ff4500;
+  color: #ff7800;
   text-transform: uppercase;
-  background: rgba(255, 69, 0, 0.1);
+  background: rgba(255, 120, 0, 0.1);
   padding: 1px 6px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   line-height: 1.2;
   white-space: nowrap;
 }
@@ -2653,7 +2653,7 @@ export default {
 .how-to-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, #ff4500, transparent);
+  background: linear-gradient(90deg, #ff7800, transparent);
   opacity: 0.3;
   transition: opacity 0.3s ease;
 }
@@ -2670,7 +2670,7 @@ export default {
 }
 
 .how-to-item:hover .how-to-content h4 {
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .how-to-content p {
@@ -2683,12 +2683,12 @@ export default {
 /* Dark mode adjustments */
 .dark .how-to-svg {
   background: rgba(20, 20, 20, 0.9);
-  border-color: rgba(255, 69, 0, 0.5);
+  border-color: rgba(255, 120, 0, 0.5);
 }
 
 .dark .how-to-item:hover .how-to-svg {
-  background: #ff4500;
-  border-color: #ff4500;
+  background: #ff7800;
+  border-color: #ff7800;
 }
 
 /* CTA */
@@ -2712,24 +2712,24 @@ export default {
 }
 
 .cta-button.primary {
-  background: #ff4500;
+  background: #ff7800;
   color: white;
   border: none;
 }
 
 .cta-button.secondary {
   background: transparent;
-  border: 1px solid rgba(255, 69, 0, 0.3);
+  border: 1px solid rgba(255, 120, 0, 0.3);
   color: var(--vp-c-text-1);
 }
 
 .cta-button:hover {
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(255, 69, 0, 0.12);
+  box-shadow: 0 4px 14px rgba(255, 120, 0, 0.12);
 }
 
 .cta-button.secondary:hover {
-  background: #ff4500;
+  background: #ff7800;
   color: white;
 }
 
@@ -2758,7 +2758,7 @@ export default {
 .view-all-updates-wrapper {
   margin-top: 12px;
   padding-top: 8px;
-  border-top: 1px solid rgba(255, 69, 0, 0.15);
+  border-top: 1px solid rgba(255, 120, 0, 0.15);
   width: 100%;
 }
 
@@ -2770,9 +2770,9 @@ export default {
   width: 100%;
   padding: 8px 12px;
   background: transparent;
-  border: 1px solid rgba(255, 69, 0, 0.25);
+  border: 1px solid rgba(255, 120, 0, 0.25);
   border-radius: 8px;
-  color: #ff4500;
+  color: #ff7800;
   font-size: 12px;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -2781,14 +2781,14 @@ export default {
 }
 
 .dark .view-all-updates-btn {
-  border-color: rgba(255, 69, 0, 0.3);
+  border-color: rgba(255, 120, 0, 0.3);
 }
 
 .view-all-updates-btn:hover {
-  background: rgba(255, 69, 0, 0.1);
-  border-color: #ff4500;
+  background: rgba(255, 120, 0, 0.1);
+  border-color: #ff7800;
   gap: 8px;
-  box-shadow: 0 2px 8px rgba(255, 69, 0, 0.2);
+  box-shadow: 0 2px 8px rgba(255, 120, 0, 0.2);
 }
 
 .view-all-updates-btn .btn-arrow {
@@ -2819,8 +2819,8 @@ export default {
 .loading-spinner {
   width: 16px;
   height: 16px;
-  border: 2px solid rgba(255, 69, 0, 0.3);
-  border-top-color: #ff4500;
+  border: 2px solid rgba(255, 120, 0, 0.3);
+  border-top-color: #ff7800;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
 }
@@ -2945,7 +2945,7 @@ export default {
 .top3-icon svg {
   width: 20px;
   height: 20px;
-  stroke: #ff4500;
+  stroke: #ff7800;
 }
 
 .top3-title {
@@ -2956,7 +2956,7 @@ export default {
 }
 
 .top3-badge {
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
+  background: linear-gradient(135deg, #ff7800, #ff7800);
   color: white;
   padding: 3px 8px;
   border-radius: 20px;
@@ -2978,7 +2978,7 @@ export default {
   border-radius: 30px;
   cursor: pointer;
   transition: all 0.2s ease;
-  border: 1px solid rgba(255, 69, 0, 0.1);
+  border: 1px solid rgba(255, 120, 0, 0.1);
   background: rgba(0, 0, 0, 0.2);
 }
 
@@ -3005,7 +3005,7 @@ export default {
 
 .top3-item:hover:not(.placeholder-item) {
   transform: translateX(5px);
-  border-color: #ff4500;
+  border-color: #ff7800;
 }
 
 .top3-rank {
@@ -3047,7 +3047,7 @@ export default {
 .rank-badge.rank-placeholder {
   background: rgba(255, 255, 255, 0.1);
   color: #666;
-  border: 1px dashed rgba(255, 69, 0, 0.3);
+  border: 1px dashed rgba(255, 120, 0, 0.3);
 }
 
 .top3-avatar {
@@ -3060,7 +3060,7 @@ export default {
   width: 100%;
   height: 100%;
   border-radius: 50%;
-  border: 2px solid #ff4500;
+  border: 2px solid #ff7800;
   object-fit: cover;
 }
 
@@ -3068,10 +3068,10 @@ export default {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 69, 0, 0.1);
+  background: rgba(255, 120, 0, 0.1);
   border-radius: 50%;
-  border: 2px dashed rgba(255, 69, 0, 0.3);
-  color: #ff4500;
+  border: 2px dashed rgba(255, 120, 0, 0.3);
+  color: #ff7800;
 }
 
 .placeholder-avatar svg {
@@ -3088,7 +3088,7 @@ export default {
   right: -3px;
   bottom: -3px;
   border-radius: 50%;
-  background: radial-gradient(circle at 30% 30%, #ff4500, transparent 70%);
+  background: radial-gradient(circle at 30% 30%, #ff7800, transparent 70%);
   opacity: 0;
   transition: opacity 0.3s ease;
   z-index: -1;
@@ -3117,7 +3117,7 @@ export default {
 
 .top3-commits {
   font-size: 11px;
-  color: #ff8c00;
+  color: #ff7800;
 }
 
 .placeholder-commits {
@@ -3135,7 +3135,7 @@ export default {
 .top3-arrow svg {
   width: 16px;
   height: 16px;
-  stroke: #ff4500;
+  stroke: #ff7800;
 }
 
 .top3-item:hover:not(.placeholder-item) .top3-arrow {
@@ -3147,12 +3147,12 @@ export default {
   display: flex;
   justify-content: center;
   padding-top: 12px;
-  border-top: 1px solid rgba(255, 69, 0, 0.15);
+  border-top: 1px solid rgba(255, 120, 0, 0.15);
   margin-top: 4px;
 }
 
 .top3-link {
-  color: #ff4500;
+  color: #ff7800;
   text-decoration: none;
   font-size: 11px;
   display: flex;

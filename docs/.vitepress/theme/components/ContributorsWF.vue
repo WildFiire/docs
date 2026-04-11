@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div v-if="contributors.length > 0 || loading" class="ctr-section">
     <div class="ctr-card">
 
@@ -102,7 +102,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 .ctr-card {
   padding: 14px 18px 18px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 69, 0, 0.12);
+  border: 1px solid rgba(255, 120, 0, 0.12);
   background: var(--vp-c-bg-soft);
   position: relative;
   overflow: hidden;
@@ -110,7 +110,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-card:hover {
-  border-color: rgba(255, 69, 0, 0.22);
+  border-color: rgba(255, 120, 0, 0.22);
 }
 
 /* Brand accent line at top */
@@ -121,7 +121,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #ff4500, #ff8c00, transparent);
+  background: linear-gradient(90deg, #ff7800, #ff7800, transparent);
   border-radius: 10px 10px 0 0;
 }
 
@@ -140,7 +140,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-icon {
-  color: #ff4500;
+  color: #ff7800;
   flex-shrink: 0;
   opacity: 0.8;
 }
@@ -156,9 +156,9 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 .ctr-count {
   font-size: 10px;
   font-weight: 700;
-  color: #ff4500;
-  background: rgba(255, 69, 0, 0.08);
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  color: #ff7800;
+  background: rgba(255, 120, 0, 0.08);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   border-radius: 999px;
   padding: 1px 9px;
   line-height: 1.7;
@@ -197,8 +197,8 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   height: 44px;
   border-radius: 50%;
   padding: 2px;
-  background: linear-gradient(135deg, #ff4500, #ff8c00);
-  box-shadow: 0 2px 8px rgba(255, 69, 0, 0.18);
+  background: linear-gradient(135deg, #ff7800, #ff7800);
+  box-shadow: 0 2px 8px rgba(255, 120, 0, 0.18);
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.25s ease, transform 0.25s ease;
@@ -220,7 +220,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-avatar-wrap:hover .ctr-avatar-ring {
-  box-shadow: 0 6px 18px rgba(255, 69, 0, 0.32);
+  box-shadow: 0 6px 18px rgba(255, 120, 0, 0.32);
   transform: scale(1.05);
 }
 
@@ -260,7 +260,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-avatar-wrap:hover .ctr-name {
-  color: #ff4500;
+  color: #ff7800;
 }
 
 /* ── Skeleton ────────────────────────── */

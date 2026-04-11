@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="cases-wf">
     <!-- Background image container with floating cases -->
     <div class="hero-container">
@@ -235,18 +235,18 @@ const computedFloatingIcons = computed(() => {
       style: {
         width: icon.width || '55px',
         opacity: icon.opacity || '0.25',
-        filter: `drop-shadow(0 0 ${icon.shadowSize || '12px'} rgba(255,69,0,${icon.shadowOpacity || '0.4'}))`
+        filter: `drop-shadow(0 0 ${icon.shadowSize || '12px'} rgba(255, 120, 0,${icon.shadowOpacity || '0.4'}))`
       }
     }))
   }
   
   return [
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '55px', opacity: '0.25', filter: 'drop-shadow(0 0 12px rgba(255,69,0,0.4))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '75px', opacity: '0.2', filter: 'drop-shadow(0 0 18px rgba(255,69,0,0.3))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '45px', opacity: '0.3', filter: 'drop-shadow(0 0 10px rgba(255,69,0,0.5))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '65px', opacity: '0.18', filter: 'drop-shadow(0 0 14px rgba(255,69,0,0.35))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '50px', opacity: '0.28', filter: 'drop-shadow(0 0 12px rgba(255,69,0,0.45))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '85px', opacity: '0.15', filter: 'drop-shadow(0 0 22px rgba(255,69,0,0.25))' } }
+    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '55px', opacity: '0.25', filter: 'drop-shadow(0 0 12px rgba(255, 120, 0,0.4))' } },
+    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '75px', opacity: '0.2', filter: 'drop-shadow(0 0 18px rgba(255, 120, 0,0.3))' } },
+    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '45px', opacity: '0.3', filter: 'drop-shadow(0 0 10px rgba(255, 120, 0,0.5))' } },
+    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '65px', opacity: '0.18', filter: 'drop-shadow(0 0 14px rgba(255, 120, 0,0.35))' } },
+    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '50px', opacity: '0.28', filter: 'drop-shadow(0 0 12px rgba(255, 120, 0,0.45))' } },
+    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '85px', opacity: '0.15', filter: 'drop-shadow(0 0 22px rgba(255, 120, 0,0.25))' } }
   ]
 })
 </script>
@@ -264,24 +264,24 @@ const computedFloatingIcons = computed(() => {
   margin-bottom: 24px;
   min-height: 200px;
   background-color: var(--vp-c-bg);
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
   transition: all 0.3s ease;
 }
 
 html.dark .hero-container {
-  border-color: rgba(255, 69, 0, 0.3);
+  border-color: rgba(255, 120, 0, 0.3);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.1);
 }
 
 .hero-container:hover {
-  border-color: rgba(255, 69, 0, 0.4);
+  border-color: rgba(255, 120, 0, 0.4);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.08);
   transform: translateY(-2px);
 }
 
 html.dark .hero-container:hover {
-  border-color: rgba(255, 69, 0, 0.5);
+  border-color: rgba(255, 120, 0, 0.5);
   box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.15);
 }
 
@@ -310,18 +310,18 @@ html.dark .hero-container:hover {
   bottom: 0;
   z-index: 0;
   background: linear-gradient(135deg, 
-    rgba(255, 69, 0, 0.05) 0%,
+    rgba(255, 120, 0, 0.05) 0%,
     rgba(0, 0, 0, 0.1) 50%,
-    rgba(255, 69, 0, 0.05) 100%
+    rgba(255, 120, 0, 0.05) 100%
   );
   pointer-events: none;
 }
 
 html.dark .gradient-overlay {
   background: linear-gradient(135deg, 
-    rgba(255, 69, 0, 0.08) 0%,
+    rgba(255, 120, 0, 0.08) 0%,
     rgba(0, 0, 0, 0.2) 50%,
-    rgba(255, 69, 0, 0.08) 100%
+    rgba(255, 120, 0, 0.08) 100%
   );
 }
 
@@ -437,17 +437,17 @@ html:not(.dark) .gradient-overlay {
   backdrop-filter: blur(8px);
   padding: 4px 12px;
   border-radius: 8px;
-  border: 1px solid rgba(255, 69, 0, 0.25);
+  border: 1px solid rgba(255, 120, 0, 0.25);
 }
 
 html.dark .breadcrumb-items {
   background: rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 69, 0, 0.35);
+  border-color: rgba(255, 120, 0, 0.35);
 }
 
 html:not(.dark) .breadcrumb-items {
   background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(255, 69, 0, 0.2);
+  border-color: rgba(255, 120, 0, 0.2);
 }
 
 .home-icon {
@@ -487,18 +487,18 @@ html:not(.dark) .breadcrumb-items {
   backdrop-filter: blur(4px);
   padding: 4px 10px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 69, 0, 0.4);
+  border: 1px solid rgba(255, 120, 0, 0.4);
   font-weight: 600;
 }
 
 html.dark .viewers-count {
   background: rgba(0, 0, 0, 0.6);
-  border-color: rgba(255, 69, 0, 0.5);
+  border-color: rgba(255, 120, 0, 0.5);
 }
 
 html:not(.dark) .viewers-count {
   background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 69, 0, 0.35);
+  border-color: rgba(255, 120, 0, 0.35);
 }
 
 .viewers-count span {
@@ -519,17 +519,17 @@ html:not(.dark) .viewers-count {
   backdrop-filter: blur(4px);
   padding: 4px 10px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 69, 0, 0.4);
+  border: 1px solid rgba(255, 120, 0, 0.4);
 }
 
 html.dark .badge {
   background: rgba(0, 0, 0, 0.6);
-  border-color: rgba(255, 69, 0, 0.5);
+  border-color: rgba(255, 120, 0, 0.5);
 }
 
 html:not(.dark) .badge {
   background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 69, 0, 0.35);
+  border-color: rgba(255, 120, 0, 0.35);
 }
 
 .badge span {
@@ -565,7 +565,7 @@ html:not(.dark) .badge {
 .gradient-text {
   font-size: 32px;
   margin: 0;
-  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), #ff8c00, var(--vp-c-brand-1));
+  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), #ff7800, var(--vp-c-brand-1));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -586,7 +586,7 @@ html:not(.dark) .badge {
   justify-content: space-between;
   flex-wrap: wrap;
   gap: 16px;
-  border-top: 1px solid rgba(255, 69, 0, 0.25);
+  border-top: 1px solid rgba(255, 120, 0, 0.25);
   padding-top: 16px;
   margin-top: 4px;
 }
@@ -620,13 +620,13 @@ html:not(.dark) .tag-icon {
   border-radius: 20px;
   font-weight: 500;
   transition: all 0.2s ease;
-  border: 1px solid rgba(255, 69, 0, 0.15);
+  border: 1px solid rgba(255, 120, 0, 0.15);
 }
 
 .tag:hover {
   transform: translateY(-1px);
   filter: brightness(1.02);
-  border-color: rgba(255, 69, 0, 0.3);
+  border-color: rgba(255, 120, 0, 0.3);
 }
 
 .updated-by {
@@ -636,22 +636,22 @@ html:not(.dark) .tag-icon {
   backdrop-filter: blur(4px);
   padding: 4px 14px 4px 16px;
   border-radius: 32px;
-  border: 1px solid rgba(255, 69, 0, 0.3);
+  border: 1px solid rgba(255, 120, 0, 0.3);
   transition: all 0.2s ease;
 }
 
 .updated-by:hover {
-  border-color: rgba(255, 69, 0, 0.5);
+  border-color: rgba(255, 120, 0, 0.5);
 }
 
 html.dark .updated-by {
   background: rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 69, 0, 0.4);
+  border-color: rgba(255, 120, 0, 0.4);
 }
 
 html:not(.dark) .updated-by {
   background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 69, 0, 0.3);
+  border-color: rgba(255, 120, 0, 0.3);
 }
 
 .updated-by span {
@@ -666,13 +666,13 @@ html:not(.dark) .updated-by {
   text-decoration: none;
   transition: all 0.2s ease;
   border-radius: 50%;
-  border: 1.5px solid rgba(255, 69, 0, 0.4);
+  border: 1.5px solid rgba(255, 120, 0, 0.4);
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .github-profile:hover {
   transform: scale(1.08);
-  border-color: rgba(255, 69, 0, 0.7);
+  border-color: rgba(255, 120, 0, 0.7);
 }
 
 .github-profile img {

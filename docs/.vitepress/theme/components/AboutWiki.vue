@@ -1,4 +1,4 @@
-<!-- .vitepress/theme/components/AboutWiki.vue -->
+﻿<!-- .vitepress/theme/components/AboutWiki.vue -->
 <template>
   <section class="wiki-showcase reveal-element orbitron-font" ref="wikiSectionRef" id="wiki-section">
     <div class="section-divider">
@@ -391,9 +391,9 @@ defineExpose({
 .card-badge {
   font-size: 10px;
   padding: 3px 10px;
-  background: rgba(255, 69, 0, 0.08);
-  color: #ff8c00;
-  border: 1px solid rgba(255, 69, 0, 0.22);
+  background: rgba(255, 120, 0, 0.08);
+  color: #ff7800;
+  border: 1px solid rgba(255, 120, 0, 0.22);
   border-radius: 6px;
   line-height: 1.6;
   display: inline-flex;
@@ -419,13 +419,13 @@ defineExpose({
 .divider-line {
   flex: 1;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 69, 0, 0.3), rgba(255, 69, 0, 0.5), rgba(255, 69, 0, 0.3), transparent);
+  background: linear-gradient(90deg, transparent, rgba(255, 120, 0, 0.3), rgba(255, 120, 0, 0.5), rgba(255, 120, 0, 0.3), transparent);
 }
 
 .divider-icon {
   font-size: 20px;
-  color: #ff4500;
-  filter: drop-shadow(0 0 8px rgba(255, 69, 0, 0.5));
+  color: #ff7800;
+  filter: drop-shadow(0 0 8px rgba(255, 120, 0, 0.5));
 }
 
 .wiki-layout {
@@ -458,13 +458,13 @@ defineExpose({
 .wiki-left-line .line {
   width: 30px;
   height: 1px;
-  background: linear-gradient(90deg, #ff4500, #ff4500, transparent);
+  background: linear-gradient(90deg, #ff7800, #ff7800, transparent);
 }
 
 .wiki-left-line .text {
   font-size: 11px;
   letter-spacing: 2px;
-  color: #ff4500;
+  color: #ff7800;
   text-transform: uppercase;
 }
 
@@ -487,7 +487,7 @@ defineExpose({
 }
 
 .text-highlight {
-  color: #ff4500;
+  color: #ff7800;
   font-weight: 600;
 }
 
@@ -501,19 +501,19 @@ defineExpose({
   gap: 10px;
   padding: 9px 22px;
   background: transparent;
-  border: 1px solid rgba(255, 69, 0, 0.3);
+  border: 1px solid rgba(255, 120, 0, 0.3);
   border-radius: 8px;
-  color: #ff4500;
+  color: #ff7800;
   text-decoration: none;
   transition: all 0.25s ease;
 }
 
 .wiki-cta-link:hover {
-  background: rgba(255, 69, 0, 0.08);
-  border-color: #ff4500;
+  background: rgba(255, 120, 0, 0.08);
+  border-color: #ff7800;
   gap: 14px;
   transform: translateY(-1px);
-  box-shadow: 0 4px 14px rgba(255, 69, 0, 0.12);
+  box-shadow: 0 4px 14px rgba(255, 120, 0, 0.12);
 }
 
 .wiki-cta-link svg {
@@ -537,7 +537,7 @@ defineExpose({
   position: relative;
   background: rgba(255, 255, 255, 0.03);
   border: 1px solid rgba(255, 255, 255, 0.06);
-  border-left: 2px solid rgba(255, 69, 0, 0.25);
+  border-left: 2px solid rgba(255, 120, 0, 0.25);
   border-radius: 12px;
   padding: 18px 16px;
   transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
@@ -550,14 +550,14 @@ defineExpose({
 .wiki-card:hover {
   transform: translateY(-3px);
   border-color: rgba(255, 255, 255, 0.1);
-  border-left-color: #ff4500;
+  border-left-color: #ff7800;
   background: rgba(255, 255, 255, 0.05);
 }
 
 .card-glow {
   position: absolute;
   inset: 0;
-  background: radial-gradient(ellipse at 0% 0%, rgba(255, 69, 0, 0.06) 0%, transparent 60%);
+  background: radial-gradient(ellipse at 0% 0%, rgba(255, 120, 0, 0.06) 0%, transparent 60%);
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -574,10 +574,10 @@ defineExpose({
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 69, 0, 0.08);
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  background: rgba(255, 120, 0, 0.08);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   border-radius: 10px;
-  color: #ff8c00;
+  color: #ff7800;
   margin-bottom: 14px;
   transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
   position: relative;
@@ -586,9 +586,9 @@ defineExpose({
 }
 
 .wiki-card:hover .card-icon {
-  background: #ff4500;
+  background: #ff7800;
   color: #fff;
-  border-color: #ff4500;
+  border-color: #ff7800;
 }
 
 .card-content {
@@ -648,7 +648,7 @@ defineExpose({
 }
 
 .card-link:hover {
-  color: #ff8c00;
+  color: #ff7800;
   gap: 7px;
 }
 
@@ -666,7 +666,7 @@ defineExpose({
   display: inline-block;
   width: 2px;
   height: 1.2em;
-  background-color: #ff4500;
+  background-color: #ff7800;
   margin-left: 2px;
   animation: blink 0.8s infinite;
   vertical-align: middle;
@@ -707,14 +707,14 @@ defineExpose({
 html:not(.dark) .wiki-card {
   background: #ffffff;
   border-color: rgba(0, 0, 0, 0.07);
-  border-left-color: rgba(255, 69, 0, 0.3);
+  border-left-color: rgba(255, 120, 0, 0.3);
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.03);
 }
 
 html:not(.dark) .wiki-card:hover {
   background: #fafafa;
-  border-left-color: #ff4500;
-  box-shadow: 0 8px 20px rgba(255, 69, 0, 0.08);
+  border-left-color: #ff7800;
+  box-shadow: 0 8px 20px rgba(255, 120, 0, 0.08);
 }
 
 html:not(.dark) .wiki-title {
@@ -734,13 +734,13 @@ html:not(.dark) .card-badge {
 }
 
 html:not(.dark) .wiki-cta-link {
-  color: #ff4500;
-  border-color: rgba(255, 69, 0, 0.3);
+  color: #ff7800;
+  border-color: rgba(255, 120, 0, 0.3);
 }
 
 html:not(.dark) .wiki-cta-link:hover {
-  background: rgba(255, 69, 0, 0.07);
-  border-color: #ff4500;
+  background: rgba(255, 120, 0, 0.07);
+  border-color: #ff7800;
 }
 
 html:not(.dark) .card-title {
@@ -752,7 +752,7 @@ html:not(.dark) .card-link {
 }
 
 html:not(.dark) .card-link:hover {
-  color: #ff4500;
+  color: #ff7800;
 }
 
 @media (max-width: 1024px) {

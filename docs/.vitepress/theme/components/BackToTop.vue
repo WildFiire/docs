@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <Transition name="back-top">
     <button
       v-if="visible"
@@ -48,7 +48,7 @@ onUnmounted(() => {
   right: 1.5rem;
   width: 44px;
   height: 44px;
-  border: 1px solid rgba(255, 69, 0, 0.25);
+  border: 1px solid rgba(255, 120, 0, 0.25);
   background: rgba(10, 10, 10, 0.75);
   border-radius: 50%;
   cursor: pointer;
@@ -65,14 +65,14 @@ onUnmounted(() => {
 
 .back-to-top:hover {
   transform: translateY(-3px) scale(1.06);
-  box-shadow: 0 8px 24px rgba(255, 69, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-  border-color: rgba(255, 69, 0, 0.55);
+  box-shadow: 0 8px 24px rgba(255, 120, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 120, 0, 0.55);
 }
 
 .arrow-icon {
   position: relative;
   z-index: 1;
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .back-top-enter-active,

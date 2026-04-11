@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div v-if="!isTouchDevice" class="custom-cursor" :class="{ 'cursor-hidden': !isVisible }">
     <div
       class="crosshair"
@@ -56,8 +56,25 @@ const onMove = (e: MouseEvent) => {
 
 const onDown = () => { isClicking.value = true }
 const onUp = () => { isClicking.value = false }
-const onLeave = () => { isVisible.value = false }
-const onEnter = () => { isVisible.value = true }
+
+let leaveTimer: ReturnType<typeof setTimeout> | null = null
+
+const onLeave = (e: MouseEvent) => {
+  // Only hide if mouse truly left the viewport
+  if (e.clientX <= 0 || e.clientY <= 0 || e.clientX >= window.innerWidth || e.clientY >= window.innerHeight) {
+    leaveTimer = setTimeout(() => { isVisible.value = false }, 100)
+  }
+}
+
+const onEnter = () => {
+  if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null }
+  isVisible.value = true
+}
+
+const onScroll = () => {
+  if (leaveTimer) { clearTimeout(leaveTimer); leaveTimer = null }
+  if (!isVisible.value) isVisible.value = true
+}
 
 onMounted(() => {
   isTouchDevice.value = 'ontouchstart' in window || navigator.maxTouchPoints > 0
@@ -68,6 +85,7 @@ onMounted(() => {
   document.addEventListener('mouseup', onUp)
   document.addEventListener('mouseleave', onLeave)
   document.addEventListener('mouseenter', onEnter)
+  window.addEventListener('scroll', onScroll, { passive: true })
   rafId = requestAnimationFrame(tick)
 })
 
@@ -77,6 +95,8 @@ onUnmounted(() => {
   document.removeEventListener('mouseup', onUp)
   document.removeEventListener('mouseleave', onLeave)
   document.removeEventListener('mouseenter', onEnter)
+  window.removeEventListener('scroll', onScroll)
+  if (leaveTimer) clearTimeout(leaveTimer)
   if (rafId) cancelAnimationFrame(rafId)
 })
 </script>
@@ -86,7 +106,7 @@ onUnmounted(() => {
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 999999;
+  z-index: 2147483647;
   pointer-events: none;
 }
 
@@ -142,7 +162,7 @@ onUnmounted(() => {
   position: absolute;
   width: 2px;
   height: 2px;
-  background: rgba(255, 69, 0, 0.9);
+  background: rgba(255, 120, 0, 0.9);
   border-radius: 50%;
   left: -1px;
   top: -1px;
@@ -150,12 +170,12 @@ onUnmounted(() => {
 }
 
 /* Hover: spread out + turn orange */
-.crosshair--hover .ch-top { bottom: 6px; background: rgba(255, 69, 0, 0.9); }
-.crosshair--hover .ch-bottom { top: 6px; background: rgba(255, 69, 0, 0.9); }
-.crosshair--hover .ch-left { right: 6px; background: rgba(255, 69, 0, 0.9); }
-.crosshair--hover .ch-right { left: 6px; background: rgba(255, 69, 0, 0.9); }
+.crosshair--hover .ch-top { bottom: 6px; background: rgba(255, 120, 0, 0.9); }
+.crosshair--hover .ch-bottom { top: 6px; background: rgba(255, 120, 0, 0.9); }
+.crosshair--hover .ch-left { right: 6px; background: rgba(255, 120, 0, 0.9); }
+.crosshair--hover .ch-right { left: 6px; background: rgba(255, 120, 0, 0.9); }
 .crosshair--hover .ch-dot {
-  background: #ff4500;
+  background: #ff7800;
   transform: scale(1.5);
 }
 

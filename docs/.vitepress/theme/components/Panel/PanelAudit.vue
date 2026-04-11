@@ -1,4 +1,4 @@
-<!-- docs\.vitepress\theme\components\Panel\PanelAudit.vue -->
+﻿<!-- docs\.vitepress\theme\components\Panel\PanelAudit.vue -->
 <template>
   <div class="panel-audit" :class="{ 'light-theme': isLightTheme }">
     <!-- Header -->
@@ -438,14 +438,14 @@ export default {
   --text-primary: #ffffff;
   --text-secondary: #e0e0e0;
   --text-muted: #8a8a95;
-  --accent: #ff4500;
-  --accent-glow: rgba(255, 69, 0, 0.2);
-  --accent-dim: rgba(255,69,0,0.08); 
-  --accent-soft: rgba(255,69,0,0.15);
-  --accent-mid: rgba(255,69,0,0.28); 
-  --accent-strong: rgba(255,69,0,0.45);
-  --accent-heavy: rgba(255,69,0,0.68); 
-  --accent-solid: rgba(255,69,0,0.88);
+  --accent: #ff7800;
+  --accent-glow: rgba(255, 120, 0, 0.2);
+  --accent-dim: rgba(255, 120, 0,0.08); 
+  --accent-soft: rgba(255, 120, 0,0.15);
+  --accent-mid: rgba(255, 120, 0,0.28); 
+  --accent-strong: rgba(255, 120, 0,0.45);
+  --accent-heavy: rgba(255, 120, 0,0.68); 
+  --accent-solid: rgba(255, 120, 0,0.88);
   --accent-alt: #ff6030; 
   --accent-alt2: #ff8c42;
   --commit-color: #3498db;
@@ -463,7 +463,7 @@ export default {
   --text-primary: #0f0f14;
   --text-secondary: #2a2a38;
   --text-muted: #4a4a5a;
-  --accent-glow: rgba(255, 69, 0, 0.1);
+  --accent-glow: rgba(255, 120, 0, 0.1);
 }
 
 .panel-audit.light-theme .event-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.1); }

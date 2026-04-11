@@ -1,4 +1,4 @@
-<!-- docs\.vitepress\theme\components\Panel\FileTreeNode.vue -->
+﻿<!-- docs\.vitepress\theme\components\Panel\FileTreeNode.vue -->
 <template>
   <div class="file-tree-node" :class="{ 'light-theme': isLightTheme }" :style="{ paddingLeft: (level * 16) + 'px' }">
 
@@ -67,7 +67,7 @@
 <script>
 const FILE_COLORS = {
   vue:'#42b883', js:'#f7df1e', ts:'#3178c6', tsx:'#3178c6', jsx:'#61dafb',
-  md:'#ff4500', css:'#264de4', scss:'#c6538c', html:'#e44d26',
+  md:'#ff7800', css:'#264de4', scss:'#c6538c', html:'#e44d26',
   json:'#ffd700', yaml:'#cb171e', yml:'#cb171e', py:'#3572a5',
   go:'#00add8', rs:'#dea584', java:'#b07219', php:'#4f5d95',
   rb:'#701516', sh:'#89e051', svg:'#ff9900', png:'#88d8b0',
@@ -201,7 +201,7 @@ export default {
 
 /* ── File ── */
 .node-item.file.selected {
-  background: var(--accent, #ff4500);
+  background: var(--accent, #ff7800);
   color: #fff;
 }
 .node-item.file.selected .node-file-icon { color: #fff !important; }
@@ -218,8 +218,8 @@ export default {
   text-overflow: ellipsis;
 }
 .node-name.highlight {
-  color: var(--accent, #ff4500);
-  background: rgba(255, 69, 0, 0.12);
+  color: var(--accent, #ff7800);
+  background: rgba(255, 120, 0, 0.12);
   border-radius: 4px;
   padding: 0 4px;
   margin: -2px 0;

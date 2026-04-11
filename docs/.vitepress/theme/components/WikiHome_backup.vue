@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <!-- Space-reserving placeholder prevents footer CLS while component mounts -->
   <div v-if="!isMounted && isHomePage" class="wildfire-home-placeholder" aria-hidden="true"></div>
   <div v-if="isMounted && isHomePage" class="wildfire-home orbitron-font">
@@ -559,7 +559,7 @@ onUnmounted(() => {
 
 .tag-badge {
   font-weight: 700 !important;
-  color: #ff4500;
+  color: #ff7800;
 }
 
 .tag-year {
@@ -667,8 +667,8 @@ onUnmounted(() => {
 :not(.dark) .wildfire-home .wildfire-grid-primary {
   opacity: 0.05;
   background-image: 
-    linear-gradient(to right, rgba(255, 69, 0, 0.1) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 69, 0, 0.1) 1px, transparent 1px);
+    linear-gradient(to right, rgba(255, 120, 0, 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 120, 0, 0.1) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 
@@ -907,7 +907,7 @@ onUnmounted(() => {
   left: 0;
   width: 450px;
   height: 450px;
-  background: radial-gradient(circle at 20% 20%, rgba(255, 69, 0, 0.18) 0%, transparent 70%);
+  background: radial-gradient(circle at 20% 20%, rgba(255, 120, 0, 0.18) 0%, transparent 70%);
   border-radius: 50%;
   filter: blur(80px);
   opacity: 0.3;
@@ -981,10 +981,10 @@ onUnmounted(() => {
   position: absolute;
   width: 4px;
   height: 4px;
-  background: rgba(255, 69, 0, 0.6);
+  background: rgba(255, 120, 0, 0.6);
   border-radius: 50%;
   filter: blur(1px);
-  box-shadow: 0 0 10px rgba(255, 69, 0, 0.4);
+  box-shadow: 0 0 10px rgba(255, 120, 0, 0.4);
 }
 
 /* Particula 1 - se mișcă stânga-dreapta */
@@ -1013,7 +1013,7 @@ onUnmounted(() => {
   left: 60%;
   width: 7px;
   height: 7px;
-  background: rgba(255, 69, 0, 0.8);
+  background: rgba(255, 120, 0, 0.8);
   animation: moveDiagonal 18s ease-in-out infinite;
 }
 
@@ -1053,7 +1053,7 @@ onUnmounted(() => {
   left: 10%;
   width: 4px;
   height: 4px;
-  background: rgba(255, 69, 0, 0.7);
+  background: rgba(255, 120, 0, 0.7);
   animation: moveBounce 10s ease-in-out infinite;
 }
 
@@ -1250,8 +1250,8 @@ onUnmounted(() => {
   gap: 8px;
   margin-bottom: 20px;
   padding: 5px 12px 5px 10px;
-  background: rgba(255, 69, 0, 0.04);
-  border: 1px solid rgba(255, 69, 0, 0.18);
+  background: rgba(255, 120, 0, 0.04);
+  border: 1px solid rgba(255, 120, 0, 0.18);
   border-radius: 8px;
   font-size: 12px;
   opacity: 0;
@@ -1276,8 +1276,8 @@ onUnmounted(() => {
 }
 
 .dark .community-tag {
-  background: rgba(255, 69, 0, 0.08);
-  border-color: rgba(255, 69, 0, 0.25);
+  background: rgba(255, 120, 0, 0.08);
+  border-color: rgba(255, 120, 0, 0.25);
 }
 
 @keyframes fadeIn {
@@ -1286,7 +1286,7 @@ onUnmounted(() => {
 }
 
 .tag-badge {
-  color: #ff4500;
+  color: #ff7800;
   font-weight: 700;
 }
 
@@ -1309,7 +1309,7 @@ onUnmounted(() => {
   position: absolute;
   width: 100%;
   height: 100%;
-  background: radial-gradient(circle, rgba(255, 69, 0, 0.2) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.2) 0%, transparent 70%);
   border-radius: 50%;
   filter: blur(25px);
   opacity: 0;
@@ -1332,7 +1332,7 @@ onUnmounted(() => {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 2px solid rgba(255, 69, 0, 0.4);
+  border: 2px solid rgba(255, 120, 0, 0.4);
   border-radius: 50%;
   opacity: 0;
   transform: scale(1);
@@ -1417,17 +1417,17 @@ onUnmounted(() => {
 }
 
 .fire-orange {
-  color: #ff4500;
+  color: #ff7800;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .dot-orange {
-  color: #ff4500;
+  color: #ff7800;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
 .ro-orange {
-  color: #ff4500;
+  color: #ff7800;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
 
@@ -1441,9 +1441,9 @@ onUnmounted(() => {
 .fire-gradient-text {
   background: linear-gradient(
     135deg,
-    #ff4500 0%,
+    #ff7800 0%,
     #ff5722 30%,
-    #ff4500 70%,
+    #ff7800 70%,
     #ff5722 100%
   );
   background-size: 300% 300%;
@@ -1451,7 +1451,7 @@ onUnmounted(() => {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: fireFlicker 8s ease-in-out infinite;
-  text-shadow: 0 0 5px rgba(255, 69, 0, 0.3);
+  text-shadow: 0 0 5px rgba(255, 120, 0, 0.3);
   position: relative;
   display: inline-block;
 }
@@ -1465,9 +1465,9 @@ onUnmounted(() => {
   height: 100%;
   background: linear-gradient(
     135deg,
-    rgba(255, 69, 0, 0.15) 0%,
+    rgba(255, 120, 0, 0.15) 0%,
     rgba(255, 87, 34, 0.15) 50%,
-    rgba(255, 69, 0, 0.15) 100%
+    rgba(255, 120, 0, 0.15) 100%
   );
   filter: blur(6px);
   -webkit-background-clip: text;
@@ -1481,9 +1481,9 @@ onUnmounted(() => {
 .ro-gradient-text {
   background: linear-gradient(
     135deg,
-    #ff4500 0%,
+    #ff7800 0%,
     #ff5722 30%,
-    #ff4500 70%,
+    #ff7800 70%,
     #ff5722 100%
   );
   background-size: 300% 300%;
@@ -1491,7 +1491,7 @@ onUnmounted(() => {
   -webkit-text-fill-color: transparent;
   background-clip: text;
   animation: roFlicker 8s ease-in-out infinite;
-  text-shadow: 0 0 5px rgba(255, 69, 0, 0.3);
+  text-shadow: 0 0 5px rgba(255, 120, 0, 0.3);
   position: relative;
   display: inline-block;
 }
@@ -1505,9 +1505,9 @@ onUnmounted(() => {
   height: 100%;
   background: linear-gradient(
     135deg,
-    rgba(255, 69, 0, 0.15) 0%,
+    rgba(255, 120, 0, 0.15) 0%,
     rgba(255, 87, 34, 0.15) 50%,
-    rgba(255, 69, 0, 0.15) 100%
+    rgba(255, 120, 0, 0.15) 100%
   );
   filter: blur(6px);
   -webkit-background-clip: text;
@@ -1549,11 +1549,11 @@ onUnmounted(() => {
 }
 
 .dark .fire-gradient-text {
-  text-shadow: 0 0 20px rgba(255, 69, 0, 0.7);
+  text-shadow: 0 0 20px rgba(255, 120, 0, 0.7);
 }
 
 .dark .ro-gradient-text {
-  text-shadow: 0 0 10px rgba(255, 69, 0, 0.4);
+  text-shadow: 0 0 10px rgba(255, 120, 0, 0.4);
 }
 
 .feature-badges {
@@ -1571,21 +1571,21 @@ onUnmounted(() => {
   align-items: center;
   gap: 6px;
   padding: 5px 12px;
-  background: rgba(255, 69, 0, 0.04);
-  border: 1px solid rgba(255, 69, 0, 0.18);
+  background: rgba(255, 120, 0, 0.04);
+  border: 1px solid rgba(255, 120, 0, 0.18);
   border-radius: 8px;
   font-size: 12px;
   transition: border-color 0.2s ease, background 0.2s ease, transform 0.2s ease;
 }
 
 .feature-badge:hover {
-  border-color: rgba(255, 69, 0, 0.5);
-  background: rgba(255, 69, 0, 0.08);
+  border-color: rgba(255, 120, 0, 0.5);
+  background: rgba(255, 120, 0, 0.08);
   transform: translateY(-2px);
 }
 
 .feature-icon {
-  color: #ff4500;
+  color: #ff7800;
   font-size: 14px;
 }
 
@@ -1606,7 +1606,7 @@ onUnmounted(() => {
   align-items: center;
   gap: 10px;
   background: transparent;
-  color: #ff4500;
+  color: #ff7800;
   padding: 11px 28px;
   border-radius: 8px;
   font-weight: 700;
@@ -1615,14 +1615,14 @@ onUnmounted(() => {
   text-transform: uppercase;
   text-decoration: none;
   transition: all 0.25s ease;
-  border: 1px solid rgba(255, 69, 0, 0.4);
+  border: 1px solid rgba(255, 120, 0, 0.4);
 }
 
 .wildfire-button:hover {
-  background: rgba(255, 69, 0, 0.08);
-  border-color: #ff4500;
+  background: rgba(255, 120, 0, 0.08);
+  border-color: #ff7800;
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255, 69, 0, 0.18);
+  box-shadow: 0 6px 20px rgba(255, 120, 0, 0.18);
   gap: 16px;
 }
 
@@ -1654,7 +1654,7 @@ onUnmounted(() => {
   max-width: 400px;
   padding: 11px 18px;
   background: #ffffff;
-  border: 1px solid rgba(255, 69, 0, 0.22);
+  border: 1px solid rgba(255, 120, 0, 0.22);
   border-radius: 10px;
   color: #1a1a1a;
   font-size: 14px;
@@ -1667,19 +1667,19 @@ onUnmounted(() => {
 
 .home-search-button:hover {
   transform: translateY(-1px);
-  border-color: rgba(255, 69, 0, 0.55);
-  box-shadow: 0 6px 18px rgba(255, 69, 0, 0.12);
+  border-color: rgba(255, 120, 0, 0.55);
+  box-shadow: 0 6px 18px rgba(255, 120, 0, 0.12);
 }
 
 .dark .home-search-button {
   background: rgba(255, 255, 255, 0.04);
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   color: #ffffff;
 }
 
 .dark .home-search-button:hover {
-  border-color: rgba(255, 69, 0, 0.5);
-  box-shadow: 0 6px 18px rgba(255, 69, 0, 0.15);
+  border-color: rgba(255, 120, 0, 0.5);
+  box-shadow: 0 6px 18px rgba(255, 120, 0, 0.15);
 }
 
 .search-icon {
@@ -1723,9 +1723,9 @@ onUnmounted(() => {
 }
 
 .home-search-button:hover .home-search-shortcut {
-  background: #ff4500;
+  background: #ff7800;
   color: #ffffff;
-  border-color: #ff4500;
+  border-color: #ff7800;
 }
 
 .last-updates-wrapper {
@@ -1749,7 +1749,7 @@ onUnmounted(() => {
   display: inline-block;
   width: 2px;
   height: 1.2em;
-  background-color: #ff4500;
+  background-color: #ff7800;
   margin-left: 2px;
   animation: blink 0.8s infinite;
   vertical-align: middle;
@@ -1828,7 +1828,7 @@ onUnmounted(() => {
 
 .scroll-progress {
   width: 100%;
-  background: #ff4500;
+  background: #ff7800;
   transition: height 0.1s ease;
   border-radius: 2px;
 }
@@ -1862,8 +1862,8 @@ onUnmounted(() => {
 }
 
 .scroll-dot.active .dot {
-  background: #ff4500;
-  box-shadow: 0 0 10px #ff4500;
+  background: #ff7800;
+  box-shadow: 0 0 10px #ff7800;
   transform: scale(1.2);
 }
 

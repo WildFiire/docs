@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div v-if="isHomePage" class="footer">
     <!-- WILDFIRE Watermark - centered behind content -->
     <div class="watermark-layer">
@@ -183,7 +183,7 @@ onMounted(() => {
   user-select: none;
   -webkit-user-select: none;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 69, 0, 0.08);
+  -webkit-text-stroke: 1.5px rgba(255, 120, 0, 0.08);
   position: relative;
   display: block;
 }
@@ -194,7 +194,7 @@ onMounted(() => {
   position: absolute;
   inset: 0;
   color: transparent;
-  -webkit-text-stroke: 1.5px rgba(255, 69, 0, 0.04);
+  -webkit-text-stroke: 1.5px rgba(255, 120, 0, 0.04);
   filter: blur(8px);
   animation: watermarkPulse 6s ease-in-out infinite;
 }
@@ -209,9 +209,9 @@ onMounted(() => {
   height: 1px;
   background: linear-gradient(90deg,
     transparent 0%,
-    rgba(255, 69, 0, 0.4) 25%,
-    rgba(255, 69, 0, 0.6) 50%,
-    rgba(255, 69, 0, 0.4) 75%,
+    rgba(255, 120, 0, 0.4) 25%,
+    rgba(255, 120, 0, 0.6) 50%,
+    rgba(255, 120, 0, 0.4) 75%,
     transparent 100%
   );
 }
@@ -306,7 +306,7 @@ onMounted(() => {
 
 .social-link:hover {
   transform: translateY(-2px);
-  border-color: rgba(255, 69, 0, 0.6) !important;
+  border-color: rgba(255, 120, 0, 0.6) !important;
 }
 
 .social-link:hover .social-icon {
@@ -368,7 +368,7 @@ onMounted(() => {
 }
 
 .col-link:hover {
-  color: #ff4500 !important;
+  color: #ff7800 !important;
   transform: translateX(3px);
 }
 
@@ -451,7 +451,7 @@ onMounted(() => {
 }
 
 .back-to-top:hover {
-  color: #ff4500 !important;
+  color: #ff7800 !important;
   transform: translateY(-1px);
 }
 
@@ -463,11 +463,11 @@ onMounted(() => {
 }
 
 :root.dark .watermark-text {
-  -webkit-text-stroke: 1.5px rgba(255, 69, 0, 0.07);
+  -webkit-text-stroke: 1.5px rgba(255, 120, 0, 0.07);
 }
 
 :root.dark .watermark-text::before {
-  -webkit-text-stroke: 1.5px rgba(255, 69, 0, 0.035);
+  -webkit-text-stroke: 1.5px rgba(255, 120, 0, 0.035);
 }
 
 :root.dark .brand-name {
@@ -497,7 +497,7 @@ onMounted(() => {
 }
 
 :root.dark .col-title {
-  color: #ff4500;
+  color: #ff7800;
 }
 
 :root.dark .col-link {
@@ -518,9 +518,9 @@ onMounted(() => {
 }
 
 :root.dark .version-badge {
-  background: rgba(255, 69, 0, 0.08);
-  color: #ff4500;
-  border: 1px solid rgba(255, 69, 0, 0.15);
+  background: rgba(255, 120, 0, 0.08);
+  color: #ff7800;
+  border: 1px solid rgba(255, 120, 0, 0.15);
 }
 
 :root.dark .made-with {
@@ -539,13 +539,13 @@ onMounted(() => {
 }
 
 :root:not(.dark) .watermark-text {
-  -webkit-text-stroke: 2px rgba(255, 69, 0, 0.1);
-  color: rgba(255, 69, 0, 0.03);
+  -webkit-text-stroke: 2px rgba(255, 120, 0, 0.1);
+  color: rgba(255, 120, 0, 0.03);
 }
 
 :root:not(.dark) .watermark-text::before {
-  -webkit-text-stroke: 2px rgba(255, 69, 0, 0.06);
-  color: rgba(255, 69, 0, 0.015);
+  -webkit-text-stroke: 2px rgba(255, 120, 0, 0.06);
+  color: rgba(255, 120, 0, 0.015);
 }
 
 :root:not(.dark) .brand-name {
@@ -571,7 +571,7 @@ onMounted(() => {
 }
 
 :root:not(.dark) .social-link:hover {
-  border-color: rgba(255, 69, 0, 0.6) !important;
+  border-color: rgba(255, 120, 0, 0.6) !important;
 }
 
 :root:not(.dark) .social-link:hover .social-icon {
@@ -580,7 +580,7 @@ onMounted(() => {
 }
 
 :root:not(.dark) .col-title {
-  color: #ff4500;
+  color: #ff7800;
 }
 
 :root:not(.dark) .col-link {
@@ -601,9 +601,9 @@ onMounted(() => {
 }
 
 :root:not(.dark) .version-badge {
-  background: rgba(255, 69, 0, 0.06);
-  color: #ff4500;
-  border: 1px solid rgba(255, 69, 0, 0.12);
+  background: rgba(255, 120, 0, 0.06);
+  color: #ff7800;
+  border: 1px solid rgba(255, 120, 0, 0.12);
 }
 
 :root:not(.dark) .made-with {
@@ -624,6 +624,33 @@ onMounted(() => {
   }
 }
 
+@media (max-width: 900px) {
+  .footer-grid {
+    grid-template-columns: 1fr 1fr;
+    gap: 40px 32px;
+  }
+
+  .brand-col {
+    grid-column: 1 / -1;
+    text-align: center;
+  }
+
+  .brand {
+    justify-content: center;
+  }
+
+  .brand-text {
+    text-align: center;
+    max-width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .social-links {
+    justify-content: center;
+  }
+}
+
 @media (max-width: 768px) {
   .footer-container {
     padding: 0 24px;
@@ -633,18 +660,9 @@ onMounted(() => {
     padding: 48px 0 24px;
   }
 
-  .footer-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 36px;
-  }
-
-  .brand-col {
-    grid-column: 1 / -1;
-  }
-
   .footer-bottom {
     flex-direction: column;
-    gap: 14px;
+    gap: 16px;
     text-align: center;
   }
 
@@ -655,11 +673,25 @@ onMounted(() => {
   .copyright {
     justify-content: center;
     flex-wrap: wrap;
+    font-size: 10px;
   }
 
   .watermark-text {
     font-size: clamp(50px, 15vw, 110px);
     letter-spacing: 10px;
+  }
+
+  .col-title {
+    margin-bottom: 16px;
+  }
+
+  .col-link {
+    font-size: 14px;
+    padding: 4px 0;
+  }
+
+  .col-list li {
+    margin-bottom: 10px;
   }
 }
 
@@ -671,35 +703,48 @@ onMounted(() => {
   .footer-grid {
     grid-template-columns: 1fr;
     gap: 32px;
+    text-align: center;
   }
 
   .brand-col {
     grid-column: auto;
   }
 
-  .brand {
-    justify-content: center;
-  }
-
-  .brand-text {
-    text-align: center;
-    max-width: 100%;
-  }
-
-  .social-links {
-    justify-content: center;
+  .footer-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .col-title {
-    text-align: center;
+    justify-content: center;
   }
 
   .col-list {
-    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
   }
 
   .col-link {
-    display: inline-block;
+    font-size: 14px;
+    padding: 6px 0;
+  }
+
+  .col-list li {
+    margin-bottom: 8px;
+  }
+
+  .brand-name {
+    font-size: 20px;
+  }
+
+  .footer-separator {
+    margin: 32px 0 16px;
+  }
+
+  .back-to-top {
+    font-size: 9px;
   }
 
   .watermark-text {

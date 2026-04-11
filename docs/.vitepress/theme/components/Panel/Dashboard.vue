@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <Teleport to="body" v-if="isMounted">
     <!-- Show Login if not authenticated -->
     <PanelLogin 
@@ -1838,14 +1838,14 @@
   --text-primary: #ffffff;
   --text-secondary: #e0e0e0;
   --text-muted: #8a8a95;
-  --accent: #ff4500;
-  --accent-glow: rgba(255,69,0,0.20);
-  --accent-dim: rgba(255,69,0,0.08);
-  --accent-soft: rgba(255,69,0,0.15);
-  --accent-mid: rgba(255,69,0,0.28);
-  --accent-strong: rgba(255,69,0,0.45);
-  --accent-heavy: rgba(255,69,0,0.68);
-  --accent-solid: rgba(255,69,0,0.88);
+  --accent: #ff7800;
+  --accent-glow: rgba(255, 120, 0,0.20);
+  --accent-dim: rgba(255, 120, 0,0.08);
+  --accent-soft: rgba(255, 120, 0,0.15);
+  --accent-mid: rgba(255, 120, 0,0.28);
+  --accent-strong: rgba(255, 120, 0,0.45);
+  --accent-heavy: rgba(255, 120, 0,0.68);
+  --accent-solid: rgba(255, 120, 0,0.88);
   --accent-alt: #ff6030;
   --accent-alt2: #ff8c42;
   --success: #2ecc71;
@@ -1871,7 +1871,7 @@
   --text-primary: #333;
   --text-secondary: #4a4a55;
   --text-muted: #666;
-  --accent-glow: rgba(255, 69, 0, 0.1);
+  --accent-glow: rgba(255, 120, 0, 0.1);
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -2896,7 +2896,7 @@
    .wildfire-dashboard.wf-theme-X  = compound (same element, no space)
    .wf-theme-X .panel-*            = descendant (child components)
    !important beats scoped data-attribute specificity.
-   fire = default (#ff4500), no override needed.
+   fire = default (#ff7800), no override needed.
 ─────────────────────────────────────────────────────────────────────── */
 
 /* ── CRIMSON ── */

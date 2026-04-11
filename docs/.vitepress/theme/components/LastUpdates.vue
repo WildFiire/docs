@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="last-updates">
 
     <!-- ── Header ── -->
@@ -145,7 +145,7 @@ const hexColors = {
 }
 
 function getHexColor(color) {
-  return hexColors[color] || '#ff4500'
+  return hexColors[color] || '#ff7800'
 }
 
 function getTagIcon(tag) {
@@ -198,9 +198,9 @@ function cardStyle(color) {
 <style scoped>
 /* ── Root & Tokens ── */
 .last-updates {
-  --accent: #ff4500;
-  --accent-mid: rgba(255,69,0,0.18);
-  --accent-dim: rgba(255,69,0,0.08);
+  --accent: #ff7800;
+  --accent-mid: rgba(255, 120, 0,0.18);
+  --accent-dim: rgba(255, 120, 0,0.08);
   --card-bg: #0d1017;
   --card-border: rgba(255,255,255,0.07);
   --text-1: #f0f4ff;
@@ -257,7 +257,7 @@ html:not(.dark) .last-updates {
   display: block;
   width: 24px;
   height: 2px;
-  background: linear-gradient(90deg, var(--accent), #ff8c00);
+  background: linear-gradient(90deg, var(--accent), #ff7800);
   border-radius: 2px;
 }
 .overline-text {
@@ -285,7 +285,7 @@ html:not(.dark) .last-updates {
   color: var(--text-1);
 }
 .title-accent {
-  background: linear-gradient(120deg, #ff4500 0%, #ff8c00 100%);
+  background: linear-gradient(120deg, #ff7800 0%, #ff7800 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -347,12 +347,12 @@ html:not(.dark) .last-updates {
   gap: 5px;
   padding: 6px 14px;
   background: var(--accent-dim);
-  border: 1px solid rgba(255,69,0,0.25);
+  border: 1px solid rgba(255, 120, 0,0.25);
   border-radius: 20px;
   font-family: 'Orbitron', sans-serif;
   font-size: 10px;
   font-weight: 700;
-  color: #ff8c00;
+  color: #ff7800;
   letter-spacing: 0.5px;
   text-transform: uppercase;
   white-space: nowrap;
@@ -360,8 +360,8 @@ html:not(.dark) .last-updates {
   transition: background 0.2s, border-color 0.2s;
 }
 .count-badge:hover {
-  background: rgba(255,69,0,0.12);
-  border-color: rgba(255,69,0,0.4);
+  background: rgba(255, 120, 0,0.12);
+  border-color: rgba(255, 120, 0,0.4);
 }
 .sk-badge { width: 80px; height: 30px; background: var(--border); border-radius: 20px; }
 
@@ -395,12 +395,12 @@ html:not(.dark) .update-card {
 }
 .update-card:hover {
   transform: translateY(-5px) scale(1.01);
-  border-color: color-mix(in srgb, var(--card-accent, #ff4500) 45%, transparent);
+  border-color: color-mix(in srgb, var(--card-accent, #ff7800) 45%, transparent);
   box-shadow:
-    0 12px 32px -8px color-mix(in srgb, var(--card-accent, #ff4500) 25%, transparent),
+    0 12px 32px -8px color-mix(in srgb, var(--card-accent, #ff7800) 25%, transparent),
     0 4px 16px -4px rgba(0, 0, 0, 0.3),
     inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 0 0 1px color-mix(in srgb, var(--card-accent, #ff4500) 10%, transparent);
+    0 0 0 1px color-mix(in srgb, var(--card-accent, #ff7800) 10%, transparent);
   background: rgba(255, 255, 255, 0.05);
 }
 html:not(.dark) .update-card:hover {
@@ -413,11 +413,11 @@ html:not(.dark) .update-card:hover {
   flex-shrink: 0;
   border-radius: 3px 0 0 3px;
   transition: width 0.28s ease, box-shadow 0.28s ease;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent, #ff4500) 20%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent, #ff7800) 20%, transparent);
 }
 .update-card:hover .card-accent-strip {
   width: 5px;
-  box-shadow: 0 0 16px color-mix(in srgb, var(--card-accent, #ff4500) 45%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--card-accent, #ff7800) 45%, transparent);
 }
 
 /* Watermark */
@@ -499,7 +499,7 @@ html:not(.dark) .update-card::before {
   left: 15%;
   right: 15%;
   height: 2px;
-  background: var(--card-accent, #ff4500);
+  background: var(--card-accent, #ff7800);
   border-radius: 2px;
   opacity: 0;
   filter: blur(3px);
@@ -544,7 +544,7 @@ html:not(.dark) .update-card::before {
 }
 .update-card:hover .card-category {
   filter: brightness(1.15);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent, #ff4500) 20%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent, #ff7800) 20%, transparent);
 }
 .cat-dot {
   width: 6px;
@@ -579,7 +579,7 @@ html:not(.dark) .update-card::before {
   transition: color 0.2s;
 }
 .update-card:hover .card-title {
-  color: color-mix(in srgb, var(--card-accent, #ff4500) 15%, var(--text-1));
+  color: color-mix(in srgb, var(--card-accent, #ff7800) 15%, var(--text-1));
 }
 
 /* Tags */
@@ -645,8 +645,8 @@ html:not(.dark) .update-card::before {
   transition: border-color 0.2s, box-shadow 0.2s;
 }
 .update-card:hover .author-avatar {
-  border-color: rgba(255,69,0,0.45);
-  box-shadow: 0 0 8px rgba(255,69,0,0.2);
+  border-color: rgba(255, 120, 0,0.45);
+  box-shadow: 0 0 8px rgba(255, 120, 0,0.2);
 }
 .author-info {
   display: flex;
@@ -701,8 +701,8 @@ html:not(.dark) .update-card::before {
 .update-card:hover .read-btn {
   opacity: 1;
   gap: 6px;
-  background: color-mix(in srgb, var(--card-accent, #ff4500) 8%, transparent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--card-accent, #ff4500) 15%, transparent);
+  background: color-mix(in srgb, var(--card-accent, #ff7800) 8%, transparent);
+  box-shadow: 0 0 10px color-mix(in srgb, var(--card-accent, #ff7800) 15%, transparent);
 }
 .read-btn svg { transition: transform 0.2s; }
 .update-card:hover .read-btn svg { transform: translateX(3px); }
@@ -772,8 +772,8 @@ html:not(.dark) .sk-top-bar {
   letter-spacing: 0.8px;
   padding: 11px 28px;
   border-radius: 12px;
-  border: 1px solid rgba(255,69,0,0.3);
-  background: linear-gradient(135deg, rgba(255,69,0,0.08) 0%, rgba(255,140,0,0.05) 100%);
+  border: 1px solid rgba(255, 120, 0,0.3);
+  background: linear-gradient(135deg, rgba(255, 120, 0,0.08) 0%, rgba(255,140,0,0.05) 100%);
   transition: all 0.22s ease;
   position: relative;
   overflow: hidden;
@@ -782,16 +782,16 @@ html:not(.dark) .sk-top-bar {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(135deg, rgba(255,69,0,0.0) 0%, rgba(255,140,0,0.0) 100%);
+  background: linear-gradient(135deg, rgba(255, 120, 0,0.0) 0%, rgba(255,140,0,0.0) 100%);
   transition: background 0.22s ease;
 }
 .view-all-btn:hover {
-  border-color: rgba(255,69,0,0.6);
+  border-color: rgba(255, 120, 0,0.6);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255,69,0,0.18);
+  box-shadow: 0 8px 24px rgba(255, 120, 0,0.18);
 }
 .view-all-btn:hover::before {
-  background: linear-gradient(135deg, rgba(255,69,0,0.1) 0%, rgba(255,140,0,0.07) 100%);
+  background: linear-gradient(135deg, rgba(255, 120, 0,0.1) 0%, rgba(255,140,0,0.07) 100%);
 }
 .arrow-icon { transition: transform 0.2s; }
 .view-all-btn:hover .arrow-icon { transform: translateX(4px); }

@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <!-- Copy toast -->
   <Transition name="copy-toast">
     <div v-if="copyToast" class="copy-toast">
@@ -149,9 +149,9 @@ function injectProgressRing() {
       const svg = document.createElement('div')
       svg.id = 'doc-progress-ring'
       svg.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" style="display:block;flex-shrink:0">
-        <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255,69,0,0.18)" stroke-width="1.5"/>
+        <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255, 120, 0,0.18)" stroke-width="1.5"/>
         <circle id="doc-progress-ring-circle" cx="8" cy="8" r="6" fill="none"
-          stroke="#ff4500" stroke-width="1.5"
+          stroke="#ff7800" stroke-width="1.5"
           stroke-dasharray="${CIRC.toFixed(2)}" stroke-dashoffset="${CIRC.toFixed(2)}"
           stroke-linecap="round" transform="rotate(-90 8 8)"
           style="transition:stroke-dashoffset 0.15s ease"/>
@@ -210,7 +210,7 @@ onUnmounted(() => {
   backdrop-filter: blur(4px);
   padding: 4px 10px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 69, 0, 0.4);
+  border: 1px solid rgba(255, 120, 0, 0.4);
   flex-shrink: 0;
   cursor: default;
   user-select: none;
@@ -218,12 +218,12 @@ onUnmounted(() => {
 
 html.dark :deep(.reading-time-meta) {
   background: rgba(0, 0, 0, 0.6);
-  border-color: rgba(255, 69, 0, 0.5);
+  border-color: rgba(255, 120, 0, 0.5);
 }
 
 html:not(.dark) :deep(.reading-time-meta) {
   background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 69, 0, 0.35);
+  border-color: rgba(255, 120, 0, 0.35);
 }
 
 :deep(.reading-time-meta svg) {
@@ -356,13 +356,13 @@ html:not(.dark) :deep(.reading-time-meta) {
 }
 
 .jk-nav-hint kbd {
-  background: rgba(255, 69, 0, 0.3);
-  border: 1px solid rgba(255, 69, 0, 0.5);
+  background: rgba(255, 120, 0, 0.3);
+  border: 1px solid rgba(255, 120, 0, 0.5);
   border-radius: 4px;
   padding: 1px 6px;
   font-size: 11px;
   font-family: monospace;
-  color: #ff8c00;
+  color: #ff7800;
 }
 
 .nav-hint-enter-active,

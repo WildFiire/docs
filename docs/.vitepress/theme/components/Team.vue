@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="org-page" :class="{ 'light-theme': isLightTheme }">
     <!-- HomeNavbar Component -->
     <HomeNavbar />
@@ -624,21 +624,21 @@ onBeforeUnmount(() => {
 .top-orb {
   width: 500px; height: 500px;
   top: -150px; right: -150px;
-  background: radial-gradient(circle, #ff4500 0%, #ff8c00 50%, transparent 80%);
+  background: radial-gradient(circle, #ff7800 0%, #ff7800 50%, transparent 80%);
 }
 
 .bottom-orb {
   width: 600px; height: 600px;
   bottom: -200px; left: -150px;
-  background: radial-gradient(circle, #ff8c00 0%, #ff4500 50%, transparent 80%);
+  background: radial-gradient(circle, #ff7800 0%, #ff7800 50%, transparent 80%);
   animation-delay: -5s;
 }
 
 .bg-grid {
   position: absolute; inset: 0;
   background-image: 
-    linear-gradient(rgba(255, 69, 0, 0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 69, 0, 0.02) 1px, transparent 1px);
+    linear-gradient(rgba(255, 120, 0, 0.02) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 120, 0, 0.02) 1px, transparent 1px);
   background-size: 60px 60px;
 }
 
@@ -743,7 +743,7 @@ onBeforeUnmount(() => {
 .wildfire-spotlight-tl {
   position: absolute; top: 0; left: 0;
   width: 450px; height: 450px;
-  background: radial-gradient(circle at 20% 20%, rgba(255,69,0,0.18) 0%, transparent 70%);
+  background: radial-gradient(circle at 20% 20%, rgba(255, 120, 0,0.18) 0%, transparent 70%);
   border-radius: 50%; filter: blur(80px); opacity: 0.3;
   animation: spotlightPulse 12s ease-in-out infinite; z-index: 1;
 }
@@ -780,19 +780,19 @@ onBeforeUnmount(() => {
 .wildfire-particle {
   position: absolute;
   width: 4px; height: 4px;
-  background: rgba(255,69,0,0.6);
+  background: rgba(255, 120, 0,0.6);
   border-radius: 50%;
   filter: blur(1px);
-  box-shadow: 0 0 10px rgba(255,69,0,0.4);
+  box-shadow: 0 0 10px rgba(255, 120, 0,0.4);
 }
 
 .wildfire-particle-1 { top: 20%; left: 10%; width: 6px; height: 6px; background: rgba(255,85,0,0.7); animation: moveHorizontal 15s ease-in-out infinite; }
 .wildfire-particle-2 { top: 70%; right: 15%; width: 5px; height: 5px; background: rgba(255,100,0,0.7); animation: moveVertical 12s ease-in-out infinite; }
-.wildfire-particle-3 { top: 40%; left: 60%; width: 7px; height: 7px; background: rgba(255,69,0,0.8); animation: moveDiagonal 18s ease-in-out infinite; }
+.wildfire-particle-3 { top: 40%; left: 60%; width: 7px; height: 7px; background: rgba(255, 120, 0,0.8); animation: moveDiagonal 18s ease-in-out infinite; }
 .wildfire-particle-4 { bottom: 25%; left: 30%; width: 4px; height: 4px; background: rgba(255,140,0,0.6); animation: moveCircle 20s linear infinite; }
 .wildfire-particle-5 { top: 15%; right: 40%; width: 5px; height: 5px; background: rgba(255,68,0,0.7); animation: moveZigZag 14s ease-in-out infinite; }
 .wildfire-particle-6 { bottom: 40%; left: 70%; width: 6px; height: 6px; background: rgba(255,85,0,0.6); animation: moveWave 16s ease-in-out infinite; }
-.wildfire-particle-7 { top: 80%; left: 10%; width: 4px; height: 4px; background: rgba(255,69,0,0.7); animation: moveBounce 10s ease-in-out infinite; }
+.wildfire-particle-7 { top: 80%; left: 10%; width: 4px; height: 4px; background: rgba(255, 120, 0,0.7); animation: moveBounce 10s ease-in-out infinite; }
 .wildfire-particle-8 { top: 30%; right: 20%; width: 5px; height: 5px; background: rgba(255,100,0,0.7); animation: moveSpiral 22s linear infinite; }
 
 @keyframes emberGlow { 0%, 100% { opacity: 0.5; transform: translate(0,0) scale(1); } 50% { opacity: 0.7; transform: translate(10px,-10px) scale(1.05); } }
@@ -837,7 +837,7 @@ onBeforeUnmount(() => {
 }
 
 .back-link:hover {
-  color: #ff8c00;
+  color: #ff7800;
   transform: translateX(-3px);
 }
 
@@ -851,7 +851,7 @@ onBeforeUnmount(() => {
 }
 
 .light-theme .back-link:hover {
-  color: #ff8c00;
+  color: #ff7800;
 }
 
 /* ===== PAGE HEADER ===== */
@@ -863,7 +863,7 @@ onBeforeUnmount(() => {
 }
 
 .header-icon {
-  color: #ff8c00;
+  color: #ff7800;
   display: flex;
   align-items: center;
 }
@@ -978,7 +978,7 @@ onBeforeUnmount(() => {
 .cv-line {
   width: 1px;
   height: 30px;
-  background: linear-gradient(180deg, #ff4500 0%, transparent 100%);
+  background: linear-gradient(180deg, #ff7800 0%, transparent 100%);
   opacity: 0.3;
 }
 
@@ -986,7 +986,7 @@ onBeforeUnmount(() => {
   width: 1px;
   height: 30px;
   margin: 0 auto 10px;
-  background: linear-gradient(180deg, #ff4500 0%, transparent 100%);
+  background: linear-gradient(180deg, #ff7800 0%, transparent 100%);
   opacity: 0.3;
 }
 
@@ -1009,7 +1009,7 @@ onBeforeUnmount(() => {
   position: absolute;
   top: 0;
   height: 1px;
-  background: linear-gradient(90deg, transparent, #ff4500 50%, transparent);
+  background: linear-gradient(90deg, transparent, #ff7800 50%, transparent);
   opacity: 0.2;
 }
 
@@ -1168,8 +1168,8 @@ onBeforeUnmount(() => {
 
 .copy-name-btn:hover {
   background: #333;
-  color: #ff8c00;
-  border-color: #ff8c00;
+  color: #ff7800;
+  border-color: #ff7800;
   transform: scale(1.1);
 }
 
@@ -1250,10 +1250,10 @@ onBeforeUnmount(() => {
   box-shadow: 
     0 25px 50px -12px rgba(0, 0, 0, 0.5),
     0 0 0 1px rgba(255, 255, 255, 0.08),
-    inset 0 0 20px rgba(255, 69, 0, 0.05);
+    inset 0 0 20px rgba(255, 120, 0, 0.05);
   overflow: hidden;
   animation: toastSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 1px solid rgba(255, 69, 0, 0.15);
+  border: 1px solid rgba(255, 120, 0, 0.15);
   transform-origin: bottom right;
   pointer-events: auto !important;
 }
@@ -1263,8 +1263,8 @@ onBeforeUnmount(() => {
   position: absolute;
   inset: 0;
   background-image: 
-    linear-gradient(rgba(255, 69, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 69, 0, 0.04) 1px, transparent 1px);
+    linear-gradient(rgba(255, 120, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 120, 0, 0.04) 1px, transparent 1px);
   background-size: 24px 24px;
   animation: toastGridDrift 30s linear infinite;
   z-index: 0;
@@ -1274,7 +1274,7 @@ onBeforeUnmount(() => {
 .toast-glass {
   position: absolute;
   inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 69, 0, 0.12) 0%, transparent 75%);
+  background: radial-gradient(circle at center, rgba(255, 120, 0, 0.12) 0%, transparent 75%);
   animation: toastSoftPulse 6s ease-in-out infinite;
   z-index: 1;
   pointer-events: none;
@@ -1304,8 +1304,8 @@ onBeforeUnmount(() => {
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 69, 0, 0.1);
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  background: rgba(255, 120, 0, 0.1);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   flex-shrink: 0;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
   pointer-events: none;
@@ -1354,7 +1354,7 @@ onBeforeUnmount(() => {
   bottom: 0;
   left: 0;
   height: 4px;
-  background: linear-gradient(90deg, #ff4500, #ff8c00);
+  background: linear-gradient(90deg, #ff7800, #ff7800);
   animation: progress linear forwards;
   z-index: 2;
   pointer-events: none;
@@ -1391,9 +1391,9 @@ onBeforeUnmount(() => {
 }
 
 .toast-close:hover {
-  background: rgba(255, 69, 0, 0.3);
+  background: rgba(255, 120, 0, 0.3);
   color: #ffffff;
-  border-color: rgba(255, 69, 0, 0.5);
+  border-color: rgba(255, 120, 0, 0.5);
   transform: scale(1.1);
 }
 
@@ -1410,7 +1410,7 @@ onBeforeUnmount(() => {
 /* Light theme pentru toast */
 .light-theme .toast-notification {
   background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 69, 0, 0.2);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
 }
 
@@ -1429,9 +1429,9 @@ onBeforeUnmount(() => {
 }
 
 .light-theme .toast-close:hover {
-  background: rgba(255, 69, 0, 0.15);
-  color: #ff4500;
-  border-color: rgba(255, 69, 0, 0.3);
+  background: rgba(255, 120, 0, 0.15);
+  color: #ff7800;
+  border-color: rgba(255, 120, 0, 0.3);
 }
 
 @keyframes toastGridDrift {
@@ -1517,15 +1517,15 @@ onBeforeUnmount(() => {
 
 .light-theme .copy-name-btn:hover {
   background: #ffffff;
-  color: #ff8c00;
-  border-color: #ff8c00;
+  color: #ff7800;
+  border-color: #ff7800;
 }
 
 .light-theme .connector-v .cv-line,
 .light-theme .drop-line,
 .light-theme .child .node::before,
 .light-theme .child .node::after {
-  background: #ff8c00;
+  background: #ff7800;
   opacity: 0.15;
 }
 
@@ -1615,7 +1615,7 @@ onBeforeUnmount(() => {
     display: block;
     width: 1px;
     height: 20px;
-    background: #ff4500;
+    background: #ff7800;
     opacity: 0.2;
     margin: 0 auto 20px;
   }
@@ -1675,32 +1675,32 @@ onBeforeUnmount(() => {
 .corner-dot-tl {
   top: 0;
   left: 0;
-  border-top: 2px solid #ff8c00;
-  border-left: 2px solid #ff8c00;
+  border-top: 2px solid #ff7800;
+  border-left: 2px solid #ff7800;
   border-top-left-radius: 24px;
 }
 
 .corner-dot-tr {
   top: 0;
   right: 0;
-  border-top: 2px solid #ff8c00;
-  border-right: 2px solid #ff8c00;
+  border-top: 2px solid #ff7800;
+  border-right: 2px solid #ff7800;
   border-top-right-radius: 24px;
 }
 
 .corner-dot-bl {
   bottom: 0;
   left: 0;
-  border-bottom: 2px solid #ff8c00;
-  border-left: 2px solid #ff8c00;
+  border-bottom: 2px solid #ff7800;
+  border-left: 2px solid #ff7800;
   border-bottom-left-radius: 24px;
 }
 
 .corner-dot-br {
   bottom: 0;
   right: 0;
-  border-bottom: 2px solid #ff8c00;
-  border-right: 2px solid #ff8c00;
+  border-bottom: 2px solid #ff7800;
+  border-right: 2px solid #ff7800;
   border-bottom-right-radius: 24px;
 }
 
@@ -1708,7 +1708,7 @@ onBeforeUnmount(() => {
 .light-theme .corner-dot-tr,
 .light-theme .corner-dot-bl,
 .light-theme .corner-dot-br {
-  border-color: #ff8c00;
+  border-color: #ff7800;
 }
 
 /* Responsive */

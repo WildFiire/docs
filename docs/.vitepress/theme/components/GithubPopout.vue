@@ -1,4 +1,4 @@
-<!-- .vitepress/theme/components/GithubPopout.vue -->
+﻿<!-- .vitepress/theme/components/GithubPopout.vue -->
 <template>
   <div 
     class="github-popout" 
@@ -467,8 +467,8 @@ export default {
   bottom: -7px;
   left: 50%;
   margin-left: -7px;
-  border-bottom: 2px solid #ff8c00;
-  border-right: 2px solid #ff8c00;
+  border-bottom: 2px solid #ff7800;
+  border-right: 2px solid #ff7800;
   border-radius: 2px;
   z-index: 1;
   opacity: 0;
@@ -479,8 +479,8 @@ export default {
   top: -7px;
   bottom: auto;
   transform: rotate(45deg);
-  border-top: 2px solid #ff8c00;
-  border-left: 2px solid #ff8c00;
+  border-top: 2px solid #ff7800;
+  border-left: 2px solid #ff7800;
   border-bottom: none;
   border-right: none;
 }
@@ -509,7 +509,7 @@ export default {
 
 .popout-content {
   background: linear-gradient(135deg, #1a0f0a, #2a150a, #1f0f05);
-  border: 2px solid #ff4500;
+  border: 2px solid #ff7800;
   border-radius: 20px;
   padding: 16px 14px 14px 14px;
   width: 260px;
@@ -532,7 +532,7 @@ export default {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 30% 30%, rgba(255, 69, 0, 0.15), transparent 70%),
+  background: radial-gradient(circle at 30% 30%, rgba(255, 120, 0, 0.15), transparent 70%),
               radial-gradient(circle at 70% 80%, rgba(255, 140, 0, 0.1), transparent 70%);
   pointer-events: none;
   z-index: -1;
@@ -560,7 +560,7 @@ export default {
   width: 100px;
   height: 100px;
   opacity: 0.08;
-  filter: brightness(0) invert(1) drop-shadow(0 0 3px #ff4500);
+  filter: brightness(0) invert(1) drop-shadow(0 0 3px #ff7800);
   animation: floatWildfire 12s ease-in-out infinite;
 }
 
@@ -625,7 +625,7 @@ export default {
   position: absolute;
   width: 3px;
   height: 3px;
-  background: #ff8c00;
+  background: #ff7800;
   border-radius: 50%;
   filter: blur(1px);
   opacity: 0;
@@ -666,9 +666,9 @@ export default {
   width: 24px;
   height: 24px;
   border-radius: 50%;
-  background: rgba(255, 69, 0, 0.15);
-  border: 1px solid #ff8c00;
-  color: #ff8c00;
+  background: rgba(255, 120, 0, 0.15);
+  border: 1px solid #ff7800;
+  color: #ff7800;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -680,10 +680,10 @@ export default {
 }
 
 .popout-close:hover {
-  background: rgba(255, 69, 0, 0.3);
+  background: rgba(255, 120, 0, 0.3);
   color: white;
   transform: rotate(90deg);
-  box-shadow: 0 0 10px #ff8c00;
+  box-shadow: 0 0 10px #ff7800;
 }
 
 .popout-loading {
@@ -695,7 +695,7 @@ export default {
   width: 30px;
   height: 30px;
   border: 2px solid rgba(255, 140, 0, 0.1);
-  border-top-color: #ff8c00;
+  border-top-color: #ff7800;
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   margin: 0 auto 10px;
@@ -736,18 +736,18 @@ export default {
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  border: 2px solid #ff8c00;
+  border: 2px solid #ff7800;
   box-shadow: 0 0 8px rgba(255, 140, 0, 0.2);
   transition: transform 0.2s;
 }
 
 .popout-avatar:hover {
   transform: scale(1.03);
-  box-shadow: 0 0 12px #ff8c00;
+  box-shadow: 0 0 12px #ff7800;
 }
 
 .username-link {
-  color: #ff8c00;
+  color: #ff7800;
   text-decoration: none;
   font-size: 10px;
   text-align: center;
@@ -853,10 +853,10 @@ export default {
 .square-tag.tag-trusted:hover { border-color: rgba(241, 196, 15, 0.5); }
 
 .square-tag.tag-pro { 
-  border-color: rgba(255, 69, 0, 0.3);
-  box-shadow: 0 0 5px rgba(255, 69, 0, 0.1);
+  border-color: rgba(255, 120, 0, 0.3);
+  box-shadow: 0 0 5px rgba(255, 120, 0, 0.1);
 }
-.square-tag.tag-pro:hover { border-color: rgba(255, 69, 0, 0.5); }
+.square-tag.tag-pro:hover { border-color: rgba(255, 120, 0, 0.5); }
 
 .square-tag.tag-vip { 
   border-color: rgba(155, 89, 182, 0.3);
@@ -936,7 +936,7 @@ export default {
   padding: 8px 10px;
   background: rgba(0, 0, 0, 0.2);
   border-radius: 8px;
-  border-left: 2px solid #ff8c00;
+  border-left: 2px solid #ff7800;
 }
 
 .popout-stats {
@@ -1019,7 +1019,7 @@ export default {
 }
 
 .simple-repo-icon {
-  color: #ff8c00;
+  color: #ff7800;
   opacity: 0.5;
 }
 
@@ -1064,7 +1064,7 @@ export default {
 
 .detail-icon {
   width: 16px;
-  color: #ff8c00;
+  color: #ff7800;
   font-size: 10px;
   opacity: 0.7;
 }

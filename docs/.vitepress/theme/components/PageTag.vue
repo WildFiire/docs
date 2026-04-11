@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div v-if="tag" class="page-tag-container">
     <div class="page-tag" :class="tagClass">
       <span class="tag-dot" :class="dotClass"></span>
@@ -79,7 +79,7 @@ const formatDate = (dateStr) => {
 }
 
 .tag-orange {
-  background: linear-gradient(135deg, rgba(255, 69, 0, 0.15), rgba(255, 140, 0, 0.15));
+  background: linear-gradient(135deg, rgba(255, 120, 0, 0.15), rgba(255, 140, 0, 0.15));
 }
 
 .tag-purple {
@@ -112,8 +112,8 @@ const formatDate = (dateStr) => {
 }
 
 .dot-orange {
-  background: #ff4500;
-  box-shadow: 0 0 2px #ff4500;
+  background: #ff7800;
+  box-shadow: 0 0 2px #ff7800;
 }
 
 .dot-purple {

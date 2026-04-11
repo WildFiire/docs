@@ -1,4 +1,4 @@
-<!-- docs\.vitepress\theme\components\Panel\PanelProfile.vue -->
+﻿<!-- docs\.vitepress\theme\components\Panel\PanelProfile.vue -->
 <template>
   <div class="panel-profile" :class="{ 'light-theme': isLightTheme }">
 
@@ -545,7 +545,7 @@ export default {
       recentCommits: [],
       loadingActivity: false,
       accentThemes: [
-        { key: 'fire',     label: 'Fire',     color: '#ff4500' },
+        { key: 'fire',     label: 'Fire',     color: '#ff7800' },
         { key: 'crimson',  label: 'Crimson',  color: '#dc2626' },
         { key: 'violet',   label: 'Violet',   color: '#7c3aed' },
         { key: 'emerald',  label: 'Emerald',  color: '#059669' },
@@ -563,12 +563,12 @@ export default {
         { key: 'legend',   label: 'Legend',   minCommits: 200 }
       ],
       achievements: [
-        { id: 'first_commit',  title: 'First Blood',     desc: 'Make your first commit',          type: 'commits', threshold: 1,   color: '#ff4500', rarity: 'common',    icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>' },
+        { id: 'first_commit',  title: 'First Blood',     desc: 'Make your first commit',          type: 'commits', threshold: 1,   color: '#ff7800', rarity: 'common',    icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>' },
         { id: 'commits_5',     title: 'Getting Started', desc: 'Reach 5 commits',                 type: 'commits', threshold: 5,   color: '#cd7f32', rarity: 'common',    icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' },
         { id: 'commits_20',    title: 'Silver Coder',    desc: 'Reach 20 commits',                type: 'commits', threshold: 20,  color: '#c0c0c0', rarity: 'rare',      icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>' },
         { id: 'commits_50',    title: 'Gold Coder',      desc: 'Reach 50 commits',                type: 'commits', threshold: 50,  color: '#ffd700', rarity: 'rare',      icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>' },
         { id: 'commits_100',   title: 'Platinum Coder',  desc: 'Reach 100 commits',               type: 'commits', threshold: 100, color: '#88d4e8', rarity: 'epic',      icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>' },
-        { id: 'commits_200',   title: 'Wildfire Legend', desc: 'Reach 200 commits',               type: 'commits', threshold: 200, color: '#ff4500', rarity: 'legendary', icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>' },
+        { id: 'commits_200',   title: 'Wildfire Legend', desc: 'Reach 200 commits',               type: 'commits', threshold: 200, color: '#ff7800', rarity: 'legendary', icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>' },
         { id: 'first_pr',      title: 'Open Sesame',     desc: 'Open your first pull request',    type: 'prs',     threshold: 1,   color: '#22c55e', rarity: 'common',    icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>' },
         { id: 'prs_5',         title: 'PR Machine',      desc: 'Open 5 pull requests',            type: 'prs',     threshold: 5,   color: '#4ade80', rarity: 'rare',      icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>' },
         { id: 'prs_10',        title: 'PR Legend',       desc: 'Open 10 pull requests',           type: 'prs',     threshold: 10,  color: '#22c55e', rarity: 'epic',      icon: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>' },
@@ -911,19 +911,19 @@ export default {
 .panel-profile {
   --bg-secondary: #0f0f12; --bg-tertiary: #1a1a20; --bg-primary: #0a0a0c;
   --border-color: #1f1f24; --text-primary: #fff; --text-secondary: #e0e0e0;
-  --text-muted: #8a8a95; --accent: #ff4500; --accent-glow: rgba(255,69,0,0.2);
-  --accent-dim: rgba(255,69,0,0.08); --accent-soft: rgba(255,69,0,0.15);
-  --accent-mid: rgba(255,69,0,0.28); --accent-strong: rgba(255,69,0,0.45);
-  --accent-heavy: rgba(255,69,0,0.68); --accent-solid: rgba(255,69,0,0.88);
+  --text-muted: #8a8a95; --accent: #ff7800; --accent-glow: rgba(255, 120, 0,0.2);
+  --accent-dim: rgba(255, 120, 0,0.08); --accent-soft: rgba(255, 120, 0,0.15);
+  --accent-mid: rgba(255, 120, 0,0.28); --accent-strong: rgba(255, 120, 0,0.45);
+  --accent-heavy: rgba(255, 120, 0,0.68); --accent-solid: rgba(255, 120, 0,0.88);
   --accent-alt: #ff6030; --accent-alt2: #ff8c42;
   display:flex; flex-direction:column; gap:16px; animation:pp-fade 0.3s ease;
 }
 .panel-profile.light-theme {
   --bg-primary:#f0f0f5; --bg-secondary:#fff; --bg-tertiary:#e2e2ea;
   --border-color:#c4c4d0; --text-primary:#0f0f14; --text-secondary:#2a2a38;
-  --text-muted:#4a4a5a; --accent-glow:rgba(255,69,0,0.1);
-  --accent-dim: rgba(255,69,0,0.07); --accent-soft: rgba(255,69,0,0.12);
-  --accent-mid: rgba(255,69,0,0.22); --accent-strong: rgba(255,69,0,0.4);
+  --text-muted:#4a4a5a; --accent-glow:rgba(255, 120, 0,0.1);
+  --accent-dim: rgba(255, 120, 0,0.07); --accent-soft: rgba(255, 120, 0,0.12);
+  --accent-mid: rgba(255, 120, 0,0.22); --accent-strong: rgba(255, 120, 0,0.4);
 }
 @keyframes pp-fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
 @keyframes pp-pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }

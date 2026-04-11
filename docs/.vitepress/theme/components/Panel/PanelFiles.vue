@@ -1,4 +1,4 @@
-<!-- docs\.vitepress\theme\components\Panel\PanelFiles.vue -->
+﻿<!-- docs\.vitepress\theme\components\Panel\PanelFiles.vue -->
 <template>
   <div class="panel-files" :class="{ 'light-theme': isLightTheme }">
 
@@ -185,7 +185,7 @@ import FileTreeNode from './FileTreeNode.vue'
 
 const FILE_COLORS = {
   vue: '#42b883', js: '#f7df1e', ts: '#3178c6', tsx: '#3178c6', jsx: '#61dafb',
-  md: '#ff4500', css: '#264de4', scss: '#c6538c', html: '#e44d26',
+  md: '#ff7800', css: '#264de4', scss: '#c6538c', html: '#e44d26',
   json: '#ffd700', yaml: '#cb171e', yml: '#cb171e', py: '#3572a5',
   go: '#00add8', rs: '#dea584', java: '#b07219', php: '#4f5d95',
   rb: '#701516', sh: '#89e051', svg: '#ff9900', png: '#88d8b0',
@@ -460,11 +460,11 @@ export default {
   --border-color: #1f1f28;
   --text-primary: #f0f0f5;
   --text-muted: #7a7a8a;
-  --accent: #ff4500;
-  --accent-glow: rgba(255,69,0,0.2);
-  --accent-dim: rgba(255,69,0,0.08); --accent-soft: rgba(255,69,0,0.15);
-  --accent-mid: rgba(255,69,0,0.28); --accent-strong: rgba(255,69,0,0.45);
-  --accent-heavy: rgba(255,69,0,0.68); --accent-solid: rgba(255,69,0,0.88);
+  --accent: #ff7800;
+  --accent-glow: rgba(255, 120, 0,0.2);
+  --accent-dim: rgba(255, 120, 0,0.08); --accent-soft: rgba(255, 120, 0,0.15);
+  --accent-mid: rgba(255, 120, 0,0.28); --accent-strong: rgba(255, 120, 0,0.45);
+  --accent-heavy: rgba(255, 120, 0,0.68); --accent-solid: rgba(255, 120, 0,0.88);
   --accent-alt: #ff6030; --accent-alt2: #ff8c42;
   display: flex; flex-direction: column; gap: 12px; animation: feFadeIn 0.3s ease;
 }

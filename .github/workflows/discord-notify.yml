@@ -15,53 +15,54 @@ jobs:
       - name: Get changed files
         id: changed
         run: |
-          ALL_FILES=$(git diff --name-only HEAD~1 HEAD)
-          FILES_COUNT=$(echo "$ALL_FILES" | wc -l)
-          
-          if [ $FILES_COUNT -le 25 ]; then
-            FILES=$(echo "$ALL_FILES" | sed 's/^/• /')
+          ALL_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          if [ -z "$ALL_FILES" ]; then
+            echo "files_count=0" >> $GITHUB_OUTPUT
+            echo "files_display=No file changes detected" >> $GITHUB_OUTPUT
           else
-            FILES=$(echo "$ALL_FILES" | head -25 | sed 's/^/• /')
-            FILES="$FILES\n• ... și $((FILES_COUNT - 25)) fișiere"
-          fi
-          
-          # Salvăm fișierele ca text simplu, nu cu escape
-          echo "files<<EOF" >> $GITHUB_OUTPUT
-          echo "$FILES" >> $GITHUB_OUTPUT
-          echo "EOF" >> $GITHUB_OUTPUT
-          echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
-          echo "truncated=$([ $FILES_COUNT -gt 25 ] && echo 'true' || echo 'false')" >> $GITHUB_OUTPUT
+            FILES_COUNT=$(echo "$ALL_FILES" | wc -l | tr -d ' ')
+            SHOWN=$(echo "$ALL_FILES" | head -25 | sed 's/^/• /')
 
-      - name: Get user info from GitHub API
+            if [ "$FILES_COUNT" -gt 25 ]; then
+              EXTRA=$((FILES_COUNT - 25))
+              SHOWN=$(printf "%s\n\n… si inca %d fisiere" "$SHOWN" "$EXTRA")
+            fi
+
+            echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
+
+            # Use heredoc for safe multiline output
+            {
+              echo "files_display<<ENDOFFILES"
+              echo "$SHOWN"
+              echo "ENDOFFILES"
+            } >> $GITHUB_OUTPUT
+          fi
+
+      - name: Get user info
         id: userinfo
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Resolve username from multiple sources
           USERNAME="${{ github.event.head_commit.author.username }}"
-          
-          if [ -z "$USERNAME" ]; then
-            USERNAME="${{ github.actor }}"
-          fi
-          
-          if [ -z "$USERNAME" ]; then
-            USERNAME="${{ github.event.pusher.name }}"
-          fi
-          
+          [ -z "$USERNAME" ] && USERNAME="${{ github.actor }}"
+          [ -z "$USERNAME" ] && USERNAME="${{ github.event.pusher.name }}"
           echo "username=$USERNAME" >> $GITHUB_OUTPUT
-          
+
           if [ -n "$USERNAME" ]; then
             RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-              "https://api.github.com/users/$USERNAME")
-            
+              "https://api.github.com/users/$USERNAME" 2>/dev/null || echo "{}")
+
             AVATAR_URL=$(echo "$RESPONSE" | jq -r '.avatar_url // empty')
             NAME=$(echo "$RESPONSE" | jq -r '.name // empty')
-            
+
+            # Append size param for crisp avatar in Discord embed
             if [ -n "$AVATAR_URL" ]; then
-              echo "avatar_url=$AVATAR_URL" >> $GITHUB_OUTPUT
+              echo "avatar_url=${AVATAR_URL}&s=128" >> $GITHUB_OUTPUT
             else
-              echo "avatar_url=https://github.com/$USERNAME.png?size=64" >> $GITHUB_OUTPUT
+              echo "avatar_url=https://github.com/${USERNAME}.png?size=128" >> $GITHUB_OUTPUT
             fi
-            
+
             if [ -n "$NAME" ] && [ "$NAME" != "null" ]; then
               echo "display_name=$NAME" >> $GITHUB_OUTPUT
             else
@@ -76,34 +77,28 @@ jobs:
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
         run: |
-          # Curățăm titlul commit-ului (eliminăm ghilimelele și newline-urile)
-          COMMIT_TITLE=$(echo "${{ github.event.head_commit.message }}" | head -n1 | sed 's/^"//' | sed 's/"$//' | sed 's/\\n//g' | sed 's/"/\\"/g')
+          COMMIT_MSG="${{ github.event.head_commit.message }}"
+          COMMIT_TITLE=$(echo "$COMMIT_MSG" | head -n1 | sed 's/"/\\"/g')
           AUTHOR="${{ steps.userinfo.outputs.display_name }}"
           AVATAR="${{ steps.userinfo.outputs.avatar_url }}"
           USERNAME="${{ steps.userinfo.outputs.username }}"
           BRANCH="${{ github.ref_name }}"
           REPO="${{ github.repository }}"
-          SHORT_SHA="${{ github.sha }}"
-          SHORT_SHA="${SHORT_SHA:0:7}"
+          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
           COMMIT_URL="${{ github.event.head_commit.url }}"
           COMPARE_URL="${{ github.event.compare }}"
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          CHANGED_FILES="${{ steps.changed.outputs.files }}"
           FILES_COUNT="${{ steps.changed.outputs.files_count }}"
-          TRUNCATED="${{ steps.changed.outputs.truncated }}"
 
-          if [ -z "$CHANGED_FILES" ]; then
-            CHANGED_FILES="No file details available"
-          fi
+          # Write files list to temp file for jq --rawfile (safe multiline)
+          cat <<'FILESEOF' > /tmp/files_list.txt
+          ${{ steps.changed.outputs.files_display }}
+          FILESEOF
+          # Trim leading whitespace from heredoc indentation
+          sed -i 's/^          //' /tmp/files_list.txt
 
-          # Construim lista de fișiere fără escape-uri suplimentare
-          if [ "$TRUNCATED" = "true" ]; then
-            FILES_DISPLAY="Showing first 25 of $FILES_COUNT files\n\`\`\`$CHANGED_FILES\`\`\`"
-          else
-            FILES_DISPLAY="\`\`\`$CHANGED_FILES\`\`\`"
-          fi
+          FILES_BLOCK="\`\`\`\n$(cat /tmp/files_list.txt)\n\`\`\`"
 
-          # Construim payload-ul
           jq -n \
             --arg title "🚀 New Push to \`$REPO\`" \
             --arg url "$COMPARE_URL" \
@@ -112,10 +107,11 @@ jobs:
             --arg avatar "$AVATAR" \
             --arg userurl "https://github.com/$USERNAME" \
             --arg committitle "$COMMIT_TITLE" \
-            --arg branch "$BRANCH" \
+            --arg branch "🌿 \`$BRANCH\`" \
             --arg commit "[\`$SHORT_SHA\`]($COMMIT_URL)" \
-            --arg modified "$FILES_COUNT files changed" \
-            --arg files "$FILES_DISPLAY" \
+            --arg modified "📦 **$FILES_COUNT** files changed" \
+            --arg files "$FILES_BLOCK" \
+            --arg thumbnail "$AVATAR" \
             --arg timestamp "$TIMESTAMP" \
             '{
               embeds: [{
@@ -127,14 +123,20 @@ jobs:
                   icon_url: $avatar,
                   url: $userurl
                 },
+                thumbnail: {
+                  url: $thumbnail
+                },
                 fields: [
-                  {name: "⚡ Title", value: $committitle, inline: false},
-                  {name: "🌿 Branch", value: $branch, inline: true},
-                  {name: "📝 Commit", value: $commit, inline: true},
-                  {name: "✨ Modified Files", value: $modified, inline: true},
+                  {name: "⚡ Commit", value: $committitle, inline: false},
+                  {name: "Branch", value: $branch, inline: true},
+                  {name: "SHA", value: $commit, inline: true},
+                  {name: "Changes", value: $modified, inline: true},
                   {name: "📁 Changed Files", value: $files, inline: false}
                 ],
-                footer: {text: "Wildfire.ro Documentation"},
+                footer: {
+                  text: "Wildfire.ro Docs",
+                  icon_url: "https://github.com/WildFiire.png?size=32"
+                },
                 timestamp: $timestamp
               }]
             }' | curl -s -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d @-

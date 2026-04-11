@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <div class="file-tree-item">
     <!-- Current item -->
     <div 
@@ -204,8 +204,8 @@ export default {
 }
 
 .tree-row:hover { 
-  background: rgba(255, 69, 0, 0.08); 
-  border-left-color: #ff4500;
+  background: rgba(255, 120, 0, 0.08); 
+  border-left-color: #ff7800;
 }
 
 .tree-row.is-file:hover {
@@ -214,7 +214,7 @@ export default {
 }
 
 .tree-row.is-dir:hover {
-  background: rgba(255, 69, 0, 0.08);
+  background: rgba(255, 120, 0, 0.08);
 }
 
 .tree-icon {
@@ -224,7 +224,7 @@ export default {
   width: 24px;
   height: 24px;
   flex-shrink: 0;
-  color: #ff4500;
+  color: #ff7800;
   transition: transform 0.3s ease;
 }
 
@@ -249,9 +249,9 @@ export default {
 }
 
 .tree-name.search-highlight {
-  color: #ff4500;
+  color: #ff7800;
   font-weight: 600;
-  text-shadow: 0 0 8px rgba(255, 69, 0, 0.3);
+  text-shadow: 0 0 8px rgba(255, 120, 0, 0.3);
 }
 
 .tree-size {
@@ -267,7 +267,7 @@ export default {
 }
 
 .tree-arrow {
-  color: #ff4500;
+  color: #ff7800;
   font-size: 12px;
   margin-left: 4px;
   flex-shrink: 0;
@@ -311,7 +311,7 @@ export default {
   top: 0;
   bottom: 0;
   width: 1px;
-  background: linear-gradient(to bottom, rgba(255,69,0,0.3), rgba(255,69,0,0.1), transparent);
+  background: linear-gradient(to bottom, rgba(255, 120, 0,0.3), rgba(255, 120, 0,0.1), transparent);
   pointer-events: none;
   border-radius: 1px;
 }
@@ -325,13 +325,13 @@ export default {
   border-radius: 6px;
   margin: 4px 0;
   text-align: center;
-  border: 1px dashed rgba(255,69,0,0.2);
+  border: 1px dashed rgba(255, 120, 0,0.2);
 }
 
 .edit-btn {
   background: none;
   border: none;
-  color: #ff4500;
+  color: #ff7800;
   cursor: pointer;
   font-size: 14px;
   padding: 4px;
@@ -354,10 +354,10 @@ export default {
 
 .edit-btn:hover { 
   opacity: 1;
-  background: #ff4500;
+  background: #ff7800;
   color: white;
   transform: scale(1.1);
-  box-shadow: 0 2px 8px rgba(255, 69, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(255, 120, 0, 0.3);
 }
 
 .edit-btn:active {
@@ -377,7 +377,7 @@ export default {
   }
   
   .tree-name.search-highlight {
-    color: #ff4500;
+    color: #ff7800;
   }
   
   .tree-size {
