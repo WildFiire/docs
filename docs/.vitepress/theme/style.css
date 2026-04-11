@@ -1276,11 +1276,12 @@ html:not(.dark) {
   --wf-info-stat-bg: rgba(255,140,0,0.03);
   --wf-info-stat-border: rgba(255,140,0,0.2);
 }
-svg, .wf-info-icon, .wf-info-icon svg, .nav-icon, [class*="icon"]:not(img) {
+svg, .wf-info-icon, .wf-info-icon svg, .nav-icon, [class*="icon"]:not(img):not(.VPSocialLink) {
   user-select: none !important;
   -webkit-user-select: none !important;
   pointer-events: none !important;
 }
+.VPSocialLink, .VPSocialLink svg { pointer-events: auto !important; }
 
 /* ---- Grid ---- */
 .wf-info-grid {
@@ -1790,11 +1791,13 @@ html:not(.dark) {
   --wf-currency-number-text: #ff7800;
 }
 
-svg, .wf-currency-icon, .wf-currency-icon svg, .nav-icon, [class*="icon"]:not(img) {
+svg, .wf-currency-icon, .wf-currency-icon svg, .nav-icon, [class*="icon"]:not(img):not(.VPSocialLink) {
   user-select: none !important;
   -webkit-user-select: none !important;
   pointer-events: none !important;
 }
+
+.VPSocialLink, .VPSocialLink svg { pointer-events: auto !important; }
 
 /* ---- Grid ---- */
 .wf-currency-grid {

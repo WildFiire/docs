@@ -40,13 +40,6 @@ export default defineConfig({
       fetchpriority: 'high',
       type: 'image/webp'
     }],
-    ['link', {
-      rel: 'preload',
-      as: 'image',
-      href: '/wallpaper/poza102.webp',
-      fetchpriority: 'high',
-      type: 'image/webp'
-    }],
 
     // VIEWPORT OPTIMIZAT
     ['meta', {

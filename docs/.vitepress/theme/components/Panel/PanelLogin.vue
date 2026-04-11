@@ -1,23 +1,34 @@
 ﻿<template>
   <div class="panel-login" :class="{ 'light-theme': isLightTheme }">
-    <!-- Animated Background -->
-    <div class="login-bg">
-      <div class="bg-gradient"></div>
-      <div class="grid-overlay"></div>
-      <div class="floating-particles">
-        <div v-for="n in 30" :key="n" class="particle" :style="particleStyle(n)"></div>
-      </div>
-    </div>
+    <!-- CS2 Background -->
+    <CS2Background :isDark="!isLightTheme" />
 
     <div class="login-container">
       <!-- Logo Section -->
       <div class="brand-section">
-        <div class="logo-wrapper">
-          <img src="/icons/wildfire.webp" alt="WildFire" class="logo">
-          <div class="logo-ring"></div>
-          <div class="logo-pulse"></div>
+        <div class="brand-logo">
+          <LiquidMetalLogo
+            :width="280"
+            :height="280"
+            image="/icons/wildfire.png"
+            colorBack="#00000000"
+            colorTint="#ff7800a6"
+            shape="none"
+            :repetition="2"
+            :softness="0.1"
+            :shiftRed="0.3"
+            :shiftBlue="0.3"
+            :distortion="0.07"
+            :contour="0.4"
+            :angle="70"
+            :speed="1"
+            :scale="0.6"
+            fit="contain"
+          />
         </div>
-        <h1 class="brand-title">WILDFIRE</h1>
+        <h1 class="brand-title">
+          <span class="t-white">Wild</span><span class="t-fire">Fire</span>
+        </h1>
         <p class="brand-subtitle">Developer Dashboard</p>
       </div>
 
@@ -27,13 +38,9 @@
         
         <div class="card-header">
           <div class="header-icon">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-              <path d="M12 6v6l4 2"/>
-              <circle cx="12" cy="12" r="2"/>
-            </svg>
+            <Icon icon="solar:lock-keyhole-bold-duotone" width="28" height="28" />
           </div>
-          <h2>Authentication Required</h2>
+          <h2 class="orbitron-font">Authentication Required</h2>
           <p>Sign in with your GitHub account</p>
         </div>
 
@@ -54,27 +61,20 @@
           >
             <div class="btn-loader" v-if="isLoading">
               <div class="loader"></div>
-              <span>Starting...</span>
+              <span class="orbitron-font">Starting...</span>
             </div>
             <template v-else>
-              <svg viewBox="0 0 24 24" width="22" height="22" fill="currentColor">
-                <path d="M12 2C6.48 2 2 6.48 2 12c0 4.42 2.87 8.17 6.84 9.49.5.09.68-.21.68-.48 0-.24-.01-.88-.01-1.73-2.78.6-3.37-1.34-3.37-1.34-.46-1.16-1.11-1.47-1.11-1.47-.91-.62.07-.61.07-.61 1.01.07 1.54 1.03 1.54 1.03.89 1.52 2.34 1.08 2.91.83.09-.65.35-1.09.63-1.34-2.22-.25-4.55-1.11-4.55-4.94 0-1.09.39-1.98 1.03-2.68-.1-.25-.45-1.27.1-2.64 0 0 .84-.27 2.75 1.02.8-.22 1.65-.33 2.5-.33.85 0 1.7.11 2.5.33 1.91-1.29 2.75-1.02 2.75-1.02.55 1.37.2 2.39.1 2.64.64.7 1.03 1.59 1.03 2.68 0 3.84-2.34 4.68-4.57 4.93.36.31.68.92.68 1.85 0 1.34-.01 2.42-.01 2.75 0 .27.18.58.69.48C19.13 20.17 22 16.42 22 12c0-5.52-4.48-10-10-10z"/>
-              </svg>
-              <span>Continue with GitHub</span>
-              <svg class="arrow-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
-                <path d="M5 12h14M12 5l7 7-7 7"/>
-              </svg>
+              <Icon icon="mdi:github" width="22" height="22" />
+              <span class="orbitron-font">Continue with GitHub</span>
+              <Icon icon="mdi:arrow-right" width="16" height="16" class="arrow-icon" />
             </template>
           </button>
         </div>
 
         <div class="card-footer">
           <p class="security-note">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-              <path d="M12 2L3 7v7c0 5 9 8 9 8s9-3 9-8V7l-9-5z"/>
-              <path d="M12 11v4M12 8v1"/>
-            </svg>
-            Authenticated via GitHub Device Flow
+            <Icon icon="solar:shield-check-bold-duotone" width="14" height="14" />
+            <span class="orbitron-font">Authenticated via GitHub Device Flow</span>
           </p>
         </div>
       </div>
@@ -85,30 +85,28 @@
         
         <div class="card-header">
           <div class="header-icon">
-            <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5">
-              <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2z"/>
-              <path d="M12 6v6l4 2"/>
-              <circle cx="12" cy="12" r="2"/>
-            </svg>
+            <Icon icon="solar:code-circle-bold-duotone" width="28" height="28" />
           </div>
-          <h2>Authentication in Progress</h2>
+          <h2 class="orbitron-font">Authentication in Progress</h2>
           <p>Enter the code on GitHub to continue</p>
         </div>
 
         <div class="card-body">
           <div class="device-code-container">
-            <div class="device-code">{{ deviceCode }}</div>
+            <div class="device-code-wrapper">
+              <div class="device-code orbitron-font">{{ deviceCode }}</div>
+              <button class="copy-code-btn" @click="copyCode" :class="{ copied: codeCopied }">
+                <Icon :icon="codeCopied ? 'mdi:check' : 'mdi:content-copy'" width="16" height="16" />
+                <span class="orbitron-font">{{ codeCopied ? 'Copied!' : 'Copy' }}</span>
+              </button>
+            </div>
             <p class="device-instruction">
-              1. Copy the code above<br>
-              2. Go to <strong>github.com/login/device</strong><br>
-              3. Enter the code and authorize the application
+              <span class="step"><Icon icon="mdi:numeric-1-circle" width="16" height="16" /> Code copied to clipboard automatically</span>
+              <span class="step"><Icon icon="mdi:numeric-2-circle" width="16" height="16" /> Go to <strong>github.com/login/device</strong></span>
+              <span class="step"><Icon icon="mdi:numeric-3-circle" width="16" height="16" /> Paste the code and authorize</span>
             </p>
-            <a :href="verificationUri" target="_blank" class="verification-link">
-              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                <polyline points="15 3 21 3 21 9"/>
-                <line x1="10" y1="14" x2="21" y2="3"/>
-              </svg>
+            <a :href="verificationUri" target="_blank" class="verification-link orbitron-font">
+              <Icon icon="mdi:open-in-new" width="14" height="14" />
               Open github.com/login/device
             </a>
           </div>
@@ -116,24 +114,19 @@
           <div class="waiting-status">
             <div class="spinner"></div>
             <span>Waiting for confirmation...</span>
+            <span class="elapsed-timer orbitron-font">{{ elapsedFormatted }}</span>
           </div>
 
           <button class="cancel-btn" @click="cancelDeviceFlow">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
-            Cancel
+            <Icon icon="mdi:close" width="14" height="14" />
+            <span>Cancel</span>
           </button>
         </div>
 
         <div class="card-footer">
           <p class="security-note">
-            <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-              <path d="M12 2L3 7v7c0 5 9 8 9 8s9-3 9-8V7l-9-5z"/>
-              <path d="M12 11v4M12 8v1"/>
-            </svg>
-            The app receives access only after you authorize from your browser
+            <Icon icon="solar:shield-check-bold-duotone" width="14" height="14" />
+            <span>The app receives access only after you authorize from your browser</span>
           </p>
         </div>
       </div>
@@ -143,9 +136,13 @@
 
 <script>
 import panelConfig from '../../panel.config.js'
+import { Icon } from '@iconify/vue'
+import CS2Background from '../CS2Background.vue'
+import LiquidMetalLogo from '../LiquidMetalLogo.vue'
 
 export default {
   name: 'PanelLogin',
+  components: { Icon, CS2Background, LiquidMetalLogo },
   
   data() {
     return {
@@ -156,13 +153,21 @@ export default {
       deviceCode: '',
       verificationUri: '',
       intervalId: null,
-      deviceToken: ''
+      deviceToken: '',
+      codeCopied: false,
+      elapsedSeconds: 0,
+      timerId: null
     }
   },
   
   computed: {
     githubClientId() {
       return this.$githubClientId || window.__GITHUB_CLIENT_ID || import.meta.env.VITE_GITHUB_CLIENT_ID || panelConfig.githubClientId
+    },
+    elapsedFormatted() {
+      const m = Math.floor(this.elapsedSeconds / 60)
+      const s = this.elapsedSeconds % 60
+      return `${m}:${String(s).padStart(2, '0')}`
     }
   },
   
@@ -175,22 +180,12 @@ export default {
     if (this.intervalId) {
       clearInterval(this.intervalId)
     }
+    if (this.timerId) {
+      clearInterval(this.timerId)
+    }
   },
   
   methods: {
-    particleStyle(n) {
-      const size = Math.random() * 4 + 2
-      return {
-        width: size + 'px',
-        height: size + 'px',
-        top: Math.random() * 100 + '%',
-        left: Math.random() * 100 + '%',
-        animationDelay: Math.random() * 10 + 's',
-        animationDuration: Math.random() * 15 + 15 + 's',
-        opacity: Math.random() * 0.4 + 0.1
-      }
-    },
-    
     async startDeviceFlow() {
       this.isLoading = true
       this.error = null
@@ -232,6 +227,13 @@ export default {
         
         this.waitingForAuth = true
         this.isLoading = false
+        
+        // Start elapsed timer
+        this.elapsedSeconds = 0
+        this.timerId = setInterval(() => { this.elapsedSeconds++ }, 1000)
+        
+        // Auto-copy code to clipboard
+        this.copyCode()
         
         const interval = deviceData.interval * 1000 || 5000
         
@@ -333,14 +335,40 @@ export default {
       }
     },
     
+    async copyCode() {
+      if (!this.deviceCode) return
+      try {
+        await navigator.clipboard.writeText(this.deviceCode)
+        this.codeCopied = true
+        setTimeout(() => { this.codeCopied = false }, 2500)
+      } catch (err) {
+        // Fallback for older browsers
+        const ta = document.createElement('textarea')
+        ta.value = this.deviceCode
+        ta.style.position = 'fixed'
+        ta.style.opacity = '0'
+        document.body.appendChild(ta)
+        ta.select()
+        document.execCommand('copy')
+        document.body.removeChild(ta)
+        this.codeCopied = true
+        setTimeout(() => { this.codeCopied = false }, 2500)
+      }
+    },
+    
     cancelDeviceFlow() {
       if (this.intervalId) {
         clearInterval(this.intervalId)
         this.intervalId = null
       }
+      if (this.timerId) {
+        clearInterval(this.timerId)
+        this.timerId = null
+      }
       this.waitingForAuth = false
       this.deviceCode = ''
       this.deviceToken = ''
+      this.elapsedSeconds = 0
       this.error = null
     }
   }
@@ -392,7 +420,8 @@ export default {
   background: var(--bg-primary);
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, monospace;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
 }
 
 .panel-login.light-theme {
@@ -416,50 +445,13 @@ export default {
   --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
-.login-bg {
-  position: absolute;
+.panel-login :deep(.cs2-bg) {
+  position: fixed;
   top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   z-index: 0;
-  overflow: hidden;
-}
-
-.bg-gradient {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at 20% 30%, var(--accent-glow) 0%, transparent 50%);
-}
-
-.grid-overlay {
-  position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(var(--border-color) 1px, transparent 1px),
-    linear-gradient(90deg, var(--border-color) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.1;
-}
-
-.floating-particles {
-  position: absolute;
-  inset: 0;
-}
-
-.particle {
-  position: absolute;
-  background: var(--accent);
-  border-radius: 50%;
-  animation: float linear infinite;
-  pointer-events: none;
-}
-
-@keyframes float {
-  0% { transform: translateY(0) translateX(0); opacity: 0; }
-  20% { opacity: 1; }
-  80% { opacity: 1; }
-  100% { transform: translateY(-200px) translateX(100px); opacity: 0; }
 }
 
 .login-container {
@@ -479,98 +471,79 @@ export default {
   animation: fadeInDown 0.6s ease;
 }
 
-.logo-wrapper {
-  position: relative;
-  display: inline-block;
-  margin-bottom: 20px;
+.brand-logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 auto -40px;
+  width: 200px;
+  height: 200px;
+  overflow: visible;
 }
 
-.logo {
-  width: 80px;
-  height: 80px;
-  filter: drop-shadow(0 0 20px var(--accent-glow));
-  position: relative;
-  z-index: 1;
-}
-
-.logo-ring {
-  position: absolute;
-  top: -8px;
-  left: -8px;
-  right: -8px;
-  bottom: -8px;
-  border: 2px solid var(--accent);
-  border-radius: 50%;
-  border-top-color: transparent;
-  animation: spin 3s linear infinite;
-}
-
-.logo-pulse {
-  position: absolute;
-  top: -4px;
-  left: -4px;
-  right: -4px;
-  bottom: -4px;
-  border-radius: 50%;
-  background: var(--accent);
-  opacity: 0;
-  animation: pulse 2s ease infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-@keyframes pulse {
-  0% { transform: scale(1); opacity: 0.3; }
-  70% { transform: scale(1.3); opacity: 0; }
-  100% { transform: scale(1.3); opacity: 0; }
+.brand-logo :deep(div),
+.brand-logo :deep(canvas) {
+  width: 200px !important;
+  height: 200px !important;
 }
 
 .brand-title {
-  font-size: 32px;
-  font-weight: 700;
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: clamp(32px, 5vw, 48px);
+  font-weight: 900;
   letter-spacing: 4px;
-  background: linear-gradient(135deg, var(--text-primary) 0%, var(--accent) 100%);
+  margin-bottom: 8px;
+  text-align: center;
+  line-height: 1;
+}
+
+.t-white {
+  color: #fff;
+  font-family: 'Orbitron', sans-serif !important;
+  font-weight: 900;
+}
+
+.light-theme .t-white {
+  color: #111;
+}
+
+.t-fire {
+  color: #ff7800;
+  font-family: 'Orbitron', sans-serif !important;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ff7800, #ff4400);
   -webkit-background-clip: text;
   background-clip: text;
-  color: transparent;
-  margin-bottom: 8px;
 }
 
 .brand-subtitle {
-  font-size: 14px;
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: 11px;
   color: var(--text-muted);
-  letter-spacing: 2px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  text-align: center;
 }
 
 .auth-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
   padding: 40px;
   width: 100%;
   max-width: 480px;
   position: relative;
-  backdrop-filter: blur(10px);
+  backdrop-filter: blur(16px);
   animation: fadeInUp 0.6s ease 0.1s both;
 }
 
-.card-glow {
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  background: linear-gradient(45deg, var(--accent), transparent, var(--accent));
-  border-radius: 26px;
-  opacity: 0;
-  transition: opacity 0.3s ease;
-  pointer-events: none;
+.light-theme .auth-card {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
 }
 
-.auth-card:hover .card-glow {
-  opacity: 0.1;
+.card-glow {
+  display: none;
 }
 
 .card-header {
@@ -591,14 +564,18 @@ export default {
 }
 
 .card-header h2 {
-  font-size: 24px;
-  font-weight: 600;
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: 18px;
+  font-weight: 700;
   margin-bottom: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
 }
 
 .card-header p {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--text-muted);
+  letter-spacing: 0.3px;
 }
 
 .card-body {
@@ -635,14 +612,15 @@ export default {
 }
 
 .oauth-btn.github {
-  background: #24292e;
+  background: linear-gradient(135deg, #ff7800, #ff5500);
   color: white;
+  border-radius: 12px;
+  font-size: 12px;
+  letter-spacing: 0.5px;
 }
 
 .oauth-btn.github:hover:not(:disabled) {
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
-  filter: brightness(1.05);
 }
 
 .oauth-btn:disabled {
@@ -679,47 +657,119 @@ export default {
 
 .device-code-container {
   text-align: center;
-  padding: 20px;
-  background: var(--bg-tertiary);
+  padding: 24px 20px;
+  background: rgba(0, 0, 0, 0.4);
+  border: 1px solid rgba(255, 120, 0, 0.15);
   border-radius: 16px;
+  backdrop-filter: blur(8px);
 }
 
-.device-code {
-  font-size: 32px;
-  font-weight: 700;
-  letter-spacing: 8px;
-  color: var(--accent);
-  background: var(--bg-primary);
-  padding: 20px;
-  border-radius: 12px;
-  font-family: monospace;
+.light-theme .device-code-container {
+  background: rgba(255, 255, 255, 0.6);
+  border-color: rgba(255, 120, 0, 0.2);
+}
+
+.device-code-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
   margin-bottom: 20px;
 }
 
+.device-code {
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: clamp(18px, 4vw, 26px);
+  font-weight: 700;
+  letter-spacing: 6px;
+  color: #ff7800;
+  background: rgba(0, 0, 0, 0.5);
+  padding: 16px 20px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 120, 0, 0.3);
+  text-shadow: none;
+  user-select: all;
+  width: 100%;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+}
+
+.light-theme .device-code {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 120, 0, 0.25);
+}
+
+.copy-code-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 18px;
+  background: rgba(255, 120, 0, 0.12);
+  border: 1px solid rgba(255, 120, 0, 0.3);
+  border-radius: 8px;
+  color: #ff7800;
+  font-size: 11px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: 1px;
+}
+
+.copy-code-btn:hover {
+  background: rgba(255, 120, 0, 0.22);
+  border-color: rgba(255, 120, 0, 0.5);
+}
+
+.copy-code-btn.copied {
+  background: rgba(34, 197, 94, 0.15);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #22c55e;
+}
+
 .device-instruction {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
   font-size: 13px;
   color: var(--text-muted);
-  line-height: 1.8;
-  margin-bottom: 16px;
+  line-height: 1.5;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.device-instruction .step {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.device-instruction .step :deep(svg) {
+  color: #ff7800;
+  flex-shrink: 0;
+}
+
+.device-instruction strong {
+  color: #ff7800;
 }
 
 .verification-link {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 20px;
-  background: var(--accent);
+  padding: 11px 24px;
+  background: linear-gradient(135deg, #ff7800, #ff5500);
   color: white;
   text-decoration: none;
-  border-radius: 30px;
-  font-size: 13px;
-  font-weight: 500;
+  border-radius: 10px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 1px;
   transition: all 0.2s ease;
 }
 
 .verification-link:hover {
   transform: translateY(-2px);
-  filter: brightness(1.05);
 }
 
 .waiting-status {
@@ -727,18 +777,32 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 12px;
-  padding: 12px;
-  background: var(--bg-tertiary);
+  padding: 14px;
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 12px;
   color: var(--text-muted);
   font-size: 13px;
+  backdrop-filter: blur(4px);
+}
+
+.light-theme .waiting-status {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(0, 0, 0, 0.06);
+}
+
+.elapsed-timer {
+  margin-left: auto;
+  font-size: 12px;
+  color: #ff7800;
+  letter-spacing: 1px;
 }
 
 .spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid var(--border-color);
-  border-top-color: var(--accent);
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-top-color: #ff7800;
   border-radius: 50%;
   animation: spin 1s linear infinite;
 }
@@ -750,14 +814,20 @@ export default {
   gap: 8px;
   width: 100%;
   padding: 12px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
+  background: rgba(0, 0, 0, 0.3);
+  border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 12px;
   color: var(--text-muted);
   font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   transition: all 0.2s ease;
+  backdrop-filter: blur(4px);
+}
+
+.light-theme .cancel-btn {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(0, 0, 0, 0.08);
 }
 
 .cancel-btn:hover {
@@ -776,9 +846,16 @@ export default {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
   text-align: center;
+  letter-spacing: 0.5px;
+}
+
+.security-note :deep(svg) {
+  color: var(--accent);
+  opacity: 0.6;
+  flex-shrink: 0;
 }
 
 @keyframes fadeInDown {
@@ -799,8 +876,8 @@ export default {
     font-size: 28px;
   }
   .device-code {
-    font-size: 24px;
-    letter-spacing: 4px;
+    font-size: 16px;
+    letter-spacing: 3px;
   }
 }
 </style>

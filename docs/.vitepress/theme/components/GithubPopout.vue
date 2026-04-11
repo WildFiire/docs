@@ -231,6 +231,8 @@ export default {
   },
   data() {
     return {
+      currentUsername: this.username,
+      currentTargetElement: this.targetElement,
       isVisible: false,
       isBelow: false,
       loading: true,
@@ -265,8 +267,8 @@ export default {
     window.addEventListener('scroll', this.positionPopout, true)
     window.addEventListener('keydown', this.handleKeyDown)
     
-    if (this.targetElement) {
-      this.tagClasses = this.targetElement.getAttribute('data-tags') || ''
+    if (this.currentTargetElement) {
+      this.tagClasses = this.currentTargetElement.getAttribute('data-tags') || ''
     }
   },
   beforeUnmount() {
@@ -281,7 +283,7 @@ export default {
       
       try {
         
-        const response = await fetch(`https://api.github.com/users/${this.username}`, {
+        const response = await fetch(`https://api.github.com/users/${this.currentUsername}`, {
           headers: {
             'Authorization': `Bearer ${this.githubToken}`,
             'Accept': 'application/vnd.github.v3+json'
@@ -301,8 +303,8 @@ export default {
         
         this.user = {
           ...this.user,
-          username: this.username,
-          name: data.name || this.username,
+          username: this.currentUsername,
+          name: data.name || this.currentUsername,
           avatar: data.avatar_url || this.user.avatar,
           bio: data.bio || 'No bio available',
           followers: data.followers || 0,
@@ -345,7 +347,7 @@ export default {
         }
         
         const contributor = contributors.find(c => 
-          c.login?.toLowerCase() === this.username.toLowerCase()
+          c.login?.toLowerCase() === this.currentUsername.toLowerCase()
         )
         
         this.user.contributions = contributor ? contributor.contributions : 0
@@ -375,9 +377,9 @@ export default {
     
     positionPopout() {
       this.$nextTick(() => {
-        if (!this.targetElement || !this.$refs.popout) return
+        if (!this.currentTargetElement || !this.$refs.popout) return
         
-        const targetRect = this.targetElement.getBoundingClientRect()
+        const targetRect = this.currentTargetElement.getBoundingClientRect()
         const popoutRect = this.$refs.popout.getBoundingClientRect()
         
         let left = targetRect.left + (targetRect.width / 2) - (popoutRect.width / 2)
@@ -442,7 +444,7 @@ export default {
     },
     
     handleAvatarError(e) {
-      e.target.src = `https://github.com/${this.username}.png`
+      e.target.src = `https://github.com/${this.currentUsername}.png`
     }
   }
 }

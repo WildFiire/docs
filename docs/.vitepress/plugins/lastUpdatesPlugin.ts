@@ -44,6 +44,35 @@ export interface UpdateCard {
   avatarUrl: string
   profileUrl: string
   buttonText: string
+  icon: string
+}
+
+// Section-level fallback icons (used when a page has no direct sidebar icon)
+const SECTION_ICON_MAP: Record<string, string> = {
+  informatii: 'solar:fire-bold-duotone',
+  currency: 'solar:dollar-minimalistic-bold-duotone',
+  systems: 'solar:cpu-bold-duotone',
+  market: 'solar:shop-2-bold-duotone',
+  updates_wiki: 'solar:code-bold-duotone',
+}
+
+/**
+ * Parse config.mts as raw text to extract sidebar link → icon mappings.
+ * Matches patterns like: icon="solar:fire-bold-duotone" ... link: '/informatii/about'
+ */
+function buildIconMap(configPath: string): Record<string, string> {
+  const map: Record<string, string> = {}
+  try {
+    const raw = fs.readFileSync(configPath, 'utf-8')
+    // Match sidebar items that have both an icon and a link on the same line
+    // e.g. { text: '<iconify-icon icon="solar:star-bold-duotone" ...> Despre', link: '/informatii/about' }
+    const re = /icon="([^"]+)"[^}]*link:\s*['"]([^'"]+)['"]/g
+    let m: RegExpExecArray | null
+    while ((m = re.exec(raw)) !== null) {
+      map[m[2]] = m[1]
+    }
+  } catch {}
+  return map
 }
 
 function extractUsername(email: string, name: string): string {
@@ -178,6 +207,8 @@ function walkMd(dir: string): string[] {
 }
 
 async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard[]> {
+  const configPath = path.join(docsDir, '.vitepress', 'config.mts')
+  const iconMap = buildIconMap(configPath)
   const files = walkMd(docsDir)
   const results: Array<UpdateCard & { timestamp: number; docsRelPath: string }> = []
 
@@ -197,6 +228,11 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
         ? pathArr[pathArr.length - 2]
         : (pathArr[0] || title)
 
+      // Resolve icon: direct sidebar match → section fallback → generic
+      const pageIcon = iconMap[link]
+        || SECTION_ICON_MAP[sectionFolder]
+        || 'mdi:file-document-outline'
+
       results.push({
         title,
         category: category.toUpperCase(),
@@ -211,7 +247,8 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
         username: git.username,
         avatarUrl: `https://github.com/${git.username}.png?size=44`,
         profileUrl: `https://github.com/${git.username}`,
-        buttonText: badgeText ? badgeText.toUpperCase() : 'CITESTE'
+        buttonText: badgeText ? badgeText.toUpperCase() : 'CITESTE',
+        icon: pageIcon
       })
     } catch {
       // skip unparseable files

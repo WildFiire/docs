@@ -1,120 +1,92 @@
 ﻿<template>
   <div class="last-updates">
 
-    <!-- ── Header ── -->
-    <div class="updates-header">
-      <div class="header-left">
-        <div class="header-overline">
-          <span class="overline-line"></span>
-          <span class="overline-text">WIKI</span>
-          <span class="overline-dot"></span>
-        </div>
-        <div class="title-row">
-          <h2 class="section-title">Recently <span class="title-accent">Updated</span></h2>
-          <div class="live-pill">
-            <span class="live-ring"></span>
-            <span class="live-dot"></span>
-            <span class="live-label">LIVE</span>
-          </div>
-        </div>
-        <p class="section-sub">Cele mai recente modificări din documentație</p>
+    <!-- ── Section Label (matching WikiHome pattern) ── -->
+    <div class="lu-section-label">
+      <span class="lu-label__line"></span>
+      <span class="lu-label__text orbitron-font"><Icon icon="mdi:update" width="12" height="12" class="lu-label__icon" />RECENT UPDATES</span>
+      <div class="lu-live-pill">
+        <span class="lu-live-ring"></span>
+        <span class="lu-live-dot"></span>
       </div>
-      <div class="header-right">
-        <div class="count-badge" :class="{ 'sk-badge': !mounted }">
-          <svg v-if="mounted" viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-          <span v-if="mounted">{{ cards.length }}&nbsp;pages</span>
-        </div>
-      </div>
+      <span class="lu-label__line"></span>
     </div>
+    <h2 class="lu-title orbitron-font"><Icon icon="mdi:file-document-edit-outline" width="28" height="28" class="lu-title__icon" />Ultimele <span class="lu-accent">Modificari</span></h2>
+    <p class="lu-desc orbitron-font">Cele mai recente pagini actualizate din documentatie</p>
 
     <!-- ── Skeleton ── -->
-    <div v-if="!mounted" class="updates-grid">
-      <div v-for="n in 6" :key="'sk-'+n" class="update-card sk-card">
-        <div class="sk-top-bar"></div>
+    <div v-if="!mounted" class="lu-grid">
+      <div v-for="n in 6" :key="'sk-'+n" class="lu-card lu-card--sk">
+        <div class="sk-strip"></div>
         <div class="sk-body">
-          <div class="sk-row">
+          <span class="sk sk-pill"></span>
+          <span class="sk sk-title-line"></span>
+          <span class="sk sk-desc-line"></span>
+          <div class="sk-footer">
             <span class="sk sk-avatar"></span>
-            <span class="sk sk-pill"></span>
-          </div>
-          <span class="sk sk-title"></span>
-          <span class="sk sk-line w80"></span>
-          <span class="sk sk-line w55"></span>
-          <div class="sk-footer-row">
-            <span class="sk sk-tag"></span>
-            <span class="sk sk-btn"></span>
+            <span class="sk sk-name"></span>
           </div>
         </div>
       </div>
     </div>
 
     <!-- ── Real cards ── -->
-    <div v-else class="updates-grid">
+    <div v-else class="lu-grid">
       <a
         v-for="(card, index) in cards"
         :key="card.link"
         :href="card.link"
-        class="update-card"
-        :style="{ '--card-accent': getHexColor(card.tagColor) }"
+        class="lu-card"
+        :style="{ '--accent': getHexColor(card.tagColor) }"
       >
-        <!-- Left accent strip -->
-        <div class="card-accent-strip" :style="{ background: getHexColor(card.tagColor) }"></div>
+        <!-- Accent strip -->
+        <div class="lu-card__strip" :style="{ background: getHexColor(card.tagColor) }"></div>
 
         <!-- Watermark -->
-        <div class="card-watermark" :style="{ color: getHexColor(card.tagColor) }">{{ card.category }}</div>
+        <span class="lu-card__watermark orbitron-font" :style="{ color: getHexColor(card.tagColor) }">{{ card.category }}</span>
 
-        <!-- Dot grid -->
-        <div class="card-dots" :style="{ '--dot': getHexColor(card.tagColor) }"></div>
-
-        <!-- Hover shine -->
-        <div class="card-shine" :style="{ '--clr': getHexColor(card.tagColor) }"></div>
-
-        <div class="card-body">
-          <!-- Category row -->
-          <div class="card-top-row">
-            <span class="card-category" :style="{ color: getHexColor(card.tagColor), background: getHexColor(card.tagColor) + '18', borderColor: getHexColor(card.tagColor) + '35' }">
-              <span class="cat-dot" :class="card.dotClass"></span>
-              {{ card.category }}
-            </span>
-          </div>
+        <div class="lu-card__body">
+          <!-- Category badge -->
+          <span class="lu-card__cat orbitron-font" :style="{ color: getHexColor(card.tagColor), background: getHexColor(card.tagColor) + '12', borderColor: getHexColor(card.tagColor) + '30' }">
+            <span class="lu-card__cat-dot" :style="{ background: getHexColor(card.tagColor) }"></span>
+            {{ card.category }}
+          </span>
 
           <!-- Title -->
-          <h3 class="card-title">{{ card.title }}</h3>
+          <h3 class="lu-card__title orbitron-font"><Icon :icon="card.icon" width="14" height="14" class="lu-card__title-icon" />{{ card.title }}</h3>
 
-          <!-- Tags below title -->
-          <div v-if="card.tag1 || card.tag2" class="card-tags">
+          <!-- Tags -->
+          <div v-if="card.tag1 || card.tag2" class="lu-card__tags">
             <WildfireTag v-if="card.tag1" :color="card.tagColor" :text="card.tag1" class="small-tag" :icon="getTagIcon(card.tag1)" />
             <WildfireTag v-if="card.tag2" :color="card.tagColor" :text="card.tag2" class="small-tag" :icon="getTagIcon(card.tag2)" />
           </div>
 
           <!-- Footer -->
-          <div class="card-footer">
-            <div class="card-author">
-              <div class="avatar-wrap">
-                <img :src="card.avatarUrl" class="author-avatar" :alt="card.username">
+          <div class="lu-card__footer">
+            <div class="lu-card__author">
+              <div class="lu-card__avatar-ring" :style="{ '--ring': getHexColor(card.tagColor) }">
+                <img :src="card.avatarUrl" class="lu-card__avatar" :alt="card.username" />
               </div>
-              <div class="author-info">
-                <span class="author-name"><span class="author-at">@</span>{{ card.username }}</span>
-                <span class="author-date">
-                  <svg viewBox="0 0 24 24" width="9" height="9" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 15 14"/></svg>
+              <div class="lu-card__author-info">
+                <span class="lu-card__username orbitron-font"><span class="lu-at">@</span>{{ card.username }}</span>
+                <span class="lu-card__date">
+                  <Icon icon="mdi:clock-outline" width="10" height="10" style="opacity: 0.5;" />
                   {{ card.date }}
                 </span>
               </div>
             </div>
-            <span class="read-btn" :style="{ color: getHexColor(card.tagColor), borderColor: getHexColor(card.tagColor) + '45' }">
-              {{ card.buttonText }}
-              <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-            </span>
+            <span class="lu-card__arrow" :style="{ color: getHexColor(card.tagColor) }"><Icon icon="mdi:arrow-right" width="18" height="18" /></span>
           </div>
         </div>
       </a>
     </div>
 
     <!-- ── Footer CTA ── -->
-    <div class="updates-footer">
-      <a href="/updates_wiki/updateswiki" class="view-all-btn">
-        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-        <span>Vezi toate noutățile</span>
-        <svg class="arrow-icon" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+    <div class="lu-footer">
+      <a href="/updates_wiki/updateswiki" class="lu-view-all orbitron-font">
+        <Icon icon="mdi:calendar-text" width="15" height="15" />
+        <span>Vezi toate noutatile</span>
+        <Icon icon="mdi:arrow-right" width="15" height="15" class="lu-arrow-icon" />
       </a>
     </div>
 
@@ -123,6 +95,7 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { Icon } from '@iconify/vue'
 import WildfireTag from './WildfireTag.vue'
 import cards from 'virtual:last-updates'
 
@@ -196,399 +169,242 @@ function cardStyle(color) {
 </script>
 
 <style scoped>
-/* ── Root & Tokens ── */
+/* ── Root ── */
 .last-updates {
-  --accent: #ff7800;
-  --accent-mid: rgba(255, 120, 0,0.18);
-  --accent-dim: rgba(255, 120, 0,0.08);
-  --card-bg: #0d1017;
-  --card-border: rgba(255,255,255,0.07);
-  --text-1: #f0f4ff;
-  --text-2: #94a3b8;
-  --text-3: #64748b;
-  --border: rgba(255,255,255,0.07);
-  max-width: 1120px;
-  margin: 48px auto 0;
-  padding: 0 24px;
   width: 100%;
 }
-html:not(.dark) .last-updates {
-  --card-bg: #ffffff;
-  --card-border: rgba(0,0,0,0.08);
-  --text-1: #0f172a;
-  --text-2: #475569;
-  --text-3: #94a3b8;
-  --border: rgba(0,0,0,0.07);
-}
 
-/* ── Header ── */
-.updates-header {
-  display: flex;
-  align-items: flex-end;
-  justify-content: space-between;
-  gap: 20px;
-  margin-bottom: 20px;
-  padding-bottom: 16px;
-  border-bottom: 1px solid var(--border);
-  position: relative;
-}
-.updates-header::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 0;
-  width: 80px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), transparent);
-  border-radius: 1px;
-}
-.header-left { display: flex; flex-direction: column; gap: 6px; }
-.title-row {
+/* ── Section Label (matches WikiHome wf-section-label) ── */
+.lu-section-label {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 14px;
+  margin-bottom: 16px;
+  justify-content: center;
 }
-.header-overline {
-  display: flex;
+.lu-label__line {
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #ff7800);
+  flex-shrink: 0;
+}
+.lu-label__line:last-child {
+  background: linear-gradient(90deg, #ff7800, transparent);
+}
+.lu-label__text {
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
-}
-.overline-line {
-  display: block;
-  width: 24px;
-  height: 2px;
-  background: linear-gradient(90deg, var(--accent), #ff7800);
-  border-radius: 2px;
-}
-.overline-text {
-  font-family: 'Orbitron', sans-serif;
+  gap: 5px;
   font-size: 10px;
   font-weight: 700;
   letter-spacing: 3.5px;
-  color: var(--accent);
+  color: #ff7800;
   text-transform: uppercase;
+  white-space: nowrap;
 }
-.overline-dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--accent);
-  opacity: 0.5;
-}
-.section-title {
-  font-family: 'Orbitron', sans-serif !important;
-  font-size: clamp(20px, 3.5vw, 28px);
-  font-weight: 700;
-  margin: 0;
-  line-height: 1.1;
-  letter-spacing: -0.5px;
-  color: var(--text-1);
-}
-.title-accent {
-  background: linear-gradient(120deg, #ff7800 0%, #ff7800 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-.section-sub {
-  font-family: 'Orbitron', sans-serif !important;
-  margin: 0;
-  font-size: 13px;
-  color: var(--text-3);
-  line-height: 1.5;
-}
-.header-right {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 10px;
+.lu-label__icon {
   flex-shrink: 0;
 }
-.live-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 5px;
-  padding: 3px 8px 3px 7px;
-  background: rgba(34,197,94,0.08);
-  border: 1px solid rgba(34,197,94,0.25);
-  border-radius: 20px;
-  flex-shrink: 0;
-}
-.live-ring {
+.lu-live-pill {
+  position: relative;
   width: 10px;
   height: 10px;
+  flex-shrink: 0;
+}
+.lu-live-ring {
+  position: absolute;
+  inset: 0;
   border-radius: 50%;
   border: 1.5px solid rgba(34,197,94,0.5);
-  animation: ringPulse 1.8s ease-out infinite;
-  flex-shrink: 0;
+  animation: luPulse 1.8s ease-out infinite;
 }
-.live-dot {
-  width: 5px;
-  height: 5px;
+.lu-live-dot {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
   background: #22c55e;
-  box-shadow: 0 0 5px #22c55e;
-  flex-shrink: 0;
+  box-shadow: 0 0 6px #22c55e;
 }
-.live-label {
-  font-family: 'Orbitron', sans-serif;
-  font-size: 8px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #22c55e;
-}
-@keyframes ringPulse {
+@keyframes luPulse {
   0% { transform: scale(1); opacity: 0.8; }
   100% { transform: scale(2.2); opacity: 0; }
 }
-.count-badge {
-  display: inline-flex;
+
+.lu-title {
+  display: flex;
   align-items: center;
-  gap: 5px;
-  padding: 6px 14px;
-  background: var(--accent-dim);
-  border: 1px solid rgba(255, 120, 0,0.25);
-  border-radius: 20px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 10px;
+  justify-content: center;
+  gap: 8px;
+  font-size: clamp(24px, 3.5vw, 32px);
   font-weight: 700;
-  color: #ff7800;
-  letter-spacing: 0.5px;
+  margin: 0 0 10px;
+  text-align: center;
   text-transform: uppercase;
-  white-space: nowrap;
+  letter-spacing: 0.5px;
+  color: var(--vp-c-text-1);
+}
+.lu-title__icon {
   flex-shrink: 0;
-  transition: background 0.2s, border-color 0.2s;
+  color: #ff7800;
+  opacity: 0.6;
 }
-.count-badge:hover {
-  background: rgba(255, 120, 0,0.12);
-  border-color: rgba(255, 120, 0,0.4);
+.lu-title::after { display: none; }
+.lu-accent {
+  font-family: 'Orbitron', sans-serif !important;
+  color: #ff7800;
 }
-.sk-badge { width: 80px; height: 30px; background: var(--border); border-radius: 20px; }
+.lu-desc {
+  font-size: 12px;
+  color: var(--vp-c-text-2);
+  text-align: center;
+  margin: 0 0 36px;
+  opacity: 0.7;
+  letter-spacing: 0.3px;
+}
 
 /* ── Grid ── */
-.updates-grid {
+.lu-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 16px;
+  margin-bottom: 24px;
 }
 
-/* ── Cards ── */
-.update-card {
+/* ── Cards (matches WikiHome wf-card) ── */
+.lu-card {
   position: relative;
-  border-radius: 14px;
+  border-radius: 16px;
+  background: rgba(255, 255, 255, 0.02);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  overflow: hidden;
   text-decoration: none;
+  color: var(--vp-c-text-1);
+  overflow: hidden;
   display: flex;
   flex-direction: row;
-  transition: transform 0.28s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
-  box-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              box-shadow 0.3s ease,
+              border-color 0.3s ease;
 }
-html:not(.dark) .update-card {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(0, 0, 0, 0.07);
-  box-shadow: 0 2px 12px -4px rgba(0, 0, 0, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.8);
+.lu-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 120, 0, 0.25);
+  box-shadow: 0 0 20px rgba(255, 120, 0, 0.06),
+              inset 0 1px 0 rgba(255, 255, 255, 0.04);
 }
-.update-card:hover {
-  transform: translateY(-5px) scale(1.01);
-  border-color: color-mix(in srgb, var(--card-accent, #ff7800) 45%, transparent);
-  box-shadow:
-    0 12px 32px -8px color-mix(in srgb, var(--card-accent, #ff7800) 25%, transparent),
-    0 4px 16px -4px rgba(0, 0, 0, 0.3),
-    inset 0 1px 0 rgba(255, 255, 255, 0.06),
-    0 0 0 1px color-mix(in srgb, var(--card-accent, #ff7800) 10%, transparent);
-  background: rgba(255, 255, 255, 0.05);
+html:not(.dark) .lu-card {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(0, 0, 0, 0.08);
 }
-html:not(.dark) .update-card:hover {
-  background: rgba(255, 255, 255, 0.8);
-  box-shadow: 0 12px 32px -8px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.9);
+html:not(.dark) .lu-card:hover {
+  border-color: rgba(255, 120, 0, 0.2);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
 }
 
-.card-accent-strip {
+/* Accent strip */
+.lu-card__strip {
   width: 3px;
   flex-shrink: 0;
-  border-radius: 3px 0 0 3px;
-  transition: width 0.28s ease, box-shadow 0.28s ease;
-  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent, #ff7800) 20%, transparent);
+  border-radius: 16px 0 0 16px;
+  transition: width 0.3s ease;
 }
-.update-card:hover .card-accent-strip {
+.lu-card:hover .lu-card__strip {
   width: 5px;
-  box-shadow: 0 0 16px color-mix(in srgb, var(--card-accent, #ff7800) 45%, transparent);
 }
 
 /* Watermark */
-.card-watermark {
+.lu-card__watermark {
   position: absolute;
-  right: 12px;
+  right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  font-family: 'Orbitron', sans-serif;
-  font-size: 42px;
+  font-size: 38px;
   font-weight: 900;
   line-height: 1;
-  opacity: 0.04;
+  opacity: 0.03;
   pointer-events: none;
   user-select: none;
   letter-spacing: -2px;
   text-transform: uppercase;
   white-space: nowrap;
   z-index: 0;
-  transition: opacity 0.35s ease, transform 0.35s ease;
-}
-.update-card:hover .card-watermark {
-  opacity: 0.1;
-  transform: translateY(-50%) scale(1.05);
-}
-
-/* Dot grid */
-.card-dots {
-  position: absolute;
-  inset: 0;
-  background-image: radial-gradient(circle, var(--dot) 0.8px, transparent 0.8px);
-  background-size: 16px 16px;
-  opacity: 0;
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 0.35s ease;
-  mask-image: radial-gradient(ellipse 70% 70% at 80% 50%, black 20%, transparent 80%);
-  -webkit-mask-image: radial-gradient(ellipse 70% 70% at 80% 50%, black 20%, transparent 80%);
-}
-.update-card:hover .card-dots {
-  opacity: 0.12;
-}
-
-/* Hover shine */
-.card-shine {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, color-mix(in srgb, var(--clr) 12%, transparent) 0%, color-mix(in srgb, var(--clr) 4%, transparent) 40%, transparent 70%);
-  opacity: 0;
-  pointer-events: none;
-  z-index: 0;
-  transition: opacity 0.35s ease;
-}
-.update-card:hover .card-shine {
-  opacity: 1;
-}
-
-/* Glass reflection line at top */
-.update-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1) 30%, rgba(255, 255, 255, 0.06) 70%, transparent);
-  z-index: 3;
-  pointer-events: none;
-}
-html:not(.dark) .update-card::before {
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.6) 30%, rgba(255, 255, 255, 0.3) 70%, transparent);
-}
-
-/* Bottom glow on hover */
-.update-card::after {
-  content: '';
-  position: absolute;
-  bottom: -1px;
-  left: 15%;
-  right: 15%;
-  height: 2px;
-  background: var(--card-accent, #ff7800);
-  border-radius: 2px;
-  opacity: 0;
-  filter: blur(3px);
-  z-index: 3;
   transition: opacity 0.3s ease;
 }
-.update-card:hover::after {
-  opacity: 0.5;
+.lu-card:hover .lu-card__watermark {
+  opacity: 0.07;
 }
 
-.card-body {
+/* Card body */
+.lu-card__body {
   position: relative;
   z-index: 2;
   display: flex;
   flex-direction: column;
   flex: 1;
-  padding: 14px 16px 12px;
+  padding: 18px 20px 14px;
 }
 
-/* Category + inline tags */
-.card-top-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  flex-wrap: wrap;
-  margin-bottom: 8px;
-}
-.card-category {
+/* Category badge */
+.lu-card__cat {
   display: inline-flex;
   align-items: center;
   gap: 5px;
   padding: 3px 10px 3px 7px;
   border-radius: 20px;
   border: 1px solid;
-  font-family: 'Orbitron', sans-serif;
   font-size: 9px;
   font-weight: 700;
   letter-spacing: 0.8px;
   text-transform: uppercase;
   flex-shrink: 0;
-  transition: filter 0.2s, box-shadow 0.2s;
+  width: fit-content;
+  margin-bottom: 10px;
+  transition: filter 0.2s;
 }
-.update-card:hover .card-category {
+.lu-card:hover .lu-card__cat {
   filter: brightness(1.15);
-  box-shadow: 0 0 8px color-mix(in srgb, var(--card-accent, #ff7800) 20%, transparent);
 }
-.cat-dot {
+.lu-card__cat-dot {
   width: 6px;
   height: 6px;
   border-radius: 50%;
   flex-shrink: 0;
 }
-.card-tags-inline { display: flex; gap: 4px; flex-wrap: wrap; }
-.mini-tag {
-  font-size: 9px;
-  font-weight: 600;
-  padding: 2px 7px;
-  border-radius: 4px;
-  border: 1px solid;
-  letter-spacing: 0.4px;
-  text-transform: uppercase;
-  white-space: nowrap;
-  font-family: 'Orbitron', sans-serif;
-  opacity: 0.8;
-}
 
 /* Title */
-.card-title {
-  font-family: 'Orbitron', sans-serif;
+.lu-card__title {
+  font-family: 'Orbitron', sans-serif !important;
   font-size: 13px;
-  font-weight: 800;
-  line-height: 1.35;
-  color: var(--text-1);
+  font-weight: 700;
   margin: 0 0 8px;
+  color: var(--vp-c-text-1);
   letter-spacing: 0.3px;
   text-transform: uppercase;
   transition: color 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
-.update-card:hover .card-title {
-  color: color-mix(in srgb, var(--card-accent, #ff7800) 15%, var(--text-1));
+.lu-card__title-icon {
+  flex-shrink: 0;
+  opacity: 0.4;
+  transition: opacity 0.2s, color 0.2s;
+}
+.lu-card:hover .lu-card__title-icon {
+  opacity: 0.8;
+  color: var(--accent, #ff7800);
 }
 
 /* Tags */
-.card-tags {
+.lu-card__tags {
   display: flex;
   gap: 5px;
   flex-wrap: wrap;
   margin-bottom: auto;
-  padding-bottom: 4px;
+  padding-bottom: 6px;
 }
 :deep(.wildfire-tag.small-tag) {
   padding: 3px 9px !important;
@@ -606,7 +422,6 @@ html:not(.dark) .update-card::before {
 :deep(.wildfire-tag.small-tag:hover) {
   opacity: 1;
   transform: translateY(-1px);
-  filter: brightness(1.15);
 }
 :deep(.wildfire-tag.small-tag svg) {
   width: 10px; height: 10px;
@@ -614,16 +429,19 @@ html:not(.dark) .update-card::before {
 }
 
 /* Footer */
-.card-footer {
+.lu-card__footer {
   display: flex;
   align-items: center;
   justify-content: space-between;
   margin-top: 10px;
-  padding-top: 8px;
-  border-top: 1px solid var(--border);
-  gap: 6px;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  gap: 8px;
 }
-.card-author {
+html:not(.dark) .lu-card__footer {
+  border-top-color: rgba(0, 0, 0, 0.06);
+}
+.lu-card__author {
   display: flex;
   align-items: center;
   gap: 8px;
@@ -631,183 +449,154 @@ html:not(.dark) .update-card::before {
   flex: 1;
   overflow: hidden;
 }
-.avatar-wrap {
+.lu-card__avatar-ring {
   position: relative;
-  flex-shrink: 0;
-}
-.author-avatar {
-  width: 22px;
-  height: 22px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
-  border: 1.5px solid var(--border);
+  padding: 2px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
+  flex-shrink: 0;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+.lu-card:hover .lu-card__avatar-ring {
+  background: linear-gradient(135deg, var(--ring, #ff7800), rgba(255, 120, 0, 0.3));
+  box-shadow: 0 0 10px color-mix(in srgb, var(--ring, #ff7800) 25%, transparent);
+}
+html:not(.dark) .lu-card__avatar-ring {
+  background: linear-gradient(135deg, rgba(0,0,0,0.06), rgba(0,0,0,0.03));
+}
+html:not(.dark) .lu-card:hover .lu-card__avatar-ring {
+  background: linear-gradient(135deg, var(--ring, #ff7800), rgba(255, 120, 0, 0.3));
+}
+.lu-card__avatar {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
   object-fit: cover;
   display: block;
-  transition: border-color 0.2s, box-shadow 0.2s;
 }
-.update-card:hover .author-avatar {
-  border-color: rgba(255, 120, 0,0.45);
-  box-shadow: 0 0 8px rgba(255, 120, 0,0.2);
-}
-.author-info {
+.lu-card__author-info {
   display: flex;
   flex-direction: column;
   gap: 2px;
   min-width: 0;
 }
-.author-name {
-  font-family: 'Orbitron', sans-serif;
+.lu-card__username {
   font-size: 10px;
   font-weight: 700;
-  color: var(--text-2);
+  color: var(--vp-c-text-2);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  line-height: 1.3;
   letter-spacing: 0.3px;
+  line-height: 1.2;
 }
-.author-at {
-  color: var(--accent);
+.lu-at {
+  color: #ff7800;
   opacity: 0.7;
   margin-right: 1px;
 }
-.author-date {
+.lu-card__date {
   display: inline-flex;
   align-items: center;
   gap: 3px;
-  font-size: 10px;
-  color: var(--text-3);
+  font-size: 9px;
+  color: var(--vp-c-text-3, #64748b);
   white-space: nowrap;
   line-height: 1.2;
 }
-.author-date svg { opacity: 0.6; flex-shrink: 0; }
-.read-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 4px;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
-  padding: 5px 10px;
-  border-radius: 6px;
-  border: 1px solid;
-  white-space: nowrap;
+.lu-card__date svg { opacity: 0.5; flex-shrink: 0; }
+.lu-card__arrow {
+  font-size: 18px;
+  color: rgba(255, 120, 0, 0.4);
+  transition: transform 0.3s ease, color 0.3s ease;
   flex-shrink: 0;
-  opacity: 0.7;
-  transition: opacity 0.2s, gap 0.2s, box-shadow 0.2s, background 0.2s;
-  background: transparent;
+  align-self: center;
 }
-.update-card:hover .read-btn {
-  opacity: 1;
-  gap: 6px;
-  background: color-mix(in srgb, var(--card-accent, #ff7800) 8%, transparent);
-  box-shadow: 0 0 10px color-mix(in srgb, var(--card-accent, #ff7800) 15%, transparent);
+.lu-card:hover .lu-card__arrow {
+  transform: translateX(4px);
+  color: #ff7800;
 }
-.read-btn svg { transition: transform 0.2s; }
-.update-card:hover .read-btn svg { transform: translateX(3px); }
-
-/* ── Dot colors ── */
-.dot-blue { background: #3b82f6; }
-.dot-orange { background: #f97316; }
-.dot-amber { background: #f59e0b; }
-.dot-teal { background: #14b8a6; }
-.dot-purple { background: #8b5cf6; }
-.dot-pink { background: #ec4899; }
-.dot-red { background: #ef4444; }
-.dot-green { background: #10b981; }
 
 /* ── Skeleton ── */
-@keyframes skShimmer {
+@keyframes luShimmer {
   0% { background-position: -400px 0; }
   100% { background-position: 400px 0; }
 }
-.sk-card { min-height: 150px; cursor: default; }
-.sk-card:hover { transform: none !important; }
-.sk-top-bar {
-  height: 3px;
+.lu-card--sk { min-height: 140px; pointer-events: none; }
+.sk-strip {
+  width: 3px;
+  flex-shrink: 0;
   background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0.04) 75%);
   background-size: 800px 100%;
-  animation: skShimmer 1.6s infinite linear;
+  animation: luShimmer 1.6s infinite linear;
+  border-radius: 16px 0 0 16px;
 }
-.sk-body { padding: 16px 16px 14px; display: flex; flex-direction: column; gap: 10px; }
-.sk-row { display: flex; align-items: center; gap: 8px; }
-.sk-footer-row { display: flex; align-items: center; justify-content: space-between; margin-top: 4px; }
+.sk-body { padding: 18px 20px 14px; display: flex; flex-direction: column; gap: 10px; flex: 1; }
+.sk-footer { display: flex; align-items: center; gap: 8px; margin-top: auto; }
 .sk {
   display: block;
   border-radius: 4px;
   background: linear-gradient(90deg, rgba(255,255,255,0.04) 25%, rgba(255,255,255,0.10) 50%, rgba(255,255,255,0.04) 75%);
   background-size: 800px 100%;
-  animation: skShimmer 1.6s infinite linear;
+  animation: luShimmer 1.6s infinite linear;
 }
 html:not(.dark) .sk {
   background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.04) 75%);
   background-size: 800px 100%;
 }
-.sk-avatar { width: 24px; height: 24px; border-radius: 50%; flex-shrink: 0; }
-.sk-pill { height: 18px; width: 70px; border-radius: 5px; }
-.sk-title { height: 14px; width: 90%; border-radius: 3px; }
-.sk-line { height: 11px; border-radius: 3px; }
-.sk-line.w80 { width: 80%; }
-.sk-line.w55 { width: 55%; }
-.sk-tag { height: 16px; width: 60px; border-radius: 4px; }
-.sk-btn { height: 24px; width: 72px; border-radius: 5px; }
-html:not(.dark) .sk-top-bar {
-  background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.09) 50%, rgba(0,0,0,0.04) 75%);
+html:not(.dark) .sk-strip {
+  background: linear-gradient(90deg, rgba(0,0,0,0.04) 25%, rgba(0,0,0,0.08) 50%, rgba(0,0,0,0.04) 75%);
   background-size: 800px 100%;
-  animation: skShimmer 1.6s infinite linear;
 }
+.sk-pill { height: 18px; width: 70px; border-radius: 12px; }
+.sk-title-line { height: 14px; width: 85%; border-radius: 3px; }
+.sk-desc-line { height: 11px; width: 60%; border-radius: 3px; }
+.sk-avatar { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; }
+.sk-name { height: 10px; width: 80px; border-radius: 3px; }
 
-/* ── Footer CTA ── */
-.updates-footer { text-align: center; margin-top: 8px; }
-.view-all-btn {
+/* ── Footer CTA (matches wf-btn--ghost) ── */
+.lu-footer { text-align: center; margin-top: 8px; }
+.lu-view-all {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  color: var(--accent);
-  text-decoration: none;
-  font-family: 'Orbitron', sans-serif;
-  font-size: 11px;
-  font-weight: 700;
+  padding: 10px 22px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: 600;
   letter-spacing: 0.8px;
-  padding: 11px 28px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 120, 0,0.3);
-  background: linear-gradient(135deg, rgba(255, 120, 0,0.08) 0%, rgba(255,140,0,0.05) 100%);
-  transition: all 0.22s ease;
-  position: relative;
-  overflow: hidden;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
-.view-all-btn::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(135deg, rgba(255, 120, 0,0.0) 0%, rgba(255,140,0,0.0) 100%);
-  transition: background 0.22s ease;
-}
-.view-all-btn:hover {
-  border-color: rgba(255, 120, 0,0.6);
+.lu-view-all:hover {
+  border-color: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.04);
   transform: translateY(-2px);
-  box-shadow: 0 8px 24px rgba(255, 120, 0,0.18);
 }
-.view-all-btn:hover::before {
-  background: linear-gradient(135deg, rgba(255, 120, 0,0.1) 0%, rgba(255,140,0,0.07) 100%);
+html:not(.dark) .lu-view-all {
+  color: rgba(0, 0, 0, 0.6);
+  border-color: rgba(0, 0, 0, 0.1);
 }
-.arrow-icon { transition: transform 0.2s; }
-.view-all-btn:hover .arrow-icon { transform: translateX(4px); }
+html:not(.dark) .lu-view-all:hover {
+  border-color: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.03);
+}
+.lu-arrow-icon { transition: transform 0.2s; }
+.lu-view-all:hover .lu-arrow-icon { transform: translateX(4px); }
 
 /* ── Responsive ── */
 @media (max-width: 1024px) {
-  .updates-grid { grid-template-columns: repeat(2, 1fr); }
+  .lu-grid { grid-template-columns: repeat(2, 1fr); }
 }
 @media (max-width: 640px) {
-  .updates-grid { grid-template-columns: 1fr; gap: 12px; }
-  .updates-header { flex-direction: column; align-items: flex-start; gap: 14px; }
-  .header-right { flex-direction: row; align-items: center; }
-  .section-title { font-size: 22px; }
-}
-@media (max-width: 480px) {
-  .last-updates { padding: 0 16px; }
-  .section-title { font-size: 20px; }
+  .lu-grid { grid-template-columns: 1fr; gap: 12px; }
+  .lu-title { font-size: 22px; }
 }
 </style>
