@@ -76,62 +76,58 @@ jobs:
       - name: Send Discord notification
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          COMMIT_MSG: ${{ github.event.head_commit.message }}
+          AUTHOR: ${{ steps.userinfo.outputs.display_name }}
+          AVATAR: ${{ steps.userinfo.outputs.avatar_url }}
+          USERNAME: ${{ steps.userinfo.outputs.username }}
+          BRANCH: ${{ github.ref_name }}
+          REPO: ${{ github.repository }}
+          FULL_SHA: ${{ github.sha }}
+          COMMIT_URL: ${{ github.event.head_commit.url }}
+          COMPARE_URL: ${{ github.event.compare }}
+          FILES_COUNT: ${{ steps.changed.outputs.files_count }}
+          FILES_DISPLAY: ${{ steps.changed.outputs.files_display }}
         run: |
-          COMMIT_MSG="${{ github.event.head_commit.message }}"
-          COMMIT_TITLE=$(echo "$COMMIT_MSG" | head -n1 | sed 's/"/\\"/g')
-          AUTHOR="${{ steps.userinfo.outputs.display_name }}"
-          AVATAR="${{ steps.userinfo.outputs.avatar_url }}"
-          USERNAME="${{ steps.userinfo.outputs.username }}"
-          BRANCH="${{ github.ref_name }}"
-          REPO="${{ github.repository }}"
-          SHORT_SHA=$(echo "${{ github.sha }}" | cut -c1-7)
-          COMMIT_URL="${{ github.event.head_commit.url }}"
-          COMPARE_URL="${{ github.event.compare }}"
+          SHORT_SHA="${FULL_SHA:0:7}"
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          FILES_COUNT="${{ steps.changed.outputs.files_count }}"
+          COMMIT_TITLE=$(echo "$COMMIT_MSG" | head -n1)
 
-          # Write files list to temp file for jq --rawfile (safe multiline)
-          cat <<'FILESEOF' > /tmp/files_list.txt
-          ${{ steps.changed.outputs.files_display }}
-          FILESEOF
-          # Trim leading whitespace from heredoc indentation
-          sed -i 's/^          //' /tmp/files_list.txt
+          # Write files to temp so jq can read them safely
+          printf '%s' "$FILES_DISPLAY" > /tmp/files_list.txt
 
-          FILES_BLOCK="\`\`\`\n$(cat /tmp/files_list.txt)\n\`\`\`"
-
+          # Build JSON entirely inside jq (no shell backtick issues)
           jq -n \
-            --arg title "🚀 New Push to \`$REPO\`" \
+            --arg repo "$REPO" \
             --arg url "$COMPARE_URL" \
-            --arg color "16750848" \
             --arg author "$AUTHOR" \
             --arg avatar "$AVATAR" \
-            --arg userurl "https://github.com/$USERNAME" \
+            --arg username "$USERNAME" \
             --arg committitle "$COMMIT_TITLE" \
-            --arg branch "🌿 \`$BRANCH\`" \
-            --arg commit "[\`$SHORT_SHA\`]($COMMIT_URL)" \
-            --arg modified "📦 **$FILES_COUNT** files changed" \
-            --arg files "$FILES_BLOCK" \
-            --arg thumbnail "$AVATAR" \
+            --arg branch "$BRANCH" \
+            --arg shortsha "$SHORT_SHA" \
+            --arg commiturl "$COMMIT_URL" \
+            --arg filescount "$FILES_COUNT" \
+            --rawfile filesraw /tmp/files_list.txt \
             --arg timestamp "$TIMESTAMP" \
             '{
               embeds: [{
-                title: $title,
+                title: ("🚀 New Push to `" + $repo + "`"),
                 url: $url,
-                color: ($color | tonumber),
+                color: 16750848,
                 author: {
                   name: $author,
                   icon_url: $avatar,
-                  url: $userurl
+                  url: ("https://github.com/" + $username)
                 },
                 thumbnail: {
-                  url: $thumbnail
+                  url: $avatar
                 },
                 fields: [
                   {name: "⚡ Commit", value: $committitle, inline: false},
-                  {name: "Branch", value: $branch, inline: true},
-                  {name: "SHA", value: $commit, inline: true},
-                  {name: "Changes", value: $modified, inline: true},
-                  {name: "📁 Changed Files", value: $files, inline: false}
+                  {name: "Branch", value: ("🌿 `" + $branch + "`"), inline: true},
+                  {name: "SHA", value: ("[`" + $shortsha + "`](" + $commiturl + ")"), inline: true},
+                  {name: "Changes", value: ("📦 **" + $filescount + "** files changed"), inline: true},
+                  {name: "📁 Changed Files", value: ("```\n" + $filesraw + "\n```"), inline: false}
                 ],
                 footer: {
                   text: "Wildfire.ro Docs",
@@ -139,4 +135,9 @@ jobs:
                 },
                 timestamp: $timestamp
               }]
-            }' | curl -s -X POST "$DISCORD_WEBHOOK" -H "Content-Type: application/json" -d @-
+            }' > /tmp/payload.json
+
+          # Send it
+          curl -s -X POST "$DISCORD_WEBHOOK" \
+            -H "Content-Type: application/json" \
+            -d @/tmp/payload.json
