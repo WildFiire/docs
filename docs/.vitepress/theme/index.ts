@@ -37,6 +37,7 @@ import DocEnhancements from './components/DocEnhancements.vue'
 import CustomCursor from './components/CustomCursor.vue'
 import CaseHeader from './components/CaseHeader.vue'
 import FluidLightbox from './components/FluidLightbox.vue'
+import SidebarBookmarks from './components/SidebarBookmarks.vue'
 
 // Componente lazy — split in chunks separate, nu blocheaza theme.js
 const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
@@ -106,7 +107,7 @@ export default {
       'doc-footer-before': () => h(FeedbackWidget),
 
       // Navbar
-      'sidebar-nav-before': () => h(NavSearch),
+      'sidebar-nav-before': () => [h(NavSearch), h(SidebarBookmarks)],
       'sidebar-nav-after': () => h(DocUserWidget),
 
       'nav-bar-content-before': () => null,

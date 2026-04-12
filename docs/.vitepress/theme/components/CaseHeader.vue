@@ -37,6 +37,17 @@
             </template>
           </div>
           <div class="right-badges">
+            <button
+              class="bookmark-btn"
+              :class="{ active: isBookmarked }"
+              @click="toggleBookmark"
+              :title="isBookmarked ? 'Remove bookmark' : 'Bookmark this page'"
+            >
+              <svg viewBox="0 0 24 24" width="13" height="13" :fill="isBookmarked ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+              <span class="orbitron-font">{{ isBookmarked ? 'Saved' : 'Bookmark' }}</span>
+            </button>
             <div class="viewers-count">
               <Icon icon="lucide:eye" :size="11" />
               <span class="orbitron-font">{{ viewCount }}</span>
@@ -154,6 +165,41 @@ const SECTION_TAG_COMPONENT = {
 
 const { frontmatter, page } = useData()
 
+const BM_KEY = 'wildfire-bookmarks'
+const isBookmarked = ref(false)
+
+const currentPagePath = computed(() =>
+  page.value.relativePath
+    ? '/' + page.value.relativePath.replace(/\.md$/, '.html').replace(/index\.html$/, '')
+    : ''
+)
+
+function loadBookmarkState() {
+  try {
+    const bms = JSON.parse(localStorage.getItem(BM_KEY) || '[]')
+    isBookmarked.value = bms.some(b => b.path === currentPagePath.value)
+  } catch { isBookmarked.value = false }
+}
+
+function toggleBookmark() {
+  try {
+    let bms = JSON.parse(localStorage.getItem(BM_KEY) || '[]')
+    const idx = bms.findIndex(b => b.path === currentPagePath.value)
+    if (idx >= 0) {
+      bms.splice(idx, 1)
+      isBookmarked.value = false
+    } else {
+      const h1 = document.querySelector('.vp-doc h1')
+      const title = h1?.textContent?.replace(/\s*#\s*$/, '').trim() || props.title || 'Untitled'
+      const parts = currentPagePath.value.split('/').filter(Boolean)
+      const section = parts.length > 1 ? parts[0] : 'docs'
+      bms.unshift({ path: currentPagePath.value, title, section, addedAt: Date.now() })
+      isBookmarked.value = true
+    }
+    localStorage.setItem(BM_KEY, JSON.stringify(bms))
+  } catch (e) { console.warn('Bookmark error', e) }
+}
+
 const effectiveTags = computed(() => {
   const rel = page.value?.relativePath || ''
   const section = rel.split('/')[0]
@@ -224,6 +270,7 @@ const updateViewCount = () => {
 // Initialize view counter
 onMounted(() => {
   updateViewCount()
+  loadBookmarkState()
 })
 
 // Generate floating icons (default or custom)
@@ -478,6 +525,58 @@ html:not(.dark) .breadcrumb-items {
   align-items: center;
   gap: 8px;
   flex-wrap: wrap;
+}
+
+.bookmark-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  backdrop-filter: blur(4px);
+  padding: 4px 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 120, 0, 0.4);
+  background: none;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  color: var(--vp-c-brand-1);
+}
+
+html.dark .bookmark-btn {
+  background: rgba(0, 0, 0, 0.6);
+  border-color: rgba(255, 120, 0, 0.5);
+}
+
+html:not(.dark) .bookmark-btn {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 120, 0, 0.35);
+}
+
+.bookmark-btn span {
+  font-size: 11px;
+  color: var(--vp-c-brand-1);
+  font-weight: 500;
+}
+
+.bookmark-btn:hover {
+  border-color: rgba(255, 120, 0, 0.7);
+  transform: translateY(-1px);
+}
+
+.bookmark-btn.active {
+  border-color: var(--vp-c-brand-1);
+}
+
+html.dark .bookmark-btn.active {
+  background: rgba(255, 120, 0, 0.15);
+}
+
+html:not(.dark) .bookmark-btn.active {
+  background: rgba(255, 120, 0, 0.08);
+}
+
+.bookmark-btn svg {
+  color: var(--vp-c-brand-1);
+  opacity: 0.9;
 }
 
 .viewers-count {

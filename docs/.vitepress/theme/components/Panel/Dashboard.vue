@@ -85,6 +85,52 @@
             </div>
           </div>
           <div class="header-right">
+            <!-- Notification Bell -->
+            <div class="notif-wrapper">
+              <button class="action-btn notif-bell" @click="notifOpen = !notifOpen">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                  <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                </svg>
+                <span v-if="unreadNotifCount" class="notif-badge">{{ unreadNotifCount > 9 ? '9+' : unreadNotifCount }}</span>
+              </button>
+              <Transition name="notif-drop">
+                <div v-if="notifOpen" class="notif-dropdown">
+                  <div class="notif-header">
+                    <span class="notif-title">Notifications</span>
+                    <button v-if="unreadNotifCount" class="notif-mark-read" @click="markAllRead">Mark all read</button>
+                  </div>
+                  <div v-if="!notifications.length" class="notif-empty">
+                    <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                      <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                      <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                    </svg>
+                    <span>No notifications</span>
+                  </div>
+                  <div v-else class="notif-list">
+                    <div
+                      v-for="n in notifications"
+                      :key="n.id"
+                      class="notif-item"
+                      :class="{ unread: !n.read }"
+                      @click="handleNotifClick(n)"
+                    >
+                      <div class="notif-icon" :class="n.type">
+                        <svg v-if="n.type === 'commit'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M1.05 12H7m10.01 0h5.95"/></svg>
+                        <svg v-else-if="n.type === 'pr'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>
+                        <svg v-else-if="n.type === 'issue'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
+                        <svg v-else-if="n.type === 'feedback'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+                        <svg v-else viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+                      </div>
+                      <div class="notif-content">
+                        <span class="notif-text">{{ n.text }}</span>
+                        <span class="notif-time">{{ n.timeAgo }}</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </Transition>
+            </div>
             <button class="action-btn" @click="openNewIssue">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1"/>
@@ -243,7 +289,7 @@
                         :stroke-dasharray="238.76" :stroke-dashoffset="238.76 * (1 - wikiStats.pagesPercent / 100)"
                         stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)"/>
                       <circle cx="50" cy="50" r="27" fill="none" stroke="var(--bg-tertiary)" stroke-width="6"/>
-                      <circle cx="50" cy="50" r="27" fill="none" stroke="#3b82f6" stroke-width="6"
+                      <circle cx="50" cy="50" r="27" fill="none" stroke="var(--accent)" stroke-width="6"
                         :stroke-dasharray="169.6" :stroke-dashoffset="169.6 * (1 - Math.min(wikiStats.sections / 10, 1))"
                         stroke-linecap="round" transform="rotate(-90 50 50)" style="transition:stroke-dashoffset 1.2s cubic-bezier(.4,0,.2,1)"/>
                     </svg>
@@ -935,6 +981,34 @@
       </nav>
 
     </div>
+
+    <!-- Toast Notifications -->
+    <TransitionGroup name="toast-slide" tag="div" class="toast-container">
+      <div
+        v-for="t in toasts"
+        :key="t.id"
+        class="toast-item"
+        :class="'toast-' + t.type"
+        @click="dismissToast(t.id)"
+      >
+        <div class="toast-accent-bar"></div>
+        <div class="toast-icon">
+          <svg v-if="t.type === 'commit'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M1.05 12H7m10.01 0h5.95"/></svg>
+          <svg v-else-if="t.type === 'pr'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>
+          <svg v-else-if="t.type === 'issue'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
+          <svg v-else-if="t.type === 'feedback'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          <svg v-else viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+        </div>
+        <div class="toast-body">
+          <span class="toast-text">{{ t.text }}</span>
+          <span class="toast-time">{{ t.timeAgo }}</span>
+        </div>
+        <button class="toast-close" @click.stop="dismissToast(t.id)">
+          <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+    </TransitionGroup>
+
   </Teleport>
 </template>
 
@@ -963,11 +1037,6 @@
         Icon
       },
       
-      setup() {
-        const { theme } = useData()
-        return { vpTheme: theme }
-      },
-      
       props: {
         repoOwner: {
           type: String,
@@ -981,6 +1050,11 @@
           type: String,
           default: 'main'
         }
+      },
+      
+      setup() {
+        const { theme } = useData()
+        return { vpTheme: theme }
       },
       
       data() {
@@ -1031,7 +1105,11 @@
           recentFeedbacks: [],
           feedbackLoading: false,
           feedbackTotal: 0,
-          
+          notifOpen: false,
+          notifications: [],
+          notifSeenIds: [],
+          toasts: [],
+          toastCounter: 0,
           navItems: [
             { id: 'dashboard', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>', label: 'DASHBOARD' },
             { id: 'files', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>', label: 'FILES' },
@@ -1319,6 +1397,9 @@
           if (!this.weekdayPattern.length) return null
           return this.weekdayPattern.reduce((a, b) => b.avg > a.avg ? b : a)
         },
+        unreadNotifCount() {
+          return this.notifications.filter(n => !n.read).length
+        }
       },
       
       watch: {},
@@ -1331,9 +1412,6 @@
         
         const token = localStorage.getItem('github_token')
         const userStr = localStorage.getItem('github_user')
-        
-        console.log('Dashboard mounted - token:', token ? 'exista' : 'nu exista')
-        console.log('Dashboard mounted - user:', userStr)
         
         if (token && userStr) {
           this.githubToken = token
@@ -1363,7 +1441,6 @@
   
   methods: {
   handleLoginSuccess(data) {
-    console.log('Login success!', data)
     this.githubToken = data.token
     this.isAuthenticated = true
     this.userLogin = data.user.login
@@ -1440,7 +1517,6 @@
     
     async refreshAllData() {
       if (!this.githubToken) {
-        console.log('No token, skipping refresh')
         return
       }
       
@@ -1449,6 +1525,7 @@
         this.fetchAllGitHubData(),
         this.loadRecentFeedbacks()
       ])
+      this.buildNotifications()
       this.isSyncing = false
     },
     
@@ -1494,8 +1571,6 @@
       }
       
       try {
-        console.log('Fetching GitHub data...')
-        
         const repoRes = await fetch(`${baseUrl}?_=${Date.now()}`, { headers })
         if (repoRes.ok) {
           const repoData = await repoRes.json()
@@ -1675,8 +1750,6 @@
 
         this.lastUpdateTime = new Date().toLocaleTimeString()
         
-        console.log('GitHub data fetched successfully')
-        
       } catch (error) {
         console.error('Error fetching GitHub data:', error)
       }
@@ -1780,6 +1853,147 @@
     openProfile(login) {
       this.currentView = 'contributors'
     },
+    getNotifKey() {
+      return `wildfire-notif-seen-${this.userLogin || 'anon'}`
+    },
+
+    buildNotifications() {
+      const key = this.getNotifKey()
+      try {
+        this.notifSeenIds = JSON.parse(localStorage.getItem(key) || '[]')
+      } catch { this.notifSeenIds = [] }
+
+      const items = []
+
+      if (this.recentCommits && this.recentCommits.length) {
+        this.recentCommits.slice(0, 5).forEach(c => {
+          const date = new Date(c.date)
+          const id = 'commit-' + (c.id || '')
+          items.push({
+            id, type: 'commit',
+            text: `${c.author || 'Someone'} committed: ${this.truncate(c.message || '', 50)}`,
+            timeAgo: this.notifTimeAgo(date), url: c.url || '',
+            read: this.notifSeenIds.includes(id), timestamp: date.getTime()
+          })
+        })
+      }
+
+      if (this.recentPRs && this.recentPRs.length) {
+        this.recentPRs.slice(0, 3).forEach(pr => {
+          const date = new Date(pr.date)
+          const id = 'pr-' + (pr.number || pr.id || '')
+          items.push({
+            id, type: 'pr',
+            text: `PR #${pr.number}: ${this.truncate(pr.title || '', 50)}`,
+            timeAgo: this.notifTimeAgo(date), url: pr.url || '',
+            read: this.notifSeenIds.includes(id), timestamp: date.getTime()
+          })
+        })
+      }
+
+      if (this.recentIssues && this.recentIssues.length) {
+        this.recentIssues.slice(0, 3).forEach(issue => {
+          const date = new Date(issue.date)
+          const id = 'issue-' + (issue.number || issue.id || '')
+          items.push({
+            id, type: 'issue',
+            text: `Issue #${issue.number}: ${this.truncate(issue.title || '', 50)}`,
+            timeAgo: this.notifTimeAgo(date), url: issue.url || '',
+            read: this.notifSeenIds.includes(id), timestamp: date.getTime()
+          })
+        })
+      }
+
+      if (this.recentFeedbacks && this.recentFeedbacks.length) {
+        this.recentFeedbacks.slice(0, 4).forEach(fb => {
+          const date = new Date(fb.createdAt)
+          const id = 'feedback-' + (fb.id || '')
+          const emoji = fb.sentiment === 'good' ? '👍' : '👎'
+          items.push({
+            id, type: 'feedback',
+            text: `${emoji} Feedback on ${this.truncate(fb.pageTitle || 'page', 30)}${fb.stars ? ' (' + fb.stars + '★)' : ''}`,
+            timeAgo: this.notifTimeAgo(date), url: '',
+            read: this.notifSeenIds.includes(id), timestamp: date.getTime()
+          })
+        })
+      }
+
+      items.sort((a, b) => b.timestamp - a.timestamp)
+      this.notifications = items.slice(0, 15)
+
+      const brandNew = this.notifications.filter(n => !n.read && !this.notifSeenIds.includes(n.id))
+      if (brandNew.length) {
+        this.playNotifSound()
+        brandNew.forEach((n, i) => {
+          setTimeout(() => this.showToast(n), i * 400)
+        })
+        brandNew.forEach(n => this.notifSeenIds.push(n.id))
+        localStorage.setItem(key, JSON.stringify(this.notifSeenIds))
+      }
+    },
+
+    markAllRead() {
+      const key = this.getNotifKey()
+      this.notifications.forEach(n => { n.read = true })
+      this.notifSeenIds = this.notifications.map(n => n.id)
+      localStorage.setItem(key, JSON.stringify(this.notifSeenIds))
+      this.toasts = []
+    },
+
+    handleNotifClick(n) {
+      const key = this.getNotifKey()
+      n.read = true
+      if (!this.notifSeenIds.includes(n.id)) {
+        this.notifSeenIds.push(n.id)
+        localStorage.setItem(key, JSON.stringify(this.notifSeenIds))
+      }
+      if (n.url) window.open(n.url, '_blank')
+      this.notifOpen = false
+    },
+
+    showToast(notif) {
+      const tid = ++this.toastCounter
+      this.toasts.push({ id: tid, type: notif.type, text: notif.text, timeAgo: notif.timeAgo })
+      if (this.toasts.length > 5) this.toasts.shift()
+      setTimeout(() => this.dismissToast(tid), 6000)
+    },
+
+    dismissToast(id) {
+      this.toasts = this.toasts.filter(t => t.id !== id)
+    },
+
+    playNotifSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)()
+        const playTone = (freq, start, dur) => {
+          const osc = ctx.createOscillator()
+          const gain = ctx.createGain()
+          osc.type = 'sine'
+          osc.frequency.value = freq
+          gain.gain.setValueAtTime(0.08, ctx.currentTime + start)
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur)
+          osc.connect(gain)
+          gain.connect(ctx.destination)
+          osc.start(ctx.currentTime + start)
+          osc.stop(ctx.currentTime + start + dur)
+        }
+        playTone(880, 0, 0.12)
+        playTone(1175, 0.1, 0.15)
+        setTimeout(() => ctx.close(), 500)
+      } catch {}
+    },
+
+    notifTimeAgo(date) {
+      const d = new Date(date)
+      const now2 = new Date()
+      const diff = Math.floor((now2 - d) / 1000)
+      if (diff < 60) return 'just now'
+      if (diff < 3600) return Math.floor(diff / 60) + 'm ago'
+      if (diff < 86400) return Math.floor(diff / 3600) + 'h ago'
+      if (diff < 604800) return Math.floor(diff / 86400) + 'd ago'
+      return d.toLocaleDateString()
+    },
+
     async selectCalCell(cell) {
       if (this.selectedCalCell && this.selectedCalCell.dateStr === cell.dateStr) {
         this.selectedCalCell = null
@@ -2347,6 +2561,153 @@
   background: var(--accent-hover);
   transform: translateY(-2px);
 }
+
+/* ===== NOTIFICATION BELL ===== */
+.notif-wrapper { position: relative; }
+.notif-bell { position: relative; border-color: var(--accent) !important; color: var(--accent) !important; }
+.notif-bell:hover { background: var(--accent-glow); transform: translateY(-2px) scale(1.05); }
+.notif-bell svg { animation: bellSwing 2s ease-in-out infinite; transform-origin: top center; }
+@keyframes bellSwing {
+  0%, 100% { transform: rotate(0); }
+  10% { transform: rotate(12deg); }
+  20% { transform: rotate(-10deg); }
+  30% { transform: rotate(6deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(0); }
+}
+.notif-badge { position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px; background: #e74c3c; color: #fff; font-size: 9px; font-weight: 700; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 4px; line-height: 1; pointer-events: none; animation: badgePulse 2s ease infinite; }
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.notif-dropdown { position: absolute; top: calc(100% + 10px); right: 0; width: 340px; max-height: 400px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px; z-index: 999; box-shadow: 0 12px 40px var(--shadow-color); display: flex; flex-direction: column; overflow: hidden; }
+.notif-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--border-color); }
+.notif-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-primary); }
+.notif-mark-read { background: none; border: none; color: var(--accent); font-size: 10px; font-weight: 600; cursor: pointer; padding: 2px 6px; border-radius: 6px; transition: background 0.15s ease; }
+.notif-mark-read:hover { background: var(--accent-glow); }
+.notif-empty { padding: 32px 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-dim); font-size: 12px; }
+.notif-list { flex: 1; overflow-y: auto; max-height: 320px; }
+.notif-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 16px; cursor: pointer; transition: background 0.15s ease; border-bottom: 1px solid var(--border-color); }
+.notif-item:last-child { border-bottom: none; }
+.notif-item:hover { background: var(--bg-hover); }
+.notif-item.unread { background: rgba(255, 120, 0, 0.04); }
+.notif-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.notif-icon.commit { background: rgba(46, 204, 113, 0.12); color: var(--success); }
+.notif-icon.pr { background: rgba(52, 152, 219, 0.12); color: var(--info); }
+.notif-icon.issue { background: rgba(255, 120, 0, 0.12); color: var(--accent); }
+.notif-icon.feedback { background: rgba(155, 89, 182, 0.12); color: #9b59b6; }
+.notif-content { flex: 1; min-width: 0; }
+.notif-text { display: block; font-size: 11.5px; color: var(--text-secondary); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.notif-item.unread .notif-text { color: var(--text-primary); font-weight: 500; }
+.notif-time { display: block; font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+.notif-drop-enter-active, .notif-drop-leave-active { transition: opacity 0.2s ease, transform 0.2s ease; }
+.notif-drop-enter-from, .notif-drop-leave-to { opacity: 0; transform: translateY(-6px) scale(0.97); }
+
+/* ===== TOAST NOTIFICATIONS ===== */
+.toast-container {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 10001;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+  max-width: 380px;
+}
+.toast-item {
+  pointer-events: auto;
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 14px 16px;
+  background: rgba(15, 15, 18, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 120, 0, 0.18);
+  border-radius: 14px;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 120, 0, 0.06) inset;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s ease, opacity 0.2s ease;
+}
+.toast-item:hover {
+  transform: translateX(-4px);
+  border-color: rgba(255, 120, 0, 0.35);
+}
+.toast-accent-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 3px;
+  height: 100%;
+  border-radius: 3px 0 0 3px;
+}
+.toast-commit .toast-accent-bar { background: linear-gradient(180deg, #2ecc71, #27ae60); }
+.toast-pr .toast-accent-bar { background: linear-gradient(180deg, #3498db, #2980b9); }
+.toast-issue .toast-accent-bar { background: linear-gradient(180deg, #ff7800, #e06800); }
+.toast-feedback .toast-accent-bar { background: linear-gradient(180deg, #9b59b6, #8e44ad); }
+.toast-icon {
+  width: 32px;
+  height: 32px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+.toast-commit .toast-icon { background: rgba(46, 204, 113, 0.15); color: #2ecc71; }
+.toast-pr .toast-icon { background: rgba(52, 152, 219, 0.15); color: #3498db; }
+.toast-issue .toast-icon { background: rgba(255, 120, 0, 0.15); color: #ff7800; }
+.toast-feedback .toast-icon { background: rgba(155, 89, 182, 0.15); color: #9b59b6; }
+.toast-body { flex: 1; min-width: 0; }
+.toast-text {
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  color: #fff;
+  line-height: 1.4;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.toast-time {
+  display: block;
+  font-size: 10px;
+  color: rgba(255, 255, 255, 0.35);
+  margin-top: 3px;
+}
+.toast-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.25);
+  padding: 4px;
+  cursor: pointer;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: color 0.15s, background 0.15s;
+}
+.toast-close:hover {
+  color: #ff7800;
+  background: rgba(255, 120, 0, 0.1);
+}
+.toast-slide-enter-active { transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1); }
+.toast-slide-leave-active { transition: all 0.25s ease-in; }
+.toast-slide-enter-from { opacity: 0; transform: translateX(100px) scale(0.9); }
+.toast-slide-leave-to { opacity: 0; transform: translateX(60px) scale(0.95); }
+.toast-slide-move { transition: transform 0.3s ease; }
+.light-theme .toast-item {
+  background: rgba(255, 255, 255, 0.95);
+  border-color: rgba(255, 120, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 0 0 1px rgba(255, 120, 0, 0.06) inset;
+}
+.light-theme .toast-text { color: #333; }
+.light-theme .toast-time { color: rgba(0, 0, 0, 0.4); }
+.light-theme .toast-close { color: rgba(0, 0, 0, 0.3); }
 
 .spin {
   animation: spin 1s linear infinite;

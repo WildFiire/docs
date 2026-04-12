@@ -103,6 +103,52 @@
           </div>
         </div>
         <div class="header-right">
+          <!-- Notification Bell -->
+          <div class="notif-wrapper">
+            <button class="action-btn notif-bell" @click="notifOpen = !notifOpen">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+              </svg>
+              <span v-if="unreadNotifCount" class="notif-badge">{{ unreadNotifCount > 9 ? '9+' : unreadNotifCount }}</span>
+            </button>
+            <Transition name="notif-drop">
+              <div v-if="notifOpen" class="notif-dropdown">
+                <div class="notif-header">
+                  <span class="notif-title">Notifications</span>
+                  <button v-if="unreadNotifCount" class="notif-mark-read" @click="markAllRead">Mark all read</button>
+                </div>
+                <div v-if="!notifications.length" class="notif-empty">
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.3">
+                    <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+                    <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+                  </svg>
+                  <span>No notifications</span>
+                </div>
+                <div v-else class="notif-list">
+                  <div
+                    v-for="n in notifications"
+                    :key="n.id"
+                    class="notif-item"
+                    :class="{ unread: !n.read }"
+                    @click="handleNotifClick(n)"
+                  >
+                    <div class="notif-icon" :class="n.type">
+                      <svg v-if="n.type === 'commit'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M1.05 12H7m10.01 0h5.95"/></svg>
+                      <svg v-else-if="n.type === 'pr'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>
+                      <svg v-else-if="n.type === 'issue'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
+                      <svg v-else viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+                    </div>
+                    <div class="notif-content">
+                      <span class="notif-text">{{ n.text }}</span>
+                      <span class="notif-time">{{ n.timeAgo }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </Transition>
+          </div>
+
           <button class="action-btn" @click="openNewIssue">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
               <circle cx="12" cy="12" r="10"/><path d="M12 8v8"/><path d="M8 12h8"/>
@@ -878,6 +924,46 @@
           </div>
         </div>
       </div>
+
+      <!-- BOOKMARKS VIEW -->
+      <div v-else-if="currentView === 'bookmarks'" class="bookmarks-view">
+        <div class="bkm-header">
+          <div class="bkm-title">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--accent)" stroke-width="2">
+              <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+            </svg>
+            <h2>MY BOOKMARKS</h2>
+          </div>
+          <span class="bkm-count">{{ panelBookmarks.length }} saved</span>
+        </div>
+
+        <div v-if="!panelBookmarks.length" class="bkm-empty">
+          <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.2">
+            <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+          </svg>
+          <h3>No bookmarks yet</h3>
+          <p>Click the bookmark icon on any documentation page to save it to your reading list.</p>
+        </div>
+
+        <div v-else class="bkm-grid">
+          <div v-for="bm in panelBookmarks" :key="bm.path" class="bkm-card" @click="openBookmark(bm.path)">
+            <div class="bkm-card-icon">
+              <svg viewBox="0 0 24 24" width="20" height="20" fill="var(--accent)" stroke="var(--accent)" stroke-width="2">
+                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
+              </svg>
+            </div>
+            <div class="bkm-card-content">
+              <span class="bkm-card-title">{{ bm.title }}</span>
+              <span class="bkm-card-section">{{ bm.section || bm.path }}</span>
+            </div>
+            <button class="bkm-card-remove" @click.stop="removePanelBookmark(bm.path)" title="Remove bookmark">
+              <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2">
+                <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
     </main>
 
     <!-- Toast Notifications -->
@@ -933,6 +1019,7 @@ export default {
           { id: 'contributors', label: 'CONTRIBUTORS', icon: 'contributors', badge: 'LIVE' },
           { id: 'audit', label: 'AUDIT', icon: 'audit', badge: 'LIVE' },
           { id: 'analytics', label: 'ANALYTICS', icon: 'analytics', badge: null },
+          { id: 'bookmarks', label: 'MY BOOKMARKS', icon: 'bookmarks', badge: null },
           { id: 'home', label: 'HOME', icon: 'home', badge: null, external: '/' }
         ],
         defaultView: 'dashboard',
@@ -1135,7 +1222,12 @@ export default {
       charts: {
         activity: null,
         weekly: null
-      }
+      },
+      
+      notifOpen: false,
+      notifications: [],
+      notifSeenIds: [],
+      panelBookmarks: []
     }
   },
   
@@ -1224,6 +1316,10 @@ export default {
     
     paginatedContributors() {
       return this.allContributorsData.slice(0, this.contributorsConfig.itemsPerPage)
+    },
+    
+    unreadNotifCount() {
+      return this.notifications.filter(n => !n.read).length
     }
   },
 
@@ -1241,6 +1337,9 @@ export default {
       }
       if (newVal === 'analytics') {
         setTimeout(() => this.initWeeklyChart(), 100)
+      }
+      if (newVal === 'bookmarks') {
+        this.loadPanelBookmarks()
       }
     },
     
@@ -1276,6 +1375,7 @@ export default {
     window.addEventListener('resize', this.handleResize)
     window.addEventListener('scroll', this.handleScroll)
     
+    this.loadPanelBookmarks()
     await this.refreshAllData()
     
     if (this.autoRefreshConfig.enabled) {
@@ -1300,6 +1400,7 @@ export default {
         contributors: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>',
         audit: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>',
         analytics: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/><circle cx="12" cy="16" r="5"/><path d="M12 11v5"/></svg>',
+        bookmarks: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/></svg>',
         home: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 10L12 3L21 10V20C21 20.6 20.6 21 20 21H4C3.4 21 3 20.6 3 20V10Z"/><path d="M9 15H15V21H9V15Z"/></svg>'
       }
       return icons[iconName] || icons.dashboard
@@ -2116,6 +2217,7 @@ export default {
       
       this.isSyncing = true
       await this.fetchAllGitHubData(token)
+      this.buildNotifications()
       this.isSyncing = false
     },
 
@@ -2213,6 +2315,146 @@ export default {
     removeToast(id) {
       const i = this.toasts.findIndex(t => t.id === id)
       if (i !== -1) this.toasts.splice(i, 1)
+    },
+    
+    buildNotifications() {
+      const NOTIF_SEEN_KEY = 'wildfire-panel-notif-seen'
+      try {
+        this.notifSeenIds = JSON.parse(localStorage.getItem(NOTIF_SEEN_KEY) || '[]')
+      } catch { this.notifSeenIds = [] }
+
+      const items = []
+      const now = Date.now()
+
+      // Recent commits (last 24h)
+      if (this.recentCommits && this.recentCommits.length) {
+        this.recentCommits.slice(0, 5).forEach(c => {
+          const date = new Date(c.date || c.commit?.author?.date)
+          if (now - date.getTime() < 86400000) {
+            const id = 'commit-' + (c.sha || c.url || '').slice(-8)
+            items.push({
+              id,
+              type: 'commit',
+              text: `${c.author || c.login || 'Someone'} committed: ${this.truncate(c.message || '', 50)}`,
+              timeAgo: this.notifTimeAgo(date),
+              url: c.url || c.html_url || '',
+              read: this.notifSeenIds.includes(id),
+              timestamp: date.getTime()
+            })
+          }
+        })
+      }
+
+      // Recent PRs
+      if (this.recentPRs && this.recentPRs.length) {
+        this.recentPRs.slice(0, 3).forEach(pr => {
+          const date = new Date(pr.created_at || pr.date)
+          const id = 'pr-' + (pr.number || pr.id || '')
+          items.push({
+            id,
+            type: 'pr',
+            text: `PR #${pr.number}: ${this.truncate(pr.title || '', 50)}`,
+            timeAgo: this.notifTimeAgo(date),
+            url: pr.html_url || pr.url || '',
+            read: this.notifSeenIds.includes(id),
+            timestamp: date.getTime()
+          })
+        })
+      }
+
+      // Recent issues
+      if (this.recentIssues && this.recentIssues.length) {
+        this.recentIssues.slice(0, 3).forEach(issue => {
+          const date = new Date(issue.created_at || issue.date)
+          const id = 'issue-' + (issue.number || issue.id || '')
+          items.push({
+            id,
+            type: 'issue',
+            text: `Issue #${issue.number}: ${this.truncate(issue.title || '', 50)}`,
+            timeAgo: this.notifTimeAgo(date),
+            url: issue.html_url || issue.url || '',
+            read: this.notifSeenIds.includes(id),
+            timestamp: date.getTime()
+          })
+        })
+      }
+
+      items.sort((a, b) => b.timestamp - a.timestamp)
+      const prev = this.notifications.filter(n => !n.read).length
+      this.notifications = items.slice(0, 15)
+      const curr = this.notifications.filter(n => !n.read).length
+      if (curr > prev) this.playNotifSound()
+    },
+
+    playNotifSound() {
+      try {
+        const ctx = new (window.AudioContext || window.webkitAudioContext)()
+        const playTone = (freq, start, dur) => {
+          const osc = ctx.createOscillator()
+          const gain = ctx.createGain()
+          osc.type = 'sine'
+          osc.frequency.value = freq
+          gain.gain.setValueAtTime(0.08, ctx.currentTime + start)
+          gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + start + dur)
+          osc.connect(gain)
+          gain.connect(ctx.destination)
+          osc.start(ctx.currentTime + start)
+          osc.stop(ctx.currentTime + start + dur)
+        }
+        playTone(880, 0, 0.12)
+        playTone(1175, 0.1, 0.15)
+        setTimeout(() => ctx.close(), 500)
+      } catch {}
+    },
+
+    markAllRead() {
+      const NOTIF_SEEN_KEY = 'wildfire-panel-notif-seen'
+      this.notifications.forEach(n => { n.read = true })
+      this.notifSeenIds = this.notifications.map(n => n.id)
+      localStorage.setItem(NOTIF_SEEN_KEY, JSON.stringify(this.notifSeenIds))
+    },
+
+    handleNotifClick(n) {
+      n.read = true
+      if (!this.notifSeenIds.includes(n.id)) {
+        this.notifSeenIds.push(n.id)
+        localStorage.setItem('wildfire-panel-notif-seen', JSON.stringify(this.notifSeenIds))
+      }
+      if (n.url) window.open(n.url, '_blank')
+      this.notifOpen = false
+    },
+
+    notifTimeAgo(date) {
+      const d = new Date(date)
+      const now2 = new Date()
+      const diff = Math.floor((now2 - d) / 1000)
+      if (diff < 60) return 'just now'
+      if (diff < 3600) return Math.floor(diff / 60) + 'm ago'
+      if (diff < 86400) return Math.floor(diff / 3600) + 'h ago'
+      if (diff < 604800) return Math.floor(diff / 86400) + 'd ago'
+      return d.toLocaleDateString()
+    },
+
+    loadPanelBookmarks() {
+      try {
+        this.panelBookmarks = JSON.parse(localStorage.getItem('wildfire-bookmarks') || '[]')
+      } catch { this.panelBookmarks = [] }
+    },
+
+    removePanelBookmark(path) {
+      try {
+        let bms = JSON.parse(localStorage.getItem('wildfire-bookmarks') || '[]')
+        bms = bms.filter(b => b.path !== path)
+        localStorage.setItem('wildfire-bookmarks', JSON.stringify(bms))
+        this.panelBookmarks = bms
+        this.showToast('Bookmark removed', 'success')
+      } catch (e) {
+        console.warn('Error removing bookmark', e)
+      }
+    },
+
+    openBookmark(path) {
+      window.location.href = path
     }
   }
 }
@@ -2718,7 +2960,7 @@ export default {
 
 .action-btn.primary { 
   background: var(--accent); 
-  color: #fff; 
+  color: #fff;
   border-color: var(--accent);
   box-shadow: 0 4px 12px var(--accent-glow);
 }
@@ -2729,40 +2971,50 @@ export default {
   box-shadow: 0 6px 16px var(--accent-glow);
 }
 
+/* ===== NOTIFICATION BELL ===== */
+.notif-wrapper { position: relative; }
+.notif-bell { position: relative; border-color: var(--accent) !important; color: var(--accent) !important; }
+.notif-bell:hover { background: var(--accent-glow); transform: translateY(-2px) scale(1.05); }
+.notif-bell svg { animation: bellSwing 2s ease-in-out infinite; transform-origin: top center; }
+@keyframes bellSwing {
+  0%, 100% { transform: rotate(0); }
+  10% { transform: rotate(12deg); }
+  20% { transform: rotate(-10deg); }
+  30% { transform: rotate(6deg); }
+  40% { transform: rotate(-4deg); }
+  50% { transform: rotate(0); }
+}
+.notif-badge { position: absolute; top: -4px; right: -4px; min-width: 16px; height: 16px; background: var(--danger); color: #fff; font-size: 9px; font-weight: 700; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 4px; line-height: 1; pointer-events: none; animation: badgePulse 2s ease infinite; }
+@keyframes badgePulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+}
+.notif-dropdown { position: absolute; top: calc(100% + 10px); right: 0; width: 340px; max-height: 400px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px; z-index: 999; box-shadow: 0 12px 40px var(--shadow-color); display: flex; flex-direction: column; overflow: hidden; }
+.notif-header { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; border-bottom: 1px solid var(--border-color); }
+.notif-title { font-size: 12px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: var(--text-primary); }
+.notif-mark-read { background: none; border: none; color: var(--accent); font-size: 10px; font-weight: 600; cursor: pointer; padding: 2px 6px; border-radius: 6px; transition: background 0.15s ease; }
+.notif-mark-read:hover { background: var(--accent-glow); }
+.notif-empty { padding: 32px 16px; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 8px; color: var(--text-dim); font-size: 12px; }
+.notif-list { flex: 1; overflow-y: auto; max-height: 320px; }
+.notif-item { display: flex; align-items: flex-start; gap: 10px; padding: 10px 16px; cursor: pointer; transition: background 0.15s ease; border-bottom: 1px solid var(--border-color); }
+.notif-item:last-child { border-bottom: none; }
+.notif-item:hover { background: var(--bg-hover); }
+.notif-item.unread { background: rgba(255, 120, 0, 0.04); }
+.notif-icon { width: 28px; height: 28px; border-radius: 8px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px; }
+.notif-icon.commit { background: rgba(46, 204, 113, 0.12); color: var(--success); }
+.notif-icon.pr { background: rgba(52, 152, 219, 0.12); color: var(--info); }
+.notif-icon.issue { background: rgba(255, 120, 0, 0.12); color: var(--accent); }
+.notif-content { flex: 1; min-width: 0; }
+.notif-text { display: block; font-size: 11.5px; color: var(--text-secondary); line-height: 1.4; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.notif-item.unread .notif-text { color: var(--text-primary); font-weight: 500; }
+.notif-time { display: block; font-size: 10px; color: var(--text-dim); margin-top: 2px; }
+.notif-drop-enter-active, .notif-drop-leave-active { transition: opacity 0.2s ease, transform 0.2s ease; }
+.notif-drop-enter-from, .notif-drop-leave-to { opacity: 0; transform: translateY(-6px) scale(0.97); }
+
 /* ===== LOADING STATE ===== */
-.loading-state {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  min-height: 400px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
-  border-radius: 24px;
-  padding: 48px;
-}
-
-.loader-ring {
-  display: inline-block;
-  position: relative;
-  width: 64px;
-  height: 64px;
-  margin-bottom: 24px;
-}
-
-.loader-ring div {
-  box-sizing: border-box;
-  display: block;
-  position: absolute;
-  width: 51px;
-  height: 51px;
-  margin: 6px;
-  border: 4px solid var(--accent);
-  border-radius: 50%;
-  animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
-  border-color: var(--accent) transparent transparent transparent;
-}
-
+.loading-state { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 400px; background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 24px; padding: 48px; }
+.loader-ring { display: inline-block; position: relative; width: 64px; height: 64px; margin-bottom: 24px; }
+.loader-ring div { box-sizing: border-box; display: block; position: absolute; width: 51px; height: 51px; margin: 6px; border: 4px solid var(--accent); border-radius: 50%; animation: loader 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite; border-color: var(--accent) transparent transparent transparent; }
 .loader-ring div:nth-child(1) { animation-delay: -0.45s; }
 .loader-ring div:nth-child(2) { animation-delay: -0.3s; }
 .loader-ring div:nth-child(3) { animation-delay: -0.15s; }
@@ -4809,5 +5061,161 @@ svg {
   0% { transform: scale(1); }
   50% { transform: scale(1.1); }
   100% { transform: scale(1); }
+}
+
+/* ===== BOOKMARKS VIEW ===== */
+.bookmarks-view {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeIn 0.5s ease;
+  width: 100%;
+}
+
+.bkm-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+}
+
+.bkm-title {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.bkm-title h2 {
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text-primary);
+  margin: 0;
+  letter-spacing: 1px;
+}
+
+.bkm-count {
+  font-size: 11px;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  padding: 4px 12px;
+  border-radius: 20px;
+  border: 1px solid var(--border-color);
+}
+
+.bkm-empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 48px;
+  text-align: center;
+  gap: 12px;
+}
+
+.bkm-empty h3 {
+  font-size: 16px;
+  color: var(--text-primary);
+  font-weight: 500;
+  margin: 0;
+}
+
+.bkm-empty p {
+  font-size: 12px;
+  color: var(--text-muted);
+  max-width: 300px;
+  line-height: 1.5;
+  margin: 0;
+}
+
+.bkm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.bkm-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  position: relative;
+}
+
+.bkm-card:hover {
+  border-color: var(--accent);
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px var(--shadow-color);
+}
+
+.bkm-card-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: rgba(255, 120, 0, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: transform 0.2s ease;
+}
+
+.bkm-card:hover .bkm-card-icon {
+  transform: scale(1.1);
+}
+
+.bkm-card-content {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.bkm-card-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-primary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bkm-card-section {
+  font-size: 10px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.bkm-card-remove {
+  background: none;
+  border: none;
+  color: var(--text-dim);
+  padding: 6px;
+  border-radius: 8px;
+  cursor: pointer;
+  opacity: 0;
+  transition: all 0.15s ease;
+  flex-shrink: 0;
+}
+
+.bkm-card:hover .bkm-card-remove {
+  opacity: 1;
+}
+
+.bkm-card-remove:hover {
+  color: var(--danger);
+  background: rgba(231, 76, 60, 0.1);
 }
 </style>

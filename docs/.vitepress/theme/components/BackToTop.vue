@@ -14,17 +14,20 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, computed } from 'vue'
+import { useRoute } from 'vitepress'
 
+const route = useRoute()
 const progress = ref(0)
 const visible = ref(false)
+const isPanel = computed(() => route.path.startsWith('/panel'))
 
 function update() {
   const el = document.documentElement
   const scrolled = el.scrollTop || window.scrollY
   const total = el.scrollHeight - el.clientHeight
   progress.value = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0
-  visible.value = scrolled > 300
+  visible.value = scrolled > 300 && !isPanel.value
 }
 
 function scrollToTop() {
@@ -84,5 +87,11 @@ onUnmounted(() => {
 .back-top-leave-to {
   opacity: 0;
   transform: translateY(10px) scale(0.85);
+}
+
+@media (max-width: 768px) {
+  .back-to-top {
+    display: none !important;
+  }
 }
 </style>
