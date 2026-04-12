@@ -37,7 +37,7 @@
           :style="{ animationDelay: `${i * 40}ms` }"
         >
           <div class="ctr-avatar-ring">
-            <img :src="c.avatar_url" :alt="c.login" class="ctr-avatar-img" loading="lazy" />
+            <img :src="c.avatar_url" :alt="c.login" class="ctr-avatar-img" loading="lazy" width="32" height="32" />
           </div>
           <span class="ctr-name">{{ c.login }}</span>
         </a>

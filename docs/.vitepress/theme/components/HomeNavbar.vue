@@ -6,7 +6,7 @@
     <div class="nav-inner">
       <!-- LOGO -->
       <a href="/" class="nav-logo">
-        <img src="/icons/wildfire.webp" alt="Wildfire" />
+        <img src="/icons/wildfire.webp" alt="Wildfire" width="24" height="24" />
         <span class="logo-text">
           <span class="wild orbitron-font">Wild</span>
           <span class="fire orbitron-font">fire.Ro</span>
@@ -48,7 +48,7 @@
         <!-- USER WIDGET -->
         <div class="hn-user-wrap" ref="userWrapRef">
           <button class="hn-user-trigger" @click="userOpen = !userOpen" :title="navUser ? (navUser.name || navUser.login) : 'Panel'">
-            <img v-if="navUser" :src="navUser.avatar_url" class="hn-user-avatar" :alt="navUser.login" />
+            <img v-if="navUser" :src="navUser.avatar_url" class="hn-user-avatar" :alt="navUser.login" width="28" height="28" />
             <span v-else class="hn-user-fallback">
               <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="16" height="16"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
             </span>
@@ -58,7 +58,7 @@
             <div v-if="userOpen" class="hn-user-dropdown">
               <template v-if="navUser">
                 <div class="hn-dp-profile">
-                  <img :src="navUser.avatar_url" class="hn-dp-avatar" :alt="navUser.login" />
+                  <img :src="navUser.avatar_url" class="hn-dp-avatar" :alt="navUser.login" width="34" height="34" />
                   <div class="hn-dp-info">
                     <span class="hn-dp-name">{{ navUser.name || navUser.login }}</span>
                     <span class="hn-dp-login">@{{ navUser.login }}</span>
@@ -155,7 +155,7 @@
     <div class="mbn-item mbn-user-wrap" ref="mobileUserWrapRef">
       <button class="mbn-user-btn" @click="mobileUserOpen = !mobileUserOpen">
         <span class="mbn-icon mbn-avatar-wrap">
-          <img v-if="navUser" :src="navUser.avatar_url" class="mbn-avatar" :alt="navUser.login" />
+          <img v-if="navUser" :src="navUser.avatar_url" class="mbn-avatar" :alt="navUser.login" width="24" height="24" />
           <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" width="20" height="20"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
           <span v-if="navUser" class="mbn-online"></span>
         </span>
@@ -165,7 +165,7 @@
         <div v-if="mobileUserOpen" class="hn-user-dropdown mobile-dropdown">
           <template v-if="navUser">
             <div class="hn-dp-profile">
-              <img :src="navUser.avatar_url" class="hn-dp-avatar" :alt="navUser.login" />
+              <img :src="navUser.avatar_url" class="hn-dp-avatar" :alt="navUser.login" width="34" height="34" />
               <div class="hn-dp-info">
                 <span class="hn-dp-name">{{ navUser.name || navUser.login }}</span>
                 <span class="hn-dp-login">@{{ navUser.login }}</span>

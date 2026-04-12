@@ -222,9 +222,9 @@ function fireflyStyle(n) {
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   color: #ffffff;
   transition: all 0.3s ease;
-  cursor: none;
+  /* cursor: none; — TEMPORARILY DISABLED */
 }
-.org-page *, .org-page a, .org-page button { cursor: none !important; }
+/* .org-page *, .org-page a, .org-page button { cursor: none !important; } */
 @media (max-width: 1024px) { .org-page, .org-page *, .org-page a, .org-page button { cursor: auto !important; } }
 
 :deep(.home-navbar) {

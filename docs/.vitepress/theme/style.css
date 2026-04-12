@@ -13,9 +13,10 @@ html {
 html, body {
   overflow-x: hidden;
   max-width: 100%;
-  cursor: none;
+  /* cursor: none; — TEMPORARILY DISABLED */
 }
 
+/* TEMPORARILY DISABLED
 *, a, button, input, select, textarea, [role="button"] {
   cursor: none !important;
 }
@@ -26,6 +27,7 @@ html, body {
 .backdrop * {
   cursor: none !important;
 }
+*/
 
 @media (max-width: 1024px) {
   html, body, *, a, button, input, select, textarea, [role="button"] {

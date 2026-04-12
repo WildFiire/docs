@@ -5,7 +5,7 @@
     <!-- Logged in: full row -->
     <button v-if="user" class="duw-row" @click="toggle">
       <div class="duw-avatar-wrap">
-        <img :src="user.avatar_url" class="duw-avatar" :alt="user.login" />
+        <img :src="user.avatar_url" class="duw-avatar" :alt="user.login" width="32" height="32" />
         <span class="duw-online-dot"></span>
       </div>
       <div class="duw-info">

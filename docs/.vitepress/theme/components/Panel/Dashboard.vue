@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <Teleport to="body" v-if="isMounted">
     <!-- Show Login if not authenticated -->
     <PanelLogin 

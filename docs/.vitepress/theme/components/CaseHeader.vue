@@ -4,7 +4,7 @@
     <div class="hero-container">
       <!-- Blurred background -->
       <div class="blurred-bg" :style="{ filter: `blur(${blurAmount}px) brightness(var(--bg-brightness, 0.7))` }">
-        <img :src="background" alt="background">
+        <img :src="background" alt="background" width="1200" height="400">
       </div>
       
       <!-- Floating Icons Container -->
@@ -14,7 +14,7 @@
           :key="index"
           :class="['floating-icon', `icon-${index + 1}`]"
         >
-          <img :src="icon.src" :alt="icon.alt" :style="icon.style">
+          <img :src="icon.src" :alt="icon.alt" :style="icon.style" width="48" height="48">
         </div>
       </div>
       
@@ -61,14 +61,14 @@
         
         <!-- Title Section -->
         <div class="title-section">
-          <img :src="icon" alt="Wildfire.ro" class="title-icon">
+          <img :src="icon" alt="Wildfire.ro" class="title-icon" width="56" height="56">
           <h1 class="orbitron-font gradient-text">{{ title }}</h1>
         </div>
         
         <!-- Footer Section -->
         <div class="footer-section">
           <div class="tags">
-            <img src="/icons/tag.svg" alt="tag" class="tag-icon">
+            <img src="/icons/tag.svg" alt="tag" class="tag-icon" width="18" height="18">
             <component 
               :is="tag.component" 
               v-for="(tag, idx) in effectiveTags" 
@@ -87,7 +87,7 @@
               :data-username="effectiveUsername"
               :data-tags="dataTags"
             >
-              <img :src="`https://github.com/${effectiveUsername}.png`" :alt="effectiveUsername">
+              <img :src="`https://github.com/${effectiveUsername}.png`" :alt="effectiveUsername" width="24" height="24">
             </a>
           </div>
         </div>

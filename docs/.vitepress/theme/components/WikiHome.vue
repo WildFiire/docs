@@ -1,6 +1,6 @@
 ﻿<template>
   <div v-if="!isMounted && isHomePage" class="wf-home-placeholder" aria-hidden="true"></div>
-  <div v-if="isMounted && isHomePage" class="wf-home" :class="{ 'wf-home--light': !isDark }">
+  <main v-if="isMounted && isHomePage" class="wf-home" :class="{ 'wf-home--light': !isDark }">
     <HomeNavbar v-if="isHomePage" />
     <CS2Background :scrollOpacity="scrollFade" :isDark="isDark" />
     <CustomCursor />
@@ -126,7 +126,7 @@
             <h3 class="qs-card__title orbitron-font">{{ qs.title }}</h3>
             <p class="qs-card__desc">{{ qs.desc }}</p>
             <div class="qs-card__img" data-fluid-lightbox>
-              <img :src="qs.img" :alt="qs.title" loading="lazy" decoding="async" />
+              <img :src="qs.img" :alt="qs.title" loading="lazy" decoding="async" width="400" height="225" />
             </div>
           </div>
         </div>
@@ -167,7 +167,7 @@
         </div>
       </div>
     </section>
-  </div>
+  </main>
 </template>
 
 <script setup lang="ts">
@@ -433,9 +433,10 @@ onUnmounted(() => {
   max-width: 100%;
   margin: 0 auto;
   overflow-x: hidden;
-  cursor: none;
+  /* cursor: none; — TEMPORARILY DISABLED */
 }
 
+/* TEMPORARILY DISABLED
 .wf-home *,
 .wf-home a,
 .wf-home button,
@@ -445,6 +446,7 @@ onUnmounted(() => {
 .wf-home [role="button"] {
   cursor: none !important;
 }
+*/
 
 @media (max-width: 1024px) {
   .wf-home,

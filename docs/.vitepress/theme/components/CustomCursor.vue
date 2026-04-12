@@ -1,5 +1,6 @@
 ﻿<template>
-  <div v-if="!isTouchDevice" class="custom-cursor" :class="{ 'cursor-hidden': !isVisible }">
+  <!-- TEMPORARILY DISABLED -->
+  <div v-if="false && !isTouchDevice" class="custom-cursor" :class="{ 'cursor-hidden': !isVisible }">
     <div
       class="crosshair"
       :class="{ 'crosshair--hover': isOnInteractive, 'crosshair--click': isClicking }"
