@@ -21,6 +21,8 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', href: '/icons/wildfire.webp' }],
     ['meta', { name: 'theme-color', content: '#ff4000ff' }],
+    ['meta', { name: 'description', content: 'Documentația platformei Wildfire - Resurse, sisteme și informații pentru Counter-Strike 2.' }],
+    ['meta', { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' }],
 
     // PRECONNECT — must come before any script/link that uses these origins
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
@@ -57,7 +59,6 @@ export default defineConfig({
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: 'Wildfire.ro Docs - CS2 Wikipedia' }],
     ['meta', { name: 'twitter:description', content: 'Resurse, sisteme și informații complete pentru Counter-Strike 2 pe Wildfire.ro.' }],
-    ['meta', { name: 'twitter:image', content: 'https://docs.wildfire.ro/wallpaper/content.webp' }],
     ['meta', { name: 'twitter:image', content: 'https://docs.wildfire.ro/wallpaper/content.webp' }],
 
     // SCRIPT PENTRU VERSIUNE
