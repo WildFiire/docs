@@ -49,24 +49,27 @@
 
         <!-- Error -->
         <div v-else-if="error" class="popout-error">
-          <span class="error-icon">⚠️</span>
+          <Icon icon="solar:danger-triangle-bold-duotone" class="error-icon" />
           <p>{{ error }}</p>
         </div>
 
         <!-- Profile -->
         <template v-else>
-          <!-- Header cu POZA si INFO -->
-          <div class="popout-header">
-            <div class="avatar-column">
-              <img :src="user.avatar" :alt="user.username" class="popout-avatar" @error="handleAvatarError">
+          <!-- Hero: banner + centered avatar -->
+          <div class="popout-hero">
+            <div class="mini-profile-banner" :style="miniBannerStyle">
+              <div class="mini-banner-overlay"></div>
+            </div>
+            <img :src="user.avatar" :alt="user.username" class="popout-avatar hero-avatar" @error="handleAvatarError">
+          </div>
+
+          <!-- Identity -->
+          <div class="identity-block">
+            <div class="name-row">
+              <h3>{{ user.name || user.username }}</h3>
               <a :href="user.profileUrl" target="_blank" rel="noopener noreferrer" @click.stop class="username-link">@{{ user.username }}</a>
             </div>
-            
-            <div class="info-column">
-              <div class="name-row">
-                <h3>{{ user.name || user.username }}</h3>
-              </div>
-              <div class="square-tags" :class="tagClasses">
+            <div class="square-tags" :class="tagClasses">
                 <!-- 1. WILDFIRE -->
                 <span class="square-tag tag-wildfire">
                   <img src="/icons/wildfire.webp" alt="wildfire" class="tag-icon" @error="handleIconError">
@@ -150,7 +153,6 @@
                   <img src="/icons/wildfire.webp" alt="vip" class="tag-icon" @error="handleIconError">
                   <span>VIP</span>
                 </span>
-              </div>
             </div>
           </div>
 
@@ -177,7 +179,12 @@
           <div class="contributions-simple" v-if="user.contributions !== null">
             <div class="simple-row">
               <div class="simple-badge">
-                <span class="simple-icon">📊</span>
+                <svg class="simple-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M3 3v18h18"/>
+                  <rect x="7" y="12" width="3" height="6" rx="1"/>
+                  <rect x="12" y="9" width="3" height="9" rx="1"/>
+                  <rect x="17" y="6" width="3" height="12" rx="1"/>
+                </svg>
                 <span class="simple-count">{{ formatNumber(user.contributions) }}</span>
                 <span class="simple-label">commit{{ user.contributions !== 1 ? 's' : '' }}</span>
               </div>
@@ -196,11 +203,17 @@
           <!-- Details - location și joined -->
           <div class="popout-details-minimal">
             <div v-if="user.location" class="detail-item">
-              <span class="detail-icon">📍</span>
+              <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M12 22s7-5.2 7-12a7 7 0 1 0-14 0c0 6.8 7 12 7 12z"/>
+                <circle cx="12" cy="10" r="2.5"/>
+              </svg>
               <span class="detail-text">{{ user.location }}</span>
             </div>
             <div class="detail-item">
-              <span class="detail-icon">📅</span>
+              <svg class="detail-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <rect x="3" y="5" width="18" height="16" rx="2"/>
+                <path d="M16 3v4M8 3v4M3 10h18"/>
+              </svg>
               <span class="detail-text">Joined {{ formatDate(user.createdAt) }}</span>
             </div>
           </div>
@@ -208,7 +221,10 @@
           <!-- Button cu efect subtil -->
           <a :href="user.profileUrl" target="_blank" rel="noopener noreferrer" class="popout-button" @click.stop>
             <span class="button-text">View GitHub Profile</span>
-            <span class="button-arrow">→</span>
+            <svg class="button-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M5 12h14"/>
+              <path d="M13 6l6 6-6 6"/>
+            </svg>
           </a>
         </template>
       </div>
@@ -254,6 +270,8 @@ export default {
       },
       popoutStyle: {},
       tagClasses: '',
+      profileBgUrl: '',
+      readmeBgStatus: 'idle',
       // 🔥 TOKEN DIN VARIABILA DE MEDIU
       githubToken: import.meta.env.VITE_GITHUB_TOKEN
     }
@@ -262,6 +280,7 @@ export default {
     
     this.fetchUserData()
     this.fetchUserContributions()
+    this.fetchProfileReadmeBg()
     
     window.addEventListener('resize', this.positionPopout)
     window.addEventListener('scroll', this.positionPopout, true)
@@ -275,6 +294,20 @@ export default {
     window.removeEventListener('resize', this.positionPopout)
     window.removeEventListener('scroll', this.positionPopout, true)
     window.removeEventListener('keydown', this.handleKeyDown)
+  },
+  computed: {
+    miniBannerStyle() {
+      if (this.profileBgUrl) {
+        return {
+          backgroundImage: `url('${this.profileBgUrl}')`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center'
+        }
+      }
+      return {
+        background: 'linear-gradient(135deg, #2d1408 0%, #1d0f08 45%, #31180a 100%)'
+      }
+    }
   },
   methods: {
     async fetchUserData() {
@@ -363,6 +396,39 @@ export default {
         console.error('❌ Eroare contribuții:', error)
         this.user.contributions = 0
       }
+    },
+
+    async fetchProfileReadmeBg() {
+      const username = this.currentUsername
+      if (!username) return
+      this.readmeBgStatus = 'loading'
+      const branches = ['main', 'master']
+
+      for (const branch of branches) {
+        try {
+          const res = await fetch(`https://raw.githubusercontent.com/${username}/${username}/${branch}/README.md`)
+          if (!res.ok) continue
+          const text = await res.text()
+          const url = this.extractImageFromReadme(text)
+          if (url) {
+            this.profileBgUrl = url
+            this.readmeBgStatus = 'found'
+            return
+          }
+        } catch (_) {}
+      }
+
+      if (this.readmeBgStatus === 'loading') this.readmeBgStatus = 'none'
+    },
+
+    extractImageFromReadme(text) {
+      const mdImg = text.match(/!\[.*?\]\((https?:\/\/[^\s)]+\.(?:jpg|jpeg|png|webp|gif)(?:\?[^\s)]*)?)\)/i)
+      if (mdImg) return mdImg[1]
+      const imgur = text.match(/(https?:\/\/i\.imgur\.com\/[A-Za-z0-9]+\.(?:jpg|jpeg|png|webp|gif))/i)
+      if (imgur) return imgur[1]
+      const htmlImg = text.match(/<img[^>]+src=["'](https?:\/\/[^\s"']+)["']/i)
+      if (htmlImg) return htmlImg[1]
+      return null
     },
     
     formatNumber(num) {
@@ -477,6 +543,12 @@ export default {
   transition: opacity 0.2s ease;
 }
 
+html:not(.dark) .popout-arrow {
+  background: #ffffff;
+  border-bottom-color: #ff8a1f;
+  border-right-color: #ff8a1f;
+}
+
 .popout-arrow.below {
   top: -7px;
   bottom: auto;
@@ -485,6 +557,11 @@ export default {
   border-left: 2px solid #ff7800;
   border-bottom: none;
   border-right: none;
+}
+
+html:not(.dark) .popout-arrow.below {
+  border-top-color: #ff8a1f;
+  border-left-color: #ff8a1f;
 }
 
 .github-popout.visible .popout-arrow {
@@ -512,9 +589,9 @@ export default {
 .popout-content {
   background: linear-gradient(135deg, #1a0f0a, #2a150a, #1f0f05);
   border: 2px solid #ff7800;
-  border-radius: 20px;
-  padding: 16px 14px 14px 14px;
-  width: 260px;
+  border-radius: 18px;
+  padding: 14px 12px 12px 12px;
+  width: 282px;
   color: white;
   position: relative;
   z-index: 2;
@@ -524,7 +601,14 @@ export default {
   will-change: transform, opacity;
   overflow: hidden;
   pointer-events: auto;
-  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.45), 0 0 24px rgba(255, 120, 0, 0.12);
+}
+
+html:not(.dark) .popout-content {
+  background: rgba(255, 252, 248, 0.97);
+  border-color: rgba(255, 138, 31, 0.7);
+  color: #2b1608;
+  box-shadow: 0 10px 30px rgba(17, 12, 8, 0.16), 0 0 20px rgba(255, 140, 0, 0.12);
 }
 
 .popout-content::before {
@@ -681,6 +765,12 @@ export default {
   backdrop-filter: blur(5px);
 }
 
+html:not(.dark) .popout-close {
+  background: rgba(255, 140, 0, 0.08);
+  border-color: rgba(255, 140, 0, 0.65);
+  color: #cc5a00;
+}
+
 .popout-close:hover {
   background: rgba(255, 120, 0, 0.3);
   color: white;
@@ -714,53 +804,94 @@ export default {
 }
 
 .error-icon {
-  font-size: 28px;
+  width: 28px;
+  height: 28px;
   margin-bottom: 8px;
-  display: block;
+  display: inline-flex;
+  color: #ff9a4d;
+  opacity: 1;
 }
 
 /* ===== HEADER ===== */
-.popout-header {
-  display: flex;
-  gap: 10px;
+.popout-hero {
+  position: relative;
+  margin-bottom: 8px;
+}
+
+.mini-profile-banner {
+  position: relative;
+  height: 102px;
+  border-radius: 12px;
+  margin: 0;
+  border: 1px solid rgba(255, 140, 0, 0.35);
+  overflow: hidden;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.04);
+}
+
+.mini-banner-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.02) 0%, rgba(0, 0, 0, 0.56) 100%);
+}
+
+.hero-avatar {
+  position: absolute;
+  left: 50%;
+  bottom: -20px;
+  transform: translateX(-50%);
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+  border: 2px solid #ff8f2a;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.45), 0 0 0 3px rgba(12, 7, 4, 0.9);
+  background: #120a06;
+}
+
+.identity-block {
+  margin-top: 30px;
   margin-bottom: 10px;
 }
 
-.avatar-column {
+.name-row {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 4px;
-  width: 60px;
+  text-align: center;
+  margin-bottom: 8px;
 }
 
 .popout-avatar {
-  width: 50px;
-  height: 50px;
+  width: 56px;
+  height: 56px;
   border-radius: 50%;
-  border: 2px solid #ff7800;
-  box-shadow: 0 0 8px rgba(255, 140, 0, 0.2);
+  border: 2px solid #ff8f2a;
+  box-shadow: 0 0 8px rgba(255, 140, 0, 0.22);
   transition: transform 0.2s;
 }
 
 .popout-avatar:hover {
-  transform: scale(1.03);
+  transform: none;
   box-shadow: 0 0 12px #ff7800;
 }
 
 .username-link {
   color: #ff7800;
   text-decoration: none;
-  font-size: 10px;
+  font-size: 11px;
   text-align: center;
-  width: 100%;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  background: rgba(0, 0, 0, 0.2);
-  padding: 2px 4px;
-  border-radius: 12px;
-  border: 1px solid rgba(255, 140, 0, 0.2);
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  background: rgba(0, 0, 0, 0.28);
+  padding: 3px 8px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 140, 0, 0.28);
+  margin-top: 2px;
+}
+
+html:not(.dark) .username-link {
+  background: rgba(255, 255, 255, 0.75);
+  color: #b24d00;
+  border-color: rgba(255, 140, 0, 0.35);
 }
 
 .username-link:hover {
@@ -768,17 +899,18 @@ export default {
   border-color: #ffaa33;
 }
 
-.info-column {
-  flex: 1;
-  min-width: 0;
-}
-
 .name-row h3 {
-  margin: 0 0 6px 0;
-  font-size: 15px;
+  margin: 0 0 4px 0;
+  font-size: 22px;
   font-weight: 600;
   color: white;
-  line-height: 1.2;
+  line-height: 1.15;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+}
+
+html:not(.dark) .name-row h3 {
+  color: #2a1a10;
+  text-shadow: none;
 }
 
 /* ===== TAGS - MAI MARI, CU LUMINĂ SUBTILĂ ===== */
@@ -786,6 +918,7 @@ export default {
   display: flex;
   flex-wrap: wrap;
   gap: 6px;
+  justify-content: center;
 }
 
 .square-tags .square-tag {
@@ -828,24 +961,43 @@ export default {
   transition: all 0.2s ease;
 }
 
+html:not(.dark) .square-tag {
+  color: #5f4028;
+  background: rgba(255, 255, 255, 0.84);
+  border-color: rgba(255, 140, 0, 0.26);
+  box-shadow: 0 1px 4px rgba(255, 140, 0, 0.08);
+}
+
 /* Lumini subtile pentru fiecare tag */
 .square-tag.tag-staff { 
   border-color: rgba(46, 204, 113, 0.3); 
   box-shadow: 0 0 5px rgba(46, 204, 113, 0.1);
 }
 .square-tag.tag-staff:hover { border-color: rgba(46, 204, 113, 0.5); }
+html:not(.dark) .square-tag.tag-staff {
+  border-color: rgba(46, 204, 113, 0.35);
+  color: #1f7a46;
+}
 
 .square-tag.tag-dev { 
   border-color: rgba(52, 152, 219, 0.3);
   box-shadow: 0 0 5px rgba(52, 152, 219, 0.1);
 }
 .square-tag.tag-dev:hover { border-color: rgba(52, 152, 219, 0.5); }
+html:not(.dark) .square-tag.tag-dev {
+  border-color: rgba(52, 152, 219, 0.36);
+  color: #246ea4;
+}
 
 .square-tag.tag-wiki { 
   border-color: rgba(26, 188, 156, 0.3);
   box-shadow: 0 0 5px rgba(26, 188, 156, 0.1);
 }
 .square-tag.tag-wiki:hover { border-color: rgba(26, 188, 156, 0.5); }
+html:not(.dark) .square-tag.tag-wiki {
+  border-color: rgba(26, 188, 156, 0.36);
+  color: #1f7a69;
+}
 
 .square-tag.tag-trusted { 
   border-color: rgba(241, 196, 15, 0.3); 
@@ -853,60 +1005,100 @@ export default {
   box-shadow: 0 0 5px rgba(241, 196, 15, 0.1);
 }
 .square-tag.tag-trusted:hover { border-color: rgba(241, 196, 15, 0.5); }
+html:not(.dark) .square-tag.tag-trusted {
+  border-color: rgba(241, 196, 15, 0.38);
+  color: #a57a00;
+}
 
 .square-tag.tag-pro { 
   border-color: rgba(255, 120, 0, 0.3);
   box-shadow: 0 0 5px rgba(255, 120, 0, 0.1);
 }
 .square-tag.tag-pro:hover { border-color: rgba(255, 120, 0, 0.5); }
+html:not(.dark) .square-tag.tag-pro {
+  border-color: rgba(255, 120, 0, 0.36);
+  color: #b24d00;
+}
 
 .square-tag.tag-vip { 
   border-color: rgba(155, 89, 182, 0.3);
   box-shadow: 0 0 5px rgba(155, 89, 182, 0.1);
 }
 .square-tag.tag-vip:hover { border-color: rgba(155, 89, 182, 0.5); }
+html:not(.dark) .square-tag.tag-vip {
+  border-color: rgba(155, 89, 182, 0.36);
+  color: #6f4091;
+}
 
 .square-tag.tag-founder { 
   border-color: rgba(231, 76, 60, 0.3);
   box-shadow: 0 0 5px rgba(231, 76, 60, 0.1);
 }
 .square-tag.tag-founder:hover { border-color: rgba(231, 76, 60, 0.5); }
+html:not(.dark) .square-tag.tag-founder {
+  border-color: rgba(231, 76, 60, 0.35);
+  color: #a33c2f;
+}
 
 .square-tag.tag-admin { 
   border-color: rgba(192, 57, 43, 0.3);
   box-shadow: 0 0 5px rgba(192, 57, 43, 0.1);
 }
 .square-tag.tag-admin:hover { border-color: rgba(192, 57, 43, 0.5); }
+html:not(.dark) .square-tag.tag-admin {
+  border-color: rgba(192, 57, 43, 0.35);
+  color: #8c3228;
+}
 
 .square-tag.tag-mod { 
   border-color: rgba(22, 160, 133, 0.3);
   box-shadow: 0 0 5px rgba(22, 160, 133, 0.1);
 }
 .square-tag.tag-mod:hover { border-color: rgba(22, 160, 133, 0.5); }
+html:not(.dark) .square-tag.tag-mod {
+  border-color: rgba(22, 160, 133, 0.35);
+  color: #1f7765;
+}
 
 .square-tag.tag-supporter { 
   border-color: rgba(243, 156, 18, 0.3);
   box-shadow: 0 0 5px rgba(243, 156, 18, 0.1);
 }
 .square-tag.tag-supporter:hover { border-color: rgba(243, 156, 18, 0.5); }
+html:not(.dark) .square-tag.tag-supporter {
+  border-color: rgba(243, 156, 18, 0.35);
+  color: #a35f16;
+}
 
 .square-tag.tag-booster { 
   border-color: rgba(142, 68, 173, 0.3);
   box-shadow: 0 0 5px rgba(142, 68, 173, 0.1);
 }
 .square-tag.tag-booster:hover { border-color: rgba(142, 68, 173, 0.5); }
+html:not(.dark) .square-tag.tag-booster {
+  border-color: rgba(142, 68, 173, 0.35);
+  color: #6a3d89;
+}
 
 .square-tag.tag-partner { 
   border-color: rgba(44, 62, 80, 0.3);
   box-shadow: 0 0 5px rgba(44, 62, 80, 0.1);
 }
 .square-tag.tag-partner:hover { border-color: rgba(44, 62, 80, 0.5); }
+html:not(.dark) .square-tag.tag-partner {
+  border-color: rgba(44, 62, 80, 0.35);
+  color: #3e4f61;
+}
 
 .square-tag.tag-contributor { 
   border-color: rgba(127, 140, 141, 0.3);
   box-shadow: 0 0 5px rgba(127, 140, 141, 0.1);
 }
 .square-tag.tag-contributor:hover { border-color: rgba(127, 140, 141, 0.5); }
+html:not(.dark) .square-tag.tag-contributor {
+  border-color: rgba(127, 140, 141, 0.35);
+  color: #55696b;
+}
 
 .square-tag.tag-wildfire { 
   border-color: rgba(255, 140, 0, 0.5); 
@@ -917,16 +1109,29 @@ export default {
   border-color: rgba(255, 140, 0, 0.7);
   box-shadow: 0 0 10px rgba(255, 140, 0, 0.2);
 }
+html:not(.dark) .square-tag.tag-wildfire {
+  border-color: rgba(255, 140, 0, 0.45);
+  color: #bf5a00;
+  box-shadow: 0 0 6px rgba(255, 140, 0, 0.12);
+}
 
 .tag-icon {
-  width: 8px;
-  height: 8px;
-  opacity: 0.6;
+  width: 10px;
+  height: 10px;
+  opacity: 1;
+  filter: none;
+  object-fit: contain;
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  padding: 0;
+  color: #ffb25a;
+  display: inline-flex;
   transition: all 0.2s ease;
 }
 
 .square-tag:hover .tag-icon {
-  opacity: 0.8;
+  opacity: 1;
 }
 
 /* ===== BIO ȘI STATS ===== */
@@ -936,9 +1141,16 @@ export default {
   color: #bbb;
   margin-bottom: 12px;
   padding: 8px 10px;
-  background: rgba(0, 0, 0, 0.2);
+  background: rgba(0, 0, 0, 0.25);
   border-radius: 8px;
   border-left: 2px solid #ff7800;
+  border: 1px solid rgba(255, 140, 0, 0.1);
+}
+
+html:not(.dark) .popout-bio {
+  background: rgba(255, 255, 255, 0.72);
+  color: #5a412f;
+  border-color: rgba(255, 140, 0, 0.2);
 }
 
 .popout-stats {
@@ -950,6 +1162,11 @@ export default {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 10px;
   border: 1px solid rgba(255, 140, 0, 0.1);
+}
+
+html:not(.dark) .popout-stats {
+  background: rgba(255, 255, 255, 0.75);
+  border-color: rgba(255, 140, 0, 0.22);
 }
 
 .popout-stats div {
@@ -970,6 +1187,10 @@ export default {
   text-transform: uppercase;
 }
 
+html:not(.dark) .popout-stats span {
+  color: #86674d;
+}
+
 /* ===== CONTRIBUȚII SIMPLE ===== */
 .contributions-simple {
   margin: 8px 0 12px 0;
@@ -977,6 +1198,11 @@ export default {
   background: rgba(0, 0, 0, 0.2);
   border-radius: 20px;
   border: 1px solid rgba(255, 140, 0, 0.1);
+}
+
+html:not(.dark) .contributions-simple {
+  background: rgba(255, 255, 255, 0.7);
+  border-color: rgba(255, 140, 0, 0.2);
 }
 
 .simple-row {
@@ -997,8 +1223,11 @@ export default {
 }
 
 .simple-icon {
-  font-size: 11px;
-  opacity: 0.7;
+  width: 12px;
+  height: 12px;
+  opacity: 1;
+  color: #ffb25a;
+  display: inline-flex;
 }
 
 .simple-count {
@@ -1022,7 +1251,7 @@ export default {
 
 .simple-repo-icon {
   color: #ff7800;
-  opacity: 0.5;
+  opacity: 0.9;
 }
 
 .simple-repo a {
@@ -1033,6 +1262,11 @@ export default {
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 100px;
+}
+
+html:not(.dark) .simple-repo,
+html:not(.dark) .simple-repo a {
+  color: #7a5d45;
 }
 
 .simple-repo a:hover {
@@ -1050,6 +1284,11 @@ export default {
   max-width: 100%;
 }
 
+html:not(.dark) .popout-details-minimal {
+  background: rgba(255, 255, 255, 0.72);
+  border-color: rgba(255, 140, 0, 0.22);
+}
+
 .detail-item {
   display: flex;
   align-items: center;
@@ -1065,14 +1304,21 @@ export default {
 }
 
 .detail-icon {
-  width: 16px;
-  color: #ff7800;
-  font-size: 10px;
-  opacity: 0.7;
+  width: 14px;
+  height: 14px;
+  color: #ffb25a;
+  opacity: 1;
+  flex: 0 0 auto;
+  display: inline-flex;
+  filter: drop-shadow(0 0 3px rgba(255, 120, 0, 0.35));
 }
 
 .detail-text {
   color: #ccc;
+}
+
+html:not(.dark) .detail-text {
+  color: #6a4f3a;
 }
 
 /* ===== BUTTON CU EFECT SUBTIL ===== */
@@ -1094,6 +1340,12 @@ export default {
   overflow: hidden;
 }
 
+html:not(.dark) .popout-button {
+  background: #f6f7fb;
+  color: #c55a00;
+  border-color: rgba(255, 140, 0, 0.3);
+}
+
 .button-text {
   position: relative;
   z-index: 2;
@@ -1103,8 +1355,26 @@ export default {
 .button-arrow {
   position: relative;
   z-index: 2;
-  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  display: inline-flex;
+  color: currentColor;
   transition: transform 0.25s ease;
+  filter: drop-shadow(0 0 2px rgba(255, 180, 90, 0.3));
+}
+
+.error-icon :deep(svg),
+.tag-icon :deep(svg),
+.simple-icon :deep(svg),
+.detail-icon :deep(svg),
+.button-arrow :deep(svg) {
+  width: 100%;
+  height: 100%;
+  display: block;
+  opacity: 1 !important;
+  color: currentColor;
+  fill: currentColor;
+  stroke: currentColor;
 }
 
 /* Efect de lumină subtilă la hover */
@@ -1126,6 +1396,12 @@ export default {
   color: #ffbb55;
   transform: translateY(-2px);
   box-shadow: 0 5px 12px rgba(0, 0, 0, 0.3);
+}
+
+html:not(.dark) .popout-button:hover {
+  background: #f0f3fa;
+  border-color: rgba(255, 140, 0, 0.45);
+  color: #df6a00;
 }
 
 .popout-button:hover::before {

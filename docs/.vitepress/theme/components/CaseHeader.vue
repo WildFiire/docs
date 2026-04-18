@@ -463,28 +463,37 @@ html:not(.dark) .gradient-overlay {
 .content {
   position: relative;
   z-index: 2;
-  padding: 32px 32px 24px 32px;
+  padding: 24px 24px 18px 24px;
   border-radius: 28px;
 }
 
 .breadcrumb {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 20px;
-  flex-wrap: wrap;
-  gap: 10px;
+  justify-content: flex-start;
+  margin-bottom: 14px;
+  flex-wrap: nowrap;
+  gap: 8px;
+  min-width: 0;
 }
 
 .breadcrumb-items {
-  display: inline-flex;
+  display: flex;
   align-items: center;
   gap: 6px;
   background: rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(8px);
-  padding: 4px 12px;
+  padding: 3px 10px;
   border-radius: 8px;
   border: 1px solid rgba(255, 120, 0, 0.25);
+  flex: 0 1 auto;
+  width: fit-content;
+  max-width: 100%;
+  min-width: max-content;
+  white-space: nowrap;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: thin;
 }
 
 html.dark .breadcrumb-items {
@@ -500,12 +509,15 @@ html:not(.dark) .breadcrumb-items {
 .home-icon {
   color: var(--vp-c-brand-1);
   opacity: 0.9;
+  flex: 0 0 auto;
 }
 
 .breadcrumb-items span {
   color: var(--vp-c-brand-1);
   font-weight: 500;
-  font-size: 11px;
+  font-size: 10px;
+  white-space: nowrap;
+  flex: 0 0 auto;
 }
 
 .breadcrumb-items span.active {
@@ -518,13 +530,16 @@ html:not(.dark) .breadcrumb-items {
   align-items: center;
   color: var(--vp-c-brand-1);
   opacity: 0.5;
+  flex: 0 0 auto;
 }
 
 .right-badges {
   display: flex;
   align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
+  gap: 6px;
+  flex-wrap: nowrap;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 .bookmark-btn {
@@ -532,7 +547,7 @@ html:not(.dark) .breadcrumb-items {
   align-items: center;
   gap: 5px;
   backdrop-filter: blur(4px);
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 16px;
   border: 1px solid rgba(255, 120, 0, 0.4);
   background: none;
@@ -552,7 +567,7 @@ html:not(.dark) .bookmark-btn {
 }
 
 .bookmark-btn span {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--vp-c-brand-1);
   font-weight: 500;
 }
@@ -584,7 +599,7 @@ html:not(.dark) .bookmark-btn.active {
   align-items: center;
   gap: 5px;
   backdrop-filter: blur(4px);
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 16px;
   border: 1px solid rgba(255, 120, 0, 0.4);
   font-weight: 600;
@@ -601,7 +616,7 @@ html:not(.dark) .viewers-count {
 }
 
 .viewers-count span {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--vp-c-brand-1);
   font-weight: 600;
 }
@@ -616,7 +631,7 @@ html:not(.dark) .viewers-count {
   align-items: center;
   gap: 5px;
   backdrop-filter: blur(4px);
-  padding: 4px 10px;
+  padding: 3px 8px;
   border-radius: 16px;
   border: 1px solid rgba(255, 120, 0, 0.4);
 }
@@ -632,7 +647,7 @@ html:not(.dark) .badge {
 }
 
 .badge span {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--vp-c-brand-1);
   font-weight: 500;
 }
@@ -645,13 +660,13 @@ html:not(.dark) .badge {
 .title-section {
   display: flex;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 10px;
+  margin-bottom: 14px;
   flex-wrap: wrap;
 }
 
 .title-icon {
-  width: 56px;
+  width: 44px;
   margin: 0;
   transition: transform 0.2s ease;
   filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
@@ -662,7 +677,7 @@ html:not(.dark) .badge {
 }
 
 .gradient-text {
-  font-size: 32px;
+  font-size: 26px;
   margin: 0;
   background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), #ff7800, var(--vp-c-brand-1));
   -webkit-background-clip: text;
@@ -684,9 +699,9 @@ html:not(.dark) .badge {
   align-items: center;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 16px;
+  gap: 12px;
   border-top: 1px solid rgba(255, 120, 0, 0.25);
-  padding-top: 16px;
+  padding-top: 12px;
   margin-top: 4px;
 }
 
