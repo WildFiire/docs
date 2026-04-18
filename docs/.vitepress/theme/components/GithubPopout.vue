@@ -845,6 +845,17 @@ html:not(.dark) .popout-close {
   border: 2px solid #ff8f2a;
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.45), 0 0 0 3px rgba(12, 7, 4, 0.9);
   background: #120a06;
+  transition: none !important;
+  animation: none !important;
+  will-change: auto;
+}
+
+.hero-avatar:hover,
+.hero-avatar:focus,
+.hero-avatar:active {
+  transform: translateX(-50%) !important;
+  transition: none !important;
+  animation: none !important;
 }
 
 .identity-block {
@@ -866,12 +877,12 @@ html:not(.dark) .popout-close {
   border-radius: 50%;
   border: 2px solid #ff8f2a;
   box-shadow: 0 0 8px rgba(255, 140, 0, 0.22);
-  transition: transform 0.2s;
+  transition: none;
 }
 
 .popout-avatar:hover {
   transform: none;
-  box-shadow: 0 0 12px #ff7800;
+  box-shadow: 0 0 8px rgba(255, 140, 0, 0.22);
 }
 
 .username-link {
