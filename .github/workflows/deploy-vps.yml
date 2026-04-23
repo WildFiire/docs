@@ -24,12 +24,15 @@ jobs:
             git fetch --all
             git reset --hard origin/main
             
-            # Install dependencies
-            npm install
-            
             # Create the .env file with the GitHub Token
             echo "VITE_GITHUB_TOKEN=${{ secrets.VITE_GITHUB_TOKEN }}" > .env
-            
+
+            # Install dependencies (force include devDependencies for the build)
+            npm install --include=dev
+
             # Build the static VitePress files
             npm run docs:build
-            
+
+            # Restart the API server so it picks up updated code / .env
+            pm2 restart wildfire-wiki-api --update-env
+

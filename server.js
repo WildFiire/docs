@@ -86,7 +86,7 @@ app.post('/api/profile-bg', (req, res) => {
 
 app.use(express.static(join(__dirname, 'docs/.vitepress/dist')))
 
-app.get('*', (req, res) => {
+app.get('/*splat', (req, res) => {
   res.sendFile(join(__dirname, 'docs/.vitepress/dist/index.html'))
 })
 
