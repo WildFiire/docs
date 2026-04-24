@@ -360,8 +360,8 @@ export default {
 .panel-feedbacks::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }
 
 /* Header */
-.pf-header { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; }
-.pf-title-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid var(--border-color); }
+.pf-header { background: rgba(6,6,18,0.46); backdrop-filter: blur(40px) saturate(175%); -webkit-backdrop-filter: blur(40px) saturate(175%); border: 1px solid rgba(255,255,255,0.09); border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10); }
+.pf-title-row { display: flex; align-items: center; justify-content: space-between; padding: 14px 18px; gap: 12px; flex-wrap: wrap; border-bottom: 1px solid rgba(255,255,255,0.07); }
 .pf-title-left { display: flex; align-items: center; gap: 10px; }
 .pf-title-left h2 { font-size: 14px; font-weight: 700; color: var(--text-primary); margin: 0; letter-spacing: 0.5px; }
 .pf-header-right { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
@@ -371,10 +371,10 @@ export default {
 .pf-pill.bad  { background: rgba(239,68,68,0.12);  color: #ef4444; border: 1px solid rgba(239,68,68,0.25); }
 .pf-pill.avg  { background: rgba(255,215,0,0.12);  color: #ffd700; border: 1px solid rgba(255,215,0,0.25); }
 .pf-filter-row { display: flex; align-items: center; gap: 3px; }
-.pf-filter-btn { background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-muted); font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 6px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.4px; }
+.pf-filter-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); color: var(--text-muted); font-size: 9px; font-weight: 700; padding: 3px 8px; border-radius: 6px; cursor: pointer; transition: all 0.15s; letter-spacing: 0.4px; }
 .pf-filter-btn:hover { border-color: var(--accent); color: var(--accent); }
 .pf-filter-btn.active { background: var(--accent-dim); border-color: var(--accent-strong); color: var(--accent); }
-.pf-refresh-btn { background: var(--bg-tertiary); border: 1px solid var(--border-color); color: var(--text-muted); width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
+.pf-refresh-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); color: var(--text-muted); width: 28px; height: 28px; border-radius: 8px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
 .pf-refresh-btn:hover { border-color: var(--accent); color: var(--accent); }
 .pf-refresh-btn:disabled { opacity: 0.5; cursor: default; }
 @keyframes spin { to { transform: rotate(360deg); } }
@@ -403,8 +403,8 @@ export default {
 
 /* Feedback cards */
 .pf-list { display: flex; flex-direction: column; gap: 8px; }
-.pf-card { background: var(--bg-secondary); border: 1px solid var(--border-color); border-radius: 12px; overflow: hidden; cursor: pointer; transition: all 0.18s; }
-.pf-card:hover { border-color: rgba(255,255,255,0.12); box-shadow: 0 4px 18px rgba(0,0,0,0.3); }
+.pf-card { background: rgba(6,6,18,0.46); backdrop-filter: blur(40px) saturate(175%); -webkit-backdrop-filter: blur(40px) saturate(175%); border: 1px solid rgba(255,255,255,0.09); border-radius: 14px; overflow: hidden; cursor: pointer; transition: all 0.18s; box-shadow: 0 4px 20px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.08); }
+.pf-card:hover { border-color: rgba(255,255,255,0.16); box-shadow: 0 10px 36px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12); transform: translateY(-2px); }
 .pf-card-good { border-left: 3px solid rgba(34,197,94,0.5); }
 .pf-card-bad  { border-left: 3px solid rgba(239,68,68,0.5); }
 .pf-card-good:hover { border-left-color: #22c55e; }
@@ -428,13 +428,13 @@ export default {
 .pf-meta-date { white-space: nowrap; }
 
 .pf-card-right { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.pf-gh-link { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: var(--bg-tertiary); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-muted); text-decoration: none; transition: all 0.15s; }
+.pf-gh-link { display: flex; align-items: center; justify-content: center; width: 26px; height: 26px; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.09); border-radius: 8px; color: var(--text-muted); text-decoration: none; transition: all 0.15s; }
 .pf-gh-link:hover { border-color: var(--accent); color: var(--accent); }
 .pf-expand-arrow { color: var(--text-muted); transition: transform 0.2s; }
 .pf-expand-arrow.expanded { transform: rotate(180deg); }
 
 /* Expanded detail */
-.pf-card-expanded-body { border-top: 1px solid var(--border-color); padding: 14px 16px; background: var(--bg-tertiary); }
+.pf-card-expanded-body { border-top: 1px solid rgba(255,255,255,0.07); padding: 14px 16px; background: rgba(255,255,255,0.03); }
 .pf-expanded-grid { display: flex; flex-direction: column; gap: 8px; }
 .pfe-row { display: flex; align-items: flex-start; gap: 12px; }
 .pfe-full { flex-direction: column; gap: 4px; }
@@ -445,5 +445,5 @@ export default {
 .pfe-link:hover { text-decoration: underline; }
 .pfe-good { color: #22c55e; font-weight: 600; }
 .pfe-bad  { color: #ef4444; font-weight: 600; }
-.pfe-comment-full { white-space: pre-wrap; background: var(--bg-secondary); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--border-color); display: block; font-size: 12px; color: var(--text-primary); }
+.pfe-comment-full { white-space: pre-wrap; background: rgba(255,255,255,0.03); padding: 8px 12px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); display: block; font-size: 12px; color: var(--text-primary); }
 </style>

@@ -526,20 +526,39 @@ export default {
 }
 
 .auth-card {
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 20px;
-  padding: 40px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 28px;
+  padding: 44px;
   width: 100%;
-  max-width: 480px;
+  max-width: 460px;
   position: relative;
-  backdrop-filter: blur(16px);
+  backdrop-filter: blur(56px) saturate(180%) brightness(1.1);
+  -webkit-backdrop-filter: blur(56px) saturate(180%) brightness(1.1);
   animation: fadeInUp 0.6s ease 0.1s both;
+  box-shadow:
+    0 40px 90px rgba(0, 0, 0, 0.7),
+    0 8px 32px rgba(0, 0, 0, 0.4),
+    inset 0 1px 0 rgba(255, 255, 255, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.04) inset;
+}
+
+.auth-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 12%;
+  right: 12%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+  border-radius: 50%;
+  pointer-events: none;
 }
 
 .light-theme .auth-card {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.62);
+  border-color: rgba(255, 255, 255, 0.55);
+  box-shadow: 0 32px 80px rgba(0, 0, 0, 0.12), inset 0 1px 0 rgba(255, 255, 255, 0.85);
 }
 
 .card-glow {
@@ -554,13 +573,16 @@ export default {
 .header-icon {
   width: 64px;
   height: 64px;
-  background: var(--bg-tertiary);
+  background: rgba(255, 120, 0, 0.10);
+  border: 1px solid rgba(255, 120, 0, 0.22);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 0 auto 20px;
   color: var(--accent);
+  backdrop-filter: blur(16px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 4px 28px rgba(255, 120, 0, 0.18);
 }
 
 .card-header h2 {
@@ -612,15 +634,20 @@ export default {
 }
 
 .oauth-btn.github {
-  background: linear-gradient(135deg, #ff7800, #ff5500);
+  background: linear-gradient(135deg, #ff8c20, #ff5200);
   color: white;
-  border-radius: 12px;
+  border-radius: 14px;
   font-size: 12px;
   letter-spacing: 0.5px;
+  box-shadow: 0 6px 28px rgba(255, 120, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(255, 160, 80, 0.3);
+  transition: all 0.22s ease;
 }
 
 .oauth-btn.github:hover:not(:disabled) {
-  transform: translateY(-2px);
+  transform: translateY(-3px);
+  box-shadow: 0 12px 40px rgba(255, 120, 0, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  background: linear-gradient(135deg, #ff9a30, #ff6010);
 }
 
 .oauth-btn:disabled {

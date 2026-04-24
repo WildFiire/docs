@@ -504,7 +504,8 @@ export default {
 }
 
 .stat-badge {
-  background: var(--bg-tertiary);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 30px;
   padding: 8px 16px;
   display: flex;
@@ -544,8 +545,8 @@ export default {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 30px;
   color: var(--text-muted);
   font-size: 12px;
@@ -560,9 +561,10 @@ export default {
 }
 
 .filter-btn.active {
-  background: var(--accent);
-  color: white;
-  border-color: var(--accent);
+  background: var(--accent-dim);
+  color: var(--accent);
+  border-color: var(--accent-strong);
+  box-shadow: 0 0 12px var(--accent-dim);
 }
 
 .filter-dot {
@@ -577,7 +579,7 @@ export default {
 .filter-dot.all { background: var(--accent); }
 
 .filter-count {
-  background: var(--bg-tertiary);
+  background: rgba(255,255,255,0.08);
   padding: 2px 6px;
   border-radius: 20px;
   font-size: 10px;
@@ -598,8 +600,8 @@ export default {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: 30px;
 }
 
@@ -621,8 +623,8 @@ export default {
   align-items: center;
   gap: 8px;
   padding: 8px 16px;
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 30px;
   color: var(--text-muted);
   font-size: 12px;
@@ -637,11 +639,14 @@ export default {
 
 /* Date Picker */
 .date-picker {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(6,6,18,0.46);
+  backdrop-filter: blur(40px) saturate(175%);
+  -webkit-backdrop-filter: blur(40px) saturate(175%);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 16px;
   padding: 16px;
   margin-bottom: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
 }
 
 .date-inputs {
@@ -665,8 +670,8 @@ export default {
 
 .input-group input {
   padding: 8px 12px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: 8px;
   color: var(--text-primary);
   font-size: 12px;
@@ -692,8 +697,8 @@ export default {
 }
 
 .clear-btn {
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
   color: var(--text-muted);
 }
 
@@ -704,10 +709,13 @@ export default {
 
 /* Timeline */
 .audit-timeline {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(6,6,18,0.46);
+  backdrop-filter: blur(40px) saturate(175%);
+  -webkit-backdrop-filter: blur(40px) saturate(175%);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 16px;
   overflow: hidden;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
 }
 
 .timeline-loading, .timeline-empty {
@@ -782,7 +790,7 @@ export default {
   top: 16px;
   width: 2px;
   height: calc(100% + 20px);
-  background: var(--border-color);
+  background: rgba(255,255,255,0.08);
 }
 
 .timeline-event:last-child .marker-line {
@@ -791,18 +799,19 @@ export default {
 
 .event-card {
   flex: 1;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
   padding: 16px;
   cursor: pointer;
   transition: all 0.2s ease;
+  backdrop-filter: blur(12px);
 }
 
 .event-card:hover {
   transform: translateX(4px);
-  border-color: var(--accent);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  border-color: rgba(255,120,0,0.30);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 16px var(--accent-dim);
 }
 
 .event-header {
@@ -871,7 +880,8 @@ export default {
   align-items: center;
   gap: 4px;
   padding: 2px 8px;
-  background: var(--bg-secondary);
+  background: rgba(255,120,0,0.08);
+  border: 1px solid rgba(255,120,0,0.20);
   border-radius: 20px;
   font-size: 10px;
   color: var(--accent);
@@ -906,7 +916,8 @@ export default {
   font-family: monospace;
   font-size: 10px;
   color: var(--text-muted);
-  background: var(--bg-secondary);
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
   padding: 2px 6px;
   border-radius: 4px;
 }
@@ -916,7 +927,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding-top: 12px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255,255,255,0.07);
 }
 
 .footer-stats {
@@ -948,14 +959,14 @@ export default {
   align-items: center;
   gap: 16px;
   padding: 20px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255,255,255,0.07);
 }
 
 .page-btn {
   width: 36px;
   height: 36px;
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 8px;
   color: var(--text-muted);
   cursor: pointer;
@@ -996,12 +1007,15 @@ export default {
 }
 
 .modal-content {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(6,6,18,0.88);
+  backdrop-filter: blur(52px) saturate(180%);
+  -webkit-backdrop-filter: blur(52px) saturate(180%);
+  border: 1px solid rgba(255,255,255,0.12);
   border-radius: 20px;
   width: 90%;
   max-width: 500px;
   animation: modalIn 0.2s ease;
+  box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.14);
 }
 
 @keyframes modalIn {
@@ -1020,7 +1034,7 @@ export default {
   justify-content: space-between;
   align-items: center;
   padding: 20px;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
 
 .modal-badge {
@@ -1058,7 +1072,7 @@ export default {
 
 .modal-close:hover {
   color: var(--accent);
-  background: var(--bg-tertiary);
+  background: rgba(255,255,255,0.07);
 }
 
 .modal-body {
@@ -1071,9 +1085,9 @@ export default {
   gap: 12px; 
   margin-bottom: 16px; 
   padding: 10px 14px; 
-  background: var(--bg-tertiary); 
+  background: rgba(255,255,255,0.04); 
   border-radius: 10px; 
-  border: 1px solid var(--border-color); 
+  border: 1px solid rgba(255,255,255,0.09); 
 }
 
 .modal-author-avatar { 
@@ -1108,7 +1122,8 @@ export default {
 }
 
 .modal-details {
-  background: var(--bg-tertiary);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
   border-radius: 12px;
   padding: 16px;
   margin-bottom: 20px;
@@ -1118,7 +1133,7 @@ export default {
   display: flex;
   justify-content: space-between;
   padding: 8px 0;
-  border-bottom: 1px solid var(--border-color);
+  border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 
 .detail-row:last-child {

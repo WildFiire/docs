@@ -747,22 +747,26 @@ export default {
 
 .analytics-period {
   display: flex;
-  gap: 8px;
-  background: var(--bg-tertiary);
+  gap: 4px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.09);
+  backdrop-filter: blur(20px);
   padding: 4px;
   border-radius: 40px;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
 }
 
 .period-btn {
   padding: 8px 20px;
   background: transparent;
-  border: none;
+  border: 1px solid transparent;
   border-radius: 30px;
   color: var(--text-muted);
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: 0.5px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.22s ease;
 }
 
 .period-btn:hover {
@@ -770,8 +774,10 @@ export default {
 }
 
 .period-btn.active {
-  background: var(--accent);
-  color: white;
+  background: var(--accent-dim);
+  border-color: var(--accent-strong);
+  color: var(--accent);
+  box-shadow: 0 0 14px var(--accent-dim), inset 0 1px 0 rgba(255,255,255,0.14);
 }
 
 /* Stats Grid */
@@ -783,31 +789,39 @@ export default {
 }
 
 .stat-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(6,6,18,0.46);
+  backdrop-filter: blur(40px) saturate(175%);
+  -webkit-backdrop-filter: blur(40px) saturate(175%);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 16px;
   padding: 20px;
   display: flex;
   align-items: center;
   gap: 16px;
   transition: all 0.3s ease;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
+  position: relative;
+  overflow: hidden;
 }
 
 .stat-card:hover {
-  transform: translateY(-2px);
-  border-color: var(--accent);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+  transform: translateY(-3px);
+  border-color: rgba(255,120,0,0.28);
+  box-shadow: 0 12px 40px rgba(0,0,0,0.45), 0 0 20px var(--accent-dim), inset 0 1px 0 rgba(255,255,255,0.14);
 }
 
 .stat-icon {
   width: 48px;
   height: 48px;
-  background: var(--bg-tertiary);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.10);
   border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
   color: var(--accent);
+  flex-shrink: 0;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.12);
 }
 
 .stat-content {
@@ -834,7 +848,8 @@ export default {
   font-size: 10px;
   padding: 2px 8px;
   border-radius: 20px;
-  background: var(--bg-tertiary);
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
 }
 
 .stat-trend.positive {
@@ -847,11 +862,14 @@ export default {
 
 /* Chart Card */
 .chart-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(6,6,18,0.46);
+  backdrop-filter: blur(40px) saturate(175%);
+  -webkit-backdrop-filter: blur(40px) saturate(175%);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 16px;
   padding: 20px;
   margin-bottom: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
 }
 
 .chart-header {
@@ -898,7 +916,7 @@ export default {
   display: flex;
   justify-content: space-around;
   padding-top: 16px;
-  border-top: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255,255,255,0.07);
 }
 
 .stat-item {
@@ -930,10 +948,13 @@ export default {
 }
 
 .analytics-card {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(6,6,18,0.46);
+  backdrop-filter: blur(40px) saturate(175%);
+  -webkit-backdrop-filter: blur(40px) saturate(175%);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 16px;
   padding: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
 }
 
 .card-header {
@@ -990,7 +1011,7 @@ export default {
 
 .lang-bar {
   height: 6px;
-  background: var(--bg-tertiary);
+  background: rgba(255,255,255,0.06);
   border-radius: 3px;
   overflow: hidden;
 }
@@ -1057,7 +1078,7 @@ export default {
 .legend-gradient {
   width: 60px;
   height: 10px;
-  background: linear-gradient(90deg, #2a2a30, #ffa07a, #ff7800);
+  background: linear-gradient(90deg, rgba(255,255,255,0.06), #ffa07a, #ff7800);
   border-radius: 5px;
 }
 
@@ -1065,11 +1086,14 @@ export default {
 
 /* PR Analytics */
 .pr-analytics {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(6,6,18,0.46);
+  backdrop-filter: blur(40px) saturate(175%);
+  -webkit-backdrop-filter: blur(40px) saturate(175%);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 16px;
   padding: 20px;
   margin-bottom: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
 }
 
 .section-header {
@@ -1091,9 +1115,11 @@ export default {
 
 .section-badge {
   padding: 4px 12px;
-  background: var(--bg-tertiary);
+  background: var(--accent-dim);
+  border: 1px solid var(--accent-mid);
   border-radius: 20px;
   font-size: 10px;
+  font-weight: 600;
   color: var(--accent);
 }
 
@@ -1107,8 +1133,16 @@ export default {
 .pr-stat {
   text-align: center;
   padding: 16px;
-  background: var(--bg-tertiary);
-  border-radius: 12px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  backdrop-filter: blur(12px);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.pr-stat:hover {
+  border-color: rgba(255,120,0,0.22);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.3), 0 0 12px var(--accent-dim);
 }
 
 .pr-stat-value {
@@ -1130,10 +1164,13 @@ export default {
 
 /* Contributors Section */
 .contributors-section {
-  background: var(--bg-secondary);
-  border: 1px solid var(--border-color);
+  background: rgba(6,6,18,0.46);
+  backdrop-filter: blur(40px) saturate(175%);
+  -webkit-backdrop-filter: blur(40px) saturate(175%);
+  border: 1px solid rgba(255,255,255,0.09);
   border-radius: 16px;
   padding: 20px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
 }
 
 .contributors-list {
@@ -1147,7 +1184,8 @@ export default {
   align-items: center;
   gap: 16px;
   padding: 12px;
-  background: var(--bg-tertiary);
+  background: rgba(255,255,255,0.04);
+  border: 1px solid rgba(255,255,255,0.07);
   border-radius: 12px;
   cursor: pointer;
   transition: all 0.2s ease;
@@ -1155,7 +1193,9 @@ export default {
 
 .contributor-item:hover {
   transform: translateX(4px);
-  background: var(--bg-hover);
+  border-color: rgba(255,120,0,0.22);
+  background: rgba(255,120,0,0.05);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.25), 0 0 12px var(--accent-dim);
 }
 
 .contributor-rank {
@@ -1191,7 +1231,7 @@ export default {
 .contributor-chart {
   width: 150px;
   height: 6px;
-  background: var(--bg-secondary);
+  background: rgba(255,255,255,0.06);
   border-radius: 3px;
   overflow: hidden;
 }
