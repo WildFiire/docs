@@ -3879,26 +3879,6 @@ html:not(.dark) .wf-market .wf-market-tip {
   }
 }
 
-/* Compact group headers */
-@media (min-width: 960px) {
-  .VPSidebar .VPSidebarItem.level-0 > .item .text {
-    font-size: 11px !important;
-    font-weight: 700 !important;
-    letter-spacing: 0.04em !important;
-  }
-  /* Compact item rows */
-  .VPSidebar .VPSidebarItem .item {
-    padding-top: 2px !important;
-    padding-bottom: 2px !important;
-    min-height: 26px !important;
-  }
-  /* Smaller link text */
-  .VPSidebar .VPSidebarItem a .text,
-  .VPSidebar .VPSidebarItem button .text {
-    font-size: 12.5px !important;
-    line-height: 1.4 !important;
-  }
-}
 
 /* === SIDEBAR COLLAPSE UX (desktop only) === */
 @media (min-width: 960px) {
