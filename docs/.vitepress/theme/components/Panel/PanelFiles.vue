@@ -518,6 +518,17 @@ export default {
 .fe-chip-dot { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
 .fe-chip-ct { background:rgba(255,255,255,0.06); padding:1px 5px; border-radius:8px; font-size:9px; }
 .panel-files.light-theme .fe-chip-ct { background:rgba(0,0,0,0.08); }
+.panel-files.light-theme .fe-topbar { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-files.light-theme .fe-stats-strip { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-files.light-theme .fe-tree-panel { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-files.light-theme .fe-panel-head { background:rgba(0,0,0,0.02); border-color:var(--border-color); }
+.panel-files.light-theme .fe-preview { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-files.light-theme .fe-preview-head { background:rgba(0,0,0,0.02); border-color:var(--border-color); }
+.panel-files.light-theme .fe-search { background:rgba(0,0,0,0.03); border-color:var(--border-color); }
+.panel-files.light-theme .fe-sort-menu { background:#fff; border-color:var(--border-color); box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+.panel-files.light-theme .fe-sort-menu button:hover { background:rgba(0,0,0,0.04); color:var(--text-primary); }
+.panel-files.light-theme .fe-sort-btn { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
+.panel-files.light-theme .fe-view-toggle > button { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
 
 /* ── Stats Strip ── */
 .fe-stats-strip { background:rgba(6,6,18,0.46); backdrop-filter:blur(40px) saturate(175%); -webkit-backdrop-filter:blur(40px) saturate(175%); border:1px solid rgba(255,255,255,0.09); border-radius:14px; padding:10px 14px; box-shadow:0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.08); }

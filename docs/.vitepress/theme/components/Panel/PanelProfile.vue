@@ -1223,12 +1223,29 @@ export default {
 .panel-profile.light-theme .pp-banner-vignette { background:linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.7) 100%); }
 .panel-profile.light-theme .pp-banner-rank { background:var(--accent-dim); border-color:var(--accent-mid); }
 .panel-profile.light-theme .pp-banner-rank-lbl { color:rgba(0,0,0,0.5); }
-.panel-profile.light-theme .pp-gh-pill-row { background:rgba(0,0,0,0.03); }
+.panel-profile.light-theme .pp-gh-pill-row { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
+.panel-profile.light-theme .pp-gh-pill + .pp-gh-pill { border-left-color:var(--border-color); }
+.panel-profile.light-theme .pp-gh-pill-val { color:var(--text-primary); }
+.panel-profile.light-theme .pp-gh-pill-lbl { color:var(--text-muted); }
 .panel-profile.light-theme .pp-cmp-bar { background:rgba(0,0,0,0.08); }
 .panel-profile.light-theme .pp-act-tip { background:rgba(255,255,255,0.97); border-color:#c4c4d0; color:#0f0f14; }
 .panel-profile.light-theme .pp-ach-item.unlocked { border-color:rgba(0,0,0,0.1); }
 .panel-profile.light-theme .pp-setting-row:hover { background:rgba(0,0,0,0.03); }
 .panel-profile.light-theme .pp-bg-live-overlay { background:linear-gradient(to top, rgba(255,255,255,0.6), transparent); color:rgba(0,0,0,0.6); }
+.panel-profile.light-theme .pp-tile { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-profile.light-theme .pp-tile-icon { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
+.panel-profile.light-theme .pp-card { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-profile.light-theme .pp-card-badge { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
+.panel-profile.light-theme .pp-settings-list { background:rgba(0,0,0,0.02); border-color:var(--border-color); }
+.panel-profile.light-theme .pp-setting-row { border-color:var(--border-color); }
+.panel-profile.light-theme .pp-ach-item { background:rgba(0,0,0,0.02); border-color:rgba(0,0,0,0.08); }
+.panel-profile.light-theme .pp-ach-icon { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.08); }
+.panel-profile.light-theme .pp-ach-lock { background:#fff; border-color:rgba(0,0,0,0.12); }
+.panel-profile.light-theme .pp-xp-pct-label { background:rgba(255,255,255,0.97); border-color:#c4c4d0; }
+.panel-profile.light-theme .pp-file-row { background:rgba(0,0,0,0.02); border-color:rgba(0,0,0,0.07); }
+.panel-profile.light-theme .pp-wiki-row { background:rgba(0,0,0,0.02); border-color:rgba(0,0,0,0.07); }
+.panel-profile.light-theme .pp-ms { border-color:rgba(0,0,0,0.1); }
+.panel-profile.light-theme .pp-ms.current { border-color:var(--accent-strong); }
 
 /* ── RESPONSIVE ── */
 @media (max-width: 900px) {

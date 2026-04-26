@@ -38,6 +38,11 @@ import CustomCursor from './components/CustomCursor.vue'
 import CaseHeader from './components/CaseHeader.vue'
 import FluidLightbox from './components/FluidLightbox.vue'
 import SidebarBookmarks from './components/SidebarBookmarks.vue'
+import SidebarToggle from './components/SidebarToggle.vue'
+import MobileScrollSpy from './components/MobileScrollSpy.vue'
+import WfTOC from './components/WfTOC.vue'
+import SidebarFooter from './components/SidebarFooter.vue'
+import SidebarFloatingControls from './components/SidebarFloatingControls.vue'
 
 // Componente lazy — split in chunks separate, nu blocheaza theme.js
 const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
@@ -107,14 +112,18 @@ export default {
       'doc-footer-before': () => h(FeedbackWidget),
 
       // Navbar
-      'sidebar-nav-before': () => [h(NavSearch), h(SidebarBookmarks)],
-      'sidebar-nav-after': () => h(DocUserWidget),
+      'sidebar-nav-before': () => h(NavSearch),
+      'sidebar-nav-after': () => [h(DocUserWidget), h(SidebarFooter)],
 
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,
+      'nav-bar-title-after': () => h(SidebarToggle),
 
       // Footer
       'layout-bottom': () => h(SiteMap),
+
+      // 🔥 Custom TOC replacing VitePress default
+      'aside-outline-before': () => h(WfTOC),
 
       // 🔥 CONTRIBUTORS - jos înainte de footer
       'aside-outline-after': () => h(ContributorsWF),
@@ -123,7 +132,7 @@ export default {
       'not-found': () => h(PageNotFound),
 
       // 🔥 Global UX enhancements
-      'layout-top': () => [h(BackToTop), h(DocEnhancements), h(CustomCursor), h(FluidLightbox)]
+      'layout-top': () => [h(BackToTop), h(DocEnhancements), h(CustomCursor), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy)]
     })
   },
 
@@ -149,6 +158,7 @@ export default {
     app.component('CaseHeader', CaseHeader)
     app.component('ContributorsWF', ContributorsWF)
     app.component('VPNavBarAppearance', VPNavBarAppearance)
+    app.component('SidebarFooter', SidebarFooter)
     app.component('Dashboard', Dashboard)
     app.component('PanelSidebar', PanelSidebar)
     app.component('PanelHeader', PanelHeader)
@@ -248,10 +258,24 @@ export default {
           nextTick(() => requestAnimationFrame(setupBadges))
         }
 
+
         // Initial load: the dynamic import resolves after onAfterRouteChange already
         // fired, so hook it manually. nextTick ensures Vue has finished hydration.
         nextTick(() => requestAnimationFrame(setupBadges))
       }).catch(() => {})
+    }
+
+    // 🔥 Close search modal instantly on any SPA navigation
+    if (typeof window !== 'undefined') {
+      router.onBeforeRouteChange = () => {
+        const modal = document.querySelector('.VPLocalSearchBox') as HTMLElement | null
+        if (modal) {
+          // Dispatch Escape so VitePress cleans up internal state
+          window.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true, cancelable: true }))
+          // Also forcibly hide instantly in case the event isn't caught fast enough
+          modal.style.display = 'none'
+        }
+      }
     }
 
     // 🔥 Page fade transition on SPA route change

@@ -1,1047 +1,318 @@
-﻿<template>
-  <div class="cases-wf">
-    <!-- Background image container with floating cases -->
-    <div class="hero-container">
-      <!-- Blurred background -->
-      <div class="blurred-bg" :style="{ filter: `blur(${blurAmount}px) brightness(var(--bg-brightness, 0.7))` }">
-        <img :src="background" alt="background" width="1200" height="400">
+<template>
+  <div class="cases-wf wch-root" :id="pageId || undefined">
+    <div class="wch-grid-bg" aria-hidden="true" />
+    <div class="wch-ambient-glow" aria-hidden="true" />
+    <div class="wch-inner">
+
+      <!-- Breadcrumb -->
+      <nav v-if="path && path.length" class="wch-breadcrumb" aria-label="Breadcrumb">
+        <template v-for="(crumb, i) in path" :key="i">
+          <span :class="['wch-crumb', { 'wch-crumb--active': i === path.length - 1 }]">{{ crumb }}</span>
+          <svg v-if="i < path.length - 1" class="wch-crumb-arrow" width="6" height="10" viewBox="0 0 6 10" fill="none" aria-hidden="true">
+            <path d="M1 1l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </template>
+      </nav>
+
+      <!-- Title -->
+      <h1 class="wch-title">{{ title }}</h1>
+
+      <!-- Tags -->
+      <div v-if="effectiveTags.length" class="wch-tags">
+        <component v-for="(tag, i) in effectiveTags" :key="i" :is="tag.component" :text="tag.text" />
       </div>
-      
-      <!-- Floating Icons Container -->
-      <div class="floating-icons-container">
-        <div 
-          v-for="(icon, index) in computedFloatingIcons" 
-          :key="index"
-          :class="['floating-icon', `icon-${index + 1}`]"
-        >
-          <img :src="icon.src" :alt="icon.alt" :style="icon.style" width="48" height="48">
-        </div>
-      </div>
-      
-      <!-- Gradient overlay for better contrast -->
-      <div class="gradient-overlay"></div>
-      
-      <!-- Content -->
-      <div class="content">
-        <!-- Breadcrumb -->
-        <div class="breadcrumb">
-          <div class="breadcrumb-items">
-            <Icon icon="lucide:home" :size="11" class="home-icon" />
-            <template v-for="(item, idx) in path" :key="idx">
-              <span :class="['orbitron-font', { 'active': idx === path.length - 1 }]">
-                {{ item }}
-              </span>
-              <span v-if="idx < path.length - 1" class="separator">
-                <Icon icon="lucide:chevron-right" :size="11" />
-              </span>
-            </template>
-          </div>
-          <div class="right-badges">
-            <button
-              class="bookmark-btn"
-              :class="{ active: isBookmarked }"
-              @click="toggleBookmark"
-              :title="isBookmarked ? 'Remove bookmark' : 'Bookmark this page'"
-            >
-              <svg viewBox="0 0 24 24" width="13" height="13" :fill="isBookmarked ? 'currentColor' : 'none'" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-              </svg>
-              <span class="orbitron-font">{{ isBookmarked ? 'Saved' : 'Bookmark' }}</span>
-            </button>
-            <div class="viewers-count">
-              <Icon icon="lucide:eye" :size="11" />
-              <span class="orbitron-font">{{ viewCount }}</span>
+
+      <!-- Toolbar -->
+      <div class="wch-toolbar">
+        <a :href="editUrl" target="_blank" rel="noopener noreferrer" class="wch-btn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+          Edit this page
+        </a>
+        <button class="wch-btn" :class="{ 'wch-btn--success': copied }" @click="handleCopy">
+          <svg v-if="!copied" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          <svg v-else viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg>
+          {{ copied ? 'Copied!' : 'Copy markdown' }}
+        </button>
+        <div class="wch-open-wrap" ref="openInRef">
+          <button class="wch-btn wch-btn--dropdown" @click="dropdownOpen = !dropdownOpen">
+            Open in
+            <svg class="wch-chevron" :style="dropdownOpen ? 'transform:rotate(180deg)' : ''" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="12" height="12"><polyline points="6 9 12 15 18 9"/></svg>
+          </button>
+          <Transition name="wch-dd">
+            <div v-if="dropdownOpen" class="wch-open-menu" role="menu">
+              <a v-for="tool in openInTools" :key="tool.id" :href="tool.url" target="_blank" rel="noopener noreferrer" class="wch-open-item" role="menuitem" @click="dropdownOpen = false">
+                <span class="wch-tool-icon" v-html="tool.svg" />
+                <span class="wch-tool-label">Open in {{ tool.name }}</span>
+                <svg class="wch-ext-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              </a>
             </div>
-            <div class="badge">
-              <Icon :icon="badgeIcon" :size="11" />
-              <span class="orbitron-font">{{ badgeText }}</span>
-            </div>
-          </div>
-        </div>
-        
-        <!-- Title Section -->
-        <div class="title-section">
-          <img :src="icon" alt="Wildfire.ro" class="title-icon" width="56" height="56">
-          <h1 class="orbitron-font gradient-text">{{ title }}</h1>
-        </div>
-        
-        <!-- Footer Section -->
-        <div class="footer-section">
-          <div class="tags">
-            <img src="/icons/tag.svg" alt="tag" class="tag-icon" width="18" height="18">
-            <component 
-              :is="tag.component" 
-              v-for="(tag, idx) in effectiveTags" 
-              :key="idx"
-              class="orbitron-font tag"
-            >
-              {{ tag.text }}
-            </component>
-          </div>
-          <div v-if="effectiveUsername" class="updated-by">
-            <span class="orbitron-font">{{ updatedByText }}</span>
-            <a 
-              :href="`https://github.com/${effectiveUsername}`" 
-              target="_blank" 
-              class="github-profile"
-              :data-username="effectiveUsername"
-              :data-tags="dataTags"
-            >
-              <img :src="`https://github.com/${effectiveUsername}.png`" :alt="effectiveUsername" width="24" height="24">
-            </a>
-          </div>
+          </Transition>
         </div>
       </div>
+
+      <!-- Meta -->
+      <div v-if="lastUpdatedText || uploadedByValue" class="wch-meta">
+        <span v-if="lastUpdatedText" class="wch-meta-chip">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          Updated {{ lastUpdatedText }}
+        </span>
+        <a v-if="uploadedByValue" :href="`https://github.com/${uploadedByValue}`" target="_blank" rel="noopener noreferrer" class="wch-meta-chip wch-author-link github-profile" :data-username="uploadedByValue">
+          <img :src="`https://github.com/${uploadedByValue}.png`" :alt="uploadedByValue" width="20" height="20" loading="lazy" class="wch-author-pfp" />
+          by {{ uploadedByValue }}
+        </a>
+      </div>
+
     </div>
   </div>
 </template>
 
 <script setup>
-import { computed, ref, onMounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useData } from 'vitepress'
-import { USER_TAGS } from '../data/userTags'
 
-// Props definition
 const props = defineProps({
-  title: {
-    type: String,
-    required: true,
-    default: 'Cases'
-  },
-  tags: {
-    type: Array,
-    default: () => [
-      { text: 'cases', component: 'PageTagRed' },
-      { text: 'skins', component: 'PageTagBlue' },
-      { text: 'market', component: 'PageTagGreen' },
-      { text: 'website', component: 'PageTagPurple' }
-    ]
-  },
-  path: {
-    type: Array,
-    default: () => ['Home', 'Systems', 'Cases']
-  },
-  background: {
-    type: String,
-    default: '/wallpaper/backgroundwf.webp'
-  },
-  blurAmount: {
-    type: Number,
-    default: 6
-  },
-  icon: {
-    type: String,
-    default: '/icons/wildfire.webp'
-  },
-  floatingIcons: {
-    type: Array,
-    default: () => []
-  },
-  updatedByText: {
-    type: String,
-    default: 'updated by'
-  },
-  badgeText: {
-    type: String,
-    default: 'Case Opening'
-  },
-  badgeIcon: {
-    type: String,
-    default: 'lucide:box'
-  },
-  pageId: {
-    type: String,
-    default: 'default-page'
-  }
+  title:      { type: String, required: true },
+  tags:       { type: Array,  default: () => [] },
+  path:       { type: Array,  default: () => [] },
+  pageId:     { type: String, default: '' },
+  uploadedBy: { type: String, default: '' },
+  background: { type: String, default: '' },
+  blurAmount: { type: Number, default: 8 },
+  icon:       { type: String, default: '' },
+  badgeText:  { type: String, default: '' },
+  badgeIcon:  { type: String, default: '' },
 })
 
+const { page, frontmatter } = useData()
+
 const SECTION_TAG_COMPONENT = {
-  informatii: 'PageTagOrange',
-  currency: 'PageTagGreen',
-  systems: 'PageTagRed',
-  market: 'PageTagPurple',
+  informatii:   'PageTagOrange',
+  currency:     'PageTagGreen',
+  systems:      'PageTagRed',
+  market:       'PageTagPurple',
   updates_wiki: 'PageTagAmber',
 }
 
-const { frontmatter, page } = useData()
-
-const BM_KEY = 'wildfire-bookmarks'
-const isBookmarked = ref(false)
-
-const currentPagePath = computed(() =>
-  page.value.relativePath
-    ? '/' + page.value.relativePath.replace(/\.md$/, '.html').replace(/index\.html$/, '')
-    : ''
-)
-
-function loadBookmarkState() {
-  try {
-    const bms = JSON.parse(localStorage.getItem(BM_KEY) || '[]')
-    isBookmarked.value = bms.some(b => b.path === currentPagePath.value)
-  } catch { isBookmarked.value = false }
-}
-
-function toggleBookmark() {
-  try {
-    let bms = JSON.parse(localStorage.getItem(BM_KEY) || '[]')
-    const idx = bms.findIndex(b => b.path === currentPagePath.value)
-    if (idx >= 0) {
-      bms.splice(idx, 1)
-      isBookmarked.value = false
-    } else {
-      const h1 = document.querySelector('.vp-doc h1')
-      const title = h1?.textContent?.replace(/\s*#\s*$/, '').trim() || props.title || 'Untitled'
-      const parts = currentPagePath.value.split('/').filter(Boolean)
-      const section = parts.length > 1 ? parts[0] : 'docs'
-      bms.unshift({ path: currentPagePath.value, title, section, addedAt: Date.now() })
-      isBookmarked.value = true
-    }
-    localStorage.setItem(BM_KEY, JSON.stringify(bms))
-  } catch (e) { console.warn('Bookmark error', e) }
-}
-
 const effectiveTags = computed(() => {
-  const rel = page.value?.relativePath || ''
-  const section = rel.split('/')[0]
-  const comp = SECTION_TAG_COMPONENT[section]
-  if (!comp) return props.tags
-  return props.tags.map(t => ({ ...t, component: comp }))
-})
-const effectiveUsername = computed(() => frontmatter.value.gitLastCommitter || '')
-const dataTags = computed(() => {
-  const u = effectiveUsername.value
-  if (!u) return ''
-  const tags = USER_TAGS[u] || USER_TAGS[u.toLowerCase()] || []
-  return tags.map(t => `show-${t}`).join(' ')
-})
-
-// View counter logic
-const viewCount = ref(0)
-const STORAGE_KEY = 'wildfire_page_views'
-
-// Function to get and increment view count - cu cooldown 1 oră
-const updateViewCount = () => {
-  try {
-    // Get existing views from localStorage
-    let views = localStorage.getItem(STORAGE_KEY)
-    
-    if (views) {
-      views = JSON.parse(views)
-    } else {
-      views = {}
-    }
-    
-    // MIGRARE: Convert old format (number) to new format (object)
-    if (views[props.pageId] !== undefined && typeof views[props.pageId] !== 'object') {
-      const oldCount = views[props.pageId]
-      views[props.pageId] = {
-        count: oldCount,
-        lastUpdate: Date.now()
-      }
-    }
-    
-    // Initialize page data if doesn't exist
-    if (!views[props.pageId]) {
-      views[props.pageId] = {
-        count: 0,
-        lastUpdate: 0
-      }
-    }
-    
-    const now = Date.now()
-    const COOLDOWN_MS = 60 * 60 * 1000 // 1 oră
-    
-    // Verifică dacă a trecut cooldown-ul SAU e prima vizită (lastUpdate = 0)
-    if (views[props.pageId].lastUpdate === 0 || (now - views[props.pageId].lastUpdate >= COOLDOWN_MS)) {
-      // Crește count-ul
-      views[props.pageId].count++
-      views[props.pageId].lastUpdate = now
-      
-      // Save to localStorage
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(views))
-    }
-    
-    viewCount.value = views[props.pageId].count
-  } catch (error) {
-    console.error('Error updating view count:', error)
-    viewCount.value = 0
-  }
-}
-// Initialize view counter
-onMounted(() => {
-  updateViewCount()
-  loadBookmarkState()
-})
-
-// Generate floating icons (default or custom)
-const computedFloatingIcons = computed(() => {
-  if (props.floatingIcons && props.floatingIcons.length > 0) {
-    return props.floatingIcons.map((icon, idx) => ({
-      src: icon.src,
-      alt: icon.alt || 'floating icon',
-      style: {
-        width: icon.width || '55px',
-        opacity: icon.opacity || '0.25',
-        filter: `drop-shadow(0 0 ${icon.shadowSize || '12px'} rgba(255, 120, 0,${icon.shadowOpacity || '0.4'}))`
-      }
+  const section = page.value?.relativePath?.split('/')[0]
+  const themeComp = SECTION_TAG_COMPONENT[section] || 'PageTagOrange'
+  
+  if (props.tags?.length) {
+    return props.tags.map(t => ({
+      ...t,
+      component: themeComp
     }))
   }
-  
+  return [{ text: section ? section.replace('_', ' ') : '', component: themeComp }]
+})
+
+const GITHUB_REPO   = 'WildFiire/docs'
+const GITHUB_BRANCH = 'main'
+const relPath = computed(() => page.value?.relativePath || '')
+const editUrl       = computed(() => `https://github.com/${GITHUB_REPO}/edit/${GITHUB_BRANCH}/docs/${relPath.value}`)
+const rawUrl        = computed(() => `https://raw.githubusercontent.com/${GITHUB_REPO}/${GITHUB_BRANCH}/docs/${relPath.value}`)
+const githubFileUrl = computed(() => `https://github.com/${GITHUB_REPO}/blob/${GITHUB_BRANCH}/docs/${relPath.value}`)
+
+const copied = ref(false)
+let copyTimer = null
+async function handleCopy() {
+  try {
+    const res = await fetch(rawUrl.value)
+    const text = res.ok ? await res.text() : window.location.href
+    await navigator.clipboard.writeText(text)
+  } catch { try { await navigator.clipboard.writeText(window.location.href) } catch {} }
+  copied.value = true
+  clearTimeout(copyTimer)
+  copyTimer = setTimeout(() => { copied.value = false }, 2500)
+}
+
+const dropdownOpen = ref(false)
+const openInRef = ref(null)
+function handleOutside(e) {
+  if (openInRef.value && !openInRef.value.contains(e.target)) dropdownOpen.value = false
+}
+onMounted(() => document.addEventListener('click', handleOutside, true))
+onUnmounted(() => { document.removeEventListener('click', handleOutside, true); clearTimeout(copyTimer) })
+
+const openInTools = computed(() => {
+  const url = typeof window !== 'undefined' ? window.location.href : ''
+  const q   = encodeURIComponent('Explain this documentation page: ' + url)
   return [
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '55px', opacity: '0.25', filter: 'drop-shadow(0 0 12px rgba(255, 120, 0,0.4))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '75px', opacity: '0.2', filter: 'drop-shadow(0 0 18px rgba(255, 120, 0,0.3))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '45px', opacity: '0.3', filter: 'drop-shadow(0 0 10px rgba(255, 120, 0,0.5))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '65px', opacity: '0.18', filter: 'drop-shadow(0 0 14px rgba(255, 120, 0,0.35))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '50px', opacity: '0.28', filter: 'drop-shadow(0 0 12px rgba(255, 120, 0,0.45))' } },
-    { src: '/icons/wildfire.webp', alt: 'wildfire', style: { width: '85px', opacity: '0.15', filter: 'drop-shadow(0 0 22px rgba(255, 120, 0,0.25))' } }
+    { id: 'chatgpt',    name: 'ChatGPT',    url: `https://chatgpt.com/?q=${q}`,                            svg: `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M22.282 9.821a5.985 5.985 0 0 0-.516-4.91 6.046 6.046 0 0 0-6.51-2.9A6.065 6.065 0 0 0 4.981 4.18a5.985 5.985 0 0 0-3.998 2.9 6.046 6.046 0 0 0 .743 7.097 5.98 5.98 0 0 0 .51 4.911 6.051 6.051 0 0 0 6.515 2.9A5.985 5.985 0 0 0 13.26 24a6.056 6.056 0 0 0 5.772-4.206 5.99 5.99 0 0 0 3.997-2.9 6.056 6.056 0 0 0-.747-7.073z"/></svg>` },
+    { id: 'claude',     name: 'Claude',     url: `https://claude.ai/new?q=${q}`,                           svg: `<svg viewBox="0 0 100 100" fill="currentColor" width="14" height="14"><path d="M50 5C25.1 5 5 25.1 5 50s20.1 45 45 45 45-20.1 45-45S74.9 5 50 5zm-8 62.5L20.5 55l7.5-4.3 14 8.1V35.2l8.5-4.9v45.4l-8.5-8.2zm24.5 0l-8.5-4.9V25.3l8.5 4.9v37.3z"/></svg>` },
+    { id: 'cursor',     name: 'Cursor',     url: rawUrl.value,                                             svg: `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="14" height="14"><rect x="2" y="2" width="20" height="20" rx="4"/><path d="M8 12h8M12 8v8"/></svg>` },
+    { id: 'perplexity', name: 'Perplexity', url: `https://www.perplexity.ai/search?q=${q}`,               svg: `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>` },
+    { id: 'github',     name: 'GitHub',     url: githubFileUrl.value,                                      svg: `<svg viewBox="0 0 24 24" fill="currentColor" width="14" height="14"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>` },
   ]
 })
+
+const lastUpdatedText = computed(() => {
+  const ts = page.value?.lastUpdated
+  if (!ts) return ''
+  return new Date(ts).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
+})
+const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gitLastCommitter || frontmatter.value?.uploadedBy || '')
 </script>
 
 <style scoped>
-/* Tot CSS-ul de mai rămâne la fel */
-.cases-wf {
-  width: 100%;
-}
-
-.hero-container {
+.wch-root {
   position: relative;
+  z-index: 50;
+  border-radius: 12px;
+  border: 1px solid rgba(var(--wf-accent-rgb), 0.15);
+  background: var(--vp-c-bg-soft);
+  margin-bottom: 2rem;
+  transition: border-color 0.3s ease;
+}
+.wch-root:hover { border-color: rgba(var(--wf-accent-rgb), 0.28); }
+
+.wch-grid-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  border-radius: inherit;
   overflow: hidden;
-  border-radius: 28px;
-  margin-bottom: 24px;
-  min-height: 200px;
-  background-color: var(--vp-c-bg);
-  border: 1px solid rgba(255, 120, 0, 0.2);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1), 0 1px 2px rgba(0, 0, 0, 0.05);
-  transition: all 0.3s ease;
+  background-image:
+    linear-gradient(rgba(var(--wf-accent-rgb), 0.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(var(--wf-accent-rgb), 0.08) 1px, transparent 1px);
+  background-size: 36px 36px;
+  mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, black 20%, transparent 100%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, black 20%, transparent 100%);
 }
 
-html.dark .hero-container {
-  border-color: rgba(255, 120, 0, 0.3);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.1);
-}
-
-.hero-container:hover {
-  border-color: rgba(255, 120, 0, 0.4);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.15), 0 2px 4px rgba(0, 0, 0, 0.08);
-  transform: translateY(-2px);
-}
-
-html.dark .hero-container:hover {
-  border-color: rgba(255, 120, 0, 0.5);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4), 0 2px 4px rgba(0, 0, 0, 0.15);
-}
-
-.blurred-bg {
+.wch-ambient-glow {
   position: absolute;
-  top: -20px;
-  left: -20px;
-  right: -20px;
-  bottom: -20px;
+  inset: 0;
   z-index: 0;
-  transform: scale(1.1);
-}
-
-.blurred-bg img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  opacity: var(--bg-opacity, 0.45);
-}
-
-.gradient-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  background: linear-gradient(135deg, 
-    rgba(255, 120, 0, 0.05) 0%,
-    rgba(0, 0, 0, 0.1) 50%,
-    rgba(255, 120, 0, 0.05) 100%
-  );
+  border-radius: inherit;
+  overflow: hidden;
+  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(var(--wf-accent-rgb), 0.13), transparent 70%);
   pointer-events: none;
 }
 
-html.dark .gradient-overlay {
-  background: linear-gradient(135deg, 
-    rgba(255, 120, 0, 0.08) 0%,
-    rgba(0, 0, 0, 0.2) 50%,
-    rgba(255, 120, 0, 0.08) 100%
-  );
-}
-
-html:not(.dark) .gradient-overlay {
-  background: linear-gradient(135deg, 
-    rgba(255, 255, 255, 0.4) 0%,
-    rgba(255, 255, 255, 0.2) 50%,
-    rgba(255, 255, 255, 0.4) 100%
-  );
-}
-
-.floating-icons-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
-
-.floating-icon {
-  position: absolute;
-  animation: floatAround 25s infinite ease-in-out;
-  will-change: transform;
-}
-
-.icon-1 {
-  top: 8%;
-  left: 2%;
-  animation-duration: 28s;
-  animation-delay: 0s;
-}
-
-.icon-2 {
-  top: 15%;
-  right: 5%;
-  animation-duration: 32s;
-  animation-delay: -4s;
-}
-
-.icon-3 {
-  bottom: 12%;
-  left: 8%;
-  animation-duration: 26s;
-  animation-delay: -8s;
-}
-
-.icon-4 {
-  top: 45%;
-  right: 12%;
-  animation-duration: 35s;
-  animation-delay: -3s;
-}
-
-.icon-5 {
-  bottom: 35%;
-  right: 3%;
-  animation-duration: 30s;
-  animation-delay: -12s;
-}
-
-.icon-6 {
-  top: 65%;
-  left: 10%;
-  animation-duration: 27s;
-  animation-delay: -7s;
-}
-
-@keyframes floatAround {
-  0% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  20% {
-    transform: translate(calc(100% - 120px), calc(-15%)) rotate(6deg);
-  }
-  40% {
-    transform: translate(calc(-80%), calc(40% - 60px)) rotate(-5deg);
-  }
-  60% {
-    transform: translate(calc(110% - 100px), calc(20%)) rotate(7deg);
-  }
-  80% {
-    transform: translate(calc(-60%), calc(70% - 80px)) rotate(-4deg);
-  }
-  100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-}
-
-.content {
+.wch-inner {
   position: relative;
-  z-index: 2;
-  padding: 24px 24px 18px 24px;
-  border-radius: 28px;
+  z-index: 1;
+  padding: 28px 32px 24px;
 }
 
-.breadcrumb {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  margin-bottom: 14px;
-  flex-wrap: nowrap;
-  gap: 8px;
-  min-width: 0;
-}
+.wch-breadcrumb { display: flex; align-items: center; gap: 5px; margin-bottom: 14px; }
+.wch-crumb { font-size: 11.5px; font-weight: 500; color: var(--vp-c-text-3); letter-spacing: 0.01em; }
+.wch-crumb--active { color: var(--vp-c-text-2); }
+.wch-crumb-arrow { color: var(--vp-c-text-3); flex-shrink: 0; opacity: 0.4; }
 
-.breadcrumb-items {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  background: rgba(0, 0, 0, 0.05);
-  backdrop-filter: blur(8px);
-  padding: 3px 10px;
-  border-radius: 8px;
-  border: 1px solid rgba(255, 120, 0, 0.25);
-  flex: 0 1 auto;
-  width: fit-content;
-  max-width: 100%;
-  min-width: max-content;
-  white-space: nowrap;
-  overflow-x: auto;
-  overflow-y: hidden;
-  scrollbar-width: thin;
+.wch-title {
+  font-family: 'Orbitron', sans-serif !important;
+  font-size: clamp(1.5rem, 4vw, 2.1rem) !important;
+  font-weight: 700 !important;
+  line-height: 1.2 !important;
+  color: var(--vp-c-brand-1) !important;
+  margin: 0 0 14px !important;
+  padding: 0 !important;
+  border: none !important;
+  letter-spacing: -0.02em !important;
 }
+.wch-title::before { display: none !important; }
 
-html.dark .breadcrumb-items {
-  background: rgba(0, 0, 0, 0.3);
-  border-color: rgba(255, 120, 0, 0.35);
-}
+.wch-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 20px; }
 
-html:not(.dark) .breadcrumb-items {
-  background: rgba(255, 255, 255, 0.6);
-  border-color: rgba(255, 120, 0, 0.2);
-}
+.wch-toolbar { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 20px; }
 
-.home-icon {
-  color: var(--vp-c-brand-1);
-  opacity: 0.9;
-  flex: 0 0 auto;
-}
-
-.breadcrumb-items span {
-  color: var(--vp-c-brand-1);
-  font-weight: 500;
-  font-size: 10px;
-  white-space: nowrap;
-  flex: 0 0 auto;
-}
-
-.breadcrumb-items span.active {
-  color: var(--vp-c-text-2);
-  opacity: 0.8;
-}
-
-.separator {
+.wch-btn {
   display: inline-flex;
   align-items: center;
-  color: var(--vp-c-brand-1);
-  opacity: 0.5;
-  flex: 0 0 auto;
-}
-
-.right-badges {
-  display: flex;
-  align-items: center;
   gap: 6px;
-  flex-wrap: nowrap;
-  flex: 0 0 auto;
-  margin-left: auto;
-}
-
-.bookmark-btn {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  backdrop-filter: blur(4px);
-  padding: 3px 8px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 120, 0, 0.4);
-  background: none;
+  padding: 6px 13px;
+  border-radius: 7px;
+  font-size: 12.5px;
+  font-weight: 500;
+  font-family: inherit;
+  border: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg);
+  color: var(--vp-c-text-2);
   cursor: pointer;
-  transition: all 0.2s ease;
+  text-decoration: none;
+  transition: all 0.18s ease;
+  white-space: nowrap;
+  line-height: 1.4;
+}
+.wch-btn:hover {
+  border-color: rgba(var(--wf-accent-rgb), 0.4);
   color: var(--vp-c-brand-1);
+  background: rgba(var(--wf-accent-rgb), 0.05);
 }
-
-html.dark .bookmark-btn {
-  background: rgba(0, 0, 0, 0.6);
-  border-color: rgba(255, 120, 0, 0.5);
+.wch-btn--success {
+  border-color: rgba(16, 185, 129, 0.4) !important;
+  color: #10b981 !important;
+  background: rgba(16, 185, 129, 0.06) !important;
 }
+.wch-chevron { transition: transform 0.2s ease; flex-shrink: 0; opacity: 0.6; }
 
-html:not(.dark) .bookmark-btn {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 120, 0, 0.35);
-}
-
-.bookmark-btn span {
-  font-size: 10px;
-  color: var(--vp-c-brand-1);
-  font-weight: 500;
-}
-
-.bookmark-btn:hover {
-  border-color: rgba(255, 120, 0, 0.7);
-  transform: translateY(-1px);
-}
-
-.bookmark-btn.active {
-  border-color: var(--vp-c-brand-1);
-}
-
-html.dark .bookmark-btn.active {
-  background: rgba(255, 120, 0, 0.15);
-}
-
-html:not(.dark) .bookmark-btn.active {
-  background: rgba(255, 120, 0, 0.08);
-}
-
-.bookmark-btn svg {
-  color: var(--vp-c-brand-1);
-  opacity: 0.9;
-}
-
-.viewers-count {
+.wch-open-wrap { position: relative; }
+.wch-open-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  z-index: 200;
+  min-width: 210px;
+  background: var(--vp-c-bg);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 10px;
+  padding: 6px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.6), 0 2px 8px rgba(0,0,0,0.4);
   display: flex;
-  align-items: center;
-  gap: 5px;
-  backdrop-filter: blur(4px);
-  padding: 3px 8px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 120, 0, 0.4);
-  font-weight: 600;
+  flex-direction: column;
+  gap: 2px;
 }
-
-html.dark .viewers-count {
-  background: rgba(0, 0, 0, 0.6);
-  border-color: rgba(255, 120, 0, 0.5);
+/* Ensure the dropdown is completely solid if the theme variables are transparent */
+html.dark .wch-open-menu {
+  background: rgba(22, 22, 24, 0.98);
 }
-
-html:not(.dark) .viewers-count {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 120, 0, 0.35);
+html:not(.dark) .wch-open-menu {
+  background: rgba(255, 255, 255, 0.98);
 }
-
-.viewers-count span {
-  font-size: 10px;
-  color: var(--vp-c-brand-1);
-  font-weight: 600;
-}
-
-.viewers-count :deep(svg) {
-  color: var(--vp-c-brand-1);
-  opacity: 0.9;
-}
-
-.badge {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  backdrop-filter: blur(4px);
-  padding: 3px 8px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 120, 0, 0.4);
-}
-
-html.dark .badge {
-  background: rgba(0, 0, 0, 0.6);
-  border-color: rgba(255, 120, 0, 0.5);
-}
-
-html:not(.dark) .badge {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 120, 0, 0.35);
-}
-
-.badge span {
-  font-size: 10px;
-  color: var(--vp-c-brand-1);
-  font-weight: 500;
-}
-
-.badge :deep(svg) {
-  color: var(--vp-c-brand-1);
-  opacity: 0.9;
-}
-
-.title-section {
+.wch-open-item {
   display: flex;
   align-items: center;
   gap: 10px;
-  margin-bottom: 14px;
-  flex-wrap: wrap;
-}
-
-.title-icon {
-  width: 44px;
-  margin: 0;
-  transition: transform 0.2s ease;
-  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.1));
-}
-
-.title-icon:hover {
-  transform: scale(1.02);
-}
-
-.gradient-text {
-  font-size: 26px;
-  margin: 0;
-  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-2), #ff7800, var(--vp-c-brand-1));
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-  background-size: 300% 200%;
-  animation: gradientShift 8s ease infinite;
-  font-weight: 700;
-}
-
-@keyframes gradientShift {
-  0% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
-  100% { background-position: 0% 50%; }
-}
-
-.footer-section {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 12px;
-  border-top: 1px solid rgba(255, 120, 0, 0.25);
-  padding-top: 12px;
-  margin-top: 4px;
-}
-
-.tags {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.tag-icon {
-  width: 18px;
-  height: 18px;
-  filter: brightness(0) saturate(100%) invert(40%) sepia(0%) saturate(0%) hue-rotate(0deg) brightness(95%) contrast(90%);
-  user-select: none;
-  margin-right: 6px;
-}
-
-html.dark .tag-icon {
-  filter: brightness(0) saturate(100%) invert(60%) sepia(0%) saturate(0%) brightness(95%) contrast(90%);
-}
-
-html:not(.dark) .tag-icon {
-  filter: brightness(0) saturate(100%) invert(30%) sepia(0%) saturate(0%) brightness(95%) contrast(90%);
-}
-
-.tag {
-  font-size: 11px;
-  padding: 3px 10px;
-  border-radius: 20px;
+  padding: 8px 12px;
+  border-radius: 6px;
+  font-size: 13px;
   font-weight: 500;
-  transition: all 0.2s ease;
-  border: 1px solid rgba(255, 120, 0, 0.15);
-}
-
-.tag:hover {
-  transform: translateY(-1px);
-  filter: brightness(1.02);
-  border-color: rgba(255, 120, 0, 0.3);
-}
-
-.updated-by {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  backdrop-filter: blur(4px);
-  padding: 4px 14px 4px 16px;
-  border-radius: 32px;
-  border: 1px solid rgba(255, 120, 0, 0.3);
-  transition: all 0.2s ease;
-}
-
-.updated-by:hover {
-  border-color: rgba(255, 120, 0, 0.5);
-}
-
-html.dark .updated-by {
-  background: rgba(0, 0, 0, 0.5);
-  border-color: rgba(255, 120, 0, 0.4);
-}
-
-html:not(.dark) .updated-by {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 120, 0, 0.3);
-}
-
-.updated-by span {
-  font-size: 11px;
-  color: var(--vp-c-brand-1);
-  font-weight: 500;
-  letter-spacing: 0.3px;
-}
-
-.github-profile {
-  display: block;
+  color: var(--vp-c-text-2);
   text-decoration: none;
-  transition: all 0.2s ease;
-  border-radius: 50%;
-  border: 1.5px solid rgba(255, 120, 0, 0.4);
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  transition: background 0.15s ease, color 0.15s ease;
 }
+.wch-open-item:hover { 
+  background: rgba(var(--wf-accent-rgb), 0.12); 
+  color: var(--vp-c-brand-1); 
+}
+.wch-tool-icon { display: flex; align-items: center; color: inherit; flex-shrink: 0; opacity: 0.8; }
+.wch-tool-label { flex: 1; }
+.wch-ext-icon { color: inherit; opacity: 0.4; flex-shrink: 0; transition: opacity 0.15s; }
+.wch-open-item:hover .wch-ext-icon { opacity: 0.8; }
 
-.github-profile:hover {
-  transform: scale(1.08);
-  border-color: rgba(255, 120, 0, 0.7);
-}
+.wch-dd-enter-active, .wch-dd-leave-active { transition: opacity 0.15s ease, transform 0.15s ease; }
+.wch-dd-enter-from, .wch-dd-leave-to { opacity: 0; transform: translateY(-4px); }
 
-.github-profile img {
-  width: 24px;
-  height: 24px;
-  border-radius: 50%;
-  display: block;
-  user-select: none;
+.wch-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid var(--vp-c-divider); }
+.wch-meta-chip { 
+  display: inline-flex; align-items: center; gap: 6px; 
+  font-size: 12.5px; color: var(--vp-c-text-2); font-weight: 500; 
+  text-decoration: none; transition: all 0.2s ease;
 }
-
-.cases-wf:hover .floating-icon img {
-  opacity: 0.45;
-  transition: opacity 0.3s ease;
+.wch-meta-chip svg { color: var(--vp-c-text-3); }
+.wch-author-link:hover { 
+  color: var(--vp-c-brand-1); 
 }
-
-@media (max-width: 768px) {
-  .hero-container {
-    border-radius: 20px;
-    min-height: 160px;
-  }
-  
-  .content {
-    padding: 20px 20px 16px 20px;
-  }
-  
-  .gradient-text {
-    font-size: 26px;
-  }
-  
-  .title-icon {
-    width: 44px;
-  }
-  
-  .breadcrumb-items {
-    padding: 3px 10px;
-  }
-  
-  .breadcrumb-items span {
-    font-size: 10px;
-  }
-  
-  .viewers-count, .badge {
-    padding: 3px 8px;
-  }
-  
-  .viewers-count span, .badge span {
-    font-size: 10px;
-  }
-  
-  .tag {
-    font-size: 10px;
-    padding: 2px 8px;
-  }
-  
-  .updated-by {
-    padding: 3px 12px 3px 14px;
-  }
-  
-  .updated-by span {
-    font-size: 10px;
-  }
-  
-  .github-profile img {
-    width: 22px;
-    height: 22px;
-  }
-}
+.wch-author-link:hover svg { color: var(--vp-c-brand-1); }
+.wch-author-pfp { border-radius: 50%; box-shadow: 0 0 0 1px rgba(var(--wf-accent-rgb), 0.2); }
 
 @media (max-width: 640px) {
-  .hero-container {
-    border-radius: 18px;
-    min-height: 140px;
-  }
-  
-  .content {
-    padding: 16px 16px 12px 16px;
-  }
-  
-  .breadcrumb {
-    gap: 8px;
-    margin-bottom: 12px;
-  }
-  
-  .breadcrumb-items {
-    padding: 2px 8px;
-  }
-  
-  .breadcrumb-items span {
-    font-size: 9px;
-  }
-  
-  .viewers-count, .badge {
-    padding: 2px 7px;
-  }
-  
-  .viewers-count span, .badge span {
-    font-size: 9px;
-  }
-  
-  .title-section {
-    gap: 8px;
-    margin-bottom: 14px;
-  }
-  
-  .gradient-text {
-    font-size: 22px;
-  }
-  
-  .title-icon {
-    width: 38px;
-  }
-  
-  .footer-section {
-    gap: 12px;
-    padding-top: 12px;
-  }
-  
-  .tags {
-    gap: 6px;
-  }
-  
-  .tag-icon {
-    width: 16px;
-    height: 16px;
-    margin-right: 4px;
-  }
-  
-  .tag {
-    font-size: 9px;
-    padding: 2px 6px;
-  }
-  
-  .updated-by {
-    padding: 2px 10px 2px 12px;
-  }
-  
-  .updated-by span {
-    font-size: 9px;
-  }
-  
-  .github-profile img {
-    width: 20px;
-    height: 20px;
-  }
-  
-  .floating-icon img {
-    width: 28px !important;
-  }
-  
-  .icon-2 img, .icon-6 img {
-    width: 35px !important;
-  }
-  
-  @keyframes floatAround {
-    0% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-    25% {
-      transform: translate(calc(50% - 50px), calc(-8%)) rotate(4deg);
-    }
-    50% {
-      transform: translate(calc(-40%), calc(25% - 30px)) rotate(-3deg);
-    }
-    75% {
-      transform: translate(calc(60% - 40px), calc(12%)) rotate(5deg);
-    }
-    100% {
-      transform: translate(0, 0) rotate(0deg);
-    }
-  }
-}
-
-@media (max-width: 480px) {
-  .hero-container {
-    border-radius: 16px;
-    min-height: 120px;
-  }
-  
-  .content {
-    padding: 12px 12px 10px 12px;
-  }
-  
-  .breadcrumb {
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-  
-  .breadcrumb-items {
-    padding: 2px 6px;
-  }
-  
-  .breadcrumb-items span {
-    font-size: 8px;
-  }
-  
-  .viewers-count, .badge {
-    padding: 2px 5px;
-  }
-  
-  .viewers-count span, .badge span {
-    font-size: 8px;
-  }
-  
-  .title-section {
-    gap: 6px;
-    margin-bottom: 10px;
-  }
-  
-  .gradient-text {
-    font-size: 18px;
-  }
-  
-  .title-icon {
-    width: 32px;
-  }
-  
-  .footer-section {
-    gap: 8px;
-    padding-top: 10px;
-  }
-  
-  .tags {
-    gap: 4px;
-  }
-  
-  .tag-icon {
-    width: 14px;
-    height: 14px;
-    margin-right: 3px;
-  }
-  
-  .tag {
-    font-size: 8px;
-    padding: 2px 5px;
-  }
-  
-  .updated-by {
-    padding: 2px 8px 2px 10px;
-  }
-  
-  .updated-by span {
-    font-size: 8px;
-  }
-  
-  .github-profile img {
-    width: 18px;
-    height: 18px;
-  }
-  
-  .floating-icon img {
-    width: 22px !important;
-  }
-  
-  .icon-2 img, .icon-6 img {
-    width: 28px !important;
-  }
+  .wch-inner { padding: 18px 16px 16px; }
+  .wch-title { font-size: 1.4rem !important; }
+  .wch-btn { padding: 5px 10px; font-size: 12px; }
 }
 </style>

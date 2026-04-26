@@ -715,6 +715,11 @@ export default {
 .panel-analytics.light-theme .stat-card:hover { box-shadow:0 8px 20px rgba(0,0,0,0.1); }
 .panel-analytics.light-theme .contributor-bar { background:rgba(0,0,0,0.1); }
 .panel-analytics.light-theme .contributor-item:hover { background:rgba(0,0,0,0.04); }
+.panel-analytics.light-theme .stat-card { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-analytics.light-theme .chart-card { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-analytics.light-theme .analytics-card { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-analytics.light-theme .pr-analytics { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-analytics.light-theme .contributors-section { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

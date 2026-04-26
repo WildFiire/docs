@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div v-if="contributors.length > 0 || loading" class="ctr-section">
     <div class="ctr-card">
 
@@ -93,16 +93,16 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 </script>
 
 <style scoped>
-/* ── Section ─────────────────────────── */
+/* -- Section --------------------------- */
 .ctr-section {
   margin-top: 2.5rem;
 }
 
-/* ── Card ────────────────────────────── */
+/* -- Card ------------------------------ */
 .ctr-card {
   padding: 14px 18px 18px;
   border-radius: 10px;
-  border: 1px solid rgba(255, 120, 0, 0.12);
+  border: 1px solid rgba(var(--wf-accent-rgb), 0.12);
   background: var(--vp-c-bg-soft);
   position: relative;
   overflow: hidden;
@@ -110,7 +110,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-card:hover {
-  border-color: rgba(255, 120, 0, 0.22);
+  border-color: rgba(var(--wf-accent-rgb), 0.22);
 }
 
 /* Brand accent line at top */
@@ -121,11 +121,11 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   left: 0;
   right: 0;
   height: 2px;
-  background: linear-gradient(90deg, #ff7800, #ff7800, transparent);
+  background: linear-gradient(90deg, var(--vp-c-brand-1), var(--vp-c-brand-1), transparent);
   border-radius: 10px 10px 0 0;
 }
 
-/* ── Header ──────────────────────────── */
+/* -- Header ---------------------------- */
 .ctr-header {
   display: flex;
   align-items: center;
@@ -140,7 +140,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-icon {
-  color: #ff7800;
+  color: var(--vp-c-brand-1);
   flex-shrink: 0;
   opacity: 0.8;
 }
@@ -156,23 +156,23 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 .ctr-count {
   font-size: 10px;
   font-weight: 700;
-  color: #ff7800;
-  background: rgba(255, 120, 0, 0.08);
-  border: 1px solid rgba(255, 120, 0, 0.2);
+  color: var(--vp-c-brand-1);
+  background: rgba(var(--wf-accent-rgb), 0.08);
+  border: 1px solid rgba(var(--wf-accent-rgb), 0.2);
   border-radius: 999px;
   padding: 1px 9px;
   line-height: 1.7;
   letter-spacing: 0.03em;
 }
 
-/* ── Grid ────────────────────────────── */
+/* -- Grid ------------------------------ */
 .ctr-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 14px 12px;
 }
 
-/* ── Avatar ──────────────────────────── */
+/* -- Avatar ---------------------------- */
 .ctr-avatar-wrap {
   display: flex;
   flex-direction: column;
@@ -197,8 +197,8 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   height: 44px;
   border-radius: 50%;
   padding: 2px;
-  background: linear-gradient(135deg, #ff7800, #ff7800);
-  box-shadow: 0 2px 8px rgba(255, 120, 0, 0.18);
+  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-1));
+  box-shadow: 0 2px 8px rgba(var(--wf-accent-rgb), 0.18);
   position: relative;
   overflow: hidden;
   transition: box-shadow 0.25s ease, transform 0.25s ease;
@@ -220,7 +220,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-avatar-wrap:hover .ctr-avatar-ring {
-  box-shadow: 0 6px 18px rgba(255, 120, 0, 0.32);
+  box-shadow: 0 6px 18px rgba(var(--wf-accent-rgb), 0.32);
   transform: scale(1.05);
 }
 
@@ -246,7 +246,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   filter: brightness(1.06);
 }
 
-/* ── Username ────────────────────────── */
+/* -- Username -------------------------- */
 .ctr-name {
   font-size: 10px;
   font-weight: 500;
@@ -260,10 +260,10 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 }
 
 .ctr-avatar-wrap:hover .ctr-name {
-  color: #ff7800;
+  color: var(--vp-c-brand-1);
 }
 
-/* ── Skeleton ────────────────────────── */
+/* -- Skeleton -------------------------- */
 .ctr-skeleton {
   display: flex;
   flex-direction: column;
@@ -292,7 +292,7 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
   50%       { opacity: 0.8; }
 }
 
-/* ── Responsive ──────────────────────── */
+/* -- Responsive ------------------------ */
 @media (max-width: 480px) {
   .ctr-card {
     padding: 12px 14px 16px;

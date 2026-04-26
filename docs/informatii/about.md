@@ -1,4 +1,4 @@
-﻿---
+---
 outline: deep
 ---
 <CaseHeader 

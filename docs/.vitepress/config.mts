@@ -66,6 +66,9 @@ export default defineConfig({
       window.wikiVersion = '3.0.0';
     `],
 
+    // Restore sidebar-collapsed state before first paint (no layout flash)
+    ['script', {}, `(function(){try{if(localStorage.getItem('wf-sidebar-collapsed')==='true'){document.documentElement.classList.add('sidebar-collapsed')}}catch(e){}})()`],
+
     // CSS PENTRU STILIZARE ICONITE SI VERSIUNE
     ['style', {}, `
       .nav-icon {

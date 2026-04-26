@@ -222,7 +222,7 @@ const submitFeedback = async () => {
   
   const currentPath = page.value.relativePath
   const pageTitle = formattedPageTitle.value
-  const ratingText = rating.value ? ` (${rating.value}★ - ${getRatingText()})` : ''
+  const ratingText = rating.value ? ` (${rating.value}? - ${getRatingText()})` : ''
   
   const title = `[${selected.value.toUpperCase()}] ${pageTitle}${ratingText}`
   const body = `
@@ -375,7 +375,7 @@ const reset = () => {
 </script>
 
 <style scoped>
-  /* ── Wrapper ──────────────────────────────────────────── */
+  /* -- Wrapper -------------------------------------------- */
   .fw-wrap {
     margin-top: 2.5rem;
     margin-bottom: 2.5rem;
@@ -396,26 +396,26 @@ const reset = () => {
     white-space: nowrap;
   }
 
-  /* ── Card ─────────────────────────────────────────────── */
+  /* -- Card ----------------------------------------------- */
   .fw-card {
     background: var(--vp-c-bg-soft);
-    border: 1px solid rgba(255, 120, 0, 0.14);
+    border: 1px solid rgba(var(--wf-accent-rgb), 0.14);
     border-radius: 10px;
     overflow: hidden;
     transition: border-color 0.25s ease, box-shadow 0.25s ease;
   }
 
   .fw-card:hover {
-    border-color: rgba(255, 120, 0, 0.28);
-    box-shadow: 0 4px 20px rgba(255, 120, 0, 0.06);
+    border-color: rgba(var(--wf-accent-rgb), 0.28);
+    box-shadow: 0 4px 20px rgba(var(--wf-accent-rgb), 0.06);
   }
 
   .fw-accent-bar {
     height: 2px;
-    background: linear-gradient(90deg, #ff7800, #ff7800 60%, transparent);
+    background: linear-gradient(90deg, var(--vp-c-brand-1), var(--vp-c-brand-1) 60%, transparent);
   }
 
-  /* ── Body row ─────────────────────────────────────────── */
+  /* -- Body row ------------------------------------------- */
   .fw-body {
     display: flex;
     align-items: center;
@@ -438,9 +438,9 @@ const reset = () => {
     width: 32px;
     height: 32px;
     border-radius: 8px;
-    background: rgba(255, 120, 0, 0.08);
-    border: 1px solid rgba(255, 120, 0, 0.16);
-    color: #ff7800;
+    background: rgba(var(--wf-accent-rgb), 0.08);
+    border: 1px solid rgba(var(--wf-accent-rgb), 0.16);
+    color: var(--vp-c-brand-1);
     flex-shrink: 0;
     font-size: 15px;
   }
@@ -467,7 +467,7 @@ const reset = () => {
     max-width: 240px;
   }
 
-  /* ── Vote buttons ─────────────────────────────────────── */
+  /* -- Vote buttons --------------------------------------- */
   .fw-votes {
     display: flex;
     gap: 0.5rem;
@@ -498,9 +498,9 @@ const reset = () => {
   }
 
   .fw-vote:hover:not(:disabled) {
-    border-color: rgba(255, 120, 0, 0.4);
-    color: #ff7800;
-    background: rgba(255, 120, 0, 0.04);
+    border-color: rgba(var(--wf-accent-rgb), 0.4);
+    color: var(--vp-c-brand-1);
+    background: rgba(var(--wf-accent-rgb), 0.04);
   }
 
   .fw-vote:hover:not(:disabled) .fw-vote-icon {
@@ -508,10 +508,10 @@ const reset = () => {
   }
 
   .fw-vote--active {
-    background: linear-gradient(135deg, #ff7800, #ff7a00) !important;
-    border-color: #ff7800 !important;
+    background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-1)) !important;
+    border-color: var(--vp-c-brand-1) !important;
     color: white !important;
-    box-shadow: 0 2px 10px rgba(255, 120, 0, 0.25);
+    box-shadow: 0 2px 10px rgba(var(--wf-accent-rgb), 0.25);
   }
 
   .fw-vote:disabled {
@@ -519,19 +519,19 @@ const reset = () => {
     cursor: not-allowed;
   }
 
-  /* ── Divider ──────────────────────────────────────────── */
+  /* -- Divider -------------------------------------------- */
   .fw-divider {
     height: 1px;
     background: var(--vp-c-divider);
     margin: 0 1.125rem;
   }
 
-  /* ── Detail section ───────────────────────────────────── */
+  /* -- Detail section ------------------------------------- */
   .fw-detail {
     padding: 0.875rem 1.125rem 1rem;
   }
 
-  /* ── Textarea ─────────────────────────────────────────── */
+  /* -- Textarea ------------------------------------------- */
   .fw-textarea-wrap {
     position: relative;
   }
@@ -554,8 +554,8 @@ const reset = () => {
 
   .fw-textarea:focus {
     outline: none;
-    border-color: rgba(255, 120, 0, 0.45);
-    box-shadow: 0 0 0 3px rgba(255, 120, 0, 0.07);
+    border-color: rgba(var(--wf-accent-rgb), 0.45);
+    box-shadow: 0 0 0 3px rgba(var(--wf-accent-rgb), 0.07);
   }
 
   .fw-textarea::placeholder {
@@ -574,10 +574,10 @@ const reset = () => {
   }
 
   .fw-char--warn {
-    color: #ff7800;
+    color: var(--vp-c-brand-1);
   }
 
-  /* ── Footer row ───────────────────────────────────────── */
+  /* -- Footer row ----------------------------------------- */
   .fw-footer {
     display: flex;
     align-items: center;
@@ -587,7 +587,7 @@ const reset = () => {
     flex-wrap: wrap;
   }
 
-  /* ── Stars ────────────────────────────────────────────── */
+  /* -- Stars ---------------------------------------------- */
   .fw-stars {
     display: flex;
     align-items: center;
@@ -623,7 +623,7 @@ const reset = () => {
     white-space: nowrap;
   }
 
-  /* ── Action buttons ───────────────────────────────────── */
+  /* -- Action buttons ------------------------------------- */
   .fw-actions {
     display: flex;
     gap: 0.5rem;
@@ -657,24 +657,24 @@ const reset = () => {
   }
 
   .fw-btn--ghost:hover:not(:disabled) {
-    border-color: rgba(255, 120, 0, 0.3);
-    color: #ff7800;
-    background: rgba(255, 120, 0, 0.04);
+    border-color: rgba(var(--wf-accent-rgb), 0.3);
+    color: var(--vp-c-brand-1);
+    background: rgba(var(--wf-accent-rgb), 0.04);
   }
 
   .fw-btn--primary {
-    background: rgba(255, 120, 0, 0.1);
-    color: rgba(255, 100, 0, 0.45);
+    background: rgba(var(--wf-accent-rgb), 0.1);
+    color: rgba(var(--wf-accent-rgb), 0.45);
   }
 
   .fw-btn--primary.fw-btn--ready {
-    background: linear-gradient(135deg, #ff7800, #ff7a00);
+    background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-1));
     color: white;
-    box-shadow: 0 2px 8px rgba(255, 120, 0, 0.2);
+    box-shadow: 0 2px 8px rgba(var(--wf-accent-rgb), 0.2);
   }
 
   .fw-btn--primary.fw-btn--ready:hover:not(:disabled) {
-    box-shadow: 0 4px 14px rgba(255, 120, 0, 0.32);
+    box-shadow: 0 4px 14px rgba(var(--wf-accent-rgb), 0.32);
     transform: translateY(-1px);
   }
 
@@ -687,7 +687,7 @@ const reset = () => {
     animation: fw-spin 0.7s linear infinite;
   }
 
-  /* ── Error ────────────────────────────────────────────── */
+  /* -- Error ---------------------------------------------- */
   .fw-error {
     display: flex;
     align-items: center;
@@ -701,7 +701,7 @@ const reset = () => {
     color: #ef4444;
   }
 
-  /* ── Success state ────────────────────────────────────── */
+  /* -- Success state -------------------------------------- */
   .fw-success {
     display: flex;
     align-items: center;
@@ -714,12 +714,12 @@ const reset = () => {
     width: 36px;
     height: 36px;
     border-radius: 50%;
-    background: rgba(255, 120, 0, 0.08);
-    border: 1px solid rgba(255, 120, 0, 0.18);
+    background: rgba(var(--wf-accent-rgb), 0.08);
+    border: 1px solid rgba(var(--wf-accent-rgb), 0.18);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #ff7800;
+    color: var(--vp-c-brand-1);
     flex-shrink: 0;
     font-size: 1.1rem;
   }
@@ -754,10 +754,10 @@ const reset = () => {
     font-size: 0.775rem;
     padding: 0.3rem 0.65rem;
     border-radius: 6px;
-    color: #ff7800;
+    color: var(--vp-c-brand-1);
     text-decoration: none;
-    background: rgba(255, 120, 0, 0.06);
-    border: 1px solid rgba(255, 120, 0, 0.15);
+    background: rgba(var(--wf-accent-rgb), 0.06);
+    border: 1px solid rgba(var(--wf-accent-rgb), 0.15);
     cursor: pointer;
     font-family: inherit;
     font-weight: 500;
@@ -765,8 +765,8 @@ const reset = () => {
   }
 
   .fw-link:hover {
-    background: rgba(255, 120, 0, 0.1);
-    border-color: rgba(255, 120, 0, 0.3);
+    background: rgba(var(--wf-accent-rgb), 0.1);
+    border-color: rgba(var(--wf-accent-rgb), 0.3);
   }
 
   .fw-link--muted {
@@ -776,12 +776,12 @@ const reset = () => {
   }
 
   .fw-link--muted:hover {
-    color: #ff7800;
-    background: rgba(255, 120, 0, 0.05);
-    border-color: rgba(255, 120, 0, 0.2);
+    color: var(--vp-c-brand-1);
+    background: rgba(var(--wf-accent-rgb), 0.05);
+    border-color: rgba(var(--wf-accent-rgb), 0.2);
   }
 
-  /* ── Toast ────────────────────────────────────────────── */
+  /* -- Toast ---------------------------------------------- */
   .fw-toast {
     position: fixed;
     bottom: 1.75rem;
@@ -865,7 +865,7 @@ const reset = () => {
   .fw-toast--success .fw-toast-bar { background: #10b981; }
   .fw-toast--error .fw-toast-bar { background: #ef4444; }
 
-  /* ── Transitions ──────────────────────────────────────── */
+  /* -- Transitions ---------------------------------------- */
   .fw-expand-enter-active,
   .fw-expand-leave-active {
     transition: opacity 0.22s ease, transform 0.22s ease;
@@ -898,7 +898,7 @@ const reset = () => {
     transform: translateX(100%) scale(0.92);
   }
 
-  /* ── Keyframes ────────────────────────────────────────── */
+  /* -- Keyframes ------------------------------------------ */
   @keyframes fw-spin {
     to { transform: rotate(360deg); }
   }
@@ -908,7 +908,7 @@ const reset = () => {
     to   { width: 0%; }
   }
 
-  /* ── Mobile ───────────────────────────────────────────── */
+  /* -- Mobile --------------------------------------------- */
   @media (max-width: 640px) {
     .fw-body {
       flex-direction: column;

@@ -355,6 +355,9 @@ export default {
 .panel-feedbacks.light-theme .pf-card:hover { border-color:rgba(0,0,0,0.18); box-shadow:0 4px 18px rgba(0,0,0,0.1); }
 .panel-feedbacks.light-theme .pf-card-good:hover { border-left-color:#22c55e; }
 .panel-feedbacks.light-theme .pf-card-bad:hover  { border-left-color:#ef4444; }
+.panel-feedbacks.light-theme .pf-header { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-feedbacks.light-theme .pf-title-row { border-color:var(--border-color); }
+.panel-feedbacks.light-theme .pf-card { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
 .panel-feedbacks::-webkit-scrollbar { width: 4px; }
 .panel-feedbacks::-webkit-scrollbar-track { background: transparent; }
 .panel-feedbacks::-webkit-scrollbar-thumb { background: var(--border-color); border-radius: 4px; }

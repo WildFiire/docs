@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <!-- Copy toast -->
   <Transition name="copy-toast">
     <div v-if="copyToast" class="copy-toast">
@@ -42,56 +42,6 @@ const copyToast = ref(false)
 const lightboxSrc = ref('')
 const lightboxAlt = ref('')
 const navHint = ref(false)
-
-// ── Reading Time ─────────────────────────────────────────────
-function doInject() {
-  const docEl = document.querySelector('.vp-doc')
-  if (!docEl) return false
-
-  document.querySelectorAll('.reading-time-meta').forEach(el => el.remove())
-
-  const text = docEl.innerText || docEl.textContent || ''
-  const words = text.trim().split(/\s+/).filter(Boolean).length
-  const minutes = Math.ceil(words / 200)
-  if (minutes < 2) return true // page too short — skip but mark as done
-
-  const meta = document.createElement('div')
-  meta.className = 'reading-time-meta'
-  meta.innerHTML = `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg><span>${minutes} min citire</span>`
-
-  const rightBadges = document.querySelector('.cases-wf .breadcrumb .right-badges')
-  if (rightBadges) {
-    rightBadges.appendChild(meta)
-    return true
-  }
-
-  const h1 = docEl.querySelector('h1')
-  if (!h1) return false
-
-  // Start after h1, then skip past any .wildfire-tag siblings
-  let anchor = h1
-  let next = h1.nextElementSibling
-  while (next && next.querySelector('.wildfire-tag')) {
-    anchor = next
-    next = next.nextElementSibling
-  }
-  anchor.insertAdjacentElement('afterend', meta)
-  return true
-}
-
-function injectReadingTime() {
-  nextTick(() => {
-    requestAnimationFrame(() => {
-      if (!doInject()) {
-        // h1 not in DOM yet — retry a few times
-        let attempts = 0
-        const retry = setInterval(() => {
-          if (doInject() || ++attempts >= 8) clearInterval(retry)
-        }, 80)
-      }
-    })
-  })
-}
 
 // ── Copy Code Toast ──────────────────────────────────────────
 let copyTimer = null
@@ -149,9 +99,9 @@ function injectProgressRing() {
       const svg = document.createElement('div')
       svg.id = 'doc-progress-ring'
       svg.innerHTML = `<svg width="16" height="16" viewBox="0 0 16 16" style="display:block;flex-shrink:0">
-        <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(255, 120, 0,0.18)" stroke-width="1.5"/>
+        <circle cx="8" cy="8" r="6" fill="none" stroke="rgba(var(--wf-accent-rgb),0.18)" stroke-width="1.5"/>
         <circle id="doc-progress-ring-circle" cx="8" cy="8" r="6" fill="none"
-          stroke="#ff7800" stroke-width="1.5"
+          stroke="var(--vp-c-brand-1)" stroke-width="1.5"
           stroke-dasharray="${CIRC.toFixed(2)}" stroke-dashoffset="${CIRC.toFixed(2)}"
           stroke-linecap="round" transform="rotate(-90 8 8)"
           style="transition:stroke-dashoffset 0.15s ease"/>
@@ -174,20 +124,33 @@ function updateProgressRing() {
   circle.setAttribute('stroke-dashoffset', (CIRC * (1 - progress)).toFixed(2))
 }
 
+// ── Theme Manager ──────────────────────────────────────────────
+function updateTheme() {
+  const rel = page.value?.relativePath || ''
+  const section = rel.split('/')[0]
+  
+  if (['systems', 'market', 'currency', 'updates_wiki'].includes(section)) {
+    document.documentElement.setAttribute('data-wf-theme', section)
+  } else {
+    document.documentElement.removeAttribute('data-wf-theme')
+  }
+}
+
 // ── Route change: re-inject reading time & reset lightbox ───
 watch(() => page.value.relativePath, () => {
   closeLightbox()
-  injectReadingTime()
   injectProgressRing()
-})
+  updateTheme()
+  nextTick(updateTheme)
+}, { immediate: true })
 
 onMounted(() => {
   document.addEventListener('click', handleCopyClick)
   document.addEventListener('click', handleImgClick)
   window.addEventListener('keydown', handleKeyNav)
   window.addEventListener('scroll', updateProgressRing, { passive: true })
-  injectReadingTime()
   injectProgressRing()
+  updateTheme()
 })
 
 onUnmounted(() => {
@@ -210,7 +173,7 @@ onUnmounted(() => {
   backdrop-filter: blur(4px);
   padding: 4px 10px;
   border-radius: 16px;
-  border: 1px solid rgba(255, 120, 0, 0.4);
+  border: 1px solid rgba(var(--wf-accent-rgb), 0.4);
   flex-shrink: 0;
   cursor: default;
   user-select: none;
@@ -218,12 +181,12 @@ onUnmounted(() => {
 
 html.dark :deep(.reading-time-meta) {
   background: rgba(0, 0, 0, 0.6);
-  border-color: rgba(255, 120, 0, 0.5);
+  border-color: rgba(var(--wf-accent-rgb), 0.5);
 }
 
 html:not(.dark) :deep(.reading-time-meta) {
   background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(255, 120, 0, 0.35);
+  border-color: rgba(var(--wf-accent-rgb), 0.35);
 }
 
 :deep(.reading-time-meta svg) {
@@ -356,13 +319,13 @@ html:not(.dark) :deep(.reading-time-meta) {
 }
 
 .jk-nav-hint kbd {
-  background: rgba(255, 120, 0, 0.3);
-  border: 1px solid rgba(255, 120, 0, 0.5);
+  background: rgba(var(--wf-accent-rgb), 0.3);
+  border: 1px solid rgba(var(--wf-accent-rgb), 0.5);
   border-radius: 4px;
   padding: 1px 6px;
   font-size: 11px;
   font-family: monospace;
-  color: #ff7800;
+  color: var(--vp-c-brand-1);
 }
 
 .nav-hint-enter-active,

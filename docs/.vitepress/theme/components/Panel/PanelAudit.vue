@@ -469,6 +469,9 @@ export default {
 .panel-audit.light-theme .event-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.1); }
 .panel-audit.light-theme .modal-overlay { background:rgba(0,0,0,0.45); }
 .panel-audit.light-theme .modal-content { background:#fff; border:1px solid #c4c4d0; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
+.panel-audit.light-theme .audit-timeline { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-audit.light-theme .date-picker { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-audit.light-theme .event-card { background:rgba(0,0,0,0.02); border-color:var(--border-color); }
 
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }

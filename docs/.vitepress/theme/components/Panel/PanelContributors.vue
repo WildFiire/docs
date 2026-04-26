@@ -944,6 +944,9 @@ export default {
 .panel-contributors.light-theme .ct-card:hover { box-shadow:0 4px 16px rgba(0,0,0,0.1); }
 .panel-contributors.light-theme .ct-toolbar { background:rgba(0,0,0,0.03); border-color:#c4c4d0; }
 .panel-contributors.light-theme .ct-search { background:#fff; border-color:#c4c4d0; color:#0f0f14; }
+.panel-contributors.light-theme .stat-card { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-contributors.light-theme .ct-podium-wrap { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
+.panel-contributors.light-theme .ct-card { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
 
 /* ── Header Stats ── */
 .contributors-header { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }

@@ -1282,8 +1282,15 @@
       
       mounted() {
         this.isMounted = true
-        const savedTheme = localStorage.getItem('wildfire-theme')
-        if (savedTheme === 'light') this.isLightTheme = true
+        const isDark = document.documentElement.classList.contains('dark')
+        const vpTheme = localStorage.getItem('vitepress-theme-appearance')
+        this.isLightTheme = (vpTheme === 'light') || (!isDark && vpTheme !== 'dark')
+        localStorage.setItem('wildfire-theme', this.isLightTheme ? 'light' : 'dark')
+        this._themeObserver = new MutationObserver(() => {
+          this.isLightTheme = !document.documentElement.classList.contains('dark')
+          localStorage.setItem('wildfire-theme', this.isLightTheme ? 'light' : 'dark')
+        })
+        this._themeObserver.observe(document.documentElement, { attributes: true, attributeFilter: ['class'] })
         try { const pt = localStorage.getItem('wf-panel-theme'); if (pt) this.panelTheme = pt } catch (_) {}
         
         const token = localStorage.getItem('github_token')
@@ -1309,6 +1316,7 @@
       },
       
       beforeUnmount() {
+        if (this._themeObserver) this._themeObserver.disconnect()
         if (this.$refs.mainContent) {
           this.$refs.mainContent.removeEventListener('scroll', this.handleScroll)
         }
