@@ -257,8 +257,8 @@ export default defineConfig({
         text: '<iconify-icon icon="solar:dollar-minimalistic-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Currency',
         collapsed: false,
         items: [
-          { text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Phoenix Coins', link: '/currency/fire-coins' },
-          // { text: '<img src="/icons/credits.svg" class="nav-icon" width="16" height="16" alt=""> Credits', link: '/currency/credits' },
+          { text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Phoenix Coins', link: '/currency/phoenixcoins' },
+          { text: '<img src="/icons/credits.svg" class="nav-icon" width="16" height="16" alt=""> Credits', link: '/currency/credits' },
         ]
       },
 
@@ -297,10 +297,7 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: '<iconify-icon icon="solar:stars-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Trail-uri', link: '/systems/shop/trails' },
-              { text: '<iconify-icon icon="solar:magic-stick-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Effecte vizuale', link: '/systems/shop/effects' },
-              { text: '<iconify-icon icon="solar:pin-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Wildfire Pins & Badges', link: '/systems/shop/pins' },
               { text: '<iconify-icon icon="solar:chat-round-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Chat & Tag-uri', link: '/systems/shop/chat-tags' },
-              { text: '<iconify-icon icon="solar:airbuds-case-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Spray-uri', link: '/systems/shop/sprays' },
             ]
           },
 
@@ -310,13 +307,10 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: '<iconify-icon icon="solar:target-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Hit Effect', link: '/systems/other/hit-effect' },
-              { text: '<iconify-icon icon="solar:music-note-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Music Kits', link: '/systems/other/music-kits' },
+              { text: '<iconify-icon icon="solar:music-note-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> MVP Anthem', link: '/systems/other/mvp' },
               { text: '<iconify-icon icon="solar:crown-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Gold Member', link: '/systems/other/gold-member' },
               { text: '<iconify-icon icon="solar:map-point-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Map Chooser / RTV', link: '/systems/other/map-chooser' },
-              { text: '<iconify-icon icon="solar:chart-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Rank Phases (Grind)', link: '/systems/other/rank-phases' },
-              { text: '<iconify-icon icon="lucide-user" class="nav-icon" width="16" height="16"></iconify-icon> AFK Manager', link: '/systems/other/afk-manager' },
               { text: '<iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Teambalance', link: '/systems/other/teambalance' },
-              { text: '<iconify-icon icon="solar:filter-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Chat Filter', link: '/systems/other/chat-filter' },
             ]
           },
         ]
@@ -333,47 +327,22 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: '<iconify-icon icon="solar:medal-ribbon-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom MVP', link: '/market/premium-shop/mvp' },
-              { text: '<iconify-icon icon="solar:shield-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom Badge / Pin', link: '/market/premium-shop/custom-badge' },
-              { text: '<iconify-icon icon="lucide-door-open" class="nav-icon" width="16" height="16"></iconify-icon> Entry Sounds', link: '/market/premium-shop/entrysounds' },
+              // { text: '<iconify-icon icon="solar:shield-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom Badge / Pin', link: '/market/premium-shop/custom-badge' },
+              // { text: '<iconify-icon icon="lucide-door-open" class="nav-icon" width="16" height="16"></iconify-icon> Entry Sounds', link: '/market/premium-shop/entrysounds' },
               { text: '<iconify-icon icon="solar:volume-loud-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Sank Sounds', link: '/market/premium-shop/sanks' },
             ]
           },
 
-          // SUBSECȚIUNEA FIRE COINS PACKS
-          {
-            text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Fire Coins Packs',
-            collapsed: true,
-            items: [
-              { text: '<iconify-icon icon="solar:box-minimalistic-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Pachete', link: '/market/firecoins/pachete' },
-            ]
-          },
-
-          // SUBSECȚIUNEA CREDITS PACKS
-          {
-            text: '<iconify-icon icon="solar:wallet-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Credits Packs',
-            collapsed: true,
-            items: [
-              { text: '<iconify-icon icon="solar:wallet-money-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Pachete de Credite', link: '/market/credits/pachete_credite' },
-            ]
-          },
 
           // SUBSECȚIUNEA VIP TIERS
           {
             text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Tiers',
             collapsed: true,
             items: [
-              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 1', link: '/market/vip/1' },
-              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 2', link: '/market/vip/2' },
-              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 3', link: '/market/vip/3' },
-              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 4', link: '/market/vip/4' },
-              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP 5', link: '/market/vip/5' },
+              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Rebirth', link: '/market/vip/rebirth' },
+              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Immortal', link: '/market/vip/immortal' },
+              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Mythic', link: '/market/vip/mythic' },
             ]
-          },
-
-          // METODE DE PLATĂ
-          {
-            text: '<iconify-icon icon="solar:card-recive-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Metode de plată',
-            link: '/market/payment-methods'
           },
         ]
       },

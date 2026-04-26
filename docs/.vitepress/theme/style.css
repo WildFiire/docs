@@ -23,7 +23,7 @@ a,
 input,
 [role="button"] {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease,
-              opacity 0.15s ease, transform 0.15s ease !important;
+    opacity 0.15s ease, transform 0.15s ease !important;
 }
 
 html,
@@ -236,6 +236,7 @@ html[data-wf-theme="updates_wiki"] {
 
 /* ---- Mobile TOC (VPLocalNav) cleanup ---- */
 @media (max-width: 959px) {
+
   /* Mobile sidebar open button — icon only, no text */
   .VPLocalNav .menu {
     display: flex !important;
@@ -245,11 +246,13 @@ html[data-wf-theme="updates_wiki"] {
     color: var(--vp-c-text-2) !important;
     cursor: pointer !important;
   }
+
   .VPLocalNav .menu .vpi-align-left,
   .VPLocalNav .menu .menu-icon {
     width: 18px !important;
     height: 18px !important;
   }
+
   /* Hide the "Meniu" label text, keep only the icon */
   .VPLocalNav .menu .menu-text {
     display: none !important;
@@ -299,8 +302,8 @@ html[data-wf-theme="updates_wiki"] {
     z-index: 9999 !important;
     opacity: 1 !important;
     padding: 8px 16px 12px !important;
-    box-shadow: 0 12px 32px rgba(0,0,0,0.5) !important;
-    border-bottom: 1px solid rgba(255,255,255,0.06) !important;
+    box-shadow: 0 12px 32px rgba(0, 0, 0, 0.5) !important;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06) !important;
     border-radius: 0 !important;
     max-height: 60vh !important;
     overflow-y: auto !important;
@@ -310,6 +313,7 @@ html[data-wf-theme="updates_wiki"] {
   .dark .VPLocalNavOutlineDropdown .items {
     background: #141414 !important;
   }
+
   html:not(.dark) .VPLocalNavOutlineDropdown .items {
     background: #f0f0f0 !important;
   }
@@ -322,10 +326,11 @@ html[data-wf-theme="updates_wiki"] {
     color: var(--vp-c-text-2) !important;
     display: block !important;
   }
+
   .VPLocalNavOutlineDropdown .outline-link:hover,
   .VPLocalNavOutlineDropdown .outline-link.active {
     color: var(--vp-c-brand-1) !important;
-    background: rgba(255,120,0,0.08) !important;
+    background: rgba(255, 120, 0, 0.08) !important;
   }
 }
 
@@ -352,7 +357,7 @@ html[data-wf-theme="updates_wiki"] {
     border: 1px solid var(--vp-c-divider) !important;
     padding: 3px !important;
     border-radius: 8px !important;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.25) !important;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25) !important;
   }
 }
 
@@ -610,16 +615,16 @@ body:not(.home) *,
 
 /* Iconify/SVG icons inside card icon slots */
 .wf-info-icon svg,
-.wf-info-icon > [style],
+.wf-info-icon>[style],
 .wf-system-icon svg,
-.wf-system-icon > [style] {
+.wf-system-icon>[style] {
   color: var(--vp-c-brand-1) !important;
   transition: color 0.3s ease;
 }
 
 /* wf-system-tip.orange icon */
-.wf-system-tip.orange > svg,
-.wf-system-tip.orange > [style] {
+.wf-system-tip.orange>svg,
+.wf-system-tip.orange>[style] {
   color: var(--vp-c-brand-1) !important;
 }
 
@@ -656,9 +661,9 @@ body:not(.home) *,
 
 /* Override hardcoded rgba(255,140,0) in media container divs inside themed cards.
    We use background-image override since background: linear-gradient is the culprit. */
-.wf-system-card > .wf-system-content > div[style*="linear-gradient"],
-.wf-system-card > .wf-system-content > div > div[style*="linear-gradient"],
-.wf-info-card > .wf-info-content > div[style*="linear-gradient"] {
+.wf-system-card>.wf-system-content>div[style*="linear-gradient"],
+.wf-system-card>.wf-system-content>div>div[style*="linear-gradient"],
+.wf-info-card>.wf-info-content>div[style*="linear-gradient"] {
   background-image: linear-gradient(135deg, rgba(var(--wf-accent-rgb), 0.1), rgba(var(--wf-accent-rgb), 0.02)) !important;
   border-color: rgba(var(--wf-accent-rgb), 0.2) !important;
 }
@@ -1366,7 +1371,7 @@ body:has(.VPLocalSearchBox)::before {
 /*=============================================================================
   14. LAST UPDATED wf-info-badge REDESIGN
 =============================================================================*/
-.VPLastUpdated {
+/* .VPLastUpdated {
   font-size: 11.5px !important;
   color: var(--vp-c-text-2) !important;
   display: inline-flex !important;
@@ -1394,6 +1399,17 @@ body:has(.VPLocalSearchBox)::before {
 
 .VPDocFooter {
   padding-top: 1.25rem !important;
+} */
+.VPLastUpdated[data-v-6327d460] {
+  display: none !important;
+}
+
+.VPLastUpdated {
+  display: none !important;
+}
+
+a.edit-link-button {
+  display: none !important;
 }
 
 /*=============================================================================
@@ -1638,6 +1654,7 @@ body:has(.VPContent.is-home) .VPNav {
 }
 
 @media (max-width: 959px) {
+
   /* Push content below navbar + scroll spy bar */
   .VPContent {
     padding-top: calc(var(--vp-nav-height) + 42px) !important;
@@ -3887,9 +3904,12 @@ html:not(.dark) .wf-market .wf-market-tip {
   }
 
   /* Smooth content reflow */
-  .VPContent, .VPLayout, .VPDoc, .VPDocAside {
+  .VPContent,
+  .VPLayout,
+  .VPDoc,
+  .VPDocAside {
     transition: padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                margin 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+      margin 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
   }
 
   html.sidebar-collapsed .VPSidebar {
@@ -3898,7 +3918,7 @@ html:not(.dark) .wf-market .wf-market-tip {
     opacity: 0 !important;
     pointer-events: none !important;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s ease !important;
+      opacity 0.3s ease !important;
   }
 
   html:not(.sidebar-collapsed) .VPSidebar {
@@ -3906,7 +3926,7 @@ html:not(.dark) .wf-market .wf-market-tip {
     opacity: 1 !important;
     pointer-events: auto !important;
     transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-                opacity 0.3s ease !important;
+      opacity 0.3s ease !important;
   }
 
   /* Floating pill fades in/out */
