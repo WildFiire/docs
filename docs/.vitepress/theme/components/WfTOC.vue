@@ -81,6 +81,8 @@ function scanDOM(): FlatItem[] {
 }
 
 async function buildItems() {
+  lastActive = ''
+  activeLinks.value = []
   await nextTick()
   allItems.value = scanDOM()
   buildObserver()

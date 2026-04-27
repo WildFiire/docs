@@ -57,6 +57,7 @@ function handleCopyClick(e) {
 function handleImgClick(e) {
   const img = e.target.closest('.vp-doc img')
   if (!img) return
+  if (e.target.closest('.VPLastUpdated') || e.target.closest('.VPDocFooter') || e.target.closest('.vp-doc-footer') || e.target.closest('.wch-author-link') || e.target.closest('.wch-meta')) return
   lightboxSrc.value = img.src
   lightboxAlt.value = img.alt || ''
   document.body.style.overflow = 'hidden'

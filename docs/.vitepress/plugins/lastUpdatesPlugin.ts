@@ -38,6 +38,8 @@ export interface UpdateCard {
   dotClass: string
   tag1: string
   tag2: string
+  tag1Color: string
+  tag2Color: string
   link: string
   date: string
   username: string
@@ -233,6 +235,9 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
         || SECTION_ICON_MAP[sectionFolder]
         || 'mdi:file-document-outline'
 
+      const tag1Color = tags[0]?.component ? (COLOR_MAP[tags[0].component] || tagColor) : tagColor
+      const tag2Color = tags[1]?.component ? (COLOR_MAP[tags[1].component] || tagColor) : tagColor
+
       results.push({
         title,
         category: category.toUpperCase(),
@@ -240,6 +245,8 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
         dotClass: `dot-${tagColor}`,
         tag1: (tags[0]?.text || '').toUpperCase(),
         tag2: (tags[1]?.text || '').toUpperCase(),
+        tag1Color,
+        tag2Color,
         link,
         date: git.date,
         timestamp: git.timestamp,

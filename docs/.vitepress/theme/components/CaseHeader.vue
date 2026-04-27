@@ -19,7 +19,7 @@
 
       <!-- Tags -->
       <div v-if="effectiveTags.length" class="wch-tags">
-        <component v-for="(tag, i) in effectiveTags" :key="i" :is="tag.component" :text="tag.text" />
+        <component v-for="(tag, i) in effectiveTags" :key="i" :is="tag.component">{{ tag.text }}</component>
       </div>
 
       <!-- Toolbar -->

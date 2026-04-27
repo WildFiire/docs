@@ -10,11 +10,11 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Smooth theme switch — colors fade instead of snapping */
+/* Smooth theme switch — colors fade instead of snapping (no !important so component transitions are not overridden) */
 *,
 *::before,
 *::after {
-  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease !important;
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
 /* But keep interaction transitions instant so buttons don't lag */
@@ -23,7 +23,7 @@ a,
 input,
 [role="button"] {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease,
-    opacity 0.15s ease, transform 0.15s ease !important;
+    opacity 0.15s ease, transform 0.15s ease;
 }
 
 html,
@@ -3889,6 +3889,17 @@ html:not(.dark) .wf-market .wf-market-tip {
    SIDEBAR — compact item sizes only, let VitePress handle scroll
    ============================================================ */
 
+/* Mobile sidebar — full screen, above navbar */
+@media (max-width: 959px) {
+  .VPSidebar {
+    z-index: 100 !important;
+    top: 0 !important;
+    height: 100vh !important;
+    height: 100dvh !important;
+    padding-top: var(--vp-nav-height) !important;
+  }
+}
+
 /* Hide curtain overlay (desktop only — mobile uses it as background panel) */
 @media (min-width: 960px) {
   .VPSidebar .curtain {
@@ -3896,6 +3907,43 @@ html:not(.dark) .wf-market .wf-market-tip {
   }
 }
 
+/* Kill all transitions during theme switch to prevent flash */
+html.theme-switching *,
+html.theme-switching *::before,
+html.theme-switching *::after {
+  transition: none !important;
+}
+
+/* ── Sticky sidebar footer layout (desktop only) ── */
+@media (min-width: 960px) {
+  .VPSidebar {
+    display: flex !important;
+    flex-direction: column !important;
+    overflow: hidden !important;
+    padding-bottom: 0 !important;
+  }
+
+  .VPSidebar .nav {
+    flex: 1 !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    padding-bottom: 8px !important;
+    min-height: 0 !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
+  }
+
+  .VPSidebar .nav::-webkit-scrollbar {
+    display: none !important;
+    width: 0 !important;
+  }
+
+  .wsf-root {
+    flex-shrink: 0 !important;
+    margin-left: -24px !important;
+    margin-right: -24px !important;
+  }
+}
 
 /* === SIDEBAR COLLAPSE UX (desktop only) === */
 @media (min-width: 960px) {
@@ -3903,34 +3951,41 @@ html:not(.dark) .wf-market .wf-market-tip {
     --vp-sidebar-width: 0px !important;
   }
 
+  /* Sidebar GPU hint */
+  .VPSidebar {
+    will-change: transform, opacity;
+  }
+
   /* Smooth content reflow */
   .VPContent,
   .VPLayout,
   .VPDoc,
   .VPDocAside {
-    transition: padding 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      margin 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    transition: padding 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+      margin 0.55s cubic-bezier(0.22, 1, 0.36, 1) !important;
   }
 
+  /* Collapsing: slide out + fade */
   html.sidebar-collapsed .VPSidebar {
     width: 272px !important;
     transform: translateX(-272px) !important;
     opacity: 0 !important;
     pointer-events: none !important;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.3s ease !important;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.35s ease !important;
   }
 
+  /* Expanding: slide in (opacity staggers slightly behind) */
   html:not(.sidebar-collapsed) .VPSidebar {
     transform: translateX(0) !important;
     opacity: 1 !important;
     pointer-events: auto !important;
-    transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-      opacity 0.3s ease !important;
+    transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1),
+      opacity 0.4s ease 0.05s !important;
   }
 
   /* Floating pill fades in/out */
   .wf-floating-controls {
-    transition: opacity 0.3s ease !important;
+    transition: opacity 0.35s ease !important;
   }
 }

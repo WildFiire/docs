@@ -113,7 +113,7 @@ export default {
 
       // Navbar
       'sidebar-nav-before': () => h(NavSearch),
-      'sidebar-nav-after': () => [h(DocUserWidget), h(SidebarFooter)],
+      'sidebar-nav-after': () => h(SidebarFooter),
 
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,
@@ -281,7 +281,7 @@ export default {
     // 🔥 Page fade transition on SPA route change
     if (typeof window !== 'undefined') {
       const style = document.createElement('style')
-      style.textContent = `.vp-doc,.VPDoc{animation:none}.page-entering .vp-doc,.page-entering .VPDoc{opacity:0;transform:translateY(6px)}.page-entering .vp-doc,.page-entering .VPDoc{transition:opacity 0.25s ease,transform 0.25s ease}`
+      style.textContent = `.page-entering .vp-doc,.page-entering .VPDoc{opacity:0;transform:translateY(6px);transition:opacity 0.25s ease,transform 0.25s ease}`
       document.head.appendChild(style)
     }
   }

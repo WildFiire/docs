@@ -290,7 +290,7 @@ function handleClick(e: MouseEvent) {
   if (!img && target.tagName === 'IMG') {
     const el = target as HTMLImageElement
     // Skip UI avatars, nav icons, buttons, etc.
-    if (el.closest('.hn-user-wrap') || el.closest('.hn-dp-profile') || el.closest('.nav-logo') || el.closest('button') || el.closest('.VPNav') || el.closest('.VPSidebar')) {
+    if (el.closest('.hn-user-wrap') || el.closest('.hn-dp-profile') || el.closest('.nav-logo') || el.closest('button') || el.closest('.VPNav') || el.closest('.VPSidebar') || el.closest('.VPLastUpdated') || el.closest('.VPDocFooter') || el.closest('.vp-doc-footer') || el.closest('.wch-author-link') || el.closest('.wch-meta')) {
       return
     }
     if (el.closest('.vp-doc') || el.closest('.wf-home')) {
