@@ -1,4 +1,4 @@
-name: Discord Push Notification
+name: Discord Push Notification WF
 
 on:
   push:
