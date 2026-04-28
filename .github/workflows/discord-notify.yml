@@ -21,22 +21,16 @@ jobs:
             echo "files_display=No changes" >> $GITHUB_OUTPUT
           else
             FILES_COUNT=$(echo "$ALL_FILES" | wc -l | tr -d ' ')
-
-            # Format pe 2 coloane, max 30 fișiere
-            SHOWN=$(echo "$ALL_FILES" | head -30 | awk '
-              {
-                line = "• " $0;
-                printf "%-38s", line;
-                if (NR % 2 == 0) printf "\n";
-              }
-              END { if (NR % 2 != 0) printf "\n"; }
-            ')
-
+            SHOWN=$(echo "$ALL_FILES" | head -30 | awk '{
+              line = "• " $0;
+              printf "%-38s", line;
+              if (NR % 2 == 0) printf "\n";
+            }
+            END { if (NR % 2 != 0) printf "\n"; }')
             if [ "$FILES_COUNT" -gt 30 ]; then
               EXTRA=$((FILES_COUNT - 30))
               SHOWN=$(printf "%s\n... +%d more files" "$SHOWN" "$EXTRA")
             fi
-
             echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
             {
               echo "files_display<<ENDOFFILES"
@@ -136,28 +130,28 @@ jobs:
             --arg timestamp "$TIMESTAMP" \
             '{
               embeds: [{
-                title: ("📚 Last Updated — `" + $reponame + "`"),
+                title: ("📚 Last Updated — \($reponame)"),
                 url: $compareurl,
                 color: 3447003,
                 author: {
                   name: $author,
                   icon_url: $avatar,
-                  url: ("https://github.com/" + $username)
+                  url: ("https://github.com/\($username)")
                 },
                 fields: [
                   {
-                    name: "📝 " + $committitle,
-                    value: ("[`" + $shortsha + "`](" + $commiturl + ") on 🌿 `" + $branch + "`"),
+                    name: ("📝 \($committitle)"),
+                    value: ("[`\($shortsha)`](\($commiturl)) on 🌿 `\($branch)`"),
                     inline: false
                   },
                   {
                     name: "📊 Changes",
-                    value: ("📦 **" + $filescount + "** files  •  🟢 **+" + $additions + "**  •  🔴 **−" + $deletions + "**"),
+                    value: ("📦 **\($filescount)** files  •  🟢 **+\($additions)**  •  🔴 **−\($deletions)**"),
                     inline: false
                   },
                   {
                     name: "📁 Modified Files",
-                    value: ("```\n" + $filesraw + "\n```"),
+                    value: ("```\n\($filesraw)\n```"),
                     inline: false
                   }
                 ],
@@ -180,18 +174,20 @@ jobs:
               echo "new_id=$LAST_MSG_ID" >> $GITHUB_OUTPUT
             else
               echo "⚠️  Edit failed (HTTP $RESPONSE), sending new message..."
-              RESPONSE=$(curl -s -X POST "${DISCORD_WEBHOOK}?wait=true" \
+              RESPONSE=$(curl -s -o /tmp/discord_resp.json -w "%{http_code}" \
+                -X POST "${DISCORD_WEBHOOK}?wait=true" \
                 -H "Content-Type: application/json" \
                 -d @/tmp/payload.json)
-              NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
+              NEW_ID=$(jq -r '.id // empty' /tmp/discord_resp.json)
               echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
             fi
           else
             echo "🆕 First run — sending new message..."
-            RESPONSE=$(curl -s -X POST "${DISCORD_WEBHOOK}?wait=true" \
+            RESPONSE=$(curl -s -o /tmp/discord_resp.json -w "%{http_code}" \
+              -X POST "${DISCORD_WEBHOOK}?wait=true" \
               -H "Content-Type: application/json" \
               -d @/tmp/payload.json)
-            NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
+            NEW_ID=$(jq -r '.id // empty' /tmp/discord_resp.json)
             echo "✅ New message: $NEW_ID"
             echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
           fi
