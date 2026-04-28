@@ -1,184 +1,38 @@
-name: Discord Push Notification
+name: Deploy DOCS to VPS
 
 on:
   push:
-    branches: [ main, develop ]
-
-permissions:
-  contents: write
+    branches:
+      - main # Trigger deployment when pushing to the main branch
 
 jobs:
-  notify:
+  deploy:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v4
+      - name: Deploy to VPS
+        uses: appleboy/ssh-action@v1.0.3
         with:
-          fetch-depth: 2
-          token: ${{ secrets.GITHUB_TOKEN }}
+          host: ${{ secrets.VPS_HOST }}       # Your VPS IP or domain
+          username: ${{ secrets.VPS_USER }}   # e.g., root or ubuntu
+          key: ${{ secrets.VPS_SSH_KEY }}     # Private SSH key for authentication
+          script: |
+            # Navigate to the project directory
+            cd /var/www/wiki
+            
+            # Pull the latest changes from the main branch
+            git fetch --all
+            git reset --hard origin/main
+            
+            # Create the .env file with the GitHub Token
+            echo "VITE_GITHUB_TOKEN=${{ secrets.VITE_GITHUB_TOKEN }}" > .env
 
-      - name: Get changed files
-        id: changed
-        run: |
-          ALL_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
-          if [ -z "$ALL_FILES" ]; then
-            echo "files_count=0" >> $GITHUB_OUTPUT
-            echo "files_display=No changes" >> $GITHUB_OUTPUT
-          else
-            FILES_COUNT=$(echo "$ALL_FILES" | wc -l | tr -d ' ')
-            # Format as columns (max 3 per line, max 30 files)
-            SHOWN=$(echo "$ALL_FILES" | head -30 | awk '{
-              printf "%-35s", "• "$0;
-              if (NR % 3 == 0) printf "\n"
-            }')
-            if [ "$FILES_COUNT" -gt 30 ]; then
-              EXTRA=$((FILES_COUNT - 30))
-              SHOWN=$(printf "%s\n+ %d more files" "$SHOWN" "$EXTRA")
-            fi
-            echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
-            {
-              echo "files_display<<ENDOFFILES"
-              echo "$SHOWN"
-              echo "ENDOFFILES"
-            } >> $GITHUB_OUTPUT
-          fi
+            # Install dependencies (force include devDependencies for the build)
+            npm install --include=dev
 
-      - name: Get user info
-        id: userinfo
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          USERNAME="${{ github.event.head_commit.author.username }}"
-          [ -z "$USERNAME" ] && USERNAME="${{ github.actor }}"
-          [ -z "$USERNAME" ] && USERNAME="${{ github.event.pusher.name }}"
-          echo "username=$USERNAME" >> $GITHUB_OUTPUT
+            # Build the static VitePress files
+            npm run docs:build
 
-          RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
-            "https://api.github.com/users/$USERNAME" 2>/dev/null || echo "{}")
-          
-          AVATAR=$(echo "$RESPONSE" | jq -r '.avatar_url // empty')
-          NAME=$(echo "$RESPONSE" | jq -r '.name // empty')
-          BIO=$(echo "$RESPONSE" | jq -r '.bio // empty')
+            # Restart the API server so it picks up updated code / .env
+            pm2 restart wildfire-wiki-api --update-env
 
-          [ -n "$AVATAR" ] && echo "avatar_url=${AVATAR}&s=80" >> $GITHUB_OUTPUT || echo "avatar_url=" >> $GITHUB_OUTPUT
-          [ -n "$NAME" ] && [ "$NAME" != "null" ] && echo "display_name=$NAME" >> $GITHUB_OUTPUT || echo "display_name=$USERNAME" >> $GITHUB_OUTPUT
-          [ -n "$BIO" ] && [ "$BIO" != "null" ] && echo "bio=$BIO" >> $GITHUB_OUTPUT || echo "bio=" >> $GITHUB_OUTPUT
-
-      - name: Restore last message ID
-        id: cache-restore
-        uses: actions/cache/restore@v4
-        with:
-          path: /tmp/last_msg_id
-          key: discord-last-msg-${{ github.repository }}
-
-      - name: Delete old Discord message
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-        run: |
-          if [ -f /tmp/last_msg_id ]; then
-            OLD_ID=$(cat /tmp/last_msg_id)
-            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X DELETE "${DISCORD_WEBHOOK}/messages/${OLD_ID}")
-            echo "Delete old message: $HTTP_CODE"
-          else
-            echo "No old message to delete"
-          fi
-
-      - name: Get commit stats
-        id: commitstats
-        run: |
-          ADDITIONS=$(git diff --stat HEAD~1 HEAD 2>/dev/null | tail -1 | grep -oP '\d+(?= insertion)' || echo "0")
-          DELETIONS=$(git diff --stat HEAD~1 HEAD 2>/dev/null | tail -1 | grep -oP '\d+(?= deletion)' || echo "0")
-          echo "additions=${ADDITIONS:-0}" >> $GITHUB_OUTPUT
-          echo "deletions=${DELETIONS:-0}" >> $GITHUB_OUTPUT
-
-      - name: Send new Discord message
-        id: send
-        env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          COMMIT_MSG: ${{ github.event.head_commit.message }}
-          AUTHOR: ${{ steps.userinfo.outputs.display_name }}
-          AVATAR: ${{ steps.userinfo.outputs.avatar_url }}
-          USERNAME: ${{ steps.userinfo.outputs.username }}
-          BRANCH: ${{ github.ref_name }}
-          REPO: ${{ github.repository }}
-          FULL_SHA: ${{ github.sha }}
-          COMMIT_URL: ${{ github.event.head_commit.url }}
-          COMPARE_URL: ${{ github.event.compare }}
-          FILES_COUNT: ${{ steps.changed.outputs.files_count }}
-          FILES_DISPLAY: ${{ steps.changed.outputs.files_display }}
-          ADDITIONS: ${{ steps.commitstats.outputs.additions }}
-          DELETIONS: ${{ steps.commitstats.outputs.deletions }}
-        run: |
-          SHORT_SHA="${FULL_SHA:0:7}"
-          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-          COMMIT_TITLE=$(echo "$COMMIT_MSG" | head -1)
-          printf '%s' "$FILES_DISPLAY" > /tmp/files_list.txt
-
-          jq -n \
-            --arg reponame "$REPO" \
-            --arg compareurl "$COMPARE_URL" \
-            --arg author "$AUTHOR" \
-            --arg avatar "$AVATAR" \
-            --arg username "$USERNAME" \
-            --arg committitle "$COMMIT_TITLE" \
-            --arg branch "$BRANCH" \
-            --arg shortsha "$SHORT_SHA" \
-            --arg commiturl "$COMMIT_URL" \
-            --arg filescount "$FILES_COUNT" \
-            --arg additions "$ADDITIONS" \
-            --arg deletions "$DELETIONS" \
-            --rawfile filesraw /tmp/files_list.txt \
-            --arg timestamp "$TIMESTAMP" \
-            '{
-              embeds: [{
-                title: ("📚 Last Updated — `" + $reponame + "`"),
-                url: $compareurl,
-                color: 3447003,
-                author: {
-                  name: $author,
-                  icon_url: $avatar,
-                  url: ("https://github.com/" + $username)
-                },
-                fields: [
-                  {
-                    name: "📝 Commit",
-                    value: ("**" + $committitle + "**\n[`" + $shortsha + "`](" + $commiturl + ") → 🌿 `" + $branch + "`"),
-                    inline: false
-                  },
-                  {
-                    name: "📊 Stats",
-                    value: ("📦 **" + $filescount + "** files  •  🟢 **+" + $additions + "**  •  🔴 **-" + $deletions + "**"),
-                    inline: false
-                  },
-                  {
-                    name: "📁 Changed Files",
-                    value: ("```\n" + $filesraw + "\n```"),
-                    inline: false
-                  }
-                ],
-                footer: {
-                  text: "🕐 Last Updated",
-                  icon_url: ("https://github.com/" + $username + ".png?size=32")
-                },
-                timestamp: $timestamp
-              }]
-            }' > /tmp/payload.json
-
-          RESPONSE=$(curl -s -X POST "${DISCORD_WEBHOOK}?wait=true" \
-            -H "Content-Type: application/json" \
-            -d @/tmp/payload.json)
-
-          NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
-          if [ -n "$NEW_ID" ] && [ "$NEW_ID" != "null" ]; then
-            echo "$NEW_ID" > /tmp/last_msg_id
-            echo "message_id=$NEW_ID" >> $GITHUB_OUTPUT
-            echo "✅ New message sent: $NEW_ID"
-          else
-            echo "❌ Failed to get message ID"
-          fi
-
-      - name: Save last message ID
-        if: success()
-        uses: actions/cache/save@v4
-        with:
-          path: /tmp/last_msg_id
-          key: discord-last-msg-${{ github.repository }}
