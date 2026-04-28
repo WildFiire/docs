@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <button v-if="!isHomePage" class="nav-search-button" @click.prevent.stop="openSearch" type="button">
     <img src="/icons/searchbutton.svg" class="nav-icon" alt="search">
     <span class="nav-search-text">Caută...</span>
@@ -20,20 +20,22 @@ const openSearch = (e: MouseEvent) => {
   e.preventDefault()
   e.stopPropagation()
   
-  const searchButton = document.querySelector('.VPNavBarSearch button')
-  if (searchButton) {
-    ;(searchButton as HTMLElement).click()
-    return
-  }
-  
-  const event = new KeyboardEvent('keydown', {
+  // VitePress listens for Ctrl+K or Meta+K
+  const ctrlK = new KeyboardEvent('keydown', {
     key: 'k',
     ctrlKey: true,
+    bubbles: true,
+    cancelable: true
+  })
+  const metaK = new KeyboardEvent('keydown', {
+    key: 'k',
     metaKey: true,
     bubbles: true,
     cancelable: true
   })
-  window.dispatchEvent(event)
+  
+  window.dispatchEvent(ctrlK)
+  window.dispatchEvent(metaK)
 }
 </script>
 
@@ -45,7 +47,7 @@ const openSearch = (e: MouseEvent) => {
   padding: 0 11px 0 13px;
   height: 38px;
   width: calc(100% - 8px);
-  margin: 14px 4px 6px;
+  margin: 10px 4px 6px;
   cursor: pointer;
   font-family: inherit;
   outline: none;

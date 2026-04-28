@@ -75,13 +75,13 @@ const PanelLogin = defineAsyncComponent(() => import('./components/Panel/PanelLo
 if (typeof window !== 'undefined') {
   const loadPopout = () => {
     import('./popout.js')
-    ;['click', 'keydown', 'scroll', 'touchstart'].forEach(e =>
-      window.removeEventListener(e, loadPopout)
-    )
+      ;['click', 'keydown', 'scroll', 'touchstart'].forEach(e =>
+        window.removeEventListener(e, loadPopout)
+      )
   }
-  ;['click', 'keydown', 'scroll', 'touchstart'].forEach(e =>
-    window.addEventListener(e, loadPopout, { once: true, passive: true })
-  )
+    ;['click', 'keydown', 'scroll', 'touchstart'].forEach(e =>
+      window.addEventListener(e, loadPopout, { once: true, passive: true })
+    )
 }
 
 // Tag-uri — statice, CSS trebuie disponibil imediat pe paginile de conținut
@@ -112,12 +112,15 @@ export default {
       'doc-footer-before': () => h(FeedbackWidget),
 
       // Navbar
-      'sidebar-nav-before': () => h(NavSearch),
+      'sidebar-nav-before': () => h('div', { class: 'wf-sidebar-sticky-nav' }, [
+        h(SidebarToggle),
+        h(NavSearch)
+      ]),
       'sidebar-nav-after': () => h(SidebarFooter),
 
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,
-      'nav-bar-title-after': () => h(SidebarToggle),
+      'nav-bar-title-after': () => null,
 
       // Footer
       'layout-bottom': () => h(SiteMap),
@@ -126,7 +129,7 @@ export default {
       'aside-outline-before': () => h(WfTOC),
 
       // 🔥 CONTRIBUTORS - jos înainte de footer
-      'aside-outline-after': () => h(ContributorsWF),
+      'aside-bottom': () => h(ContributorsWF),
 
       // Not Found Page
       'not-found': () => h(PageNotFound),
@@ -262,7 +265,7 @@ export default {
         // Initial load: the dynamic import resolves after onAfterRouteChange already
         // fired, so hook it manually. nextTick ensures Vue has finished hydration.
         nextTick(() => requestAnimationFrame(setupBadges))
-      }).catch(() => {})
+      }).catch(() => { })
     }
 
     // 🔥 Close search modal instantly on any SPA navigation

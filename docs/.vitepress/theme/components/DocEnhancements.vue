@@ -72,7 +72,7 @@ function closeLightbox() {
 // ── J/K Keyboard Nav ────────────────────────────────────────
 let hintTimer = null
 function handleKeyNav(e) {
-  if (e.target.matches('input, textarea, [contenteditable]')) return
+  if (e.target && typeof e.target.matches === 'function' && e.target.matches('input, textarea, [contenteditable]')) return
   if (e.key !== 'j' && e.key !== 'k') return
 
   const target = e.key === 'j' ? page.value.next : page.value.prev

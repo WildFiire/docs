@@ -52,7 +52,8 @@ outline: deep
 <div class="wf-info-divider"></div>
 
 <!-- 1.0 ÎNTREBĂRI FRECVENTE -->
-### <span style="display:none">Întrebări Frecvente</span>
+### <span style="display:none">1.0 Întrebări Frecvente</span>
+
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
@@ -90,6 +91,7 @@ outline: deep
       <p><span class="wf-info-step">2</span> Autentifică-te cu Steam</p>
       <p><span class="wf-info-step">3</span> Mergi la <span class="wf-info-highlight">"Tickete"</span> și alege tipul <span class="wf-info-type helper" style="display:inline-flex;margin-left:5px;padding:2px 10px;font-size:11px;">Helper apply</span></p>
       <p>Completează formularul cu informații despre tine, experiență și motivul aplicației.</p>
+      <p>Detalii: <a href="/informatii/regulamente/go/regulament-staff-go" style="color:#ff8c00;">Regulament Staff →</a></p>
     </div>
   </div>
 
@@ -105,7 +107,7 @@ outline: deep
       <p>Anunță-ne cât mai repede:</p>
       <ul>
         <li><span class="wf-info-badge">Pe site</span> — Deschide un ticket de tip <span class="wf-info-type request" style="display:inline-flex;margin-left:5px;padding:2px 10px;font-size:11px;">Bug Report</span></li>
-        <li><span class="wf-info-badge">Pe Discord</span> — Anunță în canalul de ticket-uri</li>
+        <li><span class="wf-info-badge">Pe Discord</span> — Anunță un membru staff</li>
       </ul>
       <p>Oferă cât mai multe detalii: cum ai întâlnit bug-ul, ce ai făcut înainte, screenshot-uri sau video dacă e posibil.</p>
     </div>
@@ -146,7 +148,7 @@ outline: deep
         <span class="wf-info-badge">!glove</span>
         <span class="wf-info-badge">!agent</span>
       </div>
-      <p>Autentifică-te cu <span class="wf-info-highlight">Steam</span> pe <code>wildfire.ro</code> pentru a debloca skin-uri, cuțite, mănuși și agenți.</p>
+      <p>Detalii: <a href="/systems/skins/informatiiws" style="color:#ff8c00;">Weapon Skins →</a></p>
     </div>
   </div>
 
@@ -175,7 +177,7 @@ outline: deep
 <div class="wf-info-divider"></div>
 
 <!-- 2.0 SISTEM TICKETE -->
-### <span style="display:none">Sistem Tickete</span>
+### <span style="display:none">2.0 Sistem Tickete</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="3"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/></svg>
@@ -265,7 +267,7 @@ outline: deep
 <div class="wf-info-divider"></div>
 
 <!-- 3.0 DASHBOARD -->
-### <span style="display:none">Dashboard</span>
+### <span style="display:none">3.0 Dashboard</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>
@@ -283,54 +285,36 @@ outline: deep
       <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div class="wf-info-collapse-content">
-      <p>Dashboard-ul îți arată:</p>
+      <p><span class="wf-info-highlight">Dashboard-ul</span> îți arată:</p>
       <ul>
         <li><span class="wf-info-highlight">Rank-ul</span> și ELO-ul actual</li>
         <li><span class="wf-info-highlight">Statistici</span> K/D, win rate, headshot %</li>
-        <li><span class="wf-info-highlight">Fire Coins</span> balanță și tranzacții</li>
+        <li><span class="wf-info-highlight">Phoenix Coins</span> balanță și tranzacții</li>
         <li><span class="wf-info-highlight">Tickete</span> active și istoric</li>
         <li><span class="wf-info-highlight">Leaderboard</span> poziția globală</li>
       </ul>
+      <p>Accesează: <a href="https://wildfire.ro" style="color:#ff8c00;">wildfire.ro</a> și autentifică-te cu Steam.</p>
     </div>
   </div>
+
+  
 
   <div class="wf-info-collapse-item">
     <div class="wf-info-collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
       <div class="wf-info-collapse-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
       </div>
-      <span class="wf-info-collapse-title">Ce sunt creditele și cum le folosesc?</span>
+      <span class="wf-info-collapse-title">Cum funcționează Skins Market-ul?</span>
       <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div class="wf-info-collapse-content">
-      <p><span class="wf-info-highlight">Creditele</span> sunt moneda virtuală a serverului.</p>
-      <p>Cum faci rost de ele:</p>
+      <p><span class="wf-info-highlight">wildfire.ro/skins-market</span> este magazinul serverului:</p>
       <ul>
-        <li>Jucând meciuri, MVP-uri, kill-uri</li>
-        <li>Bonus zilnic de conectare</li>
-        <li>Gold Member & Evenimente</li>
-      </ul>
-      <p><span class="wf-info-highlight">Unde îi folosești:</span> Pe server poți cumpăra iteme cosmetice, culori chat și multe altele.</p>
-    </div>
-  </div>
-
-  <div class="wf-info-collapse-item">
-    <div class="wf-info-collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
-      <div class="wf-info-collapse-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
-      </div>
-      <span class="wf-info-collapse-title">Cum funcționează Market-ul?</span>
-      <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-    <div class="wf-info-collapse-content">
-      <p><span class="wf-info-highlight">wildfire.ro/market</span> este magazinul serverului:</p>
-      <ul>
-        <li><span class="wf-info-badge">VIP</span> — Pachete VIP</li>
-        <li><span class="wf-info-badge">Cosmetice</span> — Tag-uri, MVP-uri, wf-info-badge-uri</li>
-        <li><span class="wf-info-badge">Fire Coins</span> — Pachete de coins</li>
+        <li><span class="wf-info-badge">Phoenix Coins</span> — Pachete de coins</li>
         <li><span class="wf-info-badge">Skins</span> — Skin-uri, custom agents</li>
+        <li><span class="wf-info-badge">Cases</span> — Sistem de cases opening</li>
+        <li><span class="wf-info-badge">Market</span> — Poti cumpara skin uri direct de pe site pe baza de stock</li>
       </ul>
-      <p>Poți plăti cu <span class="wf-info-highlight">Fire Coins</span> sau <span class="wf-info-highlight">bani reali</span>.</p>
     </div>
   </div>
 
@@ -338,10 +322,8 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-<!-- ════════════════════════════════════════════════ -->
 <!-- 4.0 SKIN-URI & WEAPONSKINS -->
-<!-- ════════════════════════════════════════════════ -->
-### <span style="display:none">Skin-uri & WeaponSkins</span>
+### <span style="display:none">4.0 Skin-uri & WeaponSkins</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><line x1="12" y1="2" x2="12" y2="22"/></svg>
@@ -363,21 +345,16 @@ outline: deep
       <p>Comenzi principale:</p>
       <div style="display:flex;flex-wrap:wrap;gap:6px;margin:10px 0;">
         <span class="wf-info-badge">!ws</span>
-        <span class="wf-info-badge">!knife</span>
-        <span class="wf-info-badge">!glove</span>
-        <span class="wf-info-badge">!agent</span>
+        <span class="wf-info-badge">!agents</span>
         <span class="wf-info-badge">!inventory</span>
-        <span class="wf-info-badge">!loadout</span>
       </div>
       <ul>
-        <li><span class="wf-info-highlight">!ws</span> — deschide meniul principal de skin-uri (arme, cuțite, mănuși, agenți)</li>
-        <li><span class="wf-info-highlight">!knife</span> — alege direct un cuțit din inventar</li>
-        <li><span class="wf-info-highlight">!glove</span> — alege direct mănușile din inventar</li>
-        <li><span class="wf-info-highlight">!agent</span> — alege agentul (T sau CT)</li>
+        <li><span class="wf-info-highlight">!ws</span> — deschide meniul principal de skin-uri (arme, agenți)</li>
+        <li><span class="wf-info-highlight">!agents</span> — alege agentul (T sau CT)</li>
         <li><span class="wf-info-highlight">!inventory</span> — vezi toate itemele din inventar</li>
-        <li><span class="wf-info-highlight">!loadout</span> — gestionează loadout-ul activ</li>
       </ul>
       <p>Poți echipa skin-uri și de pe site: <code>wildfire.ro</code> → autentifică-te cu Steam.</p>
+      <p>Detalii complete: <a href="/systems/skins/informatiiws" style="color:#ff8c00;">Weapon Skins</a></p>
     </div>
   </div>
 
@@ -386,18 +363,18 @@ outline: deep
       <div class="wf-info-collapse-icon">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M3 15h18M9 3v18M15 3v18"/></svg>
       </div>
-      <span class="wf-info-collapse-title">Cum deschid case-uri? <span class="wf-info-collapse-badge">!ws → Cases</span></span>
+      <span class="wf-info-collapse-title">Cum deschid case-uri? <span class="wf-info-collapse-badge">!cases</span></span>
       <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div class="wf-info-collapse-content">
-      <p>Case-urile se deschid din meniul <span class="wf-info-highlight">!ws</span> sau direct de pe site.</p>
+      <p>Case-urile se deschid din meniul <span class="wf-info-highlight">!cases</span> sau direct de pe site.</p>
       <ul>
         <li>Fiecare caz are un <span class="wf-info-highlight">pool unic</span> de iteme cu rarități diferite (Consumer → Covert)</li>
-        <li>Deschiderea costă <span class="wf-info-highlight">credite</span> sau <span class="wf-info-highlight">Phoenix Coins</span></li>
+        <li>Deschiderea costă <span class="wf-info-highlight">Phoenix Coins</span></li>
         <li>Itemele câștigate merg direct în inventar</li>
         <li>Pe site ai animație de spin cu preview</li>
       </ul>
-      <p>Detalii complete: <a href="/systems/skins/cases" style="color:#ff8c00;">Pagina Cases →</a></p>
+      <p>Detalii complete: <a href="/systems/skins/cases" style="color:#ff8c00;">Cases →</a></p>
     </div>
   </div>
 
@@ -410,11 +387,7 @@ outline: deep
       <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div class="wf-info-collapse-content">
-      <p>Skin-urile pot fi tranzacționate prin <span class="wf-info-highlight">sistemul de trade</span> de pe site:</p>
-      <p><span class="wf-info-step">1</span> Accesează <code>wildfire.ro</code> și autentifică-te cu Steam</p>
-      <p><span class="wf-info-step">2</span> Mergi la inventarul tău și selectează itemele</p>
-      <p><span class="wf-info-step">3</span> Poți pune iteme pe <span class="wf-info-highlight">Market</span> sau le poți trimite direct altui jucător</p>
-      <p>Toate tranzacțiile sunt securizate și loggate de sistem.</p>
+      <p>Skin-urile pot fi tranzacționate prin <span class="wf-info-highlight">sistemul de !trade [nume]</span>.</p>
     </div>
   </div>
 
@@ -422,10 +395,8 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-<!-- ════════════════════════════════════════════════ -->
 <!-- 5.0 GAMBLING -->
-<!-- ════════════════════════════════════════════════ -->
-### <span style="display:none">Gambling</span>
+### <span style="display:none">5.0 Gambling</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>
@@ -496,10 +467,8 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-<!-- ════════════════════════════════════════════════ -->
 <!-- 6.0 SHOP & COSMETICE -->
-<!-- ════════════════════════════════════════════════ -->
-### <span style="display:none">Shop & Cosmetice</span>
+### <span style="display:none">6.0 Shop & Cosmetice</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/></svg>
@@ -526,83 +495,7 @@ outline: deep
       </div>
       <p>Toate se cumpără cu <span class="wf-info-highlight">credite</span> câștigate pe server.</p>
       <p>Comenzi: <span class="wf-info-badge">!shop</span> <span class="wf-info-badge">!settag</span></p>
-      <p>Detalii: <a href="/systems/shop/chat-tags" style="color:#ff8c00;">Chat & Tag-uri →</a></p>
-    </div>
-  </div>
-
-  <div class="wf-info-collapse-item">
-    <div class="wf-info-collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
-      <div class="wf-info-collapse-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
-      </div>
-      <span class="wf-info-collapse-title">Ce sunt efectele vizuale? <span class="wf-info-collapse-badge">Effects</span></span>
-      <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-    <div class="wf-info-collapse-content">
-      <p><span class="wf-info-highlight">Efectele vizuale</span> sunt animații cosmetice care se activează pe server.</p>
-      <ul>
-        <li>Efecte la <span class="wf-info-highlight">kill</span>, <span class="wf-info-highlight">headshot</span> sau <span class="wf-info-highlight">death</span></li>
-        <li>Se cumpără din shop cu credite</li>
-        <li>Se pot echipa și dezechipa oricând</li>
-      </ul>
-      <p>Detalii: <a href="/systems/shop/effects" style="color:#ff8c00;">Efecte vizuale →</a></p>
-    </div>
-  </div>
-
-  <div class="wf-info-collapse-item">
-    <div class="wf-info-collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
-      <div class="wf-info-collapse-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 19l7-7 3 3-7 7-3-3z"/><path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/></svg>
-      </div>
-      <span class="wf-info-collapse-title">Cum funcționează spray-urile?</span>
-      <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-    <div class="wf-info-collapse-content">
-      <p><span class="wf-info-highlight">Spray-urile</span> sunt graffiti-uri pe care le poți aplica pe pereți în joc.</p>
-      <ul>
-        <li>Se cumpără din <span class="wf-info-highlight">!shop</span></li>
-        <li>Multiple design-uri disponibile</li>
-        <li>Se aplică cu tasta dedicată (configurabilă)</li>
-      </ul>
-      <p>Detalii: <a href="/systems/shop/sprays" style="color:#ff8c00;">Spray-uri →</a></p>
-    </div>
-  </div>
-
-  <div class="wf-info-collapse-item">
-    <div class="wf-info-collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
-      <div class="wf-info-collapse-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-      </div>
-      <span class="wf-info-collapse-title">Ce sunt trail-urile?</span>
-      <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-    <div class="wf-info-collapse-content">
-      <p><span class="wf-info-highlight">Trail-urile</span> sunt efecte vizuale care lasă o urmă în spatele tău când te miști.</p>
-      <ul>
-        <li>Particule colorate, foc, fum, etc.</li>
-        <li>Se cumpără din <span class="wf-info-highlight">!shop</span></li>
-        <li>Vizibile pentru toți jucătorii</li>
-      </ul>
-      <p>Detalii: <a href="/systems/shop/trails" style="color:#ff8c00;">Trail-uri →</a></p>
-    </div>
-  </div>
-
-  <div class="wf-info-collapse-item">
-    <div class="wf-info-collapse-header" onclick="this.classList.toggle('active'); this.nextElementSibling.classList.toggle('show');">
-      <div class="wf-info-collapse-icon">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="7"/><polyline points="8.21 13.89 7 23 12 20 17 23 15.79 13.88"/></svg>
-      </div>
-      <span class="wf-info-collapse-title">Ce sunt Pins & Badges?</span>
-      <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
-    </div>
-    <div class="wf-info-collapse-content">
-      <p><span class="wf-info-highlight">Wildfire Pins & Badges</span> sunt insigne decorative afișate pe profilul tău.</p>
-      <ul>
-        <li>Se afișează pe <span class="wf-info-highlight">scoreboard</span> și pe profilul de pe site</li>
-        <li>Unele sunt exclusive pentru <span class="wf-info-highlight">evenimente</span> sau <span class="wf-info-highlight">Gold Member</span></li>
-        <li>Se pot achiziționa din shop sau din premium shop</li>
-      </ul>
-      <p>Detalii: <a href="/systems/shop/pins" style="color:#ff8c00;">Pins & Badges →</a> · <a href="/market/premium-shop/custom-badge" style="color:#ff8c00;">Custom Badge →</a></p>
+      <p>Detalii: <a href="/systems/shop/chat-tags" style="color:#ff8c00;">Chat & Tag-uri →</a> · <a href="/systems/shop/name-colors" style="color:#ff8c00;">Name Colors →</a></p>
     </div>
   </div>
 
@@ -610,10 +503,8 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-<!-- ════════════════════════════════════════════════ -->
 <!-- 7.0 ECONOMIE & MONEDE -->
-<!-- ════════════════════════════════════════════════ -->
-### <span style="display:none">Economie & Monede</span>
+### <span style="display:none">7.0 Economie & Monede</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
@@ -637,10 +528,9 @@ outline: deep
         <li>Jucând meciuri — kill-uri, MVP-uri, runde câștigate</li>
         <li><span class="wf-info-highlight">Bonus zilnic</span> de conectare</li>
         <li>Evenimente speciale și Gold Member bonus</li>
-        <li>Poți cumpăra pachete de pe <code>wildfire.ro/market</code></li>
+        <li>Poți cumpăra pachete de pe <code>wildfire.ro/skins-market</code></li>
       </ul>
       <p>Unde le folosești: <span class="wf-info-badge">!shop</span> <span class="wf-info-badge">!ws</span> <span class="wf-info-badge">gambling</span> <span class="wf-info-badge">cases</span></p>
-      <p>Detalii: <a href="/market/credits/pachete_credite" style="color:#ff8c00;">Pachete Credite →</a></p>
     </div>
   </div>
 
@@ -678,7 +568,7 @@ outline: deep
       <svg class="wf-info-collapse-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
     <div class="wf-info-collapse-content">
-      <p>Plățile se procesează securizat prin <code>wildfire.ro/market</code>:</p>
+      <p>Plățile se procesează securizat prin <code>wildfire.ro/skins-market</code>:</p>
       <ul>
         <li><span class="wf-info-highlight">Card bancar</span> (Visa, Mastercard)</li>
         <li><span class="wf-info-highlight">PayPal</span></li>
@@ -693,10 +583,8 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-<!-- ════════════════════════════════════════════════ -->
 <!-- 8.0 MARKET & PREMIUM -->
-<!-- ════════════════════════════════════════════════ -->
-### <span style="display:none">Market & Premium</span>
+### <span style="display:none">8.0 Market & Premium</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
@@ -722,8 +610,8 @@ outline: deep
         <li><span class="wf-info-highlight">MVP Anthem</span> — personalizarea MVP-ului</li>
         <li><span class="wf-info-highlight">Prioritate</span> — acces la funcții noi</li>
       </ul>
-      <p>Se achiziționează de pe <code>wildfire.ro/market</code>.</p>
-      <p>Detalii: <a href="/systems/other/gold-member" style="color:#ff8c00;">Gold Member →</a></p>
+      <p>Se achiziționează de pe <code>wildfire.ro/skins-market</code>.</p>
+      <p>Detalii: <a href="/systems/other/gold-member" style="color:#ff8c00;">Gold Member →</a> · <a href="/market/vip/gold-member" style="color:#ff8c00;">Gold Member Market →</a></p>
     </div>
   </div>
 
@@ -790,10 +678,8 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-<!-- ════════════════════════════════════════════════ -->
 <!-- 9.0 SISTEME SERVER -->
-<!-- ════════════════════════════════════════════════ -->
-### <span style="display:none">Sisteme Server</span>
+### <span style="display:none">9.0 Sisteme Server</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
@@ -819,7 +705,7 @@ outline: deep
         <li>Comanda <span class="wf-info-badge">!top</span> arată top-ul jucătorilor</li>
         <li>Leaderboard pe <code>wildfire.ro/leaderboard</code></li>
       </ul>
-      <p>Detalii: <a href="/systems/other/rank-phases" style="color:#ff8c00;">Rank Phases →</a></p>
+      <p>Detalii: <a href="/systems/other/rank-phases" style="color:#ff8c00;">Rank Phases →</a> · <a href="/systems/other/rank" style="color:#ff8c00;">Rank →</a></p>
     </div>
   </div>
 
@@ -838,7 +724,7 @@ outline: deep
         <li>Când suficienți jucători votează, se deschide un vot cu hărți</li>
         <li>Harta cu cele mai multe voturi devine următoarea</li>
       </ul>
-      <p>Detalii: <a href="/systems/other/map-chooser" style="color:#ff8c00;">Map Chooser →</a></p>
+      <p>Detalii: <a href="/systems/other/map-chooser" style="color:#ff8c00;">Map Chooser →</a> · <a href="/systems/other/rtv" style="color:#ff8c00;">RTV →</a></p>
     </div>
   </div>
 
@@ -922,10 +808,8 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-<!-- ════════════════════════════════════════════════ -->
 <!-- 10.0 REGULAMENTE -->
-<!-- ════════════════════════════════════════════════ -->
-### <span style="display:none">Regulamente</span>
+### <span style="display:none">10.0 Regulamente</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8l-6-6z"/><path d="M14 2v6h6M16 13H8M16 17H8M10 9H8"/></svg>
@@ -975,10 +859,8 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-<!-- ════════════════════════════════════════════════ -->
 <!-- 11.0 TOATE COMENZILE -->
-<!-- ════════════════════════════════════════════════ -->
-### <span style="display:none">Toate Comenzile</span>
+### <span style="display:none">11.0 Toate Comenzile</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="3"/><path d="M7 2v20M17 2v20"/></svg>

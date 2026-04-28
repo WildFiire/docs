@@ -1,326 +1,396 @@
 <template>
   <nav v-if="allItems.length" class="wf-toc" aria-label="Pe această pagină">
 
-    <!-- ── Header ── -->
-    <div class="wf-toc-header">
-      <span class="wf-toc-header-bar"></span>
-      <span class="wf-toc-header-label">Pe această pagină</span>
-    </div>
+<div class="wf-toc-header">
+  <svg class="wf-toc-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 6h16M4 12h16M4 18h7"/>
+  </svg>
+  <span class="wf-toc-header-label">Cuprins Secțiune</span>
+</div>
 
-    <!-- ── List ── -->
-    <div class="wf-toc-container">
-      <!-- SVG Track (Dim background line) -->
-      <svg class="wf-toc-svg" :style="{ height: svgHeight + 'px' }">
-        <path :d="svgPath" class="wf-toc-path-track" />
-      </svg>
-      <!-- SVG Fill (Orange active line traveling window) -->
-      <svg 
-        class="wf-toc-svg wf-toc-svg-fill" 
-        :style="{ 
-          height: svgHeight + 'px', 
-          clipPath: `inset(${activeTop}px 0 ${Math.max(0, svgHeight - activeTop - activeHeight)}px 0)`,
-          opacity: activeLinks.length ? 1 : 0 
+    <div class="wf-toc-container" ref="containerRef">
+
+      <div
+        v-if="svg"
+        class="wf-toc-track-wrap"
+        :style="{
+          width: svg.width + 'px',
+          height: svg.height + 'px',
+          '--track-top': trackTop + 'px',
+          '--track-bottom': trackBottom + 'px',
+          '--offset-distance': offsetDistance + 'px',
+          '--dot-opacity': dotOpacity,
         }"
       >
-        <path :d="svgPath" class="wf-toc-path-fill" />
-      </svg>
-      <!-- Travelling Dot -->
-      <div class="wf-toc-travelling-dot" :style="{ transform: `translate(${dotX - 4}px, ${arrowY - 4}px)`, opacity: activeLinks.length ? 1 : 0 }"></div>
+        <svg
+          class="wf-toc-svg-bg"
+          :viewBox="`0 0 ${svg.width} ${svg.height}`"
+          :style="{ width: svg.width + 'px', height: svg.height + 'px' }"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path :d="svg.d" class="wf-track-path" fill="none" />
+        </svg>
 
-      <ul class="wf-toc-list" ref="listEl">
-        <template v-for="item in allItems" :key="item.link">
-          <li
-            class="wf-toc-item"
-            :class="[
-              item.level === 2 ? 'wf-toc-h2' : 'wf-toc-h3',
-              { 'is-active': activeLinks.includes(item.link) }
-            ]"
-          >
-            <a :href="item.link" class="wf-toc-link" @click.prevent="navigate(item.link)">
-              <span class="wf-toc-text">{{ item.title }}</span>
-            </a>
-          </li>
-        </template>
-      </ul>
+        <svg
+          class="wf-toc-svg-fill"
+          :viewBox="`0 0 ${svg.width} ${svg.height}`"
+          :style="{ width: svg.width + 'px', height: svg.height + 'px' }"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path :d="svg.d" class="wf-fill-path" fill="none" />
+        </svg>
+
+        <div class="wf-toc-dot" :style="{ offsetPath: `path('${svg.d}')` }" />
+      </div>
+
+      <div class="wf-toc-items" ref="itemsRef">
+        <a
+          v-for="item in allItems"
+          :key="item.url"
+          :href="item.url"
+          class="wf-toc-item"
+          :class="[
+            `wf-depth-${item.depth}`,
+            { 'is-active': activeUrls.has(item.url) }
+          ]"
+          :style="{ paddingInlineStart: getItemOffset(item.depth) + 'px' }"
+          @click.prevent="navigate(item.url)"
+        >{{ item.title }}</a>
+      </div>
+
     </div>
-
   </nav>
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, onUnmounted, watch, nextTick } from 'vue'
-import { useData, useRoute } from 'vitepress'
+import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
+import { useRoute } from 'vitepress'
 
-interface FlatItem {
-  level: 2 | 3
+interface TocItem {
   title: string
-  link: string  // e.g. "#section-title"
+  url: string   
+  depth: number 
 }
 
-const { page } = useData()
+interface ComputedSVG {
+  width: number
+  height: number
+  d: string
+  positions: [number, number, number][]
+  lineLengths: [number, number][]
+}
+
 const route = useRoute()
 
-// Priority 1: DOM scan for h2/h3 in .vp-doc (works perfectly with all Vue/HTML components)
-const allItems = ref<FlatItem[]>([])
+const allItems    = ref<TocItem[]>([])
+const activeUrls  = ref<Set<string>>(new Set())
 
-function scanDOM(): FlatItem[] {
-  const container = document.querySelector('.vp-doc') ?? document.querySelector('.VPDoc .container')
-  if (!container) return []
-  const els = container.querySelectorAll<HTMLElement>('h2, h3')
-  const items: FlatItem[] = []
-  els.forEach(el => {
-    const id = el.id
-    if (!id) return
-    const level = el.tagName === 'H2' ? 2 : 3
-    const text = (el.cloneNode(true) as HTMLElement)
-    text.querySelectorAll('a').forEach(a => a.remove())
-    const title = text.textContent?.trim() ?? ''
-    if (title) items.push({ level, title, link: '#' + id })
+const containerRef = ref<HTMLElement | null>(null)
+const itemsRef     = ref<HTMLElement | null>(null)
+
+const svg            = ref<ComputedSVG | null>(null)
+const trackTop       = ref(0)
+const trackBottom    = ref(0)
+const offsetDistance = ref(0)
+const dotOpacity     = ref(0)
+
+// ── SCROLL SPY MULTIPLU (Afișează TOATE secțiunile vizibile) ──────────────────
+const isScrollingDown = ref(true)
+let lastScrollY = 0
+let isNavigating = false
+let scrollRaf: number | null = null
+
+function getActiveItems() {
+  const scrollY = window.scrollY
+  const innerHeight = window.innerHeight
+  const offsetHeight = document.body.offsetHeight
+
+  // Dacă ajungi fix jos, forțăm ultimul item
+  if (scrollY + innerHeight >= offsetHeight - 10) {
+    return [allItems.value[allItems.value.length - 1]?.url].filter(Boolean)
+  }
+
+  const active = []
+  const HEADER_OFFSET = 120 // Cât spațiu ia meniul de sus din VitePress
+
+  for (let i = 0; i < allItems.value.length; i++) {
+    const item = allItems.value[i]
+    const el = document.getElementById(item.url.slice(1))
+    if (!el) continue
+
+    const nextItem = allItems.value[i + 1]
+    const nextEl = nextItem ? document.getElementById(nextItem.url.slice(1)) : null
+
+    const rectTop = el.getBoundingClientRect().top
+    const nextRectTop = nextEl ? nextEl.getBoundingClientRect().top : innerHeight + 1000
+
+    // O secțiune e "citită" (pe ecran) dacă:
+    // 1. A intrat în ecran (rectTop e mai mic decât înălțimea ecranului)
+    // 2. Încă nu a ieșit complet pe sus (nextRectTop e mai mare decât headerul)
+    if (rectTop < innerHeight && nextRectTop > HEADER_OFFSET) {
+      active.push(item.url)
+    }
+  }
+
+  // Fallback: dacă n-a agățat nimic, îl prindem pe ultimul pe care l-ai depășit
+  if (active.length === 0 && allItems.value.length > 0) {
+    let lastPassed = allItems.value[0].url
+    for (let i = 0; i < allItems.value.length; i++) {
+      const el = document.getElementById(allItems.value[i].url.slice(1))
+      if (el && el.getBoundingClientRect().top <= HEADER_OFFSET) {
+        lastPassed = allItems.value[i].url
+      }
+    }
+    active.push(lastPassed)
+  }
+
+  return active
+}
+
+function onScroll() {
+  if (isNavigating) return
+  if (scrollRaf !== null) return
+
+  scrollRaf = requestAnimationFrame(() => {
+    const currentScrollY = window.scrollY
+    if (currentScrollY !== lastScrollY) {
+      isScrollingDown.value = currentScrollY > lastScrollY
+      lastScrollY = currentScrollY
+      
+      // Aici setăm toate URL-urile active odată
+      const newActive = getActiveItems()
+      if (newActive.length > 0) {
+        activeUrls.value = new Set(newActive)
+      }
+      
+      updateMarker()
+    }
+    scrollRaf = null
+  })
+}
+
+// ── Geometrie și distanțe ─────────────────────────────────────────────────────
+const A = 8
+
+function getLineOffset(depth: number): number {
+  const baseOffset = depth - 2
+  return (baseOffset * 8) + A
+}
+
+function getItemOffset(depth: number): number {
+  const baseOffset = depth - 2
+  return (baseOffset * 12) + 12 + A
+}
+
+// ── Scanare DOM (H2 - H6) ─────────────────────────────────────────────────────
+function scanDOM(): TocItem[] {
+  const root = document.querySelector('.vp-doc') ?? document.querySelector('.VPDoc .container')
+  if (!root) return []
+  const items: TocItem[] = []
+  
+  root.querySelectorAll<HTMLElement>('h2, h3, h4, h5, h6').forEach(el => {
+    if (!el.id) return
+    const clone = el.cloneNode(true) as HTMLElement
+    clone.querySelectorAll('a, .header-anchor').forEach(a => a.remove())
+    const title = clone.textContent?.trim() ?? ''
+    
+    if (title) {
+      items.push({
+        title,
+        url: '#' + el.id,
+        depth: parseInt(el.tagName.charAt(1)), 
+      })
+    }
   })
   return items
 }
 
-async function buildItems() {
-  lastActive = ''
-  activeLinks.value = []
-  await nextTick()
-  allItems.value = scanDOM()
-  buildObserver()
-  updateSVG()
+// ── Construit SVG ─────────────────────────────────────────────────────────────
+let rafId = 0
+function scheduleRecompute() {
+  cancelAnimationFrame(rafId)
+  rafId = requestAnimationFrame(recompute)
 }
 
-// ── Active link & SVG Path ──────────────────────────────────────────────────
-const activeLinks = ref<string[]>([])
-const listEl = ref<HTMLElement | null>(null)
-const activeTop = ref(0)
-const activeHeight = ref(0)
-const svgPath = ref('')
-const svgHeight = ref(0)
-const dotX = ref(8)
-const arrowY = ref(0)
-const scrollDirection = ref<'up' | 'down'>('down')
+function recompute() {
+  const container = itemsRef.value
+  if (!container || container.clientHeight === 0) { svg.value = null; return }
+  if (!allItems.value.length) { svg.value = null; return }
 
-let cachedPositions: any[] = []
+  let w = 0, h = 0, d = ''
+  const positions: [number, number, number][] = []
 
-async function updateSVG() {
-  await nextTick()
-  if (!listEl.value) return
-  const items = Array.from(listEl.value.querySelectorAll('.wf-toc-item')) as HTMLElement[]
-  if (!items.length) {
-    svgPath.value = ''
-    return
+  for (let i = 0; i < allItems.value.length; i++) {
+    const item = allItems.value[i]
+    const el = container.querySelector<HTMLElement>(`a[href="${item.url}"]`)
+    if (!el) continue
+
+    const styles = getComputedStyle(el)
+    const x      = getLineOffset(item.depth) + 0.5 
+    const top    = el.offsetTop + parseFloat(styles.paddingTop)
+    const bottom = el.offsetTop + el.clientHeight - parseFloat(styles.paddingBottom)
+
+    w = Math.max(x + 8, w)
+    h = Math.max(h, bottom)
+
+    if (i === 0) {
+      d += ` M${x} ${top} L${x} ${bottom}`
+    } else {
+      const [, upperBottom, upperX] = positions[i - 1]
+      d += ` C ${upperX} ${top - 4} ${x} ${upperBottom + 4} ${x} ${top} L${x} ${bottom}`
+    }
+
+    positions.push([top, bottom, x])
   }
 
-  let d = ''
-  items.forEach((item, index) => {
-    const isH2 = item.classList.contains('wf-toc-h2')
-    const x = isH2 ? 8 : 20
-    const y = item.offsetTop + item.offsetHeight / 2
+  const lineLengths: [number, number][] = []
+  const pathEl = document.createElementNS('http://www.w3.org/2000/svg', 'path')
+  pathEl.setAttribute('d', d)
+  const totalLen = pathEl.getTotalLength()
 
-    if (index === 0) {
-      d += `M ${x} ${item.offsetTop} `
-      d += `L ${x} ${y} `
-    } else {
-      const prevIsH2 = items[index-1].classList.contains('wf-toc-h2')
-      const prevX = prevIsH2 ? 8 : 20
-      const prevY = items[index-1].offsetTop + items[index-1].offsetHeight / 2
-      
-      if (prevX === x) {
-        d += `L ${x} ${y} `
-      } else {
-        const midY = (prevY + y) / 2
-        const r = Math.min(6, Math.abs(x - prevX) / 2, Math.abs(y - prevY) / 2)
-        const dirX = x > prevX ? 1 : -1
-        
-        d += `L ${prevX} ${midY - r} `
-        d += `Q ${prevX} ${midY}, ${prevX + r * dirX} ${midY} `
-        
-        const endX = x - r * dirX
-        if (Math.abs(endX - (prevX + r * dirX)) > 0.1) {
-          d += `L ${endX} ${midY} `
-        }
-        
-        d += `Q ${x} ${midY}, ${x} ${midY + r} `
-        d += `L ${x} ${y} `
-      }
-    }
-  })
-  
-  const lastItem = items[items.length - 1]
-  const lastX = lastItem.classList.contains('wf-toc-h2') ? 8 : 20
-  const lastY = lastItem.offsetTop + lastItem.offsetHeight
-  d += `L ${lastX} ${lastY}`
-  
-  svgPath.value = d
-  svgHeight.value = listEl.value ? listEl.value.scrollHeight + 20 : 0 // Buffer to prevent clipping
+  for (let i = 0; i < positions.length; i++) {
+    const [top, bottom] = positions[i]
+    let l = i > 0 ? lineLengths[i - 1][1] + (top - positions[i - 1][1]) : top
+    while (l < totalLen && pathEl.getPointAtLength(l).y < top) l++
+    lineLengths.push([l, l + bottom - top])
+  }
+
+  svg.value = { width: w, height: h, d, positions, lineLengths }
   updateMarker()
 }
 
+// ── Update Marker ─────────────────────────────────────────────────────────────
 function updateMarker() {
-  if (!listEl.value || !activeLinks.value.length) {
-    activeHeight.value = 0
+  const s = svg.value
+  if (!s || activeUrls.value.size === 0) {
+    trackTop.value    = 0
+    trackBottom.value = 0
+    dotOpacity.value  = 0
     return
   }
+
+  const links = activeUrls.value
   
-  const activeElements = Array.from(listEl.value.querySelectorAll('.is-active')) as HTMLElement[]
-  if (activeElements.length) {
-    const first = activeElements[0]
-    const last = activeElements[activeElements.length - 1]
-    
-    const startY = first.offsetTop + first.offsetHeight / 2
-    const endY = last.offsetTop + last.offsetHeight / 2
-    
-    activeTop.value = startY
-    activeHeight.value = endY - startY
-    
-    if (scrollDirection.value === 'down') {
-      arrowY.value = endY
-      dotX.value = last.classList.contains('wf-toc-h2') ? 8 : 20
-    } else {
-      arrowY.value = startY
-      dotX.value = first.classList.contains('wf-toc-h2') ? 8 : 20
-    }
-  } else {
-    activeHeight.value = 0
+  // Acum găsim prima și ultima secțiune din vizor ca să le unim prin linie
+  const startIdx = allItems.value.findIndex(it => links.has(it.url))
+  
+  let endIdx = -1
+  for (let i = allItems.value.length - 1; i >= 0; i--) {
+    if (links.has(allItems.value[i].url)) { endIdx = i; break }
   }
+  
+  if (startIdx === -1 || endIdx === -1) return
+
+  // Întindem linia de la primul la ultimul
+  trackTop.value    = s.positions[startIdx][0]
+  trackBottom.value = s.positions[endIdx][1]
+
+  offsetDistance.value = isScrollingDown.value 
+    ? s.lineLengths[endIdx][1] 
+    : s.lineLengths[startIdx][0] 
+    
+  dotOpacity.value     = 1
 }
 
-watch([activeLinks, scrollDirection], async () => {
-  await nextTick()
+// ── ResizeObserver ────────────────────────────────────────────────────────────
+let rObs: ResizeObserver | null = null
+function setupResizeObserver() {
+  rObs?.disconnect()
+  const target = itemsRef.value
+  if (!target) return
+  rObs = new ResizeObserver(() => scheduleRecompute())
+  rObs.observe(target)
+}
+
+// ── Navigare Clik ─────────────────────────────────────────────────────────────
+function navigate(url: string) {
+  const el = document.getElementById(url.slice(1))
+  if (!el) return
+  
+  isNavigating = true
+  activeUrls.value = new Set([url])
+  
+  const rect = el.getBoundingClientRect()
+  isScrollingDown.value = rect.top > 0
+  
   updateMarker()
-}, { deep: true })
+  el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  history.pushState(null, '', url)
+  
+  // După ce se termină scroll-ul forțat de click, resetăm vederea să calculeze ce e pe ecran iar
+  setTimeout(() => { 
+    isNavigating = false 
+    const newActive = getActiveItems()
+    if (newActive.length > 0) activeUrls.value = new Set(newActive)
+    updateMarker()
+  }, 800)
+}
 
-// ── Scrollspy (Intersection Observer) ────────────────────────────────────────
-let observer: IntersectionObserver | null = null
-let lastActive = ''
-
-function buildObserver() {
-  observer?.disconnect()
+// ── Build all ─────────────────────────────────────────────────────────────────
+async function buildAll() {
+  activeUrls.value = new Set()
+  svg.value        = null
+  await nextTick()
+  
+  allItems.value = scanDOM()
   if (!allItems.value.length) return
-
-  observer = new IntersectionObserver(
-    (entries) => {
-      let updated = [...activeLinks.value]
-      
-      entries.forEach(entry => {
-        const link = '#' + entry.target.id
-        if (entry.isIntersecting) {
-          if (!updated.includes(link)) updated.push(link)
-        } else {
-          updated = updated.filter(l => l !== link)
-        }
-      })
-
-      // Ensure they are sorted in document order
-      updated.sort((a, b) => {
-        return allItems.value.findIndex(i => i.link === a) - allItems.value.findIndex(i => i.link === b)
-      })
-
-      // If headings are on screen, update bounding box
-      if (updated.length > 0) {
-        activeLinks.value = updated
-        lastActive = updated[0]
-      } else if (lastActive) {
-        // If we scroll deep into a huge section and no headings are visible,
-        // keep the last seen heading active.
-        activeLinks.value = [lastActive]
-      }
-    },
-    { rootMargin: '-60px 0px 0px 0px', threshold: 0 } // Offset for navbar
-  )
-
-  allItems.value.forEach(item => {
-    const el = document.getElementById(item.link.replace('#', ''))
-    if (el) observer!.observe(el)
-  })
-}
-
-// ── Scroll Direction Tracking ────────────────────────────────────────────────
-let scrollAccumulator = 0
-let lastScrollY = typeof window !== 'undefined' ? window.scrollY : 0
-
-function handleScroll() {
-  const scrollY = window.scrollY
-  const delta = scrollY - lastScrollY
   
-  if (delta > 0) { // Scrolling down
-    if (scrollDirection.value === 'up') scrollAccumulator += delta
-    else scrollAccumulator = 0
-    
-    if (scrollAccumulator > 60) {
-      scrollDirection.value = 'down'
-      scrollAccumulator = 0
-    }
-  } else if (delta < 0) { // Scrolling up
-    if (scrollDirection.value === 'down') scrollAccumulator -= delta
-    else scrollAccumulator = 0
-    
-    if (scrollAccumulator > 60) {
-      scrollDirection.value = 'up'
-      scrollAccumulator = 0
-    }
-  }
-  lastScrollY = scrollY
-}
-
-// ── Navigate ─────────────────────────────────────────────────────────────────
-function navigate(href: string) {
-  const el = document.getElementById(href.replace('#', ''))
-  if (el) {
-    activeLinks.value = [href]
-    el.scrollIntoView({ behavior: 'smooth', block: 'start' })
-    history.pushState(null, '', href)
-  }
-}
-
-// ── Lifecycle ─────────────────────────────────────────────────────────────────
-let layoutInterval: any
-
-onMounted(() => {
-  buildItems()
-  window.addEventListener('resize', updateSVG, { passive: true })
-  window.addEventListener('scroll', handleScroll, { passive: true })
+  await nextTick()
+  scheduleRecompute()
+  setupResizeObserver()
   
-  // Continuously check for layout shifts (e.g. async components or images loading)
-  let lastHeight = 0
-  layoutInterval = setInterval(() => {
-    const docHeight = document.documentElement.scrollHeight
-    if (docHeight !== lastHeight) {
-      lastHeight = docHeight
-      buildItems() // Rebuild entirely to catch late-rendered headers
-    }
-  }, 1000)
-})
+  const initialActive = getActiveItems()
+  if (initialActive.length > 0) {
+    activeUrls.value = new Set(initialActive)
+  }
+  updateMarker()
+}
 
-onUnmounted(() => {
-  observer?.disconnect()
-  window.removeEventListener('resize', updateSVG)
-  window.removeEventListener('scroll', handleScroll)
-  clearInterval(layoutInterval)
-})
+// ── Watchers ──────────────────────────────────────────────────────────────────
+watch(activeUrls, () => nextTick(updateMarker))
 
 watch(() => route.path, async () => {
   await nextTick()
-  setTimeout(() => {
-    buildItems()
-  }, 150)
+  setTimeout(buildAll, 120) 
+})
+
+// ── Lifecycle ─────────────────────────────────────────────────────────────────
+onMounted(() => {
+  buildAll()
+  lastScrollY = window.scrollY
+  window.addEventListener('scroll', onScroll, { passive: true })
+  window.addEventListener('resize', scheduleRecompute, { passive: true })
+})
+
+onUnmounted(() => {
+  rObs?.disconnect()
+  cancelAnimationFrame(rafId)
+  if (scrollRaf !== null) cancelAnimationFrame(scrollRaf)
+  window.removeEventListener('scroll', onScroll)
+  window.removeEventListener('resize', scheduleRecompute)
 })
 </script>
 
-
 <style scoped>
-/* ── Container ── */
+.wf-toc-icon {
+  color: var(--wf-active);
+  flex-shrink: 0;
+  transition: transform 0.3s ease;
+}
+.wf-toc-header:hover .wf-toc-icon {
+  transform: translateX(2px); 
+}
+
 .wf-toc {
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-  --wf-toc-active-color: var(--vp-c-brand-3); /* Darker shade for better contrast in light mode */
+  --wf-active: var(--vp-c-brand-3);
 }
 
 :global(.dark) .wf-toc {
-  --wf-toc-active-color: var(--vp-c-brand-1); /* Vibrant shade for dark mode */
+  --wf-active: var(--vp-c-brand-1);
 }
 
-/* ── Header ── */
 .wf-toc-header {
   display: flex;
   align-items: center;
@@ -331,13 +401,11 @@ watch(() => route.path, async () => {
 }
 
 .wf-toc-header-bar {
-  display: inline-block;
   width: 3px;
   height: 14px;
   border-radius: 2px;
-  background: var(--wf-toc-active-color);
+  background: var(--wf-active);
   flex-shrink: 0;
-  box-shadow: 0 0 6px rgba(var(--wf-accent-rgb), 0.5);
 }
 
 .wf-toc-header-label {
@@ -346,122 +414,120 @@ watch(() => route.path, async () => {
   text-transform: uppercase;
   letter-spacing: 0.7px;
   color: var(--vp-c-text-3);
-  flex: 1;
 }
 
-/* ── Container ── */
 .wf-toc-container {
   position: relative;
-  margin-left: 10px; /* Prevents dot from being clipped by VitePress sidebar boundaries */
-  padding-left: 0;
   margin-top: 8px;
 }
 
-/* ── SVG Dynamic Path Lines ── */
-.wf-toc-svg {
+.wf-toc-track-wrap {
   position: absolute;
   top: 0;
   left: 0;
-  width: 32px;
   pointer-events: none;
+  z-index: 0;
+}
+
+.wf-toc-svg-bg,
+.wf-toc-svg-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
   overflow: visible;
 }
 
-.wf-toc-path-track {
-  fill: none;
+.wf-track-path {
   stroke: var(--vp-c-divider);
-  stroke-width: 2;
+  stroke-width: 1;
   stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
 .wf-toc-svg-fill {
-  z-index: 2;
-  transition: clip-path 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
-  will-change: clip-path;
+  clip-path: polygon(
+    0 var(--track-top, 0px),
+    100% var(--track-top, 0px),
+    100% var(--track-bottom, 0px),
+    0 var(--track-bottom, 0px)
+  );
+  transition: clip-path 0.2s ease;
 }
 
-.wf-toc-path-fill {
-  fill: none;
-  stroke: var(--wf-toc-active-color);
-  stroke-width: 2;
+.wf-fill-path {
+  stroke: var(--wf-active);
+  stroke-width: 1;
   stroke-linecap: round;
-  stroke-linejoin: round;
 }
 
-/* ── Travelling Dot ── */
-.wf-toc-travelling-dot {
+.wf-toc-dot {
   position: absolute;
   top: 0;
   left: 0;
-  width: 8px;
-  height: 8px;
+  width: 6px;
+  height: 6px;
   border-radius: 50%;
-  background: var(--wf-toc-active-color);
-  box-shadow: 0 0 8px rgba(var(--wf-accent-rgb), 0.8);
-  transition: transform 0.5s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.3s ease;
-  z-index: 99;
-}
-
-/* ── List ── */
-.wf-toc-list {
-  position: relative;
-  list-style: none;
-  padding: 0;
+  background: var(--wf-active);
+  offset-distance: var(--offset-distance, 0px);
   margin: 0;
-  z-index: 4;
+  transform: none;
+  offset-anchor: 50% 50%;
+  opacity: var(--dot-opacity, 0);
+  transition:
+    offset-distance 0.2s ease-out,
+    opacity 0.15s ease;
+  z-index: 2;
 }
 
-/* ── Item ── */
+.wf-toc-items {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  flex-direction: column;
+}
+
 .wf-toc-item {
   position: relative;
-  margin: 0;
-  padding: 0;
-}
-
-/* ── Link ── */
-.wf-toc-link {
   display: block;
   text-decoration: none;
+  line-height: 1.4;
   transition: color 0.15s ease;
-  position: relative;
-}
-
-/* ── ## level ── */
-.wf-toc-h2 .wf-toc-link {
-  padding: 4px 0 4px 24px;
-  font-size: 12.5px;
-  font-weight: 400;
-  line-height: 1.5;
   color: var(--vp-c-text-2);
-}
-
-.wf-toc-h2 .wf-toc-link:hover {
-  color: var(--vp-c-text-1);
-}
-
-/* ── ### level ── */
-.wf-toc-h3 .wf-toc-link {
-  padding: 3px 0 3px 36px;
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1.5;
-  color: var(--vp-c-text-3);
-}
-
-.wf-toc-h3 .wf-toc-link:hover {
-  color: var(--vp-c-text-2);
-}
-
-.wf-toc-h2.is-active .wf-toc-link,
-.wf-toc-h3.is-active .wf-toc-link {
-  color: var(--wf-toc-active-color) !important;
-  font-weight: 600 !important;
-}
-
-/* ── Text wrapping ── */
-.wf-toc-text {
+  padding-top: 6px;
+  padding-bottom: 6px;
+  font-size: 13px;
   white-space: normal;
-  overflow: visible;
+  word-break: break-word;
 }
+
+.wf-toc-item:first-child { padding-top: 0; }
+.wf-toc-item:last-child  { padding-bottom: 0; }
+
+.wf-toc-item:hover { color: var(--vp-c-text-1); }
+
+.wf-toc-item.is-active {
+  color: var(--wf-active) !important;
+  font-weight: 600;
+}
+
+.wf-depth-3 { font-size: 12px; color: var(--vp-c-text-3); }
+.wf-depth-3:hover { color: var(--vp-c-text-2); }
+
+.wf-depth-4 {
+  font-size: 11.5px;
+  color: var(--vp-c-text-3);
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+.wf-depth-4:hover { color: var(--vp-c-text-2); }
+
+.wf-depth-5, .wf-depth-6 {
+  font-size: 11px;
+  color: var(--vp-c-text-3);
+  padding-top: 3px;
+  padding-bottom: 3px;
+  white-space: normal;
+  word-break: break-word;
+  line-height: 1.3;
+}
+.wf-depth-5:hover, .wf-depth-6:hover { color: var(--vp-c-text-2); }
 </style>

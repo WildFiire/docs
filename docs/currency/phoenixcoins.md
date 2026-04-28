@@ -1,5 +1,6 @@
 ---
 outline: deep
+navbar: false
 ---
 
 <CaseHeader 
@@ -302,7 +303,7 @@ outline: deep
     </li>
     <li>
       <Icon icon="lucide:gift" :size="20" />
-      <span>Poți cumpăra Phoenix Coins și cu bani reali din <span class="wf-currency-highlight">market-ul site-ului</span> la adresa <code>wildfire.ro/market</code>.</span>
+      <span>Poți cumpăra Phoenix Coins și cu bani reali din <span class="wf-currency-highlight">market-ul site-ului</span> la adresa <code>wildfire.ro/skins-market</code>.</span>
     </li>
     <li>
       <Icon icon="lucide:clock" :size="20" />

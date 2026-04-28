@@ -4,7 +4,6 @@
     <div class="wch-ambient-glow" aria-hidden="true" />
     <div class="wch-inner">
 
-      <!-- Breadcrumb -->
       <nav v-if="path && path.length" class="wch-breadcrumb" aria-label="Breadcrumb">
         <template v-for="(crumb, i) in path" :key="i">
           <span :class="['wch-crumb', { 'wch-crumb--active': i === path.length - 1 }]">{{ crumb }}</span>
@@ -14,15 +13,12 @@
         </template>
       </nav>
 
-      <!-- Title -->
       <h1 class="wch-title">{{ title }}</h1>
 
-      <!-- Tags -->
       <div v-if="effectiveTags.length" class="wch-tags">
         <component v-for="(tag, i) in effectiveTags" :key="i" :is="tag.component">{{ tag.text }}</component>
       </div>
 
-      <!-- Toolbar -->
       <div class="wch-toolbar">
         <a :href="editUrl" target="_blank" rel="noopener noreferrer" class="wch-btn">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="13" height="13"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
@@ -50,7 +46,6 @@
         </div>
       </div>
 
-      <!-- Meta -->
       <div v-if="lastUpdatedText || uploadedByValue" class="wch-meta">
         <span v-if="lastUpdatedText" class="wch-meta-chip">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="11" height="11"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
@@ -182,47 +177,84 @@ const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gi
 </script>
 
 <style scoped>
-/* ─── Root — NO overflow:hidden, gridul e clipat prin pseudo ─── */
+/* ─── 1. ROOT CONTAINER ─── */
 .wch-root {
   position: relative;
-  z-index: 50;
-  border-radius: 12px;
-  border: 1px solid rgba(var(--wf-accent-rgb), 0.15);
-  background: var(--vp-c-bg-soft);
+  z-index: 1; 
   margin-bottom: 2rem;
-  transition: border-color 0.3s ease;
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  border-radius: 0;
 }
-.wch-root:hover { border-color: rgba(var(--wf-accent-rgb), 0.28); }
 
-/* Grid + glow sunt clipate printr-un pseudo, nu prin overflow pe root */
+/* ─── 2. FUNDALUL MASIV EXTINS (Curba V perfectă) ─── */
 .wch-grid-bg,
 .wch-ambient-glow {
   position: absolute;
-  inset: 0;
-  z-index: 0;
-  border-radius: 12px;
+  top: -80px;
+  /* Centrare absolută față de ecran */
+  left: 50%;
+  width: 100vw; 
+  height: 500px;
+  z-index: -1;
   pointer-events: none;
 }
 
 .wch-grid-bg {
+  /* GRILA SUPREMĂ: 4 straturi pentru profunzime 3D reală */
   background-image:
-    linear-gradient(rgba(var(--wf-accent-rgb), 0.08) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(var(--wf-accent-rgb), 0.08) 1px, transparent 1px);
-  background-size: 36px 36px;
-  mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, black 20%, transparent 100%);
-  -webkit-mask-image: radial-gradient(ellipse 90% 80% at 50% 0%, black 20%, transparent 100%);
-  overflow: hidden; /* clipare locala doar pe grid */
+    /* 1. Noduri luminoase la intersecțiile mari */
+    radial-gradient(circle at 1px 1px, rgba(var(--wf-accent-rgb), 0.5) 1.5px, transparent 1.5px),
+    /* 2. Liniile principale (grila de 60px) */
+    linear-gradient(to right, rgba(var(--wf-accent-rgb), 0.1) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--wf-accent-rgb), 0.1) 1px, transparent 1px),
+    /* 3. Liniile secundare (grila de 15px - detaliu tehnic) */
+    linear-gradient(to right, rgba(var(--wf-accent-rgb), 0.025) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(var(--wf-accent-rgb), 0.025) 1px, transparent 1px),
+    /* 4. Efectul de tablă de șah (Glass Tiles) - alternează opacitatea pătratelor mari */
+    conic-gradient(rgba(var(--wf-accent-rgb), 0.015) 90deg, transparent 90deg 180deg, rgba(var(--wf-accent-rgb), 0.015) 180deg 270deg, transparent 270deg);
+
+  background-size:
+    60px 60px, /* Noduri */
+    60px 60px, 60px 60px, /* Linii principale */
+    15px 15px, 15px 15px, /* Linii secundare */
+    120px 120px; /* Tabla de șah are dublul mărimii pentru a alterna 60 cu 60 */
+
+  /* Aliniere perfectă a tuturor straturilor pe centru */
+  background-position: 50% 0%;
+
+  /* Înclinarea SF (Skew) */
+  transform-origin: center top;
+  transform: translateX(-50%) skewY(-3.5deg) scaleY(1.05);
+
+  /* Masca sub formă de "U" larg (cade sub text, urcă sub sidebars) */
+  mask-image: radial-gradient(ellipse 60vw 450px at 50% -50px, black 30%, transparent 75%);
+  -webkit-mask-image: radial-gradient(ellipse 60vw 450px at 50% -50px, black 30%, transparent 75%);
 }
 
 .wch-ambient-glow {
-  background: radial-gradient(ellipse 70% 50% at 50% 0%, rgba(var(--wf-accent-rgb), 0.13), transparent 70%);
-  overflow: hidden;
+  transform: translateX(-50%);
+  
+  /* Lumina de fundal care umple zona curbei V */
+  background:
+    radial-gradient(ellipse 40vw 300px at 50% 0%, rgba(var(--wf-accent-rgb), 0.15) 0%, transparent 70%),
+    radial-gradient(ellipse 70vw 200px at 50% 50px, rgba(var(--wf-accent-rgb), 0.04) 0%, transparent 60%);
+
+  /* Respirație blândă pentru efect tech/viu */
+  animation: wch-ambient-pulse 6s ease-in-out infinite alternate;
 }
 
+@keyframes wch-ambient-pulse {
+  0% { opacity: 0.65; transform: translateX(-50%) scaleY(0.95) scaleX(0.98); }
+  100% { opacity: 1; transform: translateX(-50%) scaleY(1.05) scaleX(1); }
+}
+
+/* ─── 3. CONȚINUTUL INTERIOR ─── */
 .wch-inner {
   position: relative;
-  z-index: 1;
-  padding: 28px 32px 24px;
+  z-index: 2;
+  padding: 10px 0 24px 0;
 }
 
 .wch-breadcrumb { display: flex; align-items: center; gap: 5px; margin-bottom: 14px; }
@@ -240,6 +272,7 @@ const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gi
   padding: 0 !important;
   border: none !important;
   letter-spacing: -0.02em !important;
+  text-shadow: 0 0 15px rgba(var(--wf-accent-rgb), 0.15);
 }
 .wch-title::before { display: none !important; }
 
@@ -268,6 +301,7 @@ const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gi
   border-color: rgba(var(--wf-accent-rgb), 0.4);
   color: var(--vp-c-brand-1);
   background: rgba(var(--wf-accent-rgb), 0.05);
+  transform: translateY(-1px);
 }
 .wch-btn--success {
   border-color: rgba(16, 185, 129, 0.4) !important;
@@ -276,41 +310,30 @@ const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gi
 }
 .wch-chevron { transition: transform 0.2s ease; flex-shrink: 0; opacity: 0.6; }
 
-/* ─── Dropdown — iese din root, fara overflow clip ─── */
-.wch-open-wrap {
-  position: relative;
-  /* z-index ridicat ca sa fie deasupra oricarui element din pagina */
-  z-index: 9999;
-}
-
+/* ─── DROPDOWN ─── */
+.wch-open-wrap { position: relative; z-index: 9999; }
 .wch-open-menu {
   position: absolute;
   top: calc(100% + 6px);
   left: 0;
   z-index: 9999;
   min-width: 230px;
-
-  /* ── Liquid Glass ── */
   background: rgba(255, 255, 255, 0.06);
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px;
   padding: 5px;
-
-  /* highlight de lumina pe margine superioara */
   box-shadow:
     0 0 0 0.5px rgba(255, 255, 255, 0.06) inset,
     0 1px 0 0 rgba(255, 255, 255, 0.15) inset,
     0 20px 48px rgba(0, 0, 0, 0.55),
     0 4px 12px rgba(0, 0, 0, 0.35);
-
   display: flex;
   flex-direction: column;
   gap: 1px;
 }
 
-/* Light mode — glass mai deschis */
 html:not(.dark) .wch-open-menu {
   background: rgba(255, 255, 255, 0.72);
   border-color: rgba(0, 0, 0, 0.08);
@@ -322,61 +345,31 @@ html:not(.dark) .wch-open-menu {
 }
 
 .wch-open-item {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 11px;
-  border-radius: 10px;
-  font-size: 13px;
-  font-weight: 450;
-  color: rgba(255, 255, 255, 0.82);
-  text-decoration: none;
-  transition: background 0.12s ease, color 0.12s ease;
-  letter-spacing: 0.01em;
+  display: flex; align-items: center; gap: 10px; padding: 8px 11px;
+  border-radius: 10px; font-size: 13px; font-weight: 450;
+  color: rgba(255, 255, 255, 0.82); text-decoration: none;
+  transition: background 0.12s ease, color 0.12s ease; letter-spacing: 0.01em;
 }
-.wch-open-item:hover {
-  background: rgba(255, 255, 255, 0.09);
-  color: #ffffff;
-}
+.wch-open-item:hover { background: rgba(255, 255, 255, 0.09); color: #ffffff; }
 
 html:not(.dark) .wch-open-item { color: rgba(0, 0, 0, 0.72); }
-html:not(.dark) .wch-open-item:hover {
-  background: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.9);
-}
+html:not(.dark) .wch-open-item:hover { background: rgba(0, 0, 0, 0.05); color: rgba(0, 0, 0, 0.9); }
 
-.wch-tool-icon {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  color: rgba(255, 255, 255, 0.55);
-  transition: color 0.12s ease;
-}
+.wch-tool-icon { display: flex; align-items: center; justify-content: center; width: 18px; height: 18px; flex-shrink: 0; color: rgba(255, 255, 255, 0.55); transition: color 0.12s ease; }
 html:not(.dark) .wch-tool-icon { color: rgba(0, 0, 0, 0.4); }
 .wch-open-item:hover .wch-tool-icon { color: rgba(255, 255, 255, 0.95); }
 html:not(.dark) .wch-open-item:hover .wch-tool-icon { color: rgba(0, 0, 0, 0.7); }
 
 .wch-tool-label { flex: 1; }
-
-.wch-ext-icon {
-  color: rgba(255, 255, 255, 0.22);
-  flex-shrink: 0;
-  transition: color 0.12s;
-}
+.wch-ext-icon { color: rgba(255, 255, 255, 0.22); flex-shrink: 0; transition: color 0.12s; }
 html:not(.dark) .wch-ext-icon { color: rgba(0, 0, 0, 0.18); }
 .wch-open-item:hover .wch-ext-icon { color: rgba(255, 255, 255, 0.5); }
 html:not(.dark) .wch-open-item:hover .wch-ext-icon { color: rgba(0, 0, 0, 0.35); }
 
-/* ─── Transition ─── */
-.wch-dd-enter-active,
-.wch-dd-leave-active { transition: opacity 0.16s ease, transform 0.16s ease; }
-.wch-dd-enter-from,
-.wch-dd-leave-to { opacity: 0; transform: translateY(-5px) scale(0.98); }
+.wch-dd-enter-active, .wch-dd-leave-active { transition: opacity 0.16s ease, transform 0.16s ease; }
+.wch-dd-enter-from, .wch-dd-leave-to { opacity: 0; transform: translateY(-5px) scale(0.98); }
 
-/* ─── Meta ─── */
+/* ─── META CHIPS ─── */
 .wch-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid var(--vp-c-divider); }
 .wch-meta-chip {
   display: inline-flex; align-items: center; gap: 6px;
@@ -389,8 +382,13 @@ html:not(.dark) .wch-open-item:hover .wch-ext-icon { color: rgba(0, 0, 0, 0.35);
 .wch-author-pfp { border-radius: 50%; box-shadow: 0 0 0 1px rgba(var(--wf-accent-rgb), 0.2); }
 
 @media (max-width: 640px) {
-  .wch-inner { padding: 18px 16px 16px; }
+  .wch-inner { padding: 10px 0 16px; }
   .wch-title { font-size: 1.4rem !important; }
   .wch-btn { padding: 5px 10px; font-size: 12px; }
+  /* Ajustare mască pentru ecrane mici ca să nu dispară complet */
+  .wch-grid-bg {
+    mask-image: radial-gradient(ellipse 100vw 400px at 50% 0%, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 100vw 400px at 50% 0%, black 30%, transparent 80%);
+  }
 }
 </style>

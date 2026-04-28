@@ -40,11 +40,13 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-### <span style="display:none">Ce servere rulăm</span>
+### <span style="display:none">1.0 Ce servere rulăm</span>
+
+## <span style="display:none">Competitive</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><rect x="2" y="2" width="20" height="20" rx="2"/><line x1="8" y1="2" x2="8" y2="22"/><line x1="16" y1="2" x2="16" y2="22"/><line x1="2" y1="8" x2="22" y2="8"/><line x1="2" y1="16" x2="22" y2="16"/></svg>
-  <span>Ce servere rulăm</span>
+  <span>1.0 Ce servere rulăm</span>
 </div>
 
 <div class="wf-info-grid">
@@ -71,11 +73,13 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-### <span style="display:none">Sistem economic custom</span>
+### <span style="display:none">2.0 Sistem economic custom</span>
+
+## <span style="display:none">Economie</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><circle cx="12" cy="12" r="10"/><line x1="12" y1="2" x2="12" y2="22"/><line x1="2" y1="12" x2="22" y2="12"/></svg>
-  <span>Sistem economic custom</span>
+  <span>2.0 Sistem economic custom</span>
 </div>
 
 <div class="wf-info-card">
@@ -89,11 +93,13 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-### <span style="display:none">Rank și progres</span>
+### <span style="display:none">3.0 Rank și progres</span>
+
+## <span style="display:none">Rank</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><path d="M12 2L2 7L12 12L22 7L12 2Z"/><path d="M2 17L12 22L22 17"/><path d="M2 12L12 17L22 12"/></svg>
-  <span>Rank și progres</span>
+  <span>3.0 Rank și progres</span>
 </div>
 
 <div class="wf-info-card">
@@ -111,11 +117,13 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-### <span style="display:none">Sistemele Noastre</span>
+### <span style="display:none">4.0 Sistemele Noastre</span>
+
+## <span style="display:none">Sisteme</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-  <span>Sistemele Noastre</span>
+  <span>4.0 Sistemele Noastre</span>
 </div>
 
 <div class="wf-info-box" style="margin-bottom: 24px;">
@@ -131,10 +139,10 @@ outline: deep
 
 <!-- ═══════ WEAPON SKINS ═══════ -->
 
-### 1.0 WEAPON SKINS
+### 5.0 WEAPON SKINS
 
-<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="wf-system-title-hover">
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:swords" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />1.0 WEAPON SKINS</span>
+<div class="wf-system-title-hover" style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);">
+  <span class="wf-system-font" style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><Icon icon="lucide:swords" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />5.0 WEAPON SKINS</span>
 </div>
 
 <div class="wf-system-card">
@@ -234,10 +242,10 @@ outline: deep
 
 <!-- ═══════ GAMBLING ═══════ -->
 
-### 2.0 GAMBLING
+### 6.0 GAMBLING
 
-<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="wf-system-title-hover">
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:coins" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />2.0 GAMBLING</span>
+<div class="wf-system-title-hover" style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);">
+  <span class="wf-system-font" style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><Icon icon="lucide:coins" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />6.0 GAMBLING</span>
 </div>
 
 <div class="wf-system-card">
@@ -295,10 +303,10 @@ outline: deep
 
 <!-- ═══════ SHOP ═══════ -->
 
-### 3.0 SHOP
+### 7.0 SHOP
 
-<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="wf-system-title-hover">
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:shopping-cart" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />3.0 SHOP</span>
+<div class="wf-system-title-hover" style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);">
+  <span class="wf-system-font" style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><Icon icon="lucide:shopping-cart" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />7.0 SHOP</span>
 </div>
 
 <div class="wf-system-card">
@@ -320,10 +328,10 @@ outline: deep
 
 <!-- ═══════ MVP ANTHEM ═══════ -->
 
-### 4.0 MVP ANTHEM
+### 8.0 MVP ANTHEM
 
-<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="wf-system-title-hover">
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:star" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />4.0 MVP ANTHEM</span>
+<div class="wf-system-title-hover" style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);">
+  <span class="wf-system-font" style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><Icon icon="lucide:star" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />8.0 MVP ANTHEM</span>
 </div>
 
 <div class="wf-system-card">
@@ -345,10 +353,10 @@ outline: deep
 
 <!-- ═══════ SANK SOUNDS ═══════ -->
 
-### 5.0 SANK SOUNDS
+### 9.0 SANK SOUNDS
 
-<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="wf-system-title-hover">
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:volume-2" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />5.0 SANK SOUNDS</span>
+<div class="wf-system-title-hover" style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);">
+  <span class="wf-system-font" style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><Icon icon="lucide:volume-2" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />9.0 SANK SOUNDS</span>
 </div>
 
 <div class="wf-system-card">
@@ -370,10 +378,10 @@ outline: deep
 
 <!-- ═══════ GOLD MEMBER ═══════ -->
 
-### 6.0 GOLD MEMBER
+### 10.0 GOLD MEMBER
 
-<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="wf-system-title-hover">
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:crown" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />6.0 GOLD MEMBER</span>
+<div class="wf-system-title-hover" style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);">
+  <span class="wf-system-font" style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;"><Icon icon="lucide:crown" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />10.0 GOLD MEMBER</span>
 </div>
 
 <div class="wf-system-card">
@@ -399,9 +407,11 @@ outline: deep
 
 ### <span style="display:none">Comunitatea</span>
 
+## <span style="display:none">Comunitate</span>
+
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-  <span>Comunitatea</span>
+  <span>11.0 Comunitatea</span>
 </div>
 
 <div class="wf-info-box">
@@ -423,11 +433,13 @@ outline: deep
 
 <div class="wf-info-divider"></div>
 
-### <span style="display:none">Toate sistemele</span>
+### <span style="display:none">Explorează documentația</span>
+
+## <span style="display:none">Documentatie</span>
 
 <div class="wf-info-title">
   <svg viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/></svg>
-  <span>Explorează documentația</span>
+  <span>12.0 Explorează documentația</span>
 </div>
 
 <div class="wf-info-grid">

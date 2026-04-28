@@ -22,15 +22,11 @@ jobs:
           else
             FILES_COUNT=$(echo "$ALL_FILES" | wc -l | tr -d ' ')
             SHOWN=$(echo "$ALL_FILES" | head -25 | sed 's/^/• /')
-
             if [ "$FILES_COUNT" -gt 25 ]; then
               EXTRA=$((FILES_COUNT - 25))
               SHOWN=$(printf "%s\n\n… si inca %d fisiere" "$SHOWN" "$EXTRA")
             fi
-
             echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
-
-            # Use heredoc for safe multiline output
             {
               echo "files_display<<ENDOFFILES"
               echo "$SHOWN"
@@ -43,26 +39,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Resolve username from multiple sources
           USERNAME="${{ github.event.head_commit.author.username }}"
           [ -z "$USERNAME" ] && USERNAME="${{ github.actor }}"
           [ -z "$USERNAME" ] && USERNAME="${{ github.event.pusher.name }}"
           echo "username=$USERNAME" >> $GITHUB_OUTPUT
-
           if [ -n "$USERNAME" ]; then
             RESPONSE=$(curl -s -H "Authorization: token $GITHUB_TOKEN" \
               "https://api.github.com/users/$USERNAME" 2>/dev/null || echo "{}")
-
             AVATAR_URL=$(echo "$RESPONSE" | jq -r '.avatar_url // empty')
             NAME=$(echo "$RESPONSE" | jq -r '.name // empty')
-
-            # Append size param for crisp avatar in Discord embed
             if [ -n "$AVATAR_URL" ]; then
               echo "avatar_url=${AVATAR_URL}&s=128" >> $GITHUB_OUTPUT
             else
               echo "avatar_url=https://github.com/${USERNAME}.png?size=128" >> $GITHUB_OUTPUT
             fi
-
             if [ -n "$NAME" ] && [ "$NAME" != "null" ]; then
               echo "display_name=$NAME" >> $GITHUB_OUTPUT
             else
@@ -73,7 +63,21 @@ jobs:
             echo "display_name=Unknown User" >> $GITHUB_OUTPUT
           fi
 
-      - name: Send Discord notification
+      - name: Read last message ID
+        id: msgid
+        run: |
+          MSG_FILE=".github/discord_msg_id"
+          if [ -f "$MSG_FILE" ]; then
+            LAST_ID=$(cat "$MSG_FILE" | tr -d '[:space:]')
+            echo "last_id=$LAST_ID" >> $GITHUB_OUTPUT
+            echo "exists=true" >> $GITHUB_OUTPUT
+          else
+            echo "last_id=" >> $GITHUB_OUTPUT
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Send or edit Discord notification
+        id: discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
           COMMIT_MSG: ${{ github.event.head_commit.message }}
@@ -87,15 +91,15 @@ jobs:
           COMPARE_URL: ${{ github.event.compare }}
           FILES_COUNT: ${{ steps.changed.outputs.files_count }}
           FILES_DISPLAY: ${{ steps.changed.outputs.files_display }}
+          LAST_MSG_ID: ${{ steps.msgid.outputs.last_id }}
+          MSG_EXISTS: ${{ steps.msgid.outputs.exists }}
         run: |
           SHORT_SHA="${FULL_SHA:0:7}"
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
           COMMIT_TITLE=$(echo "$COMMIT_MSG" | head -n1)
 
-          # Write files to temp so jq can read them safely
           printf '%s' "$FILES_DISPLAY" > /tmp/files_list.txt
 
-          # Build JSON entirely inside jq (no shell backtick issues)
           jq -n \
             --arg repo "$REPO" \
             --arg url "$COMPARE_URL" \
@@ -119,9 +123,7 @@ jobs:
                   icon_url: $avatar,
                   url: ("https://github.com/" + $username)
                 },
-                thumbnail: {
-                  url: $avatar
-                },
+                thumbnail: { url: $avatar },
                 fields: [
                   {name: "⚡ Commit", value: $committitle, inline: false},
                   {name: "Branch", value: ("🌿 `" + $branch + "`"), inline: true},
@@ -137,7 +139,45 @@ jobs:
               }]
             }' > /tmp/payload.json
 
-          # Send it
-          curl -s -X POST "$DISCORD_WEBHOOK" \
-            -H "Content-Type: application/json" \
-            -d @/tmp/payload.json
+          if [ "$MSG_EXISTS" = "true" ] && [ -n "$LAST_MSG_ID" ]; then
+            # Editează mesajul existent
+            RESPONSE=$(curl -s -o /tmp/discord_resp.json -w "%{http_code}" \
+              -X PATCH "${DISCORD_WEBHOOK}/messages/${LAST_MSG_ID}?wait=true" \
+              -H "Content-Type: application/json" \
+              -d @/tmp/payload.json)
+
+            if [ "$RESPONSE" = "200" ]; then
+              echo "Mesaj editat cu succes (ID: $LAST_MSG_ID)"
+              echo "new_id=$LAST_MSG_ID" >> $GITHUB_OUTPUT
+            else
+              # PATCH a eșuat (mesajul poate fi șters manual) — trimite mesaj nou
+              echo "PATCH eșuat ($RESPONSE), trimit mesaj nou..."
+              RESPONSE=$(curl -s -X POST "${DISCORD_WEBHOOK}?wait=true" \
+                -H "Content-Type: application/json" \
+                -d @/tmp/payload.json)
+              NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
+              echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
+            fi
+          else
+            # Prima rulare — trimite mesaj nou
+            RESPONSE=$(curl -s -X POST "${DISCORD_WEBHOOK}?wait=true" \
+              -H "Content-Type: application/json" \
+              -d @/tmp/payload.json)
+            NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
+            echo "Mesaj nou trimis (ID: $NEW_ID)"
+            echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Save message ID to repo
+        env:
+          NEW_ID: ${{ steps.discord.outputs.new_id }}
+        run: |
+          MSG_FILE=".github/discord_msg_id"
+          if [ -n "$NEW_ID" ]; then
+            echo "$NEW_ID" > "$MSG_FILE"
+            git config user.name "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add "$MSG_FILE"
+            git diff --staged --quiet || git commit -m "chore: update discord message id [skip ci]"
+            git push origin HEAD
+          fi

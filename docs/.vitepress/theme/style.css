@@ -341,10 +341,26 @@ html[data-wf-theme="updates_wiki"] {
 
 /* Desktop collapse state */
 @media (min-width: 960px) {
-  html.sidebar-collapsed .VPNavBarTitle {
+  /* Hide entire navbar on desktop docs and reset layout variables */
+  body:not(.home) {
+    --vp-nav-height: 0px !important;
+  }
+
+  body:not(.home) .VPNav {
     display: none !important;
   }
 
+  body:not(.home) .VPSidebar {
+    top: 0 !important;
+    height: 100vh !important;
+    padding-top: 0 !important;
+  }
+
+  body:not(.home) .VPContent {
+    padding-top: 0 !important;
+  }
+
+  /* Ensure floating controls show up when sidebar is collapsed */
   html.sidebar-collapsed .wf-floating-controls {
     display: flex !important;
     position: fixed !important;
@@ -434,11 +450,15 @@ html[data-wf-theme="updates_wiki"] {
   border-left: none !important;
 }
 
-/* Elimină orice linie orizontală din sidebar */
-.VPSidebar hr {
-  display: none !important;
+/* Sticky Sidebar Nav Wrapper */
+.wf-sidebar-sticky-nav {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+  background-color: var(--vp-sidebar-bg-color);
+  padding-top: 24px;
+  padding-bottom: 12px;
 }
-
 
 /*=============================================================================
   6. SCROLLBAR INCENDIAR - GLOBAL
@@ -568,26 +588,25 @@ body:not(.home) *,
 }
 
 /* ── Themed Markdown Headings ── */
+
 .vp-doc h2 {
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif !important;
-  position: relative;
-  padding-left: 18px;
-  margin-top: 48px;
-  margin-bottom: 16px;
-  transition: color 0.3s ease;
+  border-left: none !important;
+  border-top: none !important;
+  border-bottom: none !important;
+  padding: 0 !important;
+  margin: 0 0 24px 0 !important;
+  background: transparent !important;
+  -webkit-text-fill-color: var(--vp-c-text-1) !important;
+  color: var(--vp-c-text-1) !important;
+  font-size: 1.8rem;
+  font-weight: 700;
 }
 
-.vp-doc h2::before {
-  content: '';
-  position: absolute;
-  left: 0;
-  top: 15%;
-  height: 70%;
-  width: 5px;
-  background: var(--vp-c-brand-1);
-  border-radius: 4px;
-  box-shadow: 0 0 8px var(--vp-c-brand-soft);
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
+/* Elimină orice pseudo-element */
+.vp-doc h2::before,
+.vp-doc h2::after {
+  display: none !important;
+  content: none !important;
 }
 
 .vp-doc h3 {
