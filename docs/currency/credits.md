@@ -1,6 +1,5 @@
 ---
 outline: deep
-navbar: false
 ---
 
 <CaseHeader 
