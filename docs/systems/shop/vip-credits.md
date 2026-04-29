@@ -1,1 +1,0 @@
-# Cumpara VIP cu credite
