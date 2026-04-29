@@ -12,18 +12,18 @@ jobs:
         with:
           fetch-depth: 2
 
+      # ─── 1. Changed files ───────────────────────────────────────────────────
       - name: Get changed files
         id: changed
         run: |
           ALL_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+
           if [ -z "$ALL_FILES" ]; then
             FILES_COUNT=0
-            COL1="No changes"
+            COL1="No changes detected"
             COL2=""
           else
             FILES_COUNT=$(echo "$ALL_FILES" | wc -l | tr -d ' ')
-
-            # Limit to 20 files max (10 per column)
             SHOWN=$(echo "$ALL_FILES" | head -20)
             TOTAL_SHOWN=$(echo "$SHOWN" | wc -l | tr -d ' ')
             HALF=$(( (TOTAL_SHOWN + 1) / 2 ))
@@ -49,6 +49,7 @@ jobs:
             echo "ENDCOL2"
           } >> $GITHUB_OUTPUT
 
+      # ─── 2. Author info ─────────────────────────────────────────────────────
       - name: Get user info
         id: userinfo
         env:
@@ -82,83 +83,97 @@ jobs:
             echo "display_name=Unknown User" >> $GITHUB_OUTPUT
           fi
 
+      # ─── 3. Restore message ID from cache ───────────────────────────────────
+      - name: Restore message ID from cache
+        uses: actions/cache@v4
+        with:
+          path: .cache/discord_msg_id
+          key: discord-msg-id-${{ github.ref_name }}-v1
+          restore-keys: |
+            discord-msg-id-${{ github.ref_name }}-
+            discord-msg-id-
+
       - name: Read last message ID
         id: msgid
         run: |
-          MSG_FILE=".github/discord_msg_id"
+          MSG_FILE=".cache/discord_msg_id"
           if [ -f "$MSG_FILE" ]; then
             LAST_ID=$(cat "$MSG_FILE" | tr -d '[:space:]')
-            echo "last_id=$LAST_ID" >> $GITHUB_OUTPUT
-            echo "exists=true" >> $GITHUB_OUTPUT
+            if [ -n "$LAST_ID" ]; then
+              echo "last_id=$LAST_ID" >> $GITHUB_OUTPUT
+              echo "exists=true" >> $GITHUB_OUTPUT
+              echo "📬 Found cached message ID: $LAST_ID"
+            else
+              echo "last_id=" >> $GITHUB_OUTPUT
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
           else
             echo "last_id=" >> $GITHUB_OUTPUT
             echo "exists=false" >> $GITHUB_OUTPUT
+            echo "📭 No cached message ID found — first run"
           fi
 
+      # ─── 4. Build payload & send / edit ─────────────────────────────────────
       - name: Send or edit Discord notification
         id: discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          COMMIT_MSG: ${{ github.event.head_commit.message }}
-          AUTHOR: ${{ steps.userinfo.outputs.display_name }}
-          AVATAR: ${{ steps.userinfo.outputs.avatar_url }}
-          USERNAME: ${{ steps.userinfo.outputs.username }}
-          BRANCH: ${{ github.ref_name }}
-          REPO: ${{ github.repository }}
-          FULL_SHA: ${{ github.sha }}
-          COMMIT_URL: ${{ github.event.head_commit.url }}
-          COMPARE_URL: ${{ github.event.compare }}
-          FILES_COUNT: ${{ steps.changed.outputs.files_count }}
-          FILES_COL1: ${{ steps.changed.outputs.col1 }}
-          FILES_COL2: ${{ steps.changed.outputs.col2 }}
-          LAST_MSG_ID: ${{ steps.msgid.outputs.last_id }}
-          MSG_EXISTS: ${{ steps.msgid.outputs.exists }}
+          COMMIT_MSG:      ${{ github.event.head_commit.message }}
+          AUTHOR:          ${{ steps.userinfo.outputs.display_name }}
+          AVATAR:          ${{ steps.userinfo.outputs.avatar_url }}
+          USERNAME:        ${{ steps.userinfo.outputs.username }}
+          BRANCH:          ${{ github.ref_name }}
+          REPO:            ${{ github.repository }}
+          FULL_SHA:        ${{ github.sha }}
+          COMMIT_URL:      ${{ github.event.head_commit.url }}
+          COMPARE_URL:     ${{ github.event.compare }}
+          FILES_COUNT:     ${{ steps.changed.outputs.files_count }}
+          FILES_COL1:      ${{ steps.changed.outputs.col1 }}
+          FILES_COL2:      ${{ steps.changed.outputs.col2 }}
+          LAST_MSG_ID:     ${{ steps.msgid.outputs.last_id }}
+          MSG_EXISTS:      ${{ steps.msgid.outputs.exists }}
         run: |
           SHORT_SHA="${FULL_SHA:0:7}"
           COMMIT_TITLE=$(echo "$COMMIT_MSG" | head -n1)
-
-          # Human-readable last update timestamp
           LAST_UPDATE=$(date -u +"%a, %d %b %Y · %H:%M UTC")
+          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          # Write columns to temp files
           printf '%s' "$FILES_COL1" > /tmp/col1.txt
           printf '%s' "$FILES_COL2" > /tmp/col2.txt
 
-          # Discord timestamp for footer
-          TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
-
-          # Build fields array — only add col2 if non-empty
           COL2_CONTENT=$(cat /tmp/col2.txt)
 
+          # Build file fields — 2 columns if enough files, 1 column otherwise
           if [ -n "$COL2_CONTENT" ]; then
             FILES_FIELDS=$(jq -n \
               --rawfile c1 /tmp/col1.txt \
               --rawfile c2 /tmp/col2.txt \
               '[
-                {name: "📂 Files · Col 1", value: ("```\n" + $c1 + "\n```"), inline: true},
-                {name: "📂 Files · Col 2", value: ("```\n" + $c2 + "\n```"), inline: true}
+                {name: "📂  Col 1", value: ("```\n" + ($c1 | rtrimstr("\n")) + "\n```"), inline: true},
+                {name: "📂  Col 2", value: ("```\n" + ($c2 | rtrimstr("\n")) + "\n```"), inline: true}
               ]')
           else
             FILES_FIELDS=$(jq -n \
               --rawfile c1 /tmp/col1.txt \
               '[
-                {name: "📂 Changed Files", value: ("```\n" + $c1 + "\n```"), inline: false}
+                {name: "📂  Changed Files", value: ("```\n" + ($c1 | rtrimstr("\n")) + "\n```"), inline: false}
               ]')
           fi
 
+          # Compose full embed payload
           jq -n \
-            --arg repo "$REPO" \
-            --arg url "$COMPARE_URL" \
-            --arg author "$AUTHOR" \
-            --arg avatar "$AVATAR" \
-            --arg username "$USERNAME" \
+            --arg repo        "$REPO" \
+            --arg url         "$COMPARE_URL" \
+            --arg author      "$AUTHOR" \
+            --arg avatar      "$AVATAR" \
+            --arg username    "$USERNAME" \
             --arg committitle "$COMMIT_TITLE" \
-            --arg branch "$BRANCH" \
-            --arg shortsha "$SHORT_SHA" \
-            --arg commiturl "$COMMIT_URL" \
-            --arg filescount "$FILES_COUNT" \
-            --arg lastupdate "$LAST_UPDATE" \
-            --arg timestamp "$TIMESTAMP" \
+            --arg branch      "$BRANCH" \
+            --arg shortsha    "$SHORT_SHA" \
+            --arg commiturl   "$COMMIT_URL" \
+            --arg filescount  "$FILES_COUNT" \
+            --arg lastupdate  "$LAST_UPDATE" \
+            --arg timestamp   "$TIMESTAMP" \
             --argjson filefields "$FILES_FIELDS" \
             '{
               embeds: [{
@@ -166,7 +181,7 @@ jobs:
                 url: $url,
                 color: 16351248,
                 author: {
-                  name: ($author + " pushed to " + $branch),
+                  name: ($author + "  ·  pushed to  " + $branch),
                   icon_url: $avatar,
                   url: ("https://github.com/" + $username)
                 },
@@ -176,67 +191,77 @@ jobs:
                 description: ("> *\"" + $committitle + "\"*"),
                 fields: (
                   [
-                    {name: "SHA",          value: ("[`" + $shortsha + "`](" + $commiturl + ")"), inline: true},
-                    {name: "Files",        value: ("**" + $filescount + "** changed"),           inline: true},
-                    {name: "🕐 Last Update", value: ("`" + $lastupdate + "`"),                  inline: false}
+                    {
+                      name:   "🔖  SHA",
+                      value:  ("[`" + $shortsha + "`](" + $commiturl + ")"),
+                      inline: true
+                    },
+                    {
+                      name:   "📦  Files Changed",
+                      value:  ("**" + $filescount + "** files"),
+                      inline: true
+                    },
+                    {
+                      name:   "🕐  Last Update",
+                      value:  ("`" + $lastupdate + "`"),
+                      inline: false
+                    }
                   ] + $filefields
                 ),
                 footer: {
-                  text: "Wildfire.ro Docs",
+                  text:     "Wildfire.ro Docs",
                   icon_url: "https://github.com/WildFiire.png?size=32"
                 },
                 timestamp: $timestamp
               }]
             }' > /tmp/payload.json
 
-          # Send or edit
+          # ── Send or PATCH ────────────────────────────────────────────────────
           if [ "$MSG_EXISTS" = "true" ] && [ -n "$LAST_MSG_ID" ]; then
+            echo "✏️  Editing existing message (ID: $LAST_MSG_ID)..."
             HTTP_CODE=$(curl -s -o /tmp/discord_resp.json -w "%{http_code}" \
               -X PATCH "${DISCORD_WEBHOOK}/messages/${LAST_MSG_ID}?wait=true" \
               -H "Content-Type: application/json" \
               -d @/tmp/payload.json)
 
             if [ "$HTTP_CODE" = "200" ]; then
-              echo "✅ Mesaj editat (ID: $LAST_MSG_ID)"
+              echo "✅ Message edited successfully"
               echo "new_id=$LAST_MSG_ID" >> $GITHUB_OUTPUT
             else
-              echo "⚠️ PATCH eșuat ($HTTP_CODE), trimit mesaj nou..."
+              echo "⚠️  PATCH failed (HTTP $HTTP_CODE) — sending new message..."
               RESPONSE=$(curl -s -X POST "${DISCORD_WEBHOOK}?wait=true" \
                 -H "Content-Type: application/json" \
                 -d @/tmp/payload.json)
               NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
-              echo "✅ Mesaj nou trimis (ID: $NEW_ID)"
+              echo "✅ New message sent (ID: $NEW_ID)"
               echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
             fi
           else
-            echo "📨 Prima rulare — trimit mesaj nou..."
+            echo "📨 First run — sending new message..."
             RESPONSE=$(curl -s -X POST "${DISCORD_WEBHOOK}?wait=true" \
               -H "Content-Type: application/json" \
               -d @/tmp/payload.json)
             NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
-            echo "✅ Mesaj trimis (ID: $NEW_ID)"
+            echo "✅ Message sent (ID: $NEW_ID)"
             echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
           fi
 
-      - name: Save message ID to repo
+      # ─── 5. Save message ID to cache ────────────────────────────────────────
+      - name: Save message ID to cache
         env:
-          NEW_ID: ${{ steps.discord.outputs.new_id }}
+          NEW_ID:      ${{ steps.discord.outputs.new_id }}
+          LAST_MSG_ID: ${{ steps.msgid.outputs.last_id }}
         run: |
-          MSG_FILE=".github/discord_msg_id"
-          if [ -n "$NEW_ID" ]; then
-            # Salvează doar dacă ID-ul s-a schimbat (prima rulare sau fallback)
-            CURRENT_ID=""
-            [ -f "$MSG_FILE" ] && CURRENT_ID=$(cat "$MSG_FILE" | tr -d '[:space:]')
+          MSG_FILE=".cache/discord_msg_id"
+          mkdir -p .cache
 
-            if [ "$NEW_ID" != "$CURRENT_ID" ]; then
+          if [ -n "$NEW_ID" ]; then
+            if [ "$NEW_ID" != "$LAST_MSG_ID" ]; then
               echo "$NEW_ID" > "$MSG_FILE"
-              git config user.name "github-actions[bot]"
-              git config user.email "github-actions[bot]@users.noreply.github.com"
-              git add "$MSG_FILE"
-              git commit -m "chore: update discord message id [skip ci]"
-              git push origin HEAD
-              echo "💾 ID salvat: $NEW_ID"
+              echo "💾 New message ID cached: $NEW_ID"
             else
-              echo "ℹ️ ID neschimbat, skip commit."
+              echo "ℹ️  Message ID unchanged — no update needed"
             fi
+          else
+            echo "⚠️  No message ID to save"
           fi
