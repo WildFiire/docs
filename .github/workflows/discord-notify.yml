@@ -83,18 +83,7 @@ jobs:
             echo "display_name=Unknown User" >> $GITHUB_OUTPUT
           fi
 
-      # ─── 3. Detect job status ────────────────────────────────────────────────
-      - name: Set status emoji
-        id: status
-        run: |
-          # Acest step ruleaza mereu - status-ul e intotdeauna success aici
-          # (daca workflow-ul a ajuns pana aici, n-a picat nimic)
-          echo "emoji=<:online:1498988532629373030>" >> $GITHUB_OUTPUT
-          echo "label=success" >> $GITHUB_OUTPUT
-          echo "title=<:verificat_orange:1498988540472721408>  Push Deployed Successfully" >> $GITHUB_OUTPUT
-          echo "color=16351248" >> $GITHUB_OUTPUT
-
-      # ─── 4. Restore message ID from cache ───────────────────────────────────
+      # ─── 3. Restore message ID from cache ───────────────────────────────────
       - name: Restore message ID from cache
         uses: actions/cache@v4
         with:
@@ -124,7 +113,7 @@ jobs:
             echo "📭 No cached message ID — first run"
           fi
 
-      # ─── 5. Build payload & send / edit ─────────────────────────────────────
+      # ─── 4. Build payload & send / edit ─────────────────────────────────────
       - name: Send or edit Discord notification
         id: discord
         env:
@@ -143,97 +132,91 @@ jobs:
           FILES_COL2:      ${{ steps.changed.outputs.col2 }}
           LAST_MSG_ID:     ${{ steps.msgid.outputs.last_id }}
           MSG_EXISTS:      ${{ steps.msgid.outputs.exists }}
-          STATUS_EMOJI:    ${{ steps.status.outputs.emoji }}
-          STATUS_LABEL:    ${{ steps.status.outputs.label }}
-          STATUS_TITLE:    ${{ steps.status.outputs.title }}
-          STATUS_COLOR:    ${{ steps.status.outputs.color }}
         run: |
           SHORT_SHA="${FULL_SHA:0:7}"
           COMMIT_TITLE=$(echo "$COMMIT_MSG" | head -n1)
           LAST_UPDATE=$(date -u +"%a, %d %b %Y · %H:%M UTC")
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          AUTHOR_LINE="${AUTHOR}  <:author_wf:1498988538228637837>  ${REPO}  ⎇  ${BRANCH}"
+          # Author line — simplu, fara repo
+          AUTHOR_LINE="${AUTHOR}  pushed to  ${BRANCH}"
 
           printf '%s' "$FILES_COL1" > /tmp/col1.txt
           printf '%s' "$FILES_COL2" > /tmp/col2.txt
           COL2_CONTENT=$(cat /tmp/col2.txt)
 
+          # Build file fields — 2 coloane sau 1
           if [ -n "$COL2_CONTENT" ]; then
             FILES_FIELDS=$(jq -n \
               --rawfile c1 /tmp/col1.txt \
               --rawfile c2 /tmp/col2.txt \
               '[
-                {name: "<:changed:1498988528699183114>  Col 1", value: ("```\n" + ($c1 | rtrimstr("\n")) + "\n```"), inline: true},
-                {name: "<:changed:1498988528699183114>  Col 2", value: ("```\n" + ($c2 | rtrimstr("\n")) + "\n```"), inline: true}
+                {name: "Col 1", value: ("```\n" + ($c1 | rtrimstr("\n")) + "\n```"), inline: true},
+                {name: "Col 2", value: ("```\n" + ($c2 | rtrimstr("\n")) + "\n```"), inline: true}
               ]')
           else
             FILES_FIELDS=$(jq -n \
               --rawfile c1 /tmp/col1.txt \
               '[
-                {name: "<:changed:1498988528699183114>  Changed Files", value: ("```\n" + ($c1 | rtrimstr("\n")) + "\n```"), inline: false}
+                {name: "Changed Files", value: ("```\n" + ($c1 | rtrimstr("\n")) + "\n```"), inline: false}
               ]')
           fi
 
           jq -n \
-            --arg title       "$STATUS_TITLE" \
-            --arg color       "$STATUS_COLOR" \
             --arg repo        "$REPO" \
             --arg url         "$COMPARE_URL" \
             --arg authorline  "$AUTHOR_LINE" \
             --arg avatar      "$AVATAR" \
             --arg username    "$USERNAME" \
             --arg committitle "$COMMIT_TITLE" \
-            --arg branch      "$BRANCH" \
             --arg shortsha    "$SHORT_SHA" \
             --arg commiturl   "$COMMIT_URL" \
             --arg filescount  "$FILES_COUNT" \
             --arg lastupdate  "$LAST_UPDATE" \
             --arg timestamp   "$TIMESTAMP" \
-            --arg statusemoji "$STATUS_EMOJI" \
-            --arg statuslabel "$STATUS_LABEL" \
-            --argjson color   "$STATUS_COLOR" \
             --argjson filefields "$FILES_FIELDS" \
             '{
               embeds: [{
-                title: $title,
+                title: "<:verificat_orange:1498988540472721408>  Push Deployed Successfully",
                 url: $url,
-                color: $color,
+                color: 16351248,
                 author: {
                   name: $authorline,
                   icon_url: $avatar,
                   url: ("https://github.com/" + $username)
                 },
-                description: (
-                  "**" + $repo + "**  ·  3 jobs passed\n\n" +
-                  "> *\"" + $committitle + "\"*"
-                ),
+                description: ("> *\"" + $committitle + "\"*"),
                 fields: (
                   [
                     {
-                      name:   "<:hash:1498988536207114321>  SHA",
+                      name:   "SHA",
                       value:  ("[`" + $shortsha + "`](" + $commiturl + ")"),
                       inline: true
                     },
                     {
-                      name:   "<:package:1498988534433054770>  Files",
+                      name:   "Files",
                       value:  ("**" + $filescount + "** changed"),
                       inline: true
                     },
                     {
-                      name:   ($statusemoji + "  Status"),
-                      value:  ($statusemoji + "  **" + $statuslabel + "**"),
+                      name:   "Status",
+                      value:  "<:online:1498988532629373030>  **ONLINE**",
                       inline: true
                     },
                     {
-                      name:   "<a:update:1498988526656688178>  Last Update",
-                      value:  ("`" + $lastupdate + "`"),
+                      name:   "Last Update",
+                      value:  ("<a:update:1498988526656688178>  `" + $lastupdate + "`"),
+                      inline: false
+                    },
+                    {
+                      name:   "<:changed:1498988528699183114>  Changed Files",
+                      value:  "** **",
                       inline: false
                     }
                   ] + $filefields
                 ),
                 footer: {
-                  text:     "Wildfire.ro Docs",
+                  text:     ("Wildfire.ro Docs  ·  " + $repo),
                   icon_url: "https://cdn.discordapp.com/emojis/1481674482526457866.png"
                 },
                 timestamp: $timestamp
@@ -270,7 +253,7 @@ jobs:
             echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
           fi
 
-      # ─── 6. Save message ID to cache ────────────────────────────────────────
+      # ─── 5. Save message ID to cache ────────────────────────────────────────
       - name: Save message ID to cache
         env:
           NEW_ID:      ${{ steps.discord.outputs.new_id }}
@@ -290,7 +273,7 @@ jobs:
             echo "⚠️  No message ID to save"
           fi
 
-      # ─── 7. On failure — send/edit with offline status ──────────────────────
+      # ─── 6. On failure — edit cu OFFLINE ────────────────────────────────────
       - name: Notify Discord on failure
         if: failure()
         env:
@@ -313,7 +296,7 @@ jobs:
           LAST_UPDATE=$(date -u +"%a, %d %b %Y · %H:%M UTC")
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          AUTHOR_LINE="${AUTHOR}  <:author_wf:1498988538228637837>  ${REPO}  ⎇  ${BRANCH}"
+          AUTHOR_LINE="${AUTHOR}  pushed to  ${BRANCH}"
 
           jq -n \
             --arg repo        "$REPO" \
@@ -337,34 +320,31 @@ jobs:
                   icon_url: $avatar,
                   url: ("https://github.com/" + $username)
                 },
-                description: (
-                  "**" + $repo + "**  ·  workflow failed\n\n" +
-                  "> *\"" + $committitle + "\"*"
-                ),
+                description: ("> *\"" + $committitle + "\"*"),
                 fields: [
                   {
-                    name:   "<:hash:1498988536207114321>  SHA",
+                    name:   "SHA",
                     value:  ("[`" + $shortsha + "`](" + $commiturl + ")"),
                     inline: true
                   },
                   {
-                    name:   "<:package:1498988534433054770>  Files",
+                    name:   "Files",
                     value:  ("**" + $filescount + "** changed"),
                     inline: true
                   },
                   {
-                    name:   "<:offline:1498988530851119246>  Status",
-                    value:  "<:offline:1498988530851119246>  **failed**",
+                    name:   "Status",
+                    value:  "<:offline:1498988530851119246>  **OFFLINE**",
                     inline: true
                   },
                   {
-                    name:   "<a:update:1498988526656688178>  Last Update",
-                    value:  ("`" + $lastupdate + "`"),
+                    name:   "Last Update",
+                    value:  ("<a:update:1498988526656688178>  `" + $lastupdate + "`"),
                     inline: false
                   }
                 ],
                 footer: {
-                  text:     "Wildfire.ro Docs",
+                  text:     ("Wildfire.ro Docs  ·  " + $repo),
                   icon_url: "https://cdn.discordapp.com/emojis/1481674482526457866.png"
                 },
                 timestamp: $timestamp
