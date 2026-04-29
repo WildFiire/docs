@@ -38,6 +38,19 @@
           <!-- Spacer -->
           <div class="wsf-pill-spacer"></div>
 
+          <!-- Collapse all sub-items button -->
+          <button 
+            class="wsf-pill-btn" 
+            @click="collapseAllSubItems" 
+            title="Collapse all open sub-items"
+            aria-label="Collapse all open sub-items"
+          >
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14">
+              <path d="M8 3H5a2 2 0 0 0-2 2v3m18 0V5a2 2 0 0 0-2-2h-3m0 18h3a2 2 0 0 0 2-2v-3M3 16v3a2 2 0 0 0 2 2h3"/>
+              <line x1="15" y1="12" x2="9" y2="12"/>
+            </svg>
+          </button>
+
           <!-- Separator -->
           <div class="wsf-pill-sep"></div>
 
@@ -57,7 +70,7 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted } from 'vue'
+import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
 import { useData } from 'vitepress'
 
 const { isDark } = useData()
@@ -94,6 +107,50 @@ function toggleTheme() {
   isDark.value = !isDark.value
 }
 
+function collapseAllSubItems() {
+  nextTick(() => {
+    const sidebar = document.querySelector('.VPSidebar')
+    if (!sidebar) return
+
+    // Find all collapsible sections that are currently expanded (not collapsed)
+    // These are the sub-items like "Regulament" that have children
+    const allCollapsibles = sidebar.querySelectorAll('.VPSidebarItem.collapsible:not(.collapsed)')
+    
+    allCollapsibles.forEach(item => {
+      // Skip level-0 items (top-level categories like "Informatii")
+      if (item.classList.contains('level-0')) {
+        // For level-0, we look inside for expanded sub-items
+        const subItems = item.querySelectorAll('.VPSidebarItem.collapsible:not(.collapsed)')
+        subItems.forEach(subItem => {
+          // Find the caret button and click it to collapse
+          const caret = subItem.querySelector(':scope > .item > .caret, :scope > .item > button.caret, .items > .VPSidebarItem > .item > .caret, .items > .VPSidebarItem > .item > button.caret')
+          // Also try finding caret in the item's direct structure
+          const directCaret = subItem.querySelector('.caret')
+          if (directCaret) {
+            directCaret.click()
+          }
+        })
+      } else {
+        // For non-level-0, collapse directly
+        const caret = item.querySelector('.caret')
+        if (caret) {
+          caret.click()
+        }
+      }
+    })
+
+    // Alternative approach: directly find all carets that are expanded
+    // but only for items that have a parent collapsible (sub-items)
+    const expandedCarets = sidebar.querySelectorAll('.VPSidebarItem .VPSidebarItem.collapsible:not(.collapsed) > .item > .caret, .VPSidebarItem .VPSidebarItem.collapsible:not(.collapsed) > .item > button.caret')
+    expandedCarets.forEach(caret => caret.click())
+
+    // Most reliable method: find carets with aria-expanded="true" 
+    // that are nested inside another collapsible (meaning they're sub-items)
+    const nestedCarets = sidebar.querySelectorAll('.VPSidebarItem.collapsible .VPSidebarItem.collapsible .caret[aria-expanded="true"], .VPSidebarItem.collapsible .VPSidebarItem.collapsible button.caret[aria-expanded="true"]')
+    nestedCarets.forEach(caret => caret.click())
+  })
+}
+
 watch(isDark, () => {
   document.documentElement.classList.add('theme-switching')
   requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -111,18 +168,6 @@ watch(isDark, () => {
   z-index: 20;
   background: transparent;
   border-top: none;
-}
-
-/* Fade-out gradient above the pill */
-.wsf-root::before {
-  content: '';
-  position: absolute;
-  top: -32px;
-  left: 0;
-  right: 0;
-  height: 32px;
-  pointer-events: none;
-  background: linear-gradient(to bottom, transparent, var(--vp-c-bg));
 }
 
 /* ── The pill itself ── */
@@ -197,7 +242,7 @@ html:not(.dark) .wsf-pill-user:hover {
   border: 1.5px solid rgba(28, 28, 30, 0.9);
 }
 
-/* ── Generic pill icon buttons (socials + theme) ── */
+/* ── Generic pill icon buttons (socials + theme + collapse) ── */
 .wsf-pill-btn {
   display: flex;
   align-items: center;

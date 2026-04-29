@@ -113,7 +113,7 @@ jobs:
             echo "📭 No cached message ID — first run"
           fi
 
-      # ─── 4. Build payload & send / edit ─────────────────────────────────────
+      # ─── 4. Build SUCCESS payload & send / edit ─────────────────────────────
       - name: Send or edit Discord notification
         id: discord
         env:
@@ -138,14 +138,14 @@ jobs:
           LAST_UPDATE=$(date -u +"%a, %d %b %Y · %H:%M UTC")
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          # Author line — simplu, fara repo
-          AUTHOR_LINE="${AUTHOR}  pushed to  ${BRANCH}"
+          # Author line — custom emoji author_wf merge in author.name
+          AUTHOR_LINE="<:author_wf:1498988538228637837> ${AUTHOR}  ·  pushed to  ${BRANCH}"
 
           printf '%s' "$FILES_COL1" > /tmp/col1.txt
           printf '%s' "$FILES_COL2" > /tmp/col2.txt
           COL2_CONTENT=$(cat /tmp/col2.txt)
 
-          # Build file fields — 2 coloane sau 1
+          # 2 coloane daca avem destule fisiere, altfel 1
           if [ -n "$COL2_CONTENT" ]; then
             FILES_FIELDS=$(jq -n \
               --rawfile c1 /tmp/col1.txt \
@@ -158,7 +158,7 @@ jobs:
             FILES_FIELDS=$(jq -n \
               --rawfile c1 /tmp/col1.txt \
               '[
-                {name: "Changed Files", value: ("```\n" + ($c1 | rtrimstr("\n")) + "\n```"), inline: false}
+                {name: "Files", value: ("```\n" + ($c1 | rtrimstr("\n")) + "\n```"), inline: false}
               ]')
           fi
 
@@ -185,27 +185,30 @@ jobs:
                   icon_url: $avatar,
                   url: ("https://github.com/" + $username)
                 },
-                description: ("> *\"" + $committitle + "\"*"),
+                description: (
+                  "-# <:wf3:1481674482526457866>  **" + $repo + "**\n\n" +
+                  "> *\"" + $committitle + "\"*"
+                ),
                 fields: (
                   [
                     {
-                      name:   "SHA",
+                      name:   "<:hash:1498988536207114321>  SHA",
                       value:  ("[`" + $shortsha + "`](" + $commiturl + ")"),
                       inline: true
                     },
                     {
-                      name:   "Files",
+                      name:   "<:package:1498988534433054770>  Files",
                       value:  ("**" + $filescount + "** changed"),
                       inline: true
                     },
                     {
-                      name:   "Status",
+                      name:   "<:online:1498988532629373030>  Status",
                       value:  "<:online:1498988532629373030>  **ONLINE**",
                       inline: true
                     },
                     {
-                      name:   "Last Update",
-                      value:  ("<a:update:1498988526656688178>  `" + $lastupdate + "`"),
+                      name:   "<a:update:1498988526656688178>  Last Update",
+                      value:  ("`" + $lastupdate + "`"),
                       inline: false
                     },
                     {
@@ -273,7 +276,7 @@ jobs:
             echo "⚠️  No message ID to save"
           fi
 
-      # ─── 6. On failure — edit cu OFFLINE ────────────────────────────────────
+      # ─── 6. On failure — OFFLINE ────────────────────────────────────────────
       - name: Notify Discord on failure
         if: failure()
         env:
@@ -296,7 +299,7 @@ jobs:
           LAST_UPDATE=$(date -u +"%a, %d %b %Y · %H:%M UTC")
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          AUTHOR_LINE="${AUTHOR}  pushed to  ${BRANCH}"
+          AUTHOR_LINE="<:author_wf:1498988538228637837> ${AUTHOR}  ·  pushed to  ${BRANCH}"
 
           jq -n \
             --arg repo        "$REPO" \
@@ -320,26 +323,29 @@ jobs:
                   icon_url: $avatar,
                   url: ("https://github.com/" + $username)
                 },
-                description: ("> *\"" + $committitle + "\"*"),
+                description: (
+                  "-# <:wf3:1481674482526457866>  **" + $repo + "**\n\n" +
+                  "> *\"" + $committitle + "\"*"
+                ),
                 fields: [
                   {
-                    name:   "SHA",
+                    name:   "<:hash:1498988536207114321>  SHA",
                     value:  ("[`" + $shortsha + "`](" + $commiturl + ")"),
                     inline: true
                   },
                   {
-                    name:   "Files",
+                    name:   "<:package:1498988534433054770>  Files",
                     value:  ("**" + $filescount + "** changed"),
                     inline: true
                   },
                   {
-                    name:   "Status",
+                    name:   "<:offline:1498988530851119246>  Status",
                     value:  "<:offline:1498988530851119246>  **OFFLINE**",
                     inline: true
                   },
                   {
-                    name:   "Last Update",
-                    value:  ("<a:update:1498988526656688178>  `" + $lastupdate + "`"),
+                    name:   "<a:update:1498988526656688178>  Last Update",
+                    value:  ("`" + $lastupdate + "`"),
                     inline: false
                   }
                 ],

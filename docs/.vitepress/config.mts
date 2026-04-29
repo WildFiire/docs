@@ -186,8 +186,8 @@ export default defineConfig({
 
     nav: [
       {
-        text: '<iconify-icon icon="solar:home-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Acasă',
-        link: '/'
+        text: '<iconify-icon icon="solar:home-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Getting started',
+        link: '/informatii/getting-started'
       },
       {
         text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informații',
@@ -212,6 +212,7 @@ export default defineConfig({
         text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informații',
         collapsed: false,
         items: [
+          { text: '<iconify-icon icon="lucide:rocket" class="nav-icon" width="16" height="16"></iconify-icon> Incepe aici', link: '/informatii/getting-started' },
           { text: '<iconify-icon icon="lucide-star" class="nav-icon" width="16" height="16"></iconify-icon> Despre Wildfire', link: '/informatii/about' },
           { text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Întrebări frecvente', link: '/informatii/faq' },
 
@@ -296,7 +297,8 @@ export default defineConfig({
             text: '<iconify-icon icon="solar:shop-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> In-Game Shop (Credite)',
             collapsed: true,
             items: [
-              { text: '<iconify-icon icon="solar:stars-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Trail-uri', link: '/systems/shop/trails' },
+              { text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Weapon Tracers', link: '/systems/shop/tracers' },
+              { text: '<iconify-icon icon="solar:cloud-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Color Smokes', link: '/systems/shop/color-smokes' },
               { text: '<iconify-icon icon="solar:chat-round-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Chat & Tag-uri', link: '/systems/shop/chat-tags' },
             ]
           },
@@ -307,9 +309,17 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: '<iconify-icon icon="solar:target-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Hit Effect', link: '/systems/other/hit-effect' },
+              { text: '<iconify-icon icon="solar:shield-warning-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Anti Rush System', link: '/systems/other/anti-rush' },
+              { text: '<iconify-icon icon="solar:settings-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Client Settings', link: '/systems/other/settings' },
+              { text: '<iconify-icon icon="solar:users-group-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Hide Teammates', link: '/systems/other/hide-teammates' },
+              { text: '<iconify-icon icon="solar:bomb-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> C4 Planter Info', link: '/systems/other/c4-planter' },
+              { text: '<iconify-icon icon="solar:letter-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Private Messages', link: '/systems/other/private-messages' },
+              { text: '<iconify-icon icon="solar:mention-square-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Mention System', link: '/systems/other/mention-system' },
               { text: '<iconify-icon icon="solar:music-note-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> MVP Anthem', link: '/systems/other/mvp' },
               { text: '<iconify-icon icon="solar:crown-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Gold Member', link: '/systems/other/gold-member' },
               { text: '<iconify-icon icon="solar:map-point-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Map Chooser / RTV', link: '/systems/other/map-chooser' },
+              { text: '<iconify-icon icon="solar:ranking-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Rank System', link: '/systems/other/ranks' },
+              { text: '<iconify-icon icon="solar:shield-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Faceit Badge System', link: '/systems/other/faceit-badge' },
               { text: '<iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Teambalance', link: '/systems/other/teambalance' },
             ]
           },
@@ -330,6 +340,7 @@ export default defineConfig({
               // { text: '<iconify-icon icon="solar:shield-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom Badge / Pin', link: '/market/premium-shop/custom-badge' },
               // { text: '<iconify-icon icon="lucide-door-open" class="nav-icon" width="16" height="16"></iconify-icon> Entry Sounds', link: '/market/premium-shop/entrysounds' },
               { text: '<iconify-icon icon="solar:volume-loud-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Sank Sounds', link: '/market/premium-shop/sanks' },
+              { text: '<iconify-icon icon="solar:users-group-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Server Slots', link: '/market/server-slots' },
             ]
           },
 
@@ -342,6 +353,8 @@ export default defineConfig({
               { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Rebirth', link: '/market/vip/rebirth' },
               { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Immortal', link: '/market/vip/immortal' },
               { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Mythic', link: '/market/vip/mythic' },
+              { text: '<iconify-icon icon="solar:test-tube-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Test', link: '/market/vip/vip-test' },
+              { text: '<iconify-icon icon="solar:moon-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Night', link: '/market/vip/vip-night' },
             ]
           },
         ]

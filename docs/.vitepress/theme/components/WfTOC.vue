@@ -1,63 +1,65 @@
 <template>
-  <nav v-if="allItems.length" class="wf-toc" aria-label="Pe această pagină">
+  <nav v-if="allItems.length" :class="['wf-toc', { 'is-at-top': isAtTop }]" aria-label="Pe această pagină">
 
-<div class="wf-toc-header">
-  <svg class="wf-toc-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-    <path d="M4 6h16M4 12h16M4 18h7"/>
-  </svg>
-  <span class="wf-toc-header-label">Cuprins Secțiune</span>
-</div>
+    <div class="wf-toc-header">
+      <svg class="wf-toc-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M4 6h16M4 12h16M4 18h7"/>
+      </svg>
+      <span class="wf-toc-header-label">Cuprins Secțiune</span>
+    </div>
 
-    <div class="wf-toc-container" ref="containerRef">
+    <div class="wf-toc-scroll-wrapper">
+      <div class="wf-toc-container" ref="containerRef">
 
-      <div
-        v-if="svg"
-        class="wf-toc-track-wrap"
-        :style="{
-          width: svg.width + 'px',
-          height: svg.height + 'px',
-          '--track-top': trackTop + 'px',
-          '--track-bottom': trackBottom + 'px',
-          '--offset-distance': offsetDistance + 'px',
-          '--dot-opacity': dotOpacity,
-        }"
-      >
-        <svg
-          class="wf-toc-svg-bg"
-          :viewBox="`0 0 ${svg.width} ${svg.height}`"
-          :style="{ width: svg.width + 'px', height: svg.height + 'px' }"
-          xmlns="http://www.w3.org/2000/svg"
+        <div
+          v-if="svg"
+          class="wf-toc-track-wrap"
+          :style="{
+            width: svg.width + 'px',
+            height: svg.height + 'px',
+            '--track-top': trackTop + 'px',
+            '--track-bottom': trackBottom + 'px',
+            '--offset-distance': offsetDistance + 'px',
+            '--dot-opacity': dotOpacity,
+          }"
         >
-          <path :d="svg.d" class="wf-track-path" fill="none" />
-        </svg>
+          <svg
+            class="wf-toc-svg-bg"
+            :viewBox="`0 0 ${svg.width} ${svg.height}`"
+            :style="{ width: svg.width + 'px', height: svg.height + 'px' }"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path :d="svg.d" class="wf-track-path" fill="none" />
+          </svg>
 
-        <svg
-          class="wf-toc-svg-fill"
-          :viewBox="`0 0 ${svg.width} ${svg.height}`"
-          :style="{ width: svg.width + 'px', height: svg.height + 'px' }"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path :d="svg.d" class="wf-fill-path" fill="none" />
-        </svg>
+          <svg
+            class="wf-toc-svg-fill"
+            :viewBox="`0 0 ${svg.width} ${svg.height}`"
+            :style="{ width: svg.width + 'px', height: svg.height + 'px' }"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path :d="svg.d" class="wf-fill-path" fill="none" />
+          </svg>
 
-        <div class="wf-toc-dot" :style="{ offsetPath: `path('${svg.d}')` }" />
+          <div class="wf-toc-dot" :style="{ offsetPath: `path('${svg.d}')` }" />
+        </div>
+
+        <div class="wf-toc-items" ref="itemsRef">
+          <a
+            v-for="item in allItems"
+            :key="item.url"
+            :href="item.url"
+            class="wf-toc-item"
+            :class="[
+              `wf-depth-${item.depth}`,
+              { 'is-active': activeUrls.has(item.url) }
+            ]"
+            :style="{ paddingInlineStart: getItemOffset(item.depth) + 'px' }"
+            @click.prevent="navigate(item.url)"
+          >{{ item.title }}</a>
+        </div>
+
       </div>
-
-      <div class="wf-toc-items" ref="itemsRef">
-        <a
-          v-for="item in allItems"
-          :key="item.url"
-          :href="item.url"
-          class="wf-toc-item"
-          :class="[
-            `wf-depth-${item.depth}`,
-            { 'is-active': activeUrls.has(item.url) }
-          ]"
-          :style="{ paddingInlineStart: getItemOffset(item.depth) + 'px' }"
-          @click.prevent="navigate(item.url)"
-        >{{ item.title }}</a>
-      </div>
-
     </div>
   </nav>
 </template>
@@ -94,7 +96,8 @@ const trackBottom    = ref(0)
 const offsetDistance = ref(0)
 const dotOpacity     = ref(0)
 
-// ── SCROLL SPY MULTIPLU (Afișează TOATE secțiunile vizibile) ──────────────────
+const isAtTop = ref(true)
+
 const isScrollingDown = ref(true)
 let lastScrollY = 0
 let isNavigating = false
@@ -105,13 +108,12 @@ function getActiveItems() {
   const innerHeight = window.innerHeight
   const offsetHeight = document.body.offsetHeight
 
-  // Dacă ajungi fix jos, forțăm ultimul item
   if (scrollY + innerHeight >= offsetHeight - 10) {
     return [allItems.value[allItems.value.length - 1]?.url].filter(Boolean)
   }
 
   const active = []
-  const HEADER_OFFSET = 120 // Cât spațiu ia meniul de sus din VitePress
+  const HEADER_OFFSET = 120 
 
   for (let i = 0; i < allItems.value.length; i++) {
     const item = allItems.value[i]
@@ -124,15 +126,11 @@ function getActiveItems() {
     const rectTop = el.getBoundingClientRect().top
     const nextRectTop = nextEl ? nextEl.getBoundingClientRect().top : innerHeight + 1000
 
-    // O secțiune e "citită" (pe ecran) dacă:
-    // 1. A intrat în ecran (rectTop e mai mic decât înălțimea ecranului)
-    // 2. Încă nu a ieșit complet pe sus (nextRectTop e mai mare decât headerul)
     if (rectTop < innerHeight && nextRectTop > HEADER_OFFSET) {
       active.push(item.url)
     }
   }
 
-  // Fallback: dacă n-a agățat nimic, îl prindem pe ultimul pe care l-ai depășit
   if (active.length === 0 && allItems.value.length > 0) {
     let lastPassed = allItems.value[0].url
     for (let i = 0; i < allItems.value.length; i++) {
@@ -153,11 +151,13 @@ function onScroll() {
 
   scrollRaf = requestAnimationFrame(() => {
     const currentScrollY = window.scrollY
+    
+    isAtTop.value = currentScrollY < 80
+    
     if (currentScrollY !== lastScrollY) {
       isScrollingDown.value = currentScrollY > lastScrollY
       lastScrollY = currentScrollY
       
-      // Aici setăm toate URL-urile active odată
       const newActive = getActiveItems()
       if (newActive.length > 0) {
         activeUrls.value = new Set(newActive)
@@ -169,7 +169,6 @@ function onScroll() {
   })
 }
 
-// ── Geometrie și distanțe ─────────────────────────────────────────────────────
 const A = 8
 
 function getLineOffset(depth: number): number {
@@ -182,7 +181,6 @@ function getItemOffset(depth: number): number {
   return (baseOffset * 12) + 12 + A
 }
 
-// ── Scanare DOM (H2 - H6) ─────────────────────────────────────────────────────
 function scanDOM(): TocItem[] {
   const root = document.querySelector('.vp-doc') ?? document.querySelector('.VPDoc .container')
   if (!root) return []
@@ -205,7 +203,6 @@ function scanDOM(): TocItem[] {
   return items
 }
 
-// ── Construit SVG ─────────────────────────────────────────────────────────────
 let rafId = 0
 function scheduleRecompute() {
   cancelAnimationFrame(rafId)
@@ -259,7 +256,23 @@ function recompute() {
   updateMarker()
 }
 
-// ── Update Marker ─────────────────────────────────────────────────────────────
+// Funcție pentru a centra elementul activ în containerul scrollabil
+function scrollToActiveItem(targetUrl: string) {
+  if (!containerRef.value) return;
+  const container = containerRef.value;
+  // Folosim atributul exact cu ghilimele duble în selector
+  const activeLink = container.querySelector(`a[href="${targetUrl}"]`) as HTMLElement;
+  
+  if (activeLink) {
+    // Calculăm poziția dorită pentru a centra link-ul activ
+    const scrollTarget = activeLink.offsetTop - (container.clientHeight / 2) + (activeLink.clientHeight / 2);
+    container.scrollTo({
+      top: scrollTarget,
+      behavior: 'smooth'
+    });
+  }
+}
+
 function updateMarker() {
   const s = svg.value
   if (!s || activeUrls.value.size === 0) {
@@ -271,7 +284,6 @@ function updateMarker() {
 
   const links = activeUrls.value
   
-  // Acum găsim prima și ultima secțiune din vizor ca să le unim prin linie
   const startIdx = allItems.value.findIndex(it => links.has(it.url))
   
   let endIdx = -1
@@ -281,7 +293,6 @@ function updateMarker() {
   
   if (startIdx === -1 || endIdx === -1) return
 
-  // Întindem linia de la primul la ultimul
   trackTop.value    = s.positions[startIdx][0]
   trackBottom.value = s.positions[endIdx][1]
 
@@ -290,9 +301,15 @@ function updateMarker() {
     : s.lineLengths[startIdx][0] 
     
   dotOpacity.value     = 1
+
+  // Facem scroll automat către elementul vizibil curent
+  // Folosim endIdx dacă dăm scroll jos, startIdx dacă dăm scroll sus
+  const targetIdx = isScrollingDown.value ? endIdx : startIdx;
+  if (allItems.value[targetIdx]) {
+      scrollToActiveItem(allItems.value[targetIdx].url);
+  }
 }
 
-// ── ResizeObserver ────────────────────────────────────────────────────────────
 let rObs: ResizeObserver | null = null
 function setupResizeObserver() {
   rObs?.disconnect()
@@ -302,7 +319,6 @@ function setupResizeObserver() {
   rObs.observe(target)
 }
 
-// ── Navigare Clik ─────────────────────────────────────────────────────────────
 function navigate(url: string) {
   const el = document.getElementById(url.slice(1))
   if (!el) return
@@ -317,7 +333,6 @@ function navigate(url: string) {
   el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   history.pushState(null, '', url)
   
-  // După ce se termină scroll-ul forțat de click, resetăm vederea să calculeze ce e pe ecran iar
   setTimeout(() => { 
     isNavigating = false 
     const newActive = getActiveItems()
@@ -326,7 +341,6 @@ function navigate(url: string) {
   }, 800)
 }
 
-// ── Build all ─────────────────────────────────────────────────────────────────
 async function buildAll() {
   activeUrls.value = new Set()
   svg.value        = null
@@ -346,7 +360,6 @@ async function buildAll() {
   updateMarker()
 }
 
-// ── Watchers ──────────────────────────────────────────────────────────────────
 watch(activeUrls, () => nextTick(updateMarker))
 
 watch(() => route.path, async () => {
@@ -354,10 +367,10 @@ watch(() => route.path, async () => {
   setTimeout(buildAll, 120) 
 })
 
-// ── Lifecycle ─────────────────────────────────────────────────────────────────
 onMounted(() => {
   buildAll()
   lastScrollY = window.scrollY
+  isAtTop.value = window.scrollY < 80 
   window.addEventListener('scroll', onScroll, { passive: true })
   window.addEventListener('resize', scheduleRecompute, { passive: true })
 })
@@ -385,6 +398,13 @@ onUnmounted(() => {
   padding: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --wf-active: var(--vp-c-brand-3);
+  
+  transition: transform 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  transform: translateY(0); 
+}
+
+.wf-toc.is-at-top {
+  transform: translateY(169px); 
 }
 
 :global(.dark) .wf-toc {
@@ -416,9 +436,31 @@ onUnmounted(() => {
   color: var(--vp-c-text-3);
 }
 
+/* Nou wrapper pentru masca de fade */
+.wf-toc-scroll-wrapper {
+  position: relative;
+  /* Mască de tip gradient: complet opacă sus, se estompează spre final pe ultimii 30px */
+  -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+  mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
+}
+
 .wf-toc-container {
   position: relative;
   margin-top: 8px;
+  /* Înălțimea fixă pentru scroll. Ajustează valoarea după preferințe (ex: 40vh, 250px, 300px) */
+  max-height: 280px; 
+  overflow-y: auto;
+  
+  /* Ascunde scrollbar-ul nativ pentru un aspect curat */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none;  /* IE/Edge */
+  /* Adaugă padding jos ca ultimul item să poată face scroll peste "fade" */
+  padding-bottom: 40px;
+}
+
+/* Ascunde scrollbar-ul în Webkit (Chrome, Safari) */
+.wf-toc-container::-webkit-scrollbar {
+  display: none;
 }
 
 .wf-toc-track-wrap {

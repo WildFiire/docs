@@ -1,48 +1,62 @@
 <template>
-  <div v-if="contributors.length > 0 || loading" class="ctr-section">
-    <div class="ctr-card">
+  <div v-if="contributors.length > 0 || loading" class="ctr-cli-section">
+    <div class="ctr-cli-window">
 
-      <!-- Header -->
-      <div class="ctr-header">
-        <div class="ctr-header-left">
-          <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" class="ctr-icon">
-            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="9" cy="7" r="4"/>
-            <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
-            <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
-          </svg>
-          <span class="ctr-title">Contributors on this page:</span>
+      <div class="ctr-cli-topbar">
+        <div class="ctr-cli-dots">
+          <span class="dot close"></span>
+          <span class="dot min"></span>
+          <span class="dot max"></span>
         </div>
-        <span v-if="!loading" class="ctr-count">{{ contributors.length }}</span>
+        <div class="ctr-cli-title">root@wildfiire-sys:~</div>
       </div>
 
-      <!-- Skeleton -->
-      <div v-if="loading" class="ctr-grid">
-        <div v-for="i in 6" :key="i" class="ctr-skeleton">
-          <div class="ctr-skeleton-avatar"></div>
-          <div class="ctr-skeleton-name"></div>
+      <div class="ctr-cli-body">
+        
+        <div class="ctr-cli-row">
+          <span class="prompt">root@wildfiire</span><span class="colon">:</span><span class="dir">/docs</span><span class="symbol">#</span>
+          <span class="command"> cat active_users.json | top -n 3</span>
         </div>
-      </div>
 
-      <!-- Avatars -->
-      <div v-else class="ctr-grid">
-        <a
-          v-for="(c, i) in contributors"
-          :key="c.login"
-          :href="c.html_url"
-          target="_blank"
-          rel="noopener noreferrer"
-          class="ctr-avatar-wrap"
-          :title="c.login"
-          :style="{ animationDelay: `${i * 40}ms` }"
-        >
-          <div class="ctr-avatar-ring">
-            <img :src="c.avatar_url" :alt="c.login" class="ctr-avatar-img" loading="lazy" width="32" height="32" />
+        <div v-if="loading" class="ctr-cli-row loading-row">
+          <span class="muted">[*] Extracting commit history...</span><span class="blink">_</span>
+        </div>
+
+        <div v-else class="ctr-cli-results">
+          <div class="ctr-cli-row meta-row">
+            <span class="success">[ OK ]</span> 
+            <span class="muted">Parsed {{ totalCommits }} commits from {{ contributors.length }} entities.</span>
           </div>
-          <span class="ctr-name">{{ c.login }}</span>
-        </a>
-      </div>
 
+          <div class="ctr-cli-scroll-area">
+            <div class="ctr-cli-list">
+              <a
+                v-for="(c, i) in contributors"
+                :key="c.login"
+                :href="c.html_url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="ctr-cli-user"
+                :title="`View GitHub profile: ${c.login}`"
+                :style="{ animationDelay: `${i * 15}ms` }"
+              >
+                <img :src="c.avatar_url" :alt="c.login" class="ctr-cli-avatar" loading="lazy" width="18" height="18" />
+                <div class="ctr-cli-info">
+                  <span class="ctr-cli-name">{{ c.login }}</span>
+                  <span class="ctr-cli-spacer"></span>
+                  <span class="ctr-cli-commits">{{ c.commits }} {{ c.commits === 1 ? 'commit' : 'commits' }}</span>
+                </div>
+              </a>
+            </div>
+          </div>
+          
+          <div class="ctr-cli-row mt-end">
+             <span class="prompt">root@wildfiire</span><span class="colon">:</span><span class="dir">/docs</span><span class="symbol">#</span>
+             <span class="cursor blink"></span>
+          </div>
+        </div>
+
+      </div>
     </div>
   </div>
 </template>
@@ -53,34 +67,45 @@ import { useData } from 'vitepress'
 
 const { page } = useData()
 const contributors = ref([])
+const totalCommits = ref(0)
 const loading = ref(false)
 const token = import.meta.env.VITE_GITHUB_TOKEN
 
 async function fetchContributors(filePath) {
   if (!filePath) return
   contributors.value = []
+  totalCommits.value = 0
   loading.value = true
   try {
     const fullPath = `docs/${filePath}`
     const headers = token ? { 'Authorization': `Bearer ${token}` } : {}
     const commitsRes = await fetch(
-      `https://api.github.com/repos/Wildfiire/docs/commits?path=${fullPath}&per_page=50`,
+      `https://api.github.com/repos/Wildfiire/docs/commits?path=${fullPath}&per_page=100`,
       { headers }
     )
     const commits = await commitsRes.json()
     if (!Array.isArray(commits)) return
+    
+    totalCommits.value = commits.length
     const map = new Map()
+    
     commits.forEach(commit => {
       const user = commit.author || commit.committer
-      if (user?.login && !map.has(user.login)) {
-        map.set(user.login, {
-          login: user.login,
-          avatar_url: user.avatar_url,
-          html_url: user.html_url
-        })
+      if (user?.login) {
+        if (!map.has(user.login)) {
+          map.set(user.login, {
+            login: user.login,
+            avatar_url: user.avatar_url,
+            html_url: user.html_url,
+            commits: 1
+          })
+        } else {
+          map.get(user.login).commits += 1
+        }
       }
     })
-    contributors.value = Array.from(map.values()).slice(0, 15)
+    
+    contributors.value = Array.from(map.values()).sort((a, b) => b.commits - a.commits)
   } catch (err) {
     console.error('Contributors error:', err)
   } finally {
@@ -93,216 +118,207 @@ watch(() => page.value.relativePath, (newPath) => fetchContributors(newPath))
 </script>
 
 <style scoped>
-/* -- Section --------------------------- */
-.ctr-section {
-  margin-top: 2.5rem;
+/* ── Container Global ── */
+.ctr-cli-section {
+  margin-top: 1.5rem;
+  font-family: 'JetBrains Mono', 'Fira Code', Consolas, Monaco, monospace;
 }
 
-/* -- Card ------------------------------ */
-.ctr-card {
-  padding: 14px 18px 18px;
-  border-radius: 10px;
-  border: 1px solid rgba(var(--wf-accent-rgb), 0.12);
-  background: var(--vp-c-bg-soft);
-  position: relative;
+/* ── FEREASTRA TERMINALULUI ── */
+.ctr-cli-window {
+  border-radius: 6px;
   overflow: hidden;
-  transition: border-color 0.2s ease;
+  transition: background 0.3s, border-color 0.3s, box-shadow 0.3s;
 }
 
-.ctr-card:hover {
-  border-color: rgba(var(--wf-accent-rgb), 0.22);
+/* DARK MODE */
+.dark .ctr-cli-window {
+  background: #050505; 
+  border: 1px solid #1a1a1a;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.6);
 }
 
-/* Brand accent line at top */
-.ctr-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, var(--vp-c-brand-1), var(--vp-c-brand-1), transparent);
-  border-radius: 10px 10px 0 0;
+/* LIGHT MODE */
+html:not(.dark) .ctr-cli-window {
+  background: #ffffff;
+  border: 1px solid #e1e4e8;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
 }
 
-/* -- Header ---------------------------- */
-.ctr-header {
+/* ── Top Bar ── */
+.ctr-cli-topbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 14px;
+  padding: 5px 8px;
+  transition: background 0.3s, border-color 0.3s;
 }
 
-.ctr-header-left {
-  display: flex;
-  align-items: center;
-  gap: 7px;
-}
+.dark .ctr-cli-topbar { background: #0a0a0a; border-bottom: 1px solid #1a1a1a; }
+html:not(.dark) .ctr-cli-topbar { background: #f6f8fa; border-bottom: 1px solid #e1e4e8; }
 
-.ctr-icon {
-  color: var(--vp-c-brand-1);
-  flex-shrink: 0;
-  opacity: 0.8;
-}
+.ctr-cli-dots { display: flex; gap: 5px; }
+.dot { width: 8px; height: 8px; border-radius: 50%; opacity: 0.9; }
+.dot.close { background: #ff5f56; }
+.dot.min   { background: #ffbd2e; }
+.dot.max   { background: #27c93f; }
 
-.ctr-title {
-  font-size: 11px;
-  font-weight: 600;
-  color: var(--vp-c-text-2);
-  letter-spacing: 0.02em;
-  text-transform: uppercase;
+.ctr-cli-title {
+  flex: 1; text-align: center; font-size: 9px; font-weight: 600; margin-right: 39px;
 }
+.dark .ctr-cli-title { color: #666; }
+html:not(.dark) .ctr-cli-title { color: #888; }
 
-.ctr-count {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--vp-c-brand-1);
-  background: rgba(var(--wf-accent-rgb), 0.08);
-  border: 1px solid rgba(var(--wf-accent-rgb), 0.2);
-  border-radius: 999px;
-  padding: 1px 9px;
-  line-height: 1.7;
-  letter-spacing: 0.03em;
+/* ── Corpul Terminalului ── */
+.ctr-cli-body {
+  padding: 10px;
+  font-size: 10.5px;
+  line-height: 1.4;
 }
+.dark .ctr-cli-body { color: #a9b7c6; }
+html:not(.dark) .ctr-cli-body { color: #24292f; }
 
-/* -- Grid ------------------------------ */
-.ctr-grid {
+.ctr-cli-row {
+  margin-bottom: 4px;
+  word-break: break-all;
   display: flex;
   flex-wrap: wrap;
-  gap: 14px 12px;
+  align-items: center;
+}
+.ctr-cli-row.mt-end { margin-top: 10px; margin-bottom: 0; }
+
+/* ── Sintaxa Bash ── */
+.dark .prompt  { color: var(--vp-c-brand-1); font-weight: 700; }
+.dark .colon   { color: #c9d1d9; }
+.dark .dir     { color: var(--vp-c-brand-1); font-weight: 700; opacity: 0.8; }
+.dark .symbol  { color: #c9d1d9; margin-right: 6px; }
+.dark .command { color: #e0e0e0; }
+.dark .muted   { color: #555555; }
+.dark .success { color: var(--vp-c-brand-1); font-weight: 700; margin-right: 6px; }
+
+html:not(.dark) .prompt  { color: var(--vp-c-brand-1); font-weight: 700; } 
+html:not(.dark) .colon   { color: #24292f; }
+html:not(.dark) .dir     { color: var(--vp-c-brand-1); font-weight: 700; opacity: 0.8; } 
+html:not(.dark) .symbol  { color: #24292f; margin-right: 6px; }
+html:not(.dark) .command { color: #24292f; }
+html:not(.dark) .muted   { color: #6e7681; }
+html:not(.dark) .success { color: var(--vp-c-brand-1); font-weight: 700; margin-right: 6px; }
+
+.meta-row { margin-top: 6px; margin-bottom: 8px; }
+
+/* ── Cursor ── */
+.cursor {
+  display: inline-block; width: 6px; height: 11px;
+  vertical-align: middle; margin-left: 2px;
+}
+.dark .cursor { background-color: var(--vp-c-brand-1); }
+html:not(.dark) .cursor { background-color: var(--vp-c-brand-1); }
+.blink { animation: blink-anim 1s step-end infinite; }
+@keyframes blink-anim { 0%, 100% { opacity: 1; } 50% { opacity: 0; } }
+
+/* ── ZONA DE SCROLL PENTRU FIX 3 OAMENI ── */
+.ctr-cli-scroll-area {
+  /* 86px = Înălțimea exactă a 3 itemi + gap-ul dintre ei */
+  max-height: 86px; 
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 4px;
+  margin-right: -4px;
+  scrollbar-width: thin;
 }
 
-/* -- Avatar ---------------------------- */
-.ctr-avatar-wrap {
+/* Custom Scrollbar Webkit */
+.dark .ctr-cli-scroll-area::-webkit-scrollbar { width: 4px; }
+.dark .ctr-cli-scroll-area::-webkit-scrollbar-track { background: #050505; }
+.dark .ctr-cli-scroll-area::-webkit-scrollbar-thumb { background: #1a1a1a; border-radius: 4px; }
+.dark .ctr-cli-scroll-area::-webkit-scrollbar-thumb:hover { background: #333; }
+
+html:not(.dark) .ctr-cli-scroll-area::-webkit-scrollbar { width: 4px; }
+html:not(.dark) .ctr-cli-scroll-area::-webkit-scrollbar-track { background: transparent; }
+html:not(.dark) .ctr-cli-scroll-area::-webkit-scrollbar-thumb { background: var(--vp-c-brand-1); border-radius: 4px; }
+
+/* ── Lista de utilizatori (O singură coloană) ── */
+.ctr-cli-list {
   display: flex;
   flex-direction: column;
+  gap: 4px; /* Spațiu fin între ei */
+}
+
+/* ── User Item ── */
+.ctr-cli-user {
+  display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
+  padding: 4px 6px;
+  border-radius: 3px;
   text-decoration: none;
-  animation: ctr-pop-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-}
-
-@keyframes ctr-pop-in {
-  from { opacity: 0; transform: translateY(6px) scale(0.88); }
-  to   { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.ctr-avatar-wrap:hover {
-  transform: translateY(-3px);
-  transition: transform 0.2s ease;
-}
-
-.ctr-avatar-ring {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  padding: 2px;
-  background: linear-gradient(135deg, var(--vp-c-brand-1), var(--vp-c-brand-1));
-  box-shadow: 0 2px 8px rgba(var(--wf-accent-rgb), 0.18);
-  position: relative;
-  overflow: hidden;
-  transition: box-shadow 0.25s ease, transform 0.25s ease;
-}
-
-/* Shine sweep */
-.ctr-avatar-ring::before {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -75%;
-  width: 50%;
-  height: 200%;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-  transform: skewX(-15deg);
+  background: transparent;
+  transition: background 0.15s, transform 0.15s;
+  animation: pop-in 0.2s ease-out forwards;
   opacity: 0;
-  pointer-events: none;
-  z-index: 2;
 }
 
-.ctr-avatar-wrap:hover .ctr-avatar-ring {
-  box-shadow: 0 6px 18px rgba(var(--wf-accent-rgb), 0.32);
-  transform: scale(1.05);
+@keyframes pop-in {
+  from { opacity: 0; transform: translateX(-4px); }
+  to   { opacity: 1; transform: translateX(0); }
 }
 
-.ctr-avatar-wrap:hover .ctr-avatar-ring::before {
-  animation: ctr-shine 0.5s ease forwards;
-}
+.dark .ctr-cli-user:hover { background: #111; }
+html:not(.dark) .ctr-cli-user:hover { background: rgba(0, 0, 0, 0.04); }
 
-@keyframes ctr-shine {
-  0%   { left: -75%; opacity: 1; }
-  100% { left: 125%; opacity: 1; }
-}
-
-.ctr-avatar-img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
+/* ── Avatar Micro ── */
+.ctr-cli-avatar {
+  width: 18px;
+  height: 18px;
+  border-radius: 2px;
   object-fit: cover;
-  transition: filter 0.25s ease;
+  filter: grayscale(100%);
+  opacity: 0.5;
+  transition: filter 0.2s, opacity 0.2s;
+  flex-shrink: 0;
 }
 
-.ctr-avatar-wrap:hover .ctr-avatar-img {
-  filter: brightness(1.06);
+.ctr-cli-user:hover .ctr-cli-avatar {
+  filter: grayscale(0%);
+  opacity: 1;
 }
 
-/* -- Username -------------------------- */
-.ctr-name {
-  font-size: 10px;
-  font-weight: 500;
-  color: var(--vp-c-text-3);
-  max-width: 52px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  text-align: center;
-  transition: color 0.18s ease;
-}
-
-.ctr-avatar-wrap:hover .ctr-name {
-  color: var(--vp-c-brand-1);
-}
-
-/* -- Skeleton -------------------------- */
-.ctr-skeleton {
+/* ── Nume & Commits (Formatate cu line punctată pe mijloc) ── */
+.ctr-cli-info {
   display: flex;
-  flex-direction: column;
   align-items: center;
-  gap: 6px;
+  flex: 1;
+  width: 100%;
 }
 
-.ctr-skeleton-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  background: var(--vp-c-divider);
-  animation: ctr-shimmer 1.4s ease infinite;
+.ctr-cli-name {
+  font-size: 10.5px;
+  font-weight: 600;
+  white-space: nowrap;
 }
 
-.ctr-skeleton-name {
-  width: 36px;
-  height: 8px;
-  border-radius: 4px;
-  background: var(--vp-c-divider);
-  animation: ctr-shimmer 1.4s ease infinite 0.2s;
+.dark .ctr-cli-name { color: #aaa; }
+.dark .ctr-cli-user:hover .ctr-cli-name { color: #fff; }
+html:not(.dark) .ctr-cli-name { color: #24292f; }
+html:not(.dark) .ctr-cli-user:hover .ctr-cli-name { color: #000; }
+
+/* Linia punctată a la Terminal */
+.ctr-cli-spacer {
+  flex: 1;
+  border-bottom: 1px dotted;
+  margin: 0 8px;
+  opacity: 0.3;
+  transform: translateY(-3px);
+}
+.dark .ctr-cli-spacer { border-color: #666; }
+html:not(.dark) .ctr-cli-spacer { border-color: #ccc; }
+
+.ctr-cli-commits {
+  font-size: 9px;
+  white-space: nowrap;
 }
 
-@keyframes ctr-shimmer {
-  0%, 100% { opacity: 0.35; }
-  50%       { opacity: 0.8; }
-}
-
-/* -- Responsive ------------------------ */
-@media (max-width: 480px) {
-  .ctr-card {
-    padding: 12px 14px 16px;
-  }
-  .ctr-grid {
-    gap: 12px 8px;
-  }
-  .ctr-avatar-ring {
-    width: 38px;
-    height: 38px;
-  }
-}
+.dark .ctr-cli-commits { color: #555; }
+.dark .ctr-cli-user:hover .ctr-cli-commits { color: var(--vp-c-brand-1); }
+html:not(.dark) .ctr-cli-commits { color: #8c959f; }
+html:not(.dark) .ctr-cli-user:hover .ctr-cli-commits { color: var(--vp-c-brand-1); }
 </style>
