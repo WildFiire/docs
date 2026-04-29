@@ -316,6 +316,7 @@ export default defineConfig({
               { text: '<iconify-icon icon="solar:letter-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Private Messages', link: '/systems/other/private-messages' },
               { text: '<iconify-icon icon="solar:mention-square-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Mention System', link: '/systems/other/mention-system' },
               { text: '<iconify-icon icon="solar:music-note-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> MVP Anthem', link: '/systems/other/mvp' },
+              { text: '<iconify-icon icon="solar:gift-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> MVP Rewards', link: '/systems/other/mvp-rewards' },
               { text: '<iconify-icon icon="solar:crown-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Gold Member', link: '/systems/other/gold-member' },
               { text: '<iconify-icon icon="solar:map-point-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Map Chooser / RTV', link: '/systems/other/map-chooser' },
               { text: '<iconify-icon icon="solar:ranking-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Rank System', link: '/systems/other/ranks' },

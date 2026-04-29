@@ -225,7 +225,13 @@ outline: deep
 <div class="wf-system-box">
   <ul>
     <li><Icon icon="lucide:info" width="20" height="20" color="currentColor" /><span><span class="wf-system-highlight">Notă:</span> Poți schimba MVP-ul oricând din meniul <code>!mvp</code>. Toate MVP-urile achiziționate rămân în inventarul tău permanent.</span></li>
+    <li><Icon icon="lucide:gift" width="20" height="20" color="#ff8c00" /><span><span class="wf-system-highlight">Recompense:</span> Vezi ce câștigi când ești MVP pe pagina <a href="/systems/other/mvp-rewards">MVP Rewards</a>.</span></li>
   </ul>
+</div>
+
+<div class="wf-system-tip orange">
+  <Icon icon="lucide:terminal" width="22" height="22" color="#ff8c00" />
+  <span>Folosește comanda <code>!wstokens</code> pentru a vedea premiile random (Coins, Cases sau Keys sau Random Stuff) pe care le primești ca MVP.</span>
 </div>
 
 </div>
