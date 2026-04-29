@@ -202,7 +202,7 @@ jobs:
                       inline: true
                     },
                     {
-                      name:   "🕐  Last Update",
+                      name:   "⏱️  Last Update",
                       value:  ("`" + $lastupdate + "`"),
                       inline: false
                     }
