@@ -91,31 +91,39 @@ jobs:
           npm install --include=dev > build.log 2>&1
           npm run docs:build >> build.log 2>&1
 
-      # ─── 4. Restore message IDs from cache ──────────────────────────────────
-      - name: Restore message IDs from cache
+      # ─── 4. Restore message ID from cache (Doar pentru canalul principal) ───
+      - name: Restore message ID from cache
         uses: actions/cache@v4
         with:
-          path: .cache
-          key: discord-msg-ids-${{ github.ref_name }}-v3
+          path: .cache/discord_msg_id
+          key: discord-msg-id-${{ github.ref_name }}-v1
           restore-keys: |
-            discord-msg-ids-${{ github.ref_name }}-
+            discord-msg-id-${{ github.ref_name }}-
 
-      - name: Read last message IDs
-        id: msgids
+      - name: Read last message ID
+        id: msgid
         run: |
-          mkdir -p .cache
-          [ -f .cache/id_main ] && MAIN=$(cat .cache/id_main | tr -d '[:space:]') || MAIN=""
-          [ -f .cache/id_logs ] && LOGS=$(cat .cache/id_logs | tr -d '[:space:]') || LOGS=""
-          echo "id_main=$MAIN" >> $GITHUB_OUTPUT
-          echo "id_logs=$LOGS" >> $GITHUB_OUTPUT
+          MSG_FILE=".cache/discord_msg_id"
+          if [ -f "$MSG_FILE" ]; then
+            LAST_ID=$(cat "$MSG_FILE" | tr -d '[:space:]')
+            if [ -n "$LAST_ID" ]; then
+              echo "last_id=$LAST_ID" >> $GITHUB_OUTPUT
+              echo "exists=true" >> $GITHUB_OUTPUT
+            else
+              echo "last_id=" >> $GITHUB_OUTPUT
+              echo "exists=false" >> $GITHUB_OUTPUT
+            fi
+          else
+            echo "last_id=" >> $GITHUB_OUTPUT
+            echo "exists=false" >> $GITHUB_OUTPUT
+          fi
 
-      # ─── 5. Build payload & Send to BOTH Webhooks ───────────────────────────
-      - name: Send Discord Notifications
+      # ─── 5. Construim și Trimitem Cele 2 Mesaje ─────────────────────────────
+      - name: Send Distinct Discord Notifications
+        id: discord
         env:
           WEBHOOK_MAIN: ${{ secrets.DISCORD_WEBHOOK_URL }}
           WEBHOOK_LOGS: ${{ secrets.DISCORD_DEPLOY_LOGS }}
-          LAST_ID_MAIN: ${{ steps.msgids.outputs.id_main }}
-          LAST_ID_LOGS: ${{ steps.msgids.outputs.id_logs }}
           COMMIT_MSG:   ${{ github.event.head_commit.message }}
           AUTHOR:       ${{ steps.userinfo.outputs.display_name }}
           AVATAR:       ${{ steps.userinfo.outputs.avatar_url }}
@@ -131,6 +139,8 @@ jobs:
           FILES_DEL:    ${{ steps.changed.outputs.deleted }}
           FILES_COL1:   ${{ steps.changed.outputs.col1 }}
           FILES_COL2:   ${{ steps.changed.outputs.col2 }}
+          LAST_MSG_ID:  ${{ steps.msgid.outputs.last_id }}
+          MSG_EXISTS:   ${{ steps.msgid.outputs.exists }}
           BUILD_OUTCOME: ${{ steps.build_step.outcome }}
         run: |
           SHORT_SHA="${FULL_SHA:0:7}"
@@ -151,116 +161,126 @@ jobs:
             FILES_FIELDS=$(jq -n --rawfile c1 /tmp/col1.txt '[{name: "Files", value: ("```\n" + ($c1 | rtrimstr("\n")) + "\n```"), inline: false}]')
           fi
 
-          # DACA BUILD-UL E SUCCES
+          # ====================================================================
+          # PAYLOAD 1: CANALUL PRINCIPAL (DETALIAT)
+          # ====================================================================
+          if [ "$BUILD_OUTCOME" == "success" ]; then
+            MAIN_TITLE="<:verificat_orange:1498988540472721408>  Push Deployed Successfully"
+            MAIN_COLOR=16351248
+            MAIN_STATUS="<:online:1498988532629373030>  **ONLINE**"
+          else
+            MAIN_TITLE="<:offline:1498988530851119246>  Push Failed"
+            MAIN_COLOR=15548997
+            MAIN_STATUS="<:offline:1498988530851119246>  **OFFLINE**"
+          fi
+
+          jq -n \
+            --arg repo "$REPO" \
+            --arg url "$COMPARE_URL" \
+            --arg authorline "$AUTHOR_LINE" \
+            --arg avatar "$AVATAR" \
+            --arg username "$USERNAME" \
+            --arg committitle "$COMMIT_TITLE" \
+            --arg shortsha "$SHORT_SHA" \
+            --arg commiturl "$COMMIT_URL" \
+            --arg filescount "$FILES_COUNT" \
+            --arg lastupdate "$LAST_UPDATE" \
+            --arg timestamp "$TIMESTAMP" \
+            --arg footerstats "$FOOTER_STATS" \
+            --arg title "$MAIN_TITLE" \
+            --arg color "$MAIN_COLOR" \
+            --arg status "$MAIN_STATUS" \
+            --argjson filefields "$FILES_FIELDS" \
+            '{
+              embeds: [{
+                title: $title,
+                url: $url,
+                color: ($color | tonumber),
+                author: { name: $authorline, icon_url: $avatar, url: ("https://github.com/" + $username) },
+                description: ("-# <:wf3:1481674482526457866>  **" + $repo + "**\n\n> *\"" + $committitle + "\"*"),
+                fields: (
+                  [
+                    { name: "<:hash:1498988536207114321>  SHA", value: ("[`" + $shortsha + "`](" + $commiturl + ")"), inline: true },
+                    { name: "<:package:1498988534433054770>  Files", value: ("**" + $filescount + "** changed"), inline: true },
+                    { name: "Status", value: $status, inline: true },
+                    { name: "<a:update:1498988526656688178>  Last Update", value: ("`" + $lastupdate + "`"), inline: false },
+                    { name: "<:changed:1498988528699183114>  Changed Files", value: "** **", inline: false }
+                  ] + $filefields
+                ),
+                footer: { text: $footerstats, icon_url: "https://cdn.discordapp.com/emojis/1481674482526457866.png" },
+                timestamp: $timestamp
+              }]
+            }' > /tmp/payload_main.json
+
+          # ====================================================================
+          # PAYLOAD 2: CANALUL DE LOGS (SIMPLU, FĂRĂ FIȘIERE, DOAR BUILD STATUS)
+          # ====================================================================
           if [ "$BUILD_OUTCOME" == "success" ]; then
             jq -n \
               --arg repo "$REPO" \
-              --arg url "$COMPARE_URL" \
-              --arg authorline "$AUTHOR_LINE" \
-              --arg avatar "$AVATAR" \
-              --arg username "$USERNAME" \
-              --arg committitle "$COMMIT_TITLE" \
-              --arg shortsha "$SHORT_SHA" \
-              --arg commiturl "$COMMIT_URL" \
-              --arg filescount "$FILES_COUNT" \
-              --arg lastupdate "$LAST_UPDATE" \
-              --arg timestamp "$TIMESTAMP" \
-              --arg footerstats "$FOOTER_STATS" \
-              --argjson filefields "$FILES_FIELDS" \
+              --arg title "$COMMIT_TITLE" \
+              --arg url "$COMMIT_URL" \
               '{
                 embeds: [{
-                  title: "<:verificat_orange:1498988540472721408>  Push & Build Successful",
+                  title: "✅ Build Tested Successfully",
                   url: $url,
-                  color: 16351248,
-                  author: { name: $authorline, icon_url: $avatar, url: ("https://github.com/" + $username) },
-                  description: ("-# <:wf3:1481674482526457866>  **" + $repo + "**\n\n> *\"" + $committitle + "\"*"),
-                  fields: (
-                    [
-                      { name: "<:hash:1498988536207114321>  SHA", value: ("[`" + $shortsha + "`](" + $commiturl + ")"), inline: true },
-                      { name: "<:package:1498988534433054770>  Files", value: ("**" + $filescount + "** changed"), inline: true },
-                      { name: "<:online:1498988532629373030>  Status", value: "<:online:1498988532629373030>  **ONLINE**", inline: true },
-                      { name: "<a:update:1498988526656688178>  Last Update", value: ("`" + $lastupdate + "`"), inline: false },
-                      { name: "<:changed:1498988528699183114>  Changed Files", value: "** **", inline: false }
-                    ] + $filefields
-                  ),
-                  footer: { text: $footerstats, icon_url: "https://cdn.discordapp.com/emojis/1481674482526457866.png" },
-                  timestamp: $timestamp
+                  color: 5763719,
+                  description: ("**" + $repo + "**\n> *" + $title + "*")
                 }]
-              }' > /tmp/payload.json
-          
-          # DACA BUILD-UL E FAIL (Includem logurile)
+              }' > /tmp/payload_logs.json
           else
             ERRORS=$(tail -n 15 build.log)
             jq -n \
               --arg repo "$REPO" \
-              --arg url "$COMPARE_URL" \
-              --arg authorline "$AUTHOR_LINE" \
-              --arg avatar "$AVATAR" \
-              --arg username "$USERNAME" \
-              --arg committitle "$COMMIT_TITLE" \
-              --arg shortsha "$SHORT_SHA" \
-              --arg commiturl "$COMMIT_URL" \
-              --arg filescount "$FILES_COUNT" \
-              --arg lastupdate "$LAST_UPDATE" \
-              --arg timestamp "$TIMESTAMP" \
-              --arg footerstats "$FOOTER_STATS" \
+              --arg title "$COMMIT_TITLE" \
+              --arg url "$COMMIT_URL" \
               --arg errors "$ERRORS" \
-              --argjson filefields "$FILES_FIELDS" \
               '{
                 embeds: [{
-                  title: "<:offline:1498988530851119246>  Build Failed",
+                  title: "❌ Build Failed",
                   url: $url,
                   color: 15548997,
-                  author: { name: $authorline, icon_url: $avatar, url: ("https://github.com/" + $username) },
-                  description: ("-# <:wf3:1481674482526457866>  **" + $repo + "**\n\n> *\"" + $committitle + "\"*\n\n**<:offline:1498988530851119246> Eroare (ultimele linii):**\n```js\n" + $errors + "\n```"),
-                  fields: (
-                    [
-                      { name: "<:hash:1498988536207114321>  SHA", value: ("[`" + $shortsha + "`](" + $commiturl + ")"), inline: true },
-                      { name: "<:package:1498988534433054770>  Files", value: ("**" + $filescount + "** changed"), inline: true },
-                      { name: "<:offline:1498988530851119246>  Status", value: "<:offline:1498988530851119246>  **FAILED**", inline: true },
-                      { name: "<a:update:1498988526656688178>  Last Update", value: ("`" + $lastupdate + "`"), inline: false },
-                      { name: "<:changed:1498988528699183114>  Changed Files", value: "** **", inline: false }
-                    ] + $filefields
-                  ),
-                  footer: { text: $footerstats, icon_url: "https://cdn.discordapp.com/emojis/1481674482526457866.png" },
-                  timestamp: $timestamp
+                  description: ("**" + $repo + "**\n> *" + $title + "*\n\n**Eroare (ultimele linii):**\n```js\n" + $errors + "\n```")
                 }]
-              }' > /tmp/payload.json
+              }' > /tmp/payload_logs.json
           fi
 
-          # Funcție de trimitere către un Webhook specific
-          send_webhook() {
-            local WEBHOOK_URL=$1
-            local LAST_ID=$2
-            local CACHE_FILE=$3
-
-            if [ -z "$WEBHOOK_URL" ]; then 
-              echo "⚠️ Webhook lipsă pentru $CACHE_FILE, se sare peste."
-              return
+          # ====================================================================
+          # TRIMITERE CĂTRE DISCORD
+          # ====================================================================
+          
+          # Trimitere Webhook MAIN (cu sistem de editare/cache)
+          if [ "$MSG_EXISTS" = "true" ] && [ -n "$LAST_MSG_ID" ]; then
+            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH "${WEBHOOK_MAIN}/messages/${LAST_MSG_ID}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload_main.json)
+            if [ "$HTTP_CODE" = "200" ]; then
+              echo "new_id=$LAST_MSG_ID" >> $GITHUB_OUTPUT
+            else
+              RESPONSE=$(curl -s -X POST "${WEBHOOK_MAIN}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload_main.json)
+              NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
+              echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
             fi
-
-            if [ -n "$LAST_ID" ]; then
-              HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH "${WEBHOOK_URL}/messages/${LAST_ID}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload.json)
-              if [ "$HTTP_CODE" = "200" ]; then
-                echo "✅ Mesaj actualizat (ID: $LAST_ID)"
-                echo "$LAST_ID" > "$CACHE_FILE"
-                return
-              fi
-            fi
-
-            RESPONSE=$(curl -s -X POST "${WEBHOOK_URL}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload.json)
+          else
+            RESPONSE=$(curl -s -X POST "${WEBHOOK_MAIN}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload_main.json)
             NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
-            if [ -n "$NEW_ID" ] && [ "$NEW_ID" != "null" ]; then
-              echo "✅ Mesaj nou trimis (ID: $NEW_ID)"
-              echo "$NEW_ID" > "$CACHE_FILE"
-            fi
-          }
+            echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
+          fi
 
-          # Trimitem către ambele webhook-uri
-          send_webhook "$WEBHOOK_MAIN" "$LAST_ID_MAIN" ".cache/id_main"
-          send_webhook "$WEBHOOK_LOGS" "$LAST_ID_LOGS" ".cache/id_logs"
+          # Trimitere Webhook LOGS (Întotdeauna trimite un mesaj NOU, fără editare)
+          curl -s -X POST "${WEBHOOK_LOGS}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload_logs.json
 
-      # ─── 6. Fail the workflow if build failed ───────────────────────────────
+      # ─── 6. Save message ID (Doar pentru canalul principal) ─────────────────
+      - name: Save message ID to cache
+        env:
+          NEW_ID:      ${{ steps.discord.outputs.new_id }}
+          LAST_MSG_ID: ${{ steps.msgid.outputs.last_id }}
+        run: |
+          MSG_FILE=".cache/discord_msg_id"
+          mkdir -p .cache
+          if [ -n "$NEW_ID" ] && [ "$NEW_ID" != "$LAST_MSG_ID" ]; then
+            echo "$NEW_ID" > "$MSG_FILE"
+          fi
+
+      # ─── 7. Fail the workflow if build failed ───────────────────────────────
       - name: Fail the workflow if build failed
         if: steps.build_step.outcome != 'success'
         run: exit 1
