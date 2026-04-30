@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "MVP Rewards"
+description: "Descoperă totul despre MVP Rewards pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

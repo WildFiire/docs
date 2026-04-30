@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Rank System"
+description: "Descoperă totul despre Rank System pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

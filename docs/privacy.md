@@ -1,20 +1,11 @@
 ---
-layout: false
-title: Privacy Policy - Wildfire.ro CS2
-description: Politica de confidențialitate pentru utilizatorii platformei Wildfire CS2.
-head:
-  - - meta
-    - name: theme-color
-      content: '#ff4500'
-  - - meta
-    - name: keywords
-      content: privacy policy, wildfire.ro privacy, wildfire cs2, date cu caracter personal
-  - - meta
-    - property: og:title
-      content: Privacy Policy - Wildfire.ro CS2
-  - - meta
-    - property: og:image
-      content: https://docs.wildfire.ro/wallpaper/content.webp
+title: "Privacy Policy - Wildfire.ro CS2"
+description: "Descoperă totul despre Privacy Policy - Wildfire.ro CS2 pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+layout: "false"
+head: ""
+- name: "keywords"
+content: "https://docs.wildfire.ro/wallpaper/content.webp"
+- property: "og:image"
 ---
 
 <Privacy />

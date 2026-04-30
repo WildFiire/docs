@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Weapon Tracers"
+description: "Descoperă totul despre Weapon Tracers pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Hit Effects"
+description: "Descoperă totul despre Hit Effects pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

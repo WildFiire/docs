@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Regulament VIP"
+description: "Descoperă totul despre Regulament VIP pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 
@@ -885,4 +887,3 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
 </div>
 
 <div class="section-divider"></div>
-

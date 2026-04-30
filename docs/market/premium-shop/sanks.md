@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Sank Sounds"
+description: "Descoperă totul despre Sank Sounds pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

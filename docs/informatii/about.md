@@ -1,6 +1,9 @@
 ---
-outline: deep
+title: "About us"
+description: "Descoperă totul despre About us pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
+
 <CaseHeader 
   title="About us"
   :tags="[

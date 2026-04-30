@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Chat & Tag-uri"
+description: "Descoperă totul despre Chat & Tag-uri pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

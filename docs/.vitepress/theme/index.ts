@@ -34,10 +34,8 @@ import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/V
 import ReadingProgressBar from './components/ReadingProgressBar.vue'
 import BackToTop from './components/BackToTop.vue'
 import DocEnhancements from './components/DocEnhancements.vue'
-import CustomCursor from './components/CustomCursor.vue'
 import CaseHeader from './components/CaseHeader.vue'
 import FluidLightbox from './components/FluidLightbox.vue'
-import SidebarBookmarks from './components/SidebarBookmarks.vue'
 import SidebarToggle from './components/SidebarToggle.vue'
 import MobileScrollSpy from './components/MobileScrollSpy.vue'
 import WfTOC from './components/WfTOC.vue'
@@ -46,8 +44,6 @@ import SidebarFloatingControls from './components/SidebarFloatingControls.vue'
 
 // Componente lazy — split in chunks separate, nu blocheaza theme.js
 const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
-const WikiUpdatesGrid = defineAsyncComponent(() => import('./components/WikiUpdatesGrid.vue'))
-const LatestWikiUpdates = WikiUpdatesGrid
 const AboutWiki = defineAsyncComponent(() => import('./components/AboutWiki.vue'))
 const Changelogs = defineAsyncComponent(() => import('./components/Changelogs.vue'))
 const StatsGithub = defineAsyncComponent(() => import('./components/StatsGithub.vue'))
@@ -71,18 +67,6 @@ const PanelAudit = defineAsyncComponent(() => import('./components/Panel/PanelAu
 const PanelAnalytics = defineAsyncComponent(() => import('./components/Panel/PanelAnalytics.vue'))
 const PanelLogin = defineAsyncComponent(() => import('./components/Panel/PanelLogin.vue'))
 
-// Defer popout until first user interaction - reduces unused JS on initial load
-if (typeof window !== 'undefined') {
-  const loadPopout = () => {
-    import('./popout.js')
-      ;['click', 'keydown', 'scroll', 'touchstart'].forEach(e =>
-        window.removeEventListener(e, loadPopout)
-      )
-  }
-    ;['click', 'keydown', 'scroll', 'touchstart'].forEach(e =>
-      window.addEventListener(e, loadPopout, { once: true, passive: true })
-    )
-}
 
 // Tag-uri — statice, CSS trebuie disponibil imediat pe paginile de conținut
 import PageTagBlue from './components/tags/PageTagBlue.vue'
@@ -108,7 +92,6 @@ export default {
       // Home page
       'home-hero-before': () => h(WikiHome),
 
-      // 🔥 ADĂUGĂ FEEDBACK DUPĂ CONȚINUTUL PAGINII
       'doc-footer-before': () => h(FeedbackWidget),
 
       // Navbar
@@ -135,7 +118,7 @@ export default {
       'not-found': () => h(PageNotFound),
 
       // 🔥 Global UX enhancements
-      'layout-top': () => [h(BackToTop), h(DocEnhancements), h(CustomCursor), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy)]
+      'layout-top': () => [h(BackToTop), h(DocEnhancements), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy)]
     })
   },
 
@@ -145,8 +128,6 @@ export default {
     app.component('HomeNavbar', HomeNavbar)
     app.component('LastUpdates', LastUpdates)
     app.component('Changelogs', Changelogs)
-    app.component('LatestWikiUpdates', LatestWikiUpdates)
-    app.component('WikiUpdatesGrid', WikiUpdatesGrid)
     app.component('NavSearch', NavSearch)
     app.component('WildfireTag', WildfireTag)
     app.component('SiteMap', SiteMap)

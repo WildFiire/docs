@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "VIP TEST"
+description: "Descoperă totul despre VIP TEST pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

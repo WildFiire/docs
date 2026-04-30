@@ -3,7 +3,6 @@
   <main v-if="isMounted && isHomePage" class="wf-home" :class="{ 'wf-home--light': !isDark }">
     <HomeNavbar v-if="isHomePage" />
     <CS2Background :scrollOpacity="scrollFade" :isDark="isDark" />
-    <CustomCursor />
     <ScrollSpy :sections="spySections" />
 
     <!-- ============ HERO SECTION ============ -->
@@ -178,7 +177,6 @@ import HomeNavbar from './HomeNavbar.vue'
 import LastUpdates from './LastUpdates.vue'
 import AboutWiki from './AboutWiki.vue'
 import CS2Background from './CS2Background.vue'
-import CustomCursor from './CustomCursor.vue'
 import ScrollSpy from './ScrollSpy.vue'
 import LiquidMetalLogo from './LiquidMetalLogo.vue'
 import NeuroNoiseBg from './NeuroNoiseBg.vue'

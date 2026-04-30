@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "VIP Mythic"
+description: "Descoperă totul despre VIP Mythic pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

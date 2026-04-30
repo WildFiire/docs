@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Cases"
+description: "Descoperă totul despre Cases pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

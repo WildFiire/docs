@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Phoenix Coins"
+description: "Descoperă totul despre Phoenix Coins pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

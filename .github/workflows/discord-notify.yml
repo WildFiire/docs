@@ -16,28 +16,54 @@ jobs:
       - name: Get changed files
         id: changed
         run: |
-          ALL_FILES=$(git diff --name-only HEAD~1 HEAD 2>/dev/null || echo "")
+          # Get file statuses: A=added, M=modified, D=deleted, R=renamed, etc.
+          ALL_STATUS=$(git diff --name-status HEAD~1 HEAD 2>/dev/null || echo "")
 
-          if [ -z "$ALL_FILES" ]; then
+          if [ -z "$ALL_STATUS" ]; then
             FILES_COUNT=0
+            ADDED=0
+            MODIFIED=0
+            DELETED=0
             COL1="No changes detected"
             COL2=""
           else
-            FILES_COUNT=$(echo "$ALL_FILES" | wc -l | tr -d ' ')
-            SHOWN=$(echo "$ALL_FILES" | head -20)
-            TOTAL_SHOWN=$(echo "$SHOWN" | wc -l | tr -d ' ')
-            HALF=$(( (TOTAL_SHOWN + 1) / 2 ))
+            FILES_COUNT=$(echo "$ALL_STATUS" | wc -l | tr -d ' ')
 
-            COL1=$(echo "$SHOWN" | head -n "$HALF" | sed 's/^/• /')
-            COL2=$(echo "$SHOWN" | tail -n +"$((HALF + 1))" | sed 's/^/• /')
+            # Count by type
+            ADDED=$(echo "$ALL_STATUS"   | awk '$1 == "A"' | wc -l | tr -d ' ')
+            MODIFIED=$(echo "$ALL_STATUS" | awk '$1 == "M"' | wc -l | tr -d ' ')
+            DELETED=$(echo "$ALL_STATUS"  | awk '$1 == "D"' | wc -l | tr -d ' ')
+            # Renamed counts as modified visually
+            RENAMED=$(echo "$ALL_STATUS"  | awk '$1 ~ /^R/' | wc -l | tr -d ' ')
+            MODIFIED=$((MODIFIED + RENAMED))
 
-            if [ "$FILES_COUNT" -gt 20 ]; then
-              EXTRA=$((FILES_COUNT - 20))
-              COL2=$(printf "%s\n… +%d more" "$COL2" "$EXTRA")
+            # Extract just filenames, max 8 total (4 per col)
+            ALL_FILES=$(echo "$ALL_STATUS" | awk '{print $NF}')
+            SHOWN=$(echo "$ALL_FILES" | head -8)
+            SHOWN_COUNT=$(echo "$SHOWN" | wc -l | tr -d ' ')
+            EXTRA=$((FILES_COUNT - SHOWN_COUNT))
+
+            # Split into 2 columns of max 4
+            COL1=$(echo "$SHOWN" | head -4 | sed 's/^/• /')
+            COL2_RAW=$(echo "$SHOWN" | tail -n +5 | head -4 | sed 's/^/• /')
+
+            # Append "+N more" to col2 if needed
+            if [ "$EXTRA" -gt 0 ]; then
+              if [ -n "$COL2_RAW" ]; then
+                COL2=$(printf "%s\n+%d more…" "$COL2_RAW" "$EXTRA")
+              else
+                COL2=$(printf "+%d more…" "$EXTRA")
+              fi
+            else
+              COL2="$COL2_RAW"
             fi
           fi
 
           echo "files_count=$FILES_COUNT" >> $GITHUB_OUTPUT
+          echo "added=$ADDED"             >> $GITHUB_OUTPUT
+          echo "modified=$MODIFIED"       >> $GITHUB_OUTPUT
+          echo "deleted=$DELETED"         >> $GITHUB_OUTPUT
+
           {
             echo "col1<<ENDCOL1"
             echo "$COL1"
@@ -65,7 +91,7 @@ jobs:
               "https://api.github.com/users/$USERNAME" 2>/dev/null || echo "{}")
 
             AVATAR_URL=$(echo "$RESPONSE" | jq -r '.avatar_url // empty')
-            NAME=$(echo "$RESPONSE" | jq -r '.name // empty')
+            NAME=$(echo "$RESPONSE"      | jq -r '.name // empty')
 
             if [ -n "$AVATAR_URL" ]; then
               echo "avatar_url=${AVATAR_URL}&s=128" >> $GITHUB_OUTPUT
@@ -101,7 +127,7 @@ jobs:
             LAST_ID=$(cat "$MSG_FILE" | tr -d '[:space:]')
             if [ -n "$LAST_ID" ]; then
               echo "last_id=$LAST_ID" >> $GITHUB_OUTPUT
-              echo "exists=true" >> $GITHUB_OUTPUT
+              echo "exists=true"      >> $GITHUB_OUTPUT
               echo "📬 Found cached message ID: $LAST_ID"
             else
               echo "last_id=" >> $GITHUB_OUTPUT
@@ -113,39 +139,43 @@ jobs:
             echo "📭 No cached message ID — first run"
           fi
 
-      # ─── 4. Build SUCCESS payload & send / edit ─────────────────────────────
+      # ─── 4. Build payload & send / edit ─────────────────────────────────────
       - name: Send or edit Discord notification
         id: discord
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          COMMIT_MSG:      ${{ github.event.head_commit.message }}
-          AUTHOR:          ${{ steps.userinfo.outputs.display_name }}
-          AVATAR:          ${{ steps.userinfo.outputs.avatar_url }}
-          USERNAME:        ${{ steps.userinfo.outputs.username }}
-          BRANCH:          ${{ github.ref_name }}
-          REPO:            ${{ github.repository }}
-          FULL_SHA:        ${{ github.sha }}
-          COMMIT_URL:      ${{ github.event.head_commit.url }}
-          COMPARE_URL:     ${{ github.event.compare }}
-          FILES_COUNT:     ${{ steps.changed.outputs.files_count }}
-          FILES_COL1:      ${{ steps.changed.outputs.col1 }}
-          FILES_COL2:      ${{ steps.changed.outputs.col2 }}
-          LAST_MSG_ID:     ${{ steps.msgid.outputs.last_id }}
-          MSG_EXISTS:      ${{ steps.msgid.outputs.exists }}
+          COMMIT_MSG:   ${{ github.event.head_commit.message }}
+          AUTHOR:       ${{ steps.userinfo.outputs.display_name }}
+          AVATAR:       ${{ steps.userinfo.outputs.avatar_url }}
+          USERNAME:     ${{ steps.userinfo.outputs.username }}
+          BRANCH:       ${{ github.ref_name }}
+          REPO:         ${{ github.repository }}
+          FULL_SHA:     ${{ github.sha }}
+          COMMIT_URL:   ${{ github.event.head_commit.url }}
+          COMPARE_URL:  ${{ github.event.compare }}
+          FILES_COUNT:  ${{ steps.changed.outputs.files_count }}
+          FILES_ADDED:  ${{ steps.changed.outputs.added }}
+          FILES_MOD:    ${{ steps.changed.outputs.modified }}
+          FILES_DEL:    ${{ steps.changed.outputs.deleted }}
+          FILES_COL1:   ${{ steps.changed.outputs.col1 }}
+          FILES_COL2:   ${{ steps.changed.outputs.col2 }}
+          LAST_MSG_ID:  ${{ steps.msgid.outputs.last_id }}
+          MSG_EXISTS:   ${{ steps.msgid.outputs.exists }}
         run: |
           SHORT_SHA="${FULL_SHA:0:7}"
           COMMIT_TITLE=$(echo "$COMMIT_MSG" | head -n1)
           LAST_UPDATE=$(date -u +"%a, %d %b %Y · %H:%M UTC")
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          # Author line — custom emoji author_wf merge in author.name
-          AUTHOR_LINE="<:author_wf:1498988538228637837> ${AUTHOR}  ·  pushed to  ${BRANCH}"
+          AUTHOR_LINE="${AUTHOR}  ·  pushed to  ${BRANCH}"
+
+          # Footer stats line: +X added  ~X modified  -X deleted
+          FOOTER_STATS="Wildfire.ro Docs  ·  ${REPO}     +${FILES_ADDED} added  ~${FILES_MOD} modified  -${FILES_DEL} deleted"
 
           printf '%s' "$FILES_COL1" > /tmp/col1.txt
           printf '%s' "$FILES_COL2" > /tmp/col2.txt
           COL2_CONTENT=$(cat /tmp/col2.txt)
 
-          # 2 coloane daca avem destule fisiere, altfel 1
           if [ -n "$COL2_CONTENT" ]; then
             FILES_FIELDS=$(jq -n \
               --rawfile c1 /tmp/col1.txt \
@@ -163,17 +193,18 @@ jobs:
           fi
 
           jq -n \
-            --arg repo        "$REPO" \
-            --arg url         "$COMPARE_URL" \
-            --arg authorline  "$AUTHOR_LINE" \
-            --arg avatar      "$AVATAR" \
-            --arg username    "$USERNAME" \
-            --arg committitle "$COMMIT_TITLE" \
-            --arg shortsha    "$SHORT_SHA" \
-            --arg commiturl   "$COMMIT_URL" \
-            --arg filescount  "$FILES_COUNT" \
-            --arg lastupdate  "$LAST_UPDATE" \
-            --arg timestamp   "$TIMESTAMP" \
+            --arg repo         "$REPO" \
+            --arg url          "$COMPARE_URL" \
+            --arg authorline   "$AUTHOR_LINE" \
+            --arg avatar       "$AVATAR" \
+            --arg username     "$USERNAME" \
+            --arg committitle  "$COMMIT_TITLE" \
+            --arg shortsha     "$SHORT_SHA" \
+            --arg commiturl    "$COMMIT_URL" \
+            --arg filescount   "$FILES_COUNT" \
+            --arg lastupdate   "$LAST_UPDATE" \
+            --arg timestamp    "$TIMESTAMP" \
+            --arg footerstats  "$FOOTER_STATS" \
             --argjson filefields "$FILES_FIELDS" \
             '{
               embeds: [{
@@ -219,7 +250,7 @@ jobs:
                   ] + $filefields
                 ),
                 footer: {
-                  text:     ("Wildfire.ro Docs  ·  " + $repo),
+                  text:     $footerstats,
                   icon_url: "https://cdn.discordapp.com/emojis/1481674482526457866.png"
                 },
                 timestamp: $timestamp
@@ -281,25 +312,29 @@ jobs:
         if: failure()
         env:
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }}
-          COMMIT_MSG:      ${{ github.event.head_commit.message }}
-          AUTHOR:          ${{ steps.userinfo.outputs.display_name }}
-          AVATAR:          ${{ steps.userinfo.outputs.avatar_url }}
-          USERNAME:        ${{ steps.userinfo.outputs.username }}
-          BRANCH:          ${{ github.ref_name }}
-          REPO:            ${{ github.repository }}
-          FULL_SHA:        ${{ github.sha }}
-          COMMIT_URL:      ${{ github.event.head_commit.url }}
-          COMPARE_URL:     ${{ github.event.compare }}
-          FILES_COUNT:     ${{ steps.changed.outputs.files_count }}
-          LAST_MSG_ID:     ${{ steps.msgid.outputs.last_id }}
-          MSG_EXISTS:      ${{ steps.msgid.outputs.exists }}
+          COMMIT_MSG:   ${{ github.event.head_commit.message }}
+          AUTHOR:       ${{ steps.userinfo.outputs.display_name }}
+          AVATAR:       ${{ steps.userinfo.outputs.avatar_url }}
+          USERNAME:     ${{ steps.userinfo.outputs.username }}
+          BRANCH:       ${{ github.ref_name }}
+          REPO:         ${{ github.repository }}
+          FULL_SHA:     ${{ github.sha }}
+          COMMIT_URL:   ${{ github.event.head_commit.url }}
+          COMPARE_URL:  ${{ github.event.compare }}
+          FILES_COUNT:  ${{ steps.changed.outputs.files_count }}
+          FILES_ADDED:  ${{ steps.changed.outputs.added }}
+          FILES_MOD:    ${{ steps.changed.outputs.modified }}
+          FILES_DEL:    ${{ steps.changed.outputs.deleted }}
+          LAST_MSG_ID:  ${{ steps.msgid.outputs.last_id }}
+          MSG_EXISTS:   ${{ steps.msgid.outputs.exists }}
         run: |
           SHORT_SHA="${FULL_SHA:0:7}"
           COMMIT_TITLE=$(echo "$COMMIT_MSG" | head -n1)
           LAST_UPDATE=$(date -u +"%a, %d %b %Y · %H:%M UTC")
           TIMESTAMP=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
 
-          AUTHOR_LINE="<:author_wf:1498988538228637837> ${AUTHOR}  ·  pushed to  ${BRANCH}"
+          AUTHOR_LINE="${AUTHOR}  ·  pushed to  ${BRANCH}"
+          FOOTER_STATS="Wildfire.ro Docs  ·  ${REPO}     +${FILES_ADDED} added  ~${FILES_MOD} modified  -${FILES_DEL} deleted"
 
           jq -n \
             --arg repo        "$REPO" \
@@ -313,6 +348,7 @@ jobs:
             --arg filescount  "$FILES_COUNT" \
             --arg lastupdate  "$LAST_UPDATE" \
             --arg timestamp   "$TIMESTAMP" \
+            --arg footerstats "$FOOTER_STATS" \
             '{
               embeds: [{
                 title: "<:offline:1498988530851119246>  Push Failed",
@@ -350,7 +386,7 @@ jobs:
                   }
                 ],
                 footer: {
-                  text:     ("Wildfire.ro Docs  ·  " + $repo),
+                  text:     $footerstats,
                   icon_url: "https://cdn.discordapp.com/emojis/1481674482526457866.png"
                 },
                 timestamp: $timestamp

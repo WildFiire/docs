@@ -341,6 +341,7 @@ html[data-wf-theme="updates_wiki"] {
 
 /* Desktop collapse state */
 @media (min-width: 960px) {
+
   /* Hide entire navbar on desktop docs and reset layout variables */
   body:not(.home) {
     --vp-nav-height: 0px !important;

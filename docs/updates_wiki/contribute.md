@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Cum poți contribui?"
+description: "Descoperă totul despre Cum poți contribui? pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

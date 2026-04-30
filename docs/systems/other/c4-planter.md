@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "C4 Planter Info"
+description: "Descoperă totul despre C4 Planter Info pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Server Slots"
+description: "Descoperă totul despre Server Slots pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

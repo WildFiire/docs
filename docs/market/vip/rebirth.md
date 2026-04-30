@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "VIP Rebirth"
+description: "Descoperă totul despre VIP Rebirth pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

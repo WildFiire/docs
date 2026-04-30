@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Hide Teammates"
+description: "Descoperă totul despre Hide Teammates pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

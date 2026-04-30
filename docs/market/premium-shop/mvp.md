@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Custom MVP"
+description: "Descoperă totul despre Custom MVP pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

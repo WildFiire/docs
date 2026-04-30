@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Sistemul de WeaponSkins"
+description: "Descoperă totul despre Sistemul de WeaponSkins pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 

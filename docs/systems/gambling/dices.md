@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Dices (Barbut)"
+description: "Descoperă totul despre Dices (Barbut) pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 
@@ -182,4 +184,3 @@ outline: deep
 </div>
 
 </div>
-

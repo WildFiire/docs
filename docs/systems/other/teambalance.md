@@ -1,5 +1,7 @@
 ---
-outline: deep
+title: "Team Balance"
+description: "Descoperă totul despre Team Balance pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+outline: "deep"
 ---
 
 <CaseHeader 
