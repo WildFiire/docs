@@ -171,7 +171,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed, onUnmounted, watch, nextTick } from 'vue'
-import { useData } from 'vitepress'
+import { useData, inBrowser } from 'vitepress' // <-- Am adăugat inBrowser aici!
 import { Icon } from '@iconify/vue'
 import HomeNavbar from './HomeNavbar.vue'
 import LastUpdates from './LastUpdates.vue'
@@ -254,7 +254,7 @@ const quickstartCards = [
   { icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>', title: 'Cauta Rapid', desc: 'Foloseste Ctrl+K pentru a gasi orice pagina din documentatie instant.', img: '/wallpaper/present.png' },
   { icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Contribuitori', desc: 'Documentatia este scrisa si mentinuta de echipa si comunitatea Wildfire.', img: '/wallpaper/contributors.png' },
   { icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>', title: 'Panel Admin', desc: 'Gestioneaza pagini, contribuitori si statistici dintr-un singur dashboard.', img: '/wallpaper/panel.png' },
-  { icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>', title: 'Comunitate', desc: 'Alatura-te pe Discord pentru suport, discutii si evenimente live.', img: '/wallpaper/community.png' },
+  { icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>', title: 'Comunitate', desc: 'Alatura-te pe Discord pentru suport, discutii si events.', img: '/wallpaper/community.png' },
 ]
 
 const featureCards = [
@@ -332,6 +332,7 @@ const startTypingEffects = () => {
 }
 
 const openSearch = (e: MouseEvent) => {
+  if (!inBrowser) return // Blocaj SSR
   e.preventDefault()
   e.stopPropagation()
   const btn = document.querySelector('.VPNavBarSearch button')
@@ -340,6 +341,8 @@ const openSearch = (e: MouseEvent) => {
 }
 
 const toggleDefaultNavbar = (hide: boolean) => {
+  if (!inBrowser) return // <--- BLOCAJ SSR CRITIC AICI!
+  
   ;['.VPNav', '.VPSidebar', '.VPLocalNav'].forEach(sel => {
     const el = document.querySelector(sel) as HTMLElement | null
     if (el) el.style.display = hide ? 'none' : ''
@@ -349,6 +352,7 @@ const toggleDefaultNavbar = (hide: boolean) => {
 }
 
 const triggerBoom = () => {
+  if (!inBrowser) return // Blocaj SSR
   const logo = document.querySelector('.wf-hero__logo-shader') as HTMLElement
   if (!logo) return
   logo.classList.add('boom')
@@ -359,6 +363,7 @@ const triggerBoom = () => {
 let observer: IntersectionObserver | null = null
 
 const setupScrollAnimations = () => {
+  if (!inBrowser) return // Blocaj SSR
   observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       const el = entry.target as HTMLElement
@@ -374,8 +379,8 @@ const setupScrollAnimations = () => {
   document.querySelectorAll('.anim-item').forEach(el => observer!.observe(el))
 }
 
-// Attach tilt listeners after mount
 const attachTiltListeners = () => {
+  if (!inBrowser) return // Blocaj SSR
   nextTick(() => {
     Object.entries(tiltRefs).forEach(([key, el]) => {
       if (!el) return
@@ -387,14 +392,18 @@ const attachTiltListeners = () => {
 }
 
 const handleScroll = () => {
+  if (!inBrowser) return // Blocaj SSR
   scrollY.value = window.scrollY
-  const isDark = document.documentElement.classList.contains('dark')
-  scrollFade.value = isDark
+  const isDarkCurrent = document.documentElement.classList.contains('dark')
+  scrollFade.value = isDarkCurrent
     ? Math.min(window.scrollY / 500, 0.8)
     : Math.min(window.scrollY / 800, 0.5)
 }
 
-watch(isHomePage, (v) => { if (typeof document !== 'undefined') toggleDefaultNavbar(v) }, { immediate: true })
+// WATCHER REPARAT AICI:
+watch(isHomePage, (v) => { 
+  if (inBrowser) toggleDefaultNavbar(v) 
+}, { immediate: true })
 
 onMounted(() => {
   isMounted.value = true
@@ -410,6 +419,7 @@ onMounted(() => {
 })
 
 onUnmounted(() => {
+  if (!inBrowser) return
   toggleDefaultNavbar(false)
   if (searchPauseTimeout) clearTimeout(searchPauseTimeout)
   if (searchTypingTimeout) clearTimeout(searchTypingTimeout)
