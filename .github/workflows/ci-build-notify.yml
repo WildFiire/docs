@@ -91,38 +91,31 @@ jobs:
           npm install --include=dev > build.log 2>&1
           npm run docs:build >> build.log 2>&1
 
-      # ─── 4. Restore message ID from cache ───────────────────────────────────
-      - name: Restore message ID from cache
+      # ─── 4. Restore message IDs from cache ──────────────────────────────────
+      - name: Restore message IDs from cache
         uses: actions/cache@v4
         with:
-          path: .cache/discord_msg_id
-          key: discord-msg-id-${{ github.ref_name }}-v1
+          path: .cache
+          key: discord-msg-ids-${{ github.ref_name }}-v3
           restore-keys: |
-            discord-msg-id-${{ github.ref_name }}-
+            discord-msg-ids-${{ github.ref_name }}-
 
-      - name: Read last message ID
-        id: msgid
+      - name: Read last message IDs
+        id: msgids
         run: |
-          MSG_FILE=".cache/discord_msg_id"
-          if [ -f "$MSG_FILE" ]; then
-            LAST_ID=$(cat "$MSG_FILE" | tr -d '[:space:]')
-            if [ -n "$LAST_ID" ]; then
-              echo "last_id=$LAST_ID" >> $GITHUB_OUTPUT
-              echo "exists=true" >> $GITHUB_OUTPUT
-            else
-              echo "last_id=" >> $GITHUB_OUTPUT
-              echo "exists=false" >> $GITHUB_OUTPUT
-            fi
-          else
-            echo "last_id=" >> $GITHUB_OUTPUT
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
+          mkdir -p .cache
+          [ -f .cache/id_main ] && MAIN=$(cat .cache/id_main | tr -d '[:space:]') || MAIN=""
+          [ -f .cache/id_logs ] && LOGS=$(cat .cache/id_logs | tr -d '[:space:]') || LOGS=""
+          echo "id_main=$MAIN" >> $GITHUB_OUTPUT
+          echo "id_logs=$LOGS" >> $GITHUB_OUTPUT
 
-      # ─── 5. Build payload & send / edit ─────────────────────────────────────
-      - name: Send Discord Notification
-        id: discord
+      # ─── 5. Build payload & Send to BOTH Webhooks ───────────────────────────
+      - name: Send Discord Notifications
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK_URL }} # Pune secretul corect pentru canalul tău!
+          WEBHOOK_MAIN: ${{ secrets.DISCORD_WEBHOOK_URL }}
+          WEBHOOK_LOGS: ${{ secrets.DISCORD_DEPLOY_LOGS }}
+          LAST_ID_MAIN: ${{ steps.msgids.outputs.id_main }}
+          LAST_ID_LOGS: ${{ steps.msgids.outputs.id_logs }}
           COMMIT_MSG:   ${{ github.event.head_commit.message }}
           AUTHOR:       ${{ steps.userinfo.outputs.display_name }}
           AVATAR:       ${{ steps.userinfo.outputs.avatar_url }}
@@ -138,8 +131,6 @@ jobs:
           FILES_DEL:    ${{ steps.changed.outputs.deleted }}
           FILES_COL1:   ${{ steps.changed.outputs.col1 }}
           FILES_COL2:   ${{ steps.changed.outputs.col2 }}
-          LAST_MSG_ID:  ${{ steps.msgid.outputs.last_id }}
-          MSG_EXISTS:   ${{ steps.msgid.outputs.exists }}
           BUILD_OUTCOME: ${{ steps.build_step.outcome }}
         run: |
           SHORT_SHA="${FULL_SHA:0:7}"
@@ -197,7 +188,7 @@ jobs:
                 }]
               }' > /tmp/payload.json
           
-          # DACA BUILD-UL E FAIL (Includem și logurile de eroare)
+          # DACA BUILD-UL E FAIL (Includem logurile)
           else
             ERRORS=$(tail -n 15 build.log)
             jq -n \
@@ -237,34 +228,39 @@ jobs:
               }' > /tmp/payload.json
           fi
 
-          if [ "$MSG_EXISTS" = "true" ] && [ -n "$LAST_MSG_ID" ]; then
-            HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH "${DISCORD_WEBHOOK}/messages/${LAST_MSG_ID}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload.json)
-            if [ "$HTTP_CODE" = "200" ]; then
-              echo "new_id=$LAST_MSG_ID" >> $GITHUB_OUTPUT
-            else
-              RESPONSE=$(curl -s -X POST "${DISCORD_WEBHOOK}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload.json)
-              NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
-              echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
+          # Funcție de trimitere către un Webhook specific
+          send_webhook() {
+            local WEBHOOK_URL=$1
+            local LAST_ID=$2
+            local CACHE_FILE=$3
+
+            if [ -z "$WEBHOOK_URL" ]; then 
+              echo "⚠️ Webhook lipsă pentru $CACHE_FILE, se sare peste."
+              return
             fi
-          else
-            RESPONSE=$(curl -s -X POST "${DISCORD_WEBHOOK}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload.json)
+
+            if [ -n "$LAST_ID" ]; then
+              HTTP_CODE=$(curl -s -o /dev/null -w "%{http_code}" -X PATCH "${WEBHOOK_URL}/messages/${LAST_ID}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload.json)
+              if [ "$HTTP_CODE" = "200" ]; then
+                echo "✅ Mesaj actualizat (ID: $LAST_ID)"
+                echo "$LAST_ID" > "$CACHE_FILE"
+                return
+              fi
+            fi
+
+            RESPONSE=$(curl -s -X POST "${WEBHOOK_URL}?wait=true" -H "Content-Type: application/json" -d @/tmp/payload.json)
             NEW_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
-            echo "new_id=$NEW_ID" >> $GITHUB_OUTPUT
-          fi
+            if [ -n "$NEW_ID" ] && [ "$NEW_ID" != "null" ]; then
+              echo "✅ Mesaj nou trimis (ID: $NEW_ID)"
+              echo "$NEW_ID" > "$CACHE_FILE"
+            fi
+          }
 
-      # ─── 6. Save message ID to cache ────────────────────────────────────────
-      - name: Save message ID to cache
-        env:
-          NEW_ID:      ${{ steps.discord.outputs.new_id }}
-          LAST_MSG_ID: ${{ steps.msgid.outputs.last_id }}
-        run: |
-          MSG_FILE=".cache/discord_msg_id"
-          mkdir -p .cache
-          if [ -n "$NEW_ID" ] && [ "$NEW_ID" != "$LAST_MSG_ID" ]; then
-            echo "$NEW_ID" > "$MSG_FILE"
-          fi
+          # Trimitem către ambele webhook-uri
+          send_webhook "$WEBHOOK_MAIN" "$LAST_ID_MAIN" ".cache/id_main"
+          send_webhook "$WEBHOOK_LOGS" "$LAST_ID_LOGS" ".cache/id_logs"
 
-      # ─── 7. Fail the workflow if build failed ───────────────────────────────
+      # ─── 6. Fail the workflow if build failed ───────────────────────────────
       - name: Fail the workflow if build failed
         if: steps.build_step.outcome != 'success'
         run: exit 1
