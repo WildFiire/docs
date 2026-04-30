@@ -1,4 +1,5 @@
 import { h, defineAsyncComponent, nextTick } from 'vue'
+import { useData } from 'vitepress'
 import type { Theme } from 'vitepress'
 import DefaultTheme, { VPButton } from 'vitepress/theme'
 import './style.css'
@@ -88,6 +89,8 @@ export default {
   extends: DefaultTheme,
 
   Layout: () => {
+    const { frontmatter } = useData()
+    
     return h(DefaultTheme.Layout, null, {
       // Home page
       'home-hero-before': () => h(WikiHome),
@@ -95,30 +98,30 @@ export default {
       'doc-footer-before': () => h(FeedbackWidget),
 
       // Navbar
-      'sidebar-nav-before': () => h('div', { class: 'wf-sidebar-sticky-nav' }, [
+      'sidebar-nav-before': () => frontmatter.value.layout === false ? null : h('div', { class: 'wf-sidebar-sticky-nav' }, [
         h(SidebarToggle),
         h(NavSearch)
       ]),
-      'sidebar-nav-after': () => h(SidebarFooter),
+      'sidebar-nav-after': () => frontmatter.value.layout === false ? null : h(SidebarFooter),
 
       'nav-bar-content-before': () => null,
       'nav-bar-title-before': () => null,
       'nav-bar-title-after': () => null,
 
       // Footer
-      'layout-bottom': () => h(SiteMap),
+      'layout-bottom': () => frontmatter.value.layout === false ? null : h(SiteMap),
 
       // 🔥 Custom TOC replacing VitePress default
-      'aside-outline-before': () => h(WfTOC),
+      'aside-outline-before': () => frontmatter.value.layout === false ? null : h(WfTOC),
 
       // 🔥 CONTRIBUTORS - jos înainte de footer
-      'aside-bottom': () => h(ContributorsWF),
+      'aside-bottom': () => frontmatter.value.layout === false ? null : h(ContributorsWF),
 
       // Not Found Page
       'not-found': () => h(PageNotFound),
 
       // 🔥 Global UX enhancements
-      'layout-top': () => [h(BackToTop), h(DocEnhancements), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy)]
+      'layout-top': () => frontmatter.value.layout === false ? null : [h(BackToTop), h(DocEnhancements), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy)]
     })
   },
 
