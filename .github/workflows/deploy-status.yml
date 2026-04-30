@@ -17,7 +17,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: 18 # Asigură-te că folosești versiunea de care ai nevoie
+          node-version: 22
 
       # ─── 1. Trecem prin pașii de build și salvăm output-ul ─────────
       # Folosim continue-on-error: true ca să nu oprească workflow-ul dacă crapă.
@@ -36,7 +36,7 @@ jobs:
       # ─── 2. Trimitem rezultatul pe Discord ─────────────────────────
       - name: Send Logs to Discord
         env:
-          DISCORD_WEBHOOK: ${{ secrets.DISCORD_DEPLOY_LOGS }} # Webhook-ul pentru logs
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_DEPLOY_LOGS }}
           REPO: ${{ github.repository }}
           COMMIT_MSG: ${{ github.event.head_commit.message }}
           COMMIT_URL: ${{ github.event.head_commit.url }}
