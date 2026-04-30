@@ -1,11 +1,10 @@
-﻿<template>
+<template>
   <div class="org-page" :class="{ 'light-theme': isLightTheme }">
     <!-- HomeNavbar Component -->
     <HomeNavbar />
 
     <div class="content-wrapper">
       <CS2Background :scrollOpacity="0" :isDark="!isLightTheme" />
-      <CustomCursor />
 
       <!-- Privacy Page Content -->
       <div class="privacy-page">
@@ -162,7 +161,6 @@ import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 import { useData } from 'vitepress'
 import HomeNavbar from './HomeNavbar.vue'
 import CS2Background from './CS2Background.vue'
-import CustomCursor from './CustomCursor.vue'
 
 const { isDark: themeFromVitePress } = useData()
 const isDark = ref(true)

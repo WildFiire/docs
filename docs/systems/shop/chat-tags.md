@@ -134,7 +134,7 @@ outline: "deep"
 <div class="wf-system-card">
   <div class="wf-system-icon"><Icon icon="lucide:user" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content"> <span class="wf-system-highlight">Name Colors — Culori pentru nume</span>
-    <p>Cu opțiunea <span class="wf-system-highlight">Name Colors</span> îți poți personaliza culoarea numelui tău din chat. Numele tău va apărea în culoarea aleasă de fiecare dată când scrii un mesaj, făcându-te ușor de recunoscut.</p>
+    <p>Cu opțiunea <span class="wf-system-highlight">Name Colors</span> îți poți personaliza culoarea numelui tău din chat. Numele tău va apărea în culoarea aleasă de fiecare dată când scrii un mesaj, făcându-te ușor de recunoscut. Poți folosi și comanda rapidă <code>!setnamecolor</code>.</p>
   <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
     <div style="position: relative; border-radius: 12px; overflow: hidden;">
     <img src="/shop/shop7.gif" alt="name colors preview" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
@@ -196,6 +196,7 @@ outline: "deep"
   <div class="wf-system-content"> <span class="wf-system-highlight">Comenzi disponibile:</span>
 <ul class="wf-system-custom-list">
   <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /> <code>!settag</code> — setează un tag custom personalizat</li>
+  <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /> <code>!setnamecolor</code> — setează o culoare custom pentru numele tău</li>
 </ul>
     <p style="margin-top: 12px; opacity: 0.7; font-style: italic;"><Icon icon="lucide:clock" width="14" height="14" color="#ff8c00" /> Mai multe comenzi custom vor fi adăugate în curând (TBD).</p>
   </div>
