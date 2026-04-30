@@ -21,7 +21,7 @@ outline: false
 
 <div class="wf-system">
 
-<div style="display: flex; align-items: center; gap: 16px; margin: 30px 0 20px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(0,200,81,0.3); transition: transform 0.3s ease;" class="wf-currency-title-hover">
+</div style="display: flex; align-items: center; gap: 16px; margin: 30px 0 20px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(0,200,81,0.3); transition: transform 0.3s ease;" class="wf-currency-title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
   ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #00c851, #007e33, #004d40); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-currency-font"><Icon icon="lucide:clock" :size="30" color="#00c851" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);" />1.0 COMING SOON</span>
