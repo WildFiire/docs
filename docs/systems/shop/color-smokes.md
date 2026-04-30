@@ -59,6 +59,16 @@ outline: "deep"
       <li><Icon icon="lucide:check-circle" width="18" height="18" color="#ef4444" /><span><span class="wf-system-highlight">Vizibilitate:</span> Culoarea aleasa este vizibila pentru toti jucatorii de pe server.</span></li>
       <li><Icon icon="lucide:settings-2" width="18" height="18" color="#ef4444" /><span><span class="wf-system-highlight">Selectie:</span> Poti schimba culoarea fumului direct din meniul de cosmetice al shop-ului.</span></li>
     </ul>
+
+  <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(239, 68, 68, 0.1), rgba(239, 68, 68, 0.02)); border: 1px solid rgba(239, 68, 68, 0.2); padding: 8px;">
+      <div style="position: relative; border-radius: 12px; overflow: hidden;">
+        <img src="/shop/smoke.png" alt="color smoke preview" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
+        <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ef4444;">smoke preview</div>
+      </div>
+      <div style="text-align: center; padding: 10px 12px 4px; font-size: 12px; color: var(--vp-c-text-2); display: flex; align-items: center; justify-content: center; gap: 6px;">
+        <Icon icon="lucide:eye" width="14" height="14" /> Previzualizare smoke colorat in joc
+      </div>
+    </div>
   </div>
 </div>
 

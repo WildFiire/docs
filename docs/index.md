@@ -21,7 +21,7 @@ head:
   - - meta
     - property: og:type
       content: website
-  - - meta
+  - - meta  
     - property: og:url
       content: https://docs.wildfire.ro/
   - - meta

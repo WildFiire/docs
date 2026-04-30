@@ -233,7 +233,7 @@ outline: "deep"
 
 <div class="wf-system-tip orange">
   <Icon icon="lucide:terminal" width="22" height="22" color="#ff8c00" />
-  <span>Folosește comanda <code>!wstokens</code> pentru a vedea premiile random (Coins, Cases sau Keys sau Random Stuff) pe care le primești ca MVP.</span>
+  <span>Folosește comanda <code>!wstokens</code> pentru a vedea premiile random (Coins, Cases sau Random Stuff) pe care le primești ca MVP.</span>
 </div>
 
 </div>

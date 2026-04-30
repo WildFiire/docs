@@ -319,6 +319,7 @@ export default defineConfig({
               { text: '<iconify-icon icon="solar:gift-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> MVP Rewards', link: '/systems/other/mvp-rewards' },
               { text: '<iconify-icon icon="solar:crown-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Gold Member', link: '/systems/other/gold-member' },
               { text: '<iconify-icon icon="solar:map-point-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Map Chooser / RTV', link: '/systems/other/map-chooser' },
+              { text: '<iconify-icon icon="solar:clipboard-check-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Missions System', link: '/systems/other/missions' },
               { text: '<iconify-icon icon="solar:ranking-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Rank System', link: '/systems/other/ranks' },
               { text: '<iconify-icon icon="solar:shield-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Faceit Badge System', link: '/systems/other/faceit-badge' },
               { text: '<iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Teambalance', link: '/systems/other/teambalance' },

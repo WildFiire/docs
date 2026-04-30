@@ -1,11 +1,20 @@
 ---
-title: "Terms of Service - Wildfire.ro CS2"
-description: "Descoperă totul despre Terms of Service - Wildfire.ro CS2 pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
-layout: "false"
-head: ""
-- name: "keywords"
-content: "https://docs.wildfire.ro/wallpaper/content.webp"
-- property: "og:image"
+layout: false
+title: Terms of Service - Wildfire.ro CS2
+description: Termenii și condițiile de utilizare a serviciilor Wildfire.ro Counter-Strike 2.
+head:
+  - - meta
+    - name: theme-color
+      content: '#ff4500'
+  - - meta
+    - name: keywords
+      content: terms of service, wildfire terms, wildfire.ro legal
+  - - meta
+    - property: og:title
+      content: Terms of Service - Wildfire.ro CS2
+  - - meta
+    - property: og:image
+      content: https://docs.wildfire.ro/wallpaper/content.webp
 ---
 
 <Terms />
