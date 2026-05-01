@@ -18,8 +18,6 @@
 **Wildfire.ro Docs** is the official documentation hub for the Wildfire community ecosystem.  
 This repository contains structured guides, tutorials, and technical documentation designed to help both users and developers understand and interact with the Wildfire platform.
 
-The purpose of this wiki is to provide a centralized knowledge base where contributors, developers, and community members can easily access important information about the project.
-
 ---
 
 ## 🚀 What you will find here
