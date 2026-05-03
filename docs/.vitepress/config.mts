@@ -19,7 +19,7 @@ export default defineConfig({
 
 
   head: [
-    ['link', { rel: 'icon', href: '/icons/wildfire.webp' }],
+    ['link', { rel: 'icon', type: 'image/webp', href: '/icons/wildfire.webp' }],
     ['meta', { name: 'theme-color', content: '#ff4000ff' }],
     ['meta', { name: 'description', content: 'Documentația platformei Wildfire - Resurse, sisteme și informații pentru Counter-Strike 2.' }],
     ['meta', { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' }],
@@ -185,10 +185,10 @@ export default defineConfig({
     siteTitle: 'Wildfire.ro Docs',
 
     nav: [
-      {
-        text: '<iconify-icon icon="solar:home-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Getting started',
-        link: '/informatii/getting-started'
-      },
+      // {
+      //   text: '<iconify-icon icon="solar:home-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Getting started',
+      //   link: '/informatii/getting-started'
+      // },
       {
         text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informații',
         link: '/informatii/about'
@@ -212,7 +212,7 @@ export default defineConfig({
         text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informații',
         collapsed: false,
         items: [
-          { text: '<iconify-icon icon="lucide:rocket" class="nav-icon" width="16" height="16"></iconify-icon> Incepe aici', link: '/informatii/getting-started' },
+          // { text: '<iconify-icon icon="lucide:rocket" class="nav-icon" width="16" height="16"></iconify-icon> Incepe aici', link: '/informatii/getting-started' },
           { text: '<iconify-icon icon="lucide-star" class="nav-icon" width="16" height="16"></iconify-icon> Despre Wildfire', link: '/informatii/about' },
           { text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Întrebări frecvente', link: '/informatii/faq' },
 
@@ -533,7 +533,7 @@ export default defineConfig({
       }
     },
     ssr: {
-      noExternal: ['vue', 'chart.js', 'lodash']
+      noExternal: ['vue', 'chart.js', 'lodash', '@iconify/vue']
     }
   }
 })

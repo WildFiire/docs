@@ -9,6 +9,7 @@
 <script setup lang="ts">
 import { useData } from 'vitepress'
 import { computed } from 'vue'
+import { searchState } from '../store'
 
 const { page } = useData()
 
@@ -19,23 +20,7 @@ const isHomePage = computed(() => {
 const openSearch = (e: MouseEvent) => {
   e.preventDefault()
   e.stopPropagation()
-  
-  // VitePress listens for Ctrl+K or Meta+K
-  const ctrlK = new KeyboardEvent('keydown', {
-    key: 'k',
-    ctrlKey: true,
-    bubbles: true,
-    cancelable: true
-  })
-  const metaK = new KeyboardEvent('keydown', {
-    key: 'k',
-    metaKey: true,
-    bubbles: true,
-    cancelable: true
-  })
-  
-  window.dispatchEvent(ctrlK)
-  window.dispatchEvent(metaK)
+  searchState.open()
 }
 </script>
 

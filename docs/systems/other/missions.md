@@ -40,8 +40,17 @@ outline: "deep"
 <div class="wf-system-card">
   <div class="wf-system-icon"><Icon icon="lucide:command" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
-    <p>Pentru a accesa meniul principal si a vedea progresul tau, foloseste comanda:</p>
-    <code style="background: rgba(255,140,0,0.1); color: #ff8c00; padding: 4px 10px; border-radius: 6px; font-weight: 700;">!missions</code>
+    <p>Foloseste urmatoarele comenzi pentru a interactiona cu sistemul:</p>
+    <div style="display: flex; flex-wrap: wrap; gap: 12px; margin-top: 8px;">
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 11px; color: var(--vp-c-text-3); font-weight: 600; text-transform: uppercase;">Meniu Principal</span>
+        <code style="background: rgba(255,140,0,0.1); color: #ff8c00; padding: 4px 10px; border-radius: 6px; font-weight: 700; width: fit-content;">!missions</code>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 4px;">
+        <span style="font-size: 11px; color: var(--vp-c-text-3); font-weight: 600; text-transform: uppercase;">Top Jucatori</span>
+        <code style="background: rgba(255,140,0,0.1); color: #ff8c00; padding: 4px 10px; border-radius: 6px; font-weight: 700; width: fit-content;">!missiontop</code>
+      </div>
+    </div>
   </div>
 </div>
 

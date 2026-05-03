@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div v-if="!isMounted && isHomePage" class="wf-home-placeholder" aria-hidden="true"></div>
   <main v-if="isMounted && isHomePage" class="wf-home" :class="{ 'wf-home--light': !isDark }">
     <HomeNavbar v-if="isHomePage" />
@@ -181,6 +181,7 @@ import ScrollSpy from './ScrollSpy.vue'
 import LiquidMetalLogo from './LiquidMetalLogo.vue'
 import NeuroNoiseBg from './NeuroNoiseBg.vue'
 import { useMagnetic } from '../composables/useMagnetic'
+import { searchState } from '../store'
 
 const { page, isDark } = useData()
 const isHomePage = computed(() => page.value.relativePath === 'index.md' || page.value.relativePath === 'index')
@@ -335,9 +336,7 @@ const openSearch = (e: MouseEvent) => {
   if (!inBrowser) return // Blocaj SSR
   e.preventDefault()
   e.stopPropagation()
-  const btn = document.querySelector('.VPNavBarSearch button')
-  if (btn) { (btn as HTMLElement).click(); return }
-  window.dispatchEvent(new KeyboardEvent('keydown', { key: 'k', ctrlKey: true, metaKey: true, bubbles: true, cancelable: true }))
+  searchState.open()
 }
 
 const toggleDefaultNavbar = (hide: boolean) => {

@@ -1,4 +1,4 @@
-﻿<!-- docs\.vitepress\theme\components\Panel\PanelFiles.vue -->
+<!-- docs\.vitepress\theme\components\Panel\PanelFiles.vue -->
 <template>
   <div class="panel-files" :class="{ 'light-theme': isLightTheme }">
 

@@ -4,6 +4,7 @@ import type { Theme } from 'vitepress'
 import DefaultTheme, { VPButton } from 'vitepress/theme'
 import './style.css'
 import { Icon } from '@iconify/vue'
+import { searchState } from './store'
 
 
 // 📝 Tipuri pentru TypeScript
@@ -42,6 +43,7 @@ import MobileScrollSpy from './components/MobileScrollSpy.vue'
 import WfTOC from './components/WfTOC.vue'
 import SidebarFooter from './components/SidebarFooter.vue'
 import SidebarFloatingControls from './components/SidebarFloatingControls.vue'
+import WfSearchModal from './components/WfSearchModal.vue'
 
 // Componente lazy — split in chunks separate, nu blocheaza theme.js
 const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
@@ -121,7 +123,7 @@ export default {
       'not-found': () => h(PageNotFound),
 
       // 🔥 Global UX enhancements
-      'layout-top': () => frontmatter.value.layout === false ? null : [h(BackToTop), h(DocEnhancements), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy)]
+      'layout-top': () => frontmatter.value.layout === false ? null : [h(BackToTop), h(DocEnhancements), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy), h(WfSearchModal)]
     })
   },
 
@@ -154,6 +156,7 @@ export default {
     app.component('PanelContributors', PanelContributors)
     app.component('PanelAudit', PanelAudit)
     app.component('PanelAnalytics', PanelAnalytics)
+    app.component('WfSearchModal', WfSearchModal)
 
     // NOUA COMPONENTĂ PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)
@@ -255,6 +258,9 @@ export default {
     // 🔥 Close search modal instantly on any SPA navigation
     if (typeof window !== 'undefined') {
       router.onBeforeRouteChange = () => {
+        // Close new modal
+        searchState.close()
+
         const modal = document.querySelector('.VPLocalSearchBox') as HTMLElement | null
         if (modal) {
           // Dispatch Escape so VitePress cleans up internal state
