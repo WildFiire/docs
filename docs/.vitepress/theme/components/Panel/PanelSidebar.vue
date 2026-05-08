@@ -1,4 +1,4 @@
-﻿<!-- docs\.vitepress\theme\components\Panel\PanelSidebar.vue -->
+<!-- docs\.vitepress\theme\components\Panel\PanelSidebar.vue -->
 <template>
   <aside class="panel-sidebar" :class="{ collapsed: collapsed }">
     <div class="sidebar-brand" @click="$emit('navigate', 'dashboard')">
@@ -113,6 +113,12 @@ export default {
           id: 'analytics', 
           icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/><circle cx="12" cy="16" r="5"/><path d="M12 11v5"/></svg>',
           label: 'ANALYTICS' 
+        },
+        { 
+          id: 'studio', 
+          icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>',
+          label: 'PHOENIX STUDIO',
+          badge: 'NEW'
         }
       ]
     }

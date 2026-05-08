@@ -28,6 +28,25 @@
             </svg>
           </div>
           <h1 class="page-title">Our Team</h1>
+          
+          <!-- Global Stats Header — Relocated -->
+          <div class="global-stats-header" v-if="!loading">
+            <div class="stats-box">
+              <div class="stats-icon"></div>
+              <div class="stats-data">
+                <span class="stats-label">TOTAL_STAFF</span>
+                <span class="stats-value">{{ totalStaffCount }}</span>
+              </div>
+            </div>
+            <div class="stats-divider-v"></div>
+            <div class="stats-box">
+              <div class="stats-icon pulse"></div>
+              <div class="stats-data">
+                <span class="stats-label">STATUS</span>
+                <span class="stats-value status-ok">OPERATIONAL</span>
+              </div>
+            </div>
+          </div>
         </div>
         <div class="page-date-row">
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="date-icon">
@@ -47,79 +66,112 @@
           
           <!-- Org Chart -->
           <div class="chart">
-            <div v-if="loading" class="loading-state">Loading staff data...</div>
+            <div v-if="loading" class="precision-loading">
+              <div class="loading-geometry">
+                <div class="load-bar b1"></div>
+                <div class="load-bar b2"></div>
+                <div class="load-bar b3"></div>
+              </div>
+              <div class="loading-text">
+                <span class="text-main">INITIALIZING_WILDFIRE_DATABASE</span>
+                <span class="text-sub">SECURE_CONNECTION_ESTABLISHED // SCANNING_RANKS</span>
+              </div>
+              <div class="loading-progress-container">
+                <div class="progress-fill"></div>
+              </div>
+            </div>
             
-            <template v-for="(levelRows, li) in processedHierarchy" :key="li">
-              <template v-for="(row, ri) in levelRows" :key="'r-' + li + '-' + ri">
-                <!-- Vertical connector between rows or levels -->
-                <div v-if="li > 0 || ri > 0" class="connector-v">
-                  <div class="cv-line"></div>
-                </div>
-
-                <!-- Level row -->
-                <div class="level-row" :class="['level-' + li, { child: li > 0 || ri > 0 }]">
-                  <div v-for="m in row" :key="m.id" class="node">
-                    <!-- Vertical drop from horizontal branch -->
-                    <div v-if="li > 0 || ri > 0" class="drop-line"></div>
+            <div class="luxury-container" v-else>
+              <template v-for="(levelRows, li) in processedHierarchy" :key="li">
+                <div class="level-group-wrapper">
+                  <!-- Header Nivel stilizat -->
+                  <div class="category-tag">
+                    <div class="tag-glass-backing"></div>
+                    <div class="tag-geometry">
+                      <div class="geo-bar"></div>
+                      <div class="geo-corner top-l"></div>
+                      <div class="geo-corner bot-r"></div>
+                    </div>
                     
-                    <!-- Card cu efect 3D la mouse -->
-                    <div class="card" :class="[m.cls, m.roleClass]" :data-role="m.roleClass">
-                    <!-- Avatar section -->
-                    <div class="avatar-wrapper">
-                      <div class="avatar-circle" :class="'circle-' + m.roleClass">
-                        <img
-                          v-if="memberData[m.id]"
-                          :src="memberData[m.id]"
-                          :alt="m.name"
-                          class="avatar-img"
-                          @error="handleAvatarError(m)"
-                        />
-                        <div v-else class="avatar-init" :style="{ backgroundColor: m.color }">
-                          {{ m.init }}
-                        </div>
+                    <div class="tag-content-block">
+                      <div class="tag-primary">
+                        <span class="tag-id">0{{ li + 1 }}</span>
+                        <span class="tag-label" :data-text="levelRows[0][0].fullRole">{{ levelRows[0][0].fullRole }}</span>
                       </div>
                       
-                      <!-- Crown SVG -->
-                      <div v-if="m.crown" class="crown-svg">
-                        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
-                          <path d="M10 2L12.5 8L19 9L14 14L16 20L10 16.5L4 20L6 14L1 9L7.5 8L10 2Z" fill="#FFD700" stroke="#FFA500" stroke-width="1"/>
-                        </svg>
+                      <div class="tag-secondary">
+                        <div class="status-pulse"></div>
+                        <span class="tag-meta">// DATALINK_ESTABLISHED: [{{ levelRows.flat().length }}] UNITS_ONLINE</span>
                       </div>
-                      
-                      <!-- Copy name button -->
-                      <button class="copy-name-btn" @click="copyName(m.name)" :title="'Copy ' + m.name">
-                        <svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-                          <path d="M9 1H3C2.4 1 2 1.4 2 2V9H3V2H9V1ZM11 3H5C4.4 3 4 3.4 4 4V12C4 12.6 4.4 13 5 13H11C11.6 13 12 12.6 12 12V4C12 3.4 11.6 3 11 3ZM11 12H5V4H11V12Z" fill="currentColor"/>
-                        </svg>
-                      </button>
                     </div>
 
-                    <!-- Member info with custom tag -->
-                    <div class="member-info">
-                      <span class="member-name">{{ m.display }}</span>
-                      <div class="member-tag-wrapper">
-                        <div class="member-tag">
-                          <span class="role-dot" :style="{ backgroundColor: m.color }"></span>
-                          
-                          <!-- Icon sau emoji în stânga -->
-                          <span class="role-icon-wrapper" v-if="m.icon">
-                            <img :src="m.icon" class="role-custom-icon" alt="icon">
-                          </span>
-                          <span class="role-emoji" v-else-if="m.emoji">{{ m.emoji }}</span>
-                          
-                          <span class="role-separator">»</span>
-                          <span class="tag-text">{{ m.fullRole }}</span>
-                          
-                          <!-- Tag icon în dreapta -->
-                          <img v-if="m.tagIcon" :src="m.tagIcon" class="tag-icon" alt="icon">
-                        </div>
-                      </div>
+                    <div class="tag-trailing-line">
+                      <div class="line-segment s1"></div>
+                      <div class="line-segment s2"></div>
+                      <div class="line-segment s3"></div>
                     </div>
                   </div>
+
+                  <template v-for="(row, ri) in levelRows" :key="'r-' + li + '-' + ri">
+                    <div class="luxury-grid">
+                      <div v-for="m in row" :key="m.id" class="glass-card-wrapper">
+                        <div class="discord-glass-card" :class="m.roleClass">
+                          
+                          <!-- Banner superior Liquid -->
+                          <div class="luxury-banner" :style="{ backgroundColor: m.color, backgroundImage: bannerData[m.id] ? `url(${bannerData[m.id]})` : 'none' }">
+                            <div class="liquid-overlay"></div>
+                            <div class="shimmer-effect"></div>
+                          </div>
+
+                          <div class="luxury-content">
+                            <!-- Avatar suprapus -->
+                            <div class="avatar-anchor">
+                              <div class="avatar-frame" :style="{ borderColor: m.color }">
+                                <img v-if="memberData[m.id]" :src="memberData[m.id]" class="img-fluid" @error="handleAvatarError(m.id)" />
+                                <div v-else class="init-fluid" :style="{ background: m.color }">{{ m.init }}</div>
+                              </div>
+                              <div class="online-status"></div>
+                            </div>
+
+                            <!-- Insigne (Badges) -->
+                            <div class="discord-badges">
+                              <div class="badge-pill" v-if="m.crown"><span>👑</span></div>
+                              <div class="badge-pill"><img src="/icons/wildfire.webp" alt="W" /></div>
+                              <div class="badge-pill">
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="#fff"><path d="M12 2L15.09 8.26L22 9.27L17 14.14L18.18 21.02L12 17.77L5.82 21.02L7 14.14L2 9.27L8.91 8.26L12 2Z"/></svg>
+                              </div>
+                            </div>
+
+                            <!-- Info Section -->
+                            <div class="luxury-info">
+                              <div class="user-primary">
+                                <span class="nick">{{ m.display }}</span>
+                                <span class="handle">@{{ m.name }}</span>
+                              </div>
+                              
+                              <div class="glass-divider"></div>
+
+                              <div class="role-display">
+                                <span class="tiny-title">ROL PRINCIPAL</span>
+                                <div class="role-label" :style="{ '--role-color-static': m.color }">
+                                  <span class="dot" :style="{ color: m.color }"></span>
+                                  <span class="text" :style="{ color: m.color }">{{ m.fullRole }}</span>
+                                </div>
+                              </div>
+                            </div>
+
+                            <!-- Copy Button (Sticlă) -->
+                            <button class="btn-copy-glass" @click="copyName(m.name)">
+                              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </template>
                 </div>
-              </div>
-            </template>
-          </template>
+              </template>
+            </div>
           </div>
         </div>
       </div>
@@ -185,6 +237,10 @@ const processedHierarchy = computed(() => {
   })
 })
 
+const totalStaffCount = computed(() => {
+  return hierarchy.value.flat().length
+})
+
 const hierarchyDefinition = [
   // Level 0 — Founder
   [
@@ -199,7 +255,6 @@ const hierarchyDefinition = [
       roleClass: 'founder',
       cls: 'is-founder', 
       init: 'T', 
-      crown: true,
     }
   ],
   // Level 1 — Community Managers
@@ -347,16 +402,16 @@ const hierarchyDefinition = [
       crown: false,
     },
     { 
-      id: 'denisa', 
-      name: '.denisuka', 
-      display: 'Denisa', 
-      fullRole: 'Helper',
+      id: 'adn', 
+      name: 'adn6969', 
+      display: 'A D N', 
+      fullRole: 'Helper GO',
       emoji: '🔰',
-      discordId: '789488474805633084', 
+      discordId: '963524652104314950', 
       color: '#2ecc71', 
       roleClass: 'helper',
       cls: '', 
-      init: 'D', 
+      init: 'A', 
       crown: false,
     }
   ]
@@ -366,6 +421,7 @@ hierarchy.value = hierarchyDefinition
 
 // State
 const memberData = reactive({})
+const bannerData = reactive({})
 const loading = ref(true)
 const failedIds = reactive({})
 const mousePosition = ref({ x: 0, y: 0 })
@@ -453,19 +509,25 @@ async function fetchMemberData(member) {
     } else {
       memberData[member.id] = `https://cdn.discordapp.com/avatars/${member.discordId}/${member.discordId}.png?t=${Date.now()}`
     }
+
+    if (data.bannerUrl) {
+      bannerData[member.id] = `${data.bannerUrl}&t=${Date.now()}`
+    } else {
+      bannerData[member.id] = null
+    }
     
     delete failedIds[member.id]
     
   } catch (error) {
-    console.error(`Eroare la fetch pentru ${member.name}:`, error)
-    const defaultIndex = Math.abs(parseInt(member.discordId) % 5) || 0
-    memberData[member.id] = `https://cdn.discordapp.com/embed/avatars/${defaultIndex}.png?t=${Date.now()}`
+    console.warn(`Failed to fetch Discord data for ${member.name}:`, error)
+    failedIds[member.id] = true
+    memberData[member.id] = null
+    bannerData[member.id] = null
   }
 }
 
-function handleAvatarError(member) {
-  const defaultIndex = Math.abs(parseInt(member.discordId) % 5) || 0
-  memberData[member.id] = `https://cdn.discordapp.com/embed/avatars/${defaultIndex}.png?t=${Date.now()}`
+function handleAvatarError(memberId) {
+  memberData[memberId] = null
 }
 
 function fireflyStyle(n) {
@@ -499,7 +561,7 @@ function handleMouseMove(e) {
     window.requestAnimationFrame(() => {
       mousePosition.value = { x: e.clientX, y: e.clientY }
       
-      const cards = document.querySelectorAll('.card')
+      const cards = document.querySelectorAll('.discord-glass-card')
       cards.forEach(card => {
         const rect = card.getBoundingClientRect()
         const cardCenterX = rect.left + rect.width / 2
@@ -521,7 +583,7 @@ function handleMouseMove(e) {
 }
 
 function handleMouseLeave() {
-  const cards = document.querySelectorAll('.card')
+  const cards = document.querySelectorAll('.discord-glass-card')
   cards.forEach(card => {
     card.style.transform = ''
   })
@@ -856,8 +918,9 @@ onBeforeUnmount(() => {
 .page-header {
   display: flex;
   align-items: center;
-  gap: 16px;
-  margin-bottom: 8px;
+  gap: 25px;
+  margin-bottom: 15px;
+  flex-wrap: wrap;
 }
 
 .header-icon {
@@ -869,10 +932,28 @@ onBeforeUnmount(() => {
 .page-title {
   font-family: 'Orbitron', sans-serif !important;
   font-size: 2.2rem;
-  font-weight: 700;
+  font-weight: 900;
   color: #ffffff;
   margin: 0;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  position: relative;
+  display: inline-block;
+  padding: 8px 25px;
+  z-index: 1;
+}
+
+.page-title::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-left: 3px solid #ff7800;
+  transform: skewX(-15deg);
+  z-index: -1;
 }
 
 .light-theme .page-title {
@@ -946,7 +1027,7 @@ onBeforeUnmount(() => {
   background: linear-gradient(90deg, transparent, rgba(255,255,255,0.5), transparent);
 }
 
-/* ===== CHART ===== */
+/* ===== CHART & PRECISION LOADING ===== */
 .chart {
   position: relative;
   z-index: 2;
@@ -955,751 +1036,640 @@ onBeforeUnmount(() => {
   padding: 20px 0;
 }
 
-.loading-state {
-  text-align: center;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 0.9rem;
-  padding: 40px;
-}
-
-.light-theme .loading-state {
-  color: rgba(0, 0, 0, 0.6);
-}
-
-/* ===== CONNECTORS ===== */
-.connector-v {
-  display: flex;
-  justify-content: center;
-  height: 30px;
-}
-
-.cv-line {
-  width: 1px;
-  height: 30px;
-  background: linear-gradient(180deg, #ff7800 0%, transparent 100%);
-  opacity: 0.3;
-}
-
-.drop-line {
-  width: 1px;
-  height: 30px;
-  margin: 0 auto 10px;
-  background: linear-gradient(180deg, #ff7800 0%, transparent 100%);
-  opacity: 0.3;
-}
-
-/* ===== LEVEL ROW ===== */
-.level-row {
-  display: flex;
-  justify-content: center;
-  position: relative;
-  gap: 0;
-}
-
-.child .node {
-  position: relative;
-  padding-top: 20px;
-}
-
-.child .node::before,
-.child .node::after {
-  content: '';
-  position: absolute;
-  top: 0;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, #ff7800 50%, transparent);
-  opacity: 0.2;
-}
-
-.child .node::before {
-  left: 0;
-  right: 50%;
-}
-
-.child .node::after {
-  left: 50%;
-  right: 0;
-}
-
-.child .node:first-child::before,
-.child .node:last-child::after,
-.child .node:only-child::before,
-.child .node:only-child::after {
-  display: none;
-}
-
-/* ===== NODE ===== */
-.node {
+/* Precision Loading Enhanced */
+.precision-loading {
+  padding: 100px 0;
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 0 15px;
+  gap: 30px;
 }
 
-/* ===== CARD ===== */
-.card {
-  width: 240px;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(2px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  border-radius: 20px;
-  padding: 24px 18px 18px;
-  transition: transform 0.1s ease;
-  animation: cardAppear 0.4s ease-out;
+.loading-geometry {
+  display: flex;
+  gap: 10px;
+  height: 40px;
+}
+
+.load-bar {
+  width: 4px;
+  height: 100%;
+  background: #ff7800;
+  animation: barGrow 1.5s ease-in-out infinite;
+}
+
+.b1 { animation-delay: 0s; }
+.b2 { animation-delay: 0.2s; }
+.b3 { animation-delay: 0.4s; }
+
+@keyframes barGrow {
+  0%, 100% { transform: scaleY(0.3); opacity: 0.2; }
+  50% { transform: scaleY(1); opacity: 1; }
+}
+
+.loading-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  text-align: center;
+}
+
+.text-main {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 1rem;
+  letter-spacing: 4px;
+  color: #fff;
+  font-weight: 900;
+}
+
+.text-sub {
+  font-family: 'Courier New', monospace;
+  font-size: 0.7rem;
+  color: rgba(255, 255, 255, 0.4);
+  letter-spacing: 1px;
+}
+
+.loading-progress-container {
+  width: 250px;
+  height: 2px;
+  background: rgba(255, 120, 0, 0.1);
   position: relative;
   overflow: hidden;
-  transform-style: preserve-3d;
-  will-change: transform;
 }
 
-.card:hover {
-  transform: translateY(-4px);
-}
-
-.card.founder:hover { border-color: #7a3c3c; background: rgba(10, 10, 10, 0.9); }
-.card.cm:hover { border-color: #a60303; background: rgba(10, 10, 10, 0.9); }
-.card.sm:hover { border-color: #9b59b6; background: rgba(10, 10, 10, 0.9); }
-.card.admin:hover { border-color: #4a9eff; background: rgba(10, 10, 10, 0.9); }
-.card.mod:hover { border-color: #f1c40f; background: rgba(10, 10, 10, 0.9); }
-.card.helper:hover { border-color: #2ecc71; background: rgba(10, 10, 10, 0.9); }
-
-@keyframes cardAppear {
-  from { opacity: 0; transform: translateY(20px) scale(0.95); }
-  to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-/* Animation delays */
-.level-0 .card { animation-delay: 0.1s; }
-.level-1 .node:nth-child(1) .card { animation-delay: 0.18s; }
-.level-1 .node:nth-child(2) .card { animation-delay: 0.26s; }
-.level-2 .node:nth-child(1) .card { animation-delay: 0.34s; }
-.level-2 .node:nth-child(2) .card { animation-delay: 0.42s; }
-.level-3 .node:nth-child(1) .card { animation-delay: 0.5s; }
-.level-3 .node:nth-child(2) .card { animation-delay: 0.58s; }
-.level-4 .node:nth-child(1) .card { animation-delay: 0.66s; }
-.level-4 .node:nth-child(2) .card { animation-delay: 0.74s; }
-.level-4 .node:nth-child(3) .card { animation-delay: 0.82s; }
-.level-5 .card { animation-delay: 0.9s; }
-
-/* ===== AVATAR ===== */
-.avatar-wrapper {
-  position: relative;
-  width: 100px;
-  height: 100px;
-  margin: 0 auto 15px;
-}
-
-.avatar-circle {
+.progress-fill {
+  position: absolute;
+  top: 0; left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 50%;
+  background: #ff7800;
+  animation: progressFill 2s infinite ease-in-out;
+}
+
+@keyframes progressFill {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+/* Global Stats Header */
+.global-stats-header {
   display: flex;
   align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
+  gap: 15px;
+  padding: 8px 18px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  backdrop-filter: blur(5px);
+  margin-left: 10px;
 }
 
-.card:hover .avatar-circle {
-  transform: scale(1.02);
-}
-
-.avatar-circle.circle-founder { background: #7a3c3c !important; }
-.avatar-circle.circle-cm { background: #a60303 !important; }
-.avatar-circle.circle-sm { background: #9b59b6 !important; }
-.avatar-circle.circle-admin { background: #4a9eff !important; }
-.avatar-circle.circle-mod { background: #f1c40f !important; }
-.avatar-circle.circle-helper { background: #2ecc71 !important; }
-
-.avatar-img {
-  width: 97px;
-  height: 97px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(0, 0, 0, 0.3);
-}
-
-.avatar-init {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
+.stats-box {
   display: flex;
   align-items: center;
-  justify-content: center;
-  font-size: 2.5rem;
-  font-weight: 600;
-  color: #ffffff;
-  border: 2px solid rgba(0, 0, 0, 0.3);
+  gap: 10px;
 }
 
-.crown-svg {
-  position: absolute;
-  top: -12px;
-  left: 50%;
-  transform: translateX(-50%);
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
-  animation: crownFloat 3s ease-in-out infinite;
-  z-index: 3;
+.stats-icon {
+  width: 4px;
+  height: 16px;
+  background: rgba(255, 255, 255, 0.2);
 }
 
-@keyframes crownFloat {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(-3px); }
+.stats-icon.pulse {
+  background: #23a55a;
+  box-shadow: 0 0 8px rgba(35, 165, 90, 0.3);
+  animation: statusPulse 2s steps(2) infinite;
 }
 
-.copy-name-btn {
-  position: absolute;
-  bottom: -5px;
-  right: -5px;
-  width: 28px;
-  height: 28px;
-  border-radius: 50%;
-  background: #2a2a2a;
-  border: 1px solid #444;
-  color: #aaa;
+@keyframes statusPulse {
+  0% { opacity: 0.4; }
+  100% { opacity: 1; }
+}
+
+.stats-data {
   display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 3;
+  flex-direction: column;
 }
 
-.copy-name-btn:hover {
-  background: #333;
-  color: #ff7800;
-  border-color: #ff7800;
-  transform: scale(1.1);
+.stats-label {
+  font-family: 'Courier New', monospace;
+  font-size: 0.5rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
 }
 
-/* ===== MEMBER INFO ===== */
-.member-info {
-  text-align: center;
-  margin-bottom: 16px;
+.stats-value {
+  font-family: 'Orbitron', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: #fff;
 }
 
-.member-name {
-  display: block;
-  color: #ffffff;
-  font-size: 1rem;
-  font-weight: 600;
-  margin-bottom: 8px;
-  white-space: nowrap;
+.status-ok {
+  color: #23a55a;
 }
 
-.member-tag {
-    display: inline-flex;
-    align-items: center;
-    font-size: 0.65rem;
-    font-weight: 500;
-    color: rgb(255, 255, 255);
-    line-height: 1.2;
-    letter-spacing: 0.3px;
-    gap: 4px;
-    padding: 3px 10px;
-    border-radius: 9999px;
-    background: rgba(255, 255, 255, 0.02);
-    border-width: 1px;
-    border-style: solid;
-    border-color: rgba(255, 255, 255, 0.3);
-    border-image: initial;
+.stats-divider-v {
+  width: 1px;
+  height: 20px;
+  background: rgba(255, 255, 255, 0.12);
 }
 
-.role-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  display: inline-block;
-  margin-right: 2px;
-}
-
-.role-custom-icon {
-  width: 12px;
-  height: 12px;
-  object-fit: contain;
-}
-
-.role-emoji {
-  font-size: 0.7rem;
-}
-
-.role-separator {
-  color: rgba(255, 255, 255, 0.5);
-  font-size: 0.7rem;
-  margin: 0 2px;
-}
-
-.tag-text {
-  color: #ffffff;
-  font-weight: 500;
-}
-
-/* ===== TOAST - VERSION FIXED ===== */
-.toast-notification {
-  position: fixed;
-  bottom: 32px;
-  right: 32px;
-  z-index: 99999 !important;
-  min-width: 360px;
-  max-width: 440px;
-  background: rgba(10, 10, 12, 0.95);
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  border-radius: 20px;
-  box-shadow: 
-    0 25px 50px -12px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 255, 255, 0.08),
-    inset 0 0 20px rgba(255, 120, 0, 0.05);
-  overflow: hidden;
-  animation: toastSlideIn 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-  border: 1px solid rgba(255, 120, 0, 0.15);
-  transform-origin: bottom right;
-  pointer-events: auto !important;
-}
-
-.toast-notification::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  background-image: 
-    linear-gradient(rgba(255, 120, 0, 0.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255, 120, 0, 0.04) 1px, transparent 1px);
-  background-size: 24px 24px;
-  animation: toastGridDrift 30s linear infinite;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.toast-glass {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(circle at center, rgba(255, 120, 0, 0.12) 0%, transparent 75%);
-  animation: toastSoftPulse 6s ease-in-out infinite;
-  z-index: 1;
-  pointer-events: none;
-}
-
-.toast-notification.success {
-  border-left: 5px solid #2ecc71;
-}
-
-.toast-notification.error {
-  border-left: 5px solid #e74c3c;
-}
-
-.toast-content {
-  padding: 20px 52px 20px 24px;
-  display: flex;
-  align-items: center;
-  gap: 18px;
+.category-tag { 
+  display: flex; 
+  align-items: center; 
+  gap: 20px; 
+  margin-bottom: 30px; 
+  padding: 15px 25px;
+  width: 100%;
   position: relative;
-  z-index: 3;
+  overflow: hidden;
 }
 
-.toast-icon-wrapper {
-  width: 44px;
-  height: 44px;
-  border-radius: 14px;
+.tag-glass-backing {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, rgba(255, 255, 255, 0.03), transparent);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border-left: 2px solid rgba(255, 120, 0, 0.4);
+  z-index: -1;
+  transform: skewX(-10deg) translateX(-10px);
+}
+
+.tag-geometry {
+  position: relative;
+  width: 45px;
+  height: 45px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(255, 120, 0, 0.1);
-  border: 1px solid rgba(255, 120, 0, 0.2);
   flex-shrink: 0;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
-  pointer-events: none;
 }
 
-.toast-notification.success .toast-icon-wrapper {
-  background: rgba(46, 204, 113, 0.1);
-  border-color: rgba(46, 204, 113, 0.2);
+.geo-bar {
+  width: 2px;
+  height: 100%;
+  background: #ff7800;
 }
 
-.toast-notification.error .toast-icon-wrapper {
-  background: rgba(231, 76, 60, 0.1);
-  border-color: rgba(231, 76, 60, 0.2);
+.geo-corner {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border: 1.5px solid #ff7800;
 }
 
-.toast-icon {
-  width: 24px;
-  height: 24px;
-  object-fit: contain;
-}
+.top-l { top: 0; left: 0; border-right: 0; border-bottom: 0; }
+.bot-r { bottom: 0; right: 0; border-left: 0; border-top: 0; }
 
-.toast-message-wrapper {
+.tag-content-block {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  flex: 1;
 }
 
-.toast-title {
-  font-size: 1rem;
-  font-weight: 700;
-  color: #ffffff;
-  letter-spacing: -0.01em;
-  font-family: 'Outfit', sans-serif;
+.tag-primary {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
 }
 
-.toast-message {
-  font-size: 0.85rem;
-  color: rgba(255, 255, 255, 0.75);
-  line-height: 1.5;
-  font-weight: 400;
+.tag-id {
+  font-family: 'Courier New', monospace;
+  font-size: 0.8rem;
+  color: #ff7800;
+  font-weight: 900;
+  opacity: 0.6;
 }
 
-.toast-progress {
+.tag-label { 
+  font-family: 'Orbitron', sans-serif; 
+  font-size: 1.3rem; 
+  font-weight: 900; 
+  letter-spacing: 6px; 
+  color: #fff; 
+  text-transform: uppercase;
+  line-height: 1;
+  position: relative;
+}
+
+/* Efect Liquid Glare pe text */
+.tag-label::after {
+  content: attr(data-text);
   position: absolute;
-  bottom: 0;
-  left: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #ff7800, #ff7800);
-  animation: progress linear forwards;
-  z-index: 2;
-  pointer-events: none;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  color: #ff7800;
+  opacity: 0.15;
+  filter: blur(4px);
+  z-index: -1;
+  animation: liquidGlow 4s infinite ease-in-out;
 }
 
-.toast-notification.success .toast-progress {
-  background: linear-gradient(90deg, #2ecc71, #27ae60);
+@keyframes liquidGlow {
+  0%, 100% { transform: scale(1); opacity: 0.1; }
+  50% { transform: scale(1.05); opacity: 0.25; }
 }
 
-.toast-notification.error .toast-progress {
-  background: linear-gradient(90deg, #e74c3c, #c0392b);
-}
-
-/* ===== BUTON X FIXAT ===== */
-.toast-close {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  width: 32px;
-  height: 32px;
-  border-radius: 8px;
-  background: rgba(255, 255, 255, 0.1);
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  color: rgba(255, 255, 255, 0.8);
+.tag-secondary {
   display: flex;
   align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  z-index: 10;
-  padding: 0;
-  outline: none;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+  gap: 8px;
 }
 
-.toast-close:hover {
-  background: rgba(255, 120, 0, 0.3);
-  color: #ffffff;
-  border-color: rgba(255, 120, 0, 0.5);
-  transform: scale(1.1);
-}
-
-.toast-close:active {
-  transform: scale(0.95);
-}
-
-.toast-close svg {
-  width: 16px;
-  height: 16px;
-  pointer-events: none;
-}
-
-/* Light theme pentru toast */
-.light-theme .toast-notification {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(255, 120, 0, 0.2);
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
-}
-
-.light-theme .toast-title {
-  color: #1a1a1a;
-}
-
-.light-theme .toast-message {
-  color: #4a4a4a;
-}
-
-.light-theme .toast-close {
-  background: rgba(0, 0, 0, 0.05);
-  border-color: rgba(0, 0, 0, 0.1);
-  color: rgba(0, 0, 0, 0.6);
-}
-
-.light-theme .toast-close:hover {
-  background: rgba(255, 120, 0, 0.15);
-  color: #ff7800;
-  border-color: rgba(255, 120, 0, 0.3);
-}
-
-@keyframes toastGridDrift {
-  from { background-position: 0 0; }
-  to { background-position: 48px 48px; }
-}
-
-@keyframes toastSoftPulse {
-  0%, 100% { opacity: 0.6; transform: scale(1); }
-  50% { opacity: 1; transform: scale(1.05); }
-}
-
-@keyframes toastSlideIn {
-  from {
-    transform: translateY(40px) scale(0.9) rotate(-2deg);
-    opacity: 0;
-  }
-  to {
-    transform: translateY(0) scale(1) rotate(0deg);
-    opacity: 1;
-  }
-}
-
-@keyframes progress {
-  from { width: 100%; }
-  to { width: 0%; }
-}
-
-.toast-enter-active {
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.toast-leave-active {
-  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-.toast-enter-from {
-  transform: translateY(40px) scale(0.9) rotate(2deg);
-  opacity: 0;
-}
-
-.toast-leave-to {
-  transform: translateX(40px) scale(0.8);
-  opacity: 0;
-}
-
-/* ===== LIGHT THEME ===== */
-.light-theme .card {
-  background: rgba(255, 255, 255, 0.8);
-  backdrop-filter: blur(5px);
-  border-color: rgba(255, 255, 255, 0.3);
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-}
-
-.light-theme .card:hover {
-  background: rgba(255, 255, 255, 0.9);
-  transform: translateY(-4px);
-}
-
-.light-theme .member-name {
-  color: #222222;
-}
-
-.light-theme .member-tag {
-  background: rgba(255, 255, 255, 0.2);
-  border: 1px solid rgba(0, 0, 0, 0.15);
-  color: #222222;
-}
-
-.light-theme .tag-text {
-  color: #222222;
-}
-
-.light-theme .role-separator {
-  color: rgba(0, 0, 0, 0.3);
-}
-
-.light-theme .copy-name-btn {
-  background: rgba(255, 255, 255, 0.9);
-  border-color: rgba(0, 0, 0, 0.1);
-  color: #666666;
-}
-
-.light-theme .copy-name-btn:hover {
-  background: #ffffff;
-  color: #ff7800;
-  border-color: #ff7800;
-}
-
-.light-theme .connector-v .cv-line,
-.light-theme .drop-line,
-.light-theme .child .node::before,
-.light-theme .child .node::after {
+.status-pulse {
+  width: 4px;
+  height: 4px;
   background: #ff7800;
-  opacity: 0.15;
+  border-radius: 50%;
+  animation: stepPulse 2s steps(2) infinite;
 }
 
-/* ===== RESPONSIVE ===== */
-@media (max-width: 860px) {
-  .team-page {
-    padding: 0 20px 40px;
-  }
-  
-  .glass-card {
-    padding: 28px 24px;
-    border-radius: 18px;
-  }
-  
-  .card {
-    width: 210px;
-    padding: 20px 15px 15px;
-  }
-  
-  .avatar-wrapper {
-    width: 90px;
-    height: 90px;
-  }
-  
-  .avatar-img, .avatar-init {
-    width: 80px;
-    height: 80px;
-    font-size: 2.2rem;
-  }
-  
-  .member-name {
-    font-size: 0.9rem;
-  }
-  
-  .member-tag {
-    font-size: 0.6rem;
-    padding: 2px 8px;
-  }
-  
-  .node {
-    padding: 0 10px;
-  }
-  
-  .content-wrapper {
-    padding-top: 100px;
-  }
+@keyframes stepPulse {
+  0% { opacity: 0.2; }
+  100% { opacity: 1; }
 }
 
-@media (max-width: 620px) {
-  .team-page {
-    padding: 0 16px 32px;
-  }
-  
-  .glass-card {
-    padding: 24px 20px;
-    border-radius: 14px;
-  }
-  
-  .page-title {
-    font-size: 1.7rem;
-  }
-  
-  .level-row {
-    flex-direction: column;
-    align-items: center;
-  }
-  
-  .child .node {
-    padding-top: 0;
-  }
-  
-  .child .node::before,
-  .child .node::after {
-    display: none;
-  }
-  
-  .drop-line {
-    display: none;
-  }
-  
-  .node + .node {
-    margin-top: 20px;
-  }
-  
-  .node + .node::before {
-    content: '';
-    display: block;
-    width: 1px;
-    height: 20px;
-    background: #ff7800;
-    opacity: 0.2;
-    margin: 0 auto 20px;
-  }
-  
-  .card {
-    width: 280px;
-  }
-  
-  .avatar-wrapper {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .avatar-img, .avatar-init {
-    width: 90px;
-    height: 90px;
-    font-size: 2.5rem;
-  }
-  
-  .member-name {
-    font-size: 1rem;
-  }
-  
-  .member-tag {
-    font-size: 0.65rem;
-    padding: 3px 10px;
-  }
-  
-  .content-wrapper {
-    padding-top: 120px;
-  }
+.tag-meta {
+  font-family: 'Courier New', monospace;
+  font-size: 0.65rem;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1px;
 }
 
-/* ===== PREVENT SELECTION ===== */
-.org-page,
-.org-page * {
-  user-select: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  -webkit-touch-callout: none;
-  -webkit-tap-highlight-color: transparent;
+.tag-trailing-line {
+  flex: 1;
+  display: flex;
+  gap: 15px;
+  align-items: center;
 }
 
-/* ===== COLȚURI SUBTILE - DOAR LINIE ===== */
-.corner-dot-tl,
-.corner-dot-tr,
-.corner-dot-bl,
-.corner-dot-br {
+.line-segment {
+  height: 1px;
+  background: rgba(255, 120, 0, 0.2);
+}
+
+.s1 { width: 40px; background: #ff7800; }
+.s2 { width: 100px; opacity: 0.5; }
+.s3 { flex: 1; opacity: 0.2; background: linear-gradient(90deg, #ff7800, transparent); }
+
+.luxury-container { display: flex; flex-direction: column; gap: 40px; }
+
+.luxury-grid {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 40px;
+  justify-content: center;
+}
+
+/* Cardul Discord Liquid Glass */
+.discord-glass-card {
+  width: 340px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(25px) saturate(160%);
+  -webkit-backdrop-filter: blur(25px) saturate(160%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 18px;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.15);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+}
+
+.discord-glass-card:hover {
+  transform: translateY(-8px) scale(1.01);
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+}
+
+/* Banner Stilizat */
+.luxury-banner {
+  height: 105px;
+  width: 100%;
+  position: relative;
+  background-size: cover;
+  background-position: center;
+}
+
+.liquid-overlay {
   position: absolute;
-  width: 40px;
-  height: 40px;
-  pointer-events: none;
-  z-index: 2;
+  inset: 0;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,0.4) 100%);
 }
 
-.corner-dot-tl {
-  top: 0;
+.shimmer-effect {
+  position: absolute;
+  top: 0; left: -100%; width: 100%; height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+  animation: bannerShimmer 5s infinite;
+}
+
+@keyframes bannerShimmer { 0% { left: -100%; } 30% { left: 100%; } 100% { left: 100%; } }
+
+/* Content & Avatar */
+.luxury-content { padding: 15px; position: relative; padding-top: 40px; }
+
+.avatar-anchor { position: absolute; top: -35px; left: 15px; }
+
+.avatar-frame {
+  padding: 4px;
+  background: rgba(15, 15, 18, 0.8);
+  backdrop-filter: blur(10px);
+  border-radius: 50%;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.img-fluid, .init-fluid {
+  width: 70px; height: 70px;
+  border-radius: 50%;
+  border: 3px solid rgba(0,0,0,0.4);
+  object-fit: cover;
+}
+
+.init-fluid { display: flex; align-items: center; justify-content: center; font-weight: 800; font-size: 1.5rem; color: #fff; }
+
+.online-status {
+  position: absolute; bottom: 4px; right: 4px;
+  width: 18px; height: 18px;
+  background: #23a55a;
+  border: 3px solid rgba(20, 20, 20, 0.9);
+  border-radius: 50%;
+}
+
+/* Badges */
+.discord-badges {
+  position: absolute; top: 12px; right: 15px;
+  display: flex; gap: 5px;
+  background: rgba(0, 0, 0, 0.4);
+  padding: 4px 8px;
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.badge-pill { width: 18px; height: 18px; display: flex; align-items: center; justify-content: center; opacity: 0.9; }
+.badge-pill img { width: 100%; object-fit: contain; }
+
+/* Info Section */
+.luxury-info { background: rgba(0,0,0,0.25); border-radius: 12px; padding: 12px; }
+.nick { display: block; font-size: 1.1rem; font-weight: 800; color: #fff; }
+.handle { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
+.glass-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 10px 0; }
+/* Secțiunea de Rol - Redesign Liquid */
+.role-display {
+  margin-top: 5px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tiny-title {
+  font-size: 0.55rem;
+  font-weight: 900;
+  color: rgba(255, 255, 255, 0.3);
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-left: 2px;
+}
+
+.role-label {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start; /* Previne întinderea pe tot rândul */
+  gap: 8px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  
+  /* Efectul Liquid Glass pe Rol */
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  box-shadow: 
+    inset 0 1px 1px rgba(255, 255, 255, 0.1),
+    0 4px 15px rgba(0, 0, 0, 0.2);
+  
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+
+/* Glow interior bazat pe culoarea rolului */
+.role-label::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0;
+  width: 4px; height: 100%;
+  background: var(--role-color-static, currentColor);
+  opacity: 0.8;
+  box-shadow: 0 0 10px var(--role-color-static, currentColor);
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  box-shadow: 0 0 8px currentColor;
+  flex-shrink: 0;
+  background: currentColor;
+}
+
+.text {
+  font-size: 0.75rem;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+}
+
+/* Efect de reflexie la hover pe cardul mare */
+.discord-glass-card:hover .role-label {
+  transform: translateX(5px);
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.2) !important;
+}
+
+.btn-copy-glass {
+  position: absolute; bottom: 15px; right: 15px;
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.1);
+  color: #fff; width: 35px; height: 35px; border-radius: 10px;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  transition: 0.3s;
+}
+
+.btn-copy-glass:hover { background: #ff7800; transform: rotate(-8deg); box-shadow: 0 0 15px #ff7800; }
+
+/* ========== NEW TOAST REMAKE (LIQUID) ========== */
+.toast-notification {
+  position: fixed;
+  top: 25px;
+  right: 25px;
+  background: rgba(10, 10, 12, 0.4) !important;
+  backdrop-filter: blur(25px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  border-top: 1px solid rgba(255, 255, 255, 0.2) !important;
+  border-radius: 18px !important;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6) !important;
+  z-index: 10000;
+  min-width: 320px;
+}
+
+/* Animații Toast */
+.toast-enter-active, .toast-leave-active {
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.toast-enter-from {
+  opacity: 0;
+  transform: translateX(100px) scale(0.9);
+}
+.toast-leave-to {
+  opacity: 0;
+  transform: translateX(50px) scale(0.9);
+}
+
+.toast-content { padding: 18px 22px !important; display: flex; align-items: center; gap: 15px; }
+
+.toast-icon-wrapper {
+  background: rgba(255, 120, 0, 0.1) !important;
+  border: 1px solid rgba(255, 120, 0, 0.2) !important;
+  border-radius: 14px !important;
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+}
+
+.toast-title { 
+  font-family: 'Orbitron', sans-serif !important; 
+  color: #fff !important; 
+  letter-spacing: 1px;
+  font-size: 0.8rem !important; 
+  display: block;
+}
+
+.toast-message { font-size: 0.75rem !important; color: rgba(255,255,255,0.7) !important; }
+
+.toast-progress {
+  background: linear-gradient(90deg, transparent, #ff7800, transparent) !important;
+  height: 2px !important;
+  bottom: 0 !important;
+  position: absolute;
   left: 0;
-  border-top: 2px solid #ff7800;
-  border-left: 2px solid #ff7800;
-  border-top-left-radius: 24px;
-}
-
-.corner-dot-tr {
-  top: 0;
   right: 0;
-  border-top: 2px solid #ff7800;
-  border-right: 2px solid #ff7800;
-  border-top-right-radius: 24px;
 }
 
-.corner-dot-bl {
-  bottom: 0;
-  left: 0;
-  border-bottom: 2px solid #ff7800;
-  border-left: 2px solid #ff7800;
-  border-bottom-left-radius: 24px;
+.toast-close { 
+  background: rgba(255,255,255,0.05) !important; 
+  border-radius: 10px !important;
+  border: none !important;
+  color: #fff !important;
+  cursor: pointer;
+  padding: 5px !important;
+  position: absolute;
+  top: 10px; right: 10px;
+  transition: 0.2s;
 }
 
-.corner-dot-br {
-  bottom: 0;
-  right: 0;
-  border-bottom: 2px solid #ff7800;
-  border-right: 2px solid #ff7800;
-  border-bottom-right-radius: 24px;
+.toast-close:hover { background: rgba(255,255,255,0.1) !important; }
+
+/* ============================================================
+   RESPONSIVE DESIGN — MOBILE PERFECTION
+   ============================================================ */
+
+@media (max-width: 1024px) {
+  .luxury-container { gap: 80px; }
+  .luxury-grid { gap: 30px; }
+  .team-page { padding: 0 20px 40px; }
+}
+
+@media (max-width: 768px) {
+  .content-wrapper { padding-top: 100px; }
+  .glass-card { padding: 30px 20px; }
+  
+  .page-title { 
+    font-size: 1.6rem; 
+    letter-spacing: 0.15em; 
+    padding: 6px 15px; 
+  }
+
+  .global-stats-header { 
+    flex-direction: column; 
+    gap: 20px; 
+    padding: 20px; 
+    width: 100%; 
+    max-width: 380px; 
+    margin-bottom: 40px;
+  }
+  
+  .stats-divider-v { display: none; }
+  .stats-box { width: 100%; justify-content: center; }
+
+  .category-tag { 
+    flex-direction: column; 
+    align-items: flex-start; 
+    gap: 15px; 
+    padding: 15px; 
+    margin-bottom: 30px;
+  }
+  
+  .tag-glass-backing { 
+    transform: none; 
+    border-left: 4px solid #ff7800; 
+    background: linear-gradient(90deg, rgba(255, 120, 0, 0.05), transparent);
+  }
+
+  .tag-trailing-line { width: 100%; margin-top: 5px; }
+  .s2 { width: 60px; }
+  
+  .discord-glass-card { 
+    width: 100%; 
+    max-width: 400px; 
+  }
+  
+  .luxury-container { gap: 60px; }
+  .luxury-grid { gap: 25px; }
+}
+
+@media (max-width: 480px) {
+  .team-page { padding: 0 10px 40px; }
+  .glass-card { padding: 25px 12px; }
+  
+  .page-title { 
+    font-size: 1.3rem; 
+    letter-spacing: 0.1em; 
+  }
+  
+  .tag-label { 
+    font-size: 1.1rem; 
+    letter-spacing: 3px; 
+  }
+  
+  .tag-meta { 
+    font-size: 0.55rem; 
+  }
+
+  .precision-loading {
+    padding: 60px 0;
+  }
+
+  .text-main { font-size: 0.8rem; letter-spacing: 2px; }
+  .text-sub { font-size: 0.6rem; }
+  
+  .toast-notification { 
+    width: auto;
+    left: 15px; 
+    right: 15px; 
+    top: 15px; 
+    min-width: 0; 
+  }
+
+  .corner-dot-tl, .corner-dot-tr, .corner-dot-bl, .corner-dot-br {
+    width: 20px; height: 20px;
+  }
+
+  .luxury-container { gap: 50px; }
+  .luxury-grid { gap: 20px; }
 }
 
 .light-theme .corner-dot-tl,
@@ -1708,26 +1678,4 @@ onBeforeUnmount(() => {
 .light-theme .corner-dot-br {
   border-color: #ff7800;
 }
-
-/* Responsive */
-@media (max-width: 768px) {
-  .corner-dot-tl,
-  .corner-dot-tr,
-  .corner-dot-bl,
-  .corner-dot-br {
-    width: 32px;
-    height: 32px;
-  }
-}
-
-@media (max-width: 480px) {
-  .corner-dot-tl,
-  .corner-dot-tr,
-  .corner-dot-bl,
-  .corner-dot-br {
-    width: 28px;
-    height: 28px;
-  }
-}
-
 </style>

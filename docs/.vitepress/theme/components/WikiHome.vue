@@ -607,30 +607,35 @@ onUnmounted(() => {
   color: rgba(0, 0, 0, 0.5);
 }
 
-/* Search bar */
+/* Search bar (Extra Fine Professional) */
 .wf-search {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
   max-width: 440px;
-  padding: 12px 18px;
-  margin-bottom: 24px;
-  background: rgba(255, 255, 255, 0.04);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 12px;
-  color: rgba(255, 255, 255, 0.7);
-  font-size: 14px;
+  padding: 12px 20px;
+  margin-bottom: 32px;
+  
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 40px;
+  color: rgba(255, 255, 255, 0.6);
+  font-size: 13px;
   cursor: pointer;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease, background 0.25s ease;
-  opacity: 1;
+  
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.03);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .wf-search:hover {
-  border-color: rgba(255, 120, 0, 0.4);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  border-color: rgba(255, 255, 255, 0.15);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-1px);
+  color: rgba(255, 255, 255, 0.9);
 }
 
 .wf-home--light .wf-search {
@@ -693,50 +698,54 @@ onUnmounted(() => {
 .wf-btn {
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  padding: 10px 22px;
-  border-radius: 10px;
+  gap: 10px;
+  padding: 10px 24px;
+  border-radius: 40px; 
   font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   text-transform: uppercase;
   text-decoration: none;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
   white-space: nowrap;
   cursor: pointer;
 }
-
+/* PROFESSIONAL LIQUID QUARTZ (Subtle Orange Accents) */
 .wf-btn--primary {
-  background: #ff7800;
-  color: #000;
-  border: 1px solid #ff7800;
-  font-weight: 600;
+  background: rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  color: #fff;
+  border: 1px solid rgba(255, 120, 0, 0.4); /* Accent orange border */
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.1);
+}
+
+.wf-btn--primary :deep(svg) {
+  color: #ff7800; /* Doar iconița rămâne orange aprins */
 }
 
 .wf-btn--primary:hover {
-  background: #ff9020;
-  transform: translate(var(--mx, 0), var(--my, 0)) translateY(-2px);
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 120, 0, 0.8);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
 }
 
+
+/* PROFESSIONAL LIQUID GLASS */
 .wf-btn--ghost {
-  background: transparent;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .wf-btn--ghost:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.04);
-}
-
-.wf-home--light .wf-btn--ghost {
-  color: rgba(0, 0, 0, 0.6);
-  border-color: rgba(0, 0, 0, 0.1);
-}
-
-.wf-home--light .wf-btn--ghost:hover {
-  border-color: rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  transform: translateY(-1px);
 }
 
 /* Scroll hint */
@@ -826,16 +835,20 @@ onUnmounted(() => {
 }
 
 .qs-card {
-  padding: 28px 24px;
-  border-radius: 16px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  background: rgba(255, 255, 255, 0.02);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  padding: 32px;
+  border-radius: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  background: rgba(255, 255, 255, 0.01);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .qs-card:hover {
-  border-color: rgba(255, 120, 0, 0.2);
-  box-shadow: 0 0 24px rgba(255, 120, 0, 0.05);
+  border-color: rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.03);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
 }
 
 .wf-home--light .qs-card {
@@ -1000,23 +1013,25 @@ onUnmounted(() => {
 
 .wf-card {
   position: relative;
-  padding: 28px 24px;
-  border-radius: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 32px 28px;
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
   text-decoration: none;
   color: var(--vp-c-text-1);
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.3s ease,
-              border-color 0.3s ease;
+  transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
   will-change: transform;
   overflow: hidden;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
 .wf-card:hover {
-  border-color: rgba(255, 120, 0, 0.25);
-  box-shadow: 0 0 20px rgba(255, 120, 0, 0.06),
-              inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-4px);
+  box-shadow: inset 0 1px 2px rgba(255, 255, 255, 0.1);
 }
 
 .wf-home--light .wf-card {

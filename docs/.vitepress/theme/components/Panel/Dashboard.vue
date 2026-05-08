@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <Teleport to="body" v-if="isMounted">
     <!-- Show Login if not authenticated -->
     <PanelLogin 
@@ -809,6 +809,15 @@
             :is-light-theme="isLightTheme"
           />
 
+          <PanelPageGenerator
+            v-else-if="currentView === 'studio'"
+            :github-token="githubToken"
+            :is-light-theme="isLightTheme"
+            :repo-owner="repoOwner"
+            :repo-name="repoName"
+            :repo-branch="repoBranch"
+          />
+
           <PanelProfile
             v-else-if="currentView === 'profile'"
             :user-login="userLogin"
@@ -884,6 +893,7 @@
     import PanelAnalytics from './PanelAnalytics.vue'
     import PanelProfile from './PanelProfile.vue'
     import PanelFeedbacks from './PanelFeedbacks.vue'
+    import PanelPageGenerator from './PanelPageGenerator.vue'
     import { Icon } from '@iconify/vue'
 
     export default {
@@ -897,6 +907,7 @@
         PanelAnalytics,
         PanelProfile,
         PanelFeedbacks,
+        PanelPageGenerator,
         Icon,
         CS2Background,
         LiquidMetalLogo
@@ -978,6 +989,7 @@
           navItems: [
             { id: 'dashboard', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>', label: 'DASHBOARD' },
             { id: 'files', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>', label: 'FILES' },
+            { id: 'studio', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>', label: 'PHOENIX STUDIO', badge: 'NEW' },
             { id: 'contributors', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>', label: 'CONTRIBUTORS', badge: 'LIVE' },
             { id: 'audit', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>', label: 'AUDIT', badge: 'LIVE' },
             { id: 'analytics', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/><circle cx="12" cy="16" r="5"/><path d="M12 11v5"/></svg>', label: 'ANALYTICS' },
