@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <Teleport to="body" v-if="isMounted">
     <!-- Show Login if not authenticated -->
     <PanelLogin 
@@ -57,25 +57,25 @@
             </div>
           </div>
           <div class="header-right">
-            <button class="action-btn" @click="openNewIssue">
+            <button class="action-btn" @click="openNewIssue" aria-label="Open New Issue">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1"/>
               </svg>
               <span class="btn-text">ISSUE</span>
             </button>
-            <button class="action-btn primary" @click="openNewPR">
+            <button class="action-btn primary" @click="openNewPR" aria-label="Open New Pull Request">
               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
               </svg>
               <span class="btn-text">PULL</span>
             </button>
-            <button class="action-btn" @click="refreshAllData" :disabled="isSyncing">
+            <button class="action-btn" @click="refreshAllData" :disabled="isSyncing" aria-label="Refresh Dashboard Data">
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" :class="{ spin: isSyncing }">
                 <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9" />
                 <path d="M21 3v6h-6" />
               </svg>
             </button>
-            <button class="action-btn theme-toggle-btn" @click="toggleTheme" :title="isLightTheme ? 'Dark Mode' : 'Light Mode'">
+            <button class="action-btn theme-toggle-btn" @click="toggleTheme" :title="isLightTheme ? 'Dark Mode' : 'Light Mode'" aria-label="Toggle Theme">
               <svg v-if="isLightTheme" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor">
                 <circle cx="12" cy="12" r="5"/>
                 <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
@@ -2785,13 +2785,14 @@
 
 .action-btn.primary {
   background: var(--accent);
-  color: #fff;
+  color: #111;
   border-color: var(--accent);
   box-shadow: 0 4px 14px var(--accent-mid);
 }
 
 .action-btn.primary:hover {
   background: var(--accent-alt);
+  color: #000;
   box-shadow: 0 6px 20px var(--accent-strong);
   transform: translateY(-1px);
 }
