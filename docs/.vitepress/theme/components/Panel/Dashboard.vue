@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <Teleport to="body" v-if="isMounted">
     <!-- Show Login if not authenticated -->
     <PanelLogin 
@@ -10,76 +10,36 @@
     <div v-else class="wildfire-dashboard" :class="['wf-theme-' + panelTheme, { 'light-theme': isLightTheme }]">
       <CS2Background :isDark="!isLightTheme" />
 
-      <aside class="dashboard-sidebar" :class="{ collapsed: sidebarCollapsed }">
-      <div class="sidebar-brand" @click="currentView = 'dashboard'">
-  <div class="brand-icon">
-    <LiquidMetalLogo
-      :width="100" 
-      :height="100"                   
-      image="/icons/wildfire.png"
-      colorBack="#00000000"
-      colorTint="#ff7800a6"
-      shape="none"
-      :repetition="2"
-      :softness="0.1"
-      :shiftRed="0.3"
-      :shiftBlue="0.3"
-      :distortion="0.05"
-      :contour="0.4"
-      :angle="70"
-      :speed="0.8"
-      :scale="0.6"
-      fit="contain"
-    />
-  </div>
-  <div class="brand-text" v-if="!sidebarCollapsed">
-    <span class="brand-name">Wildfire</span>
-    <span class="brand-sub">Dashboard</span>
-  </div>
-</div>
-
-        <nav class="sidebar-nav">
-          <div v-for="item in navItems" :key="item.id"
-               class="nav-item"
-               :class="{ active: currentView === item.id }"
-               :title="sidebarCollapsed ? item.label : ''"
-               @click="handleNavClick(item)">
-            <span class="nav-icon" v-html="item.icon"></span>
-            <span class="nav-label" v-if="!sidebarCollapsed">{{ item.label }}</span>
-            <span class="nav-badge" v-if="item.badge && !sidebarCollapsed">{{ item.badge }}</span>
-            <div class="nav-glow"></div>
-          </div>
-        </nav>
-
-        <div class="sidebar-footer">
-          <div class="sf-card" :class="{ 'sf-collapsed': sidebarCollapsed }">
-            <div class="sf-profile-area" @click="currentView = 'profile'" :title="userLogin">
-              <div class="sf-avatar-wrap">
-                <img :src="userAvatar" :alt="userLogin" class="sf-avatar">
-                <span class="sf-online-dot"></span>
-              </div>
-              <div class="sf-info" v-if="!sidebarCollapsed">
-                <span class="sf-name">{{ userLogin }}</span>
-                <span class="sf-status"><span class="sf-pulse-dot"></span>ONLINE</span>
-              </div>
-            </div>
-            <button class="sf-out-btn" @click="handleLogout" title="Sign Out">
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-                <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-                <polyline points="16 17 21 12 16 7"/>
-                <line x1="21" y1="12" x2="9" y2="12"/>
-              </svg>
-            </button>
-          </div>
-          <a href="/" class="sf-home-link" :class="{ 'sf-home-collapsed': sidebarCollapsed }" title="Back to Site">
-            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-              <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-            <span v-if="!sidebarCollapsed">BACK TO SITE</span>
-          </a>
-        </div>
-      </aside>
+      <PanelSidebar
+        :collapsed="sidebarCollapsed"
+        :current-view="currentView"
+        :user-login="userLogin"
+        :user-avatar="userAvatar"
+        :is-light-theme="isLightTheme"
+        @navigate="handleNavClick"
+        @logout="handleLogout"
+      >
+        <template #logo>
+          <LiquidMetalLogo
+            :width="100"
+            :height="100"
+            image="/icons/wildfire.png"
+            colorBack="#00000000"
+            colorTint="#ff7800a6"
+            shape="none"
+            :repetition="2"
+            :softness="0.1"
+            :shiftRed="0.3"
+            :shiftBlue="0.3"
+            :distortion="0.05"
+            :contour="0.4"
+            :angle="70"
+            :speed="0.8"
+            :scale="0.6"
+            fit="contain"
+          />
+        </template>
+      </PanelSidebar>
 
       <main ref="mainContent" class="dashboard-main" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
         <header class="dashboard-header" :class="{ 'scrolled': isScrolled }">
@@ -887,6 +847,7 @@
     import CS2Background from '../CS2Background.vue'
     import LiquidMetalLogo from '../LiquidMetalLogo.vue'
     import PanelLogin from './PanelLogin.vue'
+    import PanelSidebar from './PanelSidebar.vue'
     import PanelFiles from './PanelFiles.vue'
     import PanelContributors from './PanelContributors.vue'
     import PanelAudit from './PanelAudit.vue'
@@ -901,6 +862,7 @@
       
       components: {
         PanelLogin,
+        PanelSidebar,
         PanelFiles,
         PanelContributors,
         PanelAudit,
@@ -1408,8 +1370,10 @@
     },
     
     handleNavClick(item) {
-      this.currentView = item.id
+      // PanelSidebar emits a string id; mobile nav passes the full item object
+      this.currentView = typeof item === 'string' ? item : item.id
     },
+
     
     async refreshAllData() {
       if (!this.githubToken) {
@@ -2216,21 +2180,8 @@
   gap: 4px;
 }
 
-/* ============================================
-   SIDEBAR BRAND - STIL SERVERPANEL
-   ============================================ */
-.sidebar-brand {
-  padding: 32px 20px 24px !important;
-  display: flex;
-  flex-direction: column !important;
-  align-items: center !important;
-  justify-content: center !important;
-  gap: 12px !important;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
-  cursor: pointer;
-  position: relative;
-  text-align: center !important;
-}
+
+
 
 .brand-icon {
   position: relative;

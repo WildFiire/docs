@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="panel-login" :class="{ 'light-theme': isLightTheme }">
     <!-- CS2 Background -->
     <CS2Background :isDark="!isLightTheme" />
@@ -174,6 +174,15 @@ export default {
   mounted() {
     const savedTheme = localStorage.getItem('wildfire-theme')
     if (savedTheme === 'light') this.isLightTheme = true
+
+    // Auto-bypass login in DEV mode
+    if (import.meta.env.DEV) {
+      console.log('[PanelLogin] DEV MODE DETECTED - Bypassing login')
+      this.$emit('login-success', {
+        token: 'dev-token-bypass',
+        user: { login: 'dev-user', name: 'Dev User', avatar_url: '' }
+      })
+    }
   },
   
   beforeUnmount() {
