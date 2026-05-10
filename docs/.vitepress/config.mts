@@ -32,7 +32,7 @@ export default defineConfig({
     // Fallback CSP for environments where server headers are not manageable
     ['meta', {
       'http-equiv': 'Content-Security-Policy',
-      content: "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; connect-src 'self' https://api.iconify.design https://api.github.com https://discord.com https://*.wildfire.ro wss://*.wildfire.ro https://api.steampowered.com https://community.akamai.steamstatic.com https://raw.githubusercontent.com https://*.githubusercontent.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
+      content: "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; connect-src 'self' https://api.iconify.design https://api.github.com https://discord.com https://*.wildfire.ro wss://*.wildfire.ro https://api.steampowered.com https://community.akamai.steamstatic.com https://raw.githubusercontent.com https://*.githubusercontent.com https://avatar-cyan.vercel.app https://cdn.discordapp.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
     }],
 
     // Iconify — loaded locally to satisfy CSP
