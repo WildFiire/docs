@@ -346,7 +346,7 @@ onUnmounted(() => {
 
 .fluid-lb__ghost {
   overflow: visible;
-  will-change: left, top, width, height, border-radius;
+  will-change: transform, opacity;
   z-index: 99999 !important;
 }
 

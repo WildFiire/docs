@@ -7,7 +7,7 @@
 
     <!-- ============ HERO SECTION ============ -->
     <section id="hero" class="wf-section wf-hero">
-      <div class="wf-container" :style="{ transform: `translateY(${-scrollY * 0.18}px)`, opacity: 1 - scrollY * 0.0015 }" style="will-change: transform, opacity;">
+      <div class="wf-container" :style="{ transform: `translateY(${-scrollY * 0.18}px)`, opacity: 1 - scrollY * 0.0015 }">
         <!-- Logo with Liquid Metal shader -->
         <div class="wf-hero__logo anim-item" data-anim="slide-up">
           <LiquidMetalLogo
@@ -1033,7 +1033,7 @@ onUnmounted(() => {
   text-decoration: none;
   color: var(--vp-c-text-1);
   transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1);
-  will-change: transform;
+  /* Reduced GPU memory usage */
   overflow: hidden;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
@@ -1307,7 +1307,7 @@ onUnmounted(() => {
   opacity: 0;
   transition: opacity 3s cubic-bezier(0.16, 1, 0.3, 1),
               transform 3s cubic-bezier(0.16, 1, 0.3, 1);
-  will-change: opacity, transform;
+  /* Removed will-change to save GPU memory */
 }
 
 .anim-item[data-anim="slide-up"] {

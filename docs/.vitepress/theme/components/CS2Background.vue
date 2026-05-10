@@ -170,7 +170,7 @@ const particleStyle = (n: number) => {
   height: 100%;
   object-fit: cover;
   object-position: center;
-  will-change: transform;
+  /* Removed to save memory */
 }
 
 .cs2-bg__filter-overlay {
@@ -179,7 +179,7 @@ const particleStyle = (n: number) => {
   background: black;
   pointer-events: none;
   mix-blend-mode: multiply;
-  will-change: opacity, filter;
+  /* Reduced memory usage */
 }
 
 .cs2-bg__overlay {
@@ -296,7 +296,7 @@ const particleStyle = (n: number) => {
   position: absolute;
   border-radius: 50%;
   /* Removed heavy filter: blur(100px) — using soft radial gradients instead */
-  will-change: transform, opacity;
+  /* Reduced memory usage */
 }
 
 .cs2-bg__orb--1 {
@@ -333,7 +333,7 @@ const particleStyle = (n: number) => {
   left: 15%;
   background: radial-gradient(circle, rgba(255, 120, 0, 0.08) 0%, transparent 60%);
   animation: orbFloat4 22s ease-in-out infinite;
-  will-change: transform;
+  /* Removed to save memory */
 }
 
 /* Light mode — much subtler orbs */

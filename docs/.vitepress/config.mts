@@ -29,9 +29,8 @@ export default defineConfig({
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { rel: 'preconnect', href: 'https://cdn.jsdelivr.net' }],
 
-    // Iconify — async so it doesn't block HTML parsing
-    ['script', { src: 'https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js', async: '' }],
-    // Non-blocking font load — dynamically inserted stylesheets never block rendering
+    // Iconify — loaded locally to satisfy CSP
+    ['script', { src: '/scripts/iconify-icon.min.js', async: '' }],
     ['script', {}, `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap';document.head.appendChild(l)})()`],
 
     // PRELOAD PENTRU LCP

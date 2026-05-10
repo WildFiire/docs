@@ -4361,9 +4361,7 @@ html.theme-switching *::after {
   }
 
   /* Sidebar GPU hint */
-  .VPSidebar {
-    will-change: transform, opacity;
-  }
+  /* Removed to save memory */
 
   /* Smooth content reflow */
   .VPContent,
