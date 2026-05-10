@@ -189,7 +189,10 @@ export default {
           '.VPSidebar nav',
           '.VPSidebar .VPSidebarNav',
           '.vp-sidebar .nav',
-          '.sidebar .nav'
+          '.sidebar .nav',
+          // Search modal scrollable area
+          '.wf-search-modal .search-body',
+          '.search-body[data-lenis-prevent]'
         ]
         
         for (const selector of selectors) {
@@ -215,6 +218,15 @@ export default {
             el.addEventListener('wheel', (e) => e.stopPropagation(), { passive: true })
           }
         })
+        
+        // Fix FluidLightbox - prevent background scroll when lightbox is open
+        const lightbox = document.querySelector<HTMLElement>('.fluid-lb')
+        if (lightbox && !LENIS_IGNORED.has(lightbox)) {
+          LENIS_IGNORED.add(lightbox)
+          lightbox.addEventListener('wheel', (e) => {
+            e.stopPropagation()
+          }, { passive: true })
+        }
       }
       
       // Run immediately and repeatedly

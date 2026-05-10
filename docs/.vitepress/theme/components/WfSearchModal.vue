@@ -33,7 +33,7 @@
 
           <!-- Body -->
           <Transition name="body-slide">
-            <div class="search-body" ref="bodyRef">
+            <div class="search-body" ref="bodyRef" data-lenis-prevent>
               
               <!-- Start Typing State (Initial All filter) -->
               <div v-if="!query && activeFilter === 'all'" class="start-typing">
@@ -1391,6 +1391,11 @@ html:not(.dark) .brand-name { color: #09090b; text-shadow: none; }
   scrollbar-width: none;        /* Firefox */
   -ms-overflow-style: none;     /* IE/Edge */
   overscroll-behavior: contain; /* prevents page scroll on mobile */
+}
+
+/* Lenis scroll containment */
+.search-body[data-lenis-prevent] {
+  overscroll-behavior: contain;
 }
 .search-body::-webkit-scrollbar { display: none; } /* Chrome/Safari */
 

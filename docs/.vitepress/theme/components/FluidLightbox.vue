@@ -90,6 +90,8 @@ function resetZoom() {
 
 function onWheel(e: WheelEvent) {
   if (!visible.value || isAnimating) return
+  // Stop propagation to prevent Lenis from scrolling background
+  e.stopPropagation()
   const delta = e.deltaY > 0 ? 0.9 : 1.1
   zoom.value = clampZoom(zoom.value * delta)
   if (zoom.value <= 1) { panX.value = 0; panY.value = 0 }
@@ -197,6 +199,8 @@ async function open(img: HTMLImageElement) {
   currentSrc.value = img.src
   currentAlt.value = img.alt || ''
   resetZoomState()
+  // Add class to html to help Lenis detection
+  document.documentElement.classList.add('lightbox-open')
 
   const origin = getOriginRect(img)
 
@@ -266,6 +270,7 @@ async function close() {
     sourceEl = null
     isAnimating = false
     document.body.style.overflow = ''
+    document.documentElement.classList.remove('lightbox-open')
   }, 460)
 }
 
@@ -446,5 +451,10 @@ onUnmounted(() => {
 .vp-doc img,
 [data-fluid-lightbox] img {
   cursor: zoom-in;
+}
+
+/* Prevent background scroll when lightbox is open */
+html.lightbox-open {
+  overflow: hidden !important;
 }
 </style>
