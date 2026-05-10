@@ -9,8 +9,9 @@
     <section id="hero" class="wf-section wf-hero">
       <div ref="heroContainer" class="wf-container">
         <!-- Logo with Liquid Metal shader -->
-        <div class="wf-hero__logo anim-item" data-anim="slide-up">
+        <div class="wf-hero__logo">
           <LiquidMetalLogo
+            class="wf-hero__logo-shader"
             :width="500"
             :height="500"
             image="/icons/wildfire.png"
@@ -398,26 +399,45 @@ const attachTiltListeners = () => {
 let scrollRaf = null
 const heroContainer = ref<HTMLElement | null>(null)
 
-const handleScroll = () => {
+let lerpedScrollY = 0
+let parallaxRaf: number | null = null
+
+const updateParallax = () => {
   if (!inBrowser) return
-  if (scrollRaf) return
   
-  scrollRaf = requestAnimationFrame(() => {
-    const y = window.scrollY
-    scrollY.value = y
-    
-    // Update Parallax directly via DOM for 60FPS performance and to avoid scroll-linked warnings
+  const targetY = window.scrollY
+  const diff = targetY - lerpedScrollY
+  
+  // Smoothing factor: 0.08 is buttery, 0.15 is snappy
+  lerpedScrollY += diff * 0.08
+  
+  // Stop the loop if we're close enough to the target
+  if (Math.abs(diff) < 0.05) {
+    lerpedScrollY = targetY
+    if (heroContainer.value) heroContainer.value.style.willChange = 'auto'
+    parallaxRaf = null
+  } else {
     if (heroContainer.value) {
-      heroContainer.value.style.transform = `translateY(${-y * 0.18}px)`
-      heroContainer.value.style.opacity = `${1 - y * 0.0015}`
+      heroContainer.value.style.willChange = 'transform, opacity'
+      heroContainer.value.style.transform = `translateY(${-lerpedScrollY * 0.18}px)`
+      heroContainer.value.style.opacity = `${1 - lerpedScrollY * 0.0015}`
     }
     
     const isDarkCurrent = document.documentElement.classList.contains('dark')
     scrollFade.value = isDarkCurrent
-      ? Math.min(y / 500, 0.8)
-      : Math.min(y / 800, 0.5)
-    scrollRaf = null
-  })
+      ? Math.min(lerpedScrollY / 500, 0.8)
+      : Math.min(lerpedScrollY / 800, 0.5)
+      
+    parallaxRaf = requestAnimationFrame(updateParallax)
+  }
+}
+
+const handleScroll = () => {
+  if (!inBrowser) return
+  scrollY.value = window.scrollY
+  if (!parallaxRaf) {
+    parallaxRaf = requestAnimationFrame(updateParallax)
+  }
 }
 
 // WATCHER REPARAT AICI:
@@ -428,7 +448,7 @@ watch(isHomePage, (v) => {
 onMounted(() => {
   isMounted.value = true
   toggleDefaultNavbar(isHomePage.value)
-  setTimeout(() => { logoStart.value = true }, 600)
+  setTimeout(() => { logoStart.value = true }, 100)
   startTypingEffects()
   window.addEventListener('scroll', handleScroll, { passive: true })
   handleScroll()
@@ -530,7 +550,7 @@ onUnmounted(() => {
   align-items: center;
   justify-content: flex-start;
   min-height: 100vh;
-  padding: 0 0 100px;
+  padding: 120px 0 100px;
   text-align: center;
   position: relative;
 }

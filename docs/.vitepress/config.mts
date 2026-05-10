@@ -32,11 +32,38 @@ export default defineConfig({
     // Fallback CSP for environments where server headers are not manageable
     ['meta', {
       'http-equiv': 'Content-Security-Policy',
-      content: "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https://api.iconify.design https://api.github.com https://discord.com https://*.wildfire.ro wss://*.wildfire.ro https://api.steampowered.com https://community.akamai.steamstatic.com https://raw.githubusercontent.com https://*.githubusercontent.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
+      content: "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://unpkg.com; connect-src 'self' https://api.iconify.design https://api.github.com https://discord.com https://*.wildfire.ro wss://*.wildfire.ro https://api.steampowered.com https://community.akamai.steamstatic.com https://raw.githubusercontent.com https://*.githubusercontent.com; img-src 'self' data: blob: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
     }],
 
     // Iconify — loaded locally to satisfy CSP
     ['script', { src: '/scripts/iconify-icon.min.js', async: '' }],
+    ['script', { src: 'https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js' }],
+    ['script', {}, `
+      (function() {
+        if (typeof window === 'undefined') return;
+        window.addEventListener('load', () => {
+          const lenis = new Lenis({
+            duration: 1.2,
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+            direction: 'vertical',
+            gestureDirection: 'vertical',
+            smooth: true,
+            mouseMultiplier: 1,
+            smoothTouch: false,
+            touchMultiplier: 2,
+            infinite: false,
+          })
+
+          function raf(time) {
+            lenis.raf(time)
+            requestAnimationFrame(raf)
+          }
+
+          requestAnimationFrame(raf)
+          window.lenis = lenis;
+        })
+      })()
+    `],
     ['script', {}, `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap';document.head.appendChild(l)})()`],
 
     // PRELOAD PENTRU LCP

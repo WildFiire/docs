@@ -7,7 +7,7 @@
   1. VARIABILE ȘI CULORI
 =============================================================================*/
 html {
-  scroll-behavior: smooth;
+  /* Scroll behavior managed by Lenis */
 }
 
 /* Smooth theme switch (only on specific elements to prevent scroll lag) */
