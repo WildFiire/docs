@@ -36,7 +36,13 @@ function update() {
 }
 
 function scrollToTop() {
-  window.scrollTo({ top: 0, behavior: 'smooth' })
+  // Use Lenis if available, otherwise fall back to native
+  const lenis = window.lenis
+  if (lenis) {
+    lenis.scrollTo(0, { duration: 1.2 })
+  } else {
+    window.scrollTo({ top: 0, behavior: 'smooth' })
+  }
 }
 
 onMounted(() => {

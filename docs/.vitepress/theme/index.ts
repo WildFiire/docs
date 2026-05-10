@@ -1,10 +1,50 @@
-import { h, defineAsyncComponent, nextTick } from 'vue'
+import { h, defineAsyncComponent, nextTick, onMounted, onUnmounted, ref } from 'vue'
 import { useData } from 'vitepress'
 import type { Theme } from 'vitepress'
 import DefaultTheme, { VPButton } from 'vitepress/theme'
 import './style.css'
 import { Icon } from '@iconify/vue'
 import { searchState } from './store'
+import Lenis from 'lenis'
+
+// Lenis instance - shared across components
+let lenisInstance: Lenis | null = null
+let lenisRafId: number | null = null
+
+// Initialize Lenis smooth scroll
+function initLenis() {
+  if (typeof window === 'undefined' || lenisInstance) return
+  
+  lenisInstance = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 2,
+    infinite: false,
+  })
+  
+  function raf(time: number) {
+    lenisInstance?.raf(time)
+    lenisRafId = requestAnimationFrame(raf)
+  }
+  
+  lenisRafId = requestAnimationFrame(raf)
+  
+  // Expose globally for compatibility
+  ;(window as any).lenis = lenisInstance
+}
+
+function destroyLenis() {
+  if (lenisRafId) {
+    cancelAnimationFrame(lenisRafId)
+    lenisRafId = null
+  }
+  lenisInstance?.destroy()
+  lenisInstance = null
+}
 
 
 // 📝 Tipuri pentru TypeScript
@@ -128,6 +168,27 @@ export default {
   },
 
   enhanceApp({ app, router }) {
+    // Initialize Lenis smooth scroll on client
+    if (typeof window !== 'undefined') {
+      // Delay Lenis init to let page settle
+      requestAnimationFrame(() => {
+        setTimeout(initLenis, 100)
+      })
+      
+      // Clean up on page unload
+      window.addEventListener('beforeunload', destroyLenis)
+      
+      // Fix sidebar scroll - stop wheel events from propagating to Lenis/main page
+      setTimeout(() => {
+        const sidebarNav = document.querySelector('.VPSidebar .nav')
+        if (sidebarNav) {
+          sidebarNav.addEventListener('wheel', (e: Event) => {
+            e.stopPropagation()
+          }, { passive: true })
+        }
+      }, 500)
+    }
+    
     // Componente principale
     app.component('WikiHome', WikiHome)
     app.component('HomeNavbar', HomeNavbar)

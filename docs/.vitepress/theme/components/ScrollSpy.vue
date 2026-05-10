@@ -39,9 +39,17 @@ const activeId = ref('')
 const isVisible = ref(false)
 const isHovering = ref(false)
 
-const scrollTo = (id: string) => {
+const scrollTo = (id) => {
   const el = document.getElementById(id)
-  if (el) {
+  if (!el) return
+  
+  // Use Lenis if available for smoother scroll
+  const lenis = (window as any).lenis
+  const top = el.getBoundingClientRect().top + window.scrollY - 100
+  
+  if (lenis && typeof lenis.scrollTo === 'function') {
+    lenis.scrollTo(top, { duration: 1.2, offset: 0 })
+  } else {
     el.scrollIntoView({ behavior: 'smooth', block: 'start' })
   }
 }

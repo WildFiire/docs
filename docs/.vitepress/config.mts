@@ -37,33 +37,6 @@ export default defineConfig({
 
     // Iconify — loaded locally to satisfy CSP
     ['script', { src: '/scripts/iconify-icon.min.js', async: '' }],
-    ['script', { src: 'https://unpkg.com/@studio-freight/lenis@1.0.42/dist/lenis.min.js' }],
-    ['script', {}, `
-      (function() {
-        if (typeof window === 'undefined') return;
-        window.addEventListener('load', () => {
-          const lenis = new Lenis({
-            duration: 1.2,
-            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-            direction: 'vertical',
-            gestureDirection: 'vertical',
-            smooth: true,
-            mouseMultiplier: 1,
-            smoothTouch: false,
-            touchMultiplier: 2,
-            infinite: false,
-          })
-
-          function raf(time) {
-            lenis.raf(time)
-            requestAnimationFrame(raf)
-          }
-
-          requestAnimationFrame(raf)
-          window.lenis = lenis;
-        })
-      })()
-    `],
     ['script', {}, `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap';document.head.appendChild(l)})()`],
 
     // PRELOAD PENTRU LCP
@@ -566,6 +539,10 @@ export default defineConfig({
     },
     ssr: {
       noExternal: ['vue', 'chart.js', 'lodash', '@iconify/vue']
+    },
+    optimizeDeps: {
+      include: ['@vueuse/core', 'lenis'],
+      exclude: ['@paper-design/shaders-react']
     }
   }
 })

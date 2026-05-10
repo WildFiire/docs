@@ -7,11 +7,13 @@
   1. VARIABILE ȘI CULORI
 =============================================================================*/
 html {
-  /* Scroll behavior managed by Lenis */
+  scroll-behavior: smooth;
 }
 
-/* Smooth theme switch (only on specific elements to prevent scroll lag) */
-.dark, .light, .VPContent, .VPSidebar, .VPNav {
+/* Smooth theme switch — colors fade instead of snapping (no !important so component transitions are not overridden) */
+*,
+*::before,
+*::after {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 
@@ -57,51 +59,6 @@ body {
   [role="button"] {
     cursor: auto !important;
   }
-}
-
-/* ── Dynamic Section Themes ── */
-[data-wf-theme="systems"] {
-  --vp-c-brand-1: #ef4444;
-  --vp-c-brand-2: #dc2626;
-  --vp-c-brand-3: #b91c1c;
-  --vp-c-brand-soft: rgba(239, 68, 68, 0.16);
-  --wf-orange: #ef4444;
-  --wf-orange-light: #f87171;
-  --wf-orange-dark: #dc2626;
-  --wf-accent-rgb: 239, 68, 68;
-}
-
-[data-wf-theme="market"] {
-  --vp-c-brand-1: #8b5cf6;
-  --vp-c-brand-2: #7c3aed;
-  --vp-c-brand-3: #6d28d9;
-  --vp-c-brand-soft: rgba(139, 92, 246, 0.16);
-  --wf-orange: #8b5cf6;
-  --wf-orange-light: #a78bfa;
-  --wf-orange-dark: #7c3aed;
-  --wf-accent-rgb: 139, 92, 246;
-}
-
-[data-wf-theme="currency"] {
-  --vp-c-brand-1: #10b981;
-  --vp-c-brand-2: #059669;
-  --vp-c-brand-3: #047857;
-  --vp-c-brand-soft: rgba(16, 185, 129, 0.16);
-  --wf-orange: #10b981;
-  --wf-orange-light: #34d399;
-  --wf-orange-dark: #059669;
-  --wf-accent-rgb: 16, 185, 129;
-}
-
-[data-wf-theme="updates_wiki"] {
-  --vp-c-brand-1: #f59e0b;
-  --vp-c-brand-2: #d97706;
-  --vp-c-brand-3: #b45309;
-  --vp-c-brand-soft: rgba(245, 158, 11, 0.16);
-  --wf-orange: #f59e0b;
-  --wf-orange-light: #fbbf24;
-  --wf-orange-dark: #d97706;
-  --wf-accent-rgb: 245, 158, 11;
 }
 
 :root {
@@ -165,6 +122,52 @@ body {
   /* DARK MODE - Chenare */
   --vp-c-divider: #2a2a2a;
   --vp-c-divider-light: #1f1f1f;
+}
+
+/* ── Dynamic Section Themes ──
+   data-wf-theme is set on <html> element by DocEnhancements.vue ── */
+html[data-wf-theme="systems"] {
+  --vp-c-brand-1: #ef4444;
+  --vp-c-brand-2: #dc2626;
+  --vp-c-brand-3: #b91c1c;
+  --vp-c-brand-soft: rgba(239, 68, 68, 0.16);
+  --wf-orange: #ef4444;
+  --wf-orange-light: #f87171;
+  --wf-orange-dark: #dc2626;
+  --wf-accent-rgb: 239, 68, 68;
+}
+
+html[data-wf-theme="market"] {
+  --vp-c-brand-1: #8b5cf6;
+  --vp-c-brand-2: #7c3aed;
+  --vp-c-brand-3: #6d28d9;
+  --vp-c-brand-soft: rgba(139, 92, 246, 0.16);
+  --wf-orange: #8b5cf6;
+  --wf-orange-light: #a78bfa;
+  --wf-orange-dark: #7c3aed;
+  --wf-accent-rgb: 139, 92, 246;
+}
+
+html[data-wf-theme="currency"] {
+  --vp-c-brand-1: #10b981;
+  --vp-c-brand-2: #059669;
+  --vp-c-brand-3: #047857;
+  --vp-c-brand-soft: rgba(16, 185, 129, 0.16);
+  --wf-orange: #10b981;
+  --wf-orange-light: #34d399;
+  --wf-orange-dark: #059669;
+  --wf-accent-rgb: 16, 185, 129;
+}
+
+html[data-wf-theme="updates_wiki"] {
+  --vp-c-brand-1: #f59e0b;
+  --vp-c-brand-2: #d97706;
+  --vp-c-brand-3: #b45309;
+  --vp-c-brand-soft: rgba(245, 158, 11, 0.16);
+  --wf-orange: #f59e0b;
+  --wf-orange-light: #fbbf24;
+  --wf-orange-dark: #d97706;
+  --wf-accent-rgb: 245, 158, 11;
 }
 
 @media (min-width: 640px) {
@@ -779,7 +782,6 @@ body:not(.home) *,
 .VPSidebar {
   scrollbar-width: none !important;
   -ms-overflow-style: none !important;
-  overflow-y: auto !important;
 }
 
 .VPSidebar::-webkit-scrollbar {
@@ -4306,6 +4308,16 @@ html:not(.dark) .wf-market .wf-market-tip {
     height: 100vh !important;
     height: 100dvh !important;
     padding-top: var(--vp-nav-height) !important;
+    overflow: hidden !important;
+  }
+
+  .VPSidebar .nav {
+    flex: 1 1 auto !important;
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    min-height: 0 !important;
+    scrollbar-width: none !important;
+    -ms-overflow-style: none !important;
   }
 }
 
@@ -4330,10 +4342,13 @@ html.theme-switching *::after {
     flex-direction: column !important;
     overflow: hidden !important;
     padding-bottom: 0 !important;
+    top: 0 !important;
+    height: 100vh !important;
+    padding-top: 0 !important;
   }
 
   .VPSidebar .nav {
-    flex: 1 !important;
+    flex: 1 1 auto !important;
     overflow-y: auto !important;
     overflow-x: hidden !important;
     padding-bottom: 8px !important;
@@ -4361,7 +4376,9 @@ html.theme-switching *::after {
   }
 
   /* Sidebar GPU hint */
-  /* Removed to save memory */
+  .VPSidebar {
+    will-change: transform, opacity;
+  }
 
   /* Smooth content reflow */
   .VPContent,
