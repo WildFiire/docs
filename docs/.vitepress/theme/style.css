@@ -27,8 +27,10 @@ input,
 }
 
 html,
-body {
-  overflow-x: hidden;
+body,
+#app,
+.Layout {
+  overflow-x: clip !important;
   max-width: 100%;
   /* cursor: none; — TEMPORARILY DISABLED */
 }

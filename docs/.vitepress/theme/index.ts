@@ -11,10 +11,82 @@ import Lenis from 'lenis'
 let lenisInstance: Lenis | null = null
 let lenisRafId: number | null = null
 
+// ── Horizontal-scroll lock during text-selection drag ──────────────────────
+// The browser natively pans the nearest scrollable container when the user
+// drags a selection past the edge of the viewport.
+//
+// Fix strategy: attach a 'scroll' event listener directly on every layout
+// container. When scrollLeft != 0 we immediately reset it to 0 — this fires
+// synchronously before the browser paints, so the shifted frame is never
+// actually displayed (no glitchy teleport). We also use a scroll listener on
+// window to catch window.scrollX drifts.
+function initSelectionScrollLock() {
+  if (typeof window === 'undefined') return
+
+  const LOCK_SELECTORS = [
+    '#app',
+    '.Layout',
+    '.VPContent',
+    '.VPDoc',
+    '.VPDoc > .container',
+  ]
+
+  // Immediately snap scrollLeft back to 0 — called synchronously from scroll event
+  function onElementScroll(this: HTMLElement) {
+    if (this.scrollLeft !== 0) {
+      this.scrollLeft = 0
+    }
+  }
+
+  // Reset window horizontal scroll
+  function onWindowScroll() {
+    if (window.scrollX !== 0) {
+      window.scrollTo(0, window.scrollY)
+    }
+  }
+
+  // Also reset html/body which can be panned by the browser during selection
+  function onDocScroll() {
+    if (document.documentElement.scrollLeft !== 0) {
+      document.documentElement.scrollLeft = 0
+    }
+    if (document.body.scrollLeft !== 0) {
+      document.body.scrollLeft = 0
+    }
+  }
+
+  // Attach scroll listeners to all known layout wrappers
+  function attachLocks() {
+    for (const sel of LOCK_SELECTORS) {
+      const el = document.querySelector<HTMLElement>(sel)
+      if (el) {
+        // { passive: false } so we can act synchronously before paint
+        el.addEventListener('scroll', onElementScroll, { passive: true, capture: true })
+      }
+    }
+    document.documentElement.addEventListener('scroll', onDocScroll, { passive: true, capture: true })
+    document.body.addEventListener('scroll', onDocScroll, { passive: true, capture: true })
+    window.addEventListener('scroll', onWindowScroll, { passive: true, capture: true })
+  }
+
+  // Run immediately and after DOM settles
+  attachLocks()
+  setTimeout(attachLocks, 300)
+  setTimeout(attachLocks, 1000)
+}
+
 // Initialize Lenis smooth scroll
 function initLenis() {
+  // Stop Lenis during text selection so it doesn't fight the browser
+  document.addEventListener('selectstart', () => {
+    lenisInstance?.stop()
+  })
+  document.addEventListener('mouseup', () => {
+    lenisInstance?.start()
+  })
+
   if (typeof window === 'undefined' || lenisInstance) return
-  
+
   lenisInstance = new Lenis({
     duration: 1.2,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -24,15 +96,16 @@ function initLenis() {
     wheelMultiplier: 1,
     touchMultiplier: 2,
     infinite: false,
+    prevent: (node) => node.closest('.VPSidebar') !== null,
   })
-  
+
   function raf(time: number) {
     lenisInstance?.raf(time)
     lenisRafId = requestAnimationFrame(raf)
   }
-  
+
   lenisRafId = requestAnimationFrame(raf)
-  
+
   // Expose globally for compatibility
   ;(window as any).lenis = lenisInstance
 }
@@ -174,6 +247,9 @@ export default {
       requestAnimationFrame(() => {
         setTimeout(initLenis, 100)
       })
+
+      // Lock horizontal scroll during text-selection drag (prevents content shift)
+      initSelectionScrollLock()
       
       // Clean up on page unload
       window.addEventListener('beforeunload', destroyLenis)
