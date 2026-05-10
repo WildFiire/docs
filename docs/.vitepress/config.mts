@@ -28,6 +28,12 @@ export default defineConfig({
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
     ['link', { rel: 'preconnect', href: 'https://cdn.jsdelivr.net' }],
+    
+    // Fallback CSP for environments where server headers are not manageable
+    ['meta', {
+      'http-equiv': 'Content-Security-Policy',
+      content: "default-src 'self' https:; script-src 'self' 'unsafe-inline' 'unsafe-eval'; connect-src 'self' https://api.iconify.design https://api.github.com https://discord.com https://*.wildfire.ro wss://*.wildfire.ro https://api.steampowered.com https://community.akamai.steamstatic.com https://raw.githubusercontent.com https://*.githubusercontent.com; img-src 'self' data: https:; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com;"
+    }],
 
     // Iconify — loaded locally to satisfy CSP
     ['script', { src: '/scripts/iconify-icon.min.js', async: '' }],

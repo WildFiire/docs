@@ -7,7 +7,7 @@
 
     <!-- ============ HERO SECTION ============ -->
     <section id="hero" class="wf-section wf-hero">
-      <div class="wf-container" :style="{ transform: `translateY(${-scrollY * 0.18}px)`, opacity: 1 - scrollY * 0.0015 }">
+      <div ref="heroContainer" class="wf-container">
         <!-- Logo with Liquid Metal shader -->
         <div class="wf-hero__logo anim-item" data-anim="slide-up">
           <LiquidMetalLogo
@@ -396,16 +396,26 @@ const attachTiltListeners = () => {
 }
 
 let scrollRaf = null
+const heroContainer = ref<HTMLElement | null>(null)
+
 const handleScroll = () => {
   if (!inBrowser) return
   if (scrollRaf) return
   
   scrollRaf = requestAnimationFrame(() => {
-    scrollY.value = window.scrollY
+    const y = window.scrollY
+    scrollY.value = y
+    
+    // Update Parallax directly via DOM for 60FPS performance and to avoid scroll-linked warnings
+    if (heroContainer.value) {
+      heroContainer.value.style.transform = `translateY(${-y * 0.18}px)`
+      heroContainer.value.style.opacity = `${1 - y * 0.0015}`
+    }
+    
     const isDarkCurrent = document.documentElement.classList.contains('dark')
     scrollFade.value = isDarkCurrent
-      ? Math.min(window.scrollY / 500, 0.8)
-      : Math.min(window.scrollY / 800, 0.5)
+      ? Math.min(y / 500, 0.8)
+      : Math.min(y / 800, 0.5)
     scrollRaf = null
   })
 }

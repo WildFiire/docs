@@ -1,13 +1,11 @@
 <template>
-  <div class="reading-progress-bar" :style="{ width: progress + '%' }"></div>
+  <div ref="bar" class="reading-progress-bar"></div>
 </template>
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
-import { useRoute } from 'vitepress'
 
-const progress = ref(0)
-const route = useRoute()
+const bar = ref(null)
 
 let scrollRaf = null
 function update() {
@@ -16,7 +14,12 @@ function update() {
     const el = document.documentElement
     const scrolled = el.scrollTop || window.scrollY
     const total = el.scrollHeight - el.clientHeight
-    progress.value = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0
+    const progress = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0
+    
+    if (bar.value) {
+      bar.value.style.width = progress + '%'
+    }
+    
     scrollRaf = null
   })
 }
