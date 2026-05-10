@@ -178,33 +178,65 @@ export default {
       // Clean up on page unload
       window.addEventListener('beforeunload', destroyLenis)
       
-      // Fix sidebar scroll - stop wheel events from propagating to Lenis/main page
-      setTimeout(() => {
-        const sidebarNav = document.querySelector('.VPSidebar .nav')
-        if (sidebarNav) {
-          sidebarNav.addEventListener('wheel', (e: Event) => {
-            e.stopPropagation()
-          }, { passive: true })
-        }
-      }, 500)
+      // Fix wheel scroll for ALL overflow elements (docs sidebar, panel, etc)
+      const LENIS_IGNORED = new Set<HTMLElement>()
       
-      // Fix wheel scroll for ALL panel and overflow elements
       const fixLenisOverflow = () => {
-        document.querySelectorAll<HTMLElement>(
-          '[data-lenis-prevent], .panel-content, .panel-sidebar, .panel-scrollable, .overflow-auto, .overflow-y-auto, .overflow-scroll'
-        ).forEach(el => {
-          if (!el.dataset.lenisFixed) {
-            el.dataset.lenisFixed = '1'
+        // Try multiple possible sidebar selectors (VitePress versions vary)
+        const selectors = [
+          '.VPSidebar .nav',
+          '.VPSidebar .items', 
+          '.VPSidebar nav',
+          '.VPSidebar .VPSidebarNav',
+          '.vp-sidebar .nav',
+          '.sidebar .nav'
+        ]
+        
+        for (const selector of selectors) {
+          const el = document.querySelector<HTMLElement>(selector)
+          if (el && !LENIS_IGNORED.has(el)) {
+            LENIS_IGNORED.add(el)
+            // Use capture phase to catch event early
+            el.addEventListener('wheel', (e: Event) => {
+              const target = e.target as HTMLElement
+              // Only stop propagation if element is scrollable
+              const isScrollable = el.scrollHeight > el.clientHeight
+              if (isScrollable) {
+                e.stopPropagation()
+              }
+            }, { passive: true, capture: false })
+          }
+        }
+        
+        // Fix data-lenis-prevent elements
+        document.querySelectorAll<HTMLElement>('[data-lenis-prevent]').forEach(el => {
+          if (!LENIS_IGNORED.has(el)) {
+            LENIS_IGNORED.add(el)
             el.addEventListener('wheel', (e) => e.stopPropagation(), { passive: true })
           }
         })
       }
       
-      // Run on init and after route changes
-      setTimeout(fixLenisOverflow, 600)
+      // Run immediately and repeatedly
+      fixLenisOverflow()
+      setTimeout(fixLenisOverflow, 100)
+      setTimeout(fixLenisOverflow, 500)
+      setTimeout(fixLenisOverflow, 1000)
+      
+      // Also watch for DOM changes (sidebar might be added dynamically)
+      if (typeof MutationObserver !== 'undefined') {
+        const observer = new MutationObserver(() => {
+          fixLenisOverflow()
+        })
+        observer.observe(document.body, { childList: true, subtree: true })
+      }
       
       router.onAfterRouteChange = () => {
-        nextTick(() => setTimeout(fixLenisOverflow, 200))
+        nextTick(() => {
+          setTimeout(fixLenisOverflow, 50)
+          setTimeout(fixLenisOverflow, 200)
+          setTimeout(fixLenisOverflow, 500)
+        })
       }
     }
     
