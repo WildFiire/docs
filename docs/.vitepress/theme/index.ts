@@ -187,6 +187,25 @@ export default {
           }, { passive: true })
         }
       }, 500)
+      
+      // Fix wheel scroll for ALL panel and overflow elements
+      const fixLenisOverflow = () => {
+        document.querySelectorAll<HTMLElement>(
+          '[data-lenis-prevent], .panel-content, .panel-sidebar, .panel-scrollable, .overflow-auto, .overflow-y-auto, .overflow-scroll'
+        ).forEach(el => {
+          if (!el.dataset.lenisFixed) {
+            el.dataset.lenisFixed = '1'
+            el.addEventListener('wheel', (e) => e.stopPropagation(), { passive: true })
+          }
+        })
+      }
+      
+      // Run on init and after route changes
+      setTimeout(fixLenisOverflow, 600)
+      
+      router.onAfterRouteChange = () => {
+        nextTick(() => setTimeout(fixLenisOverflow, 200))
+      }
     }
     
     // Componente principale

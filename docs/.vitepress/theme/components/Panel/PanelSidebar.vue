@@ -23,7 +23,7 @@
     <div class="ps-sec-label" v-if="!collapsed">NAVIGATION</div>
 
     <!-- ░░ NAV ░░ -->
-    <nav class="ps-nav">
+    <nav class="ps-nav" data-lenis-prevent>
       <button
         v-for="item in navItems"
         :key="item.id"

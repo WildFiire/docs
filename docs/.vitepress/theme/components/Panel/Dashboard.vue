@@ -41,7 +41,7 @@
         </template>
       </PanelSidebar>
 
-      <main ref="mainContent" class="dashboard-main" :class="{ 'sidebar-collapsed': sidebarCollapsed }">
+      <main ref="mainContent" class="dashboard-main" :class="{ 'sidebar-collapsed': sidebarCollapsed }" data-lenis-prevent>
         <header class="dashboard-header" :class="{ 'scrolled': isScrolled }">
           <div class="header-left">
             <!-- <button class="menu-btn" @click="sidebarCollapsed = !sidebarCollapsed">
