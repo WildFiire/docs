@@ -103,66 +103,75 @@ let lastScrollY = 0
 let isNavigating = false
 let scrollRaf: number | null = null
 
-function getActiveItems() {
-  const scrollY = window.scrollY
-  const innerHeight = window.innerHeight
-  const offsetHeight = document.body.offsetHeight
+const visibleHeadings = ref<Set<string>>(new Set())
+let tocObserver: IntersectionObserver | null = null
 
-  if (scrollY + innerHeight >= offsetHeight - 10) {
-    return [allItems.value[allItems.value.length - 1]?.url].filter(Boolean)
-  }
-
-  const active = []
-  const HEADER_OFFSET = 120 
-
-  for (let i = 0; i < allItems.value.length; i++) {
-    const item = allItems.value[i]
-    const el = document.getElementById(item.url.slice(1))
-    if (!el) continue
-
-    const nextItem = allItems.value[i + 1]
-    const nextEl = nextItem ? document.getElementById(nextItem.url.slice(1)) : null
-
-    const rectTop = el.getBoundingClientRect().top
-    const nextRectTop = nextEl ? nextEl.getBoundingClientRect().top : innerHeight + 1000
-
-    if (rectTop < innerHeight && nextRectTop > HEADER_OFFSET) {
-      active.push(item.url)
-    }
-  }
-
-  if (active.length === 0 && allItems.value.length > 0) {
-    let lastPassed = allItems.value[0].url
-    for (let i = 0; i < allItems.value.length; i++) {
-      const el = document.getElementById(allItems.value[i].url.slice(1))
-      if (el && el.getBoundingClientRect().top <= HEADER_OFFSET) {
-        lastPassed = allItems.value[i].url
+function setupTocObserver() {
+  if (typeof window === 'undefined') return
+  tocObserver?.disconnect()
+  
+  tocObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        visibleHeadings.value.add(entry.target.id)
+      } else {
+        visibleHeadings.value.delete(entry.target.id)
       }
+    })
+    
+    updateActiveFromVisible()
+  }, {
+    rootMargin: '-80px 0px -70% 0px',
+    threshold: 0
+  })
+
+  allItems.value.forEach(item => {
+    const el = document.getElementById(item.url.slice(1))
+    if (el) tocObserver?.observe(el)
+  })
+}
+
+function updateActiveFromVisible() {
+  if (isNavigating) return
+  
+  // Find the first visible heading from the top of the allItems list
+  // or the last one that was visible if we're between headings
+  let found = false
+  const active = []
+  
+  for (const item of allItems.value) {
+    const id = item.url.slice(1)
+    if (visibleHeadings.value.has(id)) {
+      active.push(item.url)
+      found = true
+    } else if (found) {
+      // If we already found the visible ones, we can stop
+      // unless we want to support multiple active (like in the original code)
+      break
     }
-    active.push(lastPassed)
   }
 
-  return active
+  if (active.length > 0) {
+    activeUrls.value = new Set(active)
+  } else if (allItems.value.length > 0 && activeUrls.value.size === 0) {
+    // Default to first if nothing visible (e.g. at the very top)
+    activeUrls.value = new Set([allItems.value[0].url])
+  }
 }
 
 function onScroll() {
-  if (isNavigating) return
   if (scrollRaf !== null) return
 
   scrollRaf = requestAnimationFrame(() => {
     const currentScrollY = window.scrollY
-    
     isAtTop.value = currentScrollY < 80
     
     if (currentScrollY !== lastScrollY) {
       isScrollingDown.value = currentScrollY > lastScrollY
       lastScrollY = currentScrollY
       
-      const newActive = getActiveItems()
-      if (newActive.length > 0) {
-        activeUrls.value = new Set(newActive)
-      }
-      
+      // TOC highlighting is now handled by IntersectionObserver
+      // But we still update the marker if isScrollingDown changed
       updateMarker()
     }
     scrollRaf = null
@@ -326,23 +335,25 @@ function navigate(url: string) {
   isNavigating = true
   activeUrls.value = new Set([url])
   
+  // Predict scrolling direction
   const rect = el.getBoundingClientRect()
   isScrollingDown.value = rect.top > 0
   
   updateMarker()
   el.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  
+  // Update URL without jump
   history.pushState(null, '', url)
   
   setTimeout(() => { 
     isNavigating = false 
-    const newActive = getActiveItems()
-    if (newActive.length > 0) activeUrls.value = new Set(newActive)
     updateMarker()
-  }, 800)
+  }, 1000)
 }
 
 async function buildAll() {
   activeUrls.value = new Set()
+  visibleHeadings.value.clear()
   svg.value        = null
   await nextTick()
   
@@ -352,11 +363,9 @@ async function buildAll() {
   await nextTick()
   scheduleRecompute()
   setupResizeObserver()
+  setupTocObserver()
   
-  const initialActive = getActiveItems()
-  if (initialActive.length > 0) {
-    activeUrls.value = new Set(initialActive)
-  }
+  updateActiveFromVisible()
   updateMarker()
 }
 
@@ -377,6 +386,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   rObs?.disconnect()
+  tocObserver?.disconnect()
   cancelAnimationFrame(rafId)
   if (scrollRaf !== null) cancelAnimationFrame(scrollRaf)
   window.removeEventListener('scroll', onScroll)

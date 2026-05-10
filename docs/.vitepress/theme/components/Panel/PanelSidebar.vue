@@ -127,14 +127,15 @@ export default {
 
   /* Solid dark frosted glass — no gradients */
   background: rgba(8, 8, 14, 0.75);
-  backdrop-filter: blur(40px) saturate(140%);
-  -webkit-backdrop-filter: blur(40px) saturate(140%);
+  backdrop-filter: blur(10px) saturate(140%);
+  -webkit-backdrop-filter: blur(10px) saturate(140%);
   border-right: 1px solid rgba(255, 255, 255, 0.05);
   box-shadow:
     10px 0 60px rgba(0, 0, 0, 0.5),
     inset -1px 0 0 rgba(255, 255, 255, 0.04),
     inset 1px 0 0 rgba(255, 255, 255, 0.04);
   transition: width 0.4s cubic-bezier(0.34,1.56,0.64,1);
+  will-change: width, transform;
 }
 
 .ps-root.collapsed { width: var(--W-col); }
@@ -386,8 +387,8 @@ export default {
 ════════════════════════════════════════ */
 .ps-root.ps-light {
   background: rgba(255,255,255,0.55);
-  backdrop-filter: blur(60px) saturate(200%) brightness(1.04);
-  -webkit-backdrop-filter: blur(60px) saturate(200%) brightness(1.04);
+  backdrop-filter: blur(16px) saturate(200%) brightness(1.04);
+  -webkit-backdrop-filter: blur(16px) saturate(200%) brightness(1.04);
   border-right: 1px solid rgba(0,0,0,0.09);
   box-shadow:
     12px 0 60px rgba(0,0,0,0.12),

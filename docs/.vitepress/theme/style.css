@@ -10,10 +10,8 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Smooth theme switch — colors fade instead of snapping (no !important so component transitions are not overridden) */
-*,
-*::before,
-*::after {
+/* Smooth theme switch (only on specific elements to prevent scroll lag) */
+.dark, .light, .VPContent, .VPSidebar, .VPNav {
   transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
 }
 

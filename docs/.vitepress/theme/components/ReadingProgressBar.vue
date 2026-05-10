@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="reading-progress-bar" :style="{ width: progress + '%' }"></div>
 </template>
 
@@ -9,11 +9,16 @@ import { useRoute } from 'vitepress'
 const progress = ref(0)
 const route = useRoute()
 
+let scrollRaf = null
 function update() {
-  const el = document.documentElement
-  const scrolled = el.scrollTop || window.scrollY
-  const total = el.scrollHeight - el.clientHeight
-  progress.value = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0
+  if (scrollRaf) return
+  scrollRaf = requestAnimationFrame(() => {
+    const el = document.documentElement
+    const scrolled = el.scrollTop || window.scrollY
+    const total = el.scrollHeight - el.clientHeight
+    progress.value = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0
+    scrollRaf = null
+  })
 }
 
 onMounted(() => {
@@ -23,6 +28,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', update)
+  if (scrollRaf) cancelAnimationFrame(scrollRaf)
 })
 </script>
 

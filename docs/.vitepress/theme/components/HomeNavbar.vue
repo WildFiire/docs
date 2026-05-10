@@ -245,8 +245,13 @@ const toggleTheme = () => {
   isDark.value = !isDark.value
 }
 
+let scrollRaf = null
 const onScroll = () => {
-  isScrolled.value = window.scrollY > 40
+  if (scrollRaf) return
+  scrollRaf = requestAnimationFrame(() => {
+    isScrolled.value = window.scrollY > 40
+    scrollRaf = null
+  })
 }
 
 onMounted(() => {
@@ -264,6 +269,7 @@ onUnmounted(() => {
   window.removeEventListener('scroll', onScroll)
   document.removeEventListener('click', onUserOutsideClick)
   document.body.style.overflow = ''
+  if (scrollRaf) cancelAnimationFrame(scrollRaf)
 })
 </script>
 
@@ -282,8 +288,8 @@ onUnmounted(() => {
 /* ===== PREMIUM LIQUID GLASS ===== */
 .liquid-panel {
   background: rgba(255, 255, 255, 0.08) !important; 
-  backdrop-filter: blur(32px) saturate(120%) !important;
-  -webkit-backdrop-filter: blur(32px) saturate(120%) !important;
+  backdrop-filter: blur(8px) saturate(120%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
   border: 1px solid rgba(255, 255, 255, 0.25) !important;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 12px 32px rgba(0, 0, 0, 0.15) !important;
 }
@@ -296,8 +302,8 @@ onUnmounted(() => {
 
 .liquid-panel-full {
   background: rgba(245, 245, 245, 0.5) !important;
-  backdrop-filter: blur(48px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(48px) saturate(150%) !important;
+  backdrop-filter: blur(12px) saturate(150%) !important;
+  -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
 }
 
 .dark .liquid-panel-full {
@@ -333,8 +339,8 @@ onUnmounted(() => {
   pointer-events: auto;
   
   background: rgba(255, 255, 255, 0.7) !important; 
-  backdrop-filter: blur(32px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+  backdrop-filter: blur(8px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(8px) saturate(180%) !important;
   
   border: 1px solid rgba(0, 0, 0, 0.08) !important;
   box-shadow: 
@@ -351,8 +357,8 @@ onUnmounted(() => {
   padding: 0 32px;
   
   background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(40px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(40px) saturate(200%) !important;
+  backdrop-filter: blur(10px) saturate(200%) !important;
+  -webkit-backdrop-filter: blur(10px) saturate(200%) !important;
   
   border: none !important;
   border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;

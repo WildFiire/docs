@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <Transition name="back-top">
     <button
       v-if="visible"
@@ -22,12 +22,17 @@ const progress = ref(0)
 const visible = ref(false)
 const isPanel = computed(() => route.path.startsWith('/panel'))
 
+let scrollRaf = null
 function update() {
-  const el = document.documentElement
-  const scrolled = el.scrollTop || window.scrollY
-  const total = el.scrollHeight - el.clientHeight
-  progress.value = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0
-  visible.value = scrolled > 300 && !isPanel.value
+  if (scrollRaf) return
+  scrollRaf = requestAnimationFrame(() => {
+    const el = document.documentElement
+    const scrolled = el.scrollTop || window.scrollY
+    const total = el.scrollHeight - el.clientHeight
+    progress.value = total > 0 ? Math.min(100, (scrolled / total) * 100) : 0
+    visible.value = scrolled > 300 && !isPanel.value
+    scrollRaf = null
+  })
 }
 
 function scrollToTop() {
@@ -41,6 +46,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   window.removeEventListener('scroll', update)
+  if (scrollRaf) cancelAnimationFrame(scrollRaf)
 })
 </script>
 

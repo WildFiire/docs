@@ -1,4 +1,4 @@
-﻿<!-- .vitepress/theme/components/AboutWiki.vue -->
+<!-- .vitepress/theme/components/AboutWiki.vue -->
 <template>
   <section class="wiki-showcase reveal-element orbitron-font" ref="wikiSectionRef" id="wiki-section">
     <div class="section-divider">
@@ -282,7 +282,26 @@ const isElementInViewport = (el: HTMLElement | null) => {
   return rect.top < windowHeight * 0.85 && rect.bottom > 0
 }
 
-const applyRevealEffect = () => {
+const revealObserver = ref<IntersectionObserver | null>(null)
+
+const setupRevealObserver = () => {
+  const options = {
+    root: null,
+    rootMargin: '0px',
+    threshold: 0.1
+  }
+
+  revealObserver.value = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('revealed')
+      } else if (entry.boundingClientRect.top > 0) {
+        // Only remove revealed if we're scrolling back up and it's out of view
+        entry.target.classList.remove('revealed')
+      }
+    })
+  }, options)
+
   const elements = [
     wikiSectionRef.value,
     wikiLeftRef.value,
@@ -294,18 +313,9 @@ const applyRevealEffect = () => {
     card6Ref.value
   ].filter(el => el !== null)
 
-  elements.forEach(el => {
-    if (isElementInViewport(el)) {
-      el.classList.add('revealed')
-    } else {
-      el.classList.remove('revealed')
-    }
-  })
+  elements.forEach(el => revealObserver.value?.observe(el!))
 }
 
-const handleScroll = () => {
-  applyRevealEffect()
-}
 
 // Pornire efecte la montare
 onMounted(() => {
@@ -313,12 +323,11 @@ onMounted(() => {
     typeWikiSection()
   }
   
-  window.addEventListener('scroll', handleScroll)
-  handleScroll()
+  setupRevealObserver()
 })
 
 onUnmounted(() => {
-  window.removeEventListener('scroll', handleScroll)
+  revealObserver.value?.disconnect()
 })
 
 // Watch pentru a reacționa la changes în props.startTyping
@@ -505,7 +514,7 @@ defineExpose({
   border-radius: 8px;
   color: #ff7800;
   text-decoration: none;
-  transition: all 0.25s ease;
+  transition: background 0.25s ease, border-color 0.25s ease, gap 0.25s ease, transform 0.25s ease, box-shadow 0.25s ease;
 }
 
 .wiki-cta-link:hover {
@@ -540,7 +549,7 @@ defineExpose({
   border-left: 2px solid rgba(255, 120, 0, 0.25);
   border-radius: 12px;
   padding: 18px 16px;
-  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease;
+  transition: border-color 0.2s ease, transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
   overflow: hidden;
   display: flex;
   flex-direction: column;
@@ -684,7 +693,8 @@ defineExpose({
 .reveal-element {
   opacity: 0;
   transform: translateY(30px);
-  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1), transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  will-change: opacity, transform;
 }
 
 .reveal-element.revealed {

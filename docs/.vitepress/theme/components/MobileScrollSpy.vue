@@ -47,17 +47,41 @@ function getProgress() {
 
 const OFFSET = 120 // accounts for fixed navbar (64px) + spy bar (42px) + buffer
 
-function getActive() {
+let spyObserver = null
+const visibleElements = new Set()
+
+function setupObserver() {
+  if (typeof window === 'undefined') return
+  spyObserver?.disconnect()
+  visibleElements.clear()
+
   const sel = 'main h2, main h3, .vp-doc h2, .vp-doc h3, .VPDoc h2, .VPDoc h3'
-  const headings = Array.from(document.querySelectorAll(sel))
-  if (!headings.length) return ''
-  let active = headings[0]
-  for (const h of headings) {
-    if (h.getBoundingClientRect().top < OFFSET) active = h
-    else break
-  }
-  // Strip the anchor # character VitePress adds inside headings
-  return active.textContent.replace(/^#\s*/, '').replace(/#/g, '').trim()
+  const headings = document.querySelectorAll(sel)
+
+  spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) visibleElements.add(entry.target)
+      else visibleElements.delete(entry.target)
+    })
+    
+    // Update active text based on visible headings
+    const allHeadings = Array.from(document.querySelectorAll(sel))
+    let active = allHeadings[0]
+    for (const h of allHeadings) {
+      if (visibleElements.has(h)) {
+        active = h
+        break
+      }
+    }
+    
+    if (active) {
+      current.value = active.textContent.replace(/^#\s*/, '').replace(/#/g, '').trim()
+    }
+  }, {
+    rootMargin: '-80px 0px -70% 0px'
+  })
+
+  headings.forEach(h => spyObserver.observe(h))
 }
 
 function openSidebar() {
@@ -65,29 +89,34 @@ function openSidebar() {
   if (btn) btn.click()
 }
 
+let scrollRaf = null
 function onScroll() {
-  current.value = getActive()
-  progress.value = getProgress()
+  if (scrollRaf) return
+  scrollRaf = requestAnimationFrame(() => {
+    progress.value = getProgress()
+    scrollRaf = null
+  })
 }
 
 function setup() {
   if (typeof window === 'undefined' || window.innerWidth >= 960) {
     show.value = false
+    spyObserver?.disconnect()
     return
   }
   if (!isDocPage()) {
     show.value = false
+    spyObserver?.disconnect()
     return
   }
   show.value = true
+  
+  // Progress tracking listener
   window.removeEventListener('scroll', onScroll)
-  document.removeEventListener('scroll', onScroll)
-  setTimeout(() => {
-    current.value = getActive()
-    // Listen on both — mobile browsers vary
-    window.addEventListener('scroll', onScroll, { passive: true })
-    document.addEventListener('scroll', onScroll, { passive: true })
-  }, 400)
+  window.addEventListener('scroll', onScroll, { passive: true })
+  
+  // Heading tracking observer
+  setTimeout(setupObserver, 400)
 }
 
 onMounted(() => {
@@ -99,8 +128,9 @@ watch(() => route.path, () => setTimeout(setup, 100))
 
 onUnmounted(() => {
   window.removeEventListener('scroll', onScroll)
-  document.removeEventListener('scroll', onScroll)
   window.removeEventListener('resize', setup)
+  spyObserver?.disconnect()
+  if (scrollRaf) cancelAnimationFrame(scrollRaf)
 })
 </script>
 

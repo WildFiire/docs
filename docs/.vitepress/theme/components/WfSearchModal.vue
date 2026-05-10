@@ -459,8 +459,8 @@ onUnmounted(() => window.removeEventListener('keydown', onKeydown, true))
   z-index: 9999;
   /* Dark: deep smoked glass */
   background: rgba(0, 0, 0, 0.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   display: flex;
   align-items: flex-start;
   justify-content: center;
@@ -470,8 +470,8 @@ html:not(.dark) .wf-search-overlay,
 html.light .wf-search-overlay {
   /* Light: frosted white veil */
   background: rgba(240, 240, 245, 0.55);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* ── Modal — Liquid Glass Shell ──────────────────────────── */
@@ -487,8 +487,8 @@ html.light .wf-search-overlay {
 
   /* DARK: True liquid glass */
   background: rgba(10, 10, 12, 0.72);
-  backdrop-filter: blur(48px) saturate(160%);
-  -webkit-backdrop-filter: blur(48px) saturate(160%);
+  backdrop-filter: blur(16px) saturate(160%);
+  -webkit-backdrop-filter: blur(16px) saturate(160%);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.04) inset,
@@ -523,8 +523,8 @@ html.light .wf-search-overlay {
 html:not(.dark) .wf-search-modal,
 html.light .wf-search-modal {
   background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(40px) saturate(180%);
-  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
   border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.9) inset,

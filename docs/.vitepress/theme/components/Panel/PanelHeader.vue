@@ -1,4 +1,4 @@
-﻿<!-- docs\.vitepress\theme\components\Panel\PanelHeader.vue -->
+<!-- docs\.vitepress\theme\components\Panel\PanelHeader.vue -->
 <template>
   <header class="panel-header" :class="{ scrolled: isScrolled }">
     <div class="header-left">
@@ -84,16 +84,21 @@ export default {
   },
   
   mounted() {
-    window.addEventListener('scroll', this.handleScroll)
+    window.addEventListener('scroll', this.handleScroll, { passive: true })
   },
   
   beforeUnmount() {
+    if (this._scrollRaf) cancelAnimationFrame(this._scrollRaf)
     window.removeEventListener('scroll', this.handleScroll)
   },
   
   methods: {
     handleScroll() {
-      this.isScrolled = window.scrollY > 20
+      if (this._scrollRaf) return
+      this._scrollRaf = requestAnimationFrame(() => {
+        this.isScrolled = window.scrollY > 20
+        this._scrollRaf = null
+      })
     }
   }
 }

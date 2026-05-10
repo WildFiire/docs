@@ -7,7 +7,7 @@
 
     <!-- ============ HERO SECTION ============ -->
     <section id="hero" class="wf-section wf-hero">
-      <div class="wf-container" :style="{ transform: `translateY(${-scrollY * 0.18}px)`, opacity: 1 - scrollY * 0.0015 }">
+      <div class="wf-container" :style="{ transform: `translateY(${-scrollY * 0.18}px)`, opacity: 1 - scrollY * 0.0015 }" style="will-change: transform, opacity;">
         <!-- Logo with Liquid Metal shader -->
         <div class="wf-hero__logo anim-item" data-anim="slide-up">
           <LiquidMetalLogo
@@ -211,17 +211,22 @@ const magneticStyle = (mag: { x: { value: number }; y: { value: number } }) => (
 
 // Tilt cards
 const tiltRefs = reactive<Record<number, HTMLElement>>({})
+const tiltRects = reactive<Record<number, DOMRect>>({})
 const tiltData = reactive<Record<number, { rx: number; ry: number }>>({})
 
 const handleTiltMove = (i: number, e: MouseEvent) => {
   const el = tiltRefs[i]
   if (!el) return
-  const rect = el.getBoundingClientRect()
+  if (!tiltRects[i]) tiltRects[i] = el.getBoundingClientRect()
+  const rect = tiltRects[i]
   const px = (e.clientX - rect.left) / rect.width - 0.5
   const py = (e.clientY - rect.top) / rect.height - 0.5
   tiltData[i] = { rx: -py * 6, ry: px * 6 }
 }
-const handleTiltLeave = (i: number) => { tiltData[i] = { rx: 0, ry: 0 } }
+const handleTiltLeave = (i: number) => { 
+  tiltData[i] = { rx: 0, ry: 0 }
+  delete tiltRects[i]
+}
 
 const tiltStyle = (i: number) => {
   const d = tiltData[i] || { rx: 0, ry: 0 }
@@ -390,13 +395,19 @@ const attachTiltListeners = () => {
   })
 }
 
+let scrollRaf = null
 const handleScroll = () => {
-  if (!inBrowser) return // Blocaj SSR
-  scrollY.value = window.scrollY
-  const isDarkCurrent = document.documentElement.classList.contains('dark')
-  scrollFade.value = isDarkCurrent
-    ? Math.min(window.scrollY / 500, 0.8)
-    : Math.min(window.scrollY / 800, 0.5)
+  if (!inBrowser) return
+  if (scrollRaf) return
+  
+  scrollRaf = requestAnimationFrame(() => {
+    scrollY.value = window.scrollY
+    const isDarkCurrent = document.documentElement.classList.contains('dark')
+    scrollFade.value = isDarkCurrent
+      ? Math.min(window.scrollY / 500, 0.8)
+      : Math.min(window.scrollY / 800, 0.5)
+    scrollRaf = null
+  })
 }
 
 // WATCHER REPARAT AICI:
@@ -618,8 +629,8 @@ onUnmounted(() => {
   margin-bottom: 32px;
   
   background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   
   border: 1px solid rgba(255, 255, 255, 0.06);
   border-radius: 40px;
@@ -1016,8 +1027,8 @@ onUnmounted(() => {
   padding: 32px 28px;
   border-radius: 24px;
   background: rgba(255, 255, 255, 0.03);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   text-decoration: none;
   color: var(--vp-c-text-1);
@@ -1246,8 +1257,8 @@ onUnmounted(() => {
   border-radius: 16px;
   padding: 28px 24px 20px;
   background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: none;
   overflow: hidden;
 }

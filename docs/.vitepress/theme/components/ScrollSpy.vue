@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div
     class="scroll-spy"
     :class="{ 'scroll-spy--visible': isVisible, 'scroll-spy--hovering': isHovering, 'scroll-spy--light': !isDark }"
@@ -46,32 +46,59 @@ const scrollTo = (id: string) => {
   }
 }
 
-const handleScroll = () => {
-  const scrollY = window.scrollY
-  isVisible.value = scrollY > 300
+const visibleSections = ref<Set<string>>(new Set())
+let spyObserver: IntersectionObserver | null = null
 
-  const vh = window.innerHeight
-  let current = ''
+function setupObserver() {
+  if (typeof window === 'undefined') return
+  spyObserver?.disconnect()
+  visibleSections.value.clear()
 
-  for (const section of props.sections) {
-    const el = document.getElementById(section.id)
-    if (!el) continue
-    const rect = el.getBoundingClientRect()
-    if (rect.top < vh * 0.5 && rect.bottom > 0) {
-      current = section.id
+  spyObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        visibleSections.value.add(entry.target.id)
+      } else {
+        visibleSections.value.delete(entry.target.id)
+      }
+    })
+    
+    for (const section of props.sections) {
+      if (visibleSections.value.has(section.id)) {
+        activeId.value = section.id
+        break
+      }
     }
-  }
+  }, {
+    rootMargin: '-20% 0px -50% 0px',
+    threshold: 0
+  })
 
-  activeId.value = current
+  props.sections.forEach(s => {
+    const el = document.getElementById(s.id)
+    if (el) spyObserver?.observe(el)
+  })
+}
+
+let scrollRaf: number | null = null
+const handleScroll = () => {
+  if (scrollRaf !== null) return
+  scrollRaf = requestAnimationFrame(() => {
+    isVisible.value = window.scrollY > 300
+    scrollRaf = null
+  })
 }
 
 onMounted(() => {
   window.addEventListener('scroll', handleScroll, { passive: true })
   handleScroll()
+  setTimeout(setupObserver, 500)
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', handleScroll)
+  spyObserver?.disconnect()
+  if (scrollRaf) cancelAnimationFrame(scrollRaf)
 })
 </script>
 

@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="cs2-bg" :class="{ 'cs2-bg--light': !isDark }">
     <!-- Wallpaper image -->
     <img
@@ -10,8 +10,10 @@
       loading="eager"
       decoding="async"
       role="presentation"
-      :style="{ transform: `scale(${1.08 * bounceScale})`, filter: `brightness(${scrollBrightness}) saturate(${scrollSaturation})` }"
+      :style="{ transform: `scale(${1.08 * bounceScale})` }"
     />
+    <!-- Filter overlay for brightness/saturation -->
+    <div class="cs2-bg__filter-overlay" :style="{ opacity: 1 - scrollBrightness, filter: `saturate(${scrollSaturation})` }"></div>
     <!-- Dark overlay on top of wallpaper -->
     <div class="cs2-bg__overlay"></div>
 
@@ -89,13 +91,18 @@ const onWheel = (e: WheelEvent) => {
   }
 }
 
+let scrollRaf: number | null = null
 const onScroll = () => {
-  const scrollY = window.scrollY
-  const maxScroll = 800
-  const progress = Math.min(scrollY / maxScroll, 1)
-  scrollDarken.value = progress * 0.6
-  scrollBrightness.value = 1 - progress * 0.4
-  scrollSaturation.value = 1 - progress * 0.7
+  if (scrollRaf) return
+  scrollRaf = requestAnimationFrame(() => {
+    const scrollY = window.scrollY
+    const maxScroll = 800
+    const progress = Math.min(scrollY / maxScroll, 1)
+    scrollDarken.value = progress * 0.6
+    scrollBrightness.value = 1 - progress * 0.4
+    scrollSaturation.value = 1 - progress * 0.7
+    scrollRaf = null
+  })
 }
 
 const updateParallax = () => {
@@ -123,6 +130,7 @@ onUnmounted(() => {
   window.removeEventListener('wheel', onWheel)
   window.removeEventListener('scroll', onScroll)
   if (rafId) cancelAnimationFrame(rafId)
+  if (scrollRaf) cancelAnimationFrame(scrollRaf)
 })
 
 const particleStyle = (n: number) => {
@@ -162,6 +170,16 @@ const particleStyle = (n: number) => {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  will-change: transform;
+}
+
+.cs2-bg__filter-overlay {
+  position: absolute;
+  inset: 0;
+  background: black;
+  pointer-events: none;
+  mix-blend-mode: multiply;
+  will-change: opacity, filter;
 }
 
 .cs2-bg__overlay {
@@ -277,7 +295,7 @@ const particleStyle = (n: number) => {
 .cs2-bg__orb {
   position: absolute;
   border-radius: 50%;
-  filter: blur(100px);
+  /* Removed heavy filter: blur(100px) — using soft radial gradients instead */
   will-change: transform, opacity;
 }
 
@@ -315,6 +333,7 @@ const particleStyle = (n: number) => {
   left: 15%;
   background: radial-gradient(circle, rgba(255, 120, 0, 0.08) 0%, transparent 60%);
   animation: orbFloat4 22s ease-in-out infinite;
+  will-change: transform;
 }
 
 /* Light mode — much subtler orbs */

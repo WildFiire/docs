@@ -10,6 +10,7 @@ export function useMagnetic(elRef: Ref<HTMLElement | null>, strength = 0.3) {
   let targetY = 0
   let currentX = 0
   let currentY = 0
+  let cachedRect: DOMRect | null = null
 
   const lerp = (start: number, end: number, factor: number) => start + (end - start) * factor
 
@@ -31,9 +32,9 @@ export function useMagnetic(elRef: Ref<HTMLElement | null>, strength = 0.3) {
 
   const handleMouseMove = (e: MouseEvent) => {
     if (!elRef.value) return
-    const rect = elRef.value.getBoundingClientRect()
-    const cx = rect.left + rect.width / 2
-    const cy = rect.top + rect.height / 2
+    if (!cachedRect) cachedRect = elRef.value.getBoundingClientRect()
+    const cx = cachedRect.left + cachedRect.width / 2
+    const cy = cachedRect.top + cachedRect.height / 2
     const dx = e.clientX - cx
     const dy = e.clientY - cy
     targetX = dx * strength
@@ -46,6 +47,7 @@ export function useMagnetic(elRef: Ref<HTMLElement | null>, strength = 0.3) {
     targetX = 0
     targetY = 0
     isHovering.value = false
+    cachedRect = null
     startAnimation()
   }
 

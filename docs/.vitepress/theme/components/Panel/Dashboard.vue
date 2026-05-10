@@ -1279,7 +1279,7 @@
           
           this.$nextTick(() => {
             if (this.$refs.mainContent) {
-              this.$refs.mainContent.addEventListener('scroll', this.handleScroll)
+              this.$refs.mainContent.addEventListener('scroll', this.handleScroll, { passive: true })
             }
           })
           window.addEventListener('resize', this.handleResize)
@@ -1291,6 +1291,7 @@
       
       beforeUnmount() {
         if (this._themeObserver) this._themeObserver.disconnect()
+        if (this._scrollRaf) cancelAnimationFrame(this._scrollRaf)
         if (this.$refs.mainContent) {
           this.$refs.mainContent.removeEventListener('scroll', this.handleScroll)
         }
@@ -1307,7 +1308,7 @@
 
     this.$nextTick(() => {
       if (this.$refs.mainContent) {
-        this.$refs.mainContent.addEventListener('scroll', this.handleScroll)
+        this.$refs.mainContent.addEventListener('scroll', this.handleScroll, { passive: true })
       }
     })
     window.addEventListener('resize', this.handleResize)
@@ -1361,8 +1362,12 @@
     },
     
     handleScroll() {
-      const el = this.$refs.mainContent
-      this.isScrolled = el ? el.scrollTop > 20 : false
+      if (this._scrollRaf) return
+      this._scrollRaf = requestAnimationFrame(() => {
+        const el = this.$refs.mainContent
+        this.isScrolled = el ? el.scrollTop > 20 : false
+        this._scrollRaf = null
+      })
     },
     
     handleResize() {

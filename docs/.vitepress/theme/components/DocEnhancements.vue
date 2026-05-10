@@ -116,13 +116,21 @@ function injectProgressRing() {
   })
 }
 
+let scrollRaf = null
 function updateProgressRing() {
-  const circle = getProgressRingEl()
-  if (!circle) return
-  const scrollTop = window.scrollY
-  const docH = document.documentElement.scrollHeight - window.innerHeight
-  const progress = docH > 0 ? Math.min(scrollTop / docH, 1) : 0
-  circle.setAttribute('stroke-dashoffset', (CIRC * (1 - progress)).toFixed(2))
+  if (scrollRaf) return
+  scrollRaf = requestAnimationFrame(() => {
+    const circle = getProgressRingEl()
+    if (!circle) {
+      scrollRaf = null
+      return
+    }
+    const scrollTop = window.scrollY
+    const docH = document.documentElement.scrollHeight - window.innerHeight
+    const progress = docH > 0 ? Math.min(scrollTop / docH, 1) : 0
+    circle.setAttribute('stroke-dashoffset', (CIRC * (1 - progress)).toFixed(2))
+    scrollRaf = null
+  })
 }
 
 // ── Theme Manager ──────────────────────────────────────────────
@@ -159,6 +167,7 @@ onUnmounted(() => {
   document.removeEventListener('click', handleImgClick)
   window.removeEventListener('keydown', handleKeyNav)
   window.removeEventListener('scroll', updateProgressRing)
+  if (scrollRaf) cancelAnimationFrame(scrollRaf)
   clearTimeout(copyTimer)
   clearTimeout(hintTimer)
   document.body.style.overflow = ''
