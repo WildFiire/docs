@@ -1,20 +1,10 @@
-﻿<!-- docs\.vitepress\theme\components\Panel\PanelProfile.vue -->
+<!-- docs\.vitepress\theme\components\Panel\PanelProfile.vue -->
 <template>
   <div class="panel-profile" :class="{ 'light-theme': isLightTheme }">
 
     <!-- ── HERO ── -->
     <div class="pp-hero">
-      <!-- Full background banner -->
-      <div class="pp-banner">
-        <div class="pp-banner-bg" :style="bannerBgStyle"></div>
-        <div class="pp-banner-vignette"></div>
-        <div class="pp-banner-rank" v-if="myStats.rank !== '—'">
-          <span class="pp-banner-rank-num">#{{ myStats.rank }}</span>
-          <span class="pp-banner-rank-lbl">RANK</span>
-        </div>
-      </div>
-
-      <!-- Profile row: avatar overlaps banner -->
+      <!-- Profile row -->
       <div class="pp-profile-row">
         <div class="pp-avatar-wrap">
           <svg class="pp-level-ring" viewBox="0 0 120 120" fill="none">
@@ -133,6 +123,164 @@
           <span class="pp-tile-val pp-tile-val-sm">{{ contributionLevel.label }}</span>
           <span class="pp-tile-lbl">Level — {{ Math.round(xpProgress) }}% XP</span>
           <div class="pp-tile-bar"><div class="pp-tile-fill level" :class="contributionLevel.key" :style="{ width: xpProgress + '%' }"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── WILDFIRE SCORE + HEATMAP ROW ── -->
+    <div class="pp-score-row">
+
+      <!-- Wildfire Score Gauge -->
+      <div class="pp-card pp-score-card">
+        <div class="pp-card-header">
+          <div class="pp-card-title">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            WILDFIRE SCORE
+          </div>
+          <span class="pp-card-badge accent">{{ wildfireScoreLabel }}</span>
+        </div>
+        <div class="pp-score-body">
+          <!-- Circular gauge -->
+          <div class="pp-gauge-wrap">
+            <svg class="pp-gauge-svg" viewBox="0 0 120 120">
+              <circle cx="60" cy="60" r="48" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="10"/>
+              <circle cx="60" cy="60" r="48" fill="none"
+                :stroke="wildfireScoreColor"
+                stroke-width="10"
+                stroke-linecap="round"
+                :stroke-dasharray="301.6"
+                :stroke-dashoffset="301.6 * (1 - wildfireScore / 1000)"
+                transform="rotate(-90 60 60)"
+                style="transition: stroke-dashoffset 1.4s cubic-bezier(0.34,1.56,0.64,1), stroke 0.5s"
+                filter="url(#score-glow)"
+              />
+              <defs>
+                <filter id="score-glow" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="4" result="blur"/>
+                  <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                </filter>
+              </defs>
+              <text x="60" y="54" text-anchor="middle" dominant-baseline="middle" font-size="26" font-weight="900" :fill="wildfireScoreColor" font-family="system-ui,sans-serif">{{ wildfireScore }}</text>
+              <text x="60" y="72" text-anchor="middle" dominant-baseline="middle" font-size="9" fill="rgba(255,255,255,0.38)" font-family="system-ui,sans-serif" letter-spacing="1">/ 1000</text>
+            </svg>
+          </div>
+          <!-- Score breakdown -->
+          <div class="pp-score-breakdown">
+            <div class="pp-score-bar-row" v-for="m in scoreMetrics" :key="m.label">
+              <div class="pp-score-bar-label">
+                <span>{{ m.label }}</span>
+                <span class="pp-score-bar-val">{{ m.score }}</span>
+              </div>
+              <div class="pp-score-bar-track">
+                <div class="pp-score-bar-fill" :style="{ width: (m.score / m.max * 100) + '%', background: m.color }"></div>
+              </div>
+            </div>
+            <div class="pp-score-grade">
+              <span class="pp-score-grade-val" :style="{ color: wildfireScoreColor }">{{ wildfireScoreLabel }}</span>
+              <span class="pp-score-grade-sub">Contributor Grade</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Streak & Quick Stats -->
+      <div class="pp-card pp-quick-card">
+        <div class="pp-card-header">
+          <div class="pp-card-title">
+            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polyline points="13 2 13 22 4 14 13 22 22 14"/></svg>
+            QUICK STATS
+          </div>
+        </div>
+        <div class="pp-quick-list">
+          <div class="pp-quick-item">
+            <div class="pp-quick-icon" style="color:#ff7800;background:rgba(255,120,0,0.1)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M8.5 14.5A2.5 2.5 0 0 0 11 12c0-1.38-.5-2-1-3-1.072-2.143-.224-4.054 2-6 .5 2.5 2 4.9 4 6.5 2 1.6 3 3.5 3 5.5a7 7 0 1 1-14 0c0-1.153.433-2.294 1-3a2.5 2.5 0 0 0 2.5 2.5z"/></svg>
+            </div>
+            <div class="pp-quick-info">
+              <span class="pp-quick-val">{{ activityStats.streak }}</span>
+              <span class="pp-quick-lbl">Day Streak</span>
+            </div>
+          </div>
+          <div class="pp-quick-item">
+            <div class="pp-quick-icon" style="color:#4ade80;background:rgba(74,222,128,0.1)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+            </div>
+            <div class="pp-quick-info">
+              <span class="pp-quick-val">{{ activityStats.peak }}</span>
+              <span class="pp-quick-lbl">Peak Day</span>
+            </div>
+          </div>
+          <div class="pp-quick-item">
+            <div class="pp-quick-icon" style="color:#60a5fa;background:rgba(96,165,250,0.1)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div class="pp-quick-info">
+              <span class="pp-quick-val">#{{ myStats.rank === '—' ? '—' : myStats.rank }}</span>
+              <span class="pp-quick-lbl">Rank</span>
+            </div>
+          </div>
+          <div class="pp-quick-item">
+            <div class="pp-quick-icon" style="color:#c084fc;background:rgba(192,132,252,0.1)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="8" r="6"/><path d="M15.477 12.89 17 22l-5-3-5 3 1.523-9.11"/></svg>
+            </div>
+            <div class="pp-quick-info">
+              <span class="pp-quick-val">{{ unlockedAchievementsCount }}</span>
+              <span class="pp-quick-lbl">Badges</span>
+            </div>
+          </div>
+          <div class="pp-quick-item">
+            <div class="pp-quick-icon" style="color:#fbbf24;background:rgba(251,191,36,0.1)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <div class="pp-quick-info">
+              <span class="pp-quick-val">{{ activityStats.total }}</span>
+              <span class="pp-quick-lbl">30d Commits</span>
+            </div>
+          </div>
+          <div class="pp-quick-item">
+            <div class="pp-quick-icon" style="color:#34d399;background:rgba(52,211,153,0.1)">
+              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            </div>
+            <div class="pp-quick-info">
+              <span class="pp-quick-val">{{ activityLangs.length }}</span>
+              <span class="pp-quick-lbl">Languages</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── CONTRIBUTION HEATMAP ── -->
+    <div class="pp-card">
+      <div class="pp-card-header">
+        <div class="pp-card-title">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/></svg>
+          CONTRIBUTION HEATMAP · 90 DAYS
+        </div>
+        <div class="pp-act-meta">
+          <span><strong>{{ heatmapStats.total }}</strong> commits</span>
+          <span class="pp-act-sep">·</span>
+          <span><strong>{{ heatmapStats.activeDays }}</strong> active days</span>
+          <span class="pp-act-sep">·</span>
+          <span>peak <strong>{{ heatmapStats.peak }}</strong></span>
+        </div>
+      </div>
+      <div class="pp-heatmap">
+        <div class="pp-heatmap-grid">
+          <div
+            v-for="(cell, i) in heatmapCells" :key="i"
+            class="pp-heatmap-cell"
+            :class="'level-' + cell.level"
+            :title="cell.label"
+            :style="cell.level > 0 ? { background: heatmapColor(cell.level), boxShadow: cell.level >= 3 ? '0 0 6px ' + heatmapColor(cell.level) + '80' : 'none' } : {}"
+          ></div>
+        </div>
+        <div class="pp-heatmap-legend">
+          <span class="pp-heatmap-leg-lbl">Less</span>
+          <div class="pp-heatmap-leg-cell" v-for="l in [0,1,2,3,4]" :key="l"
+            :style="l > 0 ? { background: heatmapColor(l) } : {}"
+          ></div>
+          <span class="pp-heatmap-leg-lbl">More</span>
         </div>
       </div>
     </div>
@@ -404,57 +552,6 @@
     <!-- ── PROFILE SETTINGS (bg + settings merged) ── -->
     <div class="pp-card pp-settings-card">
 
-      <!-- Section: Background -->
-      <div class="pp-settings-section">
-        <div class="pp-section-head">
-          <div class="pp-card-title">
-            <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>
-            PROFILE BACKGROUND
-          </div>
-          <div class="pp-sync-pill" :class="readmeBgStatus === 'found' ? 'synced' : readmeBgStatus === 'loading' ? 'saving' : 'local'">
-            <span class="pp-sync-dot"></span>
-            {{ readmeBgLabel }}
-          </div>
-        </div>
-
-        <!-- README bg info banner -->
-        <div class="pp-readme-bg-info">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
-          <span>
-            Add an image to your
-            <a :href="`https://github.com/${userLogin}/${userLogin}/edit/main/README.md`" target="_blank" class="pp-readme-link">GitHub profile README</a>
-            (e.g. <code>![bg](https://i.imgur.com/abc.jpg)</code>) and it will appear here automatically.
-          </span>
-        </div>
-
-        <!-- Live preview strip -->
-        <div class="pp-bg-live-preview" :style="bannerBgStyle">
-          <div class="pp-bg-live-overlay">
-            <span v-if="profileBgUrl">README image active</span>
-            <span v-else-if="activeBgId === 'default'">No background — gradient fallback</span>
-            <span v-else>{{ bgPresets.find(p => p.id === activeBgId)?.label }} gradient</span>
-          </div>
-        </div>
-
-        <!-- Fallback preset grid (only active when no README image found) -->
-        <div class="pp-bg-fallback-label" v-if="!profileBgUrl">
-          <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 15v4c0 1.1.9 2 2 2h14a2 2 0 0 0 2-2v-4M17 9l-5 5-5-5M12 12.8V2.5"/></svg>
-          Fallback gradient (used when no README image found)
-        </div>
-        <div class="pp-bg-grid" :class="{ 'pp-bg-grid-dim': !!profileBgUrl }">
-          <button v-for="preset in bgPresets" :key="preset.id" class="pp-bg-btn"
-            :class="{ active: activeBgId === preset.id && !profileBgUrl }" :title="preset.label" @click="setBg(preset)">
-            <div class="pp-bg-swatch" :style="preset.value ? { background: preset.value } : {}">
-              <svg v-if="preset.id === 'default'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="rgba(255,255,255,0.4)" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-              <svg v-else-if="activeBgId === preset.id && !profileBgUrl" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="white" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>
-            </div>
-            <span class="pp-bg-label">{{ preset.label }}</span>
-          </button>
-        </div>
-      </div>
-
-      <div class="pp-divider"></div>
-
       <!-- Section: Settings -->
       <div class="pp-settings-section">
         <div class="pp-section-head" style="margin-bottom:14px">
@@ -661,6 +758,85 @@ export default {
       return this.activityFiles.filter(f => f.path.endsWith('.md')).slice(0, 6)
     },
 
+    wildfireScore() {
+      const commitScore = Math.min(this.myStats.commits * 2.5, 400)
+      const rankScore = typeof this.myStats.rank === 'number' ? Math.max(0, 200 - this.myStats.rank * 10) : 0
+      const impactScore = Math.min(this.myStats.impactPct * 2, 200)
+      const prScore = Math.min(this.myStats.prs * 10, 100)
+      const achScore = Math.min(this.unlockedAchievementsCount * 10, 100)
+      return Math.round(Math.min(commitScore + rankScore + impactScore + prScore + achScore, 1000))
+    },
+
+    wildfireScoreColor() {
+      const s = this.wildfireScore
+      if (s >= 800) return '#ff7800'
+      if (s >= 600) return '#c084fc'
+      if (s >= 400) return '#60a5fa'
+      if (s >= 200) return '#4ade80'
+      return '#8a8a9a'
+    },
+
+    wildfireScoreLabel() {
+      const s = this.wildfireScore
+      if (s >= 800) return 'LEGEND'
+      if (s >= 600) return 'ELITE'
+      if (s >= 400) return 'ADVANCED'
+      if (s >= 200) return 'RISING'
+      return 'NEWCOMER'
+    },
+
+    scoreMetrics() {
+      return [
+        { label: 'Commits', score: Math.round(Math.min(this.myStats.commits * 2.5, 400)), max: 400, color: 'var(--accent)' },
+        { label: 'Rank', score: typeof this.myStats.rank === 'number' ? Math.round(Math.max(0, 200 - this.myStats.rank * 10)) : 0, max: 200, color: '#c084fc' },
+        { label: 'Impact', score: Math.round(Math.min(this.myStats.impactPct * 2, 200)), max: 200, color: '#60a5fa' },
+        { label: 'PRs', score: Math.round(Math.min(this.myStats.prs * 10, 100)), max: 100, color: '#4ade80' },
+        { label: 'Badges', score: Math.round(Math.min(this.unlockedAchievementsCount * 10, 100)), max: 100, color: '#fbbf24' },
+      ]
+    },
+
+    heatmapCells() {
+      const days = 91
+      const now = new Date()
+      const raw = this.dailyCommits
+      const commits = raw.length >= days
+        ? raw.slice(-days)
+        : [...Array(Math.max(0, days - raw.length)).fill(0), ...raw]
+      const maxVal = Math.max(...commits, 1)
+      return commits.map((val, i) => {
+        const d = new Date(now)
+        d.setDate(d.getDate() - (days - 1 - i))
+        const level = val === 0 ? 0 : val <= maxVal * 0.25 ? 1 : val <= maxVal * 0.5 ? 2 : val <= maxVal * 0.75 ? 3 : 4
+        return {
+          val, level,
+          label: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }) + ': ' + val + ' commit' + (val !== 1 ? 's' : '')
+        }
+      })
+    },
+
+    heatmapStats() {
+      const cells = this.heatmapCells
+      const total = cells.reduce((a, c) => a + c.val, 0)
+      const activeDays = cells.filter(c => c.val > 0).length
+      const peak = Math.max(...cells.map(c => c.val), 0)
+      return { total, activeDays, peak }
+    },
+
+    activityStats() {
+      const raw = this.dailyCommits || []
+      // 30-day window
+      const last30 = raw.slice(-30)
+      const total = last30.reduce((a, b) => a + b, 0)
+      const peak = Math.max(...last30, 0)
+      // current streak — count consecutive non-zero days from the end
+      let streak = 0
+      for (let i = raw.length - 1; i >= 0; i--) {
+        if (raw[i] > 0) streak++
+        else break
+      }
+      return { total, peak, streak }
+    },
+
     heroBgStyle() {
       return this.bannerBgStyle
     },
@@ -762,6 +938,10 @@ export default {
   },
 
   methods: {
+    heatmapColor(level) {
+      const colors = ['rgba(255,255,255,0.05)', 'rgba(255,120,0,0.25)', 'rgba(255,120,0,0.5)', 'rgba(255,120,0,0.75)', '#ff7800']
+      return colors[level] || colors[0]
+    },
     onActMouseMove(e) {
       const svg = e.currentTarget
       const rect = svg.getBoundingClientRect()
@@ -921,14 +1101,15 @@ export default {
 <style scoped>
 /* ── CSS VARIABLES ── */
 .panel-profile {
-  --bg-secondary: #0f0f12; --bg-tertiary: #1a1a20; --bg-primary: #0a0a0c;
-  --border-color: #1f1f24; --text-primary: #fff; --text-secondary: #e0e0e0;
-  --text-muted: #8a8a95; --accent: #ff7800; --accent-glow: rgba(255, 120, 0,0.2);
-  --accent-dim: rgba(255, 120, 0,0.08); --accent-soft: rgba(255, 120, 0,0.15);
-  --accent-mid: rgba(255, 120, 0,0.28); --accent-strong: rgba(255, 120, 0,0.45);
-  --accent-heavy: rgba(255, 120, 0,0.68); --accent-solid: rgba(255, 120, 0,0.88);
-  --accent-alt: #ff6030; --accent-alt2: #ff8c42;
-  display:flex; flex-direction:column; gap:16px; animation:pp-fade 0.3s ease;
+  --bg-secondary: #0f0f13; --bg-tertiary: #1c1c25; --bg-primary: #09090d;
+  --border-color: #22222c; --text-primary: #f2f2f8; --text-secondary: #d8d8e8;
+  --text-muted: #7a7a8c; --accent: #ff7800; --accent-glow: rgba(255,120,0,0.24);
+  --accent-dim: rgba(255,120,0,0.09); --accent-soft: rgba(255,120,0,0.18);
+  --accent-mid: rgba(255,120,0,0.32); --accent-strong: rgba(255,120,0,0.52);
+  --accent-heavy: rgba(255,120,0,0.72); --accent-solid: rgba(255,120,0,0.92);
+  --accent-alt: #ff5010; --accent-alt2: #ff9040;
+  --glass: rgba(255,255,255,0.06); --glass-border: rgba(255,255,255,0.11);
+  display:flex; flex-direction:column; gap:18px; animation:pp-fade 0.35s ease;
 }
 .panel-profile.light-theme {
   --bg-primary:#f0f0f5; --bg-secondary:#fff; --bg-tertiary:#e2e2ea;
@@ -937,65 +1118,84 @@ export default {
   --accent-dim: rgba(255, 120, 0,0.07); --accent-soft: rgba(255, 120, 0,0.12);
   --accent-mid: rgba(255, 120, 0,0.22); --accent-strong: rgba(255, 120, 0,0.4);
 }
-@keyframes pp-fade { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
-@keyframes pp-pulse { 0%,100% { opacity:1; } 50% { opacity:0.3; } }
+@keyframes pp-fade { from { opacity:0; transform:translateY(14px); } to { opacity:1; transform:translateY(0); } }
+@keyframes pp-pulse { 0%,100% { opacity:1; } 50% { opacity:0.25; } }
+@keyframes pp-dot-glow { 0%,100% { box-shadow:0 0 8px rgba(34,197,94,0.6); } 50% { box-shadow:0 0 18px rgba(34,197,94,0.95); } }
 
 /* ── HERO ── */
-.pp-hero { position:relative; background:rgba(6,6,18,0.7); backdrop-filter:blur(20px); -webkit-backdrop-filter:blur(20px); border:1px solid rgba(255,255,255,0.10); border-radius:20px; overflow:hidden; min-height:240px; box-shadow:0 8px 32px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.12); }
-.pp-banner { position:absolute; inset:0; height:100%; z-index:0; }
-.pp-banner-bg { position:absolute; inset:0; background-size:cover; background-position:center; transition:background 0.5s ease, background-image 0.5s ease; }
-.pp-banner-vignette { position:absolute; inset:0; background:linear-gradient(to bottom, rgba(0,0,0,0.08) 0%, rgba(0,0,0,0.45) 45%, rgba(0,0,0,0.82) 100%); }
-.pp-banner-rank { position:absolute; top:14px; right:18px; background:var(--accent-soft); border:1px solid var(--accent-strong); border-radius:12px; padding:8px 16px; text-align:center; backdrop-filter:blur(8px); z-index:2; }
-.pp-banner-rank-num { display:block; font-size:24px; font-weight:900; color:var(--accent-alt); line-height:1; }
-.pp-banner-rank-lbl { font-size:8px; color:rgba(255,255,255,0.6); letter-spacing:1px; text-transform:uppercase; }
+.pp-hero {
+  position:relative;
+  background:rgba(5,5,15,0.52);
+  backdrop-filter:blur(28px); -webkit-backdrop-filter:blur(28px);
+  border:1px solid rgba(255,255,255,0.11);
+  border-radius:28px; overflow:hidden;
+  box-shadow:0 1px 0 rgba(255,255,255,0.08) inset, 0 8px 40px rgba(0,0,0,0.45);
+}
 
 /* Profile row */
-.pp-profile-row { position:relative; z-index:1; display:flex; align-items:flex-end; gap:20px; padding:150px 24px 24px; flex-wrap:wrap; }
-.pp-avatar-wrap { position:relative; flex-shrink:0; width:110px; height:110px; margin-top:0; z-index:2; }
-.pp-level-ring { position:absolute; inset:0; width:110px; height:110px; }
-.pp-avatar { position:absolute; top:50%; left:50%; transform:translate(-50%,-50%); width:82px; height:82px; border-radius:50%; object-fit:cover; border:3px solid rgba(255,255,255,0.15); box-shadow:0 6px 24px rgba(0,0,0,0.6); transition:transform 0.2s; }
-.pp-avatar:hover { transform:translate(-50%,-50%) scale(1.06); }
-.pp-online-dot { position:absolute; bottom:6px; right:6px; width:13px; height:13px; border-radius:50%; background:#22c55e; border:2px solid rgba(0,0,0,0.5); box-shadow:0 0 8px rgba(34,197,94,0.6); z-index:3; }
-.pp-level-pin { position:absolute; bottom:-4px; left:50%; transform:translateX(-50%); width:28px; height:28px; z-index:3; filter:drop-shadow(0 2px 6px rgba(0,0,0,0.5)); }
+.pp-profile-row { position:relative; z-index:1; display:flex; align-items:center; gap:24px; padding:28px; flex-wrap:wrap; }
+.pp-avatar-wrap { position:relative; flex-shrink:0; width:118px; height:118px; z-index:2; }
+.pp-level-ring { position:absolute; inset:0; width:118px; height:118px; }
+.pp-avatar {
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+  width:88px; height:88px; border-radius:50%; object-fit:cover;
+  border:3px solid rgba(255,255,255,0.22);
+  box-shadow:0 10px 40px rgba(0,0,0,0.8), 0 0 0 1px rgba(255,255,255,0.07);
+  transition:transform 0.25s ease;
+}
+.pp-avatar:hover { transform:translate(-50%,-50%) scale(1.08); }
+.pp-online-dot { position:absolute; bottom:7px; right:7px; width:15px; height:15px; border-radius:50%; background:#22c55e; border:2.5px solid rgba(0,0,0,0.65); box-shadow:0 0 10px rgba(34,197,94,0.7); z-index:3; animation:pp-dot-glow 2.5s ease-in-out infinite; }
+.pp-level-pin { position:absolute; bottom:-5px; left:50%; transform:translateX(-50%); width:30px; height:30px; z-index:3; filter:drop-shadow(0 3px 10px rgba(0,0,0,0.65)); }
 
 /* Profile info */
 .pp-profile-info { flex:1; min-width:180px; padding-top:14px; }
-.pp-name-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:4px; }
-.pp-name { margin:0; font-size:21px; font-weight:800; color:var(--text-primary); }
-.pp-lvl-chip { display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:700; padding:3px 9px; border-radius:20px; letter-spacing:0.4px; text-transform:uppercase; }
-.pp-lvl-chip.newcomer { background:rgba(138,138,149,0.15); color:#8a8a95; border:1px solid rgba(138,138,149,0.25); }
-.pp-lvl-chip.bronze   { background:rgba(205,127,50,0.15); color:#cd7f32; border:1px solid rgba(205,127,50,0.3); }
-.pp-lvl-chip.silver   { background:rgba(192,192,192,0.15); color:#c0c0c0; border:1px solid rgba(192,192,192,0.3); }
-.pp-lvl-chip.gold     { background:rgba(255,215,0,0.12); color:#ffd700; border:1px solid rgba(255,215,0,0.35); box-shadow:0 0 10px rgba(255,215,0,0.12); }
-.pp-lvl-chip.platinum { background:rgba(136,212,232,0.12); color:#88d4e8; border:1px solid rgba(136,212,232,0.3); box-shadow:0 0 10px rgba(136,212,232,0.12); }
-.pp-lvl-chip.legend   { background:var(--accent-dim); color:var(--accent-alt); border:1px solid var(--accent-strong); box-shadow:0 0 12px var(--accent-soft); }
-.pp-login { font-size:12px; color:var(--text-muted); display:block; margin-bottom:5px; }
-.pp-bio { font-size:12px; color:var(--text-secondary); margin:0 0 8px; line-height:1.5; opacity:0.85; }
-.pp-meta-row { display:flex; align-items:center; gap:8px; flex-wrap:wrap; }
-.pp-meta-tag { display:inline-flex; align-items:center; gap:4px; font-size:11px; color:var(--text-muted); background:var(--bg-tertiary); border:1px solid var(--border-color); padding:3px 9px; border-radius:8px; }
-.pp-meta-tag.link { color:var(--accent); text-decoration:none; border-color:var(--accent-glow); }
-.pp-meta-tag.link:hover { border-color:var(--accent-strong); }
+.pp-name-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:5px; }
+.pp-name { margin:0; font-size:23px; font-weight:800; color:#fff; text-shadow:0 2px 14px rgba(0,0,0,0.7); letter-spacing:-0.3px; }
+.pp-lvl-chip { display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:700; padding:3px 10px; border-radius:20px; letter-spacing:0.5px; text-transform:uppercase; }
+.pp-lvl-chip.newcomer { background:rgba(138,138,149,0.16); color:#9a9aaa; border:1px solid rgba(138,138,149,0.28); }
+.pp-lvl-chip.bronze   { background:rgba(205,127,50,0.18); color:#d4903a; border:1px solid rgba(205,127,50,0.38); }
+.pp-lvl-chip.silver   { background:rgba(200,200,210,0.16); color:#d8d8e8; border:1px solid rgba(200,200,210,0.38); }
+.pp-lvl-chip.gold     { background:rgba(255,215,0,0.14); color:#ffd700; border:1px solid rgba(255,215,0,0.42); box-shadow:0 0 16px rgba(255,215,0,0.18); }
+.pp-lvl-chip.platinum { background:rgba(136,212,232,0.14); color:#90daf0; border:1px solid rgba(136,212,232,0.38); box-shadow:0 0 16px rgba(136,212,232,0.18); }
+.pp-lvl-chip.legend   { background:var(--accent-dim); color:var(--accent-alt2); border:1px solid var(--accent-strong); box-shadow:0 0 20px var(--accent-soft); }
+.pp-login { font-size:12px; color:rgba(255,255,255,0.50); display:block; margin-bottom:7px; letter-spacing:0.1px; }
+.pp-bio { font-size:13px; color:rgba(255,255,255,0.74); margin:0 0 9px; line-height:1.6; }
+.pp-meta-row { display:flex; align-items:center; gap:7px; flex-wrap:wrap; }
+.pp-meta-tag { display:inline-flex; align-items:center; gap:4px; font-size:11px; color:rgba(255,255,255,0.52); background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.13); padding:3px 9px; border-radius:8px; backdrop-filter:blur(6px); transition:border-color 0.15s; }
+.pp-meta-tag.link { color:var(--accent-alt2); text-decoration:none; border-color:var(--accent-mid); }
+.pp-meta-tag.link:hover { border-color:var(--accent-strong); color:var(--accent); background:var(--accent-dim); }
 
 /* GitHub pills */
-.pp-gh-pill-row { display:flex; align-items:stretch; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.10); border-radius:12px; overflow:hidden; align-self:flex-start; margin-top:14px; flex-shrink:0; backdrop-filter:blur(12px); }
-.pp-gh-pill { display:flex; flex-direction:column; align-items:center; padding:10px 16px; gap:2px; }
-.pp-gh-pill + .pp-gh-pill { border-left:1px solid rgba(255,255,255,0.08); }
-.pp-gh-pill-val { font-size:16px; font-weight:700; color:var(--text-primary); line-height:1; }
-.pp-gh-pill-lbl { font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; }
+.pp-gh-pill-row { display:flex; align-items:stretch; background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.13); border-radius:16px; overflow:hidden; align-self:flex-start; margin-top:14px; flex-shrink:0; backdrop-filter:blur(20px); }
+.pp-gh-pill { display:flex; flex-direction:column; align-items:center; padding:13px 22px; gap:3px; transition:background 0.15s; }
+.pp-gh-pill:hover { background:rgba(255,255,255,0.05); }
+.pp-gh-pill + .pp-gh-pill { border-left:1px solid rgba(255,255,255,0.09); }
+.pp-gh-pill-val { font-size:18px; font-weight:800; color:#fff; line-height:1; }
+.pp-gh-pill-lbl { font-size:9px; color:rgba(255,255,255,0.42); text-transform:uppercase; letter-spacing:0.6px; }
 
 /* ── STAT TILES ── */
-.pp-stat-tiles { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; }
-.pp-tile { background:rgba(6,6,18,0.46); backdrop-filter:blur(40px) saturate(175%); -webkit-backdrop-filter:blur(40px) saturate(175%); border:1px solid rgba(255,255,255,0.09); border-radius:16px; padding:16px 16px 14px; display:flex; gap:13px; align-items:flex-start; position:relative; overflow:hidden; transition:transform 0.18s, border-color 0.18s, box-shadow 0.18s; box-shadow:0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10); }
-.pp-tile:hover { transform:translateY(-3px); border-color:rgba(255,255,255,0.14); box-shadow:0 12px 40px rgba(0,0,0,0.45), inset 0 1px 0 rgba(255,255,255,0.14); }
-.pp-tile-accent { position:absolute; top:0; left:0; right:0; height:2px; }
-.pp-tile.commits .pp-tile-accent { background:linear-gradient(90deg,var(--accent),var(--accent-alt)); }
-.pp-tile.prs .pp-tile-accent     { background:linear-gradient(90deg,#22c55e,#4ade80); }
-.pp-tile.impact .pp-tile-accent  { background:linear-gradient(90deg,#3b82f6,#60a5fa); }
-.pp-tile.level .pp-tile-accent   { background:linear-gradient(90deg,#ffd700,#ffaa00); }
-.pp-tile-icon { width:40px; height:40px; border-radius:10px; background:rgba(255,255,255,0.06); border:1px solid rgba(255,255,255,0.10); display:flex; align-items:center; justify-content:center; color:var(--text-muted); flex-shrink:0; }
-.pp-tile.commits .pp-tile-icon { color:var(--accent); }
-.pp-tile.prs .pp-tile-icon     { color:#22c55e; }
-.pp-tile.impact .pp-tile-icon  { color:#3b82f6; }
+.pp-stat-tiles { display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin-top:6px; }
+.pp-tile {
+  background:rgba(5,5,15,0.52);
+  backdrop-filter:blur(40px) saturate(180%);
+  -webkit-backdrop-filter:blur(40px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.09);
+  border-radius:20px; padding:18px 18px 16px;
+  display:flex; gap:14px; align-items:flex-start;
+  position:relative; overflow:hidden;
+  transition:transform 0.2s ease, border-color 0.2s, box-shadow 0.2s;
+  box-shadow:0 4px 28px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.10);
+}
+.pp-tile:hover { transform:translateY(-4px); border-color:rgba(255,255,255,0.16); box-shadow:0 16px 48px rgba(0,0,0,0.52), inset 0 1px 0 rgba(255,255,255,0.14); }
+.pp-tile-accent { position:absolute; top:0; left:0; right:0; height:2px; border-radius:2px 2px 0 0; }
+.pp-tile.commits .pp-tile-accent { background:linear-gradient(90deg,var(--accent-alt),var(--accent-alt2)); box-shadow:0 0 12px var(--accent-mid); }
+.pp-tile.prs .pp-tile-accent     { background:linear-gradient(90deg,#16a34a,#4ade80); box-shadow:0 0 12px rgba(34,197,94,0.3); }
+.pp-tile.impact .pp-tile-accent  { background:linear-gradient(90deg,#2563eb,#60a5fa); box-shadow:0 0 12px rgba(59,130,246,0.3); }
+.pp-tile.level .pp-tile-accent   { background:linear-gradient(90deg,#b45309,#fbbf24); box-shadow:0 0 12px rgba(255,215,0,0.3); }
+.pp-tile-icon { width:42px; height:42px; border-radius:12px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.11); display:flex; align-items:center; justify-content:center; color:var(--text-muted); flex-shrink:0; }
+.pp-tile.commits .pp-tile-icon { color:var(--accent-alt2); background:var(--accent-dim); border-color:var(--accent-mid); }
+.pp-tile.prs .pp-tile-icon     { color:#4ade80; background:rgba(34,197,94,0.09); border-color:rgba(34,197,94,0.22); }
+.pp-tile.impact .pp-tile-icon  { color:#60a5fa; background:rgba(59,130,246,0.09); border-color:rgba(59,130,246,0.22); }
 .pp-tile-body { flex:1; min-width:0; display:flex; flex-direction:column; gap:4px; }
 .pp-tile-val { font-size:26px; font-weight:800; color:var(--text-primary); line-height:1; }
 .pp-tile-val-sm { font-size:17px; }
@@ -1012,12 +1212,85 @@ export default {
 .pp-tile-fill.level.platinum { background:linear-gradient(90deg,#88d4e8,#5ab4d0); }
 .pp-tile-fill.level.legend   { background:linear-gradient(90deg,var(--accent),var(--accent-alt)); }
 
+/* ── SCORE + QUICK ROW ── */
+.pp-score-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; }
+
+/* Wildfire Score card */
+.pp-score-card { display:flex; flex-direction:column; }
+.pp-score-body { display:flex; align-items:center; gap:24px; }
+.pp-gauge-wrap { flex-shrink:0; width:120px; height:120px; position:relative; }
+.pp-gauge-svg { width:120px; height:120px; }
+.pp-score-breakdown { flex:1; display:flex; flex-direction:column; gap:10px; }
+.pp-score-bar-row { display:flex; flex-direction:column; gap:4px; }
+.pp-score-bar-label {
+  display:flex; justify-content:space-between; align-items:center;
+  font-size:10px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px;
+}
+.pp-score-bar-val { font-size:10px; font-weight:700; color:var(--text-primary); }
+.pp-score-bar-track { height:5px; background:rgba(255,255,255,0.07); border-radius:3px; overflow:hidden; }
+.pp-score-bar-fill { height:100%; border-radius:3px; transition:width 1s cubic-bezier(0.34,1.56,0.64,1); }
+.pp-score-grade { display:flex; flex-direction:column; align-items:flex-end; margin-top:4px; }
+.pp-score-grade-val { font-size:15px; font-weight:900; letter-spacing:1px; line-height:1; }
+.pp-score-grade-sub { font-size:9px; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-top:2px; }
+
+/* Quick Stats card */
+.pp-quick-card { display:flex; flex-direction:column; }
+.pp-quick-list { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.pp-quick-item {
+  display:flex; align-items:center; gap:12px;
+  padding:12px 14px;
+  background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08);
+  border-radius:14px; transition:border-color 0.15s, transform 0.15s;
+}
+.pp-quick-item:hover { border-color:rgba(255,255,255,0.14); transform:translateY(-1px); }
+.pp-quick-icon {
+  width:36px; height:36px; border-radius:10px;
+  display:flex; align-items:center; justify-content:center; flex-shrink:0;
+}
+.pp-quick-info { display:flex; flex-direction:column; gap:1px; }
+.pp-quick-val { font-size:17px; font-weight:800; color:var(--text-primary); line-height:1.1; }
+.pp-quick-lbl { font-size:9px; font-weight:600; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.4px; }
+
+/* ── CONTRIBUTION HEATMAP ── */
+.pp-heatmap { display:flex; flex-direction:column; gap:8px; }
+.pp-heatmap-grid {
+  display:grid;
+  grid-template-columns:repeat(13, 1fr);
+  grid-template-rows:repeat(7, 8px);
+  grid-auto-flow:column;
+  gap:2px;
+}
+.pp-heatmap-cell {
+  width:100%; height:8px;
+  border-radius:2px;
+  background:rgba(255,255,255,0.05);
+  transition:transform 0.12s, opacity 0.12s;
+  cursor:default;
+}
+.pp-heatmap-cell:hover { transform:scale(1.5); z-index:2; position:relative; opacity:0.9; }
+.pp-heatmap-legend {
+  display:flex; align-items:center; gap:4px;
+  justify-content:flex-end; margin-top:2px;
+}
+.pp-heatmap-leg-lbl { font-size:9px; color:var(--text-muted); }
+.pp-heatmap-leg-cell {
+  width:9px; height:9px; border-radius:2px;
+  background:rgba(255,255,255,0.05);
+}
+
 /* ── SHARED CARD ── */
-.pp-card { background:rgba(6,6,18,0.46); backdrop-filter:blur(40px) saturate(175%); -webkit-backdrop-filter:blur(40px) saturate(175%); border:1px solid rgba(255,255,255,0.09); border-radius:16px; padding:22px 24px; box-shadow:0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10); }
-.pp-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:20px; }
-.pp-card-title { display:flex; align-items:center; gap:8px; font-size:11px; font-weight:700; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.6px; }
-.pp-card-badge { font-size:11px; background:rgba(255,255,255,0.05); color:var(--text-muted); padding:3px 10px; border-radius:10px; border:1px solid rgba(255,255,255,0.09); }
-.pp-card-badge.accent { background:var(--accent-dim); color:var(--accent); border-color:var(--accent-mid); }
+.pp-card {
+  background:rgba(5,5,15,0.52);
+  backdrop-filter:blur(40px) saturate(180%);
+  -webkit-backdrop-filter:blur(40px) saturate(180%);
+  border:1px solid rgba(255,255,255,0.09);
+  border-radius:22px; padding:24px 26px;
+  box-shadow:0 4px 28px rgba(0,0,0,0.38), inset 0 1px 0 rgba(255,255,255,0.10);
+}
+.pp-card-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:22px; }
+.pp-card-title { display:flex; align-items:center; gap:8px; font-size:10.5px; font-weight:800; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.8px; }
+.pp-card-badge { font-size:11px; background:rgba(255,255,255,0.06); color:var(--text-muted); padding:3px 11px; border-radius:10px; border:1px solid rgba(255,255,255,0.10); }
+.pp-card-badge.accent { background:var(--accent-dim); color:var(--accent-alt2); border-color:var(--accent-mid); font-weight:600; }
 
 /* ── PROGRESSION MILESTONES ── */
 .pp-milestones { display:grid; grid-template-columns:repeat(6,1fr); gap:4px; margin-bottom:20px; }
@@ -1219,49 +1492,86 @@ export default {
 .panel-profile.light-theme .pp-accent-swatch.active { border-color:#1a1a1a; box-shadow:0 0 0 3px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.15); }
 
 /* ── LIGHT THEME ── */
-.panel-profile.light-theme .pp-hero { background:#ddd; }
-.panel-profile.light-theme .pp-banner-vignette { background:linear-gradient(to bottom, rgba(0,0,0,0.04) 0%, rgba(0,0,0,0.35) 45%, rgba(0,0,0,0.7) 100%); }
-.panel-profile.light-theme .pp-banner-rank { background:var(--accent-dim); border-color:var(--accent-mid); }
-.panel-profile.light-theme .pp-banner-rank-lbl { color:rgba(0,0,0,0.5); }
-.panel-profile.light-theme .pp-gh-pill-row { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
-.panel-profile.light-theme .pp-gh-pill + .pp-gh-pill { border-left-color:var(--border-color); }
+.panel-profile.light-theme .pp-hero {
+  background:#f5f5fa;
+  border-color:rgba(0,0,0,0.10);
+  box-shadow:0 1px 0 rgba(255,255,255,0.9) inset, 0 4px 24px rgba(0,0,0,0.08);
+}
+.panel-profile.light-theme .pp-name { color:var(--text-primary); text-shadow:none; }
+.panel-profile.light-theme .pp-login { color:var(--text-muted); }
+.panel-profile.light-theme .pp-bio { color:var(--text-secondary); }
+.panel-profile.light-theme .pp-meta-tag { background:rgba(0,0,0,0.05); border-color:rgba(0,0,0,0.12); color:var(--text-muted); backdrop-filter:none; }
+.panel-profile.light-theme .pp-meta-tag.link { color:var(--accent); border-color:var(--accent-mid); }
+.panel-profile.light-theme .pp-gh-pill-row { background:rgba(0,0,0,0.05); border-color:rgba(0,0,0,0.12); }
+.panel-profile.light-theme .pp-gh-pill + .pp-gh-pill { border-left-color:rgba(0,0,0,0.10); }
 .panel-profile.light-theme .pp-gh-pill-val { color:var(--text-primary); }
 .panel-profile.light-theme .pp-gh-pill-lbl { color:var(--text-muted); }
+.panel-profile.light-theme .pp-tile { background:#ffffff; border-color:rgba(0,0,0,0.10); box-shadow:0 2px 16px rgba(0,0,0,0.07); }
+.panel-profile.light-theme .pp-tile-icon { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.10); }
+.panel-profile.light-theme .pp-tile.commits .pp-tile-icon { background:var(--accent-dim); border-color:var(--accent-mid); }
+.panel-profile.light-theme .pp-tile.prs .pp-tile-icon { background:rgba(34,197,94,0.08); border-color:rgba(34,197,94,0.2); }
+.panel-profile.light-theme .pp-tile.impact .pp-tile-icon { background:rgba(59,130,246,0.08); border-color:rgba(59,130,246,0.2); }
+.panel-profile.light-theme .pp-tile-val { color:var(--text-primary); }
+.panel-profile.light-theme .pp-card { background:#ffffff; border-color:rgba(0,0,0,0.10); box-shadow:0 2px 16px rgba(0,0,0,0.07); }
+.panel-profile.light-theme .pp-card-title { color:#6a6a7a; }
+.panel-profile.light-theme .pp-card-badge { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.10); color:#6a6a7a; }
 .panel-profile.light-theme .pp-cmp-bar { background:rgba(0,0,0,0.08); }
-.panel-profile.light-theme .pp-act-tip { background:rgba(255,255,255,0.97); border-color:#c4c4d0; color:#0f0f14; }
-.panel-profile.light-theme .pp-ach-item.unlocked { border-color:rgba(0,0,0,0.1); }
-.panel-profile.light-theme .pp-setting-row:hover { background:rgba(0,0,0,0.03); }
-.panel-profile.light-theme .pp-bg-live-overlay { background:linear-gradient(to top, rgba(255,255,255,0.6), transparent); color:rgba(0,0,0,0.6); }
-.panel-profile.light-theme .pp-tile { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
-.panel-profile.light-theme .pp-tile-icon { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
-.panel-profile.light-theme .pp-card { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
-.panel-profile.light-theme .pp-card-badge { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
-.panel-profile.light-theme .pp-settings-list { background:rgba(0,0,0,0.02); border-color:var(--border-color); }
-.panel-profile.light-theme .pp-setting-row { border-color:var(--border-color); }
-.panel-profile.light-theme .pp-ach-item { background:rgba(0,0,0,0.02); border-color:rgba(0,0,0,0.08); }
-.panel-profile.light-theme .pp-ach-icon { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.08); }
+.panel-profile.light-theme .pp-act-tip { background:rgba(255,255,255,0.98); border-color:#c8c8d8; color:var(--text-primary); box-shadow:0 4px 16px rgba(0,0,0,0.12); }
+.panel-profile.light-theme .pp-ach-item { background:#f8f8fc; border-color:rgba(0,0,0,0.09); }
+.panel-profile.light-theme .pp-ach-icon { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.09); }
 .panel-profile.light-theme .pp-ach-lock { background:#fff; border-color:rgba(0,0,0,0.12); }
-.panel-profile.light-theme .pp-xp-pct-label { background:rgba(255,255,255,0.97); border-color:#c4c4d0; }
-.panel-profile.light-theme .pp-file-row { background:rgba(0,0,0,0.02); border-color:rgba(0,0,0,0.07); }
-.panel-profile.light-theme .pp-wiki-row { background:rgba(0,0,0,0.02); border-color:rgba(0,0,0,0.07); }
-.panel-profile.light-theme .pp-ms { border-color:rgba(0,0,0,0.1); }
-.panel-profile.light-theme .pp-ms.current { border-color:var(--accent-strong); }
+.panel-profile.light-theme .pp-xp-pct-label { background:#fff; border-color:#c8c8d8; color:var(--accent); }
+.panel-profile.light-theme .pp-file-row { background:#f8f8fc; border-color:rgba(0,0,0,0.08); }
+.panel-profile.light-theme .pp-wiki-row { background:#f8f8fc; border-color:rgba(0,0,0,0.08); }
+.panel-profile.light-theme .pp-ms { border-color:rgba(0,0,0,0.10); }
+.panel-profile.light-theme .pp-ms.earned { background:rgba(0,0,0,0.03); }
+.panel-profile.light-theme .pp-ms.current { border-color:var(--accent-strong); background:var(--accent-dim); }
+.panel-profile.light-theme .pp-ms-name { color:#6a6a7a; }
+.panel-profile.light-theme .pp-ms.earned .pp-ms-name { color:var(--text-secondary); }
+.panel-profile.light-theme .pp-settings-list { background:rgba(0,0,0,0.02); border-color:rgba(0,0,0,0.10); }
+.panel-profile.light-theme .pp-setting-row { border-color:rgba(0,0,0,0.08); }
+.panel-profile.light-theme .pp-setting-row:hover { background:rgba(0,0,0,0.03); }
+.panel-profile.light-theme .pp-setting-name { color:var(--text-primary); }
+.panel-profile.light-theme .pp-setting-desc { color:var(--text-muted); }
+.panel-profile.light-theme .pp-toggle { background:#e2e2ea; border-color:#c8c8d8; }
+.panel-profile.light-theme .pp-btn { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.12); color:var(--text-muted); }
+.panel-profile.light-theme .pp-btn:hover { border-color:var(--accent-strong); color:var(--accent); background:var(--accent-dim); }
+.panel-profile.light-theme .pp-divider { background:rgba(0,0,0,0.08); }
+.panel-profile.light-theme .pp-rc-sha { background:var(--accent-dim); border-color:var(--accent-mid); }
+.panel-profile.light-theme .pp-rc-msg { color:var(--text-primary); }
+.panel-profile.light-theme .pp-bg-live-overlay { background:linear-gradient(to top, rgba(255,255,255,0.7), transparent); color:rgba(0,0,0,0.6); }
+/* New component light theme overrides */
+.panel-profile.light-theme .pp-score-bar-track { background:rgba(0,0,0,0.08); }
+.panel-profile.light-theme .pp-score-bar-label { color:#6a6a7a; }
+.panel-profile.light-theme .pp-score-bar-val { color:var(--text-primary); }
+.panel-profile.light-theme .pp-score-grade-sub { color:var(--text-muted); }
+.panel-profile.light-theme .pp-quick-item { background:rgba(0,0,0,0.03); border-color:rgba(0,0,0,0.10); }
+.panel-profile.light-theme .pp-quick-item:hover { border-color:rgba(0,0,0,0.18); }
+.panel-profile.light-theme .pp-quick-val { color:var(--text-primary); }
+.panel-profile.light-theme .pp-quick-lbl { color:var(--text-muted); }
+.panel-profile.light-theme .pp-heatmap-cell { background:rgba(0,0,0,0.06); }
+.panel-profile.light-theme .pp-heatmap-leg-cell { background:rgba(0,0,0,0.06); }
 
 /* ── RESPONSIVE ── */
+@media (max-width: 1100px) {
+  .pp-score-row { grid-template-columns:1fr; }
+  .pp-score-body { gap:18px; }
+}
 @media (max-width: 900px) {
   .pp-stat-tiles { grid-template-columns:repeat(2,1fr); }
-  .pp-bg-grid { grid-template-columns:repeat(4,1fr); }
-  .pp-bg-inputs { grid-template-columns:1fr; }
+  .pp-score-row { grid-template-columns:1fr; }
+  .pp-quick-list { grid-template-columns:repeat(3,1fr); }
+  .pp-heatmap-grid { grid-template-columns:repeat(9,1fr); grid-template-rows:repeat(7,7px); }
 }
 @media (max-width: 640px) {
   .pp-stat-tiles { grid-template-columns:repeat(2,1fr); }
-  .pp-profile-row { gap:14px; padding:110px 16px 20px; }
+  .pp-profile-row { gap:14px; padding:18px 16px; }
   .pp-avatar-wrap { width:90px; height:90px; }
   .pp-level-ring { width:90px; height:90px; }
   .pp-avatar { width:66px; height:66px; }
-  .pp-hero { min-height:200px; }
-  .pp-bg-grid { grid-template-columns:repeat(3,1fr); }
-  .pp-track { margin:0 16px 24px; }
-  .pp-banner-rank { display:none; }
+  .pp-quick-list { grid-template-columns:repeat(2,1fr); }
+  .pp-score-body { flex-direction:column; align-items:flex-start; }
+  .pp-gauge-wrap { width:100px; height:100px; }
+  .pp-heatmap-grid { grid-template-columns:repeat(7,1fr); grid-template-rows:repeat(7,7px); }
 }
 </style>
