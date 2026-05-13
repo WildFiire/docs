@@ -257,112 +257,110 @@
             <!-- Charts Row -->
             <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>ACTIVITY &amp; METRICS</span></div>
             <div class="dash-charts">
-              <div class="dash-card dash-chart-main" style="border-top: 2.5px solid var(--accent);">
-                <div class="dc-head">
-                  <div class="dc-head-left">
-                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                    <span>COMMIT ACTIVITY · 30 DAYS</span>
+              <div class="ca-card">
+                <!-- Header -->
+                <div class="ca-header">
+                  <div class="ca-header-left">
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="var(--accent)" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                    <span class="ca-title">COMMIT ACTIVITY</span>
                   </div>
-                  <span class="dc-badge">{{ dailyCommits.reduce((a, b) => a + b, 0) }} commits</span>
+                  <div class="ca-header-right">
+                    <span class="ca-range-pill">30 days &middot; {{ flameMonthRange }}</span>
+                    <div class="ca-live-dot"><span></span>LIVE</div>
+                  </div>
                 </div>
-                <div class="flame-chart">
-                  <!-- KPI Strip -->
-                  <div class="pgc-kpi-row">
-                    <div class="pgc-kpi">
-                      <span class="pgc-kpi-lbl">TOTAL COMMITS</span>
-                      <span class="pgc-kpi-val" style="color:var(--accent)">{{ dailyCommits.reduce((a,b)=>a+b,0) }}</span>
-                    </div>
-                    <div class="pgc-kpi">
-                      <span class="pgc-kpi-lbl">TODAY</span>
-                      <span class="pgc-kpi-val" style="color:#22c55e">+{{ dailyCommits.length ? dailyCommits[dailyCommits.length - 1] : 0 }}</span>
-                    </div>
-                    <div class="pgc-kpi">
-                      <span class="pgc-kpi-lbl">LAST 7 DAYS</span>
-                      <span class="pgc-kpi-val" style="color:#3b82f6">+{{ dailyCommits.slice(-7).reduce((a,b)=>a+b,0) }}</span>
-                    </div>
-                    <div class="pgc-kpi">
-                      <span class="pgc-kpi-lbl">AVG / DAY</span>
-                      <span class="pgc-kpi-val" style="color:#8b5cf6">{{ repoPulse.avgPerDay }}</span>
+
+                <!-- KPI row -->
+                <div class="ca-kpis">
+                  <div class="ca-kpi">
+                    <span class="ca-kpi-label">TOTAL COMMITS</span>
+                    <span class="ca-kpi-val" style="color:var(--accent)">{{ dailyCommits.reduce((a,b)=>a+b,0) }}</span>
+                  </div>
+                  <div class="ca-kpi">
+                    <span class="ca-kpi-label">TODAY</span>
+                    <span class="ca-kpi-val" style="color:#22c55e">+{{ dailyCommits.length ? dailyCommits[dailyCommits.length-1] : 0 }}</span>
+                  </div>
+                  <div class="ca-kpi">
+                    <span class="ca-kpi-label">LAST 7 DAYS</span>
+                    <span class="ca-kpi-val" style="color:#3b82f6">+{{ dailyCommits.slice(-7).reduce((a,b)=>a+b,0) }}</span>
+                  </div>
+                  <div class="ca-kpi">
+                    <span class="ca-kpi-label">AVG / DAY</span>
+                    <span class="ca-kpi-val" style="color:#a78bfa">{{ repoPulse.avgPerDay }}</span>
+                  </div>
+                </div>
+
+                <!-- ── Chart ── -->
+                <div class="ca-chart-wrap" @mousemove="onFlameMouseMove" @mouseleave="hoveredBarIndex = null">
+                  <svg viewBox="0 0 640 220" preserveAspectRatio="none" width="100%" height="220">
+                    <defs>
+                      <linearGradient id="caAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                        <stop offset="0%"   stop-color="#ff7800" stop-opacity="0.32"/>
+                        <stop offset="60%"  stop-color="#ff7800" stop-opacity="0.08"/>
+                        <stop offset="100%" stop-color="#ff7800" stop-opacity="0"/>
+                      </linearGradient>
+                      <linearGradient id="caLineGrad" x1="0" y1="0" x2="1" y2="0">
+                        <stop offset="0%"   stop-color="#ff6030"/>
+                        <stop offset="100%" stop-color="#ffaa44"/>
+                      </linearGradient>
+                      <filter id="caGlow" x="-10%" y="-80%" width="120%" height="260%">
+                        <feGaussianBlur stdDeviation="2.5" result="blur"/>
+                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+                      </filter>
+                    </defs>
+
+                    <!-- Grid lines -->
+                    <line x1="0" y1="55"  x2="640" y2="55"  :stroke="isLightTheme ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.04)'" stroke-width="1" stroke-dasharray="3,4"/>
+                    <line x1="0" y1="110" x2="640" y2="110" :stroke="isLightTheme ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.04)'" stroke-width="1" stroke-dasharray="3,4"/>
+                    <line x1="0" y1="165" x2="640" y2="165" :stroke="isLightTheme ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)'" stroke-width="1" stroke-dasharray="3,4"/>
+
+                    <!-- Avg line -->
+                    <line v-if="flameAvgY !== null"
+                      x1="0" :y1="flameAvgY" x2="640" :y2="flameAvgY"
+                      stroke="rgba(255,120,0,0.3)" stroke-width="1" stroke-dasharray="6,4"/>
+
+                    <!-- Vertical crosshair on hover -->
+                    <line v-if="hoveredBarIndex !== null && flameBarData[hoveredBarIndex]"
+                      :x1="flameBarData[hoveredBarIndex].cx" y1="0"
+                      :x2="flameBarData[hoveredBarIndex].cx" y2="220"
+                      :stroke="isLightTheme ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.18)'"
+                      stroke-width="1" stroke-dasharray="4,3"/>
+
+                    <!-- Area fill -->
+                    <path :d="flamePath" fill="url(#caAreaGrad)"/>
+
+                    <!-- Line -->
+                    <path v-if="flameLinePath" :d="flameLinePath" fill="none"
+                      stroke="url(#caLineGrad)" stroke-width="2.2"
+                      stroke-linecap="round" stroke-linejoin="round"
+                      filter="url(#caGlow)"/>
+
+                    <!-- Hit area -->
+                    <rect x="0" y="0" width="640" height="220" fill="transparent" style="cursor:crosshair"/>
+                  </svg>
+
+                  <!-- Tooltip (absolute over chart) -->
+                  <div v-if="hoveredBarIndex !== null && tooltipPos" class="ca-tooltip"
+                    :style="{ left: (tooltipPos.tx / 640 * 100) + '%', top: (tooltipPos.ty / 220 * 100) + '%' }">
+                    <div class="ca-tip-date">{{ flameBarData[hoveredBarIndex].fullLabel }}</div>
+                    <div class="ca-tip-row">
+                      <span class="ca-tip-dot" style="background:var(--accent)"></span>
+                      <span class="ca-tip-label">Commits:</span>
+                      <span class="ca-tip-val">{{ flameBarData[hoveredBarIndex].commits }}</span>
                     </div>
                   </div>
-                  <!-- Area+Line chart (player-growth style) -->
-                  <div class="pgc-chart-wrap" @mousemove="onFlameMouseMove" @mouseleave="hoveredBarIndex = null">
-                    <svg viewBox="0 0 640 200" preserveAspectRatio="none" width="100%" height="200">
-                      <defs>
-                        <linearGradient id="pgAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="0%" stop-color="#ff7800" stop-opacity="0.38"/>
-                          <stop offset="55%" stop-color="#ff7800" stop-opacity="0.12"/>
-                          <stop offset="100%" stop-color="#ff7800" stop-opacity="0"/>
-                        </linearGradient>
-                        <linearGradient id="pgLineGrad" x1="0" y1="0" x2="1" y2="0">
-                          <stop offset="0%" stop-color="#ff6030"/>
-                          <stop offset="100%" stop-color="#ff8c42"/>
-                        </linearGradient>
-                        <filter id="pgLineGlow" x="-10%" y="-80%" width="120%" height="260%">
-                          <feGaussianBlur stdDeviation="3" result="blur"/>
-                          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                        </filter>
-                      </defs>
-                      <line x1="0" y1="40" x2="640" y2="40" :stroke="isLightTheme ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.04)'" stroke-width="1"/>
-                      <line x1="0" y1="80" x2="640" y2="80" :stroke="isLightTheme ? 'rgba(0,0,0,0.05)' : 'rgba(255,255,255,0.04)'" stroke-width="1"/>
-                      <line x1="0" y1="120" x2="640" y2="120" :stroke="isLightTheme ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.05)'" stroke-width="1"/>
-                      <line x1="0" y1="160" x2="640" y2="160" :stroke="isLightTheme ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.08)'" stroke-width="1"/>
-                      <line v-if="flameAvgY !== null" x1="0" :y1="flameAvgY" x2="640" :y2="flameAvgY"
-                        stroke="rgba(255,120,0,0.22)" stroke-width="1" stroke-dasharray="5,4"/>
-                      <path :d="flamePath" fill="url(#pgAreaGrad)"/>
-                      <path v-if="flameLinePath" :d="flameLinePath" fill="none" stroke="url(#pgLineGrad)" stroke-width="2.5"
-                        stroke-linecap="round" stroke-linejoin="round" filter="url(#pgLineGlow)"/>
-                      <rect v-if="hoveredBarIndex !== null && flameBarData[hoveredBarIndex]"
-                        :x="flameBarData[hoveredBarIndex].x" y="0"
-                        :width="flameBarData[hoveredBarIndex].w" height="165"
-                        rx="2" fill="rgba(255,120,0,0.08)"/>
-                      <g v-if="flameBarData.length">
-                        <circle :cx="flameBarData[flameBarData.length-1].cx" :cy="flameBarData[flameBarData.length-1].y" r="5"
-                          fill="var(--accent)" filter="url(#pgLineGlow)"/>
-                        <circle :cx="flameBarData[flameBarData.length-1].cx" :cy="flameBarData[flameBarData.length-1].y" r="2.5" fill="#fff"/>
-                      </g>
-                      <g v-if="flamePeak">
-                        <circle :cx="flamePeak.cx" :cy="flamePeak.y" r="5" fill="var(--accent-alt2)" filter="url(#pgLineGlow)" opacity="0.9"/>
-                        <circle :cx="flamePeak.cx" :cy="flamePeak.y" r="2.5" fill="#fff"/>
-                      </g>
-                      <rect x="0" y="0" width="640" height="200" fill="transparent" style="cursor:crosshair"/>
-                    </svg>
-                    <div class="pgc-html-layer">
-                      <div class="pgc-month-range">{{ flameMonthRange }}</div>
-                      <div v-if="flameAvgY !== null" class="pgc-avg-lbl" :style="{ top: (flameAvgY / 200 * 100) + '%' }">AVG {{ repoPulse.avgPerDay }}</div>
-                      <template v-for="(b, i) in flameBarData" :key="'dl'+i">
-                        <span v-if="i % 7 === 0 || i === flameBarData.length - 1"
-                          class="pgc-date-lbl" :class="{ 'pgc-date-today': i === flameBarData.length - 1 }"
-                          :style="{ left: (b.cx / 640 * 100) + '%' }">{{ b.shortLabel }}</span>
-                      </template>
-                      <div v-if="hoveredBarIndex !== null && tooltipPos" class="fc-tip"
-                        :style="{ left: (tooltipPos.tx / 640 * 100) + '%', top: (tooltipPos.ty / 200 * 100) + '%' }">
-                        <div class="fc-tip-count">{{ flameBarData[hoveredBarIndex].commits === 0 ? 'No commits' : flameBarData[hoveredBarIndex].commits + (flameBarData[hoveredBarIndex].commits !== 1 ? ' commits' : ' commit') }}</div>
-                        <div class="fc-tip-date">{{ flameBarData[hoveredBarIndex].fullLabel }}</div>
-                      </div>
-                    </div>
-                  </div>
-                  <!-- Intensity heatmap strip -->
-                  <div class="fc-heatmap-wrap">
-                    <span class="fc-hm-label">INTENSITY</span>
-                    <div class="fc-heatmap-row">
-                      <div v-for="(b, i) in flameBarData" :key="'hc'+i"
-                        class="fc-hm-cell"
-                        :class="'fc-hm-' + (b.commits === 0 ? 0 : b.pct < 0.25 ? 1 : b.pct < 0.5 ? 2 : b.pct < 0.75 ? 3 : 4)"
-                        :title="b.fullLabel + ': ' + b.commits + ' commit' + (b.commits !== 1 ? 's' : '')"
-                        @mouseenter="hoveredBarIndex = i"
-                        @mouseleave="hoveredBarIndex = null"/>
-                    </div>
-                    <div class="fc-hm-legend">
-                      <span>Less</span>
-                      <div class="fc-hm-cell fc-hm-0"/>
-                      <div class="fc-hm-cell fc-hm-1"/>
-                      <div class="fc-hm-cell fc-hm-2"/>
-                      <div class="fc-hm-cell fc-hm-3"/>
-                      <div class="fc-hm-cell fc-hm-4"/>
-                      <span>More</span>
-                    </div>
-                  </div>
+                </div>
+
+                <!-- X-axis date labels -->
+                <div class="ca-xaxis">
+                  <template v-for="(b, i) in flameBarData" :key="'xl'+i">
+                    <span v-if="i % 7 === 0 || i === flameBarData.length-1"
+                      class="ca-xaxis-lbl"
+                      :class="{ 'ca-xaxis-today': i === flameBarData.length-1 }"
+                      :style="{ left: (b.cx / 640 * 100) + '%' }">
+                      {{ b.shortLabel }}
+                    </span>
+                  </template>
                 </div>
               </div>
               <div class="dash-card dash-repo-card">
@@ -806,38 +804,12 @@
           @click="handleNavClick(item)">
           <span class="mbn-icon" v-html="item.icon"></span>
           <span class="mbn-label">{{ item.label }}</span>
-          <span class="mbn-live" v-if="item.badge"></span>
+
         </div>
       </nav>
 
     </div>
 
-    <!-- Toast Notifications -->
-    <TransitionGroup name="toast-slide" tag="div" class="toast-container">
-      <div
-        v-for="t in toasts"
-        :key="t.id"
-        class="toast-item"
-        :class="'toast-' + t.type"
-        @click="dismissToast(t.id)"
-      >
-        <div class="toast-accent-bar"></div>
-        <div class="toast-icon">
-          <svg v-if="t.type === 'commit'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="4"/><path d="M1.05 12H7m10.01 0h5.95"/></svg>
-          <svg v-else-if="t.type === 'pr'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/></svg>
-          <svg v-else-if="t.type === 'issue'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="0.5" fill="currentColor"/></svg>
-          <svg v-else-if="t.type === 'feedback'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
-          <svg v-else viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        </div>
-        <div class="toast-body">
-          <span class="toast-text">{{ t.text }}</span>
-          <span class="toast-time">{{ t.timeAgo }}</span>
-        </div>
-        <button class="toast-close" @click.stop="dismissToast(t.id)">
-          <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-        </button>
-      </div>
-    </TransitionGroup>
 
   </Teleport>
 </template>
@@ -943,11 +915,7 @@
           recentFeedbacks: [],
           feedbackLoading: false,
           feedbackTotal: 0,
-          notifOpen: false,
-          notifications: [],
-          notifSeenIds: [],
-          toasts: [],
-          toastCounter: 0,
+
           navItems: [
             { id: 'dashboard', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>', label: 'DASHBOARD' },
             { id: 'files', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>', label: 'FILES' },
@@ -1247,9 +1215,7 @@
           if (!this.weekdayPattern.length) return null
           return this.weekdayPattern.reduce((a, b) => b.avg > a.avg ? b : a)
         },
-        unreadNotifCount() {
-          return this.notifications.filter(n => !n.read).length
-        }
+
       },
       
       watch: {},
@@ -1390,7 +1356,7 @@
         this.fetchAllGitHubData(),
         this.loadRecentFeedbacks()
       ])
-      this.buildNotifications()
+
       this.isSyncing = false
     },
     
@@ -1717,126 +1683,6 @@
     },
     openProfile(login) {
       this.currentView = 'contributors'
-    },
-    getNotifKey() {
-      return `wildfire-notif-seen-${this.userLogin || 'anon'}`
-    },
-
-    buildNotifications() {
-      const key = this.getNotifKey()
-      try {
-        this.notifSeenIds = JSON.parse(localStorage.getItem(key) || '[]')
-      } catch { this.notifSeenIds = [] }
-
-      const items = []
-
-      if (this.recentCommits && this.recentCommits.length) {
-        this.recentCommits.slice(0, 5).forEach(c => {
-          const date = new Date(c.date)
-          const id = 'commit-' + (c.id || '')
-          items.push({
-            id, type: 'commit',
-            text: `${c.author || 'Someone'} committed: ${this.truncate(c.message || '', 50)}`,
-            timeAgo: this.notifTimeAgo(date), url: c.url || '',
-            read: this.notifSeenIds.includes(id), timestamp: date.getTime()
-          })
-        })
-      }
-
-      if (this.recentPRs && this.recentPRs.length) {
-        this.recentPRs.slice(0, 3).forEach(pr => {
-          const date = new Date(pr.date)
-          const id = 'pr-' + (pr.number || pr.id || '')
-          items.push({
-            id, type: 'pr',
-            text: `PR #${pr.number}: ${this.truncate(pr.title || '', 50)}`,
-            timeAgo: this.notifTimeAgo(date), url: pr.url || '',
-            read: this.notifSeenIds.includes(id), timestamp: date.getTime()
-          })
-        })
-      }
-
-      if (this.recentIssues && this.recentIssues.length) {
-        this.recentIssues.slice(0, 3).forEach(issue => {
-          const date = new Date(issue.date)
-          const id = 'issue-' + (issue.number || issue.id || '')
-          items.push({
-            id, type: 'issue',
-            text: `Issue #${issue.number}: ${this.truncate(issue.title || '', 50)}`,
-            timeAgo: this.notifTimeAgo(date), url: issue.url || '',
-            read: this.notifSeenIds.includes(id), timestamp: date.getTime()
-          })
-        })
-      }
-
-      if (this.recentFeedbacks && this.recentFeedbacks.length) {
-        this.recentFeedbacks.slice(0, 4).forEach(fb => {
-          const date = new Date(fb.createdAt)
-          const id = 'feedback-' + (fb.id || '')
-          const emoji = fb.sentiment === 'good' ? '👍' : '👎'
-          items.push({
-            id, type: 'feedback',
-            text: `${emoji} Feedback on ${this.truncate(fb.pageTitle || 'page', 30)}${fb.stars ? ' (' + fb.stars + '★)' : ''}`,
-            timeAgo: this.notifTimeAgo(date), url: '',
-            read: this.notifSeenIds.includes(id), timestamp: date.getTime()
-          })
-        })
-      }
-
-      items.sort((a, b) => b.timestamp - a.timestamp)
-      this.notifications = items.slice(0, 15)
-
-      const brandNew = this.notifications.filter(n => !n.read && !this.notifSeenIds.includes(n.id))
-      if (brandNew.length) {
-        brandNew.forEach((n, i) => {
-          setTimeout(() => this.showToast(n), i * 400)
-        })
-        brandNew.forEach(n => this.notifSeenIds.push(n.id))
-        localStorage.setItem(key, JSON.stringify(this.notifSeenIds))
-      }
-    },
-
-    markAllRead() {
-      const key = this.getNotifKey()
-      this.notifications.forEach(n => { n.read = true })
-      this.notifSeenIds = this.notifications.map(n => n.id)
-      localStorage.setItem(key, JSON.stringify(this.notifSeenIds))
-      this.toasts = []
-    },
-
-    handleNotifClick(n) {
-      const key = this.getNotifKey()
-      n.read = true
-      if (!this.notifSeenIds.includes(n.id)) {
-        this.notifSeenIds.push(n.id)
-        localStorage.setItem(key, JSON.stringify(this.notifSeenIds))
-      }
-      if (n.url) window.open(n.url, '_blank')
-      this.notifOpen = false
-    },
-
-    showToast(notif) {
-      const tid = ++this.toastCounter
-      this.toasts.push({ id: tid, type: notif.type, text: notif.text, timeAgo: notif.timeAgo })
-      if (this.toasts.length > 5) this.toasts.shift()
-      setTimeout(() => this.dismissToast(tid), 6000)
-    },
-
-    dismissToast(id) {
-      this.toasts = this.toasts.filter(t => t.id !== id)
-    },
-
-    playNotifSound() {}, // Removed the playNotifSound method
-
-    notifTimeAgo(date) {
-      const d = new Date(date)
-      const now2 = new Date()
-      const diff = Math.floor((now2 - d) / 1000)
-      if (diff < 60) return 'just now'
-      if (diff < 3600) return Math.floor(diff / 60) + 'm ago'
-      if (diff < 86400) return Math.floor(diff / 3600) + 'h ago'
-      if (diff < 604800) return Math.floor(diff / 86400) + 'd ago'
-      return d.toLocaleDateString()
     },
 
     async selectCalCell(cell) {
@@ -2818,179 +2664,6 @@
   padding: 8px !important;
 }
 
-/* ============================================================
-   NOTIFICATIONS DROPDOWN
-   ============================================================ */
-.notif-wrapper {
-  position: relative;
-}
-
-.notif-bell {
-  position: relative;
-}
-
-.notif-badge {
-  position: absolute;
-  top: -4px;
-  right: -4px;
-  min-width: 16px;
-  height: 16px;
-  padding: 0 3px;
-  background: var(--accent);
-  color: #fff;
-  border-radius: 8px;
-  font-size: 8px;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border: 1.5px solid rgba(4, 4, 8, 1);
-}
-
-.notif-dropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  width: 320px;
-  background: rgba(6, 6, 18, 0.65);
-  backdrop-filter: blur(52px) saturate(180%) brightness(1.08);
-  -webkit-backdrop-filter: blur(52px) saturate(180%) brightness(1.08);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  border-radius: 20px;
-  box-shadow: 0 28px 80px rgba(0, 0, 0, 0.7), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  overflow: hidden;
-  z-index: 200;
-}
-
-.notif-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 12px 16px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.notif-title {
-  font-size: 11px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 0.4px;
-}
-
-.notif-mark-read {
-  background: none;
-  border: none;
-  color: var(--accent);
-  font-size: 10px;
-  font-weight: 600;
-  cursor: pointer;
-  padding: 0;
-}
-
-.notif-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 28px 16px;
-  color: var(--text-muted);
-  font-size: 11px;
-}
-
-.notif-list {
-  max-height: 320px;
-  overflow-y: auto;
-  padding: 4px 0;
-}
-
-.notif-item {
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  padding: 10px 16px;
-  cursor: pointer;
-  transition: background 0.15s;
-  position: relative;
-}
-
-.notif-item:hover {
-  background: var(--bg-tertiary);
-}
-
-.notif-item.unread {
-  background: var(--bg-tertiary);
-}
-
-.notif-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.notif-icon.commit {
-  background: var(--accent-dim);
-  color: var(--accent);
-}
-
-.notif-icon.pr {
-  background: rgba(34, 197, 94, 0.12);
-  color: #22c55e;
-}
-
-.notif-icon.issue {
-  background: rgba(59, 130, 246, 0.12);
-  color: #3b82f6;
-}
-
-.notif-icon.feedback {
-  background: rgba(139, 92, 246, 0.12);
-  color: #8b5cf6;
-}
-
-.notif-content {
-  flex: 1;
-  min-width: 0;
-}
-
-.notif-text {
-  display: block;
-  font-size: 11px;
-  color: var(--text-secondary);
-  font-weight: 500;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  margin-bottom: 2px;
-}
-
-.notif-time {
-  font-size: 9px;
-  color: var(--text-muted);
-}
-
-/* Notification transitions */
-.notif-drop-enter-active {
-  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.notif-drop-leave-active {
-  transition: all 0.15s ease-in;
-}
-
-.notif-drop-enter-from {
-  opacity: 0;
-  transform: translateY(-8px) scale(0.96);
-}
-
-.notif-drop-leave-to {
-  opacity: 0;
-  transform: translateY(-4px) scale(0.98);
-}
 
 /* ============================================================
    WELCOME BANNER
@@ -3668,6 +3341,428 @@
 .flame-chart {
   padding: 16px;
 }
+
+/* ═══════════════════════════════════════
+   COMMIT ACTIVITY CARD  (ca-*)
+═══════════════════════════════════════ */
+/* ══════════════════════════════════════════
+   COMMIT ACTIVITY CARD
+══════════════════════════════════════════ */
+.ca-card {
+  border-radius: 12px;
+  border: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Header ── */
+.ca-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+.ca-header-left {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.ca-title {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 1.2px;
+  color: var(--text-primary);
+}
+.ca-header-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ca-range-pill {
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  border-radius: 20px;
+  padding: 3px 10px;
+  letter-spacing: 0.3px;
+}
+.ca-live-dot {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #22c55e;
+}
+.ca-live-dot span {
+  width: 6px; height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: caPulse 2s ease-in-out infinite;
+}
+@keyframes caPulse {
+  0%,100% { opacity: 1; }
+  50%      { opacity: 0.35; }
+}
+
+/* KPI row ── label on top, big number below */
+.ca-kpis {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  border-bottom: 1px solid var(--border-color);
+}
+.ca-kpi {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  padding: 16px 12px;
+  border-right: 1px solid var(--border-color);
+  background: var(--bg-secondary);
+  transition: background 0.15s;
+}
+.ca-kpi:last-child { border-right: none; }
+.ca-kpi:hover { background: var(--bg-tertiary); }
+.ca-kpi-label {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.8px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+.ca-kpi-val {
+  font-size: 26px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -1px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Chart area ── */
+.ca-chart-wrap {
+  position: relative;
+  cursor: crosshair;
+  padding: 12px 0 0;
+}
+
+/* X-axis date strip */
+.ca-xaxis {
+  position: relative;
+  height: 28px;
+  border-top: 1px solid var(--border-color);
+  padding-bottom: 10px;
+}
+.ca-xaxis-lbl {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 9.5px;
+  color: var(--text-muted);
+  top: 6px;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+}
+.ca-xaxis-today {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Tooltip ── reference dark-card style */
+.ca-tooltip {
+  position: absolute;
+  background: #1a1a24;
+  border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 8px;
+  padding: 9px 13px;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translate(-50%, calc(-100% - 10px));
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  min-width: 120px;
+}
+.ca-tip-date {
+  font-size: 10px;
+  font-weight: 600;
+  color: rgba(255,255,255,0.5);
+  margin-bottom: 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+.ca-tip-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ca-tip-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+.ca-tip-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.55);
+  flex: 1;
+}
+.ca-tip-val {
+  font-size: 13px;
+  font-weight: 800;
+  color: #fff;
+}
+
+/* Heatmap ── */
+.ca-heatmap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px 14px;
+  border-top: 1px solid var(--border-color);
+}
+.ca-hm-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ca-hm-row {
+  display: flex;
+  gap: 2px;
+  flex: 1;
+}
+.ca-hm-cell {
+  flex: 1;
+  height: 10px;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: opacity 0.1s;
+}
+.ca-hm-cell:hover { opacity: 0.75; }
+.ca-hm-0 { background: var(--bg-tertiary); }
+.ca-hm-1 { background: rgba(255,120,0,0.2); }
+.ca-hm-2 { background: rgba(255,120,0,0.42); }
+.ca-hm-3 { background: rgba(255,120,0,0.68); }
+.ca-hm-4 { background: #ff7800; }
+.ca-hm-legend {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.ca-hm-legend .ca-hm-cell {
+  width: 10px; height: 10px; flex: none;
+}
+
+/* Header */
+.ca-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 20px 14px;
+  border-bottom: 1px solid var(--border-color);
+}
+.ca-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.ca-icon-wrap {
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  background: rgba(255,120,0,0.1);
+  border: 1px solid rgba(255,120,0,0.2);
+  display: flex; align-items: center; justify-content: center;
+  color: var(--accent);
+  flex-shrink: 0;
+}
+.ca-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text-primary);
+  letter-spacing: 0.2px;
+}
+.ca-subtitle {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+.ca-live-dot {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  color: #22c55e;
+}
+.ca-live-dot span {
+  width: 6px; height: 6px;
+  background: #22c55e;
+  border-radius: 50%;
+  animation: caPulse 1.8s ease-in-out infinite;
+}
+@keyframes caPulse {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.4; transform: scale(1.4); }
+}
+
+/* KPI chips row */
+.ca-kpis {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  border-bottom: 1px solid var(--border-color);
+}
+.ca-kpi {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+}
+.ca-kpi-val {
+  font-size: 22px;
+  font-weight: 800;
+  line-height: 1;
+  letter-spacing: -0.5px;
+  font-variant-numeric: tabular-nums;
+}
+.ca-kpi-lbl {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+}
+.ca-kpi-div {
+  width: 1px;
+  height: 32px;
+  background: var(--border-color);
+  flex-shrink: 0;
+}
+
+/* Chart wrapper */
+.ca-chart-wrap {
+  position: relative;
+  cursor: crosshair;
+  padding: 16px 20px 4px;
+}
+
+/* HTML overlay for labels / tooltip */
+.ca-overlay {
+  position: relative;
+  height: 26px;
+  margin-top: 4px;
+}
+.ca-avg-tag {
+  position: absolute;
+  right: 0;
+  transform: translateY(-50%);
+  font-size: 9px;
+  font-weight: 700;
+  color: rgba(255,120,0,0.7);
+  background: var(--bg-secondary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,120,0,0.18);
+  pointer-events: none;
+  white-space: nowrap;
+}
+.ca-date-lbl {
+  position: absolute;
+  transform: translateX(-50%);
+  font-size: 9px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  bottom: 0;
+}
+.ca-date-today {
+  color: var(--accent);
+  font-weight: 700;
+}
+
+/* Tooltip */
+.ca-tooltip {
+  position: absolute;
+  background: var(--bg-primary);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 8px 12px;
+  pointer-events: none;
+  white-space: nowrap;
+  transform: translate(-50%, -115%);
+  z-index: 100;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
+}
+.ca-tip-count {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.ca-tip-date {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
+
+/* Heatmap */
+.ca-heatmap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 20px 16px;
+  border-top: 1px solid var(--border-color);
+}
+.ca-hm-label {
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.ca-hm-row {
+  display: flex;
+  gap: 2px;
+  flex: 1;
+}
+.ca-hm-cell {
+  flex: 1;
+  height: 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: transform 0.12s;
+}
+.ca-hm-cell:hover { transform: scaleY(1.4); }
+.ca-hm-0 { background: var(--bg-tertiary); }
+.ca-hm-1 { background: rgba(255,120,0,0.18); }
+.ca-hm-2 { background: rgba(255,120,0,0.38); }
+.ca-hm-3 { background: rgba(255,120,0,0.62); }
+.ca-hm-4 { background: rgba(255,120,0,0.9); }
+.ca-hm-legend {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 9px;
+  color: var(--text-muted);
+  flex-shrink: 0;
+}
+.ca-hm-legend .ca-hm-cell {
+  width: 10px; height: 10px; flex: none;
+}
+
+
 
 /* Player-growth style KPI row */
 .pgc-kpi-row {
@@ -4963,144 +5058,6 @@
   white-space: nowrap;
 }
 
-.mbn-live {
-  position: absolute;
-  top: 7px;
-  right: calc(50% - 13px);
-  width: 5px;
-  height: 5px;
-  background: #22c55e;
-  border-radius: 50%;
-  box-shadow: 0 0 5px rgba(34, 197, 94, 0.8);
-  animation: livePulse 1.5s ease infinite;
-}
-
-/* ============================================================
-   TOAST NOTIFICATIONS
-   ============================================================ */
-.toast-container {
-  position: fixed;
-  bottom: 20px;
-  right: 20px;
-  z-index: 99999;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.toast-item {
-  background: var(--bg-secondary);
-  backdrop-filter: blur(20px);
-  border: 1px solid var(--border-color);
-  border-radius: 10px;
-  padding: 12px 16px;
-  min-width: 280px;
-  max-width: 380px;
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  cursor: pointer;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
-  position: relative;
-  overflow: hidden;
-}
-
-.toast-accent-bar {
-  position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 3px;
-  background: var(--accent);
-}
-
-.toast-item.toast-commit .toast-accent-bar { background: var(--accent); }
-.toast-item.toast-pr .toast-accent-bar { background: #22c55e; }
-.toast-item.toast-issue .toast-accent-bar { background: #3b82f6; }
-.toast-item.toast-feedback .toast-accent-bar { background: #8b5cf6; }
-
-.toast-icon {
-  width: 28px;
-  height: 28px;
-  border-radius: 8px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.toast-item.toast-commit .toast-icon {
-  background: var(--accent-dim);
-  color: var(--accent);
-}
-
-.toast-item.toast-pr .toast-icon {
-  background: rgba(34, 197, 94, 0.12);
-  color: #22c55e;
-}
-
-.toast-item.toast-issue .toast-icon {
-  background: rgba(59, 130, 246, 0.12);
-  color: #3b82f6;
-}
-
-.toast-item.toast-feedback .toast-icon {
-  background: rgba(139, 92, 246, 0.12);
-  color: #8b5cf6;
-}
-
-.toast-body {
-  flex: 1;
-  min-width: 0;
-}
-
-.toast-text {
-  display: block;
-  font-size: 12px;
-  color: var(--text-primary);
-  font-weight: 500;
-  margin-bottom: 2px;
-}
-
-.toast-time {
-  font-size: 9px;
-  color: var(--text-muted);
-}
-
-.toast-close {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  padding: 4px;
-  cursor: pointer;
-  border-radius: 4px;
-  flex-shrink: 0;
-  opacity: 0.6;
-  transition: opacity 0.15s;
-}
-
-.toast-close:hover {
-  opacity: 1;
-  background: var(--bg-tertiary);
-}
-
-.toast-slide-enter-active {
-  transition: all 0.3s ease;
-}
-
-.toast-slide-leave-active {
-  transition: all 0.2s ease-in;
-}
-
-.toast-slide-enter-from {
-  opacity: 0;
-  transform: translateX(20px);
-}
-
-.toast-slide-leave-to {
-  opacity: 0;
-  transform: translateX(20px);
-}
 
 /* ============================================================
    ANIMATIONS

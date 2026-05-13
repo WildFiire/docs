@@ -1,72 +1,89 @@
 <template>
   <aside class="ps-root" :class="{ collapsed, 'ps-light': isLightTheme }">
 
-    <!-- ░░ GLASS BODY LAYERS ░░ -->
-    <div class="ps-glass-inner" aria-hidden="true"></div>
-    <div class="ps-specular"    aria-hidden="true"></div>
-    <div class="ps-caustic"     aria-hidden="true"></div>
+    <div class="ps-rail" aria-hidden="true"></div>
 
-    <!-- ░░ BRAND ░░ -->
+    <!-- BRAND -->
     <div class="ps-brand" @click="$emit('navigate','dashboard')">
       <div class="ps-logo-wrap">
         <slot name="logo">
           <img src="/icons/wildfire.webp" alt="WildFire" width="72" height="72">
         </slot>
       </div>
-      <div class="ps-brand-text" v-if="!collapsed">
-        <span class="ps-brand-name">Wildfire</span>
-        <span class="ps-brand-sub">DASHBOARD</span>
+      <div class="ps-brand-text" v-show="!collapsed">
+        <span class="ps-brand-name">
+          <span class="ps-brand-wf">WILD</span><span class="ps-brand-fire">FIRE</span>
+        </span>
+        <span class="ps-brand-tag">CONTROL PANEL</span>
       </div>
     </div>
 
-    <!-- ░░ NAV LABEL ░░ -->
-    <div class="ps-sec-label" v-if="!collapsed">NAVIGATION</div>
-
-    <!-- ░░ NAV ░░ -->
+    <!-- NAV -->
     <nav class="ps-nav" data-lenis-prevent>
-      <button
-        v-for="item in navItems"
-        :key="item.id"
-        class="ps-item"
-        :class="{ active: currentView === item.id }"
-        :title="collapsed ? item.label : ''"
-        @click="$emit('navigate', item.id)"
-      >
-        <span class="ps-item-bg"   aria-hidden="true"></span>
-        <span class="ps-item-shim" aria-hidden="true"></span>
-        <span class="ps-icon" v-html="item.icon"></span>
-        <span class="ps-label" v-if="!collapsed">{{ item.label }}</span>
-        <span class="ps-pill" v-if="item.badge && !collapsed" :class="item.badge === 'NEW' ? 'pill-new' : 'pill-live'">{{ item.badge }}</span>
-      </button>
+      <template v-for="group in navGroups" :key="group.label">
+        <!-- Group label -->
+        <div class="ps-group-label" v-show="!collapsed">
+          <span class="ps-gl-line" aria-hidden="true"></span>
+          <span class="ps-gl-text">{{ group.label }}</span>
+          <span class="ps-gl-line" aria-hidden="true"></span>
+        </div>
+        <div class="ps-gl-dot" v-show="collapsed" aria-hidden="true"></div>
+
+        <!-- Items -->
+        <button
+          v-for="item in group.items"
+          :key="item.id"
+          class="ps-item"
+          :class="{ active: currentView === item.id, 'ps-item-profile': item.id === 'profile' }"
+          :title="item.label"
+          @click="$emit('navigate', item.id)"
+        >
+          <span class="ps-track" aria-hidden="true"></span>
+          <span class="ps-fill"  aria-hidden="true"></span>
+          <!-- Profile item: show real avatar -->
+          <span v-if="item.id === 'profile'" class="ps-icon ps-icon-av">
+            <img :src="userAvatar" :alt="userLogin" class="ps-nav-av">
+          </span>
+          <span v-else class="ps-icon" v-html="item.icon"></span>
+          <span class="ps-label" v-show="!collapsed">{{ item.label }}</span>
+          <span
+            v-if="item.badge && !collapsed"
+            class="ps-badge"
+            :class="item.badge === 'NEW' ? 'badge-new' : 'badge-live'"
+          >{{ item.badge }}</span>
+        </button>
+      </template>
     </nav>
 
-    <!-- ░░ FOOTER ░░ -->
+    <!-- FOOTER -->
     <div class="ps-footer">
+
+      <!-- Back to wiki — top action -->
+      <a href="/" class="ps-back" :class="{ slim: collapsed }" title="Back to Wiki">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <polyline points="15 18 9 12 15 6"/>
+        </svg>
+        <span v-show="!collapsed">Back to Wiki</span>
+      </a>
+
+      <!-- User identity row -->
       <div class="ps-user" :class="{ slim: collapsed }">
-        <div class="ps-user-left" @click="$emit('navigate','profile')" :title="userLogin">
-          <div class="ps-av-wrap">
-            <img :src="userAvatar" :alt="userLogin" class="ps-av">
-            <span class="ps-dot"></span>
-          </div>
-          <div class="ps-user-info" v-if="!collapsed">
-            <span class="ps-uname">{{ userLogin }}</span>
-            <span class="ps-ustatus"><span class="ps-udot"></span>ONLINE</span>
-          </div>
+        <div class="ps-av-wrap" @click="$emit('navigate','profile')" :title="userLogin">
+          <img :src="userAvatar" :alt="userLogin" class="ps-av">
         </div>
-        <button class="ps-sign-out" @click="$emit('logout')" title="Sign Out">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+        <div class="ps-user-info" v-show="!collapsed" @click="$emit('navigate','profile')" :title="userLogin">
+          <span class="ps-uname">{{ userLogin }}</span>
+          <span class="ps-urole">Member</span>
+        </div>
+        <button class="ps-logout" @click.stop="$emit('logout')" title="Sign Out" v-show="!collapsed">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
             <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-            <polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/>
+            <polyline points="16 17 21 12 16 7"/>
+            <line x1="21" y1="12" x2="9" y2="12"/>
           </svg>
         </button>
       </div>
-      <a href="/" class="ps-home" :class="{ slim: collapsed }" title="Back to Site">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
-          <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
-          <polyline points="9 22 9 12 15 12 15 22"/>
-        </svg>
-        <span v-if="!collapsed">BACK TO SITE</span>
-      </a>
+
     </div>
 
   </aside>
@@ -75,23 +92,100 @@
 <script>
 export default {
   name: 'PanelSidebar',
-  emits: ['navigate','logout'],
+  emits: ['navigate', 'logout'],
   props: {
-    collapsed:     { type: Boolean, default: false },
-    currentView:   { type: String,  default: 'dashboard' },
-    userLogin:     { type: String,  default: '' },
-    userAvatar:    { type: String,  default: '' },
-    isLightTheme:  { type: Boolean, default: false },
+    collapsed:    { type: Boolean, default: false },
+    currentView:  { type: String,  default: 'dashboard' },
+    userLogin:    { type: String,  default: '' },
+    userAvatar:   { type: String,  default: '' },
+    isLightTheme: { type: Boolean, default: false },
   },
   data() {
     return {
-      navItems: [
-        { id:'dashboard',   label:'Dashboard',      badge:'',    icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg>' },
-        { id:'files',       label:'Files',          badge:'',    icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>' },
-        { id:'contributors',label:'Contributors',   badge:'LIVE',icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>' },
-        { id:'audit',       label:'Audit',          badge:'LIVE',icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>' },
-        { id:'analytics',   label:'Analytics',      badge:'',    icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>' },
-        { id:'studio',      label:'Phoenix Studio', badge:'NEW', icon:'<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>' },
+      navGroups: [
+        {
+          label: 'Overview',
+          items: [
+            {
+              id: 'dashboard', label: 'Dashboard', badge: '',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="7" height="9" rx="1.5"/>
+                <rect x="14" y="3" width="7" height="5" rx="1.5"/>
+                <rect x="14" y="12" width="7" height="9" rx="1.5"/>
+                <rect x="3" y="16" width="7" height="5" rx="1.5"/>
+              </svg>`
+            },
+          ]
+        },
+        {
+          label: 'Content',
+          items: [
+            {
+              id: 'files', label: 'File Explorer', badge: '',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/>
+              </svg>`
+            },
+            {
+              id: 'studio', label: 'Phoenix Studio', badge: 'NEW',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>`
+            },
+          ]
+        },
+        {
+          label: 'Community',
+          items: [
+            {
+              id: 'contributors', label: 'Contributors', badge: 'LIVE',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                <circle cx="9" cy="7" r="4"/>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+              </svg>`
+            },
+            {
+              id: 'feedbacks', label: 'Feedbacks', badge: '',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+              </svg>`
+            },
+          ]
+        },
+        {
+          label: 'Monitoring',
+          items: [
+            {
+              id: 'analytics', label: 'Analytics', badge: '',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>`
+            },
+            {
+              id: 'audit', label: 'Audit Log', badge: 'LIVE',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+              </svg>`
+            },
+          ]
+        },
+        {
+          label: 'Account',
+          items: [
+            {
+              id: 'profile', label: 'My Profile', badge: '',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="8" r="4"/>
+                <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/>
+              </svg>`
+            },
+          ]
+        },
       ]
     }
   }
@@ -101,16 +195,20 @@ export default {
 <style scoped>
 /* ── TOKENS ── */
 .ps-root {
-  --accent:      #ff7800;
-  --ac-glow:     rgba(255,120,0,0.32);
-  --ac-mid:      rgba(255,120,0,0.15);
-  --ac-dim:      rgba(255,120,0,0.07);
-  --txt:         #ffffff;
-  --txt-muted:   #7a7a8e;
-  --txt-sub:     #b0b0c0;
-  --W: 264px;
-  --W-col: 76px;
-  --rad: 0px;
+  --ac:      #ff7800;
+  --ac-lo:   rgba(255,120,0,0.10);
+  --ac-mid:  rgba(255,120,0,0.22);
+  --ac-hi:   rgba(255,120,0,0.42);
+  --ac-glow: 0 0 20px rgba(255,120,0,0.38);
+  --txt:     #eeeef8;
+  --txt-m:   #60607c;
+  --txt-s:   #8888a4;
+  --bg:      rgba(7,7,14,0.84);
+  --border:  rgba(255,255,255,0.052);
+  --W:       262px;
+  --Wc:      68px;
+  --ease:    cubic-bezier(0.34,1.56,0.64,1);
+  --dur:     0.36s;
 }
 
 /* ── SHELL ── */
@@ -124,386 +222,396 @@ export default {
   z-index: 20;
   overflow: hidden;
   isolation: isolate;
-
-  /* Solid dark frosted glass — no gradients */
-  background: rgba(8, 8, 14, 0.75);
-  backdrop-filter: blur(10px) saturate(140%);
-  -webkit-backdrop-filter: blur(10px) saturate(140%);
-  border-right: 1px solid rgba(255, 255, 255, 0.05);
-  box-shadow:
-    10px 0 60px rgba(0, 0, 0, 0.5),
-    inset -1px 0 0 rgba(255, 255, 255, 0.04),
-    inset 1px 0 0 rgba(255, 255, 255, 0.04);
-  transition: width 0.4s cubic-bezier(0.34,1.56,0.64,1);
-  will-change: width, transform;
+  background: var(--bg);
+  border-right: 1px solid var(--border);
+  box-shadow: 4px 0 48px rgba(0,0,0,0.6);
+  transition: width var(--dur) var(--ease);
+  will-change: width;
 }
-
-.ps-root.collapsed { width: var(--W-col); }
+.ps-root.collapsed { width: var(--Wc); }
 .ps-root::-webkit-scrollbar { display: none; }
 
-/* ── GLASS INNER GRADIENT (gives volume to the glass) ── */
-.ps-glass-inner {
-  display: none;
-}
-
-/* ── SPECULAR HIGHLIGHT (top edge reflection - subtle) ── */
-.ps-specular {
-  display: none;
+/* ── RAIL LINE ── */
+.ps-rail {
+  position: absolute;
+  top: 0; left: 0; bottom: 0;
+  width: 2px;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    var(--ac-mid) 18%,
+    var(--ac-hi) 50%,
+    var(--ac-mid) 82%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 0;
 }
 
 /* ── BRAND ── */
 .ps-brand {
-  display: flex; flex-direction: column;
-  align-items: center; justify-content: center;
-  gap: 10px; padding: 28px 16px 22px;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-  cursor: pointer; position: relative; z-index: 2;
-  transition: background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 18px 14px 16px;
+  cursor: pointer;
+  position: relative;
+  z-index: 2;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.18s;
+  flex-shrink: 0;
 }
 .ps-brand:hover { background: rgba(255,255,255,0.025); }
 
+.ps-root.collapsed .ps-brand {
+  padding: 14px 0;
+  justify-content: center;
+}
+
+/* Logo box — sharp, minimal */
 .ps-logo-wrap {
-  position: relative; display: flex;
-  align-items: center; justify-content: center;
-  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  width: 40px; height: 40px;
+  border-radius: 10px;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(255,120,0,0.22);
+  background: rgba(255,120,0,0.06);
+  flex-shrink: 0;
+  transition: border-color 0.2s, background 0.2s;
 }
 .ps-brand:hover .ps-logo-wrap {
-  transform: scale(1.05);
+  border-color: rgba(255,120,0,0.4);
+  background: rgba(255,120,0,0.1);
 }
+.ps-logo-wrap img { width: 30px; height: 30px; object-fit: contain; display: block; }
 
-.ps-brand-text { display:flex; flex-direction:column; align-items:center; gap:4px; }
+/* Brand text */
+.ps-brand-text {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  overflow: hidden;
+  min-width: 0;
+}
 .ps-brand-name {
-  font-size:14px; font-weight:800; letter-spacing:3.5px;
-  color:#ff6600; text-transform:uppercase; font-family:'Inter',sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 2px;
+  line-height: 1;
+  white-space: nowrap;
+  font-family: 'Inter', sans-serif;
+  display: block;
 }
-.ps-brand-sub {
-  font-size:8.5px; font-weight:700; letter-spacing:5px;
-  color:#5e5e72; text-transform:uppercase; font-family:'Inter',sans-serif;
-}
+.ps-brand-wf   { color: var(--txt); }
+.ps-brand-fire { color: var(--ac); }
 
-/* collapsed brand */
-.ps-root.collapsed .ps-brand { padding:22px 0 18px; }
-.ps-root.collapsed .ps-logo-wrap { transform:scale(0.7); }
-
-/* ── SECTION LABEL ── */
-.ps-sec-label {
-  padding:14px 20px 4px; font-size:9px; font-weight:800;
-  color:var(--txt-muted); letter-spacing:3px; text-transform:uppercase;
-  opacity:0.45; pointer-events:none; user-select:none; z-index:2; position:relative;
+.ps-brand-tag {
+  font-size: 7px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: var(--txt-m);
+  text-transform: uppercase;
+  font-family: 'Inter', sans-serif;
+  white-space: nowrap;
+  opacity: 0.55;
 }
 
 /* ── NAV ── */
 .ps-nav {
-  flex:1; display:flex; flex-direction:column;
-  padding:6px 0 8px; overflow-y:auto; overflow-x:hidden;
-  position:relative; z-index:2;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 0 6px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  position: relative;
+  z-index: 2;
 }
-.ps-nav::-webkit-scrollbar { display:none; }
+.ps-nav::-webkit-scrollbar { display: none; }
 
-/* NAV ITEM — glass bubble pill */
+/* GROUP LABEL */
+.ps-group-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 14px 5px;
+  pointer-events: none;
+  user-select: none;
+}
+.ps-gl-text {
+  font-size: 8px; font-weight: 800;
+  letter-spacing: 2.8px; color: var(--txt-m);
+  text-transform: uppercase; font-family: 'Inter', sans-serif;
+  opacity: 0.55; white-space: nowrap; flex-shrink: 0;
+}
+.ps-gl-line {
+  flex: 1; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border));
+}
+.ps-gl-line:first-child {
+  background: linear-gradient(90deg, var(--border), transparent);
+  max-width: 8px; flex: 0 0 8px;
+}
+
+/* collapsed group separator dot */
+.ps-gl-dot {
+  width: 4px; height: 4px;
+  border-radius: 50%;
+  background: var(--ac-mid);
+  margin: 10px auto 4px;
+  flex-shrink: 0;
+}
+
+/* NAV ITEM */
 .ps-item {
-  display:flex; align-items:center; gap:11px;
-  padding:11px 16px; margin:3px 10px;
-  border-radius:16px; cursor:pointer;
-  color:var(--txt-muted); font-size:10.5px; font-weight:700;
-  letter-spacing:0.6px; text-transform:uppercase;
-  position:relative; overflow:hidden;
-  border:1px solid transparent;
-  background:transparent;
-  width:calc(100% - 20px); text-align:left;
-  transition:
-    color .22s ease,
-    border-color .22s ease,
-    transform .3s cubic-bezier(.34,1.56,.64,1),
-    box-shadow .22s ease;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 0 13px;
+  margin: 1.5px 8px;
+  height: 42px;
+  border-radius: 11px;
+  cursor: pointer;
+  color: var(--txt-m);
+  font-size: 11px;
+  font-weight: 650;
+  letter-spacing: 0.3px;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid transparent;
+  background: transparent;
+  width: calc(100% - 16px);
+  text-align: left;
+  font-family: 'Inter', sans-serif;
+  transition: color 0.2s ease, border-color 0.2s ease, transform 0.28s var(--ease);
+  will-change: transform;
 }
 
-/* glass pill fill (pseudo-element replacement) */
-.ps-item-bg {
-  position:absolute; inset:0; border-radius:inherit;
-  background:transparent;
-  transition:background .22s ease;
-  pointer-events:none;
+.ps-track {
+  position: absolute;
+  left: 0; top: 22%; bottom: 22%;
+  width: 3px;
+  border-radius: 0 3px 3px 0;
+  background: linear-gradient(180deg, #ffb347, #ff4400);
+  opacity: 0;
+  transform: scaleY(0.3);
+  transform-origin: center;
+  transition: opacity 0.22s, transform 0.3s var(--ease);
+  pointer-events: none;
+}
+.ps-fill {
+  position: absolute;
+  inset: 0; border-radius: inherit;
+  background: rgba(255,255,255,0.05);
+  opacity: 0;
+  transition: opacity 0.2s;
+  pointer-events: none;
 }
 
-/* shimmer stripe */
-.ps-item-shim {
-  position:absolute; top:0; left:-130%; width:75%; height:100%;
-  background:linear-gradient(100deg, transparent, rgba(255,255,255,0.08), transparent);
-  transform:skewX(-18deg);
-  transition:left .6s ease;
-  pointer-events:none;
-}
+.ps-item:hover { color: var(--txt); border-color: rgba(255,255,255,0.09); transform: translateX(4px); }
+.ps-item:hover .ps-fill { opacity: 1; }
+.ps-item:hover .ps-icon { opacity: 1; transform: scale(1.08); }
 
-.ps-item:hover { color:var(--txt); border-color:rgba(255,255,255,0.13); transform:translateX(5px); }
-.ps-item:hover .ps-item-bg  { background:rgba(255,255,255,0.07); }
-.ps-item:hover .ps-item-shim { left:170%; }
-.ps-item:hover { box-shadow:inset 0 1px 0 rgba(255,255,255,0.14), 0 6px 24px rgba(0,0,0,0.3); }
-
-/* ACTIVE — true liquid glass bubble */
 .ps-item.active {
-  color:var(--accent);
-  border-color:rgba(255,120,0,0.3);
-  transform:translateX(0);
-  box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.1),
-    0 0 0 1px rgba(255,120,0,0.1) inset,
-    0 4px 16px rgba(0,0,0,0.4);
+  color: var(--ac);
+  border-color: rgba(255,120,0,0.18);
+  transform: translateX(0) !important;
+  background: linear-gradient(115deg, rgba(255,120,0,0.12) 0%, rgba(255,80,0,0.05) 55%, transparent 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 16px rgba(255,120,0,0.07);
 }
-.ps-item.active .ps-item-bg {
-  background:linear-gradient(135deg,
-    rgba(255,120,0,0.18) 0%,
-    rgba(255,80,0,0.09) 55%,
-    rgba(255,60,0,0.04) 100%);
-}
-.ps-item.active::before {
-  content:'';
-  position:absolute; left:0; top:18%; bottom:18%;
-  width:3px; border-radius:0 3px 3px 0;
-  background:linear-gradient(180deg,#ffaa44,#ff4400);
-}
+.ps-item.active .ps-track { opacity: 1; transform: scaleY(1); }
+.ps-item.active .ps-fill  { opacity: 0; }
 
-/* icon */
 .ps-icon {
-  width:20px; height:20px; display:flex;
-  align-items:center; justify-content:center;
-  flex-shrink:0; opacity:0.65;
-  transition:opacity .2s, filter .2s;
-  position:relative; z-index:1;
+  width: 20px; height: 20px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; opacity: 0.48;
+  transition: opacity 0.2s, transform 0.22s var(--ease), filter 0.2s;
+  position: relative; z-index: 1;
 }
-.ps-item:hover .ps-icon,
-.ps-item.active .ps-icon { opacity:1; }
-.ps-item.active .ps-icon { opacity: 1; filter: none; }
-
-.ps-label { flex:1; white-space:nowrap; position:relative; z-index:1; }
-
-/* badges */
-.ps-pill {
-  font-size:7px; font-weight:800; letter-spacing:0.6px;
-  padding:2px 7px; border-radius:20px; flex-shrink:0;
-  position:relative; z-index:1;
+.ps-item.active .ps-icon {
+  opacity: 1;
+  filter: drop-shadow(0 0 5px rgba(255,120,0,0.55));
 }
-.pill-live { color:#22c55e; border:1px solid rgba(34,197,94,0.3); background:rgba(34,197,94,0.08); }
-.pill-new  { color:#a78bfa; border:1px solid rgba(167,139,250,0.3); background:rgba(167,139,250,0.08); }
+
+.ps-label {
+  flex: 1; white-space: nowrap; overflow: hidden;
+  position: relative; z-index: 1;
+}
+
+.ps-badge {
+  font-size: 7px; font-weight: 800; letter-spacing: 0.7px;
+  padding: 2px 7px; border-radius: 20px;
+  flex-shrink: 0; position: relative; z-index: 1;
+}
+.badge-live { color: #22c55e; border: 1px solid rgba(34,197,94,0.28); background: rgba(34,197,94,0.08); }
+.badge-new  { color: #a78bfa; border: 1px solid rgba(167,139,250,0.28); background: rgba(167,139,250,0.08); }
 
 /* collapsed nav */
 .ps-root.collapsed .ps-item {
-  justify-content:center; padding:12px; margin:3px 8px;
-  width:calc(100% - 16px); transform:none !important;
+  justify-content: center; padding: 0;
+  width: calc(100% - 16px); transform: none !important;
 }
-.ps-root.collapsed .ps-item:hover { transform:scale(1.1) !important; }
-.ps-root.collapsed .ps-label,
-.ps-root.collapsed .ps-pill,
-.ps-root.collapsed .ps-sec-label { display:none; }
-.ps-root.collapsed .ps-item.active::before { display:none; }
+.ps-root.collapsed .ps-item:hover { transform: scale(1.1) !important; }
+.ps-root.collapsed .ps-item.active { transform: none !important; }
+.ps-root.collapsed .ps-item.active .ps-track { display: none; }
+
+/* Profile item avatar in nav */
+.ps-icon-av {
+  position: relative;
+  width: 20px; height: 20px;
+  flex-shrink: 0;
+  opacity: 1 !important;
+}
+.ps-nav-av {
+  width: 20px; height: 20px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(255,120,0,0.4);
+  object-fit: cover;
+  display: block;
+  transition: border-color 0.2s;
+}
+.ps-item.active .ps-nav-av,
+.ps-item:hover  .ps-nav-av {
+  border-color: var(--ac);
+}
 
 /* ── FOOTER ── */
+/* ── FOOTER ── */
 .ps-footer {
-  padding:12px 10px 16px;
-  border-top:1px solid rgba(255,255,255,0.06);
-  display:flex; flex-direction:column; gap:7px;
-  position:relative; z-index:2; margin-top:auto;
+  border-top: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  z-index: 2;
+  margin-top: auto;
+  flex-shrink: 0;
 }
 
-/* user card */
+/* Back to Wiki — top nav action */
+.ps-back {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 14px;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+  color: var(--txt-m);
+  text-decoration: none;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.18s, color 0.18s;
+  font-family: 'Inter', sans-serif;
+  opacity: 0.7;
+}
+.ps-back:hover { background: rgba(255,255,255,0.04); color: var(--txt); opacity: 1; }
+.ps-back.slim  { justify-content: center; padding: 10px; }
+
+/* User identity strip */
 .ps-user {
-  display:flex; align-items:center; gap:9px;
-  padding:9px 12px; border-radius:16px;
-  background:rgba(255,255,255,0.042);
-  border:1px solid rgba(255,255,255,0.09);
-  box-shadow:inset 0 1px 0 rgba(255,255,255,0.14), 0 4px 20px rgba(0,0,0,0.28);
-  transition:all .22s ease;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 12px;
+  cursor: pointer;
+  transition: background 0.18s;
 }
-.ps-user:hover { background:rgba(255,255,255,0.07); border-color:rgba(255,120,0,0.22); }
-.ps-user.slim  { justify-content:center; padding:8px; }
+.ps-user:hover { background: rgba(255,255,255,0.04); }
+.ps-user.slim  { justify-content: center; padding: 12px; }
 
-.ps-user-left {
-  display:flex; align-items:center; gap:9px;
-  flex:1; min-width:0; cursor:pointer;
-}
-
-/* avatar */
-.ps-av-wrap { position:relative; flex-shrink:0; }
+.ps-av-wrap { position: relative; flex-shrink: 0; cursor: pointer; }
 .ps-av {
-  width:34px; height:34px; border-radius:50%;
-  border:2px solid var(--accent);
-  box-shadow:0 4px 14px var(--ac-glow);
-  object-fit:cover; display:block;
+  width: 32px; height: 32px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  object-fit: cover; display: block;
+  transition: border-color 0.2s;
 }
-.ps-dot {
-  position:absolute; bottom:0; right:0;
-  width:9px; height:9px; background:#22c55e;
-  border-radius:50%; border:2px solid rgba(10,10,22,0.95);
-  animation:dotPulse 2s ease-in-out infinite;
-}
-@keyframes dotPulse {
-  0%,100% { opacity:1; transform:scale(1); }
-  50%      { opacity:.5; transform:scale(1.25); }
-}
+.ps-user:hover .ps-av { border-color: rgba(255,120,0,0.4); }
 
-.ps-user-info { display:flex; flex-direction:column; gap:1px; min-width:0; }
+.ps-user-info {
+  display: flex; flex-direction: column;
+  gap: 2px; min-width: 0; flex: 1;
+  cursor: pointer;
+}
 .ps-uname {
-  font-size:11.5px; font-weight:700; color:var(--txt);
-  white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  font-size: 11.5px; font-weight: 700;
+  color: var(--txt);
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
 }
-.ps-ustatus {
-  display:flex; align-items:center; gap:4px;
-  font-size:8.5px; font-weight:700; color:#22c55e;
-  letter-spacing:.5px; text-transform:uppercase;
-}
-.ps-udot {
-  width:4px; height:4px; background:#22c55e;
-  border-radius:50%; animation:dotPulse 1.5s ease infinite;
+.ps-urole {
+  font-size: 9px; font-weight: 500;
+  color: var(--txt-m); letter-spacing: 0.5px;
+  text-transform: uppercase; opacity: 0.6;
 }
 
-/* sign out button */
-.ps-sign-out {
-  background:rgba(0,0,0,0.18); border:1px solid rgba(255,255,255,0.06);
-  color:var(--txt-muted); padding:7px; cursor:pointer;
-  border-radius:10px; display:flex; align-items:center;
-  flex-shrink:0; transition:all .2s;
+.ps-logout {
+  background: none; border: none;
+  color: var(--txt-m); padding: 5px;
+  cursor: pointer; border-radius: 6px;
+  display: flex; align-items: center;
+  flex-shrink: 0;
+  transition: color 0.18s, background 0.18s;
+  opacity: 0.45;
 }
-.ps-sign-out:hover { color:#e74c3c; background:rgba(231,76,60,0.14); border-color:rgba(231,76,60,0.28); }
-
-/* back to site */
-.ps-home {
-  display:flex; align-items:center; gap:8px;
-  padding:8px 12px; border-radius:12px;
-  font-size:9px; font-weight:700; letter-spacing:.8px;
-  color:var(--txt-muted); text-decoration:none; text-transform:uppercase;
-  border:1px solid rgba(255,255,255,0.07);
-  transition:all .2s;
-}
-.ps-home:hover { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.12); color:var(--txt-sub); }
-.ps-home.slim  { justify-content:center; padding:8px; }
+.ps-logout:hover { color: #e74c3c; background: rgba(231,76,60,0.1); opacity: 1; }
 
 /* ── MOBILE ── */
-@media (max-width:640px) {
-  .ps-root { display:none !important; }
+@media (max-width: 640px) {
+  .ps-root { display: none !important; }
 }
 
-/* ════════════════════════════════════════
+/* ══════════════════════════
    LIGHT THEME
-════════════════════════════════════════ */
+══════════════════════════ */
 .ps-root.ps-light {
-  background: rgba(255,255,255,0.55);
-  backdrop-filter: blur(16px) saturate(200%) brightness(1.04);
-  -webkit-backdrop-filter: blur(16px) saturate(200%) brightness(1.04);
-  border-right: 1px solid rgba(0,0,0,0.09);
-  box-shadow:
-    12px 0 60px rgba(0,0,0,0.12),
-    inset 0 1px 0 rgba(255,255,255,0.9),
-    inset -1px 0 0 rgba(0,0,0,0.04);
-  --txt:       #18181e;
-  --txt-muted: #7a7a90;
-  --txt-sub:   #4a4a60;
-}
+  --bg:     rgba(246,246,252,0.94);
+  --txt:    #16161e;
+  --txt-m:  #7878 96;
+  --txt-s:  #4a4a62;
+  --border: rgba(0,0,0,0.075);
 
-.ps-root.ps-light .ps-glass-inner {
-  background: linear-gradient(160deg,
-    rgba(255,255,255,0.6) 0%,
-    rgba(200,200,255,0.1) 50%,
-    transparent 100%);
+  background: var(--bg);
+  border-right-color: rgba(0,0,0,0.09);
+  box-shadow: 4px 0 32px rgba(0,0,0,0.10);
 }
+/* fix invalid hex above */
+.ps-root.ps-light { --txt-m: #787896; }
 
-.ps-root.ps-light .ps-specular {
-  background: radial-gradient(ellipse 80% 50% at 50% 0%,
-    rgba(255,255,255,0.8) 0%,
-    rgba(255,255,255,0.2) 50%,
-    transparent 100%);
-}
+/* Brand text in light mode */
+.ps-root.ps-light .ps-brand-wf   { color: #16161e; }
+.ps-root.ps-light .ps-brand-fire { color: var(--ac); }
+.ps-root.ps-light .ps-brand-tag  { color: #9090a8; opacity: 0.65; }
 
-.ps-root.ps-light .ps-caustic {
-  background: radial-gradient(ellipse 70% 60% at 30% 100%,
-    rgba(255,150,50,0.06) 0%,
-    transparent 100%);
+.ps-root.ps-light .ps-rail {
+  background: linear-gradient(180deg, transparent 0%, rgba(255,120,0,0.2) 20%, rgba(255,120,0,0.38) 50%, rgba(255,120,0,0.2) 80%, transparent 100%);
 }
+.ps-root.ps-light .ps-brand { border-bottom-color: rgba(0,0,0,0.07); }
+.ps-root.ps-light .ps-brand:hover { background: rgba(0,0,0,0.018); }
+.ps-root.ps-light .ps-logo-wrap { border-color: rgba(255,120,0,0.2); background: rgba(255,120,0,0.05); }
 
-.ps-root.ps-light .ps-bubble {
-  border-color: rgba(0,0,0,0.08);
-  background: radial-gradient(circle at 30% 25%,
-    rgba(255,255,255,0.8) 0%,
-    rgba(255,255,255,0.1) 60%,
-    transparent 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9);
-}
-
-.ps-root.ps-light .ps-brand {
-  border-bottom-color: rgba(0,0,0,0.07);
-}
-.ps-root.ps-light .ps-brand:hover {
-  background: rgba(0,0,0,0.025);
-}
-.ps-root.ps-light .ps-brand-sub { color:#9090a8; }
-
-.ps-root.ps-light .ps-sec-label { color:#8a8aa0; }
-
-/* nav items */
-.ps-root.ps-light .ps-item {
-  color: #6a6a80;
-}
-.ps-root.ps-light .ps-item:hover {
-  color: #1a1a28;
-  border-color: rgba(0,0,0,0.1);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 4px 16px rgba(0,0,0,0.08);
-}
-.ps-root.ps-light .ps-item:hover .ps-item-bg {
-  background: rgba(0,0,0,0.04);
-}
-.ps-root.ps-light .ps-item-shim {
-  background: linear-gradient(100deg, transparent, rgba(255,255,255,0.5), transparent);
-}
+.ps-root.ps-light .ps-item { color: #787896; }
+.ps-root.ps-light .ps-item:hover { color: #16161e; border-color: rgba(0,0,0,0.09); }
+.ps-root.ps-light .ps-fill { background: rgba(0,0,0,0.042); }
 .ps-root.ps-light .ps-item.active {
-  color: var(--accent);
-  border-color: rgba(255,120,0,0.25);
-  box-shadow:
-    inset 0 1.5px 0 rgba(255,255,255,0.9),
-    0 4px 20px rgba(255,120,0,0.14),
-    0 1px 6px rgba(0,0,0,0.08);
+  color: var(--ac);
+  border-color: rgba(255,120,0,0.18);
+  background: linear-gradient(115deg, rgba(255,120,0,0.09) 0%, rgba(255,80,0,0.04) 55%, transparent 100%);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 12px rgba(255,120,0,0.1);
 }
-.ps-root.ps-light .ps-item.active .ps-item-bg {
-  background: linear-gradient(135deg,
-    rgba(255,120,0,0.1) 0%,
-    rgba(255,80,0,0.05) 100%);
-}
+.ps-root.ps-light .ps-gl-text { color: #9090a8; }
+.ps-root.ps-light .ps-gl-line { background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08)); }
+.ps-root.ps-light .ps-gl-line:first-child { background: linear-gradient(90deg, rgba(0,0,0,0.08), transparent); }
+.ps-root.ps-light .ps-gl-dot { background: rgba(255,120,0,0.25); }
 
-/* footer */
-.ps-root.ps-light .ps-footer {
-  border-top-color: rgba(0,0,0,0.07);
-}
-.ps-root.ps-light .ps-user {
-  background: rgba(255,255,255,0.6);
-  border-color: rgba(0,0,0,0.08);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.9), 0 2px 12px rgba(0,0,0,0.06);
-}
-.ps-root.ps-light .ps-user:hover {
-  background: rgba(255,255,255,0.8);
-  border-color: rgba(255,120,0,0.2);
-}
-.ps-root.ps-light .ps-uname  { color: #1a1a28; }
-.ps-root.ps-light .ps-sign-out {
-  background: rgba(0,0,0,0.05);
-  border-color: rgba(0,0,0,0.08);
-  color: #7a7a90;
-}
-.ps-root.ps-light .ps-sign-out:hover {
-  background: rgba(231,76,60,0.1);
-  border-color: rgba(231,76,60,0.25);
-  color: #e74c3c;
-}
-.ps-root.ps-light .ps-home {
-  border-color: rgba(0,0,0,0.08);
-  color: #8a8a9e;
-}
-.ps-root.ps-light .ps-home:hover {
-  background: rgba(0,0,0,0.04);
-  border-color: rgba(0,0,0,0.12);
-  color: #3a3a50;
-}
-.ps-root.ps-light .ps-dot {
-  border-color: rgba(255,255,255,0.9);
-}
-.ps-root.ps-light .ps-av {
-  box-shadow: 0 3px 12px rgba(255,120,0,0.2);
-}
+.ps-root.ps-light .ps-footer { border-top-color: rgba(0,0,0,0.07); }
+.ps-root.ps-light .ps-user:hover { background: rgba(0,0,0,0.03); }
+.ps-root.ps-light .ps-av { border-color: rgba(0,0,0,0.12); }
+.ps-root.ps-light .ps-user:hover .ps-av { border-color: rgba(255,120,0,0.35); }
+.ps-root.ps-light .ps-uname { color: #16161e; }
+.ps-root.ps-light .ps-back { border-bottom-color: rgba(0,0,0,0.07); color: #787896; }
+.ps-root.ps-light .ps-back:hover { background: rgba(0,0,0,0.03); color: #16161e; }
+.ps-root.ps-light .ps-logout:hover { background: rgba(231,76,60,0.08); }
 </style>

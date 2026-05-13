@@ -21,7 +21,6 @@
             </defs>
           </svg>
           <img :src="userAvatar" :alt="userLogin" class="pp-avatar">
-          <div class="pp-online-dot"></div>
           <img :src="'/medals/' + contributionLevel.key + '.svg'" class="pp-level-pin" :alt="contributionLevel.label" :title="contributionLevel.label">
         </div>
 
@@ -1144,7 +1143,6 @@ export default {
   transition:transform 0.25s ease;
 }
 .pp-avatar:hover { transform:translate(-50%,-50%) scale(1.08); }
-.pp-online-dot { position:absolute; bottom:7px; right:7px; width:15px; height:15px; border-radius:50%; background:#22c55e; border:2.5px solid rgba(0,0,0,0.65); box-shadow:0 0 10px rgba(34,197,94,0.7); z-index:3; animation:pp-dot-glow 2.5s ease-in-out infinite; }
 .pp-level-pin { position:absolute; bottom:-5px; left:50%; transform:translateX(-50%); width:30px; height:30px; z-index:3; filter:drop-shadow(0 3px 10px rgba(0,0,0,0.65)); }
 
 /* Profile info */
