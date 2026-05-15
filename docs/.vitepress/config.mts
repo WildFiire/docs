@@ -218,8 +218,17 @@ export default defineConfig({
         collapsed: false,
         items: [
           // { text: '<iconify-icon icon="lucide:rocket" class="nav-icon" width="16" height="16"></iconify-icon> Incepe aici', link: '/informatii/getting-started' },
-          { text: '<iconify-icon icon="lucide-star" class="nav-icon" width="16" height="16"></iconify-icon> Despre Wildfire', link: '/informatii/about' },
+          { text: '<iconify-icon icon="lucide:star" class="nav-icon" width="16" height="16"></iconify-icon> Despre Wildfire', link: '/informatii/about' },
           { text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Întrebări frecvente', link: '/informatii/faq' },
+
+          // STAFF
+          {
+            text: '<iconify-icon icon="solar:shield-user-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Staff',
+            collapsed: true,
+            items: [
+              { text: '<iconify-icon icon="lucide:terminal" class="nav-icon" width="16" height="16"></iconify-icon> Comenzi Staff', link: '/informatii/staff/comenzi' }
+            ]
+          },
 
           // REGULAMENTE
           {

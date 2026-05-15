@@ -573,8 +573,78 @@
                                         </template>
 
                                         <template v-if="blk.type === 'table'">
-                                            <div class="studio-field"><label>Headers (comma-separated)</label><input v-model="blk.headers" placeholder="Col 1, Col 2, Col 3" /></div>
-                                            <div class="studio-field"><label>Rows (one per line, comma values)</label><textarea v-model="blk.rows" rows="5" placeholder="Val 1, Val 2, Val 3"></textarea></div>
+                                            <div class="studio-field"><label>Columns Configuration</label></div>
+                                            <div class="tb-cols-builder">
+                                                <div v-for="(col, ci) in (blk.tableData?.columns || [])" :key="'col'+ci" class="tb-col-row">
+                                                    <input v-model="col.name" placeholder="Header Name" class="mini-input">
+                                                    <input v-model="col.width" placeholder="Width (20%)" class="mini-input" style="max-width: 60px;">
+                                                    <select v-model="col.align" class="mini-input" style="max-width: 75px;">
+                                                        <option value="left">Left</option><option value="center">Center</option><option value="right">Right</option>
+                                                    </select>
+                                                    <button @click="removeCol(blk, ci)" class="blk-ctrl-btn danger"><Icon icon="lucide:trash" width="12"/></button>
+                                                </div>
+                                                <button @click="addCol(blk)" class="sidebar-add-btn" style="width:100%; justify-content:center">+ ADD COLUMN</button>
+                                            </div>
+
+                                            <div class="studio-field" style="margin-top: 16px;"><label>Rows & Cells Builder</label></div>
+                                            <div class="tb-rows-builder">
+                                                <div v-for="(row, ri) in (blk.tableData?.rows || [])" :key="'row'+ri" class="tb-row-box">
+                                                    <div class="tb-row-header">
+                                                        <span>ROW {{ ri + 1 }}</span>
+                                                        <button @click="removeRow(blk, ri)" class="blk-ctrl-btn danger"><Icon icon="lucide:trash" width="12"/></button>
+                                                    </div>
+                                                    <div class="tb-cells-grid">
+                                                        <div v-for="(cell, ci) in row" :key="'cell'+ri+'-'+ci" class="tb-cell-box">
+                                                            <label class="cell-label">{{ blk.tableData?.columns?.[ci]?.name || 'Col '+(ci+1) }}</label>
+
+                                                            <div class="cell-elements">
+                                                                <div v-for="(el, ei) in cell" :key="'el'+ei" class="cell-element-edit">
+                                                                    <template v-if="el.type === 'text'">
+                                                                        <textarea v-model="el.text" placeholder="Text..." class="mini-input" rows="1"></textarea>
+                                                                    </template>
+                                                                    <template v-else-if="el.type === 'code'">
+                                                                        <div class="el-badge code">CODE</div>
+                                                                        <input v-model="el.text" placeholder="Code snippet..." class="mini-input">
+                                                                    </template>
+                                                                    <template v-else-if="el.type === 'pill'">
+                                                                        <div class="el-badge pill">PILL</div>
+                                                                        <div style="display:flex; gap:4px; width:100%">
+                                                                            <input v-model="el.icon" placeholder="lucide:icon" class="mini-input" style="width: 40%">
+                                                                            <input v-model="el.text" placeholder="Text" class="mini-input" style="flex:1">
+                                                                        </div>
+                                                                    </template>
+                                                                    <template v-else-if="el.type === 'badge'">
+                                                                        <div class="el-badge badge">BADGE</div>
+                                                                        <div style="display:flex; gap:4px; width:100%">
+                                                                            <select v-model="el.variant" class="mini-input" style="width: 45%">
+                                                                                <option value="helper">Helper</option><option value="mod">Mod</option>
+                                                                                <option value="admin">Admin</option><option value="sv">SV</option>
+                                                                                <option value="sm">SM</option><option value="cm">CM</option>
+                                                                                <option value="owner">Owner</option><option value="normal">Normal</option>
+                                                                            </select>
+                                                                            <input v-model="el.text" placeholder="Text" class="mini-input" style="flex:1">
+                                                                        </div>
+                                                                    </template>
+                                                                    <template v-else-if="el.type === 'icon'">
+                                                                        <div class="el-badge icon">ICON</div>
+                                                                        <input v-model="el.icon" placeholder="Icon ID" class="mini-input">
+                                                                    </template>
+                                                                    <button @click="cell.splice(ei, 1)" class="del-el-btn"><Icon icon="lucide:x" width="10"/></button>
+                                                                </div>
+                                                            </div>
+
+                                                            <div class="add-el-bar">
+                                                                <button @click="cell.push({type: 'text', text: ''})" title="Text"><Icon icon="lucide:type" width="10"/></button>
+                                                                <button @click="cell.push({type: 'pill', text: 'cmd', icon: 'lucide:shield'})" title="Command Pill"><Icon icon="lucide:terminal" width="10"/></button>
+                                                                <button @click="cell.push({type: 'code', text: 'code'})" title="Code Block"><Icon icon="lucide:code-2" width="10"/></button>
+                                                                <button @click="cell.push({type: 'badge', text: 'Grad', variant: 'helper'})" title="Role Badge"><Icon icon="lucide:tag" width="10"/></button>
+                                                                <button @click="cell.push({type: 'icon', icon: 'lucide:check'})" title="Standalone Icon"><Icon icon="lucide:star" width="10"/></button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <button @click="addRow(blk)" class="sidebar-add-btn" style="width:100%; justify-content:center; background: rgba(var(--accent-rgb),0.1); color: var(--accent);">+ ADD NEW ROW</button>
+                                            </div>
                                         </template>
 
                                         <template v-if="blk.type === 'stat'">
@@ -999,14 +1069,28 @@
                                             <pre><code>{{ blk.code }}</code></pre>
                                         </div>
 
-                                        <div v-else-if="blk.type === 'table'" class="canvas-table-box">
-                                            <table>
+                                        <div v-else-if="blk.type === 'table'" class="wf-cmd-table-wrap" style="margin: 28px 0;">
+                                            <table class="wf-cmd-table">
                                                 <thead>
-                                                    <tr><th v-for="h in (blk.headers || '').split(',')" :key="h">{{ h.trim() }}</th></tr>
+                                                    <tr>
+                                                        <th v-for="(col, hi) in (blk.tableData?.columns || [])" :key="hi"
+                                                            :style="{ width: col.width || 'auto', textAlign: col.align || 'left' }">
+                                                            {{ col.name }}
+                                                        </th>
+                                                    </tr>
                                                 </thead>
                                                 <tbody>
-                                                    <tr v-for="(r, ri) in (blk.rows || '').split('\n').filter(s => s.trim())" :key="ri">
-                                                        <td v-for="c in r.split(',')" :key="c">{{ c.trim() }}</td>
+                                                    <tr v-for="(row, ri) in (blk.tableData?.rows || [])" :key="ri">
+                                                        <td v-for="(cell, ci) in row" :key="ci" :style="{ textAlign: blk.tableData?.columns?.[ci]?.align || 'left' }">
+                                                            <template v-for="(el, ei) in cell" :key="ei">
+                                                                <span v-if="el.type === 'text'" v-html="renderInline(el.text)"></span>
+                                                                <code v-else-if="el.type === 'code'">{{ el.text }}</code>
+                                                                <span v-else-if="el.type === 'pill'" class="wf-cmd-pill"><Icon :icon="el.icon || 'lucide:box'" width="13"/>{{ el.text }}</span>
+                                                                <span v-else-if="el.type === 'badge'" :class="'wf-badge wf-badge-' + el.variant">{{ el.text }}</span>
+                                                                <Icon v-else-if="el.type === 'icon'" :icon="el.icon" width="14" style="vertical-align: middle;" />
+                                                                <span v-if="ei < cell.length - 1">&nbsp;</span>
+                                                            </template>
+                                                        </td>
                                                     </tr>
                                                 </tbody>
                                             </table>
@@ -2309,14 +2393,77 @@ export default defineComponent({
             addFound(m.index, m[0].length, { type: 'link-grid', links: links.join('\n') });
         }
 
-        // Tables
+        // Tables (HTML Liquid Glass Format - Advanced Builder)
+        const htmlTableRegex = /<div[^>]*class="[^"]*wf-cmd-table-wrap[^"]*"[^>]*>[\s\S]*?<table[^>]*>([\s\S]*?)<\/table>[\s\S]*?<\/div>/g;
+        while ((m = htmlTableRegex.exec(body)) !== null) {
+            const tableContent = m[1];
+            const columns = [];
+            const rows = [];
+            
+            const thRegex = /<th([^>]*)>([\s\S]*?)<\/th>/g;
+            let thM;
+            while ((thM = thRegex.exec(tableContent)) !== null) {
+                const styleAttr = (thM[1].match(/style="([^"]*)"/) || [])[1] || '';
+                const wMatch = styleAttr.match(/width:\s*([^;]+)/);
+                const aMatch = styleAttr.match(/text-align:\s*([^;]+)/);
+                columns.push({ name: thM[2].trim(), width: wMatch ? wMatch[1].trim() : '', align: aMatch ? aMatch[1].trim() : 'left' });
+            }
+            
+            const tbodyMatch = tableContent.match(/<tbody[^>]*>([\s\S]*?)<\/tbody>/);
+            if (tbodyMatch) {
+                const trRegex = /<tr[^>]*>([\s\S]*?)<\/tr>/g;
+                let trM;
+                while ((trM = trRegex.exec(tbodyMatch[1])) !== null) {
+                    const cellArr = [];
+                    const tdRegex = /<td[^>]*>([\s\S]*?)<\/td>/g;
+                    let tdM;
+                    while ((tdM = tdRegex.exec(trM[1])) !== null) {
+                        const rawHtml = tdM[1].trim();
+                        const elements = [];
+                        const parser = new DOMParser();
+                        const doc = parser.parseFromString(rawHtml, 'text/html');
+                        
+                        doc.body.childNodes.forEach(node => {
+                            if (node.nodeType === 3) {
+                                const txt = node.textContent.trim();
+                                if (txt) elements.push({ type: 'text', text: txt });
+                            } else if (node.nodeType === 1) {
+                                if (node.tagName === 'SPAN' && node.classList.contains('wf-cmd-pill')) {
+                                    const iconNode = node.querySelector('svg, [icon]');
+                                    const icon = iconNode ? (iconNode.getAttribute('icon') || 'lucide:box') : 'lucide:box';
+                                    elements.push({ type: 'pill', text: node.textContent.trim(), icon });
+                                } else if (node.tagName === 'SPAN' && node.classList.contains('wf-badge')) {
+                                    let variant = 'normal';
+                                    node.classList.forEach(c => { if (c.startsWith('wf-badge-')) variant = c.replace('wf-badge-', ''); });
+                                    elements.push({ type: 'badge', text: node.textContent.trim(), variant });
+                                } else if (node.tagName === 'CODE') {
+                                    elements.push({ type: 'code', text: node.textContent.trim() });
+                                } else if (node.tagName.toLowerCase() === 'icon' || node.tagName === 'svg') {
+                                    const icon = node.getAttribute('icon') || 'lucide:star';
+                                    elements.push({ type: 'icon', icon });
+                                } else {
+                                    elements.push({ type: 'text', text: node.outerHTML });
+                                }
+                            }
+                        });
+                        if (elements.length === 0) elements.push({ type: 'text', text: '' });
+                        cellArr.push(elements);
+                    }
+                    if (cellArr.length > 0) rows.push(cellArr);
+                }
+            }
+            addFound(m.index, m[0].length, { type: 'table', tableData: { columns, rows } });
+        }
+
+        // Legacy Markdown Tables Support (pt import pagini vechi)
         const tableRegex = /^\|.*\|$\n^\|[-| :]*\|$\n(?:^\|.*\|$\n?)+/gm;
         while ((m = tableRegex.exec(body)) !== null) {
+            if (found.some(f => m.index >= f.index && m.index < f.index + f.length)) continue;
             const lines = m[0].trim().split('\n');
             if (lines.length >= 3) {
-                const headers = lines[0].split('|').slice(1, -1).map(s => s.trim()).join(', ');
-                const rows = lines.slice(2).map(l => l.split('|').slice(1, -1).map(s => s.trim()).join(', ')).join('\n');
-                addFound(m.index, m[0].length, { type: 'table', headers, rows });
+                const headers = lines[0].split('|').slice(1, -1).map(s => ({ name: s.trim(), width: '', align: 'left' }));
+                const rows = lines.slice(2).map(l => l.split('|').slice(1, -1).map(s => ([{ type: 'text', text: s.trim() }])));
+                addFound(m.index, m[0].length, { type: 'table', tableData: { columns: headers, rows } });
             }
         }
 
@@ -2341,6 +2488,26 @@ export default defineComponent({
         this.blocks = finalBlocks.length > 0 ? finalBlocks : [{ id: nextId(), type: 'paragraph', body: 'No valid blocks found.' }];
     },
 
+    addCol(blk) {
+        if (!blk.tableData) blk.tableData = { columns: [], rows: [] };
+        blk.tableData.columns.push({ name: 'Coloană Nouă', width: '', align: 'left' });
+        blk.tableData.rows.forEach(row => row.push([{ type: 'text', text: '' }]));
+    },
+    removeCol(blk, ci) {
+        if (!blk.tableData) return;
+        blk.tableData.columns.splice(ci, 1);
+        blk.tableData.rows.forEach(row => row.splice(ci, 1));
+    },
+    addRow(blk) {
+        if (!blk.tableData) blk.tableData = { columns: [{name:'Col 1', width:'', align:'left'}], rows: [] };
+        const newRow = blk.tableData.columns.map(() => ([{ type: 'text', text: '' }]));
+        blk.tableData.rows.push(newRow);
+    },
+    removeRow(blk, ri) {
+        if (!blk.tableData) return;
+        blk.tableData.rows.splice(ri, 1);
+    },
+    
     addBlock(type) {
       const blk = { id: this.nextBlkId++, type, isGrid: false, color: '', link: '', image: '', cardTitle: '' };
       if (type === 'section-title') Object.assign(blk, { num: '1.0', title: 'New Section', icon: 'lucide:star' });
@@ -2381,7 +2548,24 @@ export default defineComponent({
       else if (type === 'image') Object.assign(blk, { src: '/path/to/image.png', alt: 'Image description', caption: '' });
       else if (type === 'link') Object.assign(blk, { text: 'Click Here', href: 'https://', external: true });
       else if (type === 'code') Object.assign(blk, { lang: 'javascript', code: '// Your code here\nconsole.log("Hello World")' });
-      else if (type === 'table') Object.assign(blk, { headers: 'Column 1, Column 2, Column 3', rows: 'Value 1, Value 2, Value 3\nValue A, Value B, Value C' });
+      else if (type === 'table') Object.assign(blk, { 
+          tableData: {
+              columns: [
+                  { name: 'Comandă', width: '20%', align: 'left' },
+                  { name: 'Sintaxă', width: '25%', align: 'left' },
+                  { name: 'Descriere', width: '40%', align: 'left' },
+                  { name: 'Grad minim', width: '15%', align: 'center' }
+              ],
+              rows: [
+                  [
+                      [ { type: 'pill', text: '!admin', icon: 'lucide:shield' } ],
+                      [ { type: 'code', text: '!admin' } ],
+                      [ { type: 'text', text: 'Deschide meniul principal de administrare.' } ],
+                      [ { type: 'badge', text: 'Helper', variant: 'helper' } ]
+                  ]
+              ]
+          }
+      });
       else if (type === 'stat') Object.assign(blk, { value: '100%', label: 'Label' });
       else if (type === 'steps') Object.assign(blk, { body: 'lucide:check|Step one\nlucide:check|Step two', color: '#ff7800' });
       else if (type === 'command') Object.assign(blk, { label: 'Comanda', body: '!missions', color: '#ff7800' });
@@ -2623,14 +2807,27 @@ export default defineComponent({
       try { this.recentIcons = JSON.parse(recents); } catch(e) {}
     }
 
-    // Load draft
+    // Load draft and Upgrade Old Tables Automatically
     const draft = localStorage.getItem('phoenix_studio_draft');
     if (draft) {
        try {
           const parsed = JSON.parse(draft);
-          this.blocks = parsed.blocks || this.blocks;
+          let loadedBlocks = parsed.blocks || this.blocks;
+          
+          // AUTO-MIGRATE OLD TABLES TO NEW "MAX LEVEL" FORMAT
+          loadedBlocks.forEach(b => {
+              if (b.type === 'table' && !b.tableData) {
+                  const headers = (b.headers || '').split(',').map(h => ({ name: h.trim(), width: '', align: 'left' }));
+                  const rows = (b.rows || '').split('\n').filter(s => s.trim()).map(r => 
+                      r.split(',').map(c => ([{ type: 'text', text: c.trim() }]))
+                  );
+                  b.tableData = { columns: headers.length ? headers : [{name: 'Col 1', width: '', align: 'left'}], rows };
+              }
+          });
+
+          this.blocks = loadedBlocks;
           this.header = parsed.header || this.header;
-          this.nextBlkId = Math.max(...this.blocks.map(b => b.id), 0) + 1;
+          this.nextBlkId = Math.max(...this.blocks.map(b => b.id || 0), 0) + 1;
        } catch(e) {}
     }
 
@@ -2738,10 +2935,37 @@ const blkRenderers = {
   'link': b => `[${b.text}](${b.href})${b.external ? ' (opens in new tab)' : ''}`,
   'code': b => `\`\`\`${b.lang}\n${b.code}\n\`\`\``,
   'table': b => {
-    const headers = (b.headers || '').split(',').map(h => h.trim());
-    const rows = (b.rows || '').split('\n').map(r => r.split(',').map(c => c.trim()));
-    const sep = headers.map(() => '---').join(' | ');
-    return `| ${headers.join(' | ')} |\n| ${sep} |\n${rows.map(r => `| ${r.join(' | ')} |`).join('\n')}`;
+    const cols = b.tableData?.columns || [];
+    const rows = b.tableData?.rows || [];
+    
+    let html = `<div class="wf-cmd-table-wrap">\n  <table class="wf-cmd-table">\n    <thead>\n      <tr>\n`;
+    cols.forEach(col => {
+        const w = col.width ? `width: ${col.width}; ` : '';
+        const a = col.align ? `text-align: ${col.align};` : '';
+        const style = (w || a) ? ` style="${w}${a}"` : '';
+        html += `        <th${style}>${col.name}</th>\n`;
+    });
+    html += `      </tr>\n    </thead>\n    <tbody>\n`;
+    
+    rows.forEach(row => {
+        html += `      <tr>\n`;
+        row.forEach((cell, ci) => {
+            const align = cols[ci]?.align;
+            const aStyle = align ? ` style="text-align: ${align};"` : '';
+            let cellHtml = '';
+            cell.forEach(el => {
+                if (el.type === 'text') cellHtml += el.text + ' ';
+                else if (el.type === 'code') cellHtml += `<code>${el.text}</code> `;
+                else if (el.type === 'pill') cellHtml += `<span class="wf-cmd-pill"><Icon icon="${el.icon || 'lucide:box'}" width="13"/>${el.text}</span> `;
+                else if (el.type === 'badge') cellHtml += `<span class="wf-badge wf-badge-${el.variant}">${el.text}</span> `;
+                else if (el.type === 'icon') cellHtml += `<Icon icon="${el.icon}" width="14" style="vertical-align: middle;"/> `;
+            });
+            html += `        <td${aStyle}>${cellHtml.trim()}</td>\n`;
+        });
+        html += `      </tr>\n`;
+    });
+    html += `    </tbody>\n  </table>\n</div>`;
+    return html;
   },
   'stat': b => `<div class="wf-info-stat-item">\n  <div class="wf-info-stat-number">${b.value}</div>\n  <div class="wf-info-stat-label">${b.label}</div>\n</div>`,
   'steps': b => `<ul class="wf-system-custom-list">\n${(b.body || '').split('\n').filter(s => s.includes('|')).map(item => `  <li><Icon icon="${item.split('|')[0].trim()}"${b.color ? ` style="color: ${b.color}"` : ''} /><span>${item.split('|')[1].trim()}</span></li>`).join('\n')}\n</ul>`,
@@ -3673,24 +3897,26 @@ kbd {
 }
 
 /* ═══════════════════════════════════════════════════════
-   GROUP K — TABLE BOX
+   GROUP K — LIQUID GLASS UNIVERSAL TABLE
 ══════════════════════════════════════════════════════════ */
-.canvas-table-box {
-  overflow-x: auto; margin: 28px 0; border-radius: 16px;
-  border: 1px solid var(--studio-border);
+.wf-cmd-table-wrap {
+  overflow-x: auto; border-radius: 16px; box-sizing: border-box; width: 100%; max-width: 100%;
+  border: 1px solid rgba(255, 255, 255, 0.06); border-top: 1px solid rgba(var(--accent-rgb), 0.3);
+  background: linear-gradient(135deg, rgba(20, 20, 25, 0.35), rgba(30, 20, 15, 0.15));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3), inset 1px 1px 2px rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px) saturate(140%); -webkit-backdrop-filter: blur(16px) saturate(140%);
 }
-.canvas-table-box table { width: 100%; border-collapse: collapse; font-size: 13px; }
-.canvas-table-box th {
-  padding: 10px 16px; background: rgba(var(--accent-rgb),0.08);
-  border: 1px solid var(--studio-border); color: var(--accent); font-weight: 800;
-  text-align: left; font-size: 11px; letter-spacing: 0.5px;
-  font-family: 'Orbitron', sans-serif; text-transform: uppercase;
-}
-.canvas-table-box td {
-  padding: 10px 16px; border: 1px solid var(--studio-border);
-  color: rgba(255,255,255,0.7); transition: background 0.2s;
-}
-.canvas-table-box tr:hover td { background: rgba(255,255,255,0.02); }
+.wf-cmd-table { margin: 0; display: table; width: 100%; min-width: 600px; border-collapse: separate; border-spacing: 0; font-size: 13px; color: #e2e8f0; }
+.wf-cmd-table th, .wf-cmd-table td { border: none; border-bottom: 1px solid rgba(255, 255, 255, 0.03) !important; border-right: 1px solid rgba(255, 255, 255, 0.02) !important; padding: 12px 16px; vertical-align: middle; }
+.wf-cmd-table th:last-child, .wf-cmd-table td:last-child { border-right: none !important; }
+.wf-cmd-table tbody tr:last-child td { border-bottom: none !important; }
+.wf-cmd-table tbody tr:nth-child(even) { background: rgba(255, 255, 255, 0.02) !important; }
+.wf-cmd-table thead tr { background: rgba(var(--accent-rgb), 0.08) !important; }
+.wf-cmd-table thead th { font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); text-align: left; border-bottom: 1px solid rgba(var(--accent-rgb), 0.2) !important; }
+
+/* Stilizări speciale integrate (ca să meargă renderInline cu pastile și cod) */
+.wf-cmd-table code { color: var(--accent) !important; background: rgba(var(--accent-rgb), 0.1) !important; border: 1px solid rgba(var(--accent-rgb), 0.25); border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 700; font-family: 'JetBrains Mono', monospace;}
+.wf-cmd-pill { display: inline-flex; align-items: center; gap: 8px; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 800; color: var(--accent); background: rgba(var(--accent-rgb), 0.08); border: 1px solid rgba(var(--accent-rgb), 0.25); border-radius: 12px; padding: 4px 12px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
 
 /* ═══════════════════════════════════════════════════════
    GROUP L — COLLAPSIBLE
@@ -4291,4 +4517,27 @@ kbd {
   box-shadow: 0 0 35px rgba(239,68,68,0.7);
   transform: scale(1.05) translateY(-2px);
 }
+/* ── Visual Table Builder UI ── */
+.tb-cols-builder { display: flex; flex-direction: column; gap: 8px; margin-bottom: 15px; }
+.tb-col-row { display: flex; gap: 6px; align-items: center; background: rgba(0,0,0,0.2); padding: 6px; border-radius: 8px; border: 1px solid var(--studio-border); }
+.tb-rows-builder { display: flex; flex-direction: column; gap: 12px; }
+.tb-row-box { background: rgba(255,255,255,0.02); border: 1px solid var(--studio-border); border-radius: 12px; overflow: hidden; }
+.tb-row-header { padding: 8px 12px; background: rgba(0,0,0,0.4); display: flex; justify-content: space-between; align-items: center; font-size: 11px; font-weight: 800; color: var(--studio-muted); border-bottom: 1px solid var(--studio-border); }
+.tb-cells-grid { padding: 10px; display: flex; flex-direction: column; gap: 12px; }
+.tb-cell-box { background: rgba(0,0,0,0.2); border: 1px dashed var(--studio-border); border-radius: 8px; padding: 10px; }
+.cell-label { font-size: 9px; font-weight: 900; color: var(--accent); text-transform: uppercase; margin-bottom: 8px; display: block; }
+.cell-elements { display: flex; flex-direction: column; gap: 6px; margin-bottom: 8px; }
+.cell-element-edit { display: flex; gap: 6px; align-items: center; background: rgba(255,255,255,0.04); padding: 6px; border-radius: 6px; border: 1px solid rgba(255,255,255,0.05); }
+.mini-input { flex: 1; background: rgba(0,0,0,0.4); border: 1px solid var(--studio-border); border-radius: 4px; padding: 6px 8px; font-size: 11px; color: #fff; outline: none; transition: 0.2s; }
+.mini-input:focus { border-color: var(--accent); background: rgba(var(--accent-rgb),0.1); }
+.el-badge { font-size: 8px; font-weight: 900; padding: 3px 6px; border-radius: 4px; background: rgba(255,255,255,0.1); letter-spacing: 1px; }
+.el-badge.code { color: #22c55e; background: rgba(34, 197, 94, 0.15); border: 1px solid rgba(34, 197, 94, 0.3); }
+.el-badge.pill { color: #ff7800; background: rgba(255, 120, 0, 0.15); border: 1px solid rgba(255, 120, 0, 0.3); }
+.el-badge.badge { color: #8b5cf6; background: rgba(139, 92, 246, 0.15); border: 1px solid rgba(139, 92, 246, 0.3); }
+.el-badge.icon { color: #06b6d4; background: rgba(6, 182, 212, 0.15); border: 1px solid rgba(6, 182, 212, 0.3); }
+.del-el-btn { width: 24px; height: 24px; border-radius: 4px; background: rgba(239, 68, 68, 0.15); color: #ef4444; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.del-el-btn:hover { background: #ef4444; color: #fff; }
+.add-el-bar { display: flex; gap: 4px; }
+.add-el-bar button { padding: 6px 10px; font-size: 10px; font-weight: 700; background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); border-radius: 6px; color: var(--studio-muted); cursor: pointer; transition: 0.2s; display: flex; align-items: center; justify-content: center; flex: 1; }
+.add-el-bar button:hover { background: rgba(var(--accent-rgb),0.15); color: var(--accent); border-color: var(--accent); }
 </style>

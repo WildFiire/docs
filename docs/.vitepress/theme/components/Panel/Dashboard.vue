@@ -1,4 +1,4 @@
-<template>
+﻿<template>
   <Teleport to="body" v-if="isMounted">
     <!-- Show Login if not authenticated -->
     <PanelLogin 
@@ -257,112 +257,92 @@
             <!-- Charts Row -->
             <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg><span>ACTIVITY &amp; METRICS</span></div>
             <div class="dash-charts">
-              <div class="ca-card">
-                <!-- Header -->
-                <div class="ca-header">
-                  <div class="ca-header-left">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="var(--accent)" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
-                    <span class="ca-title">COMMIT ACTIVITY</span>
-                  </div>
-                  <div class="ca-header-right">
-                    <span class="ca-range-pill">30 days &middot; {{ flameMonthRange }}</span>
-                    <div class="ca-live-dot"><span></span>LIVE</div>
-                  </div>
+            <div class="dash-card modern-chart-card">
+              <div class="mc-header">
+                <div class="mc-title">
+                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="var(--accent)" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                  <span>COMMIT ACTIVITY</span>
                 </div>
-
-                <!-- KPI row -->
-                <div class="ca-kpis">
-                  <div class="ca-kpi">
-                    <span class="ca-kpi-label">TOTAL COMMITS</span>
-                    <span class="ca-kpi-val" style="color:var(--accent)">{{ dailyCommits.reduce((a,b)=>a+b,0) }}</span>
-                  </div>
-                  <div class="ca-kpi">
-                    <span class="ca-kpi-label">TODAY</span>
-                    <span class="ca-kpi-val" style="color:#22c55e">+{{ dailyCommits.length ? dailyCommits[dailyCommits.length-1] : 0 }}</span>
-                  </div>
-                  <div class="ca-kpi">
-                    <span class="ca-kpi-label">LAST 7 DAYS</span>
-                    <span class="ca-kpi-val" style="color:#3b82f6">+{{ dailyCommits.slice(-7).reduce((a,b)=>a+b,0) }}</span>
-                  </div>
-                  <div class="ca-kpi">
-                    <span class="ca-kpi-label">AVG / DAY</span>
-                    <span class="ca-kpi-val" style="color:#a78bfa">{{ repoPulse.avgPerDay }}</span>
-                  </div>
-                </div>
-
-                <!-- ── Chart ── -->
-                <div class="ca-chart-wrap" @mousemove="onFlameMouseMove" @mouseleave="hoveredBarIndex = null">
-                  <svg viewBox="0 0 640 220" preserveAspectRatio="none" width="100%" height="220">
-                    <defs>
-                      <linearGradient id="caAreaGrad" x1="0" y1="0" x2="0" y2="1">
-                        <stop offset="0%"   stop-color="#ff7800" stop-opacity="0.32"/>
-                        <stop offset="60%"  stop-color="#ff7800" stop-opacity="0.08"/>
-                        <stop offset="100%" stop-color="#ff7800" stop-opacity="0"/>
-                      </linearGradient>
-                      <linearGradient id="caLineGrad" x1="0" y1="0" x2="1" y2="0">
-                        <stop offset="0%"   stop-color="#ff6030"/>
-                        <stop offset="100%" stop-color="#ffaa44"/>
-                      </linearGradient>
-                      <filter id="caGlow" x="-10%" y="-80%" width="120%" height="260%">
-                        <feGaussianBlur stdDeviation="2.5" result="blur"/>
-                        <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                      </filter>
-                    </defs>
-
-                    <!-- Grid lines -->
-                    <line x1="0" y1="55"  x2="640" y2="55"  :stroke="isLightTheme ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.04)'" stroke-width="1" stroke-dasharray="3,4"/>
-                    <line x1="0" y1="110" x2="640" y2="110" :stroke="isLightTheme ? 'rgba(0,0,0,0.06)' : 'rgba(255,255,255,0.04)'" stroke-width="1" stroke-dasharray="3,4"/>
-                    <line x1="0" y1="165" x2="640" y2="165" :stroke="isLightTheme ? 'rgba(0,0,0,0.08)' : 'rgba(255,255,255,0.06)'" stroke-width="1" stroke-dasharray="3,4"/>
-
-                    <!-- Avg line -->
-                    <line v-if="flameAvgY !== null"
-                      x1="0" :y1="flameAvgY" x2="640" :y2="flameAvgY"
-                      stroke="rgba(255,120,0,0.3)" stroke-width="1" stroke-dasharray="6,4"/>
-
-                    <!-- Vertical crosshair on hover -->
-                    <line v-if="hoveredBarIndex !== null && flameBarData[hoveredBarIndex]"
-                      :x1="flameBarData[hoveredBarIndex].cx" y1="0"
-                      :x2="flameBarData[hoveredBarIndex].cx" y2="220"
-                      :stroke="isLightTheme ? 'rgba(0,0,0,0.15)' : 'rgba(255,255,255,0.18)'"
-                      stroke-width="1" stroke-dasharray="4,3"/>
-
-                    <!-- Area fill -->
-                    <path :d="flamePath" fill="url(#caAreaGrad)"/>
-
-                    <!-- Line -->
-                    <path v-if="flameLinePath" :d="flameLinePath" fill="none"
-                      stroke="url(#caLineGrad)" stroke-width="2.2"
-                      stroke-linecap="round" stroke-linejoin="round"
-                      filter="url(#caGlow)"/>
-
-                    <!-- Hit area -->
-                    <rect x="0" y="0" width="640" height="220" fill="transparent" style="cursor:crosshair"/>
-                  </svg>
-
-                  <!-- Tooltip (absolute over chart) -->
-                  <div v-if="hoveredBarIndex !== null && tooltipPos" class="ca-tooltip"
-                    :style="{ left: (tooltipPos.tx / 640 * 100) + '%', top: (tooltipPos.ty / 220 * 100) + '%' }">
-                    <div class="ca-tip-date">{{ flameBarData[hoveredBarIndex].fullLabel }}</div>
-                    <div class="ca-tip-row">
-                      <span class="ca-tip-dot" style="background:var(--accent)"></span>
-                      <span class="ca-tip-label">Commits:</span>
-                      <span class="ca-tip-val">{{ flameBarData[hoveredBarIndex].commits }}</span>
-                    </div>
-                  </div>
-                </div>
-
-                <!-- X-axis date labels -->
-                <div class="ca-xaxis">
-                  <template v-for="(b, i) in flameBarData" :key="'xl'+i">
-                    <span v-if="i % 7 === 0 || i === flameBarData.length-1"
-                      class="ca-xaxis-lbl"
-                      :class="{ 'ca-xaxis-today': i === flameBarData.length-1 }"
-                      :style="{ left: (b.cx / 640 * 100) + '%' }">
-                      {{ b.shortLabel }}
-                    </span>
-                  </template>
+                <div class="mc-toggles">
+                   <button class="mc-toggle" :class="{ active: commitChartMode === 'total' }" @click="commitChartMode = 'total'">
+                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg> Total
+                   </button>
+                   <button class="mc-toggle" :class="{ active: commitChartMode === 'daily' }" @click="commitChartMode = 'daily'">
+                     <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg> Daily
+                   </button>
                 </div>
               </div>
+
+              <div class="mc-kpi-grid">
+                 <div class="mc-kpi-box">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="mc-kpi-icon"><circle cx="12" cy="12" r="4"/><path d="M1.05 12H7m10.01 0h5.95"/></svg>
+                    <span class="mc-kpi-lbl">TOTAL COMMITS</span>
+                    <span class="mc-kpi-val" style="color: var(--accent);">{{ repoStats.totalCommits }}</span>
+                 </div>
+                 <div class="mc-kpi-box">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="mc-kpi-icon"><circle cx="12" cy="12" r="10"/><path d="M12 8v8M8 12h8"/></svg>
+                    <span class="mc-kpi-lbl">TODAY</span>
+                    <span class="mc-kpi-val" style="color: #22c55e;">+{{ dailyCommits.length ? dailyCommits[dailyCommits.length-1] : 0 }}</span>
+                 </div>
+                 <div class="mc-kpi-box">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="mc-kpi-icon"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+                    <span class="mc-kpi-lbl">LAST 7 DAYS</span>
+                    <span class="mc-kpi-val" style="color: #3b82f6;">+{{ dailyCommits.slice(-7).reduce((a,b)=>a+b,0) }}</span>
+                 </div>
+                 <div class="mc-kpi-box">
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" class="mc-kpi-icon"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+                    <span class="mc-kpi-lbl">AVG / DAY</span>
+                    <span class="mc-kpi-val" style="color: #a855f7;">{{ repoPulse.avgPerDay }}</span>
+                 </div>
+              </div>
+
+              <div class="mc-chart-body">
+                 <div class="mc-y-axis">
+                    <span v-for="(lbl, i) in chartYLabels" :key="'yl'+i">{{ lbl }}</span>
+                 </div>
+
+                 <div class="mc-svg-container" @mousemove="onFlameMouseMove" @mouseleave="hoveredBarIndex = null">
+                    <svg viewBox="0 0 640 220" preserveAspectRatio="none" width="100%" height="220" style="overflow: visible;">
+                       <defs>
+                          <linearGradient id="mcAreaGrad" x1="0" y1="0" x2="0" y2="1">
+                             <stop offset="0%"   stop-color="var(--accent)" stop-opacity="0.35"/>
+                             <stop offset="100%" stop-color="var(--accent)" stop-opacity="0.0"/>
+                          </linearGradient>
+                       </defs>
+
+                       <template v-for="(lbl, i) in chartXLabels" :key="'vg'+i">
+                          <line :x1="lbl.x" y1="0" :x2="lbl.x" y2="210" stroke="rgba(255,255,255,0.03)" stroke-dasharray="4,4" stroke-width="1" />
+                       </template>
+
+                       <path :d="chartPaths.area" fill="url(#mcAreaGrad)"/>
+                       
+                       <path :d="chartPaths.line" fill="none" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+
+                       <g v-if="hoveredBarIndex !== null && chartScale.points[hoveredBarIndex]">
+                          <line :x1="chartScale.points[hoveredBarIndex].x" y1="0" :x2="chartScale.points[hoveredBarIndex].x" y2="210" stroke="var(--accent)" stroke-dasharray="3,3" stroke-width="1" opacity="0.8" />
+                          <circle :cx="chartScale.points[hoveredBarIndex].x" :cy="chartScale.points[hoveredBarIndex].y" r="5" fill="var(--accent)" stroke="#0b0b0e" stroke-width="2.5" />
+                       </g>
+                    </svg>
+
+                    <div v-if="hoveredBarIndex !== null && chartScale.points[hoveredBarIndex]" class="mc-tooltip" 
+                         :style="{ left: (chartScale.points[hoveredBarIndex].x / 640 * 100) + '%', top: (chartScale.points[hoveredBarIndex].y / 220 * 100) + '%' }">
+                       <div class="mc-tt-date">{{ chartScale.points[hoveredBarIndex].fullLabel }}</div>
+                       <div class="mc-tt-row">
+                          <span class="mc-tt-lbl">{{ commitChartMode === 'total' ? 'Total Commits:' : 'New Commits:' }}</span>
+                          <span class="mc-tt-val" style="color: var(--accent);">{{ chartScale.points[hoveredBarIndex].val }}</span>
+                       </div>
+                    </div>
+                 </div>
+              </div>
+
+              <div class="mc-x-axis">
+                 <template v-for="(lbl, i) in chartXLabels" :key="'xl'+i">
+                    <span class="mc-x-lbl" :style="{ left: 'calc(' + (lbl.x / 640 * 100) + '% + 36px)' }">
+                       {{ lbl.shortLabel }}
+                    </span>
+                 </template>
+              </div>
+            </div>
               <div class="dash-card dash-repo-card">
                 <div class="dc-head">
                   <div class="dc-head-left">
@@ -879,6 +859,7 @@
           isMounted: false,
           isSyncing: false,
           isScrolled: false,
+          commitChartMode: 'total', // Poate fi 'total' sau 'daily'
           lastUpdateTime: '—',
           
           userLogin: '',
@@ -1005,82 +986,95 @@
           }
           return { avgPerDay, bestDay, streak: maxStreak, lastCommitDaysAgo }
         },
-        flameBarData() {
-          const commits = this.dailyCommits
-          if (!commits.length) return []
-          const max = Math.max(...commits, 1)
-          const totalBars = commits.length
-          const barW = 20, step = 21, baseline = 165, maxBarH = 148
-          const startX = (640 - totalBars * step + (step - barW)) / 2
-          const now = new Date()
-          return commits.map((c, i) => {
-            const d = new Date(now)
-            d.setDate(d.getDate() - (totalBars - 1 - i))
-            const pct = max > 0 ? c / max : 0
-            const h = c > 0 ? Math.max(pct * maxBarH, 5) : 4
-            const x = startX + i * step
+        chartData() {
+          const daily = this.dailyCommits || [];
+          if (!daily.length) return [];
+
+          const totalCurrently = this.repoStats?.totalCommits || daily.reduce((a,b)=>a+b, 0);
+          const sum30 = daily.reduce((a,b)=>a+b, 0);
+          let runningTotal = totalCurrently - sum30; // De unde plecăm acum 30 de zile
+
+          const now = new Date();
+          const totalDays = daily.length;
+          // Folosim 640px ca lățime standard a SVG-ului
+          const stepX = 640 / Math.max(totalDays - 1, 1);
+
+          return daily.map((count, i) => {
+            runningTotal += count;
+            const d = new Date(now);
+            d.setDate(d.getDate() - (totalDays - 1 - i));
             return {
-              commits: c,
-              pct,
-              x: parseFloat(x.toFixed(1)),
-              y: parseFloat((baseline - h).toFixed(1)),
-              w: barW,
-              h: parseFloat(h.toFixed(1)),
-              cx: parseFloat((x + barW / 2).toFixed(1)),
+              index: i,
+              daily: count,
+              total: runningTotal,
+              dateObj: d,
               shortLabel: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
               fullLabel: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-              dayLabel: String(d.getDate()),
-              isWeekend: d.getDay() === 0 || d.getDay() === 6
-            }
-          })
+              x: i * stepX
+            };
+          });
         },
-        flamePath() {
-          const bars = this.flameBarData
-          if (bars.length < 2) return ''
-          const baseline = 165
-          let d = `M${bars[0].cx},${baseline} L${bars[0].cx},${bars[0].y}`
-          for (let i = 1; i < bars.length; i++) {
-            const cp1x = bars[i-1].cx + (bars[i].cx - bars[i-1].cx) / 3
-            const cp2x = bars[i].cx - (bars[i].cx - bars[i-1].cx) / 3
-            d += ` C${cp1x},${bars[i-1].y} ${cp2x},${bars[i].y} ${bars[i].cx},${bars[i].y}`
+        chartScale() {
+          const data = this.chartData;
+          if (!data.length) return { min: 0, max: 100, points: [] };
+
+          const isTotal = this.commitChartMode === 'total';
+          const values = data.map(d => isTotal ? d.total : d.daily);
+
+          // Pentru Total, începem graficul cu un mic padding sub valoarea minimă pentru aspect
+          const minVal = isTotal ? Math.max(0, Math.min(...values) - (Math.max(...values) - Math.min(...values)) * 0.05) : 0;
+          const maxVal = Math.max(...values, 1) * 1.05; // 5% spațiu sus
+          const range = maxVal - minVal;
+
+          const points = data.map(d => {
+            const val = isTotal ? d.total : d.daily;
+            const pct = Math.max(0, Math.min(1, (val - minVal) / range));
+            const y = 200 - (pct * 180); // Desenăm Y între px 20 și 200
+            return { ...d, val, y };
+          });
+
+          return { min: minVal, max: maxVal, points };
+        },
+        chartPaths() {
+          const pts = this.chartScale.points;
+          if (pts.length < 2) return { area: '', line: '' };
+
+          // Generăm o curbă Smooth Spline (Bezier) între puncte
+          let d = `M ${pts[0].x},${pts[0].y}`;
+          for (let i = 1; i < pts.length; i++) {
+            const prev = pts[i-1];
+            const curr = pts[i];
+            const cpX1 = prev.x + (curr.x - prev.x) * 0.4;
+            const cpX2 = curr.x - (curr.x - prev.x) * 0.4;
+            d += ` C ${cpX1},${prev.y} ${cpX2},${curr.y} ${curr.x},${curr.y}`;
           }
-          return d + ` L${bars[bars.length-1].cx},${baseline} Z`
+
+          const area = `${d} L ${pts[pts.length-1].x},220 L ${pts[0].x},220 Z`;
+          return { line: d, area };
         },
-        flameLinePath() {
-          const bars = this.flameBarData
-          if (bars.length < 2) return ''
-          let d = `M${bars[0].cx},${bars[0].y}`
-          for (let i = 1; i < bars.length; i++) {
-            const cp1x = bars[i-1].cx + (bars[i].cx - bars[i-1].cx) / 3
-            const cp2x = bars[i].cx - (bars[i].cx - bars[i-1].cx) / 3
-            d += ` C${cp1x},${bars[i-1].y} ${cp2x},${bars[i].y} ${bars[i].cx},${bars[i].y}`
+        chartYLabels() {
+          const { min, max } = this.chartScale;
+          const range = max - min;
+          return [
+            Math.round(max),
+            Math.round(min + range * 0.75),
+            Math.round(min + range * 0.5),
+            Math.round(min + range * 0.25),
+            Math.max(0, Math.round(min))
+          ];
+        },
+        chartXLabels() {
+          const pts = this.chartScale.points;
+          if (!pts.length) return [];
+          // Alegem 6 etichete distanțate egal pentru axa X (ca să fie curat)
+          const labels = [];
+          const numLabels = 6;
+          const step = Math.floor((pts.length - 1) / (numLabels - 1));
+          for(let i = 0; i < numLabels; i++) {
+            const idx = Math.min(i * step, pts.length - 1);
+            labels.push(pts[idx]);
           }
-          return d
-        },
-        flamePeak() {
-          const bars = this.flameBarData
-          if (!bars.length) return null
-          let peak = bars[0]
-          bars.forEach(b => { if (b.commits > peak.commits) peak = b })
-          return peak.commits > 0 ? peak : null
-        },
-        flameLabelBars() {
-          return this.flameBarData.filter((_, i) => i % 7 === 0)
-        },
-        tooltipPos() {
-          if (this.hoveredBarIndex === null) return null
-          const b = this.flameBarData[this.hoveredBarIndex]
-          if (!b) return null
-          const tx = Math.min(Math.max(b.cx - 44, 2), 548)
-          const ty = Math.max(b.y - 56, 2)
-          return { tx, ty }
-        },
-        flameAvgY() {
-          const commits = this.dailyCommits
-          if (!commits.length) return null
-          const avg = commits.reduce((a, b) => a + b, 0) / commits.length
-          const max = Math.max(...commits, 1)
-          return parseFloat((165 - (avg / max) * 148).toFixed(1))
+          return labels;
         },
         commitStreak() {
           const c = this.dailyCommits
@@ -1150,27 +1144,7 @@
           if (!this.selectedCalCell) return []
           return this.calendarCommits.filter(c => c.date.slice(0, 10) === this.selectedCalCell.dateStr)
         },
-        movingAvgPath() {
-          const commits = this.dailyCommits
-          const bars = this.flameBarData
-          if (!bars.length || commits.length < 4) return ''
-          const max = Math.max(...commits, 1)
-          const baseline = 165, maxBarH = 148
-          const points = []
-          for (let i = 3; i < commits.length; i++) {
-            const win = commits.slice(Math.max(0, i - 6), i + 1)
-            const avg = win.reduce((a, b) => a + b, 0) / win.length
-            const y = (baseline - (avg / max) * maxBarH).toFixed(1)
-            points.push(`${bars[i].cx},${y}`)
-          }
-          if (points.length < 2) return ''
-          return 'M' + points.join(' L')
-        },
-        flameMonthRange() {
-          const bars = this.flameBarData
-          if (!bars.length) return ''
-          return bars[0].shortLabel + ' – ' + bars[bars.length - 1].shortLabel
-        },
+
         weeklyDayData() {
           const last7 = this.dailyCommits.slice(-7)
           const max = Math.max(...last7, 1)
@@ -1284,14 +1258,22 @@
   },
     
     onFlameMouseMove(e) {
-      const svg = e.currentTarget
-      const rect = svg.getBoundingClientRect()
-      const x = ((e.clientX - rect.left) / rect.width) * 640
-      const bars = this.flameBarData
-      if (!bars.length) { this.hoveredBarIndex = null; return }
-      const step = 640 / bars.length
-      const idx = Math.min(Math.max(Math.floor(x / step), 0), bars.length - 1)
-      this.hoveredBarIndex = idx
+      const svg = e.currentTarget;
+      const rect = svg.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 640;
+      const pts = this.chartScale.points;
+      
+      if (!pts.length) { this.hoveredBarIndex = null; return; }
+      
+      // Găsim cel mai apropiat punct de pe linie de mouse-ul utilizatorului
+      let closestIdx = 0;
+      let minDiff = Infinity;
+      pts.forEach((p, i) => {
+         const diff = Math.abs(p.x - x);
+         if (diff < minDiff) { minDiff = diff; closestIdx = i; }
+      });
+      
+      this.hoveredBarIndex = closestIdx;
     },
     
     setPanelTheme(theme) {
@@ -1747,65 +1729,50 @@
 }
 
 /* ============================================================
-   CSS VARIABLES - DARK THEME (DEFAULT)
+   CSS VARIABLES - ADVANCED LIQUID GLASS
    ============================================================ */
 .wildfire-dashboard {
   --bg-primary: transparent;
-  --bg-secondary: rgba(6, 6, 10, 0.72);
-  --bg-tertiary: rgba(255, 120, 0, 0.06);
-  --bg-hover: rgba(255, 120, 0, 0.09);
-  --border-color: rgba(255, 120, 0, 0.12);
+  --bg-secondary: linear-gradient(145deg, rgba(16, 16, 22, 0.6), rgba(8, 8, 12, 0.4));
+  --bg-tertiary: rgba(255, 255, 255, 0.03);
+  --bg-hover: rgba(255, 255, 255, 0.06);
+  --border-color: rgba(255, 255, 255, 0.08);
+  --border-highlight: rgba(255, 255, 255, 0.15); /* Reflexie de lumină */
+  
   --text-primary: #ffffff;
-  --text-secondary: #e0e0e0;
+  --text-secondary: #e2e8f0;
   --text-muted: #8a8a9a;
+  
   --accent: #ff7800;
-  --accent-glow: rgba(255, 120, 0, 0.20);
-  --accent-dim: rgba(255, 120, 0, 0.08);
-  --accent-soft: rgba(255, 120, 0, 0.15);
-  --accent-mid: rgba(255, 120, 0, 0.28);
-  --accent-strong: rgba(255, 120, 0, 0.45);
-  --accent-heavy: rgba(255, 120, 0, 0.68);
-  --accent-solid: rgba(255, 120, 0, 0.88);
+  --accent-glow: rgba(255, 120, 0, 0.25);
+  --accent-dim: rgba(255, 120, 0, 0.1);
   --accent-alt: #ff6030;
   --accent-alt2: #ff8c42;
-  --success: #2ecc71;
-  --shadow-color: rgba(0, 0, 0, 0.6);
-  --glass-blur: blur(22px) saturate(1.3);
+  --success: #22c55e;
+  
+  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
+  --glass-inner: inset 0 1px 1px rgba(255, 255, 255, 0.12);
+  --glass-blur: blur(30px) saturate(180%);
 
-  position: fixed;
-  inset: 0;
-  z-index: 9999;
-  display: flex;
-  overflow: hidden;
-  background: transparent;
+  position: fixed; inset: 0; z-index: 9999;
+  display: flex; overflow: hidden; background: transparent;
   color: var(--text-primary);
-  font-family: 'Inter', -apple-system, BlinkMacSystemFont, monospace;
-  font-size: 13px;
+  font-family: 'Inter', system-ui, sans-serif; font-size: 13px;
 }
 
-/* Light theme */
 .wildfire-dashboard.light-theme {
-  --bg-primary: transparent;
-  --bg-secondary: rgba(255, 255, 255, 0.92);
-  --bg-tertiary: rgba(255, 120, 0, 0.06);
-  --bg-hover: rgba(255, 120, 0, 0.08);
+  --bg-secondary: linear-gradient(145deg, rgba(255, 255, 255, 0.8), rgba(245, 245, 250, 0.5));
+  --bg-tertiary: rgba(0, 0, 0, 0.03);
+  --bg-hover: rgba(0, 0, 0, 0.06);
   --border-color: rgba(0, 0, 0, 0.08);
-  --text-primary: #1a1a2e;
-  --text-secondary: #2d2d40;
-  --text-muted: #5a5a6a;
-  --accent: #ff7800;
-  --accent-glow: rgba(255, 120, 0, 0.1);
-  --accent-dim: rgba(255, 120, 0, 0.05);
-  --accent-soft: rgba(255, 120, 0, 0.1);
-  --accent-mid: rgba(255, 120, 0, 0.2);
-  --accent-strong: rgba(255, 120, 0, 0.35);
-  --accent-heavy: rgba(255, 120, 0, 0.5);
-  --accent-solid: rgba(255, 120, 0, 0.8);
-  --accent-alt: #e06800;
-  --accent-alt2: #ff8c42;
-  --success: #1a7f37;
-  --shadow-color: rgba(0, 0, 0, 0.1);
-  --glass-blur: blur(22px) saturate(1.3);
+  --border-highlight: rgba(255, 255, 255, 0.6);
+  
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  
+  --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.1);
+  --glass-inner: inset 0 1px 2px rgba(255, 255, 255, 0.8);
 }
 
 /* Light theme specific overrides */
@@ -2514,29 +2481,25 @@
 }
 
 /* ============================================================
-   HEADER
+   HEADER - FLOATING GLASS
    ============================================================ */
 .dashboard-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  padding: 9px 16px;
-  background: rgba(6, 6, 18, 0.48);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  border-radius: 18px;
-  position: sticky;
-  top: 8px;
-  z-index: 50;
-  backdrop-filter: blur(52px) saturate(180%) brightness(1.07);
-  -webkit-backdrop-filter: blur(52px) saturate(180%) brightness(1.07);
-  box-shadow: 0 4px 32px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 1px 0 rgba(255, 255, 255, 0.04);
-  transition: all 0.3s ease;
+  display: flex; justify-content: space-between; align-items: center;
+  margin-bottom: 24px; padding: 12px 20px;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-highlight);
+  border-radius: 20px;
+  position: sticky; top: 16px; z-index: 50;
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2), var(--glass-inner);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .dashboard-header.scrolled {
-  box-shadow: 0 10px 52px rgba(0, 0, 0, 0.55), 0 0 28px var(--accent-dim), inset 0 1px 0 rgba(255, 255, 255, 0.18);
-  border-color: rgba(255, 120, 0, 0.22);
+  box-shadow: var(--glass-shadow), 0 0 30px var(--accent-dim), var(--glass-inner);
+  border-color: rgba(var(--accent-rgb, 255, 120, 0), 0.3);
+  transform: translateY(-4px);
 }
 
 .header-left {
@@ -2609,43 +2572,40 @@
   gap: 6px;
 }
 
-/* Action Buttons */
-.action-btn {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 7px 12px;
-  border-radius: 9px;
-  border: 1px solid var(--border-color);
+/* ============================================================
+   BUTTONS - NEON & GLASS
+   ============================================================ */
+.action-btn, .qa-btn {
   background: var(--bg-tertiary);
-  color: var(--text-muted);
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
-  cursor: pointer;
-  transition: all 0.18s;
-  white-space: nowrap;
+  border: 1px solid var(--border-color);
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--text-secondary);
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  backdrop-filter: blur(10px);
 }
 
-.action-btn:hover {
+.action-btn:hover, .qa-btn:hover {
+  background: rgba(255, 255, 255, 0.05);
   border-color: var(--accent);
-  color: var(--accent);
-  background: var(--accent-dim);
-  transform: translateY(-1px);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3), 0 0 15px var(--accent-dim), inset 0 1px 0 rgba(255,255,255,0.1);
 }
 
 .action-btn.primary {
-  background: var(--accent);
-  color: #111;
-  border-color: var(--accent);
-  box-shadow: 0 4px 14px var(--accent-mid);
+  background: linear-gradient(135deg, var(--accent), var(--accent-alt));
+  color: #000;
+  border: 1px solid var(--accent-alt2);
+  border-top: 1px solid rgba(255,255,255,0.4);
+  box-shadow: 0 4px 15px var(--accent-glow), inset 0 1px 1px rgba(255,255,255,0.4);
 }
 
 .action-btn.primary:hover {
-  background: var(--accent-alt);
-  color: #000;
-  box-shadow: 0 6px 20px var(--accent-strong);
-  transform: translateY(-1px);
+  background: linear-gradient(135deg, var(--accent-alt2), var(--accent));
+  box-shadow: 0 8px 25px var(--accent-glow), 0 0 20px var(--accent), inset 0 1px 1px rgba(255,255,255,0.6);
+  transform: translateY(-2px);
 }
 
 .action-btn:disabled {
@@ -2665,24 +2625,14 @@
 }
 
 
-/* ============================================================
-   WELCOME BANNER
-   ============================================================ */
+/* Welcome Banner (Layout only, Glass from universal) */
 .dash-welcome {
-  position: relative;
-  background: rgba(6, 6, 18, 0.45);
-  backdrop-filter: blur(52px) saturate(180%) brightness(1.07);
-  -webkit-backdrop-filter: blur(52px) saturate(180%) brightness(1.07);
-  border: 1px solid rgba(255, 255, 255, 0.10);
-  box-shadow: 0 4px 40px rgba(0, 0, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  border-radius: 18px;
-  padding: 14px 20px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  overflow: hidden;
   gap: 14px;
-  margin-bottom: 20px;
+  padding: 20px 28px;
+  margin-bottom: 24px;
 }
 
 .dw-left {
@@ -2781,29 +2731,20 @@
   margin-bottom: 20px;
 }
 
+/* Kpi Card (Layout only, Glass from universal) */
 .kpi-card {
-  position: relative;
-  background: rgba(6, 6, 18, 0.46);
-  backdrop-filter: blur(40px) saturate(175%);
-  -webkit-backdrop-filter: blur(40px) saturate(175%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 16px;
-  padding: 16px 14px;
   display: flex;
   align-items: center;
   gap: 10px;
-  overflow: hidden;
-  transition: all 0.28s cubic-bezier(0.34, 1.56, 0.64, 1);
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.10);
-  min-height: 85px;
+  padding: 18px 16px;
+  min-height: 90px;
 }
-
-.kpi-card:hover {
-  transform: translateY(-5px);
-  border-color: rgba(255, 120, 0, 0.28);
-  box-shadow: 0 16px 52px rgba(0, 0, 0, 0.45), 0 0 32px var(--accent-dim), inset 0 1px 0 rgba(255, 255, 255, 0.16);
-  background: rgba(10, 10, 28, 0.55);
+.kpi-glow {
+  position: absolute; bottom: -30px; right: -30px; width: 100px; height: 100px;
+  border-radius: 50%; background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+  opacity: 0.3; pointer-events: none; transition: 0.4s;
 }
+.kpi-card:hover .kpi-glow { transform: scale(1.5); opacity: 0.6; }
 
 .kpi-icon {
   width: 42px;
@@ -2854,16 +2795,10 @@
 /* ============================================================
    REPO PULSE STRIP
    ============================================================ */
+/* Repo Pulse Strip (Layout only, Glass from universal) */
 .repo-pulse-strip {
-  background: rgba(6, 6, 18, 0.46);
-  backdrop-filter: blur(40px) saturate(175%);
-  -webkit-backdrop-filter: blur(40px) saturate(175%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 14px;
   display: flex;
   align-items: stretch;
-  overflow: hidden;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
   margin: 16px 0;
 }
 
@@ -2952,15 +2887,25 @@
 }
 
 /* ============================================================
-   CARDS
+   UNIVERSAL CARDS & 3D GLASS
    ============================================================ */
-.dash-card {
-  background: rgba(6, 6, 18, 0.46);
-  backdrop-filter: blur(40px) saturate(175%);
-  -webkit-backdrop-filter: blur(40px) saturate(175%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-radius: 16px;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.10);
+.dash-card, .kpi-card, .dash-welcome, .wiki-stats-card, .repo-pulse-strip, .week-rhythm-card {
+  background: var(--bg-secondary);
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-highlight); /* Lumina direcțională de sus */
+  border-radius: 20px;
+  box-shadow: var(--glass-shadow), var(--glass-inner);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  position: relative; overflow: hidden;
+}
+
+.dash-card:hover, .kpi-card:hover, .wiki-stats-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(var(--accent-rgb, 255,120,0), 0.3);
+  border-top: 1px solid rgba(var(--accent-rgb, 255,120,0), 0.6);
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 30px var(--accent-dim), var(--glass-inner);
+  background: linear-gradient(145deg, rgba(24, 24, 32, 0.7), rgba(12, 12, 18, 0.5));
 }
 
 .dc-head {
@@ -3012,15 +2957,8 @@
 /* ============================================================
    WIKI STATS CARD
    ============================================================ */
+/* Wiki Stats Card (Layout only, Glass from universal) */
 .wiki-stats-card {
-  background: rgba(6, 6, 18, 0.46);
-  backdrop-filter: blur(40px) saturate(175%);
-  -webkit-backdrop-filter: blur(40px) saturate(175%);
-  border: 1px solid rgba(255, 255, 255, 0.09);
-  border-top: 2px solid var(--accent-strong);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.32), inset 0 1px 0 rgba(255, 255, 255, 0.10);
   margin-bottom: 20px;
 }
 
@@ -3338,428 +3276,195 @@
   border-top: 2.5px solid var(--accent);
 }
 
-.flame-chart {
-  padding: 16px;
-}
-
-/* ═══════════════════════════════════════
-   COMMIT ACTIVITY CARD  (ca-*)
-═══════════════════════════════════════ */
-/* ══════════════════════════════════════════
-   COMMIT ACTIVITY CARD
-══════════════════════════════════════════ */
-.ca-card {
-  border-radius: 12px;
-  border: 1px solid var(--border-color);
-  background: var(--bg-secondary);
-  overflow: hidden;
+/* ============================================================
+   MODERN CHART (PLAYER GROWTH STYLE)
+   ============================================================ */
+.modern-chart-card {
+  background: #0b0b0e;
+  border: 1px solid rgba(255,255,255,0.04);
+  border-radius: 16px;
+  padding: 24px;
   display: flex;
   flex-direction: column;
+  gap: 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
 }
 
-/* Header ── */
-.ca-header {
+.mc-header {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  padding: 14px 20px;
-  border-bottom: 1px solid var(--border-color);
+  align-items: center;
 }
-.ca-header-left {
+
+.mc-title {
   display: flex;
   align-items: center;
   gap: 10px;
-}
-.ca-title {
-  font-size: 12px;
-  font-weight: 700;
-  letter-spacing: 1.2px;
-  color: var(--text-primary);
-}
-.ca-header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.ca-range-pill {
-  font-size: 10px;
-  color: var(--text-muted);
-  background: var(--bg-tertiary);
-  border: 1px solid var(--border-color);
-  border-radius: 20px;
-  padding: 3px 10px;
-  letter-spacing: 0.3px;
-}
-.ca-live-dot {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #22c55e;
-}
-.ca-live-dot span {
-  width: 6px; height: 6px;
-  background: #22c55e;
-  border-radius: 50%;
-  animation: caPulse 2s ease-in-out infinite;
-}
-@keyframes caPulse {
-  0%,100% { opacity: 1; }
-  50%      { opacity: 0.35; }
+  font-size: 14px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.5px;
 }
 
-/* KPI row ── label on top, big number below */
-.ca-kpis {
+.mc-toggles {
+  display: flex;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  border-radius: 8px;
+  padding: 4px;
+}
+
+.mc-toggle {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 16px;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-muted);
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.mc-toggle.active {
+  background: rgba(var(--accent-rgb), 0.15);
+  color: var(--accent);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+/* KPI Grid (The 4 dark boxes at the top) */
+.mc-kpi-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid var(--border-color);
+  gap: 16px;
 }
-.ca-kpi {
+
+.mc-kpi-box {
+  background: #111116; /* Foarte închis, contrast excelent */
+  border-radius: 12px;
+  padding: 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
-  padding: 16px 12px;
-  border-right: 1px solid var(--border-color);
-  background: var(--bg-secondary);
-  transition: background 0.15s;
+  justify-content: center;
+  gap: 8px;
+  border: 1px solid rgba(255,255,255,0.02);
+  transition: 0.2s;
 }
-.ca-kpi:last-child { border-right: none; }
-.ca-kpi:hover { background: var(--bg-tertiary); }
-.ca-kpi-label {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
+
+.mc-kpi-box:hover {
+  background: #15151b;
+  border-color: rgba(255,255,255,0.05);
+  transform: translateY(-2px);
+}
+
+.mc-kpi-icon {
   color: var(--text-muted);
-  text-transform: uppercase;
-  white-space: nowrap;
-}
-.ca-kpi-val {
-  font-size: 26px;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -1px;
-  font-variant-numeric: tabular-nums;
+  opacity: 0.4;
+  margin-bottom: 2px;
 }
 
-/* Chart area ── */
-.ca-chart-wrap {
-  position: relative;
-  cursor: crosshair;
-  padding: 12px 0 0;
-}
-
-/* X-axis date strip */
-.ca-xaxis {
-  position: relative;
-  height: 28px;
-  border-top: 1px solid var(--border-color);
-  padding-bottom: 10px;
-}
-.ca-xaxis-lbl {
-  position: absolute;
-  transform: translateX(-50%);
-  font-size: 9.5px;
-  color: var(--text-muted);
-  top: 6px;
-  white-space: nowrap;
-  font-family: 'Inter', sans-serif;
-}
-.ca-xaxis-today {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-/* Tooltip ── reference dark-card style */
-.ca-tooltip {
-  position: absolute;
-  background: #1a1a24;
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: 8px;
-  padding: 9px 13px;
-  pointer-events: none;
-  white-space: nowrap;
-  transform: translate(-50%, calc(-100% - 10px));
-  z-index: 100;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
-  min-width: 120px;
-}
-.ca-tip-date {
+.mc-kpi-lbl {
   font-size: 10px;
-  font-weight: 600;
-  color: rgba(255,255,255,0.5);
-  margin-bottom: 6px;
+  font-weight: 700;
+  color: var(--text-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
-.ca-tip-row {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-}
-.ca-tip-dot {
-  width: 7px; height: 7px;
-  border-radius: 50%;
-  flex-shrink: 0;
-}
-.ca-tip-label {
-  font-size: 11px;
-  color: rgba(255,255,255,0.55);
-  flex: 1;
-}
-.ca-tip-val {
-  font-size: 13px;
-  font-weight: 800;
-  color: #fff;
+
+.mc-kpi-val {
+  font-size: 26px;
+  font-weight: 900;
+  line-height: 1;
 }
 
-/* Heatmap ── */
-.ca-heatmap {
+/* Chart Area Layout */
+.mc-chart-body {
   display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 20px 14px;
-  border-top: 1px solid var(--border-color);
-}
-.ca-hm-label {
-  font-size: 9px;
-  font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-.ca-hm-row {
-  display: flex;
-  gap: 2px;
-  flex: 1;
-}
-.ca-hm-cell {
-  flex: 1;
-  height: 10px;
-  border-radius: 2px;
-  cursor: pointer;
-  transition: opacity 0.1s;
-}
-.ca-hm-cell:hover { opacity: 0.75; }
-.ca-hm-0 { background: var(--bg-tertiary); }
-.ca-hm-1 { background: rgba(255,120,0,0.2); }
-.ca-hm-2 { background: rgba(255,120,0,0.42); }
-.ca-hm-3 { background: rgba(255,120,0,0.68); }
-.ca-hm-4 { background: #ff7800; }
-.ca-hm-legend {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 9px;
-  color: var(--text-muted);
-  flex-shrink: 0;
-}
-.ca-hm-legend .ca-hm-cell {
-  width: 10px; height: 10px; flex: none;
+  height: 220px;
+  position: relative;
 }
 
-/* Header */
-.ca-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 16px 20px 14px;
-  border-bottom: 1px solid var(--border-color);
-}
-.ca-header-left {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-.ca-icon-wrap {
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  background: rgba(255,120,0,0.1);
-  border: 1px solid rgba(255,120,0,0.2);
-  display: flex; align-items: center; justify-content: center;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-.ca-title {
-  font-size: 13px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 0.2px;
-}
-.ca-subtitle {
-  font-size: 10px;
-  color: var(--text-muted);
-  margin-top: 2px;
-}
-.ca-live-dot {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 9px;
-  font-weight: 700;
-  letter-spacing: 1.5px;
-  color: #22c55e;
-}
-.ca-live-dot span {
-  width: 6px; height: 6px;
-  background: #22c55e;
-  border-radius: 50%;
-  animation: caPulse 1.8s ease-in-out infinite;
-}
-@keyframes caPulse {
-  0%,100% { opacity: 1; transform: scale(1); }
-  50%      { opacity: 0.4; transform: scale(1.4); }
-}
-
-/* KPI chips row */
-.ca-kpis {
-  display: flex;
-  align-items: center;
-  padding: 0 20px;
-  border-bottom: 1px solid var(--border-color);
-}
-.ca-kpi {
-  flex: 1;
+.mc-y-axis {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 4px;
-  padding: 14px 8px;
-}
-.ca-kpi-val {
-  font-size: 22px;
-  font-weight: 800;
-  line-height: 1;
-  letter-spacing: -0.5px;
-  font-variant-numeric: tabular-nums;
-}
-.ca-kpi-lbl {
-  font-size: 9px;
-  font-weight: 600;
+  justify-content: space-between;
+  padding-right: 16px;
+  padding-bottom: 20px; /* Aliniază valorile la finalul SVG-ului */
   color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-}
-.ca-kpi-div {
-  width: 1px;
-  height: 32px;
-  background: var(--border-color);
+  font-size: 10px;
+  font-weight: 600;
+  text-align: right;
+  width: 36px;
   flex-shrink: 0;
+  opacity: 0.6;
 }
 
-/* Chart wrapper */
-.ca-chart-wrap {
+.mc-svg-container {
+  flex: 1;
   position: relative;
   cursor: crosshair;
-  padding: 16px 20px 4px;
 }
 
-/* HTML overlay for labels / tooltip */
-.ca-overlay {
+/* X Axis Labels (Sub chart) */
+.mc-x-axis {
   position: relative;
-  height: 26px;
+  height: 20px;
   margin-top: 4px;
 }
-.ca-avg-tag {
-  position: absolute;
-  right: 0;
-  transform: translateY(-50%);
-  font-size: 9px;
-  font-weight: 700;
-  color: rgba(255,120,0,0.7);
-  background: var(--bg-secondary);
-  padding: 2px 6px;
-  border-radius: 4px;
-  border: 1px solid rgba(255,120,0,0.18);
-  pointer-events: none;
-  white-space: nowrap;
-}
-.ca-date-lbl {
+
+.mc-x-lbl {
   position: absolute;
   transform: translateX(-50%);
-  font-size: 9px;
-  color: var(--text-muted);
-  white-space: nowrap;
-  bottom: 0;
-}
-.ca-date-today {
-  color: var(--accent);
-  font-weight: 700;
-}
-
-/* Tooltip */
-.ca-tooltip {
-  position: absolute;
-  background: var(--bg-primary);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
-  padding: 8px 12px;
-  pointer-events: none;
-  white-space: nowrap;
-  transform: translate(-50%, -115%);
-  z-index: 100;
-  box-shadow: 0 8px 24px rgba(0,0,0,0.35);
-}
-.ca-tip-count {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-primary);
-}
-.ca-tip-date {
   font-size: 10px;
   color: var(--text-muted);
-  margin-top: 2px;
+  font-weight: 500;
+  opacity: 0.6;
 }
 
-/* Heatmap */
-.ca-heatmap {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 10px 20px 16px;
-  border-top: 1px solid var(--border-color);
+/* Tooltip (Apare la hover) */
+.mc-tooltip {
+  position: absolute;
+  background: #1a1a24;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 8px;
+  padding: 12px 16px;
+  pointer-events: none;
+  transform: translate(-50%, calc(-100% - 15px));
+  z-index: 10;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.6);
+  min-width: 130px;
 }
-.ca-hm-label {
-  font-size: 9px;
+
+.mc-tt-date {
+  font-size: 11px;
+  font-weight: 700;
+  color: #a0aec0;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+  padding-bottom: 6px;
+}
+
+.mc-tt-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+}
+
+.mc-tt-lbl {
+  font-size: 11px;
+  color: rgba(255,255,255,0.6);
   font-weight: 600;
-  color: var(--text-muted);
-  text-transform: uppercase;
-  letter-spacing: 0.8px;
-  white-space: nowrap;
-  flex-shrink: 0;
 }
-.ca-hm-row {
-  display: flex;
-  gap: 2px;
-  flex: 1;
-}
-.ca-hm-cell {
-  flex: 1;
-  height: 10px;
-  border-radius: 3px;
-  cursor: pointer;
-  transition: transform 0.12s;
-}
-.ca-hm-cell:hover { transform: scaleY(1.4); }
-.ca-hm-0 { background: var(--bg-tertiary); }
-.ca-hm-1 { background: rgba(255,120,0,0.18); }
-.ca-hm-2 { background: rgba(255,120,0,0.38); }
-.ca-hm-3 { background: rgba(255,120,0,0.62); }
-.ca-hm-4 { background: rgba(255,120,0,0.9); }
-.ca-hm-legend {
-  display: flex;
-  align-items: center;
-  gap: 3px;
-  font-size: 9px;
-  color: var(--text-muted);
-  flex-shrink: 0;
-}
-.ca-hm-legend .ca-hm-cell {
-  width: 10px; height: 10px; flex: none;
+
+.mc-tt-val {
+  font-size: 13px;
+  font-weight: 800;
 }
 
 
@@ -4098,27 +3803,28 @@
 /* ============================================================
    COMMITS PANEL
    ============================================================ */
-.commits-panel {
-  margin-bottom: 20px;
+/* ============================================================
+   LIST ROWS (Commits, Issues, Top Contributors)
+   ============================================================ */
+.commit-card, .ipr-row, .tc-row, .at-row, .fb-mini-row {
+  background: transparent;
+  border: 1px solid transparent;
+  border-bottom: 1px solid var(--border-color);
+  transition: all 0.2s ease;
+  margin: 0 8px; padding: 12px 14px;
+  border-radius: 12px;
 }
 
-.commits-grid {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 1px;
-  background: var(--border-color);
+.commit-card:last-child, .ipr-row:last-child, .tc-row:last-child, .at-row:last-child {
+  border-bottom: 1px solid transparent;
 }
 
-.commit-card {
-  background: var(--bg-secondary);
-  padding: 14px 16px;
-  cursor: pointer;
-  transition: all 0.2s;
-  border: none;
-}
-
-.commit-card:hover {
+.commit-card:hover, .ipr-row:hover, .tc-row:hover, .at-row:hover {
   background: var(--bg-hover);
+  border: 1px solid var(--border-color);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  transform: scale(1.01);
+  z-index: 2; position: relative;
 }
 
 .cc-top {
@@ -4192,18 +3898,6 @@
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 10px 14px;
-  cursor: pointer;
-  transition: background 0.15s;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.tc-row:last-child {
-  border-bottom: none;
-}
-
-.tc-row:hover {
-  background: var(--bg-hover);
 }
 
 .tc-rank-badge {
@@ -4327,12 +4021,6 @@
 .fb-mini-row {
   display: flex;
   gap: 12px;
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.fb-mini-row:last-child {
-  border-bottom: none;
 }
 
 .fb-mini-dot {
@@ -4486,18 +4174,6 @@
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 12px 14px;
-  cursor: pointer;
-  transition: background 0.15s;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.ipr-row:last-child {
-  border-bottom: none;
-}
-
-.ipr-row:hover {
-  background: var(--bg-hover);
 }
 
 .ipr-avatar {
@@ -4605,13 +4281,7 @@
 }
 
 .at-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
   padding: 12px 14px;
-  cursor: pointer;
-  transition: background 0.15s;
-  border-bottom: 1px solid var(--border-color);
   position: relative;
 }
 
@@ -4802,21 +4472,10 @@
   justify-content: center;
   gap: 8px;
   padding: 12px 16px;
-  border-radius: 10px;
-  border: 1px solid var(--border-color);
-  background: var(--bg-secondary);
-  color: var(--text-secondary);
   font-size: 11px;
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.3px;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-
-.qa-btn:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
 }
 
 .qa-blue:hover {
