@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="panel-feedbacks" :class="{ 'light-theme': isLightTheme }">
     <!-- Header -->
     <div class="pf-header">

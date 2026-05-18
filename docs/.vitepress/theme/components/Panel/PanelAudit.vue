@@ -1,1271 +1,323 @@
-﻿<!-- docs\.vitepress\theme\components\Panel\PanelAudit.vue -->
 <template>
-  <div class="panel-audit" :class="{ 'light-theme': isLightTheme }">
+  <div class="activity-feed" :class="{ 'light-theme': isLightTheme }" data-lenis-prevent>
+
     <!-- Header -->
-    <div class="audit-header">
-      <div class="audit-title">
-        <svg viewBox="0 0 24 24" width="24" height="24" fill="none" stroke="var(--accent)">
-          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-          <polyline points="14 2 14 8 20 8"/>
-          <line x1="16" y1="13" x2="8" y2="13"/>
-          <line x1="16" y1="17" x2="8" y2="17"/>
-          <polyline points="10 9 9 9 8 9"/>
-        </svg>
-        <h2>AUDIT LOGS</h2>
+    <div class="af-header">
+      <div class="af-title-row">
+        <div class="af-live-dot"></div>
+        <h2 class="af-title">Recent Activity</h2>
+        <span class="af-sub">{{ repoOwner }}/{{ repoName }}</span>
       </div>
-      
-      <div class="audit-stats">
-        <div class="stat-badge">
-          <span class="stat-count">{{ filteredLogs.length }}</span>
-          <span class="stat-label">EVENTS</span>
-        </div>
+      <button class="af-refresh-btn" @click="fetchEvents" :disabled="isLoading">
+        <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" :class="{ spin: isLoading }"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+        {{ isLoading ? 'LOADING...' : 'REFRESH' }}
+      </button>
+    </div>
+
+    <!-- KPI strip -->
+    <div class="af-kpis" v-if="events.length">
+      <div class="af-kpi" v-for="k in kpis" :key="k.label" :style="{ borderColor: k.color + '55' }">
+        <span class="ak-val" :style="{ color: k.color }">{{ k.val }}</span>
+        <span class="ak-lbl">{{ k.label }}</span>
       </div>
     </div>
 
     <!-- Filters -->
-    <div class="audit-filters">
-      <div class="filter-group">
-        <button 
-          v-for="filter in filters" 
-          :key="filter.value"
-          class="filter-btn"
-          :class="{ active: activeFilter === filter.value }"
-          @click="setFilter(filter.value)"
-        >
-          <span class="filter-dot" :class="filter.value"></span>
-          {{ filter.label }}
-          <span class="filter-count">{{ getFilterCount(filter.value) }}</span>
-        </button>
-      </div>
-      
-      <div class="search-group">
-        <div class="search-box">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-            <circle cx="11" cy="11" r="8"/>
-            <path d="M21 21L17 17"/>
-          </svg>
-          <input 
-            type="text" 
-            v-model="searchQuery" 
-            placeholder="Search events..."
-          >
-        </div>
-        
-        <button class="date-btn" @click="showDatePicker = !showDatePicker">
-          <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor">
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
-            <line x1="16" y1="2" x2="16" y2="6"/>
-            <line x1="8" y1="2" x2="8" y2="6"/>
-            <line x1="3" y1="10" x2="21" y2="10"/>
-          </svg>
-          <span>{{ dateRangeLabel }}</span>
-        </button>
+    <div class="af-filters" v-if="events.length">
+      <button v-for="f in filterOptions" :key="f.id" class="af-filter" :class="{ active: activeFilter === f.id }" @click="activeFilter = f.id">
+        <span class="af-dot" :style="{ background: f.color }"></span>
+        {{ f.label }}
+        <span class="af-count">{{ f.count }}</span>
+      </button>
+      <div class="af-spacer"></div>
+      <div class="af-search">
+        <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+        <input v-model="searchQuery" placeholder="Search events..." />
       </div>
     </div>
 
-    <!-- Date Range Picker -->
-    <div v-if="showDatePicker" class="date-picker">
-      <div class="date-inputs">
-        <div class="input-group">
-          <label>From</label>
-          <input type="date" v-model="dateFrom">
-        </div>
-        <div class="input-group">
-          <label>To</label>
-          <input type="date" v-model="dateTo">
-        </div>
-        <button class="apply-btn" @click="applyDateRange">Apply</button>
-        <button class="clear-btn" @click="clearDateRange">Clear</button>
-      </div>
+    <!-- Empty / Loading -->
+    <div v-if="isLoading" class="af-empty">
+      <div class="af-spinner"></div>
+      <p>Fetching repository activity...</p>
+    </div>
+    <div v-else-if="!hasFetched" class="af-empty">
+      <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor" stroke-width="1.2" opacity="0.25"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+      <p>Click Refresh to load your repository's live activity feed.</p>
+    </div>
+    <div v-else-if="filteredEvents.length === 0" class="af-empty">
+      <p>No events match your filter.</p>
     </div>
 
     <!-- Timeline -->
-    <div class="audit-timeline">
-      <div v-if="isLoading" class="timeline-loading">
-        <div class="loader"></div>
-        <span>Loading audit logs...</span>
-      </div>
-      
-      <div v-else-if="filteredLogs.length === 0" class="timeline-empty">
-        <svg viewBox="0 0 24 24" width="48" height="48" fill="none" stroke="currentColor">
-          <circle cx="12" cy="12" r="10"/>
-          <line x1="12" y1="8" x2="12" y2="12"/>
-          <circle cx="12" cy="16" r="1"/>
-        </svg>
-        <h3>No events found</h3>
-        <p>Try adjusting your filters or search query</p>
-      </div>
-      
-      <div v-else class="timeline-events">
-        <div 
-          v-for="(event, index) in paginatedLogs" 
-          :key="event.id" 
-          class="timeline-event"
-          :class="event.type"
-          @click="openEventDetails(event)"
-        >
-          <div class="event-marker">
-            <div class="marker-dot"></div>
-            <div class="marker-line" v-if="index < paginatedLogs.length - 1"></div>
+    <div v-else class="af-timeline">
+      <div v-for="(event, i) in filteredEvents" :key="event.id" class="af-event" @click="openDetail(event)">
+        <!-- marker -->
+        <div class="af-marker">
+          <div class="af-marker-dot" :style="{ background: eventColor(event.kind) }"></div>
+          <div class="af-marker-line" v-if="i < filteredEvents.length - 1"></div>
+        </div>
+
+        <!-- card -->
+        <div class="af-card">
+          <div class="af-card-top">
+            <span class="af-kind-badge" :style="{ background: eventColor(event.kind) + '18', color: eventColor(event.kind), borderColor: eventColor(event.kind) + '44' }">
+              <span v-html="eventIcon(event.kind)" style="display:flex"></span>
+              {{ event.kind }}
+            </span>
+            <span class="af-time">{{ timeAgo(event.createdAt) }}</span>
           </div>
-          
-          <div class="event-card">
-            <div class="event-header">
-              <div class="event-badge" :class="event.type">
-                <svg v-if="event.type === 'commit'" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                  <circle cx="12" cy="7" r="4"/>
-                </svg>
-                <svg v-else-if="event.type === 'pr'" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                  <circle cx="18" cy="18" r="3"/>
-                  <circle cx="6" cy="6" r="3"/>
-                  <path d="M6 21V9"/>
-                  <path d="M18 21V9"/>
-                </svg>
-                <svg v-else-if="event.type === 'issue'" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                  <circle cx="12" cy="12" r="10"/>
-                  <path d="M12 8v8"/>
-                  <path d="M8 12h8"/>
-                </svg>
-                <svg v-else viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-                <span>{{ event.type.toUpperCase() }}</span>
-              </div>
-              <div class="event-time">
-                <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
-                  <circle cx="12" cy="12" r="10"/>
-                  <polyline points="12 6 12 12 16 14"/>
-                </svg>
-                {{ formatTimeAgo(event.timestamp) }}
-              </div>
-            </div>
-            
-            <div class="event-body">
-              <div class="event-message">
-                <span class="message-text">{{ event.message }}</span>
-                <span v-if="event.branch" class="event-branch">
-                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
-                    <path d="M6 3v12"/>
-                    <path d="M18 9c0 1.5-1.5 3-4 3s-4-1.5-4-3 1.5-3 4-3 4 1.5 4 3z"/>
-                    <circle cx="18" cy="6" r="3"/>
-                    <circle cx="6" cy="18" r="3"/>
-                  </svg>
-                  {{ event.branch }}
-                </span>
-              </div>
-              
-              <div class="event-meta">
-                <div class="meta-author">
-                  <img :src="`https://github.com/${event.author}.png`" :alt="event.author" v-if="event.author">
-                  <span>@{{ event.author }}</span>
-                </div>
-                <div class="meta-hash" v-if="event.hash">
-                  <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor">
-                    <path d="M4 22h16a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2H8.5L7 3.5 5.5 2H4a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2Z"/>
-                    <polyline points="14 2 14 8 20 8"/>
-                  </svg>
-                  {{ event.hash.substring(0, 7) }}
-                </div>
-              </div>
-            </div>
-            
-            <div class="event-footer">
-              <div class="footer-stats" v-if="event.stats">
-                <span v-if="event.stats.additions">+{{ event.stats.additions }}</span>
-                <span v-if="event.stats.deletions">-{{ event.stats.deletions }}</span>
-                <span v-if="event.stats.files">{{ event.stats.files }} files</span>
-              </div>
-              <div class="footer-link">
-                <span>View details</span>
-                <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor">
-                  <path d="M5 12h14"/>
-                  <path d="M12 5l7 7-7 7"/>
-                </svg>
-              </div>
+          <div class="af-card-body">
+            <img :src="event.actorAvatar" class="af-avatar" :alt="event.actor" />
+            <div class="af-card-text">
+              <span class="af-actor">{{ event.actor }}</span>
+              <span class="af-message">{{ event.message }}</span>
             </div>
           </div>
+          <div class="af-card-foot" v-if="event.branch || event.ref">
+            <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+            <span>{{ event.branch || event.ref }}</span>
+          </div>
         </div>
-      </div>
-      
-      <!-- Pagination -->
-      <div class="pagination" v-if="filteredLogs.length > itemsPerPage">
-        <button 
-          class="page-btn" 
-          :disabled="currentPage === 1"
-          @click="currentPage--"
-        >
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
-            <path d="M15 18L9 12L15 6"/>
-          </svg>
-        </button>
-        
-        <div class="page-info">
-          Page {{ currentPage }} of {{ totalPages }}
-        </div>
-        
-        <button 
-          class="page-btn" 
-          :disabled="currentPage === totalPages"
-          @click="currentPage++"
-        >
-          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
-            <path d="M9 18L15 12L9 6"/>
-          </svg>
-        </button>
       </div>
     </div>
 
-    <!-- Event Details Modal -->
-    <div v-if="selectedEvent" class="modal-overlay" @click="closeModal">
-      <div class="modal-content" @click.stop>
-        <div class="modal-header">
-          <div class="modal-badge" :class="selectedEvent.type">
-            {{ selectedEvent.type.toUpperCase() }}
-          </div>
-          <button class="modal-close" @click="closeModal">
-            <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor">
-              <line x1="18" y1="6" x2="6" y2="18"/>
-              <line x1="6" y1="6" x2="18" y2="18"/>
-            </svg>
-          </button>
-        </div>
-        
-        <div class="modal-body">
-          <div class="modal-author-row">
-            <img :src="selectedEvent.avatar || `https://github.com/${selectedEvent.author}.png`" :alt="selectedEvent.author" class="modal-author-avatar">
-            <div class="modal-author-info">
-              <span class="modal-author-name">@{{ selectedEvent.author }}</span>
-              <span class="modal-author-when">{{ formatTimeAgo(selectedEvent.timestamp) }}</span>
+    <!-- Detail modal -->
+    <teleport to="body">
+      <transition name="modal-fade">
+        <div v-if="selectedEvent" class="af-modal-overlay" @click.self="selectedEvent = null">
+          <div class="af-modal">
+            <div class="af-modal-header">
+              <span class="af-kind-badge" :style="{ background: eventColor(selectedEvent.kind) + '18', color: eventColor(selectedEvent.kind), borderColor: eventColor(selectedEvent.kind) + '44' }">{{ selectedEvent.kind }}</span>
+              <button class="af-modal-close" @click="selectedEvent = null">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+              </button>
             </div>
-          </div>
-          <h3>{{ selectedEvent.message }}</h3>
-          
-          <div class="modal-details">
-            <div class="detail-row">
-              <span class="detail-label">Author:</span>
-              <span class="detail-value">@{{ selectedEvent.author }}</span>
+            <div class="af-modal-body">
+              <div class="af-modal-actor">
+                <img :src="selectedEvent.actorAvatar" class="af-modal-avatar" />
+                <div>
+                  <div class="af-modal-name">{{ selectedEvent.actor }}</div>
+                  <div class="af-modal-when">{{ new Date(selectedEvent.createdAt).toLocaleString() }}</div>
+                </div>
+              </div>
+              <p class="af-modal-msg">{{ selectedEvent.message }}</p>
+              <div class="af-modal-details">
+                <div v-if="selectedEvent.branch"><span>Branch</span><code>{{ selectedEvent.branch }}</code></div>
+                <div v-if="selectedEvent.ref"><span>Ref</span><code>{{ selectedEvent.ref }}</code></div>
+                <div v-if="selectedEvent.sha"><span>SHA</span><code>{{ selectedEvent.sha }}</code></div>
+              </div>
+              <a v-if="selectedEvent.url" :href="selectedEvent.url" target="_blank" class="af-modal-link">Open on GitHub ↗</a>
             </div>
-            <div class="detail-row">
-              <span class="detail-label">Date:</span>
-              <span class="detail-value">{{ formatDateTime(selectedEvent.timestamp) }}</span>
-            </div>
-            <div class="detail-row" v-if="selectedEvent.hash">
-              <span class="detail-label">Hash:</span>
-              <span class="detail-value code">{{ selectedEvent.hash }}</span>
-            </div>
-            <div class="detail-row" v-if="selectedEvent.branch">
-              <span class="detail-label">Branch:</span>
-              <span class="detail-value">{{ selectedEvent.branch }}</span>
-            </div>
-            <div class="detail-row" v-if="selectedEvent.repo">
-              <span class="detail-label">Repository:</span>
-              <span class="detail-value">{{ selectedEvent.repo }}</span>
-            </div>
-          </div>
-          
-          <div class="modal-actions">
-            <button class="action-btn" @click="openInGitHub">
-              <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor">
-                <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-                <polyline points="15 3 21 3 21 9"/>
-                <line x1="10" y1="14" x2="21" y2="3"/>
-              </svg>
-              Open on GitHub
-            </button>
           </div>
         </div>
-      </div>
-    </div>
+      </transition>
+    </teleport>
+
   </div>
 </template>
 
 <script>
+const KIND_META = {
+  PUSH:    { color: '#3b82f6', icon: '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 16 12 12 8 16"/><line x1="12" y1="12" x2="12" y2="21"/><path d="M20.39 18.39A5 5 0 0 0 18 9h-1.26A8 8 0 1 0 3 16.3"/></svg>' },
+  PR:      { color: '#a855f7', icon: '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>' },
+  ISSUE:   { color: '#ef4444', icon: '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>' },
+  STAR:    { color: '#f59e0b', icon: '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>' },
+  RELEASE: { color: '#22c55e', icon: '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>' },
+  FORK:    { color: '#64748b', icon: '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>' },
+  OTHER:   { color: '#94a3b8', icon: '<svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>' }
+}
+
+function mapEvent(e) {
+  const t = e.type
+  let kind = 'OTHER', message = t, branch = '', ref = '', sha = '', url = ''
+  if (t === 'PushEvent') {
+    kind = 'PUSH'
+    const commits = e.payload?.commits || []
+    const last = commits[commits.length - 1]
+    message = last ? last.message.split('\n')[0] : `Pushed ${commits.length} commit(s)`
+    branch = e.payload?.ref?.replace('refs/heads/', '') || ''
+    sha = last?.sha?.substring(0, 7) || ''
+    url = `https://github.com/${e.repo?.name}/commit/${last?.sha || ''}`
+  } else if (t === 'PullRequestEvent') {
+    kind = 'PR'
+    const pr = e.payload?.pull_request
+    message = pr?.title || 'Pull request'
+    url = pr?.html_url || ''
+    ref = e.payload?.action || ''
+  } else if (t === 'IssuesEvent') {
+    kind = 'ISSUE'
+    message = e.payload?.issue?.title || 'Issue'
+    url = e.payload?.issue?.html_url || ''
+    ref = e.payload?.action || ''
+  } else if (t === 'WatchEvent') {
+    kind = 'STAR'
+    message = `Starred ${e.repo?.name}`
+  } else if (t === 'ReleaseEvent') {
+    kind = 'RELEASE'
+    message = e.payload?.release?.name || e.payload?.release?.tag_name || 'Release'
+    url = e.payload?.release?.html_url || ''
+  } else if (t === 'ForkEvent') {
+    kind = 'FORK'
+    message = `Forked to ${e.payload?.forkee?.full_name}`
+    url = e.payload?.forkee?.html_url || ''
+  } else {
+    message = t.replace('Event', '')
+  }
+  return {
+    id: e.id,
+    kind, message, branch, ref, sha, url,
+    actor: e.actor?.login || '',
+    actorAvatar: `https://avatars.githubusercontent.com/u/${e.actor?.id}?s=40`,
+    createdAt: e.created_at
+  }
+}
+
 export default {
   name: 'PanelAudit',
-  
   props: {
-    isLightTheme: {
-      type: Boolean,
-      default: false
-    },
-    auditLogs: {
-      type: Array,
-      default: () => []
-    },
-    isLoading: {
-      type: Boolean,
-      default: false
-    }
+    isLightTheme: { type: Boolean, default: false },
+    githubToken:  { type: String,  default: '' },
+    repoOwner:    { type: String,  default: '' },
+    repoName:     { type: String,  default: '' }
   },
-  
   data() {
-    return {
-      searchQuery: '',
-      activeFilter: 'all',
-      showDatePicker: false,
-      dateFrom: '',
-      dateTo: '',
-      currentPage: 1,
-      itemsPerPage: 15,
-      selectedEvent: null,
-      appliedDateFrom: '',
-      appliedDateTo: '',
-      filters: [
-        { value: 'all',    label: 'All Events' },
-        { value: 'commit', label: 'Commits'    },
-        { value: 'pr',     label: 'Pull Requests' },
-        { value: 'issue',  label: 'Issues'     }
-      ]
-    }
+    return { events: [], isLoading: false, hasFetched: false, activeFilter: 'ALL', searchQuery: '', selectedEvent: null }
   },
-
+  mounted() { this.fetchEvents() },
   computed: {
-    filteredLogs() {
-      let logs = [...(this.auditLogs || [])]
-      if (this.activeFilter !== 'all') {
-        logs = logs.filter(l => l.type === this.activeFilter)
-      }
+    kpis() {
+      const counts = {}
+      this.events.forEach(e => { counts[e.kind] = (counts[e.kind] || 0) + 1 })
+      return Object.entries(counts).slice(0, 5).map(([k, v]) => ({ label: k, val: v, color: KIND_META[k]?.color || '#94a3b8' }))
+    },
+    filterOptions() {
+      const kinds = ['ALL', ...Object.keys(KIND_META)]
+      return kinds.map(id => ({
+        id, label: id,
+        color: id === 'ALL' ? '#6366f1' : (KIND_META[id]?.color || '#94a3b8'),
+        count: id === 'ALL' ? this.events.length : this.events.filter(e => e.kind === id).length
+      })).filter(f => f.count > 0 || f.id === 'ALL')
+    },
+    filteredEvents() {
+      let list = this.events
+      if (this.activeFilter !== 'ALL') list = list.filter(e => e.kind === this.activeFilter)
       if (this.searchQuery) {
         const q = this.searchQuery.toLowerCase()
-        logs = logs.filter(l =>
-          (l.message || '').toLowerCase().includes(q) ||
-          (l.author  || '').toLowerCase().includes(q) ||
-          (l.hash    || '').toLowerCase().includes(q)
-        )
+        list = list.filter(e => e.message.toLowerCase().includes(q) || e.actor.toLowerCase().includes(q))
       }
-      if (this.appliedDateFrom) {
-        const from = new Date(this.appliedDateFrom)
-        logs = logs.filter(l => new Date(l.timestamp) >= from)
-      }
-      if (this.appliedDateTo) {
-        const to = new Date(this.appliedDateTo)
-        to.setHours(23, 59, 59, 999)
-        logs = logs.filter(l => new Date(l.timestamp) <= to)
-      }
-      return logs
-    },
-
-    paginatedLogs() {
-      const s = (this.currentPage - 1) * this.itemsPerPage
-      return this.filteredLogs.slice(s, s + this.itemsPerPage)
-    },
-
-    totalPages() {
-      return Math.max(1, Math.ceil(this.filteredLogs.length / this.itemsPerPage))
-    },
-
-    dateRangeLabel() {
-      if (this.appliedDateFrom && this.appliedDateTo) return `${this.appliedDateFrom} — ${this.appliedDateTo}`
-      if (this.appliedDateFrom) return `From ${this.appliedDateFrom}`
-      if (this.appliedDateTo)   return `Until ${this.appliedDateTo}`
-      return 'Filter by date'
+      return list
     }
   },
-
-  watch: {
-    searchQuery() { this.currentPage = 1 },
-    activeFilter() { this.currentPage = 1 }
-  },
-
   methods: {
-    setFilter(val) {
-      this.activeFilter = val
+    async fetchEvents() {
+      if (!this.repoOwner || !this.repoName || this.isLoading) return
+      this.isLoading = true
+      const headers = { 'Accept': 'application/vnd.github.v3+json' }
+      if (this.githubToken) headers['Authorization'] = `token ${this.githubToken}`
+      try {
+        const res = await fetch(`https://api.github.com/repos/${this.repoOwner}/${this.repoName}/events?per_page=100`, { headers })
+        if (!res.ok) throw new Error(`API ${res.status}`)
+        const data = await res.json()
+        this.events = data.map(mapEvent)
+        this.hasFetched = true
+      } catch (e) { console.error('Activity feed error:', e) }
+      finally { this.isLoading = false }
     },
-
-    getFilterCount(val) {
-      if (val === 'all') return this.auditLogs.length
-      return this.auditLogs.filter(l => l.type === val).length
-    },
-
-    applyDateRange() {
-      this.appliedDateFrom = this.dateFrom
-      this.appliedDateTo   = this.dateTo
-      this.showDatePicker  = false
-      this.currentPage     = 1
-    },
-
-    clearDateRange() {
-      this.dateFrom        = ''
-      this.dateTo          = ''
-      this.appliedDateFrom = ''
-      this.appliedDateTo   = ''
-      this.showDatePicker  = false
-      this.currentPage     = 1
-    },
-
-    openEventDetails(event) {
-      this.selectedEvent = event
-    },
-
-    closeModal() {
-      this.selectedEvent = null
-    },
-
-    openInGitHub() {
-      if (!this.selectedEvent) return
-      const e = this.selectedEvent
-      if (e.url) window.open(e.url, '_blank')
-    },
-
-    formatTimeAgo(ts) {
+    eventColor(kind) { return KIND_META[kind]?.color || KIND_META.OTHER.color },
+    eventIcon(kind)  { return KIND_META[kind]?.icon  || KIND_META.OTHER.icon  },
+    openDetail(e)    { this.selectedEvent = e },
+    timeAgo(ts) {
       if (!ts) return ''
-      const diff = Date.now() - new Date(ts).getTime()
-      const m = Math.floor(diff / 60000)
+      const m = Math.floor((Date.now() - new Date(ts)) / 60000)
       if (m < 1)  return 'just now'
       if (m < 60) return `${m}m ago`
       const h = Math.floor(m / 60)
       if (h < 24) return `${h}h ago`
-      const d = Math.floor(h / 24)
-      if (d < 30) return `${d}d ago`
-      return new Date(ts).toLocaleDateString()
-    },
-
-    formatDateTime(ts) {
-      if (!ts) return ''
-      return new Date(ts).toLocaleString()
+      return `${Math.floor(h/24)}d ago`
     }
   }
 }
 </script>
 
 <style scoped>
-.panel-audit {
-  --bg-secondary: #0f0f12;
-  --bg-tertiary: #1a1a20;
-  --border-color: #1f1f24;
-  --text-primary: #ffffff;
-  --text-secondary: #e0e0e0;
-  --text-muted: #8a8a95;
-  --accent: #ff7800;
-  --accent-glow: rgba(255, 120, 0, 0.2);
-  --accent-dim: rgba(255, 120, 0,0.08); 
-  --accent-soft: rgba(255, 120, 0,0.15);
-  --accent-mid: rgba(255, 120, 0,0.28); 
-  --accent-strong: rgba(255, 120, 0,0.45);
-  --accent-heavy: rgba(255, 120, 0,0.68); 
-  --accent-solid: rgba(255, 120, 0,0.88);
-  --accent-alt: #ff6030; 
-  --accent-alt2: #ff8c42;
-  --commit-color: #3498db;
-  --pr-color: #2ecc71;
-  --issue-color: #e74c3c;
-  
-  animation: fadeIn 0.3s ease;
-}
-
-.panel-audit.light-theme {
-  --bg-primary: #f0f0f5;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #e2e2ea;
-  --border-color: #c4c4d0;
-  --text-primary: #0f0f14;
-  --text-secondary: #2a2a38;
-  --text-muted: #4a4a5a;
-  --accent-glow: rgba(255, 120, 0, 0.1);
-}
-
-.panel-audit.light-theme .event-card:hover { box-shadow:0 4px 12px rgba(0,0,0,0.1); }
-.panel-audit.light-theme .modal-overlay { background:rgba(0,0,0,0.45); }
-.panel-audit.light-theme .modal-content { background:#fff; border:1px solid #c4c4d0; box-shadow:0 20px 60px rgba(0,0,0,0.15); }
-.panel-audit.light-theme .audit-timeline { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
-.panel-audit.light-theme .date-picker { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
-.panel-audit.light-theme .event-card { background:rgba(0,0,0,0.02); border-color:var(--border-color); }
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Header */
-.audit-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-  gap: 16px;
-}
-
-.audit-title {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.audit-title h2 {
-  font-size: 20px;
-  font-weight: 600;
-  color: var(--text-primary);
-  margin: 0;
-}
-
-.audit-stats {
-  display: flex;
-  gap: 12px;
-}
-
-.stat-badge {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 30px;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-}
-
-.stat-count {
-  font-size: 20px;
-  font-weight: 700;
-  color: var(--accent);
-}
-
-.stat-label {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-/* Filters */
-.audit-filters {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 24px;
-  flex-wrap: wrap;
-}
-
-.filter-group {
-  display: flex;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-.filter-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 30px;
-  color: var(--text-muted);
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.filter-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.filter-btn.active {
-  background: var(--accent-dim);
-  color: var(--accent);
-  border-color: var(--accent-strong);
-  box-shadow: 0 0 12px var(--accent-dim);
-}
-
-.filter-dot {
-  width: 8px;
-  height: 8px;
-  border-radius: 50%;
-}
-
-.filter-dot.commit { background: var(--commit-color); }
-.filter-dot.pr { background: var(--pr-color); }
-.filter-dot.issue { background: var(--issue-color); }
-.filter-dot.all { background: var(--accent); }
-
-.filter-count {
-  background: rgba(255,255,255,0.08);
-  padding: 2px 6px;
-  border-radius: 20px;
-  font-size: 10px;
-}
-
-.filter-btn.active .filter-count {
-  background: rgba(255, 255, 255, 0.2);
-  color: white;
-}
-
-.search-group {
-  display: flex;
-  gap: 12px;
-}
-
-.search-box {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 30px;
-}
-
-.search-box input {
-  background: none;
-  border: none;
-  color: var(--text-primary);
-  font-size: 12px;
-  outline: none;
-  width: 200px;
-}
-
-.search-box input::placeholder {
-  color: var(--text-muted);
-}
-
-.date-btn {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 8px 16px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 30px;
-  color: var(--text-muted);
-  font-size: 12px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.date-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* Date Picker */
-.date-picker {
-  background: rgba(6,6,18,0.46);
-  backdrop-filter: blur(40px) saturate(175%);
-  -webkit-backdrop-filter: blur(40px) saturate(175%);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 16px;
-  padding: 16px;
-  margin-bottom: 20px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
-}
-
-.date-inputs {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.input-group {
-  display: flex;
-  flex-direction: column;
-  gap: 4px;
-}
-
-.input-group label {
-  font-size: 10px;
-  color: var(--text-muted);
-  text-transform: uppercase;
-}
-
-.input-group input {
-  padding: 8px 12px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.10);
-  border-radius: 8px;
-  color: var(--text-primary);
-  font-size: 12px;
-}
-
-.apply-btn, .clear-btn {
-  padding: 8px 20px;
-  border-radius: 8px;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-
-.apply-btn {
-  background: var(--accent);
-  border: none;
-  color: white;
-}
-
-.apply-btn:hover {
-  background: var(--accent-hover);
-}
-
-.clear-btn {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.09);
-  color: var(--text-muted);
-}
-
-.clear-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-/* Timeline */
-.audit-timeline {
-  background: rgba(6,6,18,0.46);
-  backdrop-filter: blur(40px) saturate(175%);
-  -webkit-backdrop-filter: blur(40px) saturate(175%);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 16px;
-  overflow: hidden;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.10);
-}
-
-.timeline-loading, .timeline-empty {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 16px;
-  padding: 60px;
-  color: var(--text-muted);
-}
-
-.loader {
-  width: 32px;
-  height: 32px;
-  border: 2px solid var(--border-color);
-  border-top-color: var(--accent);
-  border-radius: 50%;
-  animation: spin 0.8s linear infinite;
-}
-
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
-
-.timeline-events {
-  padding: 20px;
-}
-
-.timeline-event {
-  display: flex;
-  gap: 20px;
-  margin-bottom: 20px;
-  animation: slideIn 0.3s ease forwards;
-}
-
-@keyframes slideIn {
-  from {
-    opacity: 0;
-    transform: translateX(-10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateX(0);
-  }
-}
-
-.event-marker {
-  position: relative;
-  width: 24px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-shrink: 0;
-}
-
-.marker-dot {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: var(--accent);
-  border: 2px solid var(--bg-secondary);
-  z-index: 1;
-}
-
-.timeline-event.commit .marker-dot { background: var(--commit-color); }
-.timeline-event.pr .marker-dot { background: var(--pr-color); }
-.timeline-event.issue .marker-dot { background: var(--issue-color); }
-
-.marker-line {
-  position: absolute;
-  top: 16px;
-  width: 2px;
-  height: calc(100% + 20px);
-  background: rgba(255,255,255,0.08);
-}
-
-.timeline-event:last-child .marker-line {
-  display: none;
-}
-
-.event-card {
-  flex: 1;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 14px;
-  padding: 16px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: blur(12px);
-}
-
-.event-card:hover {
-  transform: translateX(4px);
-  border-color: rgba(255,120,0,0.30);
-  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.4), 0 0 16px var(--accent-dim);
-}
-
-.event-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 12px;
-  flex-wrap: wrap;
-  gap: 8px;
-}
-
-.event-badge {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  padding: 4px 10px;
-  border-radius: 20px;
-  font-size: 10px;
-  font-weight: 600;
-}
-
-.event-badge.commit {
-  background: rgba(52, 152, 219, 0.15);
-  color: var(--commit-color);
-}
-
-.event-badge.pr {
-  background: rgba(46, 204, 113, 0.15);
-  color: var(--pr-color);
-}
-
-.event-badge.issue {
-  background: rgba(231, 76, 60, 0.15);
-  color: var(--issue-color);
-}
-
-.event-time {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  color: var(--text-muted);
-}
-
-.event-body {
-  margin-bottom: 12px;
-}
-
-.event-message {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 8px;
-}
-
-.message-text {
-  font-size: 14px;
-  font-weight: 500;
-  color: var(--text-primary);
-}
-
-.event-branch {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  padding: 2px 8px;
-  background: rgba(255,120,0,0.08);
-  border: 1px solid rgba(255,120,0,0.20);
-  border-radius: 20px;
-  font-size: 10px;
-  color: var(--accent);
-  font-family: monospace;
-}
-
-.event-meta {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  flex-wrap: wrap;
-}
-
-.meta-author {
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.meta-author img {
-  width: 20px;
-  height: 20px;
-  border-radius: 50%;
-}
-
-.meta-hash {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-family: monospace;
-  font-size: 10px;
-  color: var(--text-muted);
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.09);
-  padding: 2px 6px;
-  border-radius: 4px;
-}
-
-.event-footer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding-top: 12px;
-  border-top: 1px solid rgba(255,255,255,0.07);
-}
-
-.footer-stats {
-  display: flex;
-  gap: 12px;
-  font-size: 11px;
-}
-
-.footer-stats span:first-child {
-  color: var(--success);
-}
-
-.footer-stats span:nth-child(2) {
-  color: var(--issue-color);
-}
-
-.footer-link {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 10px;
-  color: var(--accent);
-}
-
-/* Pagination */
-.pagination {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 16px;
-  padding: 20px;
-  border-top: 1px solid rgba(255,255,255,0.07);
-}
-
-.page-btn {
-  width: 36px;
-  height: 36px;
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.09);
-  border-radius: 8px;
-  color: var(--text-muted);
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-
-.page-btn:hover:not(:disabled) {
-  border-color: var(--accent);
-  color: var(--accent);
-}
-
-.page-btn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
-}
-
-.page-info {
-  font-size: 12px;
-  color: var(--text-muted);
-}
+.activity-feed { padding: 20px 24px 80px; animation: fadeIn 0.4s ease-out; }
+@keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+
+.af-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:24px; gap:16px; flex-wrap:wrap; }
+.af-title-row { display:flex; align-items:center; gap:10px; }
+.af-live-dot { width:8px; height:8px; border-radius:50%; background:#22c55e; box-shadow:0 0 8px #22c55e; animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+.af-title { font-size:22px; font-weight:800; color:var(--text-primary); margin:0; }
+.af-sub { font-size:12px; color:var(--text-muted); font-family:monospace; }
+.af-refresh-btn { display:flex; align-items:center; gap:8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.1); color:var(--text-muted); padding:8px 16px; border-radius:8px; font-size:11px; font-weight:700; letter-spacing:.6px; cursor:pointer; transition:all .2s; }
+.af-refresh-btn:hover:not(:disabled) { background:rgba(255,255,255,0.09); color:var(--text-primary); }
+.af-refresh-btn:disabled { opacity:.5; cursor:not-allowed; }
+.spin { animation:spin 1s linear infinite; }
+@keyframes spin { to{transform:rotate(360deg)} }
+
+.af-kpis { display:flex; gap:10px; margin-bottom:20px; flex-wrap:wrap; }
+.af-kpi { background:rgba(255,255,255,0.02); border:1px solid; border-radius:10px; padding:12px 16px; display:flex; flex-direction:column; gap:4px; min-width:80px; }
+.ak-val { font-size:22px; font-weight:900; font-family:monospace; }
+.ak-lbl { font-size:9px; font-weight:700; color:var(--text-muted); letter-spacing:1px; }
+
+.af-filters { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
+.af-filter { display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); color:var(--text-muted); font-size:10px; font-weight:700; letter-spacing:.6px; padding:5px 10px; border-radius:20px; cursor:pointer; transition:all .2s; }
+.af-filter.active { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); color:var(--text-primary); }
+.af-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
+.af-count { background:rgba(255,255,255,0.07); border-radius:10px; padding:1px 5px; font-size:9px; }
+.af-spacer { flex:1; }
+.af-search { display:flex; align-items:center; gap:7px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); border-radius:7px; padding:6px 12px; }
+.af-search svg { opacity:.4; flex-shrink:0; }
+.af-search input { background:none; border:none; outline:none; color:var(--text-primary); font-size:12px; width:160px; }
+.af-search input::placeholder { color:var(--text-muted); }
+
+.af-empty { display:flex; flex-direction:column; align-items:center; justify-content:center; gap:14px; padding:80px 40px; color:var(--text-muted); font-size:13px; text-align:center; }
+.af-spinner { width:28px; height:28px; border:2px solid rgba(255,255,255,0.08); border-top-color:#6366f1; border-radius:50%; animation:spin .8s linear infinite; }
+
+.af-timeline { display:flex; flex-direction:column; gap:0; }
+.af-event { display:flex; gap:16px; cursor:pointer; }
+.af-marker { display:flex; flex-direction:column; align-items:center; width:20px; flex-shrink:0; padding-top:4px; }
+.af-marker-dot { width:10px; height:10px; border-radius:50%; flex-shrink:0; z-index:1; transition:transform .2s; }
+.af-event:hover .af-marker-dot { transform:scale(1.4); }
+.af-marker-line { flex:1; width:2px; background:rgba(255,255,255,0.06); margin:4px 0; min-height:20px; }
+
+.af-card { flex:1; background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); border-radius:10px; padding:12px 14px; margin-bottom:10px; transition:all .2s; }
+.af-event:hover .af-card { background:rgba(255,255,255,0.05); border-color:rgba(255,255,255,0.12); transform:translateX(2px); }
+.af-card-top { display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; gap:8px; }
+.af-kind-badge { display:flex; align-items:center; gap:5px; border:1px solid; border-radius:4px; padding:2px 7px; font-size:10px; font-weight:800; letter-spacing:.6px; }
+.af-time { font-size:11px; color:var(--text-muted); font-family:monospace; flex-shrink:0; }
+.af-card-body { display:flex; gap:10px; align-items:flex-start; }
+.af-avatar { width:24px; height:24px; border-radius:50%; flex-shrink:0; }
+.af-card-text { min-width:0; }
+.af-actor { display:block; font-size:11px; font-weight:700; color:var(--text-primary); margin-bottom:2px; }
+.af-message { display:block; font-size:12px; color:var(--text-muted); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.af-card-foot { display:flex; align-items:center; gap:5px; margin-top:8px; font-size:10px; font-family:monospace; color:var(--text-muted); opacity:.7; }
 
 /* Modal */
-.modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background: rgba(0, 0, 0, 0.8);
-  backdrop-filter: blur(4px);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1000;
-}
+.modal-fade-enter-active,.modal-fade-leave-active { transition:opacity .2s; }
+.modal-fade-enter-from,.modal-fade-leave-to { opacity:0; }
+.af-modal-overlay { position:fixed; inset:0; z-index:99999; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); display:flex; align-items:center; justify-content:center; padding:20px; }
+.af-modal { background:rgba(15,15,28,0.98); border:1px solid rgba(255,255,255,0.1); border-radius:16px; width:100%; max-width:480px; overflow:hidden; }
+.af-modal-header { display:flex; justify-content:space-between; align-items:center; padding:16px 20px; border-bottom:1px solid rgba(255,255,255,0.07); }
+.af-modal-close { background:rgba(255,255,255,0.05); border:1px solid rgba(255,255,255,0.1); color:var(--text-muted); width:28px; height:28px; border-radius:6px; display:flex; align-items:center; justify-content:center; cursor:pointer; transition:all .2s; }
+.af-modal-close:hover { background:rgba(239,68,68,0.15); color:#ef4444; }
+.af-modal-body { padding:20px; }
+.af-modal-actor { display:flex; gap:12px; align-items:center; margin-bottom:16px; }
+.af-modal-avatar { width:40px; height:40px; border-radius:50%; }
+.af-modal-name { font-size:14px; font-weight:700; color:var(--text-primary); }
+.af-modal-when { font-size:11px; color:var(--text-muted); }
+.af-modal-msg { font-size:14px; color:var(--text-primary); margin:0 0 16px; line-height:1.5; }
+.af-modal-details { display:flex; flex-direction:column; gap:8px; margin-bottom:20px; }
+.af-modal-details > div { display:flex; gap:12px; align-items:center; font-size:12px; }
+.af-modal-details span { color:var(--text-muted); width:50px; flex-shrink:0; }
+.af-modal-details code { font-family:monospace; color:var(--text-primary); background:rgba(255,255,255,0.05); padding:2px 8px; border-radius:4px; }
+.af-modal-link { display:inline-flex; align-items:center; gap:6px; color:#6366f1; font-size:12px; font-weight:700; text-decoration:none; border:1px solid rgba(99,102,241,0.3); padding:8px 14px; border-radius:7px; transition:all .2s; }
+.af-modal-link:hover { background:rgba(99,102,241,0.1); }
 
-.modal-content {
-  background: rgba(6,6,18,0.88);
-  backdrop-filter: blur(52px) saturate(180%);
-  -webkit-backdrop-filter: blur(52px) saturate(180%);
-  border: 1px solid rgba(255,255,255,0.12);
-  border-radius: 20px;
-  width: 90%;
-  max-width: 500px;
-  animation: modalIn 0.2s ease;
-  box-shadow: 0 40px 100px rgba(0,0,0,0.8), inset 0 1px 0 rgba(255,255,255,0.14);
-}
-
-@keyframes modalIn {
-  from {
-    opacity: 0;
-    transform: scale(0.95);
-  }
-  to {
-    opacity: 1;
-    transform: scale(1);
-  }
-}
-
-.modal-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-}
-
-.modal-badge {
-  padding: 4px 12px;
-  border-radius: 20px;
-  font-size: 11px;
-  font-weight: 600;
-}
-
-.modal-badge.commit {
-  background: rgba(52, 152, 219, 0.15);
-  color: var(--commit-color);
-}
-
-.modal-badge.pr {
-  background: rgba(46, 204, 113, 0.15);
-  color: var(--pr-color);
-}
-
-.modal-badge.issue {
-  background: rgba(231, 76, 60, 0.15);
-  color: var(--issue-color);
-}
-
-.modal-close {
-  background: none;
-  border: none;
-  color: var(--text-muted);
-  cursor: pointer;
-  padding: 4px;
-  display: flex;
-  border-radius: 50%;
-  transition: all 0.2s ease;
-}
-
-.modal-close:hover {
-  color: var(--accent);
-  background: rgba(255,255,255,0.07);
-}
-
-.modal-body {
-  padding: 20px;
-}
-
-.modal-author-row { 
-  display: flex; 
-  align-items: center; 
-  gap: 12px; 
-  margin-bottom: 16px; 
-  padding: 10px 14px; 
-  background: rgba(255,255,255,0.04); 
-  border-radius: 10px; 
-  border: 1px solid rgba(255,255,255,0.09); 
-}
-
-.modal-author-avatar { 
-  width: 44px; 
-  height: 44px; 
-  border-radius: 50%; 
-  border: 2px solid var(--accent); 
-  flex-shrink: 0; 
-}
-
-.modal-author-info { 
-  display: flex; 
-  flex-direction: column; 
-  gap: 2px; 
-}
-
-.modal-author-name { 
-  font-size: 13px; 
-  font-weight: 700; 
-  color: var(--accent); 
-}
-
-.modal-author-when { 
-  font-size: 11px; 
-  color: var(--text-muted); 
-}
-
-.modal-body h3 {
-  font-size: 16px;
-  color: var(--text-primary);
-  margin-bottom: 20px;
-}
-
-.modal-details {
-  background: rgba(255,255,255,0.04);
-  border: 1px solid rgba(255,255,255,0.08);
-  border-radius: 12px;
-  padding: 16px;
-  margin-bottom: 20px;
-}
-
-.detail-row {
-  display: flex;
-  justify-content: space-between;
-  padding: 8px 0;
-  border-bottom: 1px solid rgba(255,255,255,0.07);
-}
-
-.detail-row:last-child {
-  border-bottom: none;
-}
-
-.detail-label {
-  font-size: 11px;
-  color: var(--text-muted);
-}
-
-.detail-value {
-  font-size: 12px;
-  color: var(--text-primary);
-  font-weight: 500;
-}
-
-.detail-value.code {
-  font-family: monospace;
-}
-
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.modal-actions .action-btn {
-  padding: 10px 20px;
-  background: var(--accent);
-  border: none;
-  border-radius: 8px;
-  color: white;
-  font-size: 12px;
-  font-weight: 500;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  transition: all 0.2s ease;
-}
-
-.modal-actions .action-btn:hover {
-  background: var(--accent-hover);
-  transform: translateY(-2px);
-}
-
-/* Responsive */
-@media (max-width: 900px) {
-  .audit-filters {
-    flex-direction: column;
-    align-items: stretch;
-  }
-  
-  .filter-group {
-    justify-content: center;
-  }
-  
-  .search-group {
-    justify-content: center;
-  }
-}
-
-@media (max-width: 700px) {
-  .timeline-event {
-    flex-direction: column;
-    gap: 8px;
-  }
-  
-  .event-marker {
-    display: none;
-  }
-  
-  .event-header {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-}
-
-@media (max-width: 640px) {
-  .filter-group {
-    flex-wrap: wrap;
-    gap: 6px;
-  }
-  .filter-btn {
-    font-size: 11px;
-    padding: 6px 10px;
-  }
-  .search-box input {
-    width: 100%;
-    min-width: 0;
-  }
-  .search-group {
-    flex-direction: column;
-    gap: 8px;
-    width: 100%;
-  }
-  .search-box {
-    width: 100%;
-  }
-  .date-btn {
-    width: 100%;
-    justify-content: center;
-  }
-  .event-card {
-    padding: 12px;
-  }
-  .message-text {
-    font-size: 12px;
-  }
-  .modal-content {
-    width: 96%;
-    border-radius: 14px;
-  }
-  .modal-body {
-    padding: 14px;
-  }
-  .modal-author-row {
-    padding: 8px 10px;
-    gap: 10px;
-  }
-  .modal-author-avatar {
-    width: 36px;
-    height: 36px;
-  }
-  .modal-body h3 {
-    font-size: 13px;
-  }
-  .pagination {
-    padding: 12px;
-  }
-}
+/* Light theme */
+.activity-feed.light-theme .af-card { background:#fff; border-color:rgba(0,0,0,0.08); box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+.activity-feed.light-theme .af-kpi { background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+.activity-feed.light-theme .af-filter { background:#fff; border-color:rgba(0,0,0,0.1); }
+.activity-feed.light-theme .af-modal { background:#fff; }
 </style>

@@ -66,6 +66,23 @@
         <span v-show="!collapsed">Back to Wiki</span>
       </a>
 
+      <!-- GLOBAL ACTIONS -->
+      <div class="ps-actions-slot" v-show="!collapsed">
+        <button class="ps-act-btn" @click="$emit('action', 'issue')" title="New Issue">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/></svg>
+        </button>
+        <button class="ps-act-btn" @click="$emit('action', 'pr')" title="New Pull Request">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
+        </button>
+        <button class="ps-act-btn" @click="$emit('action', 'refresh')" title="Refresh Data">
+          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9"/><path d="M21 3v6h-6"/></svg>
+        </button>
+        <button class="ps-act-btn" @click="$emit('action', 'theme')" title="Toggle Theme">
+          <svg v-if="isLightTheme" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+          <svg v-else viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+        </button>
+      </div>
+
       <!-- User identity row -->
       <div class="ps-user" :class="{ slim: collapsed }">
         <div class="ps-av-wrap" @click="$emit('navigate','profile')" :title="userLogin">
@@ -92,7 +109,7 @@
 <script>
 export default {
   name: 'PanelSidebar',
-  emits: ['navigate', 'logout'],
+  emits: ['navigate', 'logout', 'action'],
   props: {
     collapsed:    { type: Boolean, default: false },
     currentView:  { type: String,  default: 'dashboard' },
@@ -115,6 +132,12 @@ export default {
                 <rect x="3" y="16" width="7" height="5" rx="1.5"/>
               </svg>`
             },
+            {
+              id: 'system-status', label: 'System Status', badge: 'LIVE',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>`
+            },
           ]
         },
         {
@@ -130,6 +153,24 @@ export default {
               id: 'studio', label: 'Phoenix Studio', badge: 'NEW',
               icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                 <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>`
+            },
+            {
+              id: 'seo-manager', label: 'SEO Manager', badge: '',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+              </svg>`
+            },
+            {
+              id: 'media-library', label: 'Media Library', badge: '',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/>
+              </svg>`
+            },
+            {
+              id: 'storage-health', label: 'Storage Health', badge: '',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/>
               </svg>`
             },
           ]
@@ -152,15 +193,27 @@ export default {
                 <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
               </svg>`
             },
+            {
+              id: 'updates', label: 'Docs Updates', badge: 'NEW',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+              </svg>`
+            },
           ]
         },
         {
           label: 'Monitoring',
           items: [
             {
-              id: 'analytics', label: 'Analytics', badge: '',
+              id: 'monitor', label: 'System Monitor', badge: '',
               icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
                 <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/>
+              </svg>`
+            },
+            {
+              id: 'decay', label: 'Content Decay', badge: 'NEW',
+              icon: `<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
               </svg>`
             },
             {
@@ -220,7 +273,8 @@ export default {
   flex-direction: column;
   position: relative;
   z-index: 20;
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: hidden;
   isolation: isolate;
   background: var(--bg);
   border-right: 1px solid var(--border);
@@ -321,6 +375,7 @@ export default {
 /* ── NAV ── */
 .ps-nav {
   flex: 1;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   padding: 6px 0 6px;
@@ -371,7 +426,8 @@ export default {
   gap: 11px;
   padding: 0 13px;
   margin: 1.5px 8px;
-  height: 42px;
+  min-height: 38px;
+  height: auto;
   border-radius: 11px;
   cursor: pointer;
   color: var(--txt-m);
@@ -486,7 +542,6 @@ export default {
   flex-direction: column;
   position: relative;
   z-index: 2;
-  margin-top: auto;
   flex-shrink: 0;
 }
 
@@ -508,6 +563,34 @@ export default {
 }
 .ps-back:hover { background: rgba(255,255,255,0.04); color: var(--txt); opacity: 1; }
 .ps-back.slim  { justify-content: center; padding: 10px; }
+
+/* Custom Actions Slot */
+.ps-actions-slot {
+  display: flex;
+  gap: 8px;
+  padding: 12px 14px;
+  border-bottom: 1px solid var(--border);
+  justify-content: center;
+}
+.ps-act-btn {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--txt-m);
+  cursor: pointer;
+  transition: 0.2s;
+}
+.ps-act-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--txt);
+  border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
+}
 
 /* User identity strip */
 .ps-user {
@@ -614,4 +697,13 @@ export default {
 .ps-root.ps-light .ps-back { border-bottom-color: rgba(0,0,0,0.07); color: #787896; }
 .ps-root.ps-light .ps-back:hover { background: rgba(0,0,0,0.03); color: #16161e; }
 .ps-root.ps-light .ps-logout:hover { background: rgba(231,76,60,0.08); }
+
+.ps-root.ps-light .ps-act-btn {
+  background: rgba(0, 0, 0, 0.03);
+  color: var(--txt-m);
+}
+.ps-root.ps-light .ps-act-btn:hover {
+  background: rgba(0, 0, 0, 0.06);
+  color: #1a1a2e;
+}
 </style>

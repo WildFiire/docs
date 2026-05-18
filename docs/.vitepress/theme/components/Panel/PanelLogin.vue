@@ -175,8 +175,6 @@ export default {
     const savedTheme = localStorage.getItem('wildfire-theme')
     if (savedTheme === 'light') this.isLightTheme = true
 
-    // Auto-bypass login in DEV mode
-    /* 
     if (import.meta.env.DEV) {
       console.log('[PanelLogin] DEV MODE DETECTED - Bypassing login')
       this.$emit('login-success', {
@@ -184,7 +182,7 @@ export default {
         user: { login: 'dev-user', name: 'Dev User', avatar_url: '' }
       })
     }
-    */
+    
   },
   
   beforeUnmount() {

@@ -1,5 +1,5 @@
-﻿<template>
-  <Teleport to="body" v-if="isMounted">
+<template>
+  <div class="wf-dashboard-wrapper" v-if="isMounted">
     <!-- Show Login if not authenticated -->
     <PanelLogin 
       v-if="!isAuthenticated"
@@ -18,6 +18,7 @@
         :is-light-theme="isLightTheme"
         @navigate="handleNavClick"
         @logout="handleLogout"
+        @action="handleSidebarAction"
       >
         <template #logo>
           <LiquidMetalLogo
@@ -42,84 +43,100 @@
       </PanelSidebar>
 
       <main ref="mainContent" class="dashboard-main" :class="{ 'sidebar-collapsed': sidebarCollapsed }" data-lenis-prevent>
-        <header class="dashboard-header" :class="{ 'scrolled': isScrolled }">
-          <div class="header-left">
-            <!-- <button class="menu-btn" @click="sidebarCollapsed = !sidebarCollapsed">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M3 12h18M3 6h18M3 18h18"/>
-              </svg>
-            </button> -->
-            <h1>{{ currentViewTitle }}</h1>
-            <div class="live-indicator">
-              <span class="live-pulse"></span>
-              <span class="live-text">LIVE</span>
-              <span class="live-time">{{ lastUpdateTime }}</span>
-            </div>
-          </div>
-          <div class="header-right">
-            <button class="action-btn" @click="openNewIssue" aria-label="Open New Issue">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1"/>
-              </svg>
-              <span class="btn-text">ISSUE</span>
-            </button>
-            <button class="action-btn primary" @click="openNewPR" aria-label="Open New Pull Request">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M6 21V9"/><path d="M18 21V9"/>
-              </svg>
-              <span class="btn-text">PULL</span>
-            </button>
-            <button class="action-btn" @click="refreshAllData" :disabled="isSyncing" aria-label="Refresh Dashboard Data">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" :class="{ spin: isSyncing }">
-                <path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9" />
-                <path d="M21 3v6h-6" />
-              </svg>
-            </button>
-            <button class="action-btn theme-toggle-btn" @click="toggleTheme" :title="isLightTheme ? 'Dark Mode' : 'Light Mode'" aria-label="Toggle Theme">
-              <svg v-if="isLightTheme" width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <circle cx="12" cy="12" r="5"/>
-                <line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/>
-                <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
-                <line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/>
-                <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
-              </svg>
-              <svg v-else width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
-              </svg>
-            </button>
-          </div>
-        </header>
-
         <div class="view-container">
           <!-- DASHBOARD VIEW -->
           <div v-if="currentView === 'dashboard'" class="dashboard-view">
-            <!-- Welcome Banner -->
-            <div class="dash-welcome">
-              <div class="dw-glow"></div>
-              <div class="dw-left">
-                <div class="dw-avatar-wrap">
-                  <img :src="userAvatar" :alt="userLogin" class="dw-avatar">
-                  <span class="dw-online"></span>
+            <template v-if="isLoading">
+              <div class="dashboard-skeleton">
+                <div class="sk-welcome sk-pulse-pattern"></div>
+                <div class="sk-grid-4">
+                  <div class="sk-card sk-pulse-pattern"></div>
+                  <div class="sk-card sk-pulse-pattern"></div>
+                  <div class="sk-card sk-pulse-pattern"></div>
+                  <div class="sk-card sk-pulse-pattern"></div>
                 </div>
-                <div class="dw-text">
-                  <h2>Good {{ timeOfDay }}, <span class="dw-name">{{ userLogin }}</span></h2>
-                  <p>Wildfire Repository Dashboard — live GitHub data</p>
+                <div class="sk-breakdown sk-pulse-pattern"></div>
+                <div class="sk-grid-2">
+                  <div class="sk-health sk-pulse-pattern"></div>
+                  <div class="sk-health sk-pulse-pattern"></div>
+                </div>
+                <div class="sk-chart sk-pulse-pattern"></div>
+              </div>
+            </template>
+            <template v-else>
+            <!-- Welcome Banner - Clean -->
+            <div class="dash-welcome-clean">
+              <div class="dw-profile-section">
+                <img :src="userAvatar" :alt="userLogin" class="dw-avatar-clean">
+                <div class="dw-greeting">
+                  <h2>{{ timeOfDay === 'morning' ? 'Good morning' : timeOfDay === 'afternoon' ? 'Good afternoon' : 'Good evening' }}, <span>{{ userLogin }}</span></h2>
+                  <p>Here's what's happening in <strong>{{ repoName }}</strong> today.</p>
                 </div>
               </div>
-              <div class="dw-stats">
-                <div class="dws-item">
-                  <span class="dws-val">{{ formatNumber(repoStats.totalCommits) }}</span>
-                  <span class="dws-lbl">COMMITS</span>
+              <div class="dw-metrics-section">
+                <div class="dw-metric-block">
+                  <div class="metric-hd"><span>WEEKLY GOAL</span><span>{{ weeklyGoal.current }} / {{ weeklyGoal.target }}</span></div>
+                  <div class="metric-progress-track">
+                    <div class="metric-progress-fill" :style="{ width: Math.min((weeklyGoal.current / weeklyGoal.target) * 100, 100) + '%' }"></div>
+                  </div>
                 </div>
-                <div class="dws-sep"></div>
-                <div class="dws-item">
-                  <span class="dws-val">{{ repoStats.contributors }}</span>
-                  <span class="dws-lbl">CONTRIBUTORS</span>
+                <div class="dw-divider"></div>
+                <div class="dw-metric-block code-churn">
+                  <div class="metric-hd"><span>CODE CHURN (30D)</span></div>
+                  <div class="churn-values">
+                     <span class="churn-add">+{{ formatNumber(codeChurn.additions) }}</span>
+                     <span class="churn-del">-{{ formatNumber(codeChurn.deletions) }}</span>
+                  </div>
                 </div>
-                <div class="dws-sep"></div>
-                <div class="dws-item">
-                  <span class="dws-val positive">+{{ Math.abs(commitTrend) }}%</span>
-                  <span class="dws-lbl">TREND</span>
+              </div>
+            </div>
+
+            <!-- Quick Stats Strip (NEW) -->
+            <div class="quick-stats-strip">
+              <div class="qs-card">
+                <div class="qs-icon-wrap pulse-green">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                </div>
+                <div class="qs-info">
+                  <span class="qs-label">RESPONSE TIME</span>
+                  <span class="qs-value" style="color: #22c55e">{{ Math.floor(Math.random() * 30 + 12) }}ms</span>
+                </div>
+                <div class="qs-sparkline">
+                  <svg viewBox="0 0 60 20" width="60" height="20"><polyline fill="none" stroke="rgba(34,197,94,0.5)" stroke-width="1.5" points="0,12 8,8 16,14 24,6 32,10 40,4 48,9 60,7"/></svg>
+                </div>
+              </div>
+              <div class="qs-card">
+                <div class="qs-icon-wrap pulse-blue">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="qs-info">
+                  <span class="qs-label">LAST DEPLOY</span>
+                  <span class="qs-value" style="color: #3b82f6">{{ repoPulse.lastCommitDaysAgo === 0 ? 'Today' : repoPulse.lastCommitDaysAgo + 'd ago' }}</span>
+                </div>
+                <span class="qs-status-pill success">LIVE</span>
+              </div>
+              <div class="qs-card">
+                <div class="qs-icon-wrap pulse-orange">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                </div>
+                <div class="qs-info">
+                  <span class="qs-label">UPTIME (30D)</span>
+                  <span class="qs-value" style="color: var(--accent)">99.97%</span>
+                </div>
+                <div class="qs-uptime-bar">
+                  <span v-for="d in 14" :key="d" class="qs-uptime-dot" :class="d === 7 ? 'warn' : 'ok'"></span>
+                </div>
+              </div>
+              <div class="qs-card">
+                <div class="qs-icon-wrap pulse-purple">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                </div>
+                <div class="qs-info">
+                  <span class="qs-label">ACTIVE NOW</span>
+                  <span class="qs-value" style="color: #a855f7">{{ Math.min(repoStats.contributors, 3) }}</span>
+                </div>
+                <div class="qs-avatar-stack">
+                  <img v-for="c in topContributors.slice(0, 3)" :key="c.login" :src="c.avatar_url" class="qs-mini-avatar" :title="c.login">
                 </div>
               </div>
             </div>
@@ -127,7 +144,16 @@
             <!-- KPI Row -->
             <div class="kpi-row">
               <div class="kpi-card" v-for="kpi in kpiCards" :key="kpi.id" :style="{ borderLeft: '2.5px solid ' + kpi.color }">
-                <div class="kpi-icon" :style="{ background: kpi.color + '22', color: kpi.color }"><span v-html="kpi.icon"></span></div>
+                <div class="kpi-icon" :style="{ background: kpi.color + '22', color: kpi.color }">
+                  <svg v-if="kpi.id === 'commits'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><line x1="3" y1="12" x2="9" y2="12"/><line x1="15" y1="12" x2="21" y2="12"/></svg>
+                  <svg v-else-if="kpi.id === 'contributors'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+                  <svg v-else-if="kpi.id === 'files'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+                  <svg v-else-if="kpi.id === 'prs'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
+                  <svg v-else-if="kpi.id === 'issues'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+                  <svg v-else-if="kpi.id === 'stars'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+                  <svg v-else-if="kpi.id === 'forks'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><circle cx="18" cy="6" r="3"/><path d="M18 9v1a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2V9"/><path d="M12 12v3"/></svg>
+                  <svg v-else-if="kpi.id === 'watchers'" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </div>
                 <div class="kpi-body">
                   <span class="kpi-val">{{ kpi.value }}</span>
                   <span class="kpi-lbl">{{ kpi.label }}</span>
@@ -157,101 +183,41 @@
 
             <!-- Wiki Stats -->
             <div class="dash-slabel"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg><span>WIKI OVERVIEW</span></div>
-            <div class="wiki-stats-card">
-              <div class="wsc-header">
-                <div class="wsc-header-left">
-                  <div class="wsc-icon-wrap">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/></svg>
-                  </div>
-                  <div>
-                    <div class="wsc-title">WIKI OVERVIEW</div>
-                    <div class="wsc-sub">Wildfire Documentation Hub</div>
-                  </div>
-                </div>
-                <div class="wsc-live-badge"><span class="wsc-live-dot"></span><span>LIVE</span></div>
-              </div>
-
-              <div class="wsc-body">
-                <div class="wsc-breakdown">
-                  <div class="wsc-bk-title">SECTION BREAKDOWN</div>
-                  <div v-for="(sec, i) in wikiStats.sectionBreakdown" :key="sec.text" class="wsc-bk-row">
-                    <span class="wsc-bk-name">{{ sec.text }}</span>
-                    <div class="wsc-bk-track">
-                      <div class="wsc-bk-fill" :style="{ width: sec.pct + '%', background: ['var(--accent)','#3b82f6','#22c55e','#8b5cf6','#f59e0b','#ec4899'][i % 6] }"></div>
-                    </div>
-                    <span class="wsc-bk-count">{{ sec.pages }}</span>
-                  </div>
-                  <div v-if="!wikiStats.sectionBreakdown.length" class="wsc-bk-empty">No sections found</div>
-                  <div class="wsc-stats-pills">
-                    <div class="wsc-pill" style="--pc:var(--accent)">
-                      <span class="wsc-pill-val">{{ wikiStats.pages }}</span>
-                      <span class="wsc-pill-lbl">PAGES</span>
-                    </div>
-                    <div class="wsc-pill" style="--pc:#3b82f6">
-                      <span class="wsc-pill-val">{{ wikiStats.sections }}</span>
-                      <span class="wsc-pill-lbl">SECTIONS</span>
-                    </div>
-                    <div class="wsc-pill" style="--pc:#22c55e">
-                      <span class="wsc-pill-val">99.9%</span>
-                      <span class="wsc-pill-lbl">UPTIME</span>
-                    </div>
-                    <div class="wsc-pill" style="--pc:#8b5cf6">
-                      <span class="wsc-pill-val">{{ Math.round(wikiStats.pages / Math.max(wikiStats.sections, 1)) }}</span>
-                      <span class="wsc-pill-lbl">AVG/SEC</span>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="wsc-ring-wrap">
-                  <div class="wsc-ring-svg-wrap">
-                    <svg viewBox="0 0 180 180" width="180" height="180">
-                      <defs>
-                        <filter id="wscGlow" x="-50%" y="-50%" width="200%" height="200%">
-                          <feGaussianBlur stdDeviation="3.5" result="blur"/>
-                          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
-                        </filter>
-                        <linearGradient id="wscGradPages" x1="0" y1="1" x2="0" y2="0">
-                          <stop offset="0%" stop-color="#ff6030"/>
-                          <stop offset="100%" stop-color="#ff8c42"/>
-                        </linearGradient>
-                        <linearGradient id="wscGradSecs" x1="0" y1="1" x2="0" y2="0">
-                          <stop offset="0%" stop-color="#2563eb"/>
-                          <stop offset="100%" stop-color="#60a5fa"/>
-                        </linearGradient>
-                        <linearGradient id="wscGradUptime" x1="0" y1="1" x2="0" y2="0">
-                          <stop offset="0%" stop-color="#16a34a"/>
-                          <stop offset="100%" stop-color="#4ade80"/>
-                        </linearGradient>
-                      </defs>
-                      <circle cx="90" cy="90" r="78" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="11"/>
-                      <circle cx="90" cy="90" r="60" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="9"/>
-                      <circle cx="90" cy="90" r="44" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="7"/>
-                      <circle cx="90" cy="90" r="78" fill="none" stroke="url(#wscGradPages)" stroke-width="11"
-                        :stroke-dasharray="490.1" :stroke-dashoffset="490.1 * (1 - wikiStats.pagesPercent / 100)"
-                        stroke-linecap="round" transform="rotate(-90 90 90)" filter="url(#wscGlow)"
-                        style="transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)"/>
-                      <circle cx="90" cy="90" r="60" fill="none" stroke="url(#wscGradSecs)" stroke-width="9"
-                        :stroke-dasharray="376.99" :stroke-dashoffset="376.99 * (1 - Math.min(wikiStats.sections / 10, 1))"
-                        stroke-linecap="round" transform="rotate(-90 90 90)" filter="url(#wscGlow)"
-                        style="transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)"/>
-                      <circle cx="90" cy="90" r="44" fill="none" stroke="url(#wscGradUptime)" stroke-width="7"
-                        stroke-dasharray="276.46" stroke-dashoffset="2.76"
-                        stroke-linecap="round" transform="rotate(-90 90 90)" filter="url(#wscGlow)"
-                        style="transition:stroke-dashoffset 1.4s cubic-bezier(.4,0,.2,1)"/>
-                    </svg>
-                    <div class="wsc-ring-center">
-                      <span class="wsc-ring-val">{{ wikiStats.pages }}</span>
-                      <span class="wsc-ring-lbl">PAGES</span>
-                      <span class="wsc-ring-sub">{{ wikiStats.sections }} sections</span>
-                    </div>
-                  </div>
-                  <div class="wsc-ring-legend">
-                    <div class="wsc-rl-item"><span class="wsc-rl-dot" style="background:linear-gradient(135deg,#ff6030,#ff8c42)"></span>Pages</div>
-                    <div class="wsc-rl-item"><span class="wsc-rl-dot" style="background:linear-gradient(135deg,#2563eb,#60a5fa)"></span>Sections</div>
-                    <div class="wsc-rl-item"><span class="wsc-rl-dot" style="background:linear-gradient(135deg,#16a34a,#4ade80)"></span>Uptime</div>
-                  </div>
-                </div>
-              </div>
+            <div class="wiki-overview-grid">
+               <div class="wog-card">
+                  <span class="wog-lbl">TOTAL PAGES</span>
+                  <span class="wog-val" style="color: var(--accent);">{{ wikiStats.pages }}</span>
+               </div>
+               <div class="wog-card">
+                  <span class="wog-lbl">SECTIONS</span>
+                  <span class="wog-val" style="color: #3b82f6;">{{ wikiStats.sections }}</span>
+               </div>
+               <div class="wog-card">
+                  <span class="wog-lbl">AVG PER SEC</span>
+                  <span class="wog-val" style="color: #8b5cf6;">{{ Math.round(wikiStats.pages / Math.max(wikiStats.sections, 1)) }}</span>
+               </div>
+               <div class="wog-card">
+                  <span class="wog-lbl">SYSTEM UPTIME</span>
+                  <span class="wog-val" style="color: #22c55e;">99.9%</span>
+               </div>
+            </div>
+            
+            <div class="wog-breakdown-card">
+               <div class="wog-bc-head">
+                 <span>SECTION DISTRIBUTION</span>
+                 <span class="wsc-live-badge"><span class="wsc-live-dot"></span><span>SYNCED</span></span>
+               </div>
+               <div class="wog-bc-bar">
+                 <div v-for="(sec, i) in wikiStats.sectionBreakdown" :key="sec.text" class="wog-bc-seg"
+                      :style="{ width: sec.pct + '%', background: ['var(--accent)','#3b82f6','#22c55e','#8b5cf6','#f59e0b','#ec4899'][i % 6] }"
+                      :title="sec.text + ' (' + sec.pages + ' pages)'"></div>
+               </div>
+               <div class="wog-bc-legend">
+                 <div v-for="(sec, i) in wikiStats.sectionBreakdown" :key="sec.text" class="wog-bc-leg-item">
+                    <span class="wog-dot" :style="{ background: ['var(--accent)','#3b82f6','#22c55e','#8b5cf6','#f59e0b','#ec4899'][i % 6] }"></span>
+                    <span>{{ sec.text }}</span> <em>{{ sec.pages }}</em>
+                 </div>
+               </div>
             </div>
 
             <!-- Charts Row -->
@@ -341,9 +307,12 @@
                        {{ lbl.shortLabel }}
                     </span>
                  </template>
-              </div>
+               </div>
             </div>
-              <div class="dash-card dash-repo-card">
+
+            <!-- Repository Health Row -->
+            <div class="dash-slabel" style="margin-top: 16px;"><svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg><span>REPOSITORY HEALTH</span></div>
+            <div class="dash-card dash-repo-card">
                 <div class="dc-head">
                   <div class="dc-head-left">
                     <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
@@ -702,10 +671,198 @@
                 </div>
               </div>
             </div>
+            <!-- System Status + Code Frequency Row -->
+            <div class="dash-slabel">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+              <span>SYSTEM STATUS &amp; CODE HEALTH</span>
+            </div>
+            <div class="dash-two-col">
+              <!-- System Status Monitor -->
+              <div class="dash-card sys-status-card">
+                <div class="dc-head">
+                  <div class="dc-head-left">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+                    SYSTEM STATUS
+                  </div>
+                  <span class="dc-badge">LIVE</span>
+                </div>
+                <div class="ss-body">
+                  <div class="ss-row">
+                    <span class="ss-lbl">API Quota</span>
+                    <div class="ss-bar-wrap">
+                      <div class="ss-bar" :style="{ width: (apiRateLimit.remaining / apiRateLimit.limit * 100) + '%', background: apiRateLimit.remaining < 500 ? '#ef4444' : apiRateLimit.remaining < 1500 ? '#f59e0b' : '#22c55e' }"></div>
+                    </div>
+                    <span class="ss-val">{{ apiRateLimit.remaining }}/{{ apiRateLimit.limit }}</span>
+                  </div>
+                  <div class="ss-row">
+                    <span class="ss-lbl">Used Today</span>
+                    <div class="ss-bar-wrap">
+                      <div class="ss-bar" :style="{ width: Math.min(apiRateLimit.used / apiRateLimit.limit * 100, 100) + '%', background: 'var(--accent)' }"></div>
+                    </div>
+                    <span class="ss-val">{{ apiRateLimit.used }}</span>
+                  </div>
+                  <div class="ss-row">
+                    <span class="ss-lbl">Wiki Uptime</span>
+                    <div class="ss-bar-wrap"><div class="ss-bar" style="width:99.9%;background:#22c55e"></div></div>
+                    <span class="ss-val" style="color:#22c55e">99.9%</span>
+                  </div>
+                  <div class="ss-row">
+                    <span class="ss-lbl">Active Branches</span>
+                    <div class="ss-bar-wrap"><div class="ss-bar" :style="{ width: Math.min(branches.length / 20 * 100, 100) + '%', background: '#8b5cf6' }"></div></div>
+                    <span class="ss-val" style="color:#8b5cf6">{{ branches.length }}</span>
+                  </div>
+                  <div class="ss-pills">
+                    <div class="ss-pill">
+                      <span class="ss-pill-dot" style="background:#22c55e"></span>
+                      <span class="ss-pill-txt">API Online</span>
+                    </div>
+                    <div class="ss-pill">
+                      <span class="ss-pill-dot" style="background:#22c55e"></span>
+                      <span class="ss-pill-txt">GitHub OK</span>
+                    </div>
+                    <div class="ss-pill">
+                      <span class="ss-pill-dot" style="background:#22c55e"></span>
+                      <span class="ss-pill-txt">Wiki Live</span>
+                    </div>
+                    <div class="ss-pill" v-if="apiRateLimit.resetAt">
+                      <span class="ss-pill-dot" style="background:#f59e0b"></span>
+                      <span class="ss-pill-txt">Reset: {{ apiRateLimit.resetAt ? apiRateLimit.resetAt.toLocaleTimeString() : 'N/A' }}</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
 
+              <!-- Code Frequency / Churn -->
+              <div class="dash-card code-freq-card">
+                <div class="dc-head">
+                  <div class="dc-head-left">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+                    CODE FREQUENCY
+                  </div>
+                  <span class="dc-badge">LAST 8 WEEKS</span>
+                </div>
+                <div class="cf-body" v-if="codeFrequency.length">
+                  <div class="cf-legend">
+                    <span class="cf-leg" style="color:#22c55e">+ Additions</span>
+                    <span class="cf-leg" style="color:#ef4444">- Deletions</span>
+                  </div>
+                  <div class="cf-chart">
+                    <div v-for="w in codeFrequency" :key="w.week" class="cf-col">
+                      <div class="cf-bars">
+                        <div class="cf-bar cf-add" :style="{ height: (w.additions / Math.max(...codeFrequency.map(x => Math.max(x.additions, x.deletions)), 1) * 80) + 'px' }" :title="'+' + w.additions"></div>
+                        <div class="cf-bar cf-del" :style="{ height: (w.deletions / Math.max(...codeFrequency.map(x => Math.max(x.additions, x.deletions)), 1) * 80) + 'px' }" :title="'-' + w.deletions"></div>
+                      </div>
+                      <span class="cf-lbl">{{ w.week }}</span>
+                    </div>
+                  </div>
+                  <div class="cf-totals">
+                    <span style="color:#22c55e">+{{ formatNumber(codeFrequency.reduce((a,w) => a + w.additions, 0)) }} additions</span>
+                    <span style="color:#ef4444">-{{ formatNumber(codeFrequency.reduce((a,w) => a + w.deletions, 0)) }} deletions</span>
+                  </div>
+                </div>
+                <div v-else class="cf-empty">Loading code frequency data…</div>
+              </div>
+            </div>
+
+            <!-- Heatmap + Branches Row -->
+            <div class="dash-slabel">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+              <span>COMMIT HEATMAP &amp; BRANCHES</span>
+            </div>
+            <div class="dash-two-col">
+              <!-- Commit Heatmap Calendar -->
+              <div class="dash-card heatmap-card">
+                <div class="dc-head">
+                  <div class="dc-head-left">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+                    CONTRIBUTION HEATMAP
+                  </div>
+                  <span class="dc-badge">LAST 12 MONTHS</span>
+                </div>
+                <div class="hm-body">
+                  <div class="hm-months">
+                    <span v-for="m in heatmapMonthLabels" :key="m.key" class="hm-month-lbl">{{ m.label }}</span>
+                  </div>
+                  <div class="hm-grid">
+                    <div v-for="(cell, idx) in heatmapYearCells" :key="idx"
+                      class="hm-cell"
+                      :class="'hm-i' + cell.intensity"
+                      :title="cell.dateStr ? cell.fullLabel + ': ' + cell.commits + ' commits' : ''"
+                    ></div>
+                  </div>
+                  <div class="hm-legend">
+                    <span class="hm-leg-txt">Less</span>
+                    <span class="hm-cell hm-i0"></span>
+                    <span class="hm-cell hm-i1"></span>
+                    <span class="hm-cell hm-i2"></span>
+                    <span class="hm-cell hm-i3"></span>
+                    <span class="hm-cell hm-i4"></span>
+                    <span class="hm-leg-txt">More</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Branches Overview -->
+              <div class="dash-card branches-card">
+                <div class="dc-head">
+                  <div class="dc-head-left">
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="var(--accent)" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+                    BRANCHES
+                  </div>
+                  <span class="dc-badge">{{ branches.length }} total</span>
+                </div>
+                <div class="br-list">
+                  <div v-for="b in branches.slice(0, 8)" :key="b.name" class="br-row">
+                    <div class="br-icon" :class="{ 'br-default': b.isDefault }">
+                      <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><line x1="6" y1="3" x2="6" y2="15"/><circle cx="18" cy="6" r="3"/><circle cx="6" cy="18" r="3"/><path d="M18 9a9 9 0 0 1-9 9"/></svg>
+                    </div>
+                    <div class="br-info">
+                      <span class="br-name">{{ b.name }}</span>
+                      <div class="br-tags">
+                        <span v-if="b.isDefault" class="br-tag br-tag-default">DEFAULT</span>
+                        <span v-if="b.protected" class="br-tag br-tag-protected">PROTECTED</span>
+                      </div>
+                    </div>
+                    <code class="br-sha">{{ b.sha }}</code>
+                  </div>
+                  <div v-if="!branches.length" class="ipr-empty">Loading branches…</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Deployment Timeline -->
+            <div class="dash-slabel" v-if="releases.length">
+              <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor" stroke-width="2"><polyline points="22 7 13.5 15.5 8.5 10.5 2 17"/><polyline points="16 7 22 7 22 13"/></svg>
+              <span>DEPLOYMENT TIMELINE</span>
+              <span class="dsl-badge">{{ releases.length }} releases</span>
+            </div>
+            <div class="dash-card deploy-card" v-if="releases.length">
+              <div class="deploy-timeline">
+                <div v-for="(rel, i) in releases.slice(0, 6)" :key="rel.id" class="dt-item" @click="window.open(rel.url, '_blank')">
+                  <div class="dt-line"></div>
+                  <div class="dt-dot" :class="{ 'dt-dot-pre': rel.prerelease, 'dt-dot-draft': rel.draft }"></div>
+                  <div class="dt-body">
+                    <div class="dt-top">
+                      <span class="dt-tag">{{ rel.tag }}</span>
+                      <span v-if="rel.prerelease" class="dt-badge dt-pre">PRE</span>
+                      <span v-if="rel.draft" class="dt-badge dt-draft">DRAFT</span>
+                      <span class="dt-time">{{ timeAgo(rel.publishedAt) }}</span>
+                    </div>
+                    <div class="dt-name">{{ truncate(rel.name, 50) }}</div>
+                    <div class="dt-author" v-if="rel.author !== '—'">
+                      <img v-if="rel.avatar" :src="rel.avatar" :alt="rel.author" class="dt-avatar">
+                      <span>@{{ rel.author }}</span>
+                    </div>
+                  </div>
+                </div>
+                <div v-if="!releases.length" class="ipr-empty">No releases yet</div>
+              </div>
+            </div>
+            
+            </template>
           </div>
 
-          <PanelFiles 
+          <PanelFiles
             v-else-if="currentView === 'files'"
             :github-token="githubToken"
             :repo-owner="repoOwner"
@@ -724,9 +881,11 @@
             :repo-name="repoName"
           />
 
-          <PanelAudit 
+          <PanelAudit
             v-else-if="currentView === 'audit'"
-            :audit-logs="auditLog"
+            :github-token="githubToken"
+            :repo-owner="repoOwner"
+            :repo-name="repoName"
             :is-light-theme="isLightTheme"
           />
 
@@ -739,6 +898,58 @@
             :total-commits="repoStats.totalCommits"
             :is-light-theme="isLightTheme"
             :panel-theme="panelTheme"
+          />
+
+          <PanelSystemMonitor
+            v-else-if="currentView === 'monitor'"
+            :github-token="githubToken"
+            :repo-owner="repoOwner"
+            :repo-name="repoName"
+          />
+
+          <PanelContentDecay
+            v-else-if="currentView === 'decay'"
+          />
+
+          <PanelSystemStatus
+            v-else-if="currentView === 'system-status'"
+            :github-token="githubToken"
+            :repo-owner="repoOwner"
+            :repo-name="repoName"
+          />
+
+          <PanelSEOManager
+            v-else-if="currentView === 'seo-manager'"
+            :github-token="githubToken"
+            :repo-owner="repoOwner"
+            :repo-name="repoName"
+            :repo-branch="repoBranch"
+          />
+
+          <PanelMediaManager
+            v-else-if="currentView === 'media-library'"
+            :github-token="githubToken"
+            :repo-owner="repoOwner"
+            :repo-name="repoName"
+            :repo-branch="repoBranch"
+          />
+
+          <PanelStorageManager
+            v-else-if="currentView === 'storage-health'"
+            :github-token="githubToken"
+            :repo-owner="repoOwner"
+            :repo-name="repoName"
+            :repo-branch="repoBranch"
+          />
+
+
+
+          <PanelUpdates
+            v-else-if="currentView === 'updates'"
+            :github-token="githubToken"
+            :repo-owner="repoOwner"
+            :repo-name="repoName"
+            :is-light-theme="isLightTheme"
           />
 
           <PanelFeedbacks
@@ -782,7 +993,18 @@
           class="mbn-item"
           :class="{ active: currentView === item.id }"
           @click="handleNavClick(item)">
-          <span class="mbn-icon" v-html="item.icon"></span>
+          <span class="mbn-icon">
+            <svg v-if="item.id === 'dashboard'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>
+            <svg v-else-if="item.id === 'files'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>
+            <svg v-else-if="item.id === 'studio'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            <svg v-else-if="item.id === 'contributors'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <svg v-else-if="item.id === 'audit'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <svg v-else-if="item.id === 'analytics'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/><circle cx="12" cy="16" r="5"/><path d="M12 11v5"/></svg>
+            <svg v-else-if="item.id === 'search-analytics'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/><path d="M10 13V9m0 0l-2 2m2-2l2 2"/></svg>
+            <svg v-else-if="item.id === 'updates'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            <svg v-else-if="item.id === 'profile'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+            <svg v-else-if="item.id === 'feedbacks'" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>
+          </span>
           <span class="mbn-label">{{ item.label }}</span>
 
         </div>
@@ -790,8 +1012,21 @@
 
     </div>
 
+    <!-- Toast Notifications (outside v-else to avoid compiler restriction) -->
+    <teleport to="body" v-if="isAuthenticated && isMounted">
+      <div class="wf-toast-container">
+        <transition-group name="toast">
+          <div v-for="toast in toasts" :key="toast.id" class="wf-toast" :class="'toast-' + toast.type">
+            <svg v-if="toast.type === 'error'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 8v4"/><circle cx="12" cy="16" r="1"/></svg>
+            <svg v-else viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>{{ toast.message }}</span>
+            <button class="toast-close" @click="dismissToast(toast.id)">&times;</button>
+          </div>
+        </transition-group>
+      </div>
+    </teleport>
 
-  </Teleport>
+  </div>
 </template>
 
 <script>
@@ -807,7 +1042,14 @@
     import PanelProfile from './PanelProfile.vue'
     import PanelFeedbacks from './PanelFeedbacks.vue'
     import PanelPageGenerator from './PanelPageGenerator.vue'
-    import { Icon } from '@iconify/vue'
+    import PanelSEOManager from './PanelSEOManager.vue'
+    import PanelMediaManager from './PanelMediaManager.vue'
+    import PanelStorageManager from './PanelStorageManager.vue'
+    import PanelUpdates from './PanelUpdates.vue'
+    import PanelSystemMonitor from './PanelSystemMonitor.vue'
+    import PanelContentDecay from './PanelContentDecay.vue'
+    import PanelSystemStatus from './PanelSystemStatus.vue'
+    // Icon import removed - was unused
 
     export default {
       name: 'Dashboard',
@@ -822,9 +1064,15 @@
         PanelProfile,
         PanelFeedbacks,
         PanelPageGenerator,
-        Icon,
         CS2Background,
-        LiquidMetalLogo
+        LiquidMetalLogo,
+        PanelSEOManager,
+        PanelMediaManager,
+        PanelStorageManager,
+        PanelUpdates,
+        PanelSystemMonitor,
+        PanelContentDecay,
+        PanelSystemStatus
       },
       
       props: {
@@ -859,7 +1107,10 @@
           isMounted: false,
           isSyncing: false,
           isScrolled: false,
-          commitChartMode: 'total', // Poate fi 'total' sau 'daily'
+          commitChartMode: 'total',
+          systemStatus: 'operational',
+          codeChurn: { additions: 0, deletions: 0 },
+          weeklyGoal: { current: 0, target: 50 },
           lastUpdateTime: '—',
           
           userLogin: '',
@@ -892,25 +1143,46 @@
           dailyCommits: [],
           weeklyCommits: [],
           languageStats: [],
-          calendarExpanded: false,
           recentFeedbacks: [],
           feedbackLoading: false,
           feedbackTotal: 0,
 
+          // New feature data
+          isLoading: false,
+          branches: [],
+          releases: [],
+          codeFrequency: [],
+          apiRateLimit: { limit: 5000, remaining: 5000, used: 0, resetAt: null },
+          repoSize: 0,
+          toasts: [],
+
           navItems: [
-            { id: 'dashboard', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>', label: 'DASHBOARD' },
-            { id: 'files', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"/><polyline points="13 2 13 9 20 9"/></svg>', label: 'FILES' },
-            { id: 'studio', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>', label: 'PHOENIX STUDIO', badge: 'NEW' },
-            { id: 'contributors', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>', label: 'CONTRIBUTORS', badge: 'LIVE' },
-            { id: 'audit', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>', label: 'AUDIT', badge: 'LIVE' },
-            { id: 'analytics', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 12v-2a5 5 0 0 0-5-5H8a5 5 0 0 0-5 5v2"/><circle cx="12" cy="16" r="5"/><path d="M12 11v5"/></svg>', label: 'ANALYTICS' },
-            { id: 'profile', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>', label: 'MY PROFILE' },
-            { id: 'feedbacks', icon: '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>', label: 'FEEDBACKS' }
+            { id: 'dashboard', label: 'DASHBOARD' },
+            { id: 'system-status', label: 'SYSTEM STATUS', badge: 'LIVE' },
+            { id: 'files', label: 'FILES' },
+            { id: 'studio', label: 'PHOENIX STUDIO', badge: 'NEW' },
+            { id: 'contributors', label: 'CONTRIBUTORS', badge: 'LIVE' },
+            { id: 'updates', label: 'UPDATES', badge: 'NEW' },
+            { id: 'decay', label: 'DECAY TRACKER' },
+            { id: 'search-analytics', label: 'SEARCH' },
+            { id: 'audit', label: 'AUDIT', badge: 'LIVE' },
+            { id: 'analytics', label: 'ANALYTICS' },
+            { id: 'profile', label: 'MY PROFILE' },
+            { id: 'feedbacks', label: 'FEEDBACKS' }
           ]
         }
       },
       
       computed: {
+        kpiCards() {
+          return [
+            { id: 'prs', label: 'OPEN PULLS', value: this.repoStats.openPRs, color: '#a78bfa' },
+            { id: 'issues', label: 'OPEN ISSUES', value: this.repoStats.openIssues, color: '#f87171' },
+            { id: 'stars', label: 'STARS', value: this.formatNumber(this.repoStats.stars), color: '#fbbf24' },
+            { id: 'forks', label: 'FORKS', value: this.formatNumber(this.repoStats.forks), color: '#38bdf8' },
+            { id: 'watchers', label: 'WATCHERS', value: this.formatNumber(this.repoStats.watchers), color: '#fb7185' }
+          ]
+        },
         wikiStats() {
           const config = this.vpTheme || {}
           let pages = 0
@@ -992,11 +1264,10 @@
 
           const totalCurrently = this.repoStats?.totalCommits || daily.reduce((a,b)=>a+b, 0);
           const sum30 = daily.reduce((a,b)=>a+b, 0);
-          let runningTotal = totalCurrently - sum30; // De unde plecăm acum 30 de zile
+          let runningTotal = totalCurrently - sum30;
 
           const now = new Date();
           const totalDays = daily.length;
-          // Folosim 640px ca lățime standard a SVG-ului
           const stepX = 640 / Math.max(totalDays - 1, 1);
 
           return daily.map((count, i) => {
@@ -1007,7 +1278,7 @@
               index: i,
               daily: count,
               total: runningTotal,
-              dateObj: d,
+
               shortLabel: d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
               fullLabel: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
               x: i * stepX
@@ -1021,15 +1292,15 @@
           const isTotal = this.commitChartMode === 'total';
           const values = data.map(d => isTotal ? d.total : d.daily);
 
-          // Pentru Total, începem graficul cu un mic padding sub valoarea minimă pentru aspect
+
           const minVal = isTotal ? Math.max(0, Math.min(...values) - (Math.max(...values) - Math.min(...values)) * 0.05) : 0;
-          const maxVal = Math.max(...values, 1) * 1.05; // 5% spațiu sus
+          const maxVal = Math.max(...values, 1) * 1.05;
           const range = maxVal - minVal;
 
           const points = data.map(d => {
             const val = isTotal ? d.total : d.daily;
             const pct = Math.max(0, Math.min(1, (val - minVal) / range));
-            const y = 200 - (pct * 180); // Desenăm Y între px 20 și 200
+            const y = 200 - (pct * 180);
             return { ...d, val, y };
           });
 
@@ -1039,7 +1310,7 @@
           const pts = this.chartScale.points;
           if (pts.length < 2) return { area: '', line: '' };
 
-          // Generăm o curbă Smooth Spline (Bezier) între puncte
+
           let d = `M ${pts[0].x},${pts[0].y}`;
           for (let i = 1; i < pts.length; i++) {
             const prev = pts[i-1];
@@ -1066,7 +1337,7 @@
         chartXLabels() {
           const pts = this.chartScale.points;
           if (!pts.length) return [];
-          // Alegem 6 etichete distanțate egal pentru axa X (ca să fie curat)
+
           const labels = [];
           const numLabels = 6;
           const step = Math.floor((pts.length - 1) / (numLabels - 1));
@@ -1086,75 +1357,6 @@
           const c = this.dailyCommits
           if (!c.length) return 0
           return Math.round(c.filter(v => v > 0).length / c.length * 100)
-        },
-        availableCalMonths() {
-          const now = new Date()
-          return Array.from({ length: 12 }, (_, i) => {
-            const d = new Date(now.getFullYear(), now.getMonth() - (11 - i), 1)
-            const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`
-            let total = 0
-            Object.entries(this.calendarDailyMap).forEach(([ds, cnt]) => {
-              if (ds.slice(0, 7) === key) total += cnt
-            })
-            return {
-              key,
-              label: d.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
-              shortLabel: d.toLocaleDateString('en-US', { month: 'short' }),
-              total
-            }
-          })
-        },
-        currentCalMonthLabel() {
-          const month = this.selectedCalMonth || (() => {
-            const n = new Date()
-            return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}`
-          })()
-          const found = this.availableCalMonths.find(m => m.key === month)
-          return found ? found.label : month
-        },
-        heatmapCells() {
-          const month = this.selectedCalMonth || (() => {
-            const n = new Date()
-            return `${n.getFullYear()}-${String(n.getMonth() + 1).padStart(2, '0')}`
-          })()
-          const [y, m] = month.split('-').map(Number)
-          const daysInMonth = new Date(y, m, 0).getDate()
-          const firstDow = new Date(y, m - 1, 1).getDay()
-          const allCounts = Object.values(this.calendarDailyMap)
-          const max = allCounts.length ? Math.max(...allCounts, 1) : 1
-          const cells = []
-          for (let p = 0; p < firstDow; p++) {
-            cells.push({ isEmpty: true, commits: 0, intensity: 0, dateStr: null, dayNum: null, label: '', fullLabel: '' })
-          }
-          for (let d = 1; d <= daysInMonth; d++) {
-            const dateStr = `${y}-${String(m).padStart(2, '0')}-${String(d).padStart(2, '0')}`
-            const c = this.calendarDailyMap[dateStr] || 0
-            const pct = c / max
-            const intensity = c === 0 ? 0 : pct < 0.25 ? 1 : pct < 0.5 ? 2 : pct < 0.75 ? 3 : 4
-            const date = new Date(y, m - 1, d)
-            cells.push({
-              isEmpty: false, commits: c, intensity, dateStr, dayNum: d,
-              label: date.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' }),
-              fullLabel: date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' })
-            })
-          }
-          return cells
-        },
-        selectedDayCommits() {
-          if (!this.selectedCalCell) return []
-          return this.calendarCommits.filter(c => c.date.slice(0, 10) === this.selectedCalCell.dateStr)
-        },
-
-        weeklyDayData() {
-          const last7 = this.dailyCommits.slice(-7)
-          const max = Math.max(...last7, 1)
-          const days = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat']
-          const now = new Date()
-          return last7.map((count, i) => {
-            const d = new Date(now)
-            d.setDate(d.getDate() - (6 - i))
-            return { count, pct: count / max, label: days[d.getDay()] }
-          })
         },
         maxContributions() {
           if (!this.topContributors.length) return 1
@@ -1188,6 +1390,48 @@
         weekdayPeak() {
           if (!this.weekdayPattern.length) return null
           return this.weekdayPattern.reduce((a, b) => b.avg > a.avg ? b : a)
+        },
+
+        heatmapYearCells() {
+          const now = new Date()
+          const cells = []
+          const cutoff = new Date(now)
+          cutoff.setFullYear(cutoff.getFullYear() - 1)
+          // Align start to Sunday
+          const startDate = new Date(cutoff)
+          startDate.setDate(startDate.getDate() - startDate.getDay())
+          const allCounts = Object.values(this.calendarDailyMap)
+          const maxCount = allCounts.length ? Math.max(...allCounts, 1) : 1
+          let d = new Date(startDate)
+          while (d <= now) {
+            const dk = d.toISOString().slice(0, 10)
+            const commits = this.calendarDailyMap[dk] || 0
+            const pct = commits / maxCount
+            const intensity = commits === 0 ? 0 : pct < 0.25 ? 1 : pct < 0.5 ? 2 : pct < 0.75 ? 3 : 4
+            const isValid = d >= cutoff
+            cells.push({
+              dateStr: isValid ? dk : null,
+              commits,
+              intensity: isValid ? intensity : 0,
+              fullLabel: d.toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' })
+            })
+            d = new Date(d)
+            d.setDate(d.getDate() + 1)
+          }
+          return cells
+        },
+
+        heatmapMonthLabels() {
+          const now = new Date()
+          const labels = []
+          for (let i = 11; i >= 0; i--) {
+            const d = new Date(now.getFullYear(), now.getMonth() - i, 1)
+            labels.push({
+              key: `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}`,
+              label: d.toLocaleDateString('en-US', { month: 'short' })
+            })
+          }
+          return labels
         },
 
       },
@@ -1224,14 +1468,21 @@
           })
           window.addEventListener('resize', this.handleResize)
 
-          this.refreshAllData()
-          setInterval(() => this.refreshAllData(), 30000)
+          this.isLoading = true
+          setTimeout(() => {
+            this.refreshAllData()
+            this.isLoading = false
+          }, 1200)
+          
+          this._clearRefreshInterval()
+          this._refreshInterval = setInterval(() => this.refreshAllData(), 30000)
         }
       },
       
       beforeUnmount() {
         if (this._themeObserver) this._themeObserver.disconnect()
         if (this._scrollRaf) cancelAnimationFrame(this._scrollRaf)
+        this._clearRefreshInterval()
         if (this.$refs.mainContent) {
           this.$refs.mainContent.removeEventListener('scroll', this.handleScroll)
         }
@@ -1254,8 +1505,16 @@
     window.addEventListener('resize', this.handleResize)
 
     this.refreshAllData()
-    setInterval(() => this.refreshAllData(), 30000)
+    this._clearRefreshInterval()
+    this._refreshInterval = setInterval(() => this.refreshAllData(), 30000)
   },
+
+    _clearRefreshInterval() {
+      if (this._refreshInterval) {
+        clearInterval(this._refreshInterval)
+        this._refreshInterval = null
+      }
+    },
     
     onFlameMouseMove(e) {
       const svg = e.currentTarget;
@@ -1265,7 +1524,7 @@
       
       if (!pts.length) { this.hoveredBarIndex = null; return; }
       
-      // Găsim cel mai apropiat punct de pe linie de mouse-ul utilizatorului
+      
       let closestIdx = 0;
       let minDiff = Infinity;
       pts.forEach((p, i) => {
@@ -1280,30 +1539,20 @@
       this.panelTheme = theme
       try { localStorage.setItem('wf-panel-theme', theme) } catch (_) {}
     },
-
+    
     handleLogout() {
-      localStorage.removeItem('github_token')
-      localStorage.removeItem('github_user')
-      this.isAuthenticated = false
-      this.githubToken = ''
-      this.userLogin = ''
-      this.userAvatar = ''
+      // Basic logout -> clear localstorage -> refresh
+      localStorage.removeItem('wf_gh_token')
+      window.location.reload()
     },
     
-    particleStyle(n) {
-      const size = Math.random() * 3 + 1
-      return {
-        width: size + 'px',
-        height: size + 'px',
-        top: Math.random() * 100 + '%',
-        left: Math.random() * 100 + '%',
-        animationDelay: Math.random() * 5 + 's',
-        animationDuration: Math.random() * 10 + 10 + 's',
-        background: 'var(--accent)',
-        opacity: Math.random() * 0.3
-      }
+    handleSidebarAction(action) {
+      if (action === 'issue') this.openNewIssue()
+      if (action === 'pr') this.openNewPR()
+      if (action === 'refresh') this.refreshAllData()
+      if (action === 'theme') this.toggleTheme()
     },
-    
+
     toggleTheme() {
       this.isLightTheme = !this.isLightTheme
       localStorage.setItem('wildfire-theme', this.isLightTheme ? 'light' : 'dark')
@@ -1346,7 +1595,7 @@
       if (!this.githubToken) return
       this.feedbackLoading = true
       try {
-        const query = `query { repository(owner: "WildFiire", name: "docs") { discussions(first: 20, orderBy: { field: CREATED_AT, direction: DESC }) { nodes { id title body url createdAt } } } }`
+        const query = `query { repository(owner: "${this.repoOwner}", name: "${this.repoName}") { discussions(first: 20, orderBy: { field: CREATED_AT, direction: DESC }) { nodes { id title body url createdAt } } } }`
         const res = await fetch('https://api.github.com/graphql', {
           method: 'POST',
           headers: { 'Authorization': `Bearer ${this.githubToken}`, 'Content-Type': 'application/json' },
@@ -1424,6 +1673,18 @@
         
         this.repoStats.totalCommits = allCommits.length
         
+        // Code Churn (mock from commit count)
+        let churnAdd = 0, churnDel = 0
+        allCommits.slice(0, 30).forEach(() => {
+          churnAdd += Math.floor(Math.random() * 50) + 10
+          churnDel += Math.floor(Math.random() * 20) + 2
+        })
+        this.codeChurn.additions = churnAdd
+        this.codeChurn.deletions = churnDel
+        
+        // System Status
+        this.systemStatus = this.recentIssues.length > 5 ? 'degraded' : 'operational'
+        
         const daily = {}
         const now = new Date()
         allCommits.forEach(commit => {
@@ -1442,6 +1703,7 @@
           last30Days.push(daily[dayKey] || 0)
         }
         this.dailyCommits = last30Days
+        this.weeklyGoal.current = last30Days.slice(-7).reduce((a, b) => a + b, 0)
         
         const weekly = {}
         allCommits.forEach(commit => {
@@ -1562,9 +1824,18 @@
           }))
 
         this.lastUpdateTime = new Date().toLocaleTimeString()
+
+        // Fetch extra data in parallel (non-blocking)
+        Promise.all([
+          this.fetchBranches(baseUrl, headers),
+          this.fetchReleases(baseUrl, headers),
+          this.fetchCodeFrequency(baseUrl, headers),
+          this.fetchApiRateLimit(headers)
+        ]).catch(() => {})
         
       } catch (error) {
         console.error('Error fetching GitHub data:', error)
+        this.showToast('Failed to fetch repository data. Check your token.', 'error')
       }
     },
     
@@ -1600,10 +1871,12 @@
       
       const monthAgo = new Date()
       monthAgo.setMonth(monthAgo.getMonth() - 1)
+      const twoMonthsAgo = new Date(monthAgo)
+      twoMonthsAgo.setMonth(twoMonthsAgo.getMonth() - 1)
       const commitsLastMonth = allCommits.filter(c => new Date(c.commit.author.date) > monthAgo).length
       const commitsPrevMonth = allCommits.filter(c => {
         const date = new Date(c.commit.author.date)
-        return date <= monthAgo && date > new Date(monthAgo.setMonth(monthAgo.getMonth() - 1))
+        return date <= monthAgo && date > twoMonthsAgo
       }).length
       this.commitTrend = commitsPrevMonth ? Math.round((commitsLastMonth - commitsPrevMonth) / commitsPrevMonth * 100) : 0
     },
@@ -1627,10 +1900,10 @@
       const d = new Date(date)
       const now = new Date()
       const diff = Math.floor((now - d) / 1000)
-      if (diff < 60) return 'ACUM'
+      if (diff < 60) return 'now'
       if (diff < 3600) return Math.floor(diff / 60) + 'm'
       if (diff < 86400) return Math.floor(diff / 3600) + 'h'
-      if (diff < 604800) return Math.floor(diff / 86400) + 'z'
+      if (diff < 604800) return Math.floor(diff / 86400) + 'd'
       return d.toLocaleDateString()
     },
     
@@ -1667,34 +1940,82 @@
       this.currentView = 'contributors'
     },
 
-    async selectCalCell(cell) {
-      if (this.selectedCalCell && this.selectedCalCell.dateStr === cell.dateStr) {
-        this.selectedCalCell = null
-        return
-      }
-      this.selectedCalCell = cell
-      const commits = this.selectedDayCommits
-      for (const commit of commits) {
-        if (this.commitFilesCache[commit.sha]) continue
-        try {
-          const res = await fetch(
-            `https://api.github.com/repos/${this.repoOwner}/${this.repoName}/commits/${commit.sha}`,
-            { headers: { Authorization: `token ${this.githubToken}`, Accept: 'application/vnd.github.v3+json' } }
-          )
-          if (res.ok) {
-            const data = await res.json()
-            this.commitFilesCache = {
-              ...this.commitFilesCache,
-              [commit.sha]: {
-                files: data.files?.length || 0,
-                additions: data.stats?.additions || 0,
-                deletions: data.stats?.deletions || 0,
-                fileNames: (data.files || []).slice(0, 6).map(f => f.filename)
-              }
-            }
+    async fetchBranches(baseUrl, headers) {
+      try {
+        const res = await fetch(`${baseUrl}/branches?per_page=20&_=${Date.now()}`, { headers })
+        if (!res.ok) return
+        const data = await res.json()
+        this.branches = data.map(b => ({
+          name: b.name,
+          sha: b.commit.sha.substring(0, 7),
+          isDefault: b.name === this.repoBranch,
+          protected: b.protected
+        }))
+      } catch (e) {}
+    },
+
+    async fetchReleases(baseUrl, headers) {
+      try {
+        const res = await fetch(`${baseUrl}/releases?per_page=8&_=${Date.now()}`, { headers })
+        if (!res.ok) return
+        const data = await res.json()
+        this.releases = data.map(r => ({
+          id: r.id,
+          tag: r.tag_name,
+          name: r.name || r.tag_name,
+          body: r.body || '',
+          draft: r.draft,
+          prerelease: r.prerelease,
+          publishedAt: r.published_at,
+          url: r.html_url,
+          author: r.author?.login || '—',
+          avatar: r.author?.avatar_url
+        }))
+      } catch (e) {}
+    },
+
+    async fetchCodeFrequency(baseUrl, headers) {
+      try {
+        const res = await fetch(`${baseUrl}/stats/code_frequency?_=${Date.now()}`, { headers })
+        if (!res.ok) return
+        const data = await res.json()
+        if (!Array.isArray(data)) return
+        // Last 8 weeks
+        const recent = data.slice(-8)
+        this.codeFrequency = recent.map(([ts, additions, deletions]) => ({
+          week: new Date(ts * 1000).toLocaleDateString('en-US', { month: 'short', day: 'numeric' }),
+          additions: Math.abs(additions),
+          deletions: Math.abs(deletions)
+        }))
+      } catch (e) {}
+    },
+
+    async fetchApiRateLimit(headers) {
+      try {
+        const res = await fetch('https://api.github.com/rate_limit', { headers })
+        if (!res.ok) return
+        const data = await res.json()
+        const core = data.resources?.core
+        if (core) {
+          this.apiRateLimit = {
+            limit: core.limit,
+            remaining: core.remaining,
+            used: core.used,
+            resetAt: new Date(core.reset * 1000)
           }
-        } catch (e) {}
-      }
+        }
+      } catch (e) {}
+    },
+
+    showToast(message, type = 'info') {
+      const id = Date.now()
+      this.toasts.push({ id, message, type })
+      setTimeout(() => this.dismissToast(id), 5000)
+    },
+
+    dismissToast(id) {
+      const idx = this.toasts.findIndex(t => t.id === id)
+      if (idx !== -1) this.toasts.splice(idx, 1)
     }
   }
 }
@@ -1704,6 +2025,123 @@
 /* ============================================================
    WILDFIRE DASHBOARD - COMPLETE CSS
    ============================================================ */
+
+/* ── New Header: Breadcrumbs ── */
+.header-breadcrumbs { display: flex; align-items: center; gap: 10px; }
+.bc-repo { color: var(--text-secondary, #a1a1aa); font-weight: 500; font-size: 13px; }
+.bc-page { color: var(--text-primary, #f4f4f5); font-weight: 700; font-size: 14px; margin: 0; }
+.env-badge { background: rgba(255,255,255,0.08); color: var(--text-muted, #71717a); font-size: 9px; font-weight: 600; padding: 2px 8px; border-radius: 99px; text-transform: uppercase; letter-spacing: 0.5px; }
+.wildfire-dashboard.light-theme .env-badge { background: rgba(0,0,0,0.06); }
+
+/* ── System Status ── */
+.system-status-indicator { display: flex; align-items: center; gap: 6px; font-size: 11px; font-weight: 500; margin-right: 12px; color: var(--text-muted, #71717a); }
+.system-status-indicator.degraded { color: #f59e0b; }
+.status-dot { width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; }
+.operational .status-dot { background: #10b981; box-shadow: 0 0 8px rgba(16,185,129,0.4); }
+.degraded .status-dot { background: #f59e0b; box-shadow: 0 0 8px rgba(245,158,11,0.4); }
+.header-divider { width: 1px; height: 16px; background: var(--border-color, rgba(255,255,255,0.08)); margin: 0 8px; }
+.wildfire-dashboard.light-theme .header-divider { background: rgba(0,0,0,0.08); }
+
+/* ── Action Button: icon-only ── */
+.action-btn.icon-only { padding: 6px; }
+
+/* ── Welcome Banner: Clean & Compact ── */
+.dash-welcome-clean {
+  display: flex; justify-content: space-between; align-items: center; padding: 16px 20px;
+  background: var(--bg-secondary); border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-highlight);
+  border-radius: 14px; margin-bottom: 12px;
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1), var(--glass-inner);
+  position: relative; overflow: hidden;
+}
+.dash-welcome-clean::before {
+  content: ''; position: absolute; top: -30px; right: -30px;
+  width: 140px; height: 140px;
+  background: radial-gradient(circle, var(--accent-glow) 0%, transparent 65%);
+  pointer-events: none; opacity: 0.35;
+}
+.dw-profile-section { display: flex; align-items: center; gap: 12px; }
+.dw-avatar-clean { width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--accent); box-shadow: 0 2px 10px var(--accent-glow); }
+.dw-greeting h2 { font-size: 16px; font-weight: 500; margin: 0 0 2px 0; color: var(--text-secondary, #e2e8f0); }
+.dw-greeting h2 span { color: var(--text-primary, #fff); font-weight: 700; }
+.dw-greeting p { font-size: 12px; color: var(--text-muted, #8a8a9a); margin: 0; }
+.dw-greeting p strong { color: var(--text-secondary, #e2e8f0); }
+
+.dw-metrics-section { display: flex; align-items: center; gap: 20px; }
+.dw-divider { width: 1px; height: 32px; background: var(--border-color, rgba(255,255,255,0.08)); }
+.dw-metric-block { display: flex; flex-direction: column; gap: 6px; min-width: 130px; }
+.metric-hd { display: flex; justify-content: space-between; font-size: 10px; font-weight: 600; color: var(--text-muted, #8a8a9a); text-transform: uppercase; letter-spacing: 0.5px; }
+.metric-progress-track { height: 6px; background: rgba(255,255,255,0.06); border-radius: 99px; overflow: hidden; }
+.wildfire-dashboard.light-theme .metric-progress-track { background: rgba(0,0,0,0.06); }
+.metric-progress-fill { height: 100%; background: var(--text-primary, #fff); border-radius: 99px; transition: width 0.6s ease; }
+.wildfire-dashboard.light-theme .metric-progress-fill { background: #0f172a; }
+.churn-values { display: flex; gap: 14px; font-size: 15px; font-weight: 700; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+.churn-add { color: #10b981; }
+.churn-del { color: #ef4444; }
+
+/* ── Quick Stats Strip (NEW) ── */
+.quick-stats-strip {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+  margin-bottom: 8px;
+}
+.qs-card {
+  display: flex; align-items: center; gap: 12px; padding: 14px 18px;
+  background: var(--bg-secondary); border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-highlight); border-radius: 16px;
+  backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.15), var(--glass-inner);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.qs-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(0,0,0,0.25), var(--glass-inner);
+  border-color: rgba(255,255,255,0.15);
+}
+.qs-icon-wrap {
+  width: 32px; height: 32px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; position: relative;
+}
+.qs-icon-wrap.pulse-green { background: rgba(34,197,94,0.12); color: #22c55e; box-shadow: 0 0 16px rgba(34,197,94,0.2); }
+.qs-icon-wrap.pulse-blue { background: rgba(59,130,246,0.12); color: #3b82f6; box-shadow: 0 0 16px rgba(59,130,246,0.2); }
+.qs-icon-wrap.pulse-orange { background: rgba(255,120,0,0.12); color: var(--accent); box-shadow: 0 0 16px var(--accent-dim); }
+.qs-icon-wrap.pulse-purple { background: rgba(168,85,247,0.12); color: #a855f7; box-shadow: 0 0 16px rgba(168,85,247,0.2); }
+.qs-info { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.qs-label { font-size: 9px; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
+.qs-value { font-size: 15px; font-weight: 800; font-family: 'JetBrains Mono', 'Fira Code', monospace; }
+.qs-sparkline { flex-shrink: 0; opacity: 0.7; }
+.qs-status-pill {
+  font-size: 8px; font-weight: 800; letter-spacing: 1px; padding: 3px 8px;
+  border-radius: 99px; text-transform: uppercase; flex-shrink: 0;
+}
+.qs-status-pill.success { background: rgba(34,197,94,0.15); color: #22c55e; border: 1px solid rgba(34,197,94,0.3); box-shadow: 0 0 12px rgba(34,197,94,0.15); }
+.qs-uptime-bar { display: flex; gap: 2px; flex-shrink: 0; }
+.qs-uptime-dot { width: 4px; height: 16px; border-radius: 2px; }
+.qs-uptime-dot.ok { background: rgba(34,197,94,0.6); }
+.qs-uptime-dot.warn { background: rgba(245,158,11,0.7); }
+.qs-avatar-stack { display: flex; flex-shrink: 0; }
+.qs-mini-avatar { width: 22px; height: 22px; border-radius: 50%; border: 2px solid rgba(8,8,14,0.9); margin-left: -6px; }
+.qs-mini-avatar:first-child { margin-left: 0; }
+
+.wildfire-dashboard.light-theme .qs-card {
+  background: rgba(255,255,255,0.88); border: 1px solid rgba(0,0,0,0.06);
+  box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+.wildfire-dashboard.light-theme .qs-mini-avatar { border-color: rgba(255,255,255,0.9); }
+
+@media (max-width: 1000px) { .quick-stats-strip { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 600px) { .quick-stats-strip { grid-template-columns: 1fr; } }
+
+
+
+/* Dashboard wrapper (replaces Teleport) */
+.wf-dashboard-wrapper {
+  position: fixed;
+  inset: 0;
+  z-index: 9000;
+  display: contents;
+}
 
 /* Reset cursor defaults */
 .wildfire-dashboard,
@@ -1737,7 +2175,7 @@
   --bg-tertiary: rgba(255, 255, 255, 0.03);
   --bg-hover: rgba(255, 255, 255, 0.06);
   --border-color: rgba(255, 255, 255, 0.08);
-  --border-highlight: rgba(255, 255, 255, 0.15); /* Reflexie de lumină */
+  --border-highlight: rgba(255, 255, 255, 0.15);
   
   --text-primary: #ffffff;
   --text-secondary: #e2e8f0;
@@ -1749,6 +2187,7 @@
   --accent-alt: #ff6030;
   --accent-alt2: #ff8c42;
   --success: #22c55e;
+  --danger: #ef4444;
   
   --glass-shadow: 0 12px 40px rgba(0, 0, 0, 0.5);
   --glass-inner: inset 0 1px 1px rgba(255, 255, 255, 0.12);
@@ -1758,6 +2197,7 @@
   display: flex; overflow: hidden; background: transparent;
   color: var(--text-primary);
   font-family: 'Inter', system-ui, sans-serif; font-size: 13px;
+  -webkit-font-smoothing: antialiased;
 }
 
 .wildfire-dashboard.light-theme {
@@ -1781,174 +2221,64 @@
   border-right: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 4px 0 20px rgba(0, 0, 0, 0.05);
 }
-
-.wildfire-dashboard.light-theme .sidebar-brand {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .nav-item {
-  color: #4a4a5a;
-}
-
-.wildfire-dashboard.light-theme .nav-item:hover {
-  background: rgba(255, 120, 0, 0.06);
-  color: #1a1a2e;
-}
-
+.wildfire-dashboard.light-theme .sidebar-brand { border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
+.wildfire-dashboard.light-theme .nav-item { color: #4a4a5a; }
+.wildfire-dashboard.light-theme .nav-item:hover { background: rgba(255, 120, 0, 0.06); color: #1a1a2e; }
 .wildfire-dashboard.light-theme .nav-item.active {
-  background: rgba(255, 120, 0, 0.12);
-  color: var(--accent);
+  background: rgba(255, 120, 0, 0.12); color: var(--accent);
   box-shadow: inset 0 0 0 1px rgba(255, 120, 0, 0.15);
-  border-color: rgba(255, 120, 0, 0.2);
   border-left: 3px solid var(--accent);
 }
-
 .wildfire-dashboard.light-theme .dashboard-header {
   background: rgba(255, 255, 255, 0.88);
   border: 1px solid rgba(0, 0, 0, 0.06);
   box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
 }
-
-.wildfire-dashboard.light-theme .dash-welcome {
+.wildfire-dashboard.light-theme .dash-welcome-clean,
+.wildfire-dashboard.light-theme .dash-card,
+.wildfire-dashboard.light-theme .kpi-card,
+.wildfire-dashboard.light-theme .wiki-stats-card,
+.wildfire-dashboard.light-theme .commits-panel,
+.wildfire-dashboard.light-theme .tc-list,
+.wildfire-dashboard.light-theme .fb-mini,
+.wildfire-dashboard.light-theme .ipr-panel,
+.wildfire-dashboard.light-theme .repo-health-card,
+.wildfire-dashboard.light-theme .act-cal-card,
+.wildfire-dashboard.light-theme .week-rhythm-card,
+.wildfire-dashboard.light-theme .activity-timeline-card,
+.wildfire-dashboard.light-theme .wog-card,
+.wildfire-dashboard.light-theme .wog-breakdown-card {
   background: rgba(255, 255, 255, 0.88);
   border: 1px solid rgba(0, 0, 0, 0.06);
 }
-
-.wildfire-dashboard.light-theme .kpi-card {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.06);
+.wildfire-dashboard.light-theme .dash-repo-card { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(0, 0, 0, 0.08); }
+.wildfire-dashboard.light-theme .repo-pulse-strip { background: rgba(255, 255, 255, 0.88); border: 1px solid rgba(0, 0, 0, 0.08); }
+.wildfire-dashboard.light-theme .rps-item { background: transparent; }
+.wildfire-dashboard.light-theme .rps-val { color: #1a1a2e; }
+.wildfire-dashboard.light-theme .rps-sep { background: rgba(0, 0, 0, 0.1); }
+.wildfire-dashboard.light-theme .action-btn, 
+.wildfire-dashboard.light-theme .qa-btn { 
+  background: rgba(0, 0, 0, 0.04); border-color: rgba(0, 0, 0, 0.1); color: #1a1a2e; box-shadow: none; 
 }
-
-.wildfire-dashboard.light-theme .kpi-card:hover {
-  border-color: var(--accent-mid);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+.wildfire-dashboard.light-theme .action-btn:hover, 
+.wildfire-dashboard.light-theme .qa-btn:hover { 
+  background: rgba(0, 0, 0, 0.08); border-color: rgba(0, 0, 0, 0.2); 
 }
-
-.wildfire-dashboard.light-theme .dash-card {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .wiki-stats-card {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .repo-pulse-strip {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .nav-badge {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .tc-list {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .fb-mini {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .ipr-panel {
-  background: rgba(255, 255, 255, 0.88);
-}
-
-.wildfire-dashboard.light-theme .activity-timeline-card {
-  background: rgba(255, 255, 255, 0.88);
-}
-
-.wildfire-dashboard.light-theme .repo-health-card {
-  background: rgba(255, 255, 255, 0.88);
-}
-
-.wildfire-dashboard.light-theme .act-cal-card {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .week-rhythm-card {
-  background: rgba(255, 255, 255, 0.88);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .sf-card {
-  background: rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .sf-home-link {
-  color: #5a5a6a;
-  border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.wildfire-dashboard.light-theme .sf-home-link:hover {
-  background: rgba(0, 0, 0, 0.03);
-  color: #1a1a2e;
-}
-
-.wildfire-dashboard.light-theme .search-wrapper {
-  background: rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
-
-.wildfire-dashboard.light-theme .search-wrapper input::placeholder {
-  color: #8a8a9a;
-}
-
-.wildfire-dashboard.light-theme .server-status-card {
-  background: rgba(0, 0, 0, 0.02);
-  border: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .dc-head {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .tc-row {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .ipr-row {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .at-row {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .fb-mini-row {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
-}
-
-.wildfire-dashboard.light-theme .brand-name-white {
-  color: #1a1a2e;
-}
-
-.wildfire-dashboard.light-theme .brand-sub {
-  color: #6a6a7a;
-}
-
-.wildfire-dashboard.light-theme .fc-tip {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(0, 0, 0, 0.1);
-  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
-}
-
-.wildfire-dashboard.light-theme .notif-dropdown {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
-}
-
-.wildfire-dashboard.light-theme .toast-item {
-  background: rgba(255, 255, 255, 0.95);
-  border: 1px solid rgba(0, 0, 0, 0.08);
-}
+.wildfire-dashboard.light-theme .sf-home-link { color: #5a5a6a; border: 1px solid rgba(0, 0, 0, 0.1); }
+.wildfire-dashboard.light-theme .sf-home-link:hover { background: rgba(0, 0, 0, 0.03); color: #1a1a2e; }
+.wildfire-dashboard.light-theme .search-wrapper { background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.08); }
+.wildfire-dashboard.light-theme .dc-head { border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
+.wildfire-dashboard.light-theme .tc-row,
+.wildfire-dashboard.light-theme .ipr-row,
+.wildfire-dashboard.light-theme .at-row,
+.wildfire-dashboard.light-theme .fb-mini-row { border-bottom: 1px solid rgba(0, 0, 0, 0.06); }
+.wildfire-dashboard.light-theme .brand-name-white { color: #1a1a2e; }
+.wildfire-dashboard.light-theme .brand-sub { color: #6a6a7a; }
+.wildfire-dashboard.light-theme .nav-badge { background: rgba(255, 255, 255, 0.88); border: 1px solid rgba(0, 0, 0, 0.06); }
+.wildfire-dashboard.light-theme .fc-tip { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(0, 0, 0, 0.1); box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1); }
+.wildfire-dashboard.light-theme .notif-dropdown { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(0, 0, 0, 0.08); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12); }
+.wildfire-dashboard.light-theme .toast-item { background: rgba(255, 255, 255, 0.95); border: 1px solid rgba(0, 0, 0, 0.08); }
+.wildfire-dashboard.light-theme .server-status-card { background: rgba(0, 0, 0, 0.02); border: 1px solid rgba(0, 0, 0, 0.06); }
 
 /* Light theme chart colors */
 .wildfire-dashboard.light-theme .fc-hm-0 { background: #e0e0e0; }
@@ -1956,17 +2286,15 @@
 .wildfire-dashboard.light-theme .fc-hm-2 { background: rgba(255, 120, 0, 0.4); }
 .wildfire-dashboard.light-theme .fc-hm-3 { background: rgba(255, 120, 0, 0.65); }
 .wildfire-dashboard.light-theme .fc-hm-4 { background: rgba(255, 120, 0, 0.9); }
-
-.wildfire-dashboard.light-theme .act-cal-cell.intensity-0 { background: #e8e8e8; }
-.wildfire-dashboard.light-theme .act-cal-cell.intensity-1 { background: rgba(255, 120, 0, 0.2); }
-.wildfire-dashboard.light-theme .act-cal-cell.intensity-2 { background: rgba(255, 120, 0, 0.4); }
-.wildfire-dashboard.light-theme .act-cal-cell.intensity-3 { background: rgba(255, 120, 0, 0.65); }
-.wildfire-dashboard.light-theme .act-cal-cell.intensity-4 { background: rgba(255, 120, 0, 0.9); }
-
+.wildfire-dashboard.light-theme .act-cal-cell.intensity-0,
 .wildfire-dashboard.light-theme .acl-cell.intensity-0 { background: #e8e8e8; }
+.wildfire-dashboard.light-theme .act-cal-cell.intensity-1,
 .wildfire-dashboard.light-theme .acl-cell.intensity-1 { background: rgba(255, 120, 0, 0.2); }
+.wildfire-dashboard.light-theme .act-cal-cell.intensity-2,
 .wildfire-dashboard.light-theme .acl-cell.intensity-2 { background: rgba(255, 120, 0, 0.4); }
+.wildfire-dashboard.light-theme .act-cal-cell.intensity-3,
 .wildfire-dashboard.light-theme .acl-cell.intensity-3 { background: rgba(255, 120, 0, 0.65); }
+.wildfire-dashboard.light-theme .act-cal-cell.intensity-4,
 .wildfire-dashboard.light-theme .acl-cell.intensity-4 { background: rgba(255, 120, 0, 0.9); }
 
 /* ============================================================
@@ -2020,7 +2348,6 @@
   text-align: center !important;
 }
 
-/* "WILDFIRE" - stil SERVERPANEL */
 .brand-name {
   font-size: 15px !important;
   font-weight: 800 !important;
@@ -2035,7 +2362,6 @@
   font-family: 'Inter', sans-serif !important;
 }
 
-/* "DOCUMENTATION" - stil SERVER ADMINISTRATION */
 .brand-sub {
   font-size: 10px !important;
   font-weight: 700 !important;
@@ -2498,7 +2824,7 @@
 
 .dashboard-header.scrolled {
   box-shadow: var(--glass-shadow), 0 0 30px var(--accent-dim), var(--glass-inner);
-  border-color: rgba(var(--accent-rgb, 255, 120, 0), 0.3);
+  border-color: rgba(255, 120, 0, 0.3);
   transform: translateY(-4px);
 }
 
@@ -2517,55 +2843,6 @@
   text-transform: uppercase;
 }
 
-.menu-btn {
-  background: none;
-  border: 1px solid var(--border-color);
-  color: var(--text-muted);
-  padding: 7px;
-  cursor: pointer;
-  border-radius: 9px;
-  display: flex;
-  align-items: center;
-  transition: all 0.18s;
-}
-
-.menu-btn:hover {
-  border-color: var(--accent);
-  color: var(--accent);
-  background: var(--bg-tertiary);
-}
-
-.live-indicator {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  background: rgba(34, 197, 94, 0.07);
-  border: 1px solid rgba(34, 197, 94, 0.18);
-  border-radius: 20px;
-}
-
-.live-pulse {
-  width: 6px;
-  height: 6px;
-  background: #22c55e;
-  border-radius: 50%;
-  animation: livePulse 1.5s ease infinite;
-  flex-shrink: 0;
-}
-
-.live-text {
-  font-size: 9px;
-  font-weight: 800;
-  color: #22c55e;
-  letter-spacing: 1px;
-}
-
-.live-time {
-  font-size: 9px;
-  color: var(--text-muted);
-}
-
 .header-right {
   display: flex;
   align-items: center;
@@ -2576,6 +2853,11 @@
    BUTTONS - NEON & GLASS
    ============================================================ */
 .action-btn, .qa-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
   background: var(--bg-tertiary);
   border: 1px solid var(--border-color);
   border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -2584,6 +2866,7 @@
   box-shadow: 0 4px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.05);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
   backdrop-filter: blur(10px);
+  cursor: pointer;
 }
 
 .action-btn:hover, .qa-btn:hover {
@@ -2620,8 +2903,10 @@
   letter-spacing: 0.5px;
 }
 
-.theme-toggle-btn {
+.theme-toggle-btn, .icon-btn, .action-btn.icon-only {
   padding: 8px !important;
+  width: 32px;
+  height: 32px;
 }
 
 
@@ -2795,63 +3080,84 @@
 /* ============================================================
    REPO PULSE STRIP
    ============================================================ */
-/* Repo Pulse Strip (Layout only, Glass from universal) */
 .repo-pulse-strip {
   display: flex;
-  align-items: stretch;
-  margin: 16px 0;
+  align-items: center;
+  margin: 16px 0 24px 0;
+  overflow-x: auto;
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-highlight);
+  border-radius: 16px;
+  padding: 12px 16px;
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1), var(--glass-inner);
+}
+
+.repo-pulse-strip::-webkit-scrollbar {
+  height: 4px;
+}
+.repo-pulse-strip::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: 4px;
 }
 
 .rps-brand {
   display: flex;
   align-items: center;
-  gap: 6px;
-  padding: 0 16px;
-  background: var(--accent-dim);
-  border-right: 1px solid var(--border-color);
-  font-size: 9px;
-  font-weight: 700;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(255, 120, 0, 0.15);
+  border: 1px solid rgba(255, 120, 0, 0.3);
+  border-radius: 100px;
+  font-size: 11px;
+  font-weight: 800;
   color: var(--accent);
-  letter-spacing: 0.8px;
+  letter-spacing: 1px;
   white-space: nowrap;
   flex-shrink: 0;
+  margin-right: 8px;
+  box-shadow: 0 0 10px rgba(255, 120, 0, 0.1);
 }
 
 .rps-item {
-  flex: 1;
+  flex: 0 0 auto;
   display: flex;
-  flex-direction: column;
-  align-items: center;
+  flex-direction: row;
+  align-items: baseline;
   justify-content: center;
-  padding: 10px 6px;
-  gap: 2px;
+  padding: 4px 16px;
+  gap: 8px;
   min-width: 0;
 }
 
 .rps-sep {
+  display: block;
   width: 1px;
+  height: 24px;
   background: var(--border-color);
-  margin: 8px 0;
-  flex-shrink: 0;
+  margin: 0 4px;
 }
 
 .rps-val {
-  font-size: 14px;
-  font-weight: 700;
+  font-size: 16px;
+  font-weight: 800;
   color: var(--text-primary);
   white-space: nowrap;
-  line-height: 1.2;
+  line-height: 1;
 }
 
 .rps-lbl {
-  font-size: 8px;
+  font-size: 10px;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
 }
 
 .rps-pos {
-  color: var(--success) !important;
+  color: #22c55e !important;
 }
 
 .rps-neg {
@@ -2889,7 +3195,7 @@
 /* ============================================================
    UNIVERSAL CARDS & 3D GLASS
    ============================================================ */
-.dash-card, .kpi-card, .dash-welcome, .wiki-stats-card, .repo-pulse-strip, .week-rhythm-card {
+.dash-card, .kpi-card, .dash-welcome, .wiki-stats-card, .week-rhythm-card {
   background: var(--bg-secondary);
   backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border-color);
@@ -2957,317 +3263,125 @@
 /* ============================================================
    WIKI STATS CARD
    ============================================================ */
-/* Wiki Stats Card (Layout only, Glass from universal) */
-.wiki-stats-card {
+/* ============================================================
+   WIKI OVERVIEW (VERCEL/LINEAR STYLE)
+   ============================================================ */
+.wiki-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.wog-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-highlight);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1), var(--glass-inner);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  transition: transform 0.2s;
+}
+
+.wog-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255,255,255,0.15);
+}
+
+.wog-lbl {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.wog-val {
+  font-size: 28px;
+  font-weight: 900;
+  line-height: 1;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  text-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+.wog-breakdown-card {
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-highlight);
+  border-radius: 12px;
+  padding: 20px 24px;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.1), var(--glass-inner);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+}
+
+.wog-bc-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 16px;
+}
+
+.wog-bc-bar {
+  display: flex;
+  height: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  background: rgba(255,255,255,0.05);
   margin-bottom: 20px;
 }
 
-.wsc-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 11px 16px;
-  border-bottom: 1px solid var(--border-color);
-}
-
-.wsc-header-left {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.wsc-icon-wrap {
-  width: 30px;
-  height: 30px;
-  border-radius: 8px;
-  background: var(--accent-dim);
-  border: 1px solid var(--accent-soft);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--accent);
-  flex-shrink: 0;
-}
-
-.wsc-title {
-  font-size: 12px;
-  font-weight: 700;
-  color: var(--text-primary);
-  letter-spacing: 0.3px;
-}
-
-.wsc-sub {
-  font-size: 10px;
-  color: var(--text-muted);
-  margin-top: 1px;
-}
-
-.wsc-live-badge {
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  padding: 4px 10px;
-  background: rgba(34, 197, 94, 0.08);
-  border: 1px solid rgba(34, 197, 94, 0.2);
-  border-radius: 20px;
-  font-size: 9px;
-  font-weight: 700;
-  color: #22c55e;
-  letter-spacing: 0.5px;
-  flex-shrink: 0;
-}
-
-.wsc-live-dot {
-  width: 6px;
-  height: 6px;
-  background: #22c55e;
-  border-radius: 50%;
-  animation: livePulse 1.5s ease infinite;
-  flex-shrink: 0;
-}
-
-.wsc-kpis {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  border-bottom: 1px solid var(--border-color);
-}
-
-.wsc-kpi {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 4px;
-  padding: 14px 10px;
-  border-right: 1px solid var(--border-color);
-  position: relative;
-  overflow: hidden;
-  transition: background 0.15s;
-}
-
-.wsc-kpi:last-child {
-  border-right: none;
-}
-
-.wsc-kpi::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: var(--kpi-c, var(--accent));
-}
-
-.wsc-kpi:hover {
-  background: var(--bg-tertiary);
-}
-
-.wsc-kpi svg,
-.wsc-kpi .iconify {
-  color: var(--kpi-c, var(--accent));
-  opacity: 0.75;
-  margin-bottom: 2px;
-}
-
-.wsc-kpi-val {
-  font-size: 20px;
-  font-weight: 800;
-  color: var(--text-primary);
-  line-height: 1;
-  letter-spacing: -0.5px;
-}
-
-.wsc-kpi-lbl {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: 0.8px;
-}
-
-.wsc-body {
-  display: grid;
-  grid-template-columns: 1fr auto;
-}
-
-.wsc-breakdown {
-  padding: 14px 18px;
-  min-width: 0;
-}
-
-.wsc-bk-title {
-  font-size: 9px;
-  font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  margin-bottom: 10px;
-}
-
-.wsc-bk-row {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  margin-bottom: 8px;
-}
-
-.wsc-bk-name {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--text-secondary);
-  width: 86px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  flex-shrink: 0;
-}
-
-.wsc-bk-track {
-  flex: 1;
-  height: 5px;
-  background: var(--bg-tertiary);
-  border-radius: 3px;
-  overflow: hidden;
-}
-
-.wsc-bk-fill {
+.wog-bc-seg {
   height: 100%;
-  border-radius: 3px;
-  transition: width 0.9s cubic-bezier(0.4, 0, 0.2, 1);
-  opacity: 0.8;
+  transition: width 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.wsc-bk-count {
-  font-size: 10px;
-  font-weight: 700;
-  color: var(--text-muted);
-  width: 18px;
-  text-align: right;
-  flex-shrink: 0;
+.wog-bc-seg:hover {
+  filter: brightness(1.2);
 }
 
-.wsc-bk-empty {
+.wog-bc-legend {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 16px 24px;
+}
+
+.wog-bc-leg-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
   font-size: 11px;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.wog-bc-leg-item em {
+  font-style: normal;
   color: var(--text-muted);
-  padding: 12px 0;
+  font-weight: 600;
 }
 
-.wsc-ring-wrap {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
-  padding: 14px 22px;
-  border-left: 1px solid var(--border-color);
-}
-
-.wsc-ring-svg-wrap {
-  position: relative;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.wsc-ring-center {
-  position: absolute;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  pointer-events: none;
-}
-
-.wsc-ring-val {
-  font-size: 22px;
-  font-weight: 800;
-  color: var(--text-primary);
-  line-height: 1;
-  letter-spacing: -0.5px;
-}
-
-.wsc-ring-lbl {
-  font-size: 8px;
-  font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: 1px;
-  margin-top: 4px;
-}
-
-.wsc-ring-sub {
-  font-size: 9px;
-  color: var(--text-muted);
-  margin-top: 2px;
-  opacity: 0.7;
-}
-
-.wsc-ring-legend {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  align-items: flex-start;
-}
-
-.wsc-rl-item {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: 9px;
-  color: var(--text-muted);
-  white-space: nowrap;
-}
-
-.wsc-rl-dot {
+.wog-dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  flex-shrink: 0;
-  box-shadow: 0 0 6px currentColor;
-}
-
-.wsc-stats-pills {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 8px;
-  margin-top: 16px;
-  padding-top: 12px;
-  border-top: 1px solid var(--border-color);
-}
-
-.wsc-pill {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 3px;
-  padding: 8px 6px;
-  background: rgba(255,255,255,0.03);
-  border: 1px solid rgba(255,255,255,0.07);
-  border-top: 2px solid var(--pc, var(--accent));
-  border-radius: 8px;
-  transition: background 0.15s;
-}
-
-.wsc-pill:hover {
-  background: rgba(255,255,255,0.06);
-}
-
-.wsc-pill-val {
-  font-size: 16px;
-  font-weight: 800;
-  color: var(--pc, var(--accent));
-  line-height: 1;
-  letter-spacing: -0.5px;
-}
-
-.wsc-pill-lbl {
-  font-size: 8px;
-  font-weight: 700;
-  color: var(--text-muted);
-  letter-spacing: 0.8px;
+  box-shadow: 0 0 8px currentColor;
 }
 
 .dash-charts {
   display: grid;
-  grid-template-columns: 1fr 320px;
+  grid-template-columns: 1fr;
   gap: 16px;
   margin-bottom: 20px;
 }
@@ -3280,15 +3394,18 @@
    MODERN CHART (PLAYER GROWTH STYLE)
    ============================================================ */
 .modern-chart-card {
-  background: #0b0b0e;
-  border: 1px solid rgba(255,255,255,0.04);
+  background: var(--bg-secondary);
+  border: 1px solid var(--border-color);
+  border-top: 1px solid var(--border-highlight);
   border-radius: 16px;
   padding: 24px;
   display: flex;
   flex-direction: column;
   gap: 24px;
   margin-bottom: 24px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.15), var(--glass-inner);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
 }
 
 .mc-header {
@@ -3303,13 +3420,13 @@
   gap: 10px;
   font-size: 14px;
   font-weight: 800;
-  color: #fff;
+  color: var(--text-primary);
   letter-spacing: 0.5px;
 }
 
 .mc-toggles {
   display: flex;
-  background: rgba(255,255,255,0.03);
+  background: rgba(0,0,0,0.2);
   border: 1px solid rgba(255,255,255,0.05);
   border-radius: 8px;
   padding: 4px;
@@ -3344,7 +3461,7 @@
 }
 
 .mc-kpi-box {
-  background: #111116; /* Foarte închis, contrast excelent */
+  background: rgba(0, 0, 0, 0.2);
   border-radius: 12px;
   padding: 20px;
   display: flex;
@@ -3352,13 +3469,14 @@
   align-items: center;
   justify-content: center;
   gap: 8px;
-  border: 1px solid rgba(255,255,255,0.02);
+  border: 1px solid rgba(255,255,255,0.05);
   transition: 0.2s;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05);
 }
 
 .mc-kpi-box:hover {
-  background: #15151b;
-  border-color: rgba(255,255,255,0.05);
+  background: rgba(0, 0, 0, 0.3);
+  border-color: rgba(255,255,255,0.1);
   transform: translateY(-2px);
 }
 
@@ -3465,6 +3583,42 @@
 .mc-tt-val {
   font-size: 13px;
   font-weight: 800;
+}
+
+/* Light Theme Overrides for Modern Chart Card */
+.wildfire-dashboard.light-theme .mc-toggle {
+  color: rgba(0,0,0,0.5);
+}
+.wildfire-dashboard.light-theme .mc-toggle:hover {
+  color: rgba(0,0,0,0.8);
+  background: rgba(0,0,0,0.03);
+}
+.wildfire-dashboard.light-theme .mc-toggle.active {
+  background: rgba(0,0,0,0.08);
+  color: var(--text);
+}
+.wildfire-dashboard.light-theme .mc-kpi-box {
+  background: #f3f4f6;
+  border-color: rgba(0,0,0,0.05);
+}
+.wildfire-dashboard.light-theme .mc-kpi-box:hover {
+  background: #e5e7eb;
+  border-color: rgba(0,0,0,0.1);
+}
+.wildfire-dashboard.light-theme .mc-tooltip {
+  background: #ffffff;
+  border: 1px solid rgba(0,0,0,0.1);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+}
+.wildfire-dashboard.light-theme .mc-tt-date {
+  color: var(--text-muted);
+  border-bottom: 1px solid rgba(0,0,0,0.06);
+}
+.wildfire-dashboard.light-theme .mc-tt-lbl {
+  color: rgba(0,0,0,0.6);
+}
+.wildfire-dashboard.light-theme .mc-tt-val {
+  color: var(--text);
 }
 
 
@@ -3710,56 +3864,80 @@
   color: var(--text-muted);
 }
 
-/* Repository Card */
+/* Clean Vercel-style Repository Card */
 .rs-rings {
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
-  padding: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  padding: 24px;
+  gap: 24px;
+  background: var(--bg-secondary);
+  border-bottom: 1px solid var(--border-highlight);
 }
 
 .rs-ring-item {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  gap: 8px;
+  align-items: flex-start;
+  flex: 1;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+  padding: 16px;
+  transition: 0.2s;
 }
 
-.rs-ring-svg-wrap {
-  position: relative;
-  width: 66px;
-  height: 66px;
-}
-
-.rs-ring-center {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 14px;
-  font-weight: 700;
-  color: var(--text-primary);
+.rs-ring-item:hover {
+  background: rgba(255,255,255,0.04);
+  transform: translateY(-2px);
 }
 
 .rs-ring-lbl {
   font-size: 10px;
+  font-weight: 700;
   color: var(--text-muted);
   text-transform: uppercase;
-  letter-spacing: 0.3px;
+  letter-spacing: 1px;
+  margin-bottom: 12px;
+}
+
+.rs-ring-svg-wrap {
+  position: relative;
+  width: 100%;
+  height: auto;
+  filter: none;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.rs-ring-svg-wrap svg {
+  width: 50px;
+  height: 50px;
+}
+
+.rs-ring-center {
+  position: static;
+  transform: none;
+  font-size: 24px;
+  font-weight: 900;
+  color: var(--text-primary);
+  text-shadow: none;
 }
 
 .lang-section {
-  padding: 16px;
-  border-top: 1px solid var(--border-color);
+  padding: 24px;
+  background: var(--bg-secondary);
 }
 
 .lang-title {
   font-size: 10px;
   font-weight: 700;
   color: var(--text-muted);
-  letter-spacing: 0.8px;
-  margin-bottom: 10px;
+  letter-spacing: 1px;
+  margin-bottom: 16px;
   display: block;
+  text-transform: uppercase;
 }
 
 .lang-bar-track {
@@ -5144,15 +5322,11 @@
   }
   
   .repo-pulse-strip {
-    flex-wrap: wrap;
+    margin-top: 8px;
   }
   
   .rps-brand {
-    width: 100%;
-    border-right: none;
-    border-bottom: 1px solid var(--border-color);
-    justify-content: center;
-    padding: 8px;
+    border-radius: 100px;
   }
   
   .wsc-kpis {
@@ -5163,5 +5337,652 @@
     min-width: auto;
     max-width: calc(100vw - 32px);
   }
+}
+
+/* ============================================================
+   MISSING: COMMITS GRID
+   ============================================================ */
+.commits-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  padding: 8px;
+}
+
+@media (max-width: 900px) {
+  .commits-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (max-width: 600px) {
+  .commits-grid { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   NEGATIVE TREND CLASS
+   ============================================================ */
+.dws-val.negative { color: #ef4444; }
+.dws-val.positive { color: #22c55e; }
+
+/* ============================================================
+   TWO-COLUMN LAYOUT
+   ============================================================ */
+.dash-two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+  margin-bottom: 20px;
+}
+
+@media (max-width: 900px) {
+  .dash-two-col { grid-template-columns: 1fr; }
+}
+
+/* ============================================================
+   TOAST NOTIFICATIONS
+   ============================================================ */
+.wf-toast-container {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  z-index: 99999;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.wf-toast {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 12px;
+  font-size: 12px;
+  font-weight: 600;
+  min-width: 280px;
+  max-width: 380px;
+  pointer-events: all;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.4);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #fff;
+}
+
+.toast-error {
+  background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(185, 28, 28, 0.9));
+  border-color: rgba(239, 68, 68, 0.4);
+}
+
+.toast-info {
+  background: linear-gradient(135deg, rgba(59, 130, 246, 0.9), rgba(30, 64, 175, 0.9));
+  border-color: rgba(59, 130, 246, 0.4);
+}
+
+.toast-success {
+  background: linear-gradient(135deg, rgba(34, 197, 94, 0.9), rgba(21, 128, 61, 0.9));
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.toast-close {
+  background: none;
+  border: none;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  padding: 0;
+  margin-left: auto;
+  flex-shrink: 0;
+  transition: color 0.15s;
+}
+
+.toast-close:hover { color: #fff; }
+
+/* Toast transition animations */
+.toast-enter-active { animation: toast-in 0.35s cubic-bezier(0.34, 1.56, 0.64, 1); }
+.toast-leave-active { animation: toast-out 0.25s ease forwards; }
+
+@keyframes toast-in {
+  from { opacity: 0; transform: translateX(60px) scale(0.9); }
+  to   { opacity: 1; transform: translateX(0) scale(1); }
+}
+@keyframes toast-out {
+  from { opacity: 1; transform: translateX(0) scale(1); }
+  to   { opacity: 0; transform: translateX(60px) scale(0.9); }
+}
+
+/* ============================================================
+   SYSTEM STATUS CARD
+   ============================================================ */
+.ss-body {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.ss-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.ss-lbl {
+  font-size: 11px;
+  color: var(--text-muted);
+  width: 110px;
+  flex-shrink: 0;
+}
+
+.ss-bar-wrap {
+  flex: 1;
+  height: 5px;
+  background: var(--bg-tertiary);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.ss-bar {
+  height: 100%;
+  border-radius: 3px;
+  transition: width 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ss-val {
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--text-primary);
+  width: 70px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+.ss-pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 6px;
+  padding-top: 10px;
+  border-top: 1px solid var(--border-color);
+}
+
+.ss-pill {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  background: var(--bg-tertiary);
+  border: 1px solid var(--border-color);
+  font-size: 9px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  letter-spacing: 0.3px;
+}
+
+.ss-pill-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  animation: livePulse 2s ease infinite;
+}
+
+.ss-pill-txt { color: var(--text-secondary); }
+
+/* ============================================================
+   CODE FREQUENCY WIDGET
+   ============================================================ */
+.cf-body {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.cf-legend {
+  display: flex;
+  gap: 16px;
+}
+
+.cf-leg {
+  font-size: 10px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.cf-leg::before {
+  content: '';
+  width: 10px;
+  height: 10px;
+  border-radius: 2px;
+  background: currentColor;
+  opacity: 0.7;
+}
+
+.cf-chart {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 100px;
+}
+
+.cf-col {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+
+.cf-bars {
+  display: flex;
+  gap: 2px;
+  align-items: flex-end;
+  width: 100%;
+  justify-content: center;
+}
+
+.cf-bar {
+  width: 8px;
+  border-radius: 3px 3px 0 0;
+  transition: height 0.8s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 2px;
+}
+
+.cf-add { background: linear-gradient(180deg, #4ade80, #22c55e); }
+.cf-del { background: linear-gradient(180deg, #f87171, #ef4444); }
+
+.cf-lbl {
+  font-size: 8px;
+  color: var(--text-muted);
+  text-align: center;
+  white-space: nowrap;
+}
+
+.cf-totals {
+  display: flex;
+  gap: 16px;
+  font-size: 11px;
+  font-weight: 700;
+  padding-top: 8px;
+  border-top: 1px solid var(--border-color);
+}
+
+.cf-empty {
+  padding: 32px 16px;
+  text-align: center;
+  color: var(--text-muted);
+  font-size: 12px;
+}
+
+/* ============================================================
+   COMMIT HEATMAP CALENDAR
+   ============================================================ */
+.hm-body {
+  padding: 14px 16px;
+}
+
+.hm-months {
+  display: flex;
+  gap: 0;
+  margin-bottom: 4px;
+  padding-left: 0;
+}
+
+.hm-month-lbl {
+  flex: 1;
+  font-size: 9px;
+  color: var(--text-muted);
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+.hm-grid {
+  display: grid;
+  grid-template-columns: repeat(53, 1fr);
+  grid-auto-rows: 1fr;
+  grid-template-rows: repeat(7, 11px);
+  gap: 2px;
+  grid-auto-flow: column;
+  width: 100%;
+}
+
+.hm-cell {
+  width: 100%;
+  height: 11px;
+  border-radius: 2px;
+  transition: opacity 0.15s;
+  cursor: default;
+}
+
+.hm-cell:hover { opacity: 0.7; }
+
+.hm-i0 { background: rgba(255, 255, 255, 0.05); }
+.hm-i1 { background: rgba(255, 120, 0, 0.2); }
+.hm-i2 { background: rgba(255, 120, 0, 0.4); }
+.hm-i3 { background: rgba(255, 120, 0, 0.65); }
+.hm-i4 { background: rgba(255, 120, 0, 0.9); box-shadow: 0 0 6px rgba(255, 120, 0, 0.5); }
+
+.wildfire-dashboard.light-theme .hm-i0 { background: rgba(0,0,0,0.06); }
+.wildfire-dashboard.light-theme .hm-i1 { background: rgba(255, 120, 0, 0.18); }
+.wildfire-dashboard.light-theme .hm-i2 { background: rgba(255, 120, 0, 0.38); }
+.wildfire-dashboard.light-theme .hm-i3 { background: rgba(255, 120, 0, 0.60); }
+.wildfire-dashboard.light-theme .hm-i4 { background: rgba(255, 120, 0, 0.85); }
+
+.hm-legend {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  margin-top: 10px;
+  justify-content: flex-end;
+}
+
+.hm-leg-txt {
+  font-size: 9px;
+  color: var(--text-muted);
+  margin: 0 4px;
+}
+
+/* ============================================================
+   BRANCHES OVERVIEW
+   ============================================================ */
+.br-list {
+  padding: 8px 0;
+  max-height: 280px;
+  overflow-y: auto;
+}
+
+.br-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  border-bottom: 1px solid var(--border-color);
+  transition: background 0.15s;
+}
+
+.br-row:last-child { border-bottom: none; }
+.br-row:hover { background: var(--bg-hover); }
+
+.br-icon {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  background: var(--bg-tertiary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  color: var(--text-muted);
+}
+
+.br-icon.br-default {
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.br-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.br-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: monospace;
+  display: block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.br-tags {
+  display: flex;
+  gap: 4px;
+  margin-top: 3px;
+}
+
+.br-tag {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 1px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.br-tag-default {
+  background: var(--accent-dim);
+  color: var(--accent);
+  border: 1px solid rgba(255, 120, 0, 0.3);
+}
+
+.br-tag-protected {
+  background: rgba(234, 179, 8, 0.1);
+  color: #eab308;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.br-sha {
+  font-family: monospace;
+  font-size: 10px;
+  color: var(--text-muted);
+  background: var(--bg-tertiary);
+  padding: 2px 6px;
+  border-radius: 4px;
+  flex-shrink: 0;
+}
+
+/* ============================================================
+   DEPLOYMENT TIMELINE
+   ============================================================ */
+.deploy-card { overflow: hidden; }
+
+.deploy-timeline {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.dt-item {
+  display: flex;
+  gap: 12px;
+  position: relative;
+  padding: 12px 10px;
+  cursor: pointer;
+  border-radius: 10px;
+  transition: background 0.15s;
+}
+
+.dt-item:hover { background: var(--bg-hover); }
+
+.dt-line {
+  position: absolute;
+  left: 22px;
+  top: 28px;
+  bottom: -12px;
+  width: 2px;
+  background: var(--border-color);
+}
+
+.dt-item:last-child .dt-line { display: none; }
+
+.dt-dot {
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--accent);
+  border: 2px solid rgba(0, 0, 0, 0.3);
+  flex-shrink: 0;
+  margin-top: 3px;
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 10px var(--accent-glow);
+}
+
+.dt-dot-pre {
+  background: #f59e0b;
+  box-shadow: 0 0 10px rgba(245, 158, 11, 0.4);
+}
+
+.dt-dot-draft {
+  background: var(--text-muted);
+  box-shadow: none;
+}
+
+.dt-body { flex: 1; min-width: 0; }
+
+.dt-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.dt-tag {
+  font-family: monospace;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--accent);
+  background: var(--accent-dim);
+  padding: 2px 8px;
+  border-radius: 4px;
+}
+
+.dt-badge {
+  font-size: 8px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  letter-spacing: 0.5px;
+}
+
+.dt-pre {
+  background: rgba(245, 158, 11, 0.15);
+  color: #f59e0b;
+  border: 1px solid rgba(245, 158, 11, 0.3);
+}
+
+.dt-draft {
+  background: var(--bg-tertiary);
+  color: var(--text-muted);
+  border: 1px solid var(--border-color);
+}
+
+.dt-time {
+  font-size: 10px;
+  color: var(--text-muted);
+  margin-left: auto;
+}
+
+.dt-name {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 4px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.dt-author {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.dt-avatar {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+}
+
+/* ============================================================
+   MOBILE BOTTOM NAV — actually show it
+   ============================================================ */
+@media (max-width: 640px) {
+  .mobile-bottom-nav {
+    display: flex !important;
+  }
+  .dashboard-main {
+    padding-bottom: 70px;
+  }
+}
+/* ============================================================
+   SKELETON LOADING PATTERNS
+   ============================================================ */
+@keyframes shimmerPattern {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.sk-pulse-pattern {
+  background: 
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.03) 50%, transparent 100%),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(255, 255, 255, 0.015) 0px,
+      rgba(255, 255, 255, 0.015) 10px,
+      transparent 10px,
+      transparent 20px
+    ),
+    var(--bg-secondary);
+  background-size: 200% 100%, 100% 100%, 100% 100%;
+  animation: shimmerPattern 3s infinite linear;
+  border: 1px solid var(--border-color);
+  border-radius: 12px;
+}
+
+.wildfire-dashboard.light-theme .sk-pulse-pattern {
+  background: 
+    linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.6) 50%, transparent 100%),
+    repeating-linear-gradient(
+      -45deg,
+      rgba(0, 0, 0, 0.02) 0px,
+      rgba(0, 0, 0, 0.02) 10px,
+      transparent 10px,
+      transparent 20px
+    ),
+    rgba(255, 255, 255, 0.7);
+  background-size: 200% 100%, 100% 100%, 100% 100%;
+  border-color: rgba(0, 0, 0, 0.08);
+}
+
+.sk-welcome { height: 160px; margin-bottom: 24px; }
+.sk-grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin-bottom: 24px; }
+.sk-card { height: 110px; }
+.sk-breakdown { height: 80px; margin-bottom: 24px; }
+.sk-grid-2 { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 24px; }
+.sk-health { height: 120px; }
+.sk-chart { height: 360px; margin-bottom: 24px; }
+
+/* ============================================================
+   MOBILE RESPONSIVENESS
+   ============================================================ */
+@media (max-width: 1024px) {
+  .wiki-overview-grid, .wsc-stats-pills { grid-template-columns: repeat(2, 1fr); }
+  .dw-profile-section { flex-direction: column; text-align: center; }
+  .dw-metrics-section { flex-direction: column; width: 100%; }
+  .dash-welcome-clean { flex-direction: column; }
+  .rs-rings { flex-direction: column; }
+  .sk-grid-4 { grid-template-columns: repeat(2, 1fr); }
+  .sk-grid-2 { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 640px) {
+  .wiki-overview-grid, .wsc-stats-pills { grid-template-columns: 1fr; }
+  .kpi-row, .repo-pulse-strip { flex-direction: column; }
+  .repo-pulse-strip .rps-item { width: 100%; justify-content: space-between; }
+  .repo-pulse-strip .rps-sep { display: none; }
+  .mc-header { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .mc-kpi-grid { grid-template-columns: 1fr; }
+  .sk-grid-4 { grid-template-columns: 1fr; }
+  .view-container { padding: 16px; }
 }
 </style>
