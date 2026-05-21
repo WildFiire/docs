@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Gold Member"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'gold', component: 'PageTagYellow' },
-    { text: 'premium', component: 'PageTagBlue' }
+    { text: 'other', color: 'red' },
+    { text: 'gold', color: 'yellow' },
+    { text: 'premium', color: 'blue' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Gold Member']"
   background="/wallpaper/backgroundwf.webp"

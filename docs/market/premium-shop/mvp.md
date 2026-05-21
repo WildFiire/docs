@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Custom MVP"
   :tags="[
-    { text: 'premium', component: 'PageTagPurple' },
-    { text: 'mvp', component: 'PageTagRed' },
-    { text: 'custom', component: 'PageTagBlue' }
+    { text: 'premium', color: 'purple' },
+    { text: 'mvp', color: 'red' },
+    { text: 'custom', color: 'blue' }
   ]"
   :path="['Home', 'Market', 'Premium Shop', 'Custom MVP']"
   background="/wallpaper/backgroundwf.webp"

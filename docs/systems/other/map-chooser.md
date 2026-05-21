@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Map Chooser / RTV"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'maps', component: 'PageTagGreen' },
-    { text: 'voting', component: 'PageTagBlue' }
+    { text: 'other', color: 'red' },
+    { text: 'maps', color: 'green' },
+    { text: 'voting', color: 'blue' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Map Chooser / RTV']"
   background="/wallpaper/backgroundwf.webp"

@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Dices (Barbut)"
   :tags="[
-    { text: 'gambling', component: 'PageTagRed' },
-    { text: 'dices', component: 'PageTagOrange' },
-    { text: '1v1', component: 'PageTagPurple' }
+    { text: 'gambling', color: 'red' },
+    { text: 'dices', color: 'orange' },
+    { text: '1v1', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Gambling', 'Dices']"
   background="/wallpaper/backgroundwf.webp"

@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Hide Teammates"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'utility', component: 'PageTagBlue' },
-    { text: 'fps', component: 'PageTagGreen' }
+    { text: 'other', color: 'red' },
+    { text: 'utility', color: 'blue' },
+    { text: 'fps', color: 'green' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Hide Teammates']"
   background="/wallpaper/backgroundwf.webp"

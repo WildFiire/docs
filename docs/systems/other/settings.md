@@ -7,9 +7,9 @@ outline: deep
 <CaseHeader 
   title="Client Settings"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'settings', component: 'PageTagPurple' },
-    { text: 'config', component: 'PageTagBlue' }
+    { text: 'other', color: 'red' },
+    { text: 'settings', color: 'purple' },
+    { text: 'config', color: 'blue' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Client Settings']"
   background="/wallpaper/backgroundwf.webp"

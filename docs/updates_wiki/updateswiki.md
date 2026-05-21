@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Changelogs Wikipedia"
   :tags="[
-    { text: 'information', component: 'PageTagRed' },
-    { text: 'connect', component: 'PageTagGreen' },
-    { text: 'faq', component: 'PageTagPurple' }
+    { text: 'information', color: 'red' },
+    { text: 'connect', color: 'green' },
+    { text: 'faq', color: 'purple' }
   ]"
   :path="['Home', 'Updates', 'Changelogs']"
   background="/wallpaper/backgroundwf.webp"

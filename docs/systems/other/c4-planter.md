@@ -6,9 +6,9 @@ description: "Detalii despre interfata vizuala afisata atunci cand bomba este pl
 <CaseHeader 
   title="C4 Planter Info"
   :tags="[
-    { text: 'SYSTEM', component: 'PageTagBlue' },
-    { text: 'UI', component: 'PageTagRed' },
-    { text: 'INFO', component: 'PageTagGreen' }
+    { text: 'SYSTEM', color: 'blue' },
+    { text: 'UI', color: 'red' },
+    { text: 'INFO', color: 'green' }
   ]"
   :path="['Home', 'Systems', 'Other', 'C4 Planter']"
   background="/wallpaper/backgroundwf.webp"

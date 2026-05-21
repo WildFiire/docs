@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Hit Effects"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'visuals', component: 'PageTagPurple' },
-    { text: 'effects', component: 'PageTagBlue' }
+    { text: 'other', color: 'red' },
+    { text: 'visuals', color: 'purple' },
+    { text: 'effects', color: 'blue' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Hit Effects']"
   background="/wallpaper/backgroundwf.webp"

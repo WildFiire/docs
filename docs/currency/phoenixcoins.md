@@ -7,10 +7,10 @@ outline: "deep"
 <CaseHeader 
   title="Phoenix Coins"
   :tags="[
-    { text: 'skins', component: 'PageTagRed' },
-    { text: 'market', component: 'PageTagBlue' },
-    { text: 'weapon shop', component: 'PageTagGreen' },
-    { text: 'economie', component: 'PageTagPurple' }
+    { text: 'skins', color: 'red' },
+    { text: 'market', color: 'blue' },
+    { text: 'weapon shop', color: 'green' },
+    { text: 'economie', color: 'purple' }
   ]"
   :path="['Home', 'Currency', 'Phoenix Coins']"
   background="/wallpaper/backgroundwf.webp"

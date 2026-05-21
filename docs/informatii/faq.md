@@ -7,9 +7,9 @@ outline: deep
 <CaseHeader 
   title="FAQ - Intrebari Frecvente"
   :tags="[
-    { text: 'SUPORT', component: 'PageTagRed' },
-    { text: 'GENERAL', component: 'PageTagBlue' },
-    { text: 'HELP', component: 'PageTagGreen' }
+    { text: 'SUPORT', color: 'red' },
+    { text: 'GENERAL', color: 'blue' },
+    { text: 'HELP', color: 'green' }
   ]"
   :path="['Home', 'Informatii', 'FAQ']"
   background="/wallpaper/backgroundwf.webp"

@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Private Messages"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'chat', component: 'PageTagBlue' },
-    { text: 'social', component: 'PageTagPurple' }
+    { text: 'other', color: 'red' },
+    { text: 'chat', color: 'blue' },
+    { text: 'social', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Private Messages']"
   background="/wallpaper/backgroundwf.webp"

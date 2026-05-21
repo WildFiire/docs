@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Cum poți contribui?"
   :tags="[
-    { text: 'actualizări', component: 'PageTagBlue' },
-    { text: 'contribuie', component: 'PageTagOrange' },
-    { text: 'ajutor', component: 'PageTagGreen' }
+    { text: 'actualizări', color: 'blue' },
+    { text: 'contribuie', color: 'orange' },
+    { text: 'ajutor', color: 'green' }
   ]"
   :path="['Acasă', 'Actualizări', 'Contribuie']"
   background="/wallpaper/backgroundwf.webp"

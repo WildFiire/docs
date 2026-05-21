@@ -7,8 +7,8 @@ outline: false
 <CaseHeader 
   title="Credits System"
   :tags="[
-    { text: 'SHOP', component: 'PageTagGreen' },
-    { text: 'UPDATE', component: 'PageTagBlue' }
+    { text: 'SHOP', color: 'green' },
+    { text: 'UPDATE', color: 'blue' }
   ]"
   :path="['Home', 'Currency', 'Credits']"
   background="/wallpaper/backgroundwf.webp"

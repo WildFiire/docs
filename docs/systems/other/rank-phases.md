@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Rank Phases (Grind)"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'rank', component: 'PageTagPurple' },
-    { text: 'grind', component: 'PageTagBlue' }
+    { text: 'other', color: 'red' },
+    { text: 'rank', color: 'purple' },
+    { text: 'grind', color: 'blue' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Rank Phases (Grind)']"
   background="/wallpaper/backgroundwf.webp"

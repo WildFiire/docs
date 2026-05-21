@@ -7,10 +7,10 @@ outline: "deep"
 <CaseHeader 
   title="MVP Anthem"
   :tags="[
-    { text: 'mvp', component: 'PageTagPurple' },
-    { text: 'anthem', component: 'PageTagGreen' },
-    { text: 'premium', component: 'PageTagBlue' },
-    { text: 'custom', component: 'PageTagOrange' }
+    { text: 'mvp', color: 'purple' },
+    { text: 'anthem', color: 'green' },
+    { text: 'premium', color: 'blue' },
+    { text: 'custom', color: 'orange' }
   ]"
   :path="['Home', 'Market', 'Systems', 'MVP Anthem']"
   background="/wallpaper/backgroundwf.webp"

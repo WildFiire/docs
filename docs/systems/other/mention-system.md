@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Mention System"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'chat', component: 'PageTagBlue' },
-    { text: 'notif', component: 'PageTagPurple' }
+    { text: 'other', color: 'red' },
+    { text: 'chat', color: 'blue' },
+    { text: 'notif', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Mention System']"
   background="/wallpaper/backgroundwf.webp"

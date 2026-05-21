@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Agents"
   :tags="[
-    { text: 'agents', component: 'PageTagPurple' },
-    { text: 'operators', component: 'PageTagGreen' },
-    { text: 'characters', component: 'PageTagBlue' }
+    { text: 'agents', color: 'purple' },
+    { text: 'operators', color: 'green' },
+    { text: 'characters', color: 'blue' }
   ]"
   :path="['Home', 'Systems', 'Skins', 'Agents']"
   background="/wallpaper/backgroundwf.webp"

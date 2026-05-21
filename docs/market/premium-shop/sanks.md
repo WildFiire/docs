@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Sank Sounds"
   :tags="[
-    { text: 'premium', component: 'PageTagPurple' },
-    { text: 'sounds', component: 'PageTagOrange' },
-    { text: 'sank', component: 'PageTagBlue' }
+    { text: 'premium', color: 'purple' },
+    { text: 'sounds', color: 'orange' },
+    { text: 'sank', color: 'blue' }
   ]"
   :path="['Home', 'Market', 'Premium Shop', 'Sank Sounds']"
   background="/wallpaper/backgroundwf.webp"

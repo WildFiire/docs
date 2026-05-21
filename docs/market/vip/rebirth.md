@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="VIP Rebirth"
   :tags="[
-    { text: 'market', component: 'PageTagPurple' },
-    { text: 'vip', component: 'PageTagYellow' },
-    { text: 'rebirth', component: 'PageTagBlue' }
+    { text: 'market', color: 'purple' },
+    { text: 'vip', color: 'yellow' },
+    { text: 'rebirth', color: 'blue' }
   ]"
   :path="['Home', 'Market', 'VIP Tiers', 'Rebirth']"
   background="/wallpaper/backgroundwf.webp"

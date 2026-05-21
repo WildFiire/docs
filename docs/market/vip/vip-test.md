@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="VIP TEST"
   :tags="[
-    { text: 'market', component: 'PageTagPurple' },
-    { text: 'vip', component: 'PageTagYellow' },
-    { text: 'trial', component: 'PageTagBlue' }
+    { text: 'market', color: 'purple' },
+    { text: 'vip', color: 'yellow' },
+    { text: 'trial', color: 'blue' }
   ]"
   :path="['Home', 'Market', 'VIP Tiers', 'VIP TEST']"
   background="/wallpaper/backgroundwf.webp"

@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Color Smokes"
   :tags="[
-    { text: 'shop', component: 'PageTagRed' },
-    { text: 'smoke', component: 'PageTagBlue' },
-    { text: 'cosmetics', component: 'PageTagPurple' }
+    { text: 'shop', color: 'red' },
+    { text: 'smoke', color: 'blue' },
+    { text: 'cosmetics', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Shop', 'Color Smokes']"
   background="/wallpaper/backgroundwf.webp"

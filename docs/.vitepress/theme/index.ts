@@ -185,21 +185,6 @@ const PanelLogin = defineAsyncComponent(() => import('./components/Panel/PanelLo
 
 
 // Tag-uri — statice, CSS trebuie disponibil imediat pe paginile de conținut
-import PageTagBlue from './components/tags/PageTagBlue.vue'
-import PageTagOrange from './components/tags/PageTagOrange.vue'
-import PageTagPurple from './components/tags/PageTagPurple.vue'
-import PageTagGreen from './components/tags/PageTagGreen.vue'
-import PageTagPink from './components/tags/PageTagPink.vue'
-import PageTagRed from './components/tags/PageTagRed.vue'
-import PageTagIndigo from './components/tags/PageTagIndigo.vue'
-import PageTagYellow from './components/tags/PageTagYellow.vue'
-import PageTagTeal from './components/tags/PageTagTeal.vue'
-import PageTagCyan from './components/tags/PageTagCyan.vue'
-import PageTagFuchsia from './components/tags/PageTagFuchsia.vue'
-import PageTagEmerald from './components/tags/PageTagEmerald.vue'
-import PageTagAmber from './components/tags/PageTagAmber.vue'
-import PageTagGray from './components/tags/PageTagGray.vue'
-
 export default {
   extends: DefaultTheme,
 
@@ -362,20 +347,6 @@ export default {
     app.component('FileTreeItem', FileTreeItem)
 
     // Toate tag-urile
-    app.component('PageTagBlue', PageTagBlue)
-    app.component('PageTagOrange', PageTagOrange)
-    app.component('PageTagPurple', PageTagPurple)
-    app.component('PageTagGreen', PageTagGreen)
-    app.component('PageTagPink', PageTagPink)
-    app.component('PageTagRed', PageTagRed)
-    app.component('PageTagIndigo', PageTagIndigo)
-    app.component('PageTagYellow', PageTagYellow)
-    app.component('PageTagTeal', PageTagTeal)
-    app.component('PageTagCyan', PageTagCyan)
-    app.component('PageTagFuchsia', PageTagFuchsia)
-    app.component('PageTagEmerald', PageTagEmerald)
-    app.component('PageTagAmber', PageTagAmber)
-    app.component('PageTagGray', PageTagGray)
 
     // 🔥 Adăugăm token-ul și client ID global
     app.config.globalProperties.$githubToken = githubToken

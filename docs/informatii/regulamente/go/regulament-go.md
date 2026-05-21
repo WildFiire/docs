@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Regulament GO"
   :tags="[
-    { text: 'rules', component: 'PageTagRed' },
-    { text: 'go', component: 'PageTagBlue' },
-    { text: 'server', component: 'PageTagBlue' }
+    { text: 'rules', color: 'red' },
+    { text: 'go', color: 'blue' },
+    { text: 'server', color: 'blue' }
   ]"
   :path="['Home', 'Informatii', 'Regulament', 'GO']"
   background="/wallpaper/backgroundwf.webp"

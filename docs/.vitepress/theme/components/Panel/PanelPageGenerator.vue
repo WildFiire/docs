@@ -709,7 +709,7 @@
                                         <h1 class="wch-title">{{ header.title }}</h1>
                                         
                                         <div class="wch-tags">
-                                            <component v-for="(t, i) in header.tags" :is="t.component" :key="i">{{ t.text }}</component>
+                                            <WildfireTag v-for="(t, i) in header.tags" :color="t.color || 'orange'" :key="i">{{ t.text }}</WildfireTag>
                                         </div>
 
                                         <div class="wch-toolbar">
@@ -1726,7 +1726,7 @@ export default defineComponent({
       let md = '---\nlayout: page\n---\n\n';
       md += `<CaseHeader\n  title="${this.header.title}"\n  badge-text="${this.header.badge}"\n  badge-icon="${this.header.icon}"\n  page-id="${this.header.pid}"\n  background="${this.header.background}"\n  :blur-amount="${this.header.blurAmount}"\n  :path="['${this.headerPathArray.join("', '")}']"\n  :tags="[\n`;
       this.header.tags.forEach(t => {
-        md += `    { text: '${t.text}', component: '${t.component}' },\n`;
+        md += `    { text: '${t.text}', color: '${t.color || 'orange'}' },\n`;
       });
       md += `  ]"\n/>\n\n`;
       this.blocks.forEach(b => {
@@ -2011,11 +2011,11 @@ export default defineComponent({
             const tagsMatch = h.match(/:tags="\[([\s\S]*?)]"/);
             if (tagsMatch) {
                 const tagsStr = tagsMatch[1];
-                const tagRegex = /\{\s*text:\s*'(.*?)',\s*component:\s*'(.*?)'\s*\}/g;
+                const tagRegex = /\{\s*text:\s*'(.*?)',\s*color:\s*'(.*?)'\s*\}/g;
                 let tm;
                 const tags = [];
                 while ((tm = tagRegex.exec(tagsStr)) !== null) {
-                    tags.push({ text: tm[1], component: tm[2] });
+                    tags.push({ text: tm[1], color: tm[2] });
                 }
                 if (tags.length > 0) this.header.tags = tags;
             }
@@ -2670,7 +2670,7 @@ export default defineComponent({
           icon: 'lucide:file-text',
           pid: 'new-id',
           path: 'Home, Section',
-          tags: [{ text: 'DRAFT', component: 'PageTagOrange' }],
+          tags: [{ text: 'DRAFT', color: 'orange' }],
           background: '/wallpaper/backgroundwf.webp',
           blurAmount: 6
         };

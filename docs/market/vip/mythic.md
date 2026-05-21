@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="VIP Mythic"
   :tags="[
-    { text: 'market', component: 'PageTagPurple' },
-    { text: 'vip', component: 'PageTagYellow' },
-    { text: 'mythic', component: 'PageTagGreen' }
+    { text: 'market', color: 'purple' },
+    { text: 'vip', color: 'yellow' },
+    { text: 'mythic', color: 'green' }
   ]"
   :path="['Home', 'Market', 'VIP Tiers', 'Mythic']"
   background="/wallpaper/backgroundwf.webp"

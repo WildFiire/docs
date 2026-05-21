@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Team Balance"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'gameplay', component: 'PageTagGreen' },
-    { text: 'balance', component: 'PageTagBlue' }
+    { text: 'other', color: 'red' },
+    { text: 'gameplay', color: 'green' },
+    { text: 'balance', color: 'blue' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Team Balance']"
   background="/wallpaper/backgroundwf.webp"

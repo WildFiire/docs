@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Getting Started"
   :tags="[
-    { text: 'INFO', component: 'PageTagOrange' },
-    { text: 'VERIFY', component: 'PageTagBlue' },
-    { text: 'SERVER', component: 'PageTagGreen' }
+    { text: 'INFO', color: 'orange' },
+    { text: 'VERIFY', color: 'blue' },
+    { text: 'SERVER', color: 'green' }
   ]"
   :path="['Home', 'Informatii', 'Getting Started']"
   background="/wallpaper/backgroundwf.webp"

@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="About us"
   :tags="[
-    { text: 'INFO', component: 'PageTagRed' },
-    { text: 'ABOUT', component: 'PageTagPurple' },
-    { text: 'WILDFIRE', component: 'PageTagOrange' }
+    { text: 'INFO', color: 'red' },
+    { text: 'ABOUT', color: 'purple' },
+    { text: 'WILDFIRE', color: 'orange' }
   ]"
   :path="['Home', 'Informatii', 'About']"
   background="/wallpaper/backgroundwf.webp"

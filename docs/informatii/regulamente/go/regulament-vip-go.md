@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Regulament VIP"
   :tags="[
-    { text: 'vip', component: 'PageTagYellow' },
-    { text: 'rules', component: 'PageTagRed' },
-    { text: 'server', component: 'PageTagBlue' }
+    { text: 'vip', color: 'yellow' },
+    { text: 'rules', color: 'red' },
+    { text: 'server', color: 'blue' }
   ]"
   :path="['Home', 'Informatii', 'Regulament', 'GO', 'VIP']"
   background="/wallpaper/backgroundwf.webp"

@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Server Slots"
   :tags="[
-    { text: 'MARKET', component: 'PageTagPurple' },
-    { text: 'SERVER', component: 'PageTagBlue' },
-    { text: 'SLOTS', component: 'PageTagGreen' }
+    { text: 'MARKET', color: 'purple' },
+    { text: 'SERVER', color: 'blue' },
+    { text: 'SLOTS', color: 'green' }
   ]"
   :path="['Home', 'Market', 'Server Slots']"
   background="/wallpaper/backgroundwf.webp"

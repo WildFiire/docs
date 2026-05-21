@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Faceit Badge System"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'faceit', component: 'PageTagBlue' },
-    { text: 'badge', component: 'PageTagPurple' }
+    { text: 'other', color: 'red' },
+    { text: 'faceit', color: 'blue' },
+    { text: 'badge', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Faceit Badge']"
   background="/wallpaper/backgroundwf.webp"

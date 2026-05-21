@@ -7,8 +7,8 @@ outline: deep
 <CaseHeader 
   title="MVP Rewards"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'rewards', component: 'PageTagPurple' }
+    { text: 'other', color: 'red' },
+    { text: 'rewards', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Other', 'MVP Rewards']"
   background="/wallpaper/backgroundwf.webp"

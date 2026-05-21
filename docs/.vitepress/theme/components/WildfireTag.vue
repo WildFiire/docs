@@ -1,7 +1,8 @@
-﻿<template>
-  <span class="wildfire-tag" :class="tagClass" :style="{ borderColor: tagData.color, boxShadow: `0 0 0 1px ${tagData.color}20` }">
-    <span class="tag-dot" :class="dotClass" :style="{ backgroundColor: tagData.color }"></span>
-    <slot>{{ text }}</slot>
+<template>
+  <span class="wildfire-tag" :class="tagClass" :style="{ borderColor: `${tagData.color}40` }">
+    <span v-if="!icon" class="tag-dot" :class="dotClass" :style="{ backgroundColor: tagData.color }"></span>
+    <span v-if="icon" class="tag-icon" v-html="icon" :style="{ color: tagData.color }"></span>
+    <span class="tag-text"><slot>{{ text }}</slot></span>
   </span>
 </template>
 
@@ -14,6 +15,10 @@ const props = defineProps({
     default: 'gray'
   },
   text: {
+    type: String,
+    default: ''
+  },
+  icon: {
     type: String,
     default: ''
   }
@@ -55,46 +60,72 @@ const dotClass = computed(() => tagData.value.dot)
 .wildfire-tag {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
-  padding: 4px 12px;
-  border-radius: 30px;
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
+  gap: 8px;
+  padding: 3px 12px 3px 10px;
+  /* Sci-Fi / Cyberpunk Shape: top-left & bottom-right sharp, others rounded */
+  border-radius: 2px 10px 2px 10px;
+  font-size: 10px;
+  font-family: 'Orbitron', sans-serif;
+  font-weight: 700;
+  letter-spacing: 0.8px;
   text-transform: uppercase;
   line-height: 1.4;
   white-space: nowrap;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   border-width: 1px;
   border-style: solid;
+  position: relative;
+  overflow: hidden;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+.tag-text {
+  display: flex;
+  align-items: center;
+  gap: 4px;
 }
 
 /* DARK THEME DEFAULT */
 .wildfire-tag {
-  background: #1a1a1a !important;
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.7) 0%, rgba(15, 15, 15, 0.9) 100%) !important;
   color: #e0e0e0 !important;
 }
 
 .dark .wildfire-tag {
-  background: #151515 !important;
+  background: linear-gradient(135deg, rgba(20, 20, 20, 0.8) 0%, rgba(5, 5, 5, 0.95) 100%) !important;
 }
 
 /* LIGHT THEME DEFAULT */
 html:not(.dark) .wildfire-tag {
-  background: #f5f5f5 !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.8) 0%, rgba(245, 245, 245, 0.95) 100%) !important;
   color: #1a1a1a !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
 }
 
 /* ===== DOT ===== */
 .tag-dot {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 1px; /* Slight rounding for diamond */
+  transform: rotate(45deg);
   display: inline-block;
-  transition: all 0.2s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  opacity: 0.9;
 }
 
 /* ===== TEXT COLORAT PENTRU CONTRAST ===== */
+
+.tag-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0.9;
+}
+.tag-icon :deep(svg) {
+  width: 11px;
+  height: 11px;
+}
 
 /* DARK THEME TEXT */
 .tag-blue { color: #60a5fa !important; }
@@ -131,27 +162,28 @@ html:not(.dark) .tag-gray { color: #4b5563 !important; }
 /* ===== HOVER EFFECT ===== */
 .wildfire-tag:hover {
   transform: translateY(-2px);
-  filter: brightness(1.05);
+  filter: brightness(1.15);
 }
 
 .dark .wildfire-tag:hover {
-  background: #222 !important;
+  background: linear-gradient(135deg, rgba(30, 30, 30, 0.9) 0%, rgba(10, 10, 10, 0.95) 100%) !important;
 }
 
 html:not(.dark) .wildfire-tag:hover {
-  background: #e5e5e5 !important;
+  background: linear-gradient(135deg, rgba(255, 255, 255, 0.95) 0%, rgba(240, 240, 240, 1) 100%) !important;
+}
+
+.wildfire-tag:hover .tag-dot {
+  transform: rotate(135deg) scale(1.2);
+  opacity: 1;
 }
 
 /* ===== EFECT GLOW SUBTIL ===== */
-.wildfire-tag {
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
 .wildfire-tag:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1) !important;
 }
 
 .dark .wildfire-tag:hover {
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3) !important;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25) !important;
 }
 </style>

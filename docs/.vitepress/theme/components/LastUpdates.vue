@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="last-updates">
 
     <!-- ── Section Label (matching WikiHome pattern) ── -->
@@ -407,12 +407,10 @@ html:not(.dark) .lu-card:hover {
   padding-bottom: 6px;
 }
 :deep(.wildfire-tag.small-tag) {
-  padding: 3px 9px !important;
-  font-size: 10px !important;
-  font-weight: 600 !important;
+  padding: 3px 8px 3px 6px !important;
+  font-size: 9px !important;
+  font-weight: 700 !important;
   gap: 4px !important;
-  border-radius: 20px !important;
-  border: 1px solid currentColor !important;
   background: transparent !important;
   transition: all 0.2s !important;
   display: inline-flex !important;

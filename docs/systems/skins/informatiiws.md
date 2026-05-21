@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Sistemul de WeaponSkins"
   :tags="[
-    { text: 'skins', component: 'PageTagRed' },
-    { text: 'weapons', component: 'PageTagBlue' },
-    { text: 'inventory', component: 'PageTagPurple' }
+    { text: 'skins', color: 'red' },
+    { text: 'weapons', color: 'blue' },
+    { text: 'inventory', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Sistem Skin-uri']"
   background="/wallpaper/backgroundwf.webp"

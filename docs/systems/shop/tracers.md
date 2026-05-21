@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Weapon Tracers"
   :tags="[
-    { text: 'shop', component: 'PageTagRed' },
-    { text: 'tracers', component: 'PageTagBlue' },
-    { text: 'cosmetics', component: 'PageTagPurple' }
+    { text: 'shop', color: 'red' },
+    { text: 'tracers', color: 'blue' },
+    { text: 'cosmetics', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Shop', 'Weapon Tracers']"
   background="/wallpaper/backgroundwf.webp"

@@ -7,10 +7,10 @@ outline: "deep"
 <CaseHeader 
   title="Cases"
   :tags="[
-    { text: 'cases', component: 'PageTagRed' },
-    { text: 'skins', component: 'PageTagBlue' },
-    { text: 'market', component: 'PageTagGreen' },
-    { text: 'website', component: 'PageTagPurple' }
+    { text: 'cases', color: 'red' },
+    { text: 'skins', color: 'blue' },
+    { text: 'market', color: 'green' },
+    { text: 'website', color: 'purple' }
   ]"
   :path="['Home', 'Systems','WeaponSkins', 'Cases']"
   background="/wallpaper/backgroundwf.webp"

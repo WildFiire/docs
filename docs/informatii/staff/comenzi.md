@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader
   title="Comenzi STAFF"
   :tags="[
-    { text: 'STAFF', component: 'PageTagOrange' },
-    { text: 'ADMIN', component: 'PageTagOrange' },
-    { text: 'SERVER', component: 'PageTagGreen' }
+    { text: 'STAFF', color: 'orange' },
+    { text: 'ADMIN', color: 'orange' },
+    { text: 'SERVER', color: 'green' }
   ]"
   :path="['Home', 'Informatii', 'Staff', 'Comenzi']"
   background="/wallpaper/backgroundwf.webp"

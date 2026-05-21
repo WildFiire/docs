@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="VIP Immortal"
   :tags="[
-    { text: 'market', component: 'PageTagPurple' },
-    { text: 'vip', component: 'PageTagYellow' },
-    { text: 'immortal', component: 'PageTagRed' }
+    { text: 'market', color: 'purple' },
+    { text: 'vip', color: 'yellow' },
+    { text: 'immortal', color: 'red' }
   ]"
   :path="['Home', 'Market', 'VIP Tiers', 'Immortal']"
   background="/wallpaper/backgroundwf.webp"

@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Chat & Tag-uri"
   :tags="[
-    { text: 'shop', component: 'PageTagRed' },
-    { text: 'chat', component: 'PageTagGreen' },
-    { text: 'tags', component: 'PageTagBlue' }
+    { text: 'shop', color: 'red' },
+    { text: 'chat', color: 'green' },
+    { text: 'tags', color: 'blue' }
   ]"
   :path="['Home', 'Systems', 'Shop', 'Chat & Tag-uri']"
   background="/wallpaper/backgroundwf.webp"

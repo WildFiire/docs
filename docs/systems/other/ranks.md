@@ -7,9 +7,9 @@ outline: deep
 <CaseHeader 
   title="Rank System"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'competitive', component: 'PageTagBlue' },
-    { text: 'ranks', component: 'PageTagPurple' }
+    { text: 'other', color: 'red' },
+    { text: 'competitive', color: 'blue' },
+    { text: 'ranks', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Rank System']"
   background="/wallpaper/backgroundwf.webp"

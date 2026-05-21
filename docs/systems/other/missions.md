@@ -7,9 +7,9 @@ outline: "deep"
 <CaseHeader 
   title="Missions System"
   :tags="[
-    { text: 'SYSTEM', component: 'PageTagBlue' },
-    { text: 'NEW', component: 'PageTagRed' },
-    { text: 'PHX', component: 'PageTagGreen' }
+    { text: 'SYSTEM', color: 'blue' },
+    { text: 'NEW', color: 'red' },
+    { text: 'PHX', color: 'green' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Missions']"
   background="/wallpaper/backgroundwf.webp"

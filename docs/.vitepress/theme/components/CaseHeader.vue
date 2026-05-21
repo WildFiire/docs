@@ -16,7 +16,7 @@
       <h1 class="wch-title">{{ title }}</h1>
 
       <div v-if="effectiveTags.length" class="wch-tags">
-        <component v-for="(tag, i) in effectiveTags" :key="i" :is="tag.component">{{ tag.text }}</component>
+        <WildfireTag v-for="(tag, i) in effectiveTags" :key="i" :color="tag.color">{{ tag.text }}</WildfireTag>
       </div>
 
       <div class="wch-toolbar">
@@ -80,21 +80,21 @@ const props = defineProps({
 
 const { page, frontmatter } = useData()
 
-const SECTION_TAG_COMPONENT = {
-  informatii:   'PageTagOrange',
-  currency:     'PageTagGreen',
-  systems:      'PageTagRed',
-  market:       'PageTagPurple',
-  updates_wiki: 'PageTagAmber',
+const SECTION_TAG_COLOR = {
+  informatii:   'orange',
+  currency:     'green',
+  systems:      'red',
+  market:       'purple',
+  updates_wiki: 'amber',
 }
 
 const effectiveTags = computed(() => {
   const section = page.value?.relativePath?.split('/')[0]
-  const themeComp = SECTION_TAG_COMPONENT[section] || 'PageTagOrange'
+  const themeColor = SECTION_TAG_COLOR[section] || 'orange'
   if (props.tags?.length) {
-    return props.tags.map(t => ({ ...t, component: themeComp }))
+    return props.tags.map(t => ({ ...t, color: themeColor }))
   }
-  return [{ text: section ? section.replace('_', ' ') : '', component: themeComp }]
+  return [{ text: section ? section.replace('_', ' ') : '', color: themeColor }]
 })
 
 const GITHUB_REPO   = 'WildFiire/docs'
@@ -375,6 +375,33 @@ html:not(.dark) .wch-open-item:hover .wch-ext-icon { color: rgba(0, 0, 0, 0.35);
   display: inline-flex; align-items: center; gap: 6px;
   font-size: 12.5px; color: var(--vp-c-text-2); font-weight: 500;
   text-decoration: none; transition: all 0.2s ease;
+}
+.wch-meta-chip svg { color: var(--vp-c-text-3); }
+.wch-author-link:hover { color: var(--vp-c-brand-1); }
+.wch-author-link:hover svg { color: var(--vp-c-brand-1); }
+.wch-author-pfp { border-radius: 50%; box-shadow: 0 0 0 1px rgba(var(--wf-accent-rgb), 0.2); }
+
+@media (max-width: 640px) {
+  .wch-inner { padding: 10px 0 16px; }
+  .wch-title { font-size: 1.4rem !important; }
+  .wch-btn { padding: 5px 10px; font-size: 12px; }
+  /* Ajustare mască pentru ecrane mici ca să nu dispară complet */
+  .wch-grid-bg {
+    mask-image: radial-gradient(ellipse 100vw 400px at 50% 0%, black 30%, transparent 80%);
+    -webkit-mask-image: radial-gradient(ellipse 100vw 400px at 50% 0%, black 30%, transparent 80%);
+  }
+}
+
+/* ─── META CHIPS ─── */
+.wch-meta { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; padding-top: 18px; border-top: 1px solid var(--vp-c-divider); }
+.wch-meta-chip {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 12.5px; color: var(--vp-c-text-2); font-weight: 500;
+  text-decoration: none; transition: all 0.25s ease;
+  animation: ch-float-meta 6s ease-in-out infinite 1.2s;
+}
+.wch-meta-chip:hover {
+  transform: translateY(-1px);
 }
 .wch-meta-chip svg { color: var(--vp-c-text-3); }
 .wch-author-link:hover { color: var(--vp-c-brand-1); }

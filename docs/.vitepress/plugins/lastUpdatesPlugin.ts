@@ -14,22 +14,7 @@ const SECTION_COLOR_MAP: Record<string, string> = {
   updates_wiki: 'amber',
 }
 
-const COLOR_MAP: Record<string, string> = {
-  PageTagRed: 'red',
-  PageTagBlue: 'blue',
-  PageTagGreen: 'green',
-  PageTagPurple: 'purple',
-  PageTagPink: 'pink',
-  PageTagOrange: 'orange',
-  PageTagTeal: 'teal',
-  PageTagAmber: 'amber',
-  PageTagYellow: 'amber',
-  PageTagIndigo: 'purple',
-  PageTagCyan: 'teal',
-  PageTagFuchsia: 'pink',
-  PageTagEmerald: 'green',
-  PageTagGray: 'blue',
-}
+
 
 export interface UpdateCard {
   title: string
@@ -93,12 +78,12 @@ function formatDate(d: Date): string {
   ].join('.')
 }
 
-function parseTags(str: string): Array<{ text: string; component: string }> {
-  const tags: Array<{ text: string; component: string }> = []
-  const re = /\{[^}]*text:\s*['"]([^'"]*)['"]\s*,\s*component:\s*['"]([^'"]*)['"]\s*\}/g
+function parseTags(str: string): Array<{ text: string; color: string }> {
+  const tags: Array<{ text: string; color: string }> = []
+  const re = /\{[^}]*text:\s*['"]([^'"]*)['"]\s*,\s*color:\s*['"]([^'"]*)['"]\s*\}/g
   let m: RegExpExecArray | null
   while ((m = re.exec(str)) !== null) {
-    tags.push({ text: m[1], component: m[2] })
+    tags.push({ text: m[1], color: m[2] })
   }
   return tags
 }
@@ -115,7 +100,7 @@ function parsePath(str: string): string[] {
 
 interface ParsedHeader {
   title: string
-  tags: Array<{ text: string; component: string }>
+  tags: Array<{ text: string; color: string }>
   pathArr: string[]
   badgeText: string
 }
@@ -225,7 +210,7 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
       const rel = path.relative(docsDir, filepath)
       const link = '/' + rel.replace(/\\/g, '/').replace(/\.md$/, '')
       const sectionFolder = rel.split(/[\\/]/)[0]
-      const tagColor = SECTION_COLOR_MAP[sectionFolder] || (tags[0] ? (COLOR_MAP[tags[0].component] || 'red') : 'red')
+      const tagColor = SECTION_COLOR_MAP[sectionFolder] || (tags[0] ? (tags[0].color || 'red') : 'red')
       const category = pathArr.length >= 2
         ? pathArr[pathArr.length - 2]
         : (pathArr[0] || title)
@@ -235,8 +220,8 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
         || SECTION_ICON_MAP[sectionFolder]
         || 'mdi:file-document-outline'
 
-      const tag1Color = tags[0]?.component ? (COLOR_MAP[tags[0].component] || tagColor) : tagColor
-      const tag2Color = tags[1]?.component ? (COLOR_MAP[tags[1].component] || tagColor) : tagColor
+      const tag1Color = tags[0]?.color || tagColor
+      const tag2Color = tags[1]?.color || tagColor
 
       results.push({
         title,

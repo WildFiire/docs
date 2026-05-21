@@ -7,92 +7,104 @@
 
     <!-- ============ HERO SECTION ============ -->
     <section id="hero" class="wf-section wf-hero">
-      <div ref="heroContainer" class="wf-container">
-        <!-- Logo with Liquid Metal shader -->
-        <div class="wf-hero__logo">
-          <LiquidMetalLogo
-            class="wf-hero__logo-shader"
-            :width="500"
-            :height="500"
-            image="/icons/wildfire.png"
-            colorBack="#00000000"
-            colorTint="#ff7800a6"
-            shape="none"
-            :repetition="2"
-            :softness="0.1"
-            :shiftRed="0.3"
-            :shiftBlue="0.3"
-            :distortion="0.07"
-            :contour="0.4"
-            :angle="70"
-            :speed="1"
-            :scale="0.6"
-            fit="contain"
-          />
-        </div>
-
-        <!-- Title -->
-        <h1 class="wf-hero__title orbitron-font anim-item" data-anim="slide-up" data-delay="100">
-          <span class="t-white">Wild</span><span class="t-fire">Fire</span><span class="t-docs"><Icon icon="mdi:book-open-page-variant" width="14" height="14" style="vertical-align: -1px; margin-right: 4px;" />DOCS</span>
-        </h1>
-
-        <!-- Subtitle -->
-        <p class="wf-hero__sub orbitron-font anim-item" data-anim="slide-up" data-delay="200">
-          Documentation for the ones who build in the ashes
-        </p>
-
-        <!-- Search bar -->
-        <button
-          class="wf-search magnetic-btn anim-item" data-anim="slide-up" data-delay="300"
-          @click="openSearch"
-          ref="searchBtn"
-          :style="magneticStyle(searchMag)"
-        >
-          <svg class="wf-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-          <span class="wf-search__text">Search documentation...</span>
-          <kbd class="wf-search__kbd">Ctrl K</kbd>
-        </button>
-
-        <!-- CTA row -->
-        <div class="wf-hero__actions anim-item" data-anim="slide-up" data-delay="400">
-          <a
-            href="/informatii/about"
-            class="wf-btn wf-btn--primary magnetic-btn"
-            ref="ctaBtn"
-            :style="magneticStyle(ctaMag)"
-          >
-            <Icon icon="mdi:book-open-page-variant" width="18" height="18" />
-            Read
-          </a>
-          <a
-            href="https://discord.gg/wildfire"
-            target="_blank"
-            class="wf-btn wf-btn--ghost magnetic-btn"
-            ref="discordBtn"
-            :style="magneticStyle(discordMag)"
-          >
-            About
-          </a>
-        </div>
-
-        <!-- Scroll hint -->
-        <div class="wf-hero__scroll-hint anim-item" data-anim="slide-up" data-delay="500" :class="{ 'fade-out': scrollY > 100 }">
-          <span class="wf-hero__scroll-text">SCROLL</span>
-          <div class="wf-hero__scroll-mouse">
-            <div class="wf-hero__scroll-wheel"></div>
+      <div ref="heroContainer" class="wf-container wf-hero-split">
+        <!-- LEFT COLUMN: Logo & Title -->
+        <div class="wf-hero-split__left">
+          <div class="wf-hero-split__left-inner">
+          <!-- Logo with Liquid Metal shader -->
+          <div class="wf-hero__logo">
+            <LiquidMetalLogo
+              class="wf-hero__logo-shader"
+              :width="350"
+              :height="350"
+              image="/icons/wildfire.png"
+              colorBack="#00000000"
+              colorTint="#ff7800a6"
+              shape="none"
+              :repetition="2"
+              :softness="0.1"
+              :shiftRed="0.3"
+              :shiftBlue="0.3"
+              :distortion="0.07"
+              :contour="0.4"
+              :angle="70"
+              :speed="1"
+              :scale="0.6"
+              fit="contain"
+            />
           </div>
+
+          <!-- Title -->
+          <h1 class="wf-hero__title orbitron-font anim-item" data-anim="slide-up" data-delay="100">
+            <span class="t-white">Wild</span><span class="t-fire">Fire</span><span class="t-docs"><Icon icon="mdi:book-open-page-variant" width="14" height="14" style="vertical-align: -1px; margin-right: 4px;" />DOCS</span>
+          </h1>
+
+          <!-- Subtitle -->
+          <div class="wf-hero-float wf-hero-float--sub">
+            <p class="wf-hero__sub orbitron-font anim-item" data-anim="slide-up" data-delay="200">
+              Documentation for the ones who build in the ashes
+            </p>
+          </div>
+
+          <!-- Search bar -->
+          <div class="wf-hero-float wf-hero-float--search" style="width: 100%; max-width: 440px; z-index: 20;">
+            <div class="wf-search-wrapper anim-item" data-anim="slide-up" data-delay="300" style="width: 100%;">
+              <button
+                class="wf-search magnetic-btn"
+                @click="openSearch"
+                ref="searchBtn"
+                :style="magneticStyle(searchMag)"
+              >
+                <svg class="wf-search__icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
+                <span class="wf-search__text">Search documentation...</span>
+                <kbd class="wf-search__kbd">Ctrl K</kbd>
+              </button>
+            </div>
+          </div>
+
+          <!-- CTA row -->
+          <div class="wf-hero__actions anim-item" data-anim="slide-up" data-delay="400">
+            <div class="wf-hero-float wf-hero-float--btn1">
+              <a
+                href="/informatii/about"
+                class="wf-btn wf-btn--primary magnetic-btn"
+                ref="ctaBtn"
+                :style="magneticStyle(ctaMag)"
+              >
+                <Icon icon="mdi:book-open-page-variant" width="18" height="18" />
+                Read
+              </a>
+            </div>
+            <div class="wf-hero-float wf-hero-float--btn2">
+              <a
+                href="https://discord.gg/wildfire"
+                target="_blank"
+                class="wf-btn wf-btn--ghost magnetic-btn"
+                ref="discordBtn"
+                :style="magneticStyle(discordMag)"
+              >
+                About
+              </a>
+            </div>
+          </div>
+
+          <!-- Scroll hint -->
+          <div class="wf-hero__scroll-hint anim-item" data-anim="slide-up" data-delay="500" :class="{ 'fade-out': scrollY > 100 }">
+            <span class="wf-hero__scroll-text">SCROLL</span>
+            <div class="wf-hero__scroll-mouse">
+              <div class="wf-hero__scroll-wheel"></div>
+            </div>
+          </div>
+          </div> <!-- End inner container -->
         </div>
-      </div>
-    </section>
 
-    <!-- Divider -->
-    <div class="wf-divider"><span class="wf-divider__line"></span></div>
-
-    <!-- ============ 1. LAST UPDATES (compact) ============ -->
-    <section id="updates" class="wf-section wf-updates">
-      <div class="wf-container">
-        <div class="anim-item" data-anim="slide-up">
-          <LastUpdates />
+        <!-- DIVIDER LINE: REMOVED FOR CLEAN NEGATIVE SPACE -->
+        
+        <!-- RIGHT COLUMN: Last Updates Panel -->
+        <div class="wf-hero-split__right anim-item" data-anim="slide-right" data-delay="500">
+          <div class="wf-hero-split__right-panel">
+            <LastUpdates />
+          </div>
         </div>
       </div>
     </section>
@@ -374,9 +386,10 @@ const setupScrollAnimations = () => {
       const el = entry.target as HTMLElement
       const delay = parseInt(el.dataset.delay || '0', 10)
       if (entry.isIntersecting) {
-        setTimeout(() => el.classList.add('anim-visible'), delay)
-      } else {
-        el.classList.remove('anim-visible')
+        setTimeout(() => {
+          el.classList.add('anim-visible')
+          if (observer) observer.unobserve(el)
+        }, delay)
       }
     })
   }, { threshold: 0.08, rootMargin: '0px 0px -60px 0px' })
@@ -418,9 +431,14 @@ const updateParallax = () => {
     parallaxRaf = null
   } else {
     if (heroContainer.value) {
-      heroContainer.value.style.willChange = 'transform, opacity'
-      heroContainer.value.style.transform = `translateY(${-lerpedScrollY * 0.18}px)`
-      heroContainer.value.style.opacity = `${1 - lerpedScrollY * 0.0015}`
+      if (window.innerWidth > 1024) {
+        heroContainer.value.style.willChange = 'transform, opacity'
+        heroContainer.value.style.transform = `translateY(${-lerpedScrollY * 0.18}px)`
+        heroContainer.value.style.opacity = `${Math.max(0, 1 - lerpedScrollY * 0.0015)}`
+      } else {
+        heroContainer.value.style.transform = 'none'
+        heroContainer.value.style.opacity = '1'
+      }
     }
     
     const isDarkCurrent = document.documentElement.classList.contains('dark')
@@ -648,82 +666,101 @@ onUnmounted(() => {
   color: rgba(0, 0, 0, 0.5);
 }
 
-/* Search bar (Extra Fine Professional) */
+/* Search bar (Premium Liquid Glass Redesign) */
 .wf-search {
   display: flex;
   align-items: center;
   gap: 12px;
   width: 100%;
   max-width: 440px;
-  padding: 12px 20px;
+  padding: 14px 24px;
   margin-bottom: 32px;
   
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(20, 20, 25, 0.4);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
   
-  border: 1px solid rgba(255, 255, 255, 0.06);
-  border-radius: 40px;
-  color: rgba(255, 255, 255, 0.6);
-  font-size: 13px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-top-color: rgba(255, 120, 0, 0.3);
+  border-radius: 16px;
+  color: rgba(255, 255, 255, 0.7);
+  font-size: 14px;
   cursor: pointer;
   
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.03);
-  transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 
+    inset 0 2px 2px rgba(255, 255, 255, 0.1),
+    0 8px 24px rgba(0, 0, 0, 0.4);
+  transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .wf-search:hover {
-  border-color: rgba(255, 255, 255, 0.15);
-  background: rgba(255, 255, 255, 0.05);
-  transform: translateY(-1px);
-  color: rgba(255, 255, 255, 0.9);
+  background: rgba(30, 30, 35, 0.5);
+  border-color: rgba(255, 255, 255, 0.2);
+  border-top-color: rgba(255, 120, 0, 0.6);
+  transform: translateY(-2px);
+  color: rgba(255, 255, 255, 1);
+  box-shadow: 
+    inset 0 2px 4px rgba(255, 255, 255, 0.2),
+    0 12px 32px rgba(0, 0, 0, 0.6),
+    0 0 20px rgba(255, 120, 0, 0.1);
 }
 
 .wf-home--light .wf-search {
   background: rgba(255, 255, 255, 0.7);
   border-color: rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.5);
+  color: rgba(0, 0, 0, 0.6);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
 }
 
 .wf-home--light .wf-search:hover {
-  border-color: rgba(255, 120, 0, 0.3);
+  border-top-color: #ff7800;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 .wf-search__icon {
   flex-shrink: 0;
-  opacity: 0.5;
+  color: #ff7800;
+  opacity: 0.8;
+  transition: all 0.3s ease;
+}
+
+.wf-search:hover .wf-search__icon {
+  opacity: 1;
+  filter: drop-shadow(0 0 8px rgba(255, 120, 0, 0.6));
 }
 
 .wf-search__text {
   flex: 1;
   text-align: left;
-  font-size: 13px;
+  font-size: 14px;
+  font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
 }
 
 .wf-search__kbd {
-  font-size: 10px;
-  font-weight: 600;
-  padding: 3px 8px;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 4px 10px;
   border-radius: 6px;
-  background: rgba(255, 255, 255, 0.06);
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  color: rgba(255, 255, 255, 0.5);
+  background: rgba(255, 120, 0, 0.1);
+  border: 1px solid rgba(255, 120, 0, 0.2);
+  color: #ff7800;
   white-space: nowrap;
+  transition: all 0.3s ease;
 }
 
 .wf-home--light .wf-search__kbd {
-  background: rgba(0, 0, 0, 0.04);
-  border-color: rgba(0, 0, 0, 0.08);
-  color: rgba(0, 0, 0, 0.4);
+  background: rgba(255, 120, 0, 0.1);
+  border-color: rgba(255, 120, 0, 0.2);
 }
 
 .wf-search:hover .wf-search__kbd {
   background: #ff7800;
   color: #fff;
   border-color: #ff7800;
+  box-shadow: 0 0 12px rgba(255, 120, 0, 0.4);
 }
 
 /* CTA Buttons */
@@ -1429,6 +1466,324 @@ onUnmounted(() => {
     max-width: 48px;
     padding: 12px;
     justify-content: center;
+  }
+}
+
+/* ===== HERO SPLIT LAYOUT ===== */
+.wf-hero-split.wf-container {
+  display: flex;
+  flex-direction: row !important; /* Force side-by-side */
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1150px !important; /* Aligns properly with Navbar */
+  margin: 0 auto;
+  gap: 80px;
+  padding: 0 20px;
+}
+
+/* LEFT SIDE */
+.wf-hero-split__left {
+  position: relative;
+  flex: 1;
+  max-width: 450px;
+  perspective: 1200px;
+}
+
+.wf-hero-split__left-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  transform: rotateY(12deg) rotateX(4deg); /* Much stronger 3D effect */
+  transform-style: preserve-3d;
+  backface-visibility: hidden; /* Prevents text blur */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+  width: 100%;
+}
+
+.wf-hero-split__left:hover .wf-hero-split__left-inner {
+  transform: rotateY(4deg) rotateX(1deg); /* Flattens interactively on hover */
+}
+
+/* 3D Pop-out effects for internal elements */
+@keyframes floatZ-logo {
+  0%, 100% { transform: translateZ(50px); }
+  50% { transform: translateZ(70px) translateY(-5px); }
+}
+@keyframes floatZ-title-1 {
+  0%, 100% { transform: translateZ(40px); }
+  50% { transform: translateZ(55px); }
+}
+@keyframes floatZ-title-2 {
+  0%, 100% { transform: translateZ(35px); }
+  50% { transform: translateZ(45px); }
+}
+@keyframes floatZ-title-3 {
+  0%, 100% { transform: translateZ(45px); }
+  50% { transform: translateZ(60px); }
+}
+@keyframes floatZ-sub {
+  0%, 100% { transform: translateZ(25px); }
+  50% { transform: translateZ(35px); }
+}
+@keyframes floatZ-search {
+  0%, 100% { transform: translateZ(30px); }
+  50% { transform: translateZ(45px); }
+}
+@keyframes floatZ-btn-1 {
+  0%, 100% { transform: translateZ(20px); }
+  50% { transform: translateZ(30px); }
+}
+@keyframes floatZ-btn-2 {
+  0%, 100% { transform: translateZ(10px); }
+  50% { transform: translateZ(20px); }
+}
+@keyframes floatZ-hint {
+  0%, 100% { transform: translateZ(5px); }
+  50% { transform: translateZ(15px); }
+}
+
+.wf-hero-split__left-inner .wf-hero__logo {
+  animation: floatZ-logo 6s ease-in-out infinite;
+}
+
+.wf-hero-split__left-inner .wf-hero__title {
+  transform-style: preserve-3d;
+}
+
+.wf-hero-split__left-inner .wf-hero__title .t-white {
+  display: inline-block;
+  animation: floatZ-title-1 4.5s ease-in-out infinite 0.2s;
+}
+
+.wf-hero-split__left-inner .wf-hero__title .t-fire {
+  display: inline-block;
+  animation: floatZ-title-2 5s ease-in-out infinite 0.5s;
+}
+
+.wf-hero-split__left-inner .wf-hero__title .t-docs {
+  display: inline-flex;
+  animation: floatZ-title-3 5.5s ease-in-out infinite 0.8s;
+}
+
+.wf-hero-split__left-inner .wf-hero-float--sub {
+  animation: floatZ-sub 5.5s ease-in-out infinite 1s;
+  transform-style: preserve-3d;
+}
+
+.wf-hero-split__left-inner .wf-hero-float--search {
+  animation: floatZ-search 4.5s ease-in-out infinite 1.5s;
+  z-index: 20;
+  transform-style: preserve-3d;
+  width: 100%;
+}
+
+.wf-hero-split__left-inner .wf-hero__actions {
+  transform-style: preserve-3d;
+}
+
+.wf-hero-split__left-inner .wf-hero-float--btn1 {
+  animation: floatZ-btn-1 4.8s ease-in-out infinite 0.3s;
+  transform-style: preserve-3d;
+}
+
+.wf-hero-split__left-inner .wf-hero-float--btn2 {
+  animation: floatZ-btn-2 5.2s ease-in-out infinite 0.9s;
+  transform-style: preserve-3d;
+}
+
+.wf-hero-split__left-inner .wf-hero__scroll-hint {
+  animation: floatZ-hint 6s ease-in-out infinite 1.2s;
+}
+
+.wf-hero-split__left::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 40%;
+  transform: translate(-50%, -50%);
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.08) 0%, transparent 60%);
+  z-index: -1;
+  pointer-events: none;
+}
+
+.wf-hero-split__left .wf-hero__logo {
+  margin-left: 0;
+  margin-bottom: -10px;
+  margin-top: -40px;
+  align-self: center; /* Centers the logo over the title */
+}
+
+.wf-hero-split__left .wf-hero__logo-shader {
+  width: 350px !important;
+  height: 350px !important;
+}
+
+.wf-hero-split__left .wf-hero__title {
+  text-align: left;
+}
+
+.wf-hero-split__left .wf-hero__sub {
+  text-align: left;
+  margin-bottom: 40px;
+}
+
+.wf-hero-split__left .wf-hero__actions {
+  justify-content: center;
+  align-self: center;
+  width: 100%;
+}
+
+.wf-hero-split__left .wf-hero__scroll-hint {
+  align-items: center;
+  align-self: center;
+  margin-top: 50px;
+}
+
+/* RIGHT SIDE PANEL */
+.wf-hero-split__right {
+  flex: 1.6;
+  max-width: 750px;
+  perspective: 1200px;
+  margin-right: -100px; /* Push to the right so tags are fully visible */
+}
+
+.wf-hero-split__right-panel {
+  width: 100%;
+  padding: 16px 24px; /* Reduced padding for a tighter fit */
+  background: rgba(20, 20, 25, 0.25); /* Extra translucent */
+  backdrop-filter: blur(24px) saturate(150%);
+  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+  box-shadow: 
+    inset 0 1px 2px rgba(255, 255, 255, 0.15), 
+    0 20px 40px rgba(0, 0, 0, 0.4);
+  transform: scale(0.88) rotateY(-4deg) rotateX(2deg); /* Restored scale so internal layout is not squished */
+  transform-style: preserve-3d;
+  backface-visibility: hidden; /* Fix for Webkit text blur during 3D scale */
+  -webkit-font-smoothing: antialiased; 
+  -moz-osx-font-smoothing: grayscale;
+  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wf-hero-split__right-panel:hover {
+  transform: scale(0.92) rotateY(0deg) rotateX(0deg) translateY(-5px);
+  background: rgba(30, 30, 35, 0.35);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 
+    inset 0 1px 3px rgba(255, 255, 255, 0.25), 
+    0 30px 60px rgba(0, 0, 0, 0.6), 
+    0 0 40px rgba(255, 120, 0, 0.08);
+}
+
+.wf-home--light .wf-hero-split__right-panel {
+  background: rgba(255, 255, 255, 0.5);
+  border-color: rgba(255, 120, 0, 0.1);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05), inset 0 1px 0 rgba(255, 255, 255, 0.4);
+}
+.wf-home--light .wf-hero-split__right-panel:hover {
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+/* Adjust Last Updates inside Split */
+.wf-hero-split__right :deep(.lu-grid) {
+  grid-template-columns: repeat(2, 1fr) !important;
+  gap: 24px;
+}
+.wf-hero-split__right :deep(.lu-title) {
+  text-align: left;
+  justify-content: flex-start;
+  font-size: 24px;
+}
+.wf-hero-split__right :deep(.lu-desc) {
+  text-align: left;
+}
+.wf-hero-split__right :deep(.lu-section-label) {
+  justify-content: flex-start;
+}
+
+@media (max-width: 1024px) {
+  .wf-hero-split.wf-container {
+    display: flex;
+    flex-direction: column !important;
+    text-align: center;
+    gap: 40px;
+  }
+  .wf-hero-split__left,
+  .wf-hero-split__left-inner {
+    align-items: center;
+    text-align: center;
+  }
+  .wf-hero-split__left-inner .wf-search-wrapper {
+    display: flex;
+    justify-content: center;
+  }
+  .wf-hero-split__left .wf-hero__logo {
+    margin-left: 0;
+    align-self: center;
+  }
+  
+  /* Reset 3D transforms for mobile */
+  .wf-hero-split__left-inner,
+  .wf-hero-split__left:hover .wf-hero-split__left-inner,
+  .wf-hero-split__right-panel,
+  .wf-hero-split__right-panel:hover {
+    transform: none !important;
+  }
+  .wf-hero-split__left-inner > * {
+    transform: none !important;
+  }
+  .wf-hero-split__right {
+    margin-right: 0;
+    max-width: 100%;
+  }
+  .wf-hero-split__left .wf-hero__logo-shader {
+    width: 200px !important;
+    height: 200px !important;
+  }
+  .wf-hero-split__left .wf-hero__title,
+  .wf-hero-split__left .wf-hero__sub {
+    text-align: center;
+  }
+  .wf-hero-split__left .wf-hero__actions {
+    justify-content: center;
+  }
+  .wf-hero__scroll-hint {
+    display: none; /* Hide on mobile */
+  }
+  .wf-hero-split__right {
+    margin-right: 0;
+    max-width: 100%;
+  }
+  .wf-hero-split__right-panel {
+    transform: none !important;
+    padding: 20px;
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  .wf-home--light .wf-hero-split__right-panel {
+    background: transparent;
+    border: none;
+    box-shadow: none;
+  }
+  .wf-hero-split__right :deep(.lu-title),
+  .wf-hero-split__right :deep(.lu-desc),
+  .wf-hero-split__right :deep(.lu-section-label) {
+    text-align: center;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 640px) {
+  .wf-hero-split__right :deep(.lu-grid) {
+    grid-template-columns: 1fr !important;
   }
 }
 </style>

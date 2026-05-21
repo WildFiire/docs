@@ -7,9 +7,9 @@ outline: deep
 <CaseHeader 
   title="Anti Rush System"
   :tags="[
-    { text: 'other', component: 'PageTagRed' },
-    { text: 'gameplay', component: 'PageTagBlue' },
-    { text: 'protection', component: 'PageTagPurple' }
+    { text: 'other', color: 'red' },
+    { text: 'gameplay', color: 'blue' },
+    { text: 'protection', color: 'purple' }
   ]"
   :path="['Home', 'Systems', 'Other', 'Anti Rush']"
   background="/wallpaper/backgroundwf.webp"
