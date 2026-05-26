@@ -212,6 +212,10 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import { Icon } from '@iconify/vue'
 
+// Determine environment globally
+const host = window.location.hostname
+const isLocal = host === 'localhost' || host === '127.0.0.1'
+
 const { theme, isDark } = useData()
 const route = useRoute()
 
@@ -237,8 +241,7 @@ const currentFlag = computed(() => {
 })
 
 function updateGoogtransCookie(code: string) {
-  const host = window.location.hostname
-  const isLocal = host === 'localhost' || host === '127.0.0.1'
+  // Clear translation cookie for both local and production
   document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
   if (!isLocal) {
     document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${host};`
@@ -260,10 +263,10 @@ function getCookie(name: string) {
 
 function changeLang(code: string) {
   currentLang.value = code
+  // Clear translation cookie for Romanian or set for English
   updateGoogtransCookie(code)
-  setTimeout(() => {
-    window.location.reload()
-  }, 100)
+  // Force a hard reload to ensure language switch takes effect
+  window.location.href = window.location.pathname + window.location.search
 }
 
 const navLogout = () => {
@@ -336,8 +339,8 @@ onMounted(() => {
     }
   } catch {}
 
-  // Inject Google Translate script globally (Home page needs this)
-  if (!document.getElementById('google-translate-script')) {
+  // Inject Google Translate script globally only in local dev to avoid CSP violations in production
+  if (isLocal && !document.getElementById('google-translate-script')) {
     const script = document.createElement('script')
     script.id = 'google-translate-script'
     script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
