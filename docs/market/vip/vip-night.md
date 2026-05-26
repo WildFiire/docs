@@ -1,6 +1,6 @@
 ---
 title: "VIP NIGHT"
-description: "Descoperă totul despre VIP NIGHT pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre VIP NIGHT pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 

@@ -157,17 +157,17 @@ import CS2Background from './CS2Background.vue'
 const { isDark: themeFromVitePress } = useData()
 const isDark = ref(true)
 
-// Sincronizează cu tema din VitePress
+// Sincronizeaza cu tema din VitePress
 onMounted(() => {
-  // Inițializează
+  // Initializeaza
   if (themeFromVitePress.value !== undefined) {
     isDark.value = themeFromVitePress.value
   } else {
-    // Fallback: verifică clasa de pe html
+    // Fallback: verifica clasa de pe html
     isDark.value = document.documentElement.classList.contains('dark')
   }
   
-  // Ascultă schimbările clasei de pe html
+  // Asculta schimbarile clasei de pe html
   const observer = new MutationObserver(() => {
     isDark.value = document.documentElement.classList.contains('dark')
   })
@@ -177,7 +177,7 @@ onMounted(() => {
   onUnmounted(() => observer.disconnect())
 })
 
-// Watch pentru schimbări din VitePress
+// Watch pentru schimbari din VitePress
 watch(themeFromVitePress, (newVal) => {
   if (newVal !== undefined) isDark.value = newVal
 })
@@ -810,7 +810,7 @@ function fireflyStyle(n) {
   -webkit-tap-highlight-color: transparent;
 }
 
-/* ===== COLȚURI SUBTILE - DOAR LINIE ===== */
+/* ===== COLTURI SUBTILE - DOAR LINIE ===== */
 .corner-dot-tl,
 .corner-dot-tr,
 .corner-dot-bl,

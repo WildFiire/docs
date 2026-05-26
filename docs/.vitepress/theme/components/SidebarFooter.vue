@@ -107,7 +107,7 @@ const langMenuOpen = ref(false)
 const wrapRef = ref(null)
 
 const languages = [
-  { code: 'ro', name: 'Română', flag: 'circle-flags:ro' },
+  { code: 'ro', name: 'Romana', flag: 'circle-flags:ro' },
   { code: 'en', name: 'English', flag: 'circle-flags:uk' },
 ]
 

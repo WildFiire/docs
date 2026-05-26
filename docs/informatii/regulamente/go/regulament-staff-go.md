@@ -1,6 +1,6 @@
 ---
 title: "Regulament STAFF"
-description: "Descoperă totul despre Regulament STAFF pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre Regulament STAFF pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 
@@ -149,7 +149,7 @@ html:not(.dark) {
   --rule-number-text: #ff8c00;
 }
 
-/* SVG-uri în dark mode - DOAR ALBE */
+/* SVG-uri in dark mode - DOAR ALBE */
 .dark .nav-icon,
 .dark .rule-icon svg,
 .dark .section-title svg,
@@ -158,7 +158,7 @@ html:not(.dark) {
   opacity: 0.9;
 }
 
-/* SVG-uri în light mode */
+/* SVG-uri in light mode */
 :not(.dark) .nav-icon,
 :not(.dark) .rule-icon svg,
 :not(.dark) .section-title svg,
@@ -346,7 +346,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
   line-height: 1.2;
 }
 
-/* Stil pentru numărul regulii */
+/* Stil pentru numarul regulii */
 .rule-number {
   display: inline-block;
   background: var(--rule-number-bg);
@@ -813,7 +813,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">3.9</span> Dacă între staff apare un <span class="highlight orbitron-font">conflict</span>, acesta trebuie discutat cu <span class="highlight orbitron-font">Server Manager-ul</span>.
+    <span class="rule-number orbitron-font">3.9</span> Daca intre staff apare un <span class="highlight orbitron-font">conflict</span>, acesta trebuie discutat cu <span class="highlight orbitron-font">Server Manager-ul</span>.
   </div>
 </div>
 

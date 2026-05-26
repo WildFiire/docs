@@ -1,6 +1,6 @@
 ---
 title: "Regulament VIP"
-description: "Descoperă totul despre Regulament VIP pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre Regulament VIP pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 
@@ -156,7 +156,7 @@ html:not(.dark) {
   --rule-number-text: #ff8c00;
 }
 
-/* SVG-uri în dark mode - DOAR ALBE */
+/* SVG-uri in dark mode - DOAR ALBE */
 .dark .nav-icon,
 .dark .rule-icon svg,
 .dark .section-title svg,
@@ -165,7 +165,7 @@ html:not(.dark) {
   opacity: 0.9;
 }
 
-/* SVG-uri în light mode */
+/* SVG-uri in light mode */
 :not(.dark) .nav-icon,
 :not(.dark) .rule-icon svg,
 :not(.dark) .section-title svg,
@@ -365,7 +365,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
   line-height: 1.2;
 }
 
-/* Stil pentru numărul regulii */
+/* Stil pentru numarul regulii */
 .rule-number {
   display: inline-block;
   background: var(--rule-number-bg);

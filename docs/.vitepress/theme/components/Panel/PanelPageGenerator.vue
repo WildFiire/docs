@@ -2490,7 +2490,7 @@ export default defineComponent({
 
     addCol(blk) {
         if (!blk.tableData) blk.tableData = { columns: [], rows: [] };
-        blk.tableData.columns.push({ name: 'Coloană Nouă', width: '', align: 'left' });
+        blk.tableData.columns.push({ name: 'Coloana Noua', width: '', align: 'left' });
         blk.tableData.rows.forEach(row => row.push([{ type: 'text', text: '' }]));
     },
     removeCol(blk, ci) {
@@ -2551,8 +2551,8 @@ export default defineComponent({
       else if (type === 'table') Object.assign(blk, { 
           tableData: {
               columns: [
-                  { name: 'Comandă', width: '20%', align: 'left' },
-                  { name: 'Sintaxă', width: '25%', align: 'left' },
+                  { name: 'Comanda', width: '20%', align: 'left' },
+                  { name: 'Sintaxa', width: '25%', align: 'left' },
                   { name: 'Descriere', width: '40%', align: 'left' },
                   { name: 'Grad minim', width: '15%', align: 'center' }
               ],
@@ -3914,7 +3914,7 @@ kbd {
 .wf-cmd-table thead tr { background: rgba(var(--accent-rgb), 0.08) !important; }
 .wf-cmd-table thead th { font-family: 'Orbitron', sans-serif; font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--accent); text-align: left; border-bottom: 1px solid rgba(var(--accent-rgb), 0.2) !important; }
 
-/* Stilizări speciale integrate (ca să meargă renderInline cu pastile și cod) */
+/* Stilizari speciale integrate (ca sa mearga renderInline cu pastile si cod) */
 .wf-cmd-table code { color: var(--accent) !important; background: rgba(var(--accent-rgb), 0.1) !important; border: 1px solid rgba(var(--accent-rgb), 0.25); border-radius: 6px; padding: 2px 8px; font-size: 12px; font-weight: 700; font-family: 'JetBrains Mono', monospace;}
 .wf-cmd-pill { display: inline-flex; align-items: center; gap: 8px; font-family: 'Orbitron', sans-serif; font-size: 11px; font-weight: 800; color: var(--accent); background: rgba(var(--accent-rgb), 0.08); border: 1px solid rgba(var(--accent-rgb), 0.25); border-radius: 12px; padding: 4px 12px; white-space: nowrap; box-shadow: 0 2px 6px rgba(0,0,0,0.2); }
 

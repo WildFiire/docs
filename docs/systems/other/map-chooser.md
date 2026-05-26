@@ -1,6 +1,6 @@
 ---
 title: "Map Chooser / RTV"
-description: "Descoperă totul despre Map Chooser / RTV pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre Map Chooser / RTV pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 
@@ -32,14 +32,14 @@ outline: "deep"
   <div class="wf-system-icon"><Icon icon="lucide:map" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
     <span class="wf-system-number">Map Selection</span> <span class="wf-system-highlight">Sistemul de Map Chooser</span>
-    <p>Map Chooser este sistemul care permite comunității să decidă următoarea hartă pe care se va juca. Acesta este format din trei module principale care lucrează împreună pentru a asigura o rotație diversificată și corectă a hărților.</p>
-    <p>Spre deosebire de sistemul default CS2, acesta oferă posibilitatea de a nominaliza hărți specifice și de a forța un vot dacă jucătorii s-au plictisit de harta curentă.</p>
+    <p>Map Chooser este sistemul care permite comunitatii sa decida urmatoarea harta pe care se va juca. Acesta este format din trei module principale care lucreaza impreuna pentru a asigura o rotatie diversificata si corecta a hartilor.</p>
+    <p>Spre deosebire de sistemul default CS2, acesta ofera posibilitatea de a nominaliza harti specifice si de a forta un vot daca jucatorii s-au plictisit de harta curenta.</p>
   </div>
 </div>
 
 <div class="wf-system-tip">
   <Icon icon="lucide:check-circle" width="22" height="22" color="#00c851" />
-  <p class="wf-system-tip-text">Votul final apare automat în ultimele minute/runde ale hărții curente.</p>
+  <p class="wf-system-tip-text">Votul final apare automat in ultimele minute/runde ale hartii curente.</p>
 </div>
 
 <!-- 2.0 MODULE PRINCIPALE -->
@@ -54,7 +54,7 @@ outline: "deep"
   <div class="wf-system-icon"><Icon icon="lucide:rotate-cw" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
     <h3 style="margin-top: 0; font-size: 18px;" class="wf-system-font">RTV (Rock The Vote)</h3>
-    <p>Permite jucătorilor să ceară schimbarea hărții înainte ca timpul oficial să expire. Odată ce un anumit procent de jucători scriu <code>!rtv</code>, un vot pentru schimbarea hărții va fi pornit instantaneu.</p>
+    <p>Permite jucatorilor sa ceara schimbarea hartii inainte ca timpul oficial sa expire. Odata ce un anumit procent de jucatori scriu <code>!rtv</code>, un vot pentru schimbarea hartii va fi pornit instantaneu.</p>
   </div>
 </div>
 
@@ -64,7 +64,7 @@ outline: "deep"
   <div class="wf-system-icon"><Icon icon="lucide:plus-circle" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
     <h3 style="margin-top: 0; font-size: 18px;" class="wf-system-font">Nominate</h3>
-    <p>Vrei o hartă anume? Folosește <code>!nominate</code> pentru a alege o hartă din listă. Hărțile nominalizate de jucători vor apărea cu prioritate în lista de vot de la finalul meciului.</p>
+    <p>Vrei o harta anume? Foloseste <code>!nominate</code> pentru a alege o harta din lista. Hartile nominalizate de jucatori vor aparea cu prioritate in lista de vot de la finalul meciului.</p>
   </div>
 </div>
 
@@ -73,7 +73,7 @@ outline: "deep"
     <img src="/votemap/mapvote.png" alt="Map Chooser Vote" style="width: 100%; max-width: 800px; height: auto; display: block; margin: 0 auto; border-radius: 12px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
     <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">voting menu</div>
   </div>
-  <div style="text-align: center; padding: 10px 12px 4px; font-size: 12px; color: var(--vp-c-text-2);">Exemplu meniu de vot la finalul hărții</div>
+  <div style="text-align: center; padding: 10px 12px 4px; font-size: 12px; color: var(--vp-c-text-2);">Exemplu meniu de vot la finalul hartii</div>
 </div>
 
 <!-- 3.0 COMENZI DISPONIBILE -->
@@ -85,13 +85,13 @@ outline: "deep"
 <div class="wf-system-card">
   <div class="wf-system-icon"><Icon icon="lucide:terminal" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
-    <p>Folosește următoarele comenzi în chat:</p>
+    <p>Foloseste urmatoarele comenzi in chat:</p>
     
   <ul class="wf-system-custom-list">
-      <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /><code>!rtv</code> — adaugă-ți votul pentru a schimba harta actuală.</li>
-      <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /><code>!nominate</code> — deschide lista hărților pentru a nominaliza una.</li>
-      <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /><code>!nextmap</code> — vezi în chat care este următoarea hartă stabilită.</li>
-      <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /><code>!timeleft</code> — vezi cât timp mai este până la votul automat.</li>
+      <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /><code>!rtv</code> — adauga-ti votul pentru a schimba harta actuala.</li>
+      <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /><code>!nominate</code> — deschide lista hartilor pentru a nominaliza una.</li>
+      <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /><code>!nextmap</code> — vezi in chat care este urmatoarea harta stabilita.</li>
+      <li><Icon icon="lucide:chevron-right" width="18" height="18" color="#ff8c00" /><code>!timeleft</code> — vezi cat timp mai este pana la votul automat.</li>
     </ul>
   </div>
 </div>

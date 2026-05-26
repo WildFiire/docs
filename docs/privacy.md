@@ -1,7 +1,7 @@
 ---
 layout: false
 title: Privacy Policy - Wildfire.ro CS2
-description: Politica de confidențialitate pentru utilizatorii platformei Wildfire CS2.
+description: Politica de confidentialitate pentru utilizatorii platformei Wildfire CS2.
 head:
   - - meta
     - name: theme-color

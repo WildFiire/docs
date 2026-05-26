@@ -1,6 +1,6 @@
 ---
 title: "Agents"
-description: "Descoperă totul despre Agents pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre Agents pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 
@@ -22,43 +22,43 @@ outline: "deep"
 
 <div class="wf-system">
 
-<!-- INTRO - DESCRIERE AGENȚI -->
+<!-- INTRO - DESCRIERE AGENTI -->
 <div class="wf-system-card">
   <div class="wf-system-icon"><Icon icon="lucide:users" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
     <span class="wf-system-number">Operators</span> <span class="wf-system-highlight">Agent System</span>
-    <p>Agenții sunt skin-uri de personaj care înlocuiesc modelele default ale jucătorilor din CS2. Fiecare agent are un design unic, voice lines specifice și animații proprii. Aceștia sunt împărțiți în două categorii: <span class="wf-system-highlight">Terrorist (T)</span> și <span class="wf-system-highlight">Counter-Terrorist (CT)</span>.</p>
-    <p>Odată câștigați, agenții sunt adăugați în inventar și pot fi echipați direct din meniul <code>!ws</code> sau de pe site. Poți schimba oricând agentul pentru fiecare echipă separat.</p>
+    <p>Agentii sunt skin-uri de personaj care inlocuiesc modelele default ale jucatorilor din CS2. Fiecare agent are un design unic, voice lines specifice si animatii proprii. Acestia sunt impartiti in doua categorii: <span class="wf-system-highlight">Terrorist (T)</span> si <span class="wf-system-highlight">Counter-Terrorist (CT)</span>.</p>
+    <p>Odata castigati, agentii sunt adaugati in inventar si pot fi echipati direct din meniul <code>!ws</code> sau de pe site. Poti schimba oricand agentul pentru fiecare echipa separat.</p>
   </div>
 </div>
 
 <div class="wf-system-tip">
   <svg class="wf-system-tip-icon" viewBox="0 0 24 24" fill="none" stroke="#00c851" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-  <p class="wf-system-tip-text">Agenții sunt <span class="wf-system-highlight">iteme cosmetice</span> care nu oferă niciun avantaj în joc. Fiecare agent are voice lines unice și animații proprii.</p>
+  <p class="wf-system-tip-text">Agentii sunt <span class="wf-system-highlight">iteme cosmetice</span> care nu ofera niciun avantaj in joc. Fiecare agent are voice lines unice si animatii proprii.</p>
 </div>
 
-### 1.0 INFORMAȚII
+### 1.0 INFORMATII
 
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="wf-system-title-hover">
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:mouse-pointer-click" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />1.0 INFORMAȚII</span>
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:mouse-pointer-click" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />1.0 INFORMATII</span>
 </div>
 
 <div class="wf-system-card">
   <div class="wf-system-icon"><Icon icon="lucide:command" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
-    <p>Totul începe cu o comandă simplă și o interfață intuitivă, controlată complet din <span class="wf-system-highlight">tastatură</span>.</p>
+    <p>Totul incepe cu o comanda simpla si o interfata intuitiva, controlata complet din <span class="wf-system-highlight">tastatura</span>.</p>
     
    <div class="wf-system-tip orange">
       <Icon icon="lucide:info" width="22" height="22" color="#ff8c00" />
-      <span>Scrie <code>!ws</code> în chat pentru a deschide interfața principală a <span class="wf-system-highlight">skin-urilor și agenților</span>.</span>
+      <span>Scrie <code>!ws</code> in chat pentru a deschide interfata principala a <span class="wf-system-highlight">skin-urilor si agentilor</span>.</span>
     </div>
     
-  <p>Navigarea prin meniul de agenți se face cu ajutorul tastelor:</p>
+  <p>Navigarea prin meniul de agenti se face cu ajutorul tastelor:</p>
     
   <div class="wf-system-key-row">
-      <div class="wf-system-key-item"><span class="wf-system-key-button">E</span><span>Tasta <span class="wf-system-highlight">E</span> - <strong>Selectează</strong> agentul</span></div>
-      <div class="wf-system-key-item"><span class="wf-system-key-button">F</span><span>Tasta <span class="wf-system-highlight">F</span> - <strong>Navighează în sus</strong> prin categorii</span></div>
-      <div class="wf-system-key-item"><span class="wf-system-key-button shift-btn">SHIFT</span><span>Tasta <span class="wf-system-highlight">SHIFT</span> - <strong>Navighează în jos</strong> prin categorii</span></div>
+      <div class="wf-system-key-item"><span class="wf-system-key-button">E</span><span>Tasta <span class="wf-system-highlight">E</span> - <strong>Selecteaza</strong> agentul</span></div>
+      <div class="wf-system-key-item"><span class="wf-system-key-button">F</span><span>Tasta <span class="wf-system-highlight">F</span> - <strong>Navigheaza in sus</strong> prin categorii</span></div>
+      <div class="wf-system-key-item"><span class="wf-system-key-button shift-btn">SHIFT</span><span>Tasta <span class="wf-system-highlight">SHIFT</span> - <strong>Navigheaza in jos</strong> prin categorii</span></div>
     </div>
 
    <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
@@ -68,13 +68,13 @@ outline: "deep"
       </div>
       <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
         <Icon icon="lucide:mouse-pointer-click" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        Folosește tastele <span class="wf-system-highlight">E</span>, <span class="wf-system-highlight">F</span> și <span class="wf-system-highlight">SHIFT</span> pentru a naviga prin meniul !ws
+        Foloseste tastele <span class="wf-system-highlight">E</span>, <span class="wf-system-highlight">F</span> si <span class="wf-system-highlight">SHIFT</span> pentru a naviga prin meniul !ws
       </div>
     </div>
     
    <div class="wf-system-tip">
       <Icon icon="lucide:lightbulb" width="22" height="22" color="#00c851" />
-      <span>Meniul <code>!ws</code> îți va afișa toți <span class="wf-system-highlight">agenții disponibili</span>, separați pe echipe (T și CT), cu prețul în Phoenix Coins.</span>
+      <span>Meniul <code>!ws</code> iti va afisa toti <span class="wf-system-highlight">agentii disponibili</span>, separati pe echipe (T si CT), cu pretul in Phoenix Coins.</span>
     </div>
     
   <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
@@ -84,35 +84,35 @@ outline: "deep"
       </div>
       <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
         <Icon icon="lucide:check" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        Apasă <span class="wf-system-highlight">E</span> pentru a selecta agentul dorit — acesta se echipează automat
+        Apasa <span class="wf-system-highlight">E</span> pentru a selecta agentul dorit — acesta se echipeaza automat
       </div>
     </div>
     
-  <p>După ce selectezi un agent, se deschide panoul detaliat:</p>
+  <p>Dupa ce selectezi un agent, se deschide panoul detaliat:</p>
     
   <ul class="wf-system-custom-list">
-      <li><Icon icon="lucide:eye" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Preview</span> — poți vedea modelul agentului înainte de achiziție</span></li>
-      <li><Icon icon="lucide:shopping-cart" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Buy Now</span> — cumpără agentul direct cu Phoenix Coins</span></li>
-      <li><Icon icon="lucide:check-circle-2" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Equip</span> — dacă îl deții deja, îl echipezi instant</span></li>
+      <li><Icon icon="lucide:eye" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Preview</span> — poti vedea modelul agentului inainte de achizitie</span></li>
+      <li><Icon icon="lucide:shopping-cart" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Buy Now</span> — cumpara agentul direct cu Phoenix Coins</span></li>
+      <li><Icon icon="lucide:check-circle-2" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Equip</span> — daca il detii deja, il echipezi instant</span></li>
     </ul>
     
    <div class="wf-system-tip orange">
       <Icon icon="lucide:refresh-cw" width="22" height="22" color="#ff8c00" />
-      <span>Odată selectați, agenții sunt <span class="wf-system-highlight">vizibili instant</span> în joc, atât pentru tine cât și pentru ceilalți jucători. Nu este necesară relogarea.</span>
+      <span>Odata selectati, agentii sunt <span class="wf-system-highlight">vizibili instant</span> in joc, atat pentru tine cat si pentru ceilalti jucatori. Nu este necesara relogarea.</span>
     </div>
   </div>
 </div>
 
-### 2.0 CUM OBȚII AGENȚI
+### 2.0 CUM OBTII AGENTI
 
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="wf-system-title-hover">
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:gift" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />2.0 CUM OBȚII AGENȚI</span>
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:gift" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />2.0 CUM OBTII AGENTI</span>
 </div>
 
 <div class="wf-system-card">
   <div class="wf-system-icon"><Icon icon="lucide:package" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
-    <p>Singura metodă prin care poți obține agenți pe server este:</p>
+    <p>Singura metoda prin care poti obtine agenti pe server este:</p>
     <ul class="wf-system-custom-list">
       <li><Icon icon="lucide:shopping-cart" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Market</span> — cumperi din <code>!ws</code> folosind Phoenix Coins</span></li>
     </ul>
@@ -128,7 +128,7 @@ outline: "deep"
 <div class="wf-system-card">
   <div class="wf-system-icon"><Icon icon="lucide:layers" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
-    <p>Toate item-urile tale sunt stocate în inventar și pot fi gestionate atât din joc, cât și de pe site-ul oficial.</p>
+    <p>Toate item-urile tale sunt stocate in inventar si pot fi gestionate atat din joc, cat si de pe site-ul oficial.</p>
     
   <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
       <div style="position: relative; border-radius: 12px; overflow: hidden;">
@@ -137,13 +137,13 @@ outline: "deep"
       </div>
       <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
         <Icon icon="lucide:command" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        Folosește comanda <span class="wf-system-highlight">!inv</span> în joc pentru a-ți deschide inventarul
+        Foloseste comanda <span class="wf-system-highlight">!inv</span> in joc pentru a-ti deschide inventarul
       </div>
     </div>
     
    <div class="wf-system-tip">
       <Icon icon="lucide:monitor" width="22" height="22" color="#00c851" />
-      <span><span class="wf-system-highlight">Pe site-ul oficial:</span> Accesează <code>wildfire.ro/skins-market</code> și autentifică-te cu Steam pentru a accesa secțiunea <span class="wf-system-highlight">Inventory</span>. Acolo vei găsi toate skin-urile, cuțitele, mănușile și agenții pe care îi deții.</span>
+      <span><span class="wf-system-highlight">Pe site-ul oficial:</span> Acceseaza <code>wildfire.ro/skins-market</code> si autentifica-te cu Steam pentru a accesa sectiunea <span class="wf-system-highlight">Inventory</span>. Acolo vei gasi toate skin-urile, cutitele, manusile si agentii pe care ii detii.</span>
     </div>
     
    <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
@@ -153,13 +153,13 @@ outline: "deep"
       </div>
       <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
         <Icon icon="lucide:package-open" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        În secțiunea <span class="wf-system-highlight">Inventory</span> de pe site poți vedea toate item-urile câștigate
+        In sectiunea <span class="wf-system-highlight">Inventory</span> de pe site poti vedea toate item-urile castigate
       </div>
     </div>
     
    <div class="wf-system-tip">
       <Icon icon="lucide:mouse-pointer-click" width="22" height="22" color="#00c851" />
-      <span>După ce ai vizualizat inventarul, accesează secțiunea <span class="wf-system-highlight">Loadout</span> pentru a-ți echipa item-urile direct din browser.</span>
+      <span>Dupa ce ai vizualizat inventarul, acceseaza sectiunea <span class="wf-system-highlight">Loadout</span> pentru a-ti echipa item-urile direct din browser.</span>
     </div>
     
    <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
@@ -169,21 +169,21 @@ outline: "deep"
       </div>
       <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
         <Icon icon="lucide:check-circle-2" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        În secțiunea <span class="wf-system-highlight">Loadout</span> selectează item-ul dorit și apasă Equip
+        In sectiunea <span class="wf-system-highlight">Loadout</span> selecteaza item-ul dorit si apasa Equip
       </div>
     </div>
     
   <div class="wf-system-tip orange">
       <Icon icon="lucide:zap" width="22" height="22" color="#ff8c00" />
-      <span>Toate item-urile echipate pe site sunt <span class="wf-system-highlight">sincronizate automat</span> cu jocul. Nu este nevoie de relogare - schimbările sunt vizibile instant în CS2!</span>
+      <span>Toate item-urile echipate pe site sunt <span class="wf-system-highlight">sincronizate automat</span> cu jocul. Nu este nevoie de relogare - schimbarile sunt vizibile instant in CS2!</span>
     </div>
   </div>
 </div>
 
-### 4.0 TIPURI DE AGENȚI
+### 4.0 TIPURI DE AGENTI
 
 <div style="display: flex; align-items: center; gap: 16px; margin: 48px 0 28px 0; padding-bottom: 14px; border-bottom: 2px solid rgba(255,140,0,0.25);" class="wf-system-title-hover">
-  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:grid-3x3" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />4.0 TIPURI DE AGENȚI</span>
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:grid-3x3" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />4.0 TIPURI DE AGENTI</span>
 </div>
 
 <div class="wf-system-type-grid">
@@ -196,14 +196,14 @@ outline: "deep"
 
 <div class="wf-system-tip" style="margin-top: 24px;">
   <svg class="wf-system-tip-icon" viewBox="0 0 24 24" fill="none" stroke="#00c851" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-  <p class="wf-system-tip-text"><strong>și mulți alții...</strong> — Number K, Dragomir, Rezan, etc!</p>
+  <p class="wf-system-tip-text"><strong>si multi altii...</strong> — Number K, Dragomir, Rezan, etc!</p>
 </div>
 
 <!-- INFO BOX FINAL -->
 <div class="wf-system-box">
   <ul>
-    <li><Icon icon="lucide:info" width="20" height="20" color="currentColor" /><span><span class="wf-system-highlight">Notă:</span> Poți schimba oricând agentul pentru fiecare echipă separat direct din meniul <code>!ws</code>.</span></li>
-    <li><Icon icon="lucide:alert-triangle" width="20" height="20" color="currentColor" /><span><span class="wf-system-highlight">Atenție!</span> Agenții sunt iteme cosmetic rare. Prețurile variază în funcție de raritate și design.</span></li>
+    <li><Icon icon="lucide:info" width="20" height="20" color="currentColor" /><span><span class="wf-system-highlight">Nota:</span> Poti schimba oricand agentul pentru fiecare echipa separat direct din meniul <code>!ws</code>.</span></li>
+    <li><Icon icon="lucide:alert-triangle" width="20" height="20" color="currentColor" /><span><span class="wf-system-highlight">Atentie!</span> Agentii sunt iteme cosmetic rare. Preturile variaza in functie de raritate si design.</span></li>
   </ul>
 </div>
 

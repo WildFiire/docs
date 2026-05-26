@@ -1,7 +1,7 @@
 <template>
   <button v-if="!isHomePage" class="nav-search-button" @click.prevent.stop="openSearch" type="button">
     <img src="/icons/searchbutton.svg" class="nav-icon" alt="search">
-    <span class="nav-search-text">Caută...</span>
+    <span class="nav-search-text">Cauta...</span>
     <span class="nav-search-shortcut"><kbd>Ctrl</kbd><kbd>K</kbd></span>
   </button>
 </template>

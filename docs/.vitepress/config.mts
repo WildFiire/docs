@@ -12,7 +12,7 @@ const repoRoot = path.resolve(__vitepressDir, '../..')
 
 export default defineConfig({
   title: "Wildfire.ro Docs",
-  description: "Documentația platformei Wildfire - informații, sisteme, resurse și comunitate",
+  description: "Documentatia platformei Wildfire - informatii, sisteme, resurse si comunitate",
 
   lang: 'ro-RO',
   cleanUrls: true,
@@ -21,7 +21,7 @@ export default defineConfig({
   head: [
     ['link', { rel: 'icon', type: 'image/webp', href: '/icons/wildfire.webp' }],
     ['meta', { name: 'theme-color', content: '#ff4000ff' }],
-    ['meta', { name: 'description', content: 'Documentația platformei Wildfire - Resurse, sisteme și informații pentru Counter-Strike 2.' }],
+    ['meta', { name: 'description', content: 'Documentatia platformei Wildfire - Resurse, sisteme si informatii pentru Counter-Strike 2.' }],
     ['meta', { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' }],
 
     // PRECONNECT — must come before any script/link that uses these origins
@@ -57,13 +57,13 @@ export default defineConfig({
     // SEO & SOCIAL SHARING (CS2 COUNTER-STRIKE BRANDING)
     ['meta', { name: 'keywords', content: 'cs2, counter-strike 2, wildfire.ro, wildfire, wiki, wikipedia, docs, tutoriale cs2, servere cs2, wildfire wildfire.ro docs' }],
     ['meta', { property: 'og:title', content: 'Wildfire.ro Docs - CS2 Wikipedia' }],
-    ['meta', { property: 'og:description', content: 'Documentația platformei Wildfire - Resurse, sisteme și informații pentru Counter-Strike 2.' }],
+    ['meta', { property: 'og:description', content: 'Documentatia platformei Wildfire - Resurse, sisteme si informatii pentru Counter-Strike 2.' }],
     ['meta', { property: 'og:image', content: 'https://docs.wildfire.ro/wallpaper/content.webp' }],
     ['meta', { property: 'og:type', content: 'website' }],
     ['meta', { property: 'og:url', content: 'https://docs.wildfire.ro/' }],
     ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
     ['meta', { name: 'twitter:title', content: 'Wildfire.ro Docs - CS2 Wikipedia' }],
-    ['meta', { name: 'twitter:description', content: 'Resurse, sisteme și informații complete pentru Counter-Strike 2 pe Wildfire.ro.' }],
+    ['meta', { name: 'twitter:description', content: 'Resurse, sisteme si informatii complete pentru Counter-Strike 2 pe Wildfire.ro.' }],
     ['meta', { name: 'twitter:image', content: 'https://docs.wildfire.ro/wallpaper/content.webp' }],
 
     // SCRIPT PENTRU VERSIUNE
@@ -195,7 +195,7 @@ export default defineConfig({
       //   link: '/informatii/getting-started'
       // },
       {
-        text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informații',
+        text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informatii',
         link: '/informatii/about'
       },
       {
@@ -212,14 +212,14 @@ export default defineConfig({
     ],
 
     sidebar: [
-      // SECȚIUNEA INFORMAȚII
+      // SECTIUNEA INFORMATII
       {
-        text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informații',
+        text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informatii',
         collapsed: false,
         items: [
           // { text: '<iconify-icon icon="lucide:rocket" class="nav-icon" width="16" height="16"></iconify-icon> Incepe aici', link: '/informatii/getting-started' },
           { text: '<iconify-icon icon="lucide:star" class="nav-icon" width="16" height="16"></iconify-icon> Despre Wildfire', link: '/informatii/about' },
-          { text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Întrebări frecvente', link: '/informatii/faq' },
+          { text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Intrebari frecvente', link: '/informatii/faq' },
 
           // STAFF
           {
@@ -267,7 +267,7 @@ export default defineConfig({
         ]
       },
 
-      // SECȚIUNEA CURRENCY
+      // SECTIUNEA CURRENCY
       {
         text: '<iconify-icon icon="solar:dollar-minimalistic-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Currency',
         collapsed: false,
@@ -277,12 +277,12 @@ export default defineConfig({
         ]
       },
 
-      // SECȚIUNEA SYSTEMS
+      // SECTIUNEA SYSTEMS
       {
         text: '<iconify-icon icon="solar:cpu-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Systems',
         collapsed: false,
         items: [
-          // SUBSECȚIUNEA SKINS
+          // SUBSECTIUNEA SKINS
           {
             text: '<iconify-icon icon="lucide-swords" class="nav-icon" width="16" height="16"></iconify-icon> WeaponSkins',
             collapsed: true,
@@ -295,7 +295,7 @@ export default defineConfig({
             ]
           },
 
-          // SUBSECȚIUNEA GAMBLING
+          // SUBSECTIUNEA GAMBLING
           {
             text: '<iconify-icon icon="lucide-clover" class="nav-icon" width="16" height="16"></iconify-icon> Gambling',
             collapsed: true,
@@ -306,7 +306,7 @@ export default defineConfig({
             ]
           },
 
-          // SUBSECȚIUNEA IN-GAME SHOP
+          // SUBSECTIUNEA IN-GAME SHOP
           {
             text: '<iconify-icon icon="solar:shop-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> In-Game Shop (Credite)',
             collapsed: true,
@@ -317,7 +317,7 @@ export default defineConfig({
             ]
           },
 
-          // SUBSECȚIUNEA OTHER SYSTEMS
+          // SUBSECTIUNEA OTHER SYSTEMS
           {
             text: '<iconify-icon icon="solar:layers-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Other Systems',
             collapsed: true,
@@ -342,12 +342,12 @@ export default defineConfig({
         ]
       },
 
-      // SECȚIUNEA MARKET (DONATIONS)
+      // SECTIUNEA MARKET (DONATIONS)
       {
         text: '<iconify-icon icon="solar:shop-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Market (Donations)',
         collapsed: false,
         items: [
-          // SUBSECȚIUNEA PREMIUM SHOP
+          // SUBSECTIUNEA PREMIUM SHOP
           {
             text: '<iconify-icon icon="solar:star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Premium Shop',
             collapsed: true,
@@ -361,7 +361,7 @@ export default defineConfig({
           },
 
 
-          // SUBSECȚIUNEA VIP TIERS
+          // SUBSECTIUNEA VIP TIERS
           {
             text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Tiers',
             collapsed: true,
@@ -376,7 +376,7 @@ export default defineConfig({
         ]
       },
 
-      // SECȚIUNEA "RECENT GUI" CU VERSION TAG (ACELAȘI DESIGN CA ÎN FOOTER)
+      // SECTIUNEA "RECENT GUI" CU VERSION TAG (ACELASI DESIGN CA IN FOOTER)
       {
         text: '<iconify-icon icon="solar:code-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> 3.0.0 <span class="version-tag">v3.0.0</span>',
         collapsed: true,
@@ -389,7 +389,7 @@ export default defineConfig({
 
     editLink: {
       pattern: 'https://github.com/Wildfiire/docs/edit/main/docs/:path',
-      text: 'Editează această pagină pe GitHub'
+      text: 'Editeaza aceasta pagina pe GitHub'
     },
 
     // SOCIAL LINKS
@@ -439,16 +439,16 @@ export default defineConfig({
           }
         },
         translations: {
-          button: { buttonText: 'Caută', buttonAriaLabel: 'Caută' },
+          button: { buttonText: 'Cauta', buttonAriaLabel: 'Cauta' },
           modal: {
-            displayDetails: 'Afișează detalii',
-            resetButtonTitle: 'Resetează',
-            backButtonTitle: 'Închide',
-            noResultsText: 'Nu s-au găsit rezultate pentru',
+            displayDetails: 'Afiseaza detalii',
+            resetButtonTitle: 'Reseteaza',
+            backButtonTitle: 'Inchide',
+            noResultsText: 'Nu s-au gasit rezultate pentru',
             footer: {
-              selectText: 'selectează',
-              navigateText: 'navighează',
-              closeText: 'închide'
+              selectText: 'selecteaza',
+              navigateText: 'navigheaza',
+              closeText: 'inchide'
             }
           }
         }
@@ -457,14 +457,14 @@ export default defineConfig({
 
     outline: {
       level: [2, 3],
-      label: 'Pe această pagină'
+      label: 'Pe aceasta pagina'
     },
 
     sidebarMenuLabel: 'Meniu',
-    returnToTopLabel: 'Înapoi sus',
-    darkModeSwitchLabel: 'Mod întunecat',
-    lightModeSwitchTitle: 'Comută la modul luminos',
-    darkModeSwitchTitle: 'Comută la modul întunecat'
+    returnToTopLabel: 'Inapoi sus',
+    darkModeSwitchLabel: 'Mod intunecat',
+    lightModeSwitchTitle: 'Comuta la modul luminos',
+    darkModeSwitchTitle: 'Comuta la modul intunecat'
   },
 
   async transformPageData(pageData, ctx) {

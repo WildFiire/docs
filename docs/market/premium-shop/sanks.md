@@ -1,6 +1,6 @@
 ---
 title: "Sank Sounds"
-description: "Descoperă totul despre Sank Sounds pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre Sank Sounds pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 
@@ -27,21 +27,21 @@ outline: "deep"
   <div class="wf-market-icon"><Icon icon="lucide:music" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-market-content">
     <span class="wf-market-number">VIP Feature</span> <span class="wf-market-highlight">Sank Sounds</span>
-    <p><span class="wf-market-highlight">Sank Sounds</span> reprezintă o colecție de sunete speciale disponibile exclusiv pentru jucătorii <span class="wf-market-highlight">VIP</span>. Prin simpla tastare a unui text prestabilit în chat, vei declanșa un sunet pe care <span class="wf-market-highlight">îl vor auzi TOȚI jucătorii</span> din server. Este modalitatea perfectă de a-ți face prezența simțită și de a adăuga un plus de atmosferă meciului.</p>
+    <p><span class="wf-market-highlight">Sank Sounds</span> reprezinta o colectie de sunete speciale disponibile exclusiv pentru jucatorii <span class="wf-market-highlight">VIP</span>. Prin simpla tastare a unui text prestabilit in chat, vei declansa un sunet pe care <span class="wf-market-highlight">il vor auzi TOTI jucatorii</span> din server. Este modalitatea perfecta de a-ti face prezenta simtita si de a adauga un plus de atmosfera meciului.</p>
     <p><span class="wf-market-highlight">Features:</span></p>
     <ul class="wf-market-custom-list">
-      <li><Icon icon="lucide:crown" width="18" height="18" color="#ff8c00" /><span><span class="wf-market-highlight">Exclusiv VIP</span> — doar jucătorii cu rang VIP pot folosi Sank Sounds</span></li>
-      <li><Icon icon="lucide:volume-2" width="18" height="18" color="#ff8c00" /><span><span class="wf-market-highlight">Volum independent</span> — fiecare jucător își poate ajusta volumul Sank Sounds separat</span></li>
-      <li><Icon icon="lucide:clock" width="18" height="18" color="#ff8c00" /><span><span class="wf-market-highlight">Cooldown system</span> — după un Sank, toți jucătorii trebuie să aștepte înainte de următorul</span></li>
+      <li><Icon icon="lucide:crown" width="18" height="18" color="#ff8c00" /><span><span class="wf-market-highlight">Exclusiv VIP</span> — doar jucatorii cu rang VIP pot folosi Sank Sounds</span></li>
+      <li><Icon icon="lucide:volume-2" width="18" height="18" color="#ff8c00" /><span><span class="wf-market-highlight">Volum independent</span> — fiecare jucator isi poate ajusta volumul Sank Sounds separat</span></li>
+      <li><Icon icon="lucide:clock" width="18" height="18" color="#ff8c00" /><span><span class="wf-market-highlight">Cooldown system</span> — dupa un Sank, toti jucatorii trebuie sa astepte inainte de urmatorul</span></li>
       <li><Icon icon="lucide:calendar" width="18" height="18" color="#ff8c00" /><span><span class="wf-market-highlight">Sank of the Day</span> — cel mai popular sank (adica sound) din ziua respectiva</span></li>
-      <li><Icon icon="lucide:sparkles" width="18" height="18" color="#ff8c00" /><span><span class="wf-market-highlight">Sank Custom</span> — poți cumpăra un sunet personalizat cu orice text dorești</span></li>
+      <li><Icon icon="lucide:sparkles" width="18" height="18" color="#ff8c00" /><span><span class="wf-market-highlight">Sank Custom</span> — poti cumpara un sunet personalizat cu orice text doresti</span></li>
     </ul>
   </div>
 </div>
 
 <div class="wf-market-tip">
   <svg class="wf-market-tip-icon" viewBox="0 0 24 24" fill="none" stroke="#00c851" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
-  <p class="wf-market-tip-text">Sank Sounds sunt sisteme <span class="wf-market-highlight">premium exclusive VIP</span> care nu oferă niciun avantaj în joc, dar îți permit să interacționezi cu întregul server într-un mod distractiv.</p>
+  <p class="wf-market-tip-text">Sank Sounds sunt sisteme <span class="wf-market-highlight">premium exclusive VIP</span> care nu ofera niciun avantaj in joc, dar iti permit sa interactionezi cu intregul server intr-un mod distractiv.</p>
 </div>
 
 <!-- 1.0 COMANDA !sm -->
@@ -54,11 +54,11 @@ outline: "deep"
 <div class="wf-market-card">
   <div class="wf-market-icon"><Icon icon="lucide:terminal" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-market-content">
-    <p>Pentru a deschide meniul Sank Sounds, tastează <span class="wf-market-highlight">!sm</span> în chat.</p>
+    <p>Pentru a deschide meniul Sank Sounds, tasteaza <span class="wf-market-highlight">!sm</span> in chat.</p>
     
   <div class="wf-market-tip orange">
       <Icon icon="lucide:info" width="22" height="22" color="#ff8c00" />
-      <span>Scrie <code>!sm</code> în chat pentru a deschide meniul de selecție și configurare a sunetelor.</span>
+      <span>Scrie <code>!sm</code> in chat pentru a deschide meniul de selectie si configurare a sunetelor.</span>
     </div>
     
   <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
@@ -68,13 +68,13 @@ outline: "deep"
       </div>
       <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
         <Icon icon="lucide:command" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        Tastează !sm în chat și meniul se deschide instant
+        Tasteaza !sm in chat si meniul se deschide instant
       </div>
     </div>
     
   <div class="wf-market-tip">
       <Icon icon="lucide:volume-x" width="22" height="22" color="#00c851" />
-      <span><span class="wf-market-highlight">!sounds</span> — poți folosi această comandă pentru a activa sau dezactiva toate Sank Sounds instant.</span>
+      <span><span class="wf-market-highlight">!sounds</span> — poti folosi aceasta comanda pentru a activa sau dezactiva toate Sank Sounds instant.</span>
     </div>
   </div>
 </div>
@@ -122,7 +122,7 @@ outline: "deep"
 <div class="wf-market-card">
   <div class="wf-market-icon"><Icon icon="lucide:flame" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-market-content">
-    <p>În meniul <span class="wf-market-highlight">!sm</span> vei găsi două secțiuni speciale care te ajută să descoperi cele mai populare sunete și pe cele folosite recent.</p>
+    <p>In meniul <span class="wf-market-highlight">!sm</span> vei gasi doua sectiuni speciale care te ajuta sa descoperi cele mai populare sunete si pe cele folosite recent.</p>
     
  <div style="margin: 24px 0; border-radius: 16px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 8px;">
       <div style="position: relative; border-radius: 12px; overflow: hidden;">
@@ -131,7 +131,7 @@ outline: "deep"
       </div>
       <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
         <Icon icon="lucide:flame" width="14" height="14" style="display: inline-block; vertical-align: middle; margin-right: 4px;" />
-        Cel mai folosit sunet în ultimele 24 de ore
+        Cel mai folosit sunet in ultimele 24 de ore
       </div>
     </div>
     
@@ -148,7 +148,7 @@ outline: "deep"
     
   <div class="wf-market-tip">
       <Icon icon="lucide:trending-up" width="22" height="22" color="#00c851" />
-      <span><span class="wf-market-highlight">Sank of the Day</span> se actualizează zilnic și îți arată ce este popular în comunitate.</span>
+      <span><span class="wf-market-highlight">Sank of the Day</span> se actualizeaza zilnic si iti arata ce este popular in comunitate.</span>
     </div>
   </div>
 </div>
@@ -163,16 +163,16 @@ outline: "deep"
 <div class="wf-market-card">
   <div class="wf-market-icon"><Icon icon="lucide:crown" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-market-content">
-    <p>Sistemul <span class="wf-market-highlight">Sank Sounds</span> este disponibil exclusiv pentru jucătorii cu statut <span class="wf-market-highlight">VIP</span>. Doar ei pot scrie comenzi în chat pentru a declanșa sunete.</p>
+    <p>Sistemul <span class="wf-market-highlight">Sank Sounds</span> este disponibil exclusiv pentru jucatorii cu statut <span class="wf-market-highlight">VIP</span>. Doar ei pot scrie comenzi in chat pentru a declansa sunete.</p>
     
    <div class="wf-market-tip orange">
       <Icon icon="lucide:info" width="22" height="22" color="#ff8c00" />
-      <span>Ai nevoie de rang <span class="wf-market-highlight">VIP</span> pentru a putea folosi orice comandă Sank în chat.</span>
+      <span>Ai nevoie de rang <span class="wf-market-highlight">VIP</span> pentru a putea folosi orice comanda Sank in chat.</span>
     </div>
     
    <div class="wf-market-tip">
       <Icon icon="lucide:gem" width="22" height="22" color="#00c851" />
-      <span>Pentru a deveni <span class="wf-market-highlight">VIP</span> și a avea acces la Sank Sounds, accesează secțiunea VIP de pe docs.</span>
+      <span>Pentru a deveni <span class="wf-market-highlight">VIP</span> si a avea acces la Sank Sounds, acceseaza sectiunea VIP de pe docs.</span>
     </div>
   </div>
 </div>
@@ -180,10 +180,10 @@ outline: "deep"
 <!-- INFO BOX FINAL -->
 <div class="wf-market-box">
   <ul>
-    <li><Icon icon="lucide:info" width="20" height="20" color="currentColor" /><span><span class="wf-market-highlight">Notă:</span> Poți activa sau dezactiva auzirea Sank Sounds oricând folosind comanda <code>!sounds</code>. Toate sunetele achiziționate rămân în colecția ta permanent.</span></li>
-    <li><Icon icon="lucide:crown" width="20" height="20" color="currentColor" /><span><span class="wf-market-highlight">VIP Required:</span> Doar jucătorii cu rang VIP pot folosi această funcționalitate.</span></li>
-    <li><Icon icon="lucide:clock" width="20" height="20" color="currentColor" /><span><span class="wf-market-highlight">Cooldown:</span> Respectă timpul de așteptare dintre Sank-uri pentru a menține o atmosferă plăcută în server.</span></li>
-    <li><Icon icon="lucide:message-circle" width="20" height="20" color="currentColor" /><span><span class="wf-market-highlight">Sfat:</span> Folosește Sank Sounds cu moderație și în momente potrivite pentru a crea momente memorabile alături de comunitate!</span></li>
+    <li><Icon icon="lucide:info" width="20" height="20" color="currentColor" /><span><span class="wf-market-highlight">Nota:</span> Poti activa sau dezactiva auzirea Sank Sounds oricand folosind comanda <code>!sounds</code>. Toate sunetele achizitionate raman in colectia ta permanent.</span></li>
+    <li><Icon icon="lucide:crown" width="20" height="20" color="currentColor" /><span><span class="wf-market-highlight">VIP Required:</span> Doar jucatorii cu rang VIP pot folosi aceasta functionalitate.</span></li>
+    <li><Icon icon="lucide:clock" width="20" height="20" color="currentColor" /><span><span class="wf-market-highlight">Cooldown:</span> Respecta timpul de asteptare dintre Sank-uri pentru a mentine o atmosfera placuta in server.</span></li>
+    <li><Icon icon="lucide:message-circle" width="20" height="20" color="currentColor" /><span><span class="wf-market-highlight">Sfat:</span> Foloseste Sank Sounds cu moderatie si in momente potrivite pentru a crea momente memorabile alaturi de comunitate!</span></li>
   </ul>
 </div>
 

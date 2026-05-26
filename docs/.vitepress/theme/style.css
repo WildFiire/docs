@@ -4722,3 +4722,68 @@ html.theme-switching *::after {
 .wf-grade-owner .wf-grade-header { background: rgba(248, 113, 113, 0.06); }
 .wf-grade-owner .wf-grade-title { color: #dc2626; }
 .dark .wf-grade-owner .wf-grade-title { color: #f87171; }
+
+/* ============================================================
+   GOOGLE TRANSLATE CSS FIXES
+   ============================================================ */
+
+/* Previne schimbarea fontului global si a culorilor de catre Google Translate */
+body.translated-ltr, body.translated-rtl {
+  font-family: var(--vp-font-family-base) !important;
+}
+
+font {
+  font-family: inherit !important;
+  color: inherit !important;
+  line-height: inherit !important;
+  font-size: inherit !important;
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* 
+ * Corecteaza problema spatiilor "inghitite" in Google Translate:
+ * Adauga o margine laterala elementelor inline evidențiate pentru a suplini
+ * spațiile lipsă dintre nodurile de text generate de Google API.
+ */
+body.translated-ltr span[class*="highlight"],
+body.translated-rtl span[class*="highlight"],
+body.translated-ltr a,
+body.translated-rtl a,
+body.translated-ltr strong,
+body.translated-rtl strong,
+body.translated-ltr code,
+body.translated-rtl code {
+  margin: 0 0.25em;
+  display: inline-block;
+}
+
+/* Corecteaza spatierea in interiorul flexbox-urilor cand intervin tagurile <font> */
+.nav-item font, 
+.mm-link font, 
+.ps-item font, 
+.dash-card font, 
+.dash-welcome font, 
+.panel-sidebar font, 
+h1 font, h2 font, h3 font, span font {
+  display: inline !important;
+}
+
+/* Ascunde componentele originale de UI Google Translate */
+.goog-te-banner-frame.skiptranslate {
+  display: none !important;
+}
+body {
+  top: 0px !important;
+}
+.goog-tooltip, .goog-tooltip:hover, #goog-gt-tt, .goog-te-balloon-frame {
+  display: none !important;
+  opacity: 0 !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
+}
+.goog-text-highlight {
+  background-color: transparent !important;
+  border: none !important; 
+  box-shadow: none !important;
+}

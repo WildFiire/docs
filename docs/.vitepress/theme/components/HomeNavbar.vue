@@ -228,7 +228,7 @@ const langWrapRef = ref<HTMLElement | null>(null)
 const currentLang = ref('ro')
 
 const languages = [
-  { code: 'ro', name: 'Română', flag: 'circle-flags:ro' },
+  { code: 'ro', name: 'Romana', flag: 'circle-flags:ro' },
   { code: 'en', name: 'English', flag: 'circle-flags:uk' },
 ]
 
@@ -298,10 +298,10 @@ const cleanText = (t: string) => t.replace(/<[^>]+>/g, '').trim()
 
 const getNavIcon = (text: string) => {
   const t = text.toLowerCase().trim()
-  if (t === 'home' || t === 'acasă') return 'solar:home-smile-bold-duotone'
+  if (t === 'home' || t === 'acasa') return 'solar:home-smile-bold-duotone'
   if (t.includes('informatii') || t.includes('info')) return 'solar:book-bold-duotone'
   if (t.includes('doc') || t.includes('wiki')) return 'solar:library-bold-duotone'
-  if (t.includes('team') || t.includes('echipă') || t.includes('staff')) return 'solar:users-group-rounded-bold-duotone'
+  if (t.includes('team') || t.includes('echipa') || t.includes('staff')) return 'solar:users-group-rounded-bold-duotone'
   if (t.includes('panel') || t.includes('dashboard') || t.includes('portal')) return 'solar:shield-bold-duotone'
   if (t.includes('faq') || t.includes('intrebari')) return 'solar:help-bold-duotone'
   if (t.includes('changelog') || t.includes('news')) return 'solar:fire-bold-duotone'
@@ -631,7 +631,7 @@ onUnmounted(() => {
   transform: scale(1.1);
 }
 
-/* Pastila Activă - Liquid Quartz Style */
+/* Pastila Activa - Liquid Quartz Style */
 .nav-item.active {
   background: linear-gradient(135deg, rgba(255, 120, 0, 0.15), rgba(255, 92, 26, 0.08));
   border-color: rgba(255, 120, 0, 0.3);
@@ -658,7 +658,7 @@ onUnmounted(() => {
 .nav-right { 
   display: flex; 
   align-items: center; 
-  gap: 16px; /* Spațiu mai generos între elemente */
+  gap: 16px; /* Spatiu mai generos intre elemente */
 }
 /* ==========================================================================
    HEAVY LIQUID GLASS THEME SWITCHER (SLOW & FIXED)
@@ -669,7 +669,7 @@ onUnmounted(() => {
   height: 32px;
   border-radius: 40px;
   position: relative;
-  display: block; /* Am scos flex-ul de pe containerul mare ca să nu mai strice iconițele */
+  display: block; /* Am scos flex-ul de pe containerul mare ca sa nu mai strice iconitele */
   padding: 0;
   cursor: pointer;
   outline: none;
@@ -698,7 +698,7 @@ html:not(.dark) .toggle-track-glass {
   border: 1px solid rgba(0, 0, 0, 0.04);
 }
 
-/* SLIDER-UL (Pastila care alunecă l e n t) */
+/* SLIDER-UL (Pastila care aluneca l e n t) */
 .toggle-slider {
   position: absolute;
   top: 3px;
@@ -727,12 +727,12 @@ html:not(.dark) .toggle-slider {
     0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* Deplasarea lentă pe track */
+/* Deplasarea lenta pe track */
 .liquid-theme-toggle.is-dark .toggle-slider {
   transform: translateX(38px);
 }
 
-/* Gelul se lățește */
+/* Gelul se lateste */
 .liquid-theme-toggle:active .toggle-slider {
   width: 40px; 
 }
@@ -742,7 +742,7 @@ html:not(.dark) .toggle-slider {
 }
 
 /* =======================================================
-   ICONIȚELE (Acum sunt așezate perfect și nu se mai strică)
+   ICONITELE (Acum sunt asezate perfect si nu se mai strica)
    ======================================================= */
 .toggle-icons {
   position: absolute;
@@ -751,7 +751,7 @@ html:not(.dark) .toggle-slider {
   width: 100%;
   height: 100%;
   z-index: 5; /* Peste slider */
-  pointer-events: none; /* Lasă click-ul să treacă prin ele direct la buton */
+  pointer-events: none; /* Lasa click-ul sa treaca prin ele direct la buton */
 }
 
 .icon-box {
@@ -760,7 +760,7 @@ html:not(.dark) .toggle-slider {
   justify-content: center;
   align-items: center;
   color: rgba(255, 255, 255, 0.3); 
-  /* Timp de reacție albe/luminoase crescut și el pt armonie */
+  /* Timp de reactie albe/luminoase crescut si el pt armonie */
   transition: color 1s ease, transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
@@ -768,13 +768,13 @@ html:not(.dark) .icon-box {
   color: rgba(0, 0, 0, 0.3);
 }
 
-/* Stare activă SOARE */
+/* Stare activa SOARE */
 .liquid-theme-toggle:not(.is-dark) .icon-box.sun {
   color: #111;
   transform: scale(1.15); 
 }
 
-/* Stare activă LUNĂ */
+/* Stare activa LUNA */
 .liquid-theme-toggle.is-dark .icon-box.moon {
   color: #60a5fa; 
   transform: scale(1.1);
@@ -941,7 +941,7 @@ html:not(.dark) .hn-lang-item.active {
 /* ===== FULLSCREEN MOBILE MENU ===== */
 .mobile-menu { position: fixed; inset: 0; z-index: 998; display: flex; flex-direction: column; padding: 100px 24px 40px; overflow-y: auto; }
 
-/* Secțiune User Mobile */
+/* Sectiune User Mobile */
 .mm-user-section { background: rgba(128,128,128,0.05); padding: 16px; border-radius: 20px; border: 1px solid rgba(128,128,128,0.1); margin-bottom: 8px; }
 .mm-user-profile { display: flex; align-items: center; gap: 14px; margin-bottom: 16px; }
 .mm-avatar { border-radius: 50%; border: 2px solid var(--wf-orange-glow); }
@@ -1041,7 +1041,7 @@ html:not(.dark) .hn-guest-icon { background: rgba(255, 120, 0, 0.05); }
     box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
   }
 
-  /* Redimensionare switcher pe mobile ca să încapă lângă hamburger */
+  /* Redimensionare switcher pe mobile ca sa incapa langa hamburger */
   .liquid-theme-toggle {
     width: 64px;
     height: 32px;

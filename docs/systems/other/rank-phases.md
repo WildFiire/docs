@@ -1,6 +1,6 @@
 ---
 title: "Rank Phases (Grind)"
-description: "Descoperă totul despre Rank Phases (Grind) pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre Rank Phases (Grind) pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 

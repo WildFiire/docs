@@ -1,17 +1,17 @@
 ---
-title: "Cum poți contribui?"
-description: "Descoperă totul despre Cum poți contribui? pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+title: "Cum poti contribui?"
+description: "Descopera totul despre Cum poti contribui? pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 
 <CaseHeader 
-  title="Cum poți contribui?"
+  title="Cum poti contribui?"
   :tags="[
-    { text: 'actualizări', color: 'blue' },
+    { text: 'actualizari', color: 'blue' },
     { text: 'contribuie', color: 'orange' },
     { text: 'ajutor', color: 'green' }
   ]"
-  :path="['Acasă', 'Actualizări', 'Contribuie']"
+  :path="['Acasa', 'Actualizari', 'Contribuie']"
   background="/wallpaper/backgroundwf.webp"
   :blur-amount="6"
   icon="/icons/wildfire.webp"
@@ -20,7 +20,7 @@ outline: "deep"
   badge-icon="lucide:users"
 />
 
-<!-- ===== STYLE PENTRU CONTRIBUTE - FĂRĂ :ROOT ===== -->
+<!-- ===== STYLE PENTRU CONTRIBUTE - FARA :ROOT ===== -->
 <style>
 /* ========== VARIABILE DOAR PENTRU CONTRIBUIE ========== */
 .contribute-wrapper {
@@ -70,7 +70,7 @@ html:not(.dark) .contribute-wrapper {
   --contribute-logo-filter: none;
 }
 
-/* ========== ANIMAȚII ========== */
+/* ========== ANIMATII ========== */
 @keyframes contribute-float {
   0% { transform: translateY(0px); }
   50% { transform: translateY(-5px); }
@@ -786,15 +786,15 @@ html:not(.dark) .contribute-wrapper {
         <path d="M12 8v4l3 3"/>
         <path d="M12 16h.01"/>
       </svg>
-      De ce să contribui?
+      De ce sa contribui?
     </h2>
-    <p>Wildfire.ro e construit de <span class="contribute-highlight">oameni ca tine</span>. Fie că ai idei, găsești bug-uri, vrei să scrii cod sau doar să dai o mână de ajutor, orice contribuție contează.</p>
-    <p>Nu trebuie să fii programator sau designer. Poți contribui în multe feluri, iar comunitatea noastră te va sprijini.</p>
+    <p>Wildfire.ro e construit de <span class="contribute-highlight">oameni ca tine</span>. Fie ca ai idei, gasesti bug-uri, vrei sa scrii cod sau doar sa dai o mana de ajutor, orice contributie conteaza.</p>
+    <p>Nu trebuie sa fii programator sau designer. Poti contribui in multe feluri, iar comunitatea noastra te va sprijini.</p>
   </div>
 </div>
 
 <!-- MAIN CARDS GRID -->
-### Cum poți contribui
+### Cum poti contribui
 <div class="contribute-grid">
 
   <!-- Card 1: Developer -->
@@ -807,7 +807,7 @@ html:not(.dark) .contribute-wrapper {
       </svg>
     </div>
     <h3>Developer</h3>
-    <p>Contribuie la codul sursă al wiki-ului.</p>
+    <p>Contribuie la codul sursa al wiki-ului.</p>
     <ul class="contribute-card-list">
       <li>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -819,13 +819,13 @@ html:not(.dark) .contribute-wrapper {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <strong>Bug fixing:</strong> Rezolvă issue-uri
+        <strong>Bug fixing:</strong> Rezolva issue-uri
       </li>
       <li>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <strong>Funcționalități:</strong> Adaugă features noi
+        <strong>Functionalitati:</strong> Adauga features noi
       </li>
     </ul>
     <span class="contribute-card-badge">#GitHub #OpenSource</span>
@@ -842,14 +842,14 @@ html:not(.dark) .contribute-wrapper {
         <polyline points="10 9 9 9 8 9"/>
       </svg>
     </div>
-    <h3>Redactor conținut</h3>
-    <p>Ajută la îmbunătățirea documentației și a articolelor din wiki.</p>
+    <h3>Redactor continut</h3>
+    <p>Ajuta la imbunatatirea documentatiei si a articolelor din wiki.</p>
     <ul class="contribute-card-list">
       <li>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <strong>Corecturi:</strong> Gramatică, claritate
+        <strong>Corecturi:</strong> Gramatica, claritate
       </li>
       <li>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -861,10 +861,10 @@ html:not(.dark) .contribute-wrapper {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <strong>Traduceri:</strong> Română/Engleză
+        <strong>Traduceri:</strong> Romana/Engleza
       </li>
     </ul>
-    <span class="contribute-card-badge">#Documentație #Scris</span>
+    <span class="contribute-card-badge">#Documentatie #Scris</span>
   </div>
 
   <!-- Card 3: Designer -->
@@ -879,19 +879,19 @@ html:not(.dark) .contribute-wrapper {
       </svg>
     </div>
     <h3>Designer</h3>
-    <p>Contribuie la partea vizuală a wiki-ului și a site-ului.</p>
+    <p>Contribuie la partea vizuala a wiki-ului si a site-ului.</p>
     <ul class="contribute-card-list">
       <li>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <strong>UI/UX:</strong> Îmbunătățește interfața
+        <strong>UI/UX:</strong> Imbunatateste interfata
       </li>
       <li>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <strong>SVG-uri:</strong> Iconițe, ilustrații
+        <strong>SVG-uri:</strong> Iconite, ilustratii
       </li>
       <li>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -913,13 +913,13 @@ html:not(.dark) .contribute-wrapper {
       </svg>
     </div>
     <h3>Tester</h3>
-    <p>Găsește bug-uri și oferă feedback pentru îmbunătățiri.</p>
+    <p>Gaseste bug-uri si ofera feedback pentru imbunatatiri.</p>
     <ul class="contribute-card-list">
       <li>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <strong>Bug reports:</strong> Raportează probleme
+        <strong>Bug reports:</strong> Raporteaza probleme
       </li>
       <li>
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -931,7 +931,7 @@ html:not(.dark) .contribute-wrapper {
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <strong>Testare:</strong> Experiență utilizator
+        <strong>Testare:</strong> Experienta utilizator
       </li>
     </ul>
     <span class="contribute-card-badge">#Testing #QA</span>
@@ -940,52 +940,52 @@ html:not(.dark) .contribute-wrapper {
 </div>
 
 <!-- STEPS SECTION -->
-### Cum începi
+### Cum incepi
 <div class="contribute-steps">
   <div class="contribute-steps-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
       <circle cx="12" cy="12" r="10"/>
       <polyline points="12 6 12 12 16 14"/>
     </svg>
-    Cum începi?
+    Cum incepi?
   </div>
   
   <div class="contribute-steps-grid">
     <div class="contribute-step">
       <div class="contribute-step-number">1</div>
-      <h4>Alege cum vrei să ajuți</h4>
-      <p>Din cardurile de mai sus, selectează zona în care te simți cel mai confortabil.</p>
+      <h4>Alege cum vrei sa ajuti</h4>
+      <p>Din cardurile de mai sus, selecteaza zona in care te simti cel mai confortabil.</p>
     </div>
     
 <div class="contribute-step">
       <div class="contribute-step-number">2</div>
-      <h4>Intră pe Discord</h4>
-      <p>Vino pe serverul nostru de Discord și anunță-ne că vrei să contribui.</p>
+      <h4>Intra pe Discord</h4>
+      <p>Vino pe serverul nostru de Discord si anunta-ne ca vrei sa contribui.</p>
     </div>
     
  <div class="contribute-step">
       <div class="contribute-step-number">3</div>
-      <h4>Începe cu un task mic</h4>
-      <p>Nu trebuie să faci ceva măreț de la început. Orice ajutor e binevenit.</p>
+      <h4>Incepe cu un task mic</h4>
+      <p>Nu trebuie sa faci ceva maret de la inceput. Orice ajutor e binevenit.</p>
     </div>
     
  <div class="contribute-step">
       <div class="contribute-step-number">4</div>
-      <h4>Primești recunoaștere</h4>
-      <p>Toți contributorii sunt menționați și primesc badge-uri speciale.</p>
+      <h4>Primesti recunoastere</h4>
+      <p>Toti contributorii sunt mentionati si primesc badge-uri speciale.</p>
     </div>
   </div>
 </div>
 
 <!-- REWARDS SECTION -->
-### Ce primești în schimb
+### Ce primesti in schimb
 <div class="contribute-rewards">
   <div class="contribute-rewards-content">
     <h3>
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
-      Ce primești în schimb?
+      Ce primesti in schimb?
     </h3>
     
   <div class="contribute-rewards-grid" style="grid-template-columns: repeat(3, 1fr);">
@@ -1018,14 +1018,14 @@ html:not(.dark) .contribute-wrapper {
           </svg>
         </div>
         <div class="contribute-reward-title">Fire Coins / Credite</div>
-        <div class="contribute-reward-desc">Pentru contribuții notabile</div>
+        <div class="contribute-reward-desc">Pentru contributii notabile</div>
       </div>
     </div>
   </div>
 </div>
 
 <!-- FAQ SECTION -->
-### Întrebări frecvente
+### Intrebari frecvente
 <div class="contribute-faq">
   <div class="contribute-faq-title">
     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -1033,7 +1033,7 @@ html:not(.dark) .contribute-wrapper {
       <line x1="12" y1="8" x2="12" y2="12"/>
       <line x1="12" y1="16" x2="12.01" y2="16"/>
     </svg>
-    Întrebări frecvente
+    Intrebari frecvente
   </div>
   
   <div class="contribute-faq-item">
@@ -1041,28 +1041,13 @@ html:not(.dark) .contribute-wrapper {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
-      <span>Nu știu să programez. Pot contribui oricum?</span>
+      <span>Nu stiu sa programez. Pot contribui oricum?</span>
       <svg class="contribute-faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="contribute-faq-answer" style="display: none;">
-      <p>Absolut! Poți contribui ca redactor, tester, moderator sau doar cu idei. Nu e nevoie de cunoștințe tehnice pentru a ajuta comunitatea.</p>
-    </div>
-  </div>
-  
-  <div class="contribute-faq-item">
-    <div class="contribute-faq-question" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="6 9 12 15 18 9"/>
-      </svg>
-      <span>Cum încep ca dezvoltator?</span>
-      <svg class="contribute-faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <polyline points="6 9 12 15 18 9"/>
-      </svg>
-    </div>
-    <div class="contribute-faq-answer" style="display: none;">
-      <p>Intră pe GitHub-ul nostru, alege un fișier care necesită modificări și deschide un Pull Request. Dacă ai nevoie de ajutor, suntem pe Discord.</p>
+      <p>Absolut! Poti contribui ca redactor, tester, moderator sau doar cu idei. Nu e nevoie de cunostinte tehnice pentru a ajuta comunitatea.</p>
     </div>
   </div>
   
@@ -1071,13 +1056,28 @@ html:not(.dark) .contribute-wrapper {
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
-      <span>Primesc ceva în schimb?</span>
+      <span>Cum incep ca dezvoltator?</span>
       <svg class="contribute-faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="6 9 12 15 18 9"/>
       </svg>
     </div>
     <div class="contribute-faq-answer" style="display: none;">
-      <p>Da! Rol special pe Discord, recunoaștere publică, Fire Coins bonus și numele tău în lista de contribuitori de pe wiki.</p>
+      <p>Intra pe GitHub-ul nostru, alege un fisier care necesita modificari si deschide un Pull Request. Daca ai nevoie de ajutor, suntem pe Discord.</p>
+    </div>
+  </div>
+  
+  <div class="contribute-faq-item">
+    <div class="contribute-faq-question" onclick="this.classList.toggle('active'); this.nextElementSibling.style.display = this.nextElementSibling.style.display === 'none' ? 'block' : 'none';">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+      <span>Primesc ceva in schimb?</span>
+      <svg class="contribute-faq-arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <polyline points="6 9 12 15 18 9"/>
+      </svg>
+    </div>
+    <div class="contribute-faq-answer" style="display: none;">
+      <p>Da! Rol special pe Discord, recunoastere publica, Fire Coins bonus si numele tau in lista de contribuitori de pe wiki.</p>
     </div>
   </div>
 </div>

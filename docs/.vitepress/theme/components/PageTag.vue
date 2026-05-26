@@ -16,7 +16,7 @@ const { frontmatter } = useData()
 
 // Sincronizat cu LastUpdates.vue - toate culorile
 const categoryMap = {
-  'Informații': { class: 'tag-blue', dot: 'dot-blue' },
+  'Informatii': { class: 'tag-blue', dot: 'dot-blue' },
   'Sisteme': { class: 'tag-orange', dot: 'dot-orange' },
   'Shop': { class: 'tag-purple', dot: 'dot-purple' },
   'Gambling': { class: 'tag-green', dot: 'dot-green' },

@@ -317,7 +317,7 @@ export default {
 </script>
 
 <style scoped>
-/* ===== REPO STATS CARD - MIC ȘI ELEGANT ===== */
+/* ===== REPO STATS CARD - MIC SI ELEGANT ===== */
 .repo-stats-card {
   position: relative;
   background: var(--vp-c-bg-soft);
@@ -371,7 +371,7 @@ export default {
   background-size: 50px 50px;
 }
 
-/* Stats Container - 4 pe orizontală */
+/* Stats Container - 4 pe orizontala */
 .stats-container {
   position: relative;
   z-index: 1;

@@ -184,7 +184,7 @@
 
 <script setup lang="ts">
 import { ref, reactive, onMounted, computed, onUnmounted, watch, nextTick } from 'vue'
-import { useData, inBrowser } from 'vitepress' // <-- Am adăugat inBrowser aici!
+import { useData, inBrowser } from 'vitepress' // <-- Am adaugat inBrowser aici!
 import { Icon } from '@iconify/vue'
 import HomeNavbar from './HomeNavbar.vue'
 import LastUpdates from './LastUpdates.vue'
@@ -799,7 +799,7 @@ onUnmounted(() => {
 }
 
 .wf-btn--primary :deep(svg) {
-  color: #ff7800; /* Doar iconița rămâne orange aprins */
+  color: #ff7800; /* Doar iconita ramane orange aprins */
 }
 
 .wf-btn--primary:hover {

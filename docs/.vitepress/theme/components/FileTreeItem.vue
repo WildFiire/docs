@@ -86,7 +86,7 @@ export default {
       type: Object,
       required: true,
       validator(value) {
-        // Validare de bază pentru obiectul item
+        // Validare de baza pentru obiectul item
         return value && 
                typeof value.name === 'string' && 
                (value.type === 'dir' || value.type === 'file') &&

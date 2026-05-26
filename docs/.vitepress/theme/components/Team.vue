@@ -58,7 +58,7 @@
 
         <!-- Glass Content Card -->
         <div class="glass-card">
-          <!-- Colțuri decorative subtile -->
+          <!-- Colturi decorative subtile -->
           <div class="corner-dot-tl"></div>
           <div class="corner-dot-tr"></div>
           <div class="corner-dot-bl"></div>
@@ -160,7 +160,7 @@
                               </div>
                             </div>
 
-                            <!-- Copy Button (Sticlă) -->
+                            <!-- Copy Button (Sticla) -->
                             <button class="btn-copy-glass" @click="copyName(m.name)">
                               <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
                             </button>
@@ -1405,7 +1405,7 @@ onBeforeUnmount(() => {
 .nick { display: block; font-size: 1.1rem; font-weight: 800; color: #fff; }
 .handle { font-size: 0.75rem; color: rgba(255,255,255,0.4); }
 .glass-divider { height: 1px; background: rgba(255,255,255,0.06); margin: 10px 0; }
-/* Secțiunea de Rol - Redesign Liquid */
+/* Sectiunea de Rol - Redesign Liquid */
 .role-display {
   margin-top: 5px;
   display: flex;
@@ -1425,7 +1425,7 @@ onBeforeUnmount(() => {
 .role-label {
   display: inline-flex;
   align-items: center;
-  align-self: flex-start; /* Previne întinderea pe tot rândul */
+  align-self: flex-start; /* Previne intinderea pe tot randul */
   gap: 8px;
   padding: 6px 12px;
   border-radius: 8px;
@@ -1504,7 +1504,7 @@ onBeforeUnmount(() => {
   min-width: 320px;
 }
 
-/* Animații Toast */
+/* Animatii Toast */
 .toast-enter-active, .toast-leave-active {
   transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }

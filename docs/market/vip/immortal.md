@@ -1,6 +1,6 @@
 ---
 title: "VIP Immortal"
-description: "Descoperă totul despre VIP Immortal pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre VIP Immortal pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 

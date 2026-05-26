@@ -1,6 +1,6 @@
 ---
 title: "Sistemul de WeaponSkins"
-description: "Descoperă totul despre Sistemul de WeaponSkins pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre Sistemul de WeaponSkins pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 
@@ -31,19 +31,19 @@ outline: "deep"
   </div>
   <div class="wf-system-content">
     <span class="wf-system-number">!ws</span> <span class="wf-system-highlight">Sistemul Avansat de WeaponSkins</span>
-    <p>WeaponSkins este hub-ul principal pentru tot ce ține de cosmetice pe server: skin-uri de arme, cuțite, mănuși, agenți și partea de cases. Toate sunt legate între ele și funcționează în același ecosistem.</p>
-    <p>Pagina asta e făcută ca orientare rapidă. Dacă vrei varianta completă pe fiecare modul, ai la final link-uri directe către paginile dedicate.</p>
+    <p>WeaponSkins este hub-ul principal pentru tot ce tine de cosmetice pe server: skin-uri de arme, cutite, manusi, agenti si partea de cases. Toate sunt legate intre ele si functioneaza in acelasi ecosistem.</p>
+    <p>Pagina asta e facuta ca orientare rapida. Daca vrei varianta completa pe fiecare modul, ai la final link-uri directe catre paginile dedicate.</p>
   </div>
 </div>
 
 <!-- divider -->
 <div class="wf-system-divider"></div>
 
-<!-- 1.0 CUM ÎNCEPEM? -->
+<!-- 1.0 CUM INCEPEM? -->
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3);" class="wf-system-title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>1.0 CUM ÎNCEPEM?</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><circle cx="12" cy="12" r="10"/><polygon points="10 8 16 12 10 16 10 8"/></svg>1.0 CUM INCEPEM?</span>
 </div>
 
 <div class="wf-system-card">
@@ -54,16 +54,16 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-system-content">
-    <p>Intrarea în sistem se face simplu, printr-o singură comandă în chat:</p>
+    <p>Intrarea in sistem se face simplu, printr-o singura comanda in chat:</p>
     <div class="wf-system-important-box">
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
         <circle cx="12" cy="12" r="10"/>
         <line x1="12" y1="8" x2="12" y2="12"/>
         <line x1="12" y1="16" x2="12.01" y2="16"/>
       </svg>
-      <span><span class="wf-system-highlight">IMPORTANT:</span> Scrie <code>!ws</code> în chat pentru a deschide meniul principal.</span>
+      <span><span class="wf-system-highlight">IMPORTANT:</span> Scrie <code>!ws</code> in chat pentru a deschide meniul principal.</span>
     </div>
-    <p>După ce intri în meniu, flow-ul e împărțit clar în trei zone:</p>
+    <p>Dupa ce intri in meniu, flow-ul e impartit clar in trei zone:</p>
     
   <div style="display: flex; flex-direction: column; gap: 10px; margin: 15px 0;">
       <div style="display: flex; align-items: center; gap: 12px; background: rgba(255,140,0,0.03); padding: 10px 15px; border-radius: 8px;">
@@ -72,7 +72,7 @@ outline: "deep"
           <line x1="2" y1="12" x2="22" y2="12"/>
           <line x1="12" y1="2" x2="12" y2="22"/>
         </svg>
-        <span><span class="wf-system-highlight">Shop</span> - cumperi iteme noi și vezi prețurile curente</span>
+        <span><span class="wf-system-highlight">Shop</span> - cumperi iteme noi si vezi preturile curente</span>
       </div>
       
    <div style="display: flex; align-items: center; gap: 12px; background: rgba(255,140,0,0.03); padding: 10px 15px; border-radius: 8px;">
@@ -80,7 +80,7 @@ outline: "deep"
           <rect x="2" y="2" width="20" height="20" rx="3"/>
           <line x1="8" y1="2" x2="8" y2="22"/>
         </svg>
-        <span><span class="wf-system-highlight">My Inventory</span> - gestionezi ce deții deja și ce ai echipat</span>
+        <span><span class="wf-system-highlight">My Inventory</span> - gestionezi ce detii deja si ce ai echipat</span>
       </div>
       
   <div style="display: flex; align-items: center; gap: 12px; background: rgba(255,140,0,0.03); padding: 10px 15px; border-radius: 8px;">
@@ -88,10 +88,10 @@ outline: "deep"
           <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
           <circle cx="12" cy="7" r="4"/>
         </svg>
-        <span><span class="wf-system-highlight">Profile</span> - verifici progresul, balanța și statisticile</span>
+        <span><span class="wf-system-highlight">Profile</span> - verifici progresul, balanta si statisticile</span>
       </div>
     </div>
-    <p style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Pentru acces rapid la inventar poți folosi și comanda <code>!inv</code>.</p>
+    <p style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Pentru acces rapid la inventar poti folosi si comanda <code>!inv</code>.</p>
   </div>
 </div>
 
@@ -114,21 +114,21 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-system-content">
-    <p>Shop-ul este zona unde se face toată achiziția de iteme. În funcție de categorie, poți cumpăra de la skin-uri comune până la iteme rare, limitate sau premium.</p>
+    <p>Shop-ul este zona unde se face toata achizitia de iteme. In functie de categorie, poti cumpara de la skin-uri comune pana la iteme rare, limitate sau premium.</p>
     
   <div class="wf-system-category-container">
       <span class="wf-system-category-badge">Arme</span>
-      <span class="wf-system-category-badge">Cuțite</span>
-      <span class="wf-system-category-badge">Mănuși</span>
+      <span class="wf-system-category-badge">Cutite</span>
+      <span class="wf-system-category-badge">Manusi</span>
       <span class="wf-system-category-badge">Stickere</span>
       <span class="wf-system-category-badge">Brelocuri</span>
-      <span class="wf-system-category-badge">Agenți</span>
+      <span class="wf-system-category-badge">Agenti</span>
     </div>
-    <p style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Rifles, Pistols, SMGs și Heavies sunt toate incluse în același flow de shop.</p>
+    <p style="font-size: 12px; opacity: 0.8; margin-top: 5px;">Rifles, Pistols, SMGs si Heavies sunt toate incluse in acelasi flow de shop.</p>
   </div>
 </div>
 
-<!-- Economia și Prețurile Dinamice -->
+<!-- Economia si Preturile Dinamice -->
 <div class="wf-system-card">
   <div class="wf-system-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
@@ -144,10 +144,10 @@ outline: "deep"
         <line x1="2" y1="12" x2="22" y2="12"/>
         <line x1="12" y1="2" x2="12" y2="22"/>
       </svg>
-      Economia și Prețurile Dinamice
+      Economia si Preturile Dinamice
     </h3>
-    <p>Economia este dinamică. Baza vine din <span class="wf-system-highlight">Steam Community Market</span>, iar apoi serverul ajustează prețurile în funcție de activitatea reală a jucătorilor.</p>
-    <p>Asta înseamnă că piața nu stă pe loc: prețurile se schimbă, apar oportunități, iar timing-ul contează.</p>
+    <p>Economia este dinamica. Baza vine din <span class="wf-system-highlight">Steam Community Market</span>, iar apoi serverul ajusteaza preturile in functie de activitatea reala a jucatorilor.</p>
+    <p>Asta inseamna ca piata nu sta pe loc: preturile se schimba, apar oportunitati, iar timing-ul conteaza.</p>
     
   <div style="display: flex; flex-direction: column; gap: 12px; margin: 15px 0;">
       <div style="display: flex; align-items: flex-start; gap: 12px; background: rgba(255,68,68,0.05); padding: 10px 15px; border-radius: 8px;">
@@ -157,7 +157,7 @@ outline: "deep"
           </svg>
           HOT
         </span>
-        <span><span class="wf-system-highlight"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><polyline points="18 15 12 9 6 15"/></svg> HOT:</span> Când mulți jucători cumpără același item, prețul poate crește automat.</span> 
+        <span><span class="wf-system-highlight"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><polyline points="18 15 12 9 6 15"/></svg> HOT:</span> Cand multi jucatori cumpara acelasi item, pretul poate creste automat.</span> 
       </div>
       
   <div style="display: flex; align-items: flex-start; gap: 12px; background: rgba(0,200,0,0.05); padding: 10px 15px; border-radius: 8px;">
@@ -167,11 +167,11 @@ outline: "deep"
           </svg>
           STEAL
         </span>
-        <span><span class="wf-system-highlight"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><polyline points="18 15 12 9 6 15"/><path d="M2 2v20h20"/></svg> STEAL:</span> Când un item nu se mai cumpără, poate primi reducere și devine ofertă bună.</span>
+        <span><span class="wf-system-highlight"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 4px;"><polyline points="18 15 12 9 6 15"/><path d="M2 2v20h20"/></svg> STEAL:</span> Cand un item nu se mai cumpara, poate primi reducere si devine oferta buna.</span>
       </div>
     </div>
     
-  <p>În plus, apar și <span class="wf-system-highlight">campanii globale de reducere</span> pe categorii întregi (ex: <code>-10% la toate cuțitele</code>).</p>
+  <p>In plus, apar si <span class="wf-system-highlight">campanii globale de reducere</span> pe categorii intregi (ex: <code>-10% la toate cutitele</code>).</p>
   </div>
 </div>
 
@@ -191,7 +191,7 @@ outline: "deep"
       </svg>
       Sistemul de Stocuri
     </h3>
-    <p>Stocurile sunt una dintre diferențele mari față de un shop clasic. Unele iteme sunt limitate și dispar când se epuizează:</p>
+    <p>Stocurile sunt una dintre diferentele mari fata de un shop clasic. Unele iteme sunt limitate si dispar cand se epuizeaza:</p>
     
   <div style="display: flex; flex-direction: column; gap: 15px; margin: 15px 0;">
       <div style="display: flex; align-items: flex-start; gap: 12px;">
@@ -202,23 +202,23 @@ outline: "deep"
           </svg>
           Rare
         </span>
-        <span>Anumite skin-uri apar cu <code>X Left</code> - număr real de bucăți rămase.</span>
+        <span>Anumite skin-uri apar cu <code>X Left</code> - numar real de bucati ramase.</span>
       </div>
       
  <div style="display: flex; align-items: flex-start; gap: 12px;">
         <span class="wf-system-badge" style="background: rgba(100,100,100,0.2);">Sold Out</span>
-        <span>La stoc zero, itemul devine <span class="wf-system-highlight">Out of Stock</span> până la restock / eveniment.</span>
+        <span>La stoc zero, itemul devine <span class="wf-system-highlight">Out of Stock</span> pana la restock / eveniment.</span>
       </div>
       
  <div style="display: flex; align-items: flex-start; gap: 12px;">
         <span class="wf-system-badge">Nelimitat</span>
-        <span>Itemele comune rămân, de regulă, pe stoc nelimitat.</span>
+        <span>Itemele comune raman, de regula, pe stoc nelimitat.</span>
       </div>
     </div>
   </div>
 </div>
 
-<!-- Confirmarea Achiziției -->
+<!-- Confirmarea Achizitiei -->
 <div class="wf-system-card">
   <div class="wf-system-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
@@ -230,9 +230,9 @@ outline: "deep"
       <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
-      Confirmarea Achiziției
+      Confirmarea Achizitiei
     </h3>
-    <p>Înainte să cumperi, ai un ecran de confirmare clar. Astfel eviți click-uri greșite și știi exact ce plătești:</p>
+    <p>Inainte sa cumperi, ai un ecran de confirmare clar. Astfel eviti click-uri gresite si stii exact ce platesti:</p>
     
   <ul class="wf-system-custom-list">
       <li>
@@ -245,24 +245,24 @@ outline: "deep"
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        Prețul final, cu reducerile active aplicate
+        Pretul final, cu reducerile active aplicate
       </li>
       <li>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        Stocul disponibil în acel moment
+        Stocul disponibil in acel moment
       </li>
       <li>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        Balanța disponibilă înainte de confirmare
+        Balanta disponibila inainte de confirmare
       </li>
     </ul>
     
  <div style="background: rgba(255,140,0,0.1); padding: 12px 15px; border-radius: 8px; margin-top: 10px;">
-      <span>Dacă totul e ok, finalizezi direct prin <span class="wf-system-badge" style="background: linear-gradient(135deg, #ff8c00, #cc7000); color: white;">Buy Now</span>.</span>
+      <span>Daca totul e ok, finalizezi direct prin <span class="wf-system-badge" style="background: linear-gradient(135deg, #ff8c00, #cc7000); color: white;">Buy Now</span>.</span>
     </div>
   </div>
 </div>
@@ -285,36 +285,36 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-system-content">
-  <p>După achiziție, itemul se echipează instant și rămâne salvat permanent. Nu-l pierzi la schimb de hartă, restart sau reconectare.</p>
+  <p>Dupa achizitie, itemul se echipeaza instant si ramane salvat permanent. Nu-l pierzi la schimb de harta, restart sau reconectare.</p>
 
   <div style="background: rgba(255,140,0,0.05); padding: 15px; border-radius: 8px; margin: 15px 0;">
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2" style="display: inline-block; vertical-align: middle; margin-right: 8px;">
       <rect x="2" y="2" width="20" height="20" rx="3"/>
       <line x1="8" y1="2" x2="8" y2="22"/>
     </svg>
-    <span>În inventar ai o evidență clară a itemelor deținute (inclusiv marcaje de tip <code>[✓]</code>) și poți re-echipa rapid orice variantă.</span>
+    <span>In inventar ai o evidenta clara a itemelor detinute (inclusiv marcaje de tip <code>[✓]</code>) si poti re-echipa rapid orice varianta.</span>
   </div>
 
-  <p>Poți gestiona inventarul atât din joc, cât și de pe site. Flow-ul standard este:</p>
+  <p>Poti gestiona inventarul atat din joc, cat si de pe site. Flow-ul standard este:</p>
 
   <ul class="wf-system-custom-list">
     <li>
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="20 6 9 17 4 12"/>
       </svg>
-      <span><span class="wf-system-highlight">În joc:</span> folosești <code>!inv</code> sau <code>!ws</code> pentru inventar rapid</span>
+      <span><span class="wf-system-highlight">In joc:</span> folosesti <code>!inv</code> sau <code>!ws</code> pentru inventar rapid</span>
     </li>
     <li>
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="20 6 9 17 4 12"/>
       </svg>
-      <span><span class="wf-system-highlight">Pe site:</span> vezi colecția completă în <code>wildfire.ro/skins-market</code> -> Inventory</span>
+      <span><span class="wf-system-highlight">Pe site:</span> vezi colectia completa in <code>wildfire.ro/skins-market</code> -> Inventory</span>
     </li>
     <li>
       <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
         <polyline points="20 6 9 17 4 12"/>
       </svg>
-      <span><span class="wf-system-highlight">Loadout:</span> alegi itemele active și sincronizarea se face automat în joc</span>
+      <span><span class="wf-system-highlight">Loadout:</span> alegi itemele active si sincronizarea se face automat in joc</span>
     </li>
   </ul>
 
@@ -324,7 +324,7 @@ outline: "deep"
       <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">!inv</div>
     </div>
     <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
-      Meniu inventar în joc
+      Meniu inventar in joc
     </div>
   </div>
 
@@ -344,7 +344,7 @@ outline: "deep"
       <div style="position: absolute; bottom: 12px; right: 12px; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); padding: 4px 12px; border-radius: 20px; font-size: 11px; font-family: 'Orbitron', monospace; color: #ff8c00;">site loadout</div>
     </div>
     <div style="text-align: center; padding: 12px; font-size: 12px; color: var(--vp-c-text-2);">
-      Selectare loadout și echipare din browser
+      Selectare loadout si echipare din browser
     </div>
   </div>
   </div>
@@ -366,9 +366,9 @@ outline: "deep"
         <line x1="12" y1="8" x2="12" y2="12"/>
         <line x1="12" y1="16" x2="12.01" y2="16"/>
       </svg>
-      Skin Properties (Personalizare Avansată)
+      Skin Properties (Personalizare Avansata)
     </h3>
-    <p>Din inventar ai acces la personalizare avansată. Pe scurt: nu doar deții itemul, ci îl și ajustezi exact cum îți place.</p>
+    <p>Din inventar ai acces la personalizare avansata. Pe scurt: nu doar detii itemul, ci il si ajustezi exact cum iti place.</p>
     
   <div class="wf-system-category-container" style="margin: 15px 0;">
       <span class="wf-system-feature-badge">Float / Wear</span>
@@ -382,7 +382,7 @@ outline: "deep"
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <span class="wf-system-highlight">Float / Wear:</span> controlezi gradul de uzură (Factory New -> Battle-Scarred)
+        <span class="wf-system-highlight">Float / Wear:</span> controlezi gradul de uzura (Factory New -> Battle-Scarred)
       </li>
       <li>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
@@ -394,7 +394,7 @@ outline: "deep"
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <span class="wf-system-highlight">Nametag:</span> adaugi nume custom pe armă sau cuțit
+        <span class="wf-system-highlight">Nametag:</span> adaugi nume custom pe arma sau cutit
       </li>
       <li>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
@@ -409,11 +409,11 @@ outline: "deep"
 <!-- divider -->
 <div class="wf-system-divider"></div>
 
-<!-- 4.0 PROFILUL TĂU -->
+<!-- 4.0 PROFILUL TAU -->
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3);" class="wf-system-title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
   
-  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>4.0 PROFILUL TĂU</span>
+  ### <span style="font-size: 28px; font-weight: 800; line-height: 1; margin-left: -5px; transform: translateY(-2px); display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="1.8" style="display: inline-block; vertical-align: middle; margin-right: 8px; transform: translateY(-2px);"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>4.0 PROFILUL TAU</span>
 </div>
 
 <div class="wf-system-card">
@@ -424,12 +424,12 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-system-content">
-    <p>Profilul îți arată rapid unde te afli în economie și colecție, fără să cauți prin meniuri:</p>
+    <p>Profilul iti arata rapid unde te afli in economie si colectie, fara sa cauti prin meniuri:</p>
     
  <div class="wf-system-stats-grid">
       <div class="wf-system-stat-item">
         <div class="wf-system-stat-item-value">1,000</div>
-        <div class="wf-system-stat-item-label">Balanță curentă</div>
+        <div class="wf-system-stat-item-label">Balanta curenta</div>
       </div>
       <div class="wf-system-stat-item">
         <div class="wf-system-stat-item-value">5,000</div>
@@ -442,25 +442,25 @@ outline: "deep"
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <span class="wf-system-highlight">Balanța curentă:</span> suma pe care o poți folosi imediat în shop
+        <span class="wf-system-highlight">Balanta curenta:</span> suma pe care o poti folosi imediat in shop
       </li>
       <li>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <span class="wf-system-highlight">Total Spent:</span> totalul investit în iteme până acum
+        <span class="wf-system-highlight">Total Spent:</span> totalul investit in iteme pana acum
       </li>
       <li>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
         </svg>
-        <span class="wf-system-highlight">Cel mai scump skin:</span> itemul tău de top, detectat automat de sistem
+        <span class="wf-system-highlight">Cel mai scump skin:</span> itemul tau de top, detectat automat de sistem
       </li>
       <li>
         <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2">
           <polyline points="20 6 9 17 4 12"/>
         </svg>
-        <span class="wf-system-highlight">Piese deținute:</span> totalul itemelor din colecția ta
+        <span class="wf-system-highlight">Piese detinute:</span> totalul itemelor din colectia ta
       </li>
     </ul>
     
@@ -468,7 +468,7 @@ outline: "deep"
       <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#00c851" stroke-width="2">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
-      <span><span class="wf-system-highlight">TIP:</span> Verifică zilnic piața, urmărește ofertele <span class="wf-system-steal-badge" style="display: inline-flex;">STEAL</span> și profită de stocurile limitate când apar.</span>
+      <span><span class="wf-system-highlight">TIP:</span> Verifica zilnic piata, urmareste ofertele <span class="wf-system-steal-badge" style="display: inline-flex;">STEAL</span> si profita de stocurile limitate cand apar.</span>
     </div>
   </div>
 </div>
@@ -491,7 +491,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-system-content">
-    <p>Mai jos ai un overview rapid pentru modulele principale din ecosistemul skins, fiecare cu preview vizual și pagină dedicată.</p>
+    <p>Mai jos ai un overview rapid pentru modulele principale din ecosistemul skins, fiecare cu preview vizual si pagina dedicata.</p>
   </div>
 </div>
 
@@ -507,7 +507,7 @@ outline: "deep"
   </div>
   <div class="wf-system-content">
     <span class="wf-system-highlight"><a href="/systems/skins/cases" style="color: inherit; text-decoration: none;">Cases</a></span>
-    <p>Deschizi cutii, primești skin-uri și totul se sincronizează în inventar.</p>
+    <p>Deschizi cutii, primesti skin-uri si totul se sincronizeaza in inventar.</p>
     <div style="margin: 12px 0 0; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 6px;">
       <div style="position: relative; border-radius: 8px; overflow: hidden;">
         <img src="/crates/cases_gif.gif" alt="Cases preview" style="width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
@@ -528,7 +528,7 @@ outline: "deep"
   </div>
   <div class="wf-system-content">
     <span class="wf-system-highlight"><a href="/systems/skins/knives" style="color: inherit; text-decoration: none;">Knives</a></span>
-    <p>Cuțite rare, modele iconice și echipare instant din <code>!ws</code>.</p>
+    <p>Cutite rare, modele iconice si echipare instant din <code>!ws</code>.</p>
     <div style="margin: 12px 0 0; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 6px;">
       <div style="position: relative; border-radius: 8px; overflow: hidden;">
         <img src="/knives/gif_knives_1.gif" alt="Knives preview" style="width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
@@ -549,7 +549,7 @@ outline: "deep"
   </div>
   <div class="wf-system-content">
     <span class="wf-system-highlight"><a href="/systems/skins/gloves" style="color: inherit; text-decoration: none;">Gloves</a></span>
-    <p>Mănuși premium, compatibile cu loadout-ul și cu seturile de cuțite.</p>
+    <p>Manusi premium, compatibile cu loadout-ul si cu seturile de cutite.</p>
     <div style="margin: 12px 0 0; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 6px;">
       <div style="position: relative; border-radius: 8px; overflow: hidden;">
         <img src="/gloves/gif_gloves_1.gif" alt="Gloves preview" style="width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
@@ -571,7 +571,7 @@ outline: "deep"
   </div>
   <div class="wf-system-content">
     <span class="wf-system-highlight"><a href="/systems/skins/agents" style="color: inherit; text-decoration: none;">Agents</a></span>
-    <p>Skin-uri de character pentru T/CT cu stiluri și identitate proprie.</p>
+    <p>Skin-uri de character pentru T/CT cu stiluri si identitate proprie.</p>
     <div style="margin: 12px 0 0; border-radius: 12px; overflow: hidden; background: linear-gradient(135deg, rgba(255,140,0,0.1), rgba(255,140,0,0.02)); border: 1px solid rgba(255,140,0,0.2); padding: 6px;">
       <div style="position: relative; border-radius: 8px; overflow: hidden;">
         <img src="/agents/gif_agents_1.gif" alt="Agents preview" style="width: 100%; height: auto; display: block; border-radius: 8px; box-shadow: 0 4px 20px rgba(0,0,0,0.2);" loading="lazy">
@@ -591,7 +591,7 @@ outline: "deep"
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
         <polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/>
       </svg>
-      <span><span class="wf-system-highlight">Acesta este rezumatul complet al WeaponSkins.</span> Pentru detalii pas cu pas, continuă aici:
+      <span><span class="wf-system-highlight">Acesta este rezumatul complet al WeaponSkins.</span> Pentru detalii pas cu pas, continua aici:
         <a href="/systems/skins/cases" style="color: var(--vp-c-brand-1); text-decoration: none; margin-left: 6px;">Cases</a> ·
         <a href="/systems/skins/knives" style="color: var(--vp-c-brand-1); text-decoration: none;">Knives</a> ·
         <a href="/systems/skins/gloves" style="color: var(--vp-c-brand-1); text-decoration: none;">Gloves</a> ·

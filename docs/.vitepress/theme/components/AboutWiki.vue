@@ -22,7 +22,7 @@
         </div>
         
         <div class="wiki-cta">
-          <a href="informatii/about" class="wiki-cta-link orbitron-font" aria-label="Explorează tot">
+          <a href="informatii/about" class="wiki-cta-link orbitron-font" aria-label="Exploreaza tot">
             <span class="typing-text orbitron-font" :class="{ 'typing-complete': wikiCTATyped }">{{ displayWikiCTA }}<span v-if="!wikiCTATyped" class="cursor"></span></span>
             <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
               <path d="M6 3L11 8L6 13" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
@@ -32,7 +32,7 @@
       </div>
 
       <div class="wiki-right">
-        <!-- Primul rând - 3 carduri -->
+        <!-- Primul rand - 3 carduri -->
         <div class="wiki-row">
           <div class="wiki-card reveal-element orbitron-font" ref="card1Ref" v-if="categoryCounts.systems > 0">
             <div class="card-glow"></div>
@@ -45,7 +45,7 @@
             </div>
             <div class="card-content">
               <h3 class="card-title orbitron-font">Regulamente</h3>
-              <p class="card-desc orbitron-font">Toate regulile și normele de comportament pentru comunitate</p>
+              <p class="card-desc orbitron-font">Toate regulile si normele de comportament pentru comunitate</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.systems }} pagini</span>
                 <a href="/informatii/regulamente/go/regulament-go" class="card-link" aria-label="Regulamente - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -62,7 +62,7 @@
             </div>
             <div class="card-content">
               <h3 class="card-title orbitron-font">Sisteme</h3>
-              <p class="card-desc orbitron-font">Sisteme specifice serverului și funcționalități unice</p>
+              <p class="card-desc orbitron-font">Sisteme specifice serverului si functionalitati unice</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.regulamente }} pagini</span>
                 <a href="/systems/skins/knives" class="card-link" aria-label="Sisteme - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -80,7 +80,7 @@
             </div>
             <div class="card-content">
               <h3 class="card-title orbitron-font">Shop</h3>
-              <p class="card-desc orbitron-font">Toate informațiile despre marketplace-ul serverului</p>
+              <p class="card-desc orbitron-font">Toate informatiile despre marketplace-ul serverului</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.market }} pagini</span>
                 <a href="/market/payment-methods" class="card-link" aria-label="Shop - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -89,7 +89,7 @@
           </div>
         </div>
 
-        <!-- Al doilea rând - 3 carduri -->
+        <!-- Al doilea rand - 3 carduri -->
         <div class="wiki-row" v-if="categoryCounts.info > 0 || categoryCounts.currency > 0 || categoryCounts.vip > 0">
           <div class="wiki-card reveal-element orbitron-font" ref="card4Ref" v-if="categoryCounts.info > 0">
             <div class="card-glow"></div>
@@ -101,7 +101,7 @@
             </div>
             <div class="card-content">
               <h3 class="card-title orbitron-font">Info & Guides</h3>
-              <p class="card-desc orbitron-font">Documentație și ghiduri</p>
+              <p class="card-desc orbitron-font">Documentatie si ghiduri</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.info }} pagini</span>
                 <a href="/informatii/faq" class="card-link" aria-label="Info & Guides - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -119,7 +119,7 @@
             </div>
             <div class="card-content">
               <h3 class="card-title orbitron-font">Currency</h3>
-              <p class="card-desc orbitron-font">Fire Coins și Credits</p>
+              <p class="card-desc orbitron-font">Fire Coins si Credits</p>
               <div class="card-footer">
                 <span class="card-badge orbitron-font">{{ categoryCounts.currency }} pagini</span>
                 <a href="/currency/credits" class="card-link" aria-label="Currency - Vezi pagina">VEZI <svg width="12" height="12" viewBox="0 0 14 14" fill="none"><path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg></a>
@@ -166,7 +166,7 @@ const props = defineProps<{
   startTyping?: boolean
 }>()
 
-// Referințe pentru elemente
+// Referinte pentru elemente
 const wikiSectionRef = ref<HTMLElement | null>(null)
 const wikiLeftRef = ref<HTMLElement | null>(null)
 const card1Ref = ref<HTMLElement | null>(null)
@@ -187,13 +187,13 @@ const wikiTitleOriginal = 'Enciclopedia WildFire'
 
 const displayWikiDesc = ref('')
 const wikiDescTyped = ref(false)
-const wikiDescOriginal = 'WildFire Wiki este centrul de cunoștințe al comunității noastre. Aici găsești documentație completă despre toate sistemele, regulamentele și resursele disponibile.'
+const wikiDescOriginal = 'WildFire Wiki este centrul de cunostinte al comunitatii noastre. Aici gasesti documentatie completa despre toate sistemele, regulamentele si resursele disponibile.'
 
 const displayWikiCTA = ref('')
 const wikiCTATyped = ref(false)
-const wikiCTAOriginal = 'Explorează tot'
+const wikiCTAOriginal = 'Exploreaza tot'
 
-// Funcția pentru numărarea paginilor
+// Functia pentru numararea paginilor
 const countPagesInSidebar = () => {
   let infoCount = 0
   let currencyCount = 0
@@ -210,7 +210,7 @@ const countPagesInSidebar = () => {
       
       if (section.items && Array.isArray(section.items)) {
         section.items.forEach((item: any) => {
-          if (sectionText.includes('informații')) infoCount++
+          if (sectionText.includes('informatii')) infoCount++
           else if (sectionText.includes('currency')) currencyCount++
           else if (sectionText.includes('systems')) systemsCount++
           else if (sectionText.includes('market')) marketCount++
@@ -240,7 +240,7 @@ const categoryCounts = computed(() => ({
   vip: counts.vipCount
 }))
 
-// Funcții pentru efectul de typing
+// Functii pentru efectul de typing
 const typeWikiSection = async () => {
   // Wiki Header
   for (let i = 0; i <= wikiHeaderOriginal.length; i++) {
@@ -274,7 +274,7 @@ const typeWikiSection = async () => {
   wikiCTATyped.value = true
 }
 
-// Funcții pentru reveal effect
+// Functii pentru reveal effect
 const isElementInViewport = (el: HTMLElement | null) => {
   if (!el) return false
   const rect = el.getBoundingClientRect()
@@ -330,14 +330,14 @@ onUnmounted(() => {
   revealObserver.value?.disconnect()
 })
 
-// Watch pentru a reacționa la changes în props.startTyping
+// Watch pentru a reactiona la changes in props.startTyping
 watch(() => props.startTyping, (newValue) => {
   if (newValue) {
     typeWikiSection()
   }
 })
 
-// Expunem referințe pentru componenta părinte (opțional)
+// Expunem referinte pentru componenta parinte (optional)
 defineExpose({
   wikiSectionRef,
   wikiLeftRef,
@@ -363,7 +363,7 @@ defineExpose({
   letter-spacing: 0.3px;
 }
 
-/* Ajustări individuale pentru diferite greutăți */
+/* Ajustari individuale pentru diferite greutati */
 .wiki-left-line .text {
   font-weight: 600 !important;
   letter-spacing: 2px;

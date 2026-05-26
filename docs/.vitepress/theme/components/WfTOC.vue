@@ -1,11 +1,11 @@
 <template>
-  <nav v-if="allItems.length" :class="['wf-toc', { 'is-at-top': isAtTop }]" aria-label="Pe această pagină">
+  <nav v-if="allItems.length" :class="['wf-toc', { 'is-at-top': isAtTop }]" aria-label="Pe aceasta pagina">
 
     <div class="wf-toc-header">
       <svg class="wf-toc-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
         <path d="M4 6h16M4 12h16M4 18h7"/>
       </svg>
-      <span class="wf-toc-header-label">Cuprins Secțiune</span>
+      <span class="wf-toc-header-label">Cuprins Sectiune</span>
     </div>
 
     <div class="wf-toc-scroll-wrapper">
@@ -265,15 +265,15 @@ function recompute() {
   updateMarker()
 }
 
-// Funcție pentru a centra elementul activ în containerul scrollabil
+// Functie pentru a centra elementul activ in containerul scrollabil
 function scrollToActiveItem(targetUrl: string) {
   if (!containerRef.value) return;
   const container = containerRef.value;
-  // Folosim atributul exact cu ghilimele duble în selector
+  // Folosim atributul exact cu ghilimele duble in selector
   const activeLink = container.querySelector(`a[href="${targetUrl}"]`) as HTMLElement;
   
   if (activeLink) {
-    // Calculăm poziția dorită pentru a centra link-ul activ
+    // Calculam pozitia dorita pentru a centra link-ul activ
     const scrollTarget = activeLink.offsetTop - (container.clientHeight / 2) + (activeLink.clientHeight / 2);
     container.scrollTo({
       top: scrollTarget,
@@ -311,8 +311,8 @@ function updateMarker() {
     
   dotOpacity.value     = 1
 
-  // Facem scroll automat către elementul vizibil curent
-  // Folosim endIdx dacă dăm scroll jos, startIdx dacă dăm scroll sus
+  // Facem scroll automat catre elementul vizibil curent
+  // Folosim endIdx daca dam scroll jos, startIdx daca dam scroll sus
   const targetIdx = isScrollingDown.value ? endIdx : startIdx;
   if (allItems.value[targetIdx]) {
       scrollToActiveItem(allItems.value[targetIdx].url);
@@ -449,7 +449,7 @@ onUnmounted(() => {
 /* Nou wrapper pentru masca de fade */
 .wf-toc-scroll-wrapper {
   position: relative;
-  /* Mască de tip gradient: complet opacă sus, se estompează spre final pe ultimii 30px */
+  /* Masca de tip gradient: complet opaca sus, se estompeaza spre final pe ultimii 30px */
   -webkit-mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
   mask-image: linear-gradient(to bottom, black 85%, transparent 100%);
 }
@@ -457,18 +457,18 @@ onUnmounted(() => {
 .wf-toc-container {
   position: relative;
   margin-top: 8px;
-  /* Înălțimea fixă pentru scroll. Ajustează valoarea după preferințe (ex: 40vh, 250px, 300px) */
+  /* Inaltimea fixa pentru scroll. Ajusteaza valoarea dupa preferinte (ex: 40vh, 250px, 300px) */
   max-height: 280px; 
   overflow-y: auto;
   
   /* Ascunde scrollbar-ul nativ pentru un aspect curat */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none;  /* IE/Edge */
-  /* Adaugă padding jos ca ultimul item să poată face scroll peste "fade" */
+  /* Adauga padding jos ca ultimul item sa poata face scroll peste "fade" */
   padding-bottom: 40px;
 }
 
-/* Ascunde scrollbar-ul în Webkit (Chrome, Safari) */
+/* Ascunde scrollbar-ul in Webkit (Chrome, Safari) */
 .wf-toc-container::-webkit-scrollbar {
   display: none;
 }

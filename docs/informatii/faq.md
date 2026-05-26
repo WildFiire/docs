@@ -88,7 +88,7 @@ outline: deep
       <p><b>Deschidere:</b> Acceseaza <a href="https://wildfire.ro/dashboard" target="_blank">wildfire.ro/dashboard</a> si foloseste sectiunea <b>"Quick Actions"</b>.</p>
       <ul class="wf-system-custom-list">
         <li><Icon icon="lucide:clock" width="16" height="16" color="#ff8c00" /><span>Raspuns garantat in <b>maxim 24h</b>.</span></li>
-        <li><Icon icon="lucide:video" width="16" height="16" color="#ff8c00" /><span>Atașeaza dovezi: video, screenshot sau demo.</span></li>
+        <li><Icon icon="lucide:video" width="16" height="16" color="#ff8c00" /><span>Ataseaza dovezi: video, screenshot sau demo.</span></li>
       </ul>
     </div>
   </div>

@@ -217,7 +217,7 @@ html:not(.dark) .cursor { background-color: var(--vp-c-brand-1); }
 
 /* ── ZONA DE SCROLL PENTRU FIX 3 OAMENI ── */
 .ctr-cli-scroll-area {
-  /* 86px = Înălțimea exactă a 3 itemi + gap-ul dintre ei */
+  /* 86px = Inaltimea exacta a 3 itemi + gap-ul dintre ei */
   max-height: 86px; 
   overflow-y: auto;
   overflow-x: hidden;
@@ -236,11 +236,11 @@ html:not(.dark) .ctr-cli-scroll-area::-webkit-scrollbar { width: 4px; }
 html:not(.dark) .ctr-cli-scroll-area::-webkit-scrollbar-track { background: transparent; }
 html:not(.dark) .ctr-cli-scroll-area::-webkit-scrollbar-thumb { background: var(--vp-c-brand-1); border-radius: 4px; }
 
-/* ── Lista de utilizatori (O singură coloană) ── */
+/* ── Lista de utilizatori (O singura coloana) ── */
 .ctr-cli-list {
   display: flex;
   flex-direction: column;
-  gap: 4px; /* Spațiu fin între ei */
+  gap: 4px; /* Spatiu fin intre ei */
 }
 
 /* ── User Item ── */
@@ -282,7 +282,7 @@ html:not(.dark) .ctr-cli-user:hover { background: rgba(0, 0, 0, 0.04); }
   opacity: 1;
 }
 
-/* ── Nume & Commits (Formatate cu line punctată pe mijloc) ── */
+/* ── Nume & Commits (Formatate cu line punctata pe mijloc) ── */
 .ctr-cli-info {
   display: flex;
   align-items: center;
@@ -301,7 +301,7 @@ html:not(.dark) .ctr-cli-user:hover { background: rgba(0, 0, 0, 0.04); }
 html:not(.dark) .ctr-cli-name { color: #24292f; }
 html:not(.dark) .ctr-cli-user:hover .ctr-cli-name { color: #000; }
 
-/* Linia punctată a la Terminal */
+/* Linia punctata a la Terminal */
 .ctr-cli-spacer {
   flex: 1;
   border-bottom: 1px dotted;

@@ -184,7 +184,7 @@ const PanelAnalytics = defineAsyncComponent(() => import('./components/Panel/Pan
 const PanelLogin = defineAsyncComponent(() => import('./components/Panel/PanelLogin.vue'))
 
 
-// Tag-uri — statice, CSS trebuie disponibil imediat pe paginile de conținut
+// Tag-uri — statice, CSS trebuie disponibil imediat pe paginile de continut
 export default {
   extends: DefaultTheme,
 
@@ -214,7 +214,7 @@ export default {
       // 🔥 Custom TOC replacing VitePress default
       'aside-outline-before': () => frontmatter.value.layout === false ? null : h(WfTOC),
 
-      // 🔥 CONTRIBUTORS - jos înainte de footer
+      // 🔥 CONTRIBUTORS - jos inainte de footer
       'aside-bottom': () => frontmatter.value.layout === false ? null : h(ContributorsWF),
 
       // Not Found Page
@@ -343,12 +343,12 @@ export default {
     app.component('PanelAnalytics', PanelAnalytics)
     app.component('WfSearchModal', WfSearchModal)
 
-    // NOUA COMPONENTĂ PENTRU FILE TREE
+    // NOUA COMPONENTA PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)
 
     // Toate tag-urile
 
-    // 🔥 Adăugăm token-ul și client ID global
+    // 🔥 Adaugam token-ul si client ID global
     app.config.globalProperties.$githubToken = githubToken
     app.config.globalProperties.$githubClientId = githubClientId
 

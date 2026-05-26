@@ -1,6 +1,6 @@
 ---
 title: "Getting Started"
-description: "Descoperă totul despre Getting Started pe platforma Wildfire.ro. Resurse complete, ghiduri și sisteme detaliate pentru Counter-Strike 2."
+description: "Descopera totul despre Getting Started pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
 ---
 
@@ -136,7 +136,7 @@ outline: "deep"
         <span style="font-weight: 700; color: #ff7800; font-size: 15px;">!shop</span>
         <h2 style="display:none">!shop</h2>
       </div>
-      <p style="font-size: 12.5px; opacity: 0.8;">Cumpără iteme folosin <code>!shop</code>.</p>
+      <p style="font-size: 12.5px; opacity: 0.8;">Cumpara iteme folosin <code>!shop</code>.</p>
     </div>
   </div>
 

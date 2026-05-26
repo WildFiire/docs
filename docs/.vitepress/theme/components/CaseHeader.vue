@@ -127,7 +127,7 @@ onUnmounted(() => { document.removeEventListener('click', handleOutside, true); 
 
 const openInTools = computed(() => {
   const url = typeof window !== 'undefined' ? window.location.href : ''
-  const q   = encodeURIComponent('Explică această pagină de documentație: ' + url)
+  const q   = encodeURIComponent('Explica aceasta pagina de documentatie: ' + url)
   return [
     {
       id: 'github',
@@ -188,12 +188,12 @@ const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gi
   border-radius: 0;
 }
 
-/* ─── 2. FUNDALUL MASIV EXTINS (Curba V perfectă) ─── */
+/* ─── 2. FUNDALUL MASIV EXTINS (Curba V perfecta) ─── */
 .wch-grid-bg,
 .wch-ambient-glow {
   position: absolute;
   top: -80px;
-  /* Centrare absolută față de ecran */
+  /* Centrare absoluta fata de ecran */
   left: 50%;
   width: 100vw; 
   height: 500px;
@@ -202,9 +202,9 @@ const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gi
 }
 
 .wch-grid-bg {
-  /* GRILA SUPREMĂ: 4 straturi pentru profunzime 3D reală */
+  /* GRILA SUPREMA: 4 straturi pentru profunzime 3D reala */
   background-image:
-    /* 1. Noduri luminoase la intersecțiile mari */
+    /* 1. Noduri luminoase la intersectiile mari */
     radial-gradient(circle at 1px 1px, rgba(var(--wf-accent-rgb), 0.5) 1.5px, transparent 1.5px),
     /* 2. Liniile principale (grila de 60px) */
     linear-gradient(to right, rgba(var(--wf-accent-rgb), 0.1) 1px, transparent 1px),
@@ -212,23 +212,23 @@ const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gi
     /* 3. Liniile secundare (grila de 15px - detaliu tehnic) */
     linear-gradient(to right, rgba(var(--wf-accent-rgb), 0.025) 1px, transparent 1px),
     linear-gradient(to bottom, rgba(var(--wf-accent-rgb), 0.025) 1px, transparent 1px),
-    /* 4. Efectul de tablă de șah (Glass Tiles) - alternează opacitatea pătratelor mari */
+    /* 4. Efectul de tabla de sah (Glass Tiles) - alterneaza opacitatea patratelor mari */
     conic-gradient(rgba(var(--wf-accent-rgb), 0.015) 90deg, transparent 90deg 180deg, rgba(var(--wf-accent-rgb), 0.015) 180deg 270deg, transparent 270deg);
 
   background-size:
     60px 60px, /* Noduri */
     60px 60px, 60px 60px, /* Linii principale */
     15px 15px, 15px 15px, /* Linii secundare */
-    120px 120px; /* Tabla de șah are dublul mărimii pentru a alterna 60 cu 60 */
+    120px 120px; /* Tabla de sah are dublul marimii pentru a alterna 60 cu 60 */
 
-  /* Aliniere perfectă a tuturor straturilor pe centru */
+  /* Aliniere perfecta a tuturor straturilor pe centru */
   background-position: 50% 0%;
 
-  /* Înclinarea SF (Skew) */
+  /* Inclinarea SF (Skew) */
   transform-origin: center top;
   transform: translateX(-50%) skewY(-3.5deg) scaleY(1.05);
 
-  /* Masca sub formă de "U" larg (cade sub text, urcă sub sidebars) */
+  /* Masca sub forma de "U" larg (cade sub text, urca sub sidebars) */
   mask-image: radial-gradient(ellipse 60vw 450px at 50% -50px, black 30%, transparent 75%);
   -webkit-mask-image: radial-gradient(ellipse 60vw 450px at 50% -50px, black 30%, transparent 75%);
 }
@@ -241,7 +241,7 @@ const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gi
     radial-gradient(ellipse 40vw 300px at 50% 0%, rgba(var(--wf-accent-rgb), 0.15) 0%, transparent 70%),
     radial-gradient(ellipse 70vw 200px at 50% 50px, rgba(var(--wf-accent-rgb), 0.04) 0%, transparent 60%);
 
-  /* Respirație blândă pentru efect tech/viu */
+  /* Respiratie blanda pentru efect tech/viu */
   animation: wch-ambient-pulse 6s ease-in-out infinite alternate;
 }
 
@@ -250,7 +250,7 @@ const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gi
   100% { opacity: 1; transform: translateX(-50%) scaleY(1.05) scaleX(1); }
 }
 
-/* ─── 3. CONȚINUTUL INTERIOR ─── */
+/* ─── 3. CONTINUTUL INTERIOR ─── */
 .wch-inner {
   position: relative;
   z-index: 2;
@@ -385,7 +385,7 @@ html:not(.dark) .wch-open-item:hover .wch-ext-icon { color: rgba(0, 0, 0, 0.35);
   .wch-inner { padding: 10px 0 16px; }
   .wch-title { font-size: 1.4rem !important; }
   .wch-btn { padding: 5px 10px; font-size: 12px; }
-  /* Ajustare mască pentru ecrane mici ca să nu dispară complet */
+  /* Ajustare masca pentru ecrane mici ca sa nu dispara complet */
   .wch-grid-bg {
     mask-image: radial-gradient(ellipse 100vw 400px at 50% 0%, black 30%, transparent 80%);
     -webkit-mask-image: radial-gradient(ellipse 100vw 400px at 50% 0%, black 30%, transparent 80%);
@@ -412,7 +412,7 @@ html:not(.dark) .wch-open-item:hover .wch-ext-icon { color: rgba(0, 0, 0, 0.35);
   .wch-inner { padding: 10px 0 16px; }
   .wch-title { font-size: 1.4rem !important; }
   .wch-btn { padding: 5px 10px; font-size: 12px; }
-  /* Ajustare mască pentru ecrane mici ca să nu dispară complet */
+  /* Ajustare masca pentru ecrane mici ca sa nu dispara complet */
   .wch-grid-bg {
     mask-image: radial-gradient(ellipse 100vw 400px at 50% 0%, black 30%, transparent 80%);
     -webkit-mask-image: radial-gradient(ellipse 100vw 400px at 50% 0%, black 30%, transparent 80%);

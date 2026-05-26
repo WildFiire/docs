@@ -303,7 +303,7 @@
             <!-- EXPAND CONTENT - AICI APAR DETALIILE COMPLETE -->
             <transition name="liquid">
               <div v-if="open[commit.id]" class="liquid-expand">
-                <!-- DESCRIEREA DETALIATĂ (în collapse) -->
+                <!-- DESCRIEREA DETALIATA (in collapse) -->
                 <div v-if="commit.description" class="expand-section">
                   <div class="section-label">
                     <span class="label-icon">
@@ -524,7 +524,7 @@ export default {
       this.isLoading = true
       this.error = null
 
-      // Verifică cache-ul
+      // Verifica cache-ul
       if (this.cache.commits && this.cache.timestamp && 
           (Date.now() - this.cache.timestamp < this.cacheDuration)) {
         this.commits = this.cache.commits
@@ -561,10 +561,10 @@ export default {
 
         const commits = await commitsRes.json()
         
-        // Procesează fiecare commit pentru a lua mai multe detalii
+        // Proceseaza fiecare commit pentru a lua mai multe detalii
         const processedCommits = await Promise.all(
           commits.map(async (commit) => {
-            // Ia detaliile complete ale commit-ului (inclusiv fișiere)
+            // Ia detaliile complete ale commit-ului (inclusiv fisiere)
             const detailRes = await fetch(commit.url, {
               headers: {
                 'Authorization': `token ${this.githubToken}`,
@@ -587,7 +587,7 @@ export default {
             const message = commit.commit.message
             const tags = this.extractTags(message)
             
-            // Extrage descrierea (dacă există)
+            // Extrage descrierea (daca exista)
             const description = this.extractDescription(message)
             
             // Emoji pe baza tipului de commit
@@ -613,13 +613,13 @@ export default {
 
         this.commits = processedCommits
         
-        // Salvează în cache
+        // Salveaza in cache
         this.cache = {
           commits: processedCommits,
           timestamp: Date.now()
         }
 
-        // Inițializează open state pentru collapse
+        // Initializeaza open state pentru collapse
         this.initOpenState()
 
 
@@ -679,7 +679,7 @@ export default {
     extractDescription(message) {
       const lines = message.split('\n')
       if (lines.length > 1) {
-        // Ignoră prima linie (titlul) și liniile goale
+        // Ignora prima linie (titlul) si liniile goale
         return lines.slice(1).filter(l => l.trim() !== '').join('\n').trim()
       }
       return null
@@ -1557,7 +1557,7 @@ html:not(.dark) .glass-card:hover {
   transform: scale(1.05);
 }
 
-/* DESCRIPTION DETAILS - VERSIUNE FINALĂ CU SPAȚII */
+/* DESCRIPTION DETAILS - VERSIUNE FINALA CU SPATII */
 .description-details {
   background: var(--bg-elevated);
   border-radius: 16px;
@@ -1576,7 +1576,7 @@ html:not(.dark) .glass-card:hover {
   word-break: break-word;
 }
 
-/* Spații între paragrafe */
+/* Spatii intre paragrafe */
 .formatted-description p {
   margin: 12px 0;
 }
@@ -1611,7 +1611,7 @@ html:not(.dark) .glass-card:hover {
   color: var(--text-secondary);
 }
 
-/* Indentări pentru subpuncte */
+/* Indentari pentru subpuncte */
 .formatted-description ul ul {
   margin-top: 4px;
   margin-bottom: 4px;
@@ -1623,14 +1623,14 @@ html:not(.dark) .glass-card:hover {
   color: var(--primary-soft);
 }
 
-/* Spații între secțiuni */
+/* Spatii intre sectiuni */
 .formatted-description br {
   display: block;
   content: "";
   margin-top: 8px;
 }
 
-/* Text îngroșat */
+/* Text ingrosat */
 .formatted-description strong {
   color: var(--primary);
   font-weight: 600;

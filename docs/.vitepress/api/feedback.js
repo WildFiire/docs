@@ -10,7 +10,7 @@ export default async function handler(req, res) {
     const repo = process.env.GITHUB_REPO
     const [owner, name] = repo.split('/')
 
-    // Construiește titlul
+    // Construieste titlul
     let title = ''
     if (starRating && starRating > 0) {
         const starText = ['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][starRating]
@@ -19,7 +19,7 @@ export default async function handler(req, res) {
         title = `[${rating.toUpperCase()}] Feedback for ${pagePath}`
     }
 
-    // Construiește body-ul
+    // Construieste body-ul
     const body = `
 ## Feedback Received
 
@@ -42,7 +42,7 @@ ${comment || '*No comment provided*'}
   `.trim()
 
     try {
-        // Mai întâi obține repository ID și category ID
+        // Mai intai obtine repository ID si category ID
         const graphqlQuery = `
             query($owner: String!, $name: String!) {
                 repository(owner: $owner, name: $name) {
@@ -83,7 +83,7 @@ ${comment || '*No comment provided*'}
             throw new Error('No discussion category found')
         }
 
-        // Creează discussion-ul
+        // Creeaza discussion-ul
         const createMutation = `
             mutation($repositoryId: ID!, $categoryId: ID!, $title: String!, $body: String!) {
                 createDiscussion(input: {

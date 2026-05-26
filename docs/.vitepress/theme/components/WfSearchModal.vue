@@ -380,7 +380,7 @@ const extractSnippet = (text: string, q: string): string => {
   
   if (qi === -1) return text.slice(0, 200) + (text.length > 200 ? '...' : '')
   
-  // Extragem un context mai larg pentru a umple ~3 rânduri
+  // Extragem un context mai larg pentru a umple ~3 randuri
   const start = Math.max(0, qi - 60)
   const end   = Math.min(text.length, qi + 180)
   return (start > 0 ? '... ' : '') + text.slice(start, end) + (end < text.length ? ' ...' : '')

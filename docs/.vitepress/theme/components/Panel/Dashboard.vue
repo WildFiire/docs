@@ -2421,7 +2421,7 @@
   text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
 }
 
-/* Pentru "DATA" și "SYSTEM" - opțional, le poți adăuga manual */
+/* Pentru "DATA" si "SYSTEM" - optional, le poti adauga manual */
 .sidebar-nav .nav-item[data-section="data"] {
   margin-top: 20px;
   position: relative;
@@ -3200,7 +3200,7 @@
   background: var(--bg-secondary);
   backdrop-filter: var(--glass-blur); -webkit-backdrop-filter: var(--glass-blur);
   border: 1px solid var(--border-color);
-  border-top: 1px solid var(--border-highlight); /* Lumina direcțională de sus */
+  border-top: 1px solid var(--border-highlight); /* Lumina directionala de sus */
   border-radius: 20px;
   box-shadow: var(--glass-shadow), var(--glass-inner);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
@@ -3513,7 +3513,7 @@
   flex-direction: column;
   justify-content: space-between;
   padding-right: 16px;
-  padding-bottom: 20px; /* Aliniază valorile la finalul SVG-ului */
+  padding-bottom: 20px; /* Aliniaza valorile la finalul SVG-ului */
   color: var(--text-muted);
   font-size: 10px;
   font-weight: 600;
