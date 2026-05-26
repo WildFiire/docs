@@ -363,32 +363,7 @@ export default {
 .txt-yellow { color: #f59e0b; }
 .txt-purple { color: #8b5cf6; }
 
-/* Light Theme Overrides */
-:global(.wildfire-dashboard.light-theme) .pss-h2 { background: linear-gradient(90deg, #c2410c, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-:global(.wildfire-dashboard.light-theme) .head-sys { background: linear-gradient(135deg, #d97706, #ea580c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-:global(.wildfire-dashboard.light-theme) .head-diag { background: linear-gradient(135deg, #0284c7, #2563eb); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-:global(.wildfire-dashboard.light-theme) .head-repo { background: linear-gradient(135deg, #059669, #15803d); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
-:global(.wildfire-dashboard.light-theme) .head-ci { background: linear-gradient(135deg, #9333ea, #db2777); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
 
-:global(.wildfire-dashboard.light-theme) .rh-val,
-:global(.wildfire-dashboard.light-theme) .ci-name,
-:global(.wildfire-dashboard.light-theme) .pc-val { color: #111; }
-:global(.wildfire-dashboard.light-theme) .pss-sub,
-:global(.wildfire-dashboard.light-theme) .pc-lbl,
-:global(.wildfire-dashboard.light-theme) .rh-lbl,
-:global(.wildfire-dashboard.light-theme) .ci-meta,
-:global(.wildfire-dashboard.light-theme) .pc-pill-txt { color: #666; }
-
-:global(.wildfire-dashboard.light-theme) .pss-card,
-:global(.wildfire-dashboard.light-theme) .rh-box,
-:global(.wildfire-dashboard.light-theme) .ci-item { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.08); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-:global(.wildfire-dashboard.light-theme) .pc-bar-wrap { background: rgba(0,0,0,0.05); }
-:global(.wildfire-dashboard.light-theme) .pc-pills { border-top-color: rgba(0,0,0,0.1); }
-:global(.wildfire-dashboard.light-theme) .pc-pill { background: rgba(248,249,250,0.95); border-color: rgba(0,0,0,0.08); }
-:global(.wildfire-dashboard.light-theme) .diag-console { background: rgba(248,249,250,0.95); border-color: rgba(0,0,0,0.1); }
-:global(.wildfire-dashboard.light-theme) .d-msg { color: #222; }
-:global(.wildfire-dashboard.light-theme) .d-time { color: #64748b; }
-:global(.wildfire-dashboard.light-theme) .ci-empty { color: #666; }
 
 /* Deep color fixes for light mode */
 :global(.wildfire-dashboard.light-theme) .txt-green, :global(.wildfire-dashboard.light-theme) .d-ok, :global(.wildfire-dashboard.light-theme) .ci-success { color: #16a34a; }
