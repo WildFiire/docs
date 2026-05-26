@@ -212,10 +212,7 @@ import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { useData, useRoute } from 'vitepress'
 import { Icon } from '@iconify/vue'
 
-// Determine environment globally
-const host = window.location.hostname
-const isLocal = host === 'localhost' || host === '127.0.0.1'
-
+// Environment detection moved inside functions to fix SSR build
 const { theme, isDark } = useData()
 const route = useRoute()
 
@@ -241,16 +238,25 @@ const currentFlag = computed(() => {
 })
 
 function updateGoogtransCookie(code: string) {
-  // Clear translation cookie for both local and production
-  document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  const host = typeof window !== 'undefined' ? window.location.hostname : 'localhost'
+  const isLocal = host === 'localhost' || host === '127.0.0.1'
+  const parts = host.split('.')
+  const baseDomain = parts.length >= 2 ? parts.slice(-2).join('.') : host
+  
+  const past = 'expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  // Clear translation cookie for both local and production on all possible domain scopes
+  document.cookie = `googtrans=; ${past}`
   if (!isLocal) {
-    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${host};`
-    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${host};`
+    document.cookie = `googtrans=; ${past} domain=.${host};`
+    document.cookie = `googtrans=; ${past} domain=${host};`
+    document.cookie = `googtrans=; ${past} domain=.${baseDomain};`
+    document.cookie = `googtrans=; ${past} domain=${baseDomain};`
   }
+  
   if (code !== 'ro') {
     document.cookie = `googtrans=/ro/${code}; path=/;`
     if (!isLocal) {
-      document.cookie = `googtrans=/ro/${code}; path=/; domain=.${host};`
+      document.cookie = `googtrans=/ro/${code}; path=/; domain=.${baseDomain};`
     }
   }
 }
@@ -339,8 +345,8 @@ onMounted(() => {
     }
   } catch {}
 
-  // Inject Google Translate script globally only in local dev to avoid CSP violations in production
-  if (isLocal && !document.getElementById('google-translate-script')) {
+  // Inject Google Translate script globally
+  if (!document.getElementById('google-translate-script')) {
     const script = document.createElement('script')
     script.id = 'google-translate-script'
     script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'

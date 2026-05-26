@@ -120,21 +120,26 @@ const currentFlag = computed(() => {
 
 // Set and remove cookies securely across localhost and prod domains
 function updateGoogtransCookie(code) {
-  const host = window.location.hostname
+  const host = typeof window !== 'undefined' ? window.location.hostname : 'localhost'
   const isLocal = host === 'localhost' || host === '127.0.0.1'
+  const parts = host.split('.')
+  const baseDomain = parts.length >= 2 ? parts.slice(-2).join('.') : host
 
   // Clear existing
-  document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  const past = 'expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  document.cookie = `googtrans=; ${past}`
   if (!isLocal) {
-    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${host};`
-    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${host};`
+    document.cookie = `googtrans=; ${past} domain=.${host};`
+    document.cookie = `googtrans=; ${past} domain=${host};`
+    document.cookie = `googtrans=; ${past} domain=.${baseDomain};`
+    document.cookie = `googtrans=; ${past} domain=${baseDomain};`
   }
 
   // Set new
   if (code !== 'ro') {
     document.cookie = `googtrans=/ro/${code}; path=/;`
     if (!isLocal) {
-      document.cookie = `googtrans=/ro/${code}; path=/; domain=.${host};`
+      document.cookie = `googtrans=/ro/${code}; path=/; domain=.${baseDomain};`
     }
   }
 }
@@ -221,11 +226,8 @@ function changeLang(code) {
   currentLang.value = code
   updateGoogtransCookie(code)
   
-  // Reload the page so Google Translate's initial load catches the new cookie
-  // and translates the whole DOM gracefully
-  setTimeout(() => {
-    window.location.reload()
-  }, 100)
+  // Reload the page without the hash so Google Translate reverts correctly
+  window.location.href = window.location.pathname + window.location.search
 }
 
 function logout() {
