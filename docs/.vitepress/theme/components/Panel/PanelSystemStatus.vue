@@ -381,11 +381,11 @@ export default {
 
 :global(.wildfire-dashboard.light-theme) .pss-card,
 :global(.wildfire-dashboard.light-theme) .rh-box,
-:global(.wildfire-dashboard.light-theme) .ci-item { background: #fff; border-color: rgba(0,0,0,0.08); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
+:global(.wildfire-dashboard.light-theme) .ci-item { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.08); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
 :global(.wildfire-dashboard.light-theme) .pc-bar-wrap { background: rgba(0,0,0,0.05); }
 :global(.wildfire-dashboard.light-theme) .pc-pills { border-top-color: rgba(0,0,0,0.1); }
-:global(.wildfire-dashboard.light-theme) .pc-pill { background: #f8f9fa; border-color: rgba(0,0,0,0.08); }
-:global(.wildfire-dashboard.light-theme) .diag-console { background: #f8f9fa; border-color: rgba(0,0,0,0.1); }
+:global(.wildfire-dashboard.light-theme) .pc-pill { background: rgba(248,249,250,0.95); border-color: rgba(0,0,0,0.08); }
+:global(.wildfire-dashboard.light-theme) .diag-console { background: rgba(248,249,250,0.95); border-color: rgba(0,0,0,0.1); }
 :global(.wildfire-dashboard.light-theme) .d-msg { color: #222; }
 :global(.wildfire-dashboard.light-theme) .d-time { color: #64748b; }
 :global(.wildfire-dashboard.light-theme) .ci-empty { color: #666; }

@@ -434,9 +434,9 @@ export default {
 }
 
 .panel-login.light-theme {
-  --bg-primary: #f5f5f7;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #e8e8ed;
+  --bg-primary: rgba(245, 245, 247, 0.95);
+  --bg-secondary: rgba(255, 255, 255, 0.95);
+  --bg-tertiary: rgba(232, 232, 237, 0.95);
   --text-primary: #333;
   --text-secondary: #4a4a55;
   --text-muted: #666;
@@ -507,7 +507,7 @@ export default {
 }
 
 .t-white {
-  color: #fff;
+  color: var(--text-primary);
   font-family: 'Orbitron', sans-serif !important;
   font-weight: 900;
 }

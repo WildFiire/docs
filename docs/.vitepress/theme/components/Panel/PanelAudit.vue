@@ -263,7 +263,7 @@ export default {
 
 .af-filters { display:flex; gap:8px; margin-bottom:20px; flex-wrap:wrap; align-items:center; }
 .af-filter { display:flex; align-items:center; gap:6px; background:rgba(255,255,255,0.03); border:1px solid rgba(255,255,255,0.07); color:var(--text-muted); font-size:10px; font-weight:700; letter-spacing:.6px; padding:5px 10px; border-radius:20px; cursor:pointer; transition:all .2s; }
-.af-filter.active { background:rgba(255,255,255,0.08); border-color:rgba(255,255,255,0.2); color:var(--text-primary); }
+.af-filter.active { background:rgba(255,255,255,0.08); border-color: var(--text-muted); color:var(--text-primary); }
 .af-dot { width:7px; height:7px; border-radius:50%; flex-shrink:0; }
 .af-count { background:rgba(255,255,255,0.07); border-radius:10px; padding:1px 5px; font-size:9px; }
 .af-spacer { flex:1; }
@@ -316,8 +316,8 @@ export default {
 .af-modal-link:hover { background:rgba(99,102,241,0.1); }
 
 /* Light theme */
-.activity-feed.light-theme .af-card { background:#fff; border-color:rgba(0,0,0,0.08); box-shadow:0 2px 6px rgba(0,0,0,0.04); }
-.activity-feed.light-theme .af-kpi { background:#fff; box-shadow:0 2px 6px rgba(0,0,0,0.05); }
-.activity-feed.light-theme .af-filter { background:#fff; border-color:rgba(0,0,0,0.1); }
-.activity-feed.light-theme .af-modal { background:#fff; }
+.activity-feed.light-theme .af-card { background: rgba(255,255,255,0.95); border-color:rgba(0,0,0,0.08); box-shadow:0 2px 6px rgba(0,0,0,0.04); }
+.activity-feed.light-theme .af-kpi { background: rgba(255,255,255,0.95); box-shadow:0 2px 6px rgba(0,0,0,0.05); }
+.activity-feed.light-theme .af-filter { background: rgba(255,255,255,0.95); border-color:rgba(0,0,0,0.1); }
+.activity-feed.light-theme .af-modal { background: rgba(255,255,255,0.95); }
 </style>

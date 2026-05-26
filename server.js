@@ -4,6 +4,7 @@ import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
 import { readFileSync, writeFileSync, existsSync } from 'fs'
 import { config } from 'dotenv'
+import translate from 'google-translate-api-x'
 
 config()
 
@@ -82,6 +83,19 @@ app.post('/api/profile-bg', (req, res) => {
   profileBgs[login] = { presetId: presetId || 'default', customColor: customColor || '#1a1a2e', customUrl: customUrl || '' }
   saveBgs(profileBgs)
   res.json({ ok: true })
+})
+
+app.post('/api/translate', async (req, res) => {
+  try {
+    const { text, to = 'en' } = req.body
+    if (!text) return res.status(400).json({ error: 'Text to translate is required' })
+    
+    const result = await translate(text, { to })
+    res.json({ translatedText: result.text })
+  } catch (err) {
+    console.error('Translation error:', err)
+    res.status(500).json({ error: 'Failed to translate' })
+  }
 })
 
 app.use(express.static(join(__dirname, 'docs/.vitepress/dist')))

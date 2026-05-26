@@ -35,7 +35,7 @@
           </div>
 
           <!-- Title -->
-          <h1 class="wf-hero__title orbitron-font anim-item" data-anim="slide-up" data-delay="100">
+          <h1 class="wf-hero__title orbitron-font anim-item notranslate" data-anim="slide-up" data-delay="100">
             <span class="t-white">Wild</span><span class="t-fire">Fire</span><span class="t-docs"><Icon icon="mdi:book-open-page-variant" width="14" height="14" style="vertical-align: -1px; margin-right: 4px;" />DOCS</span>
           </h1>
 
@@ -158,7 +158,7 @@
           <span class="wf-section-label__line"></span>
         </div>
         <h2 class="wf-section__title orbitron-font anim-item" data-anim="slide-up">De ce <span class="wf-accent">Wiki?</span></h2>
-        <p class="wf-section__desc anim-item" data-anim="slide-up">Tot ce trebuie sa stii despre comunitatea Wildfire.ro</p>
+        <p class="wf-section__desc anim-item" data-anim="slide-up">Tot ce trebuie sa stii despre comunitatea <span class="notranslate">Wildfire.ro</span></p>
 
         <div class="wf-features__grid">
           <a

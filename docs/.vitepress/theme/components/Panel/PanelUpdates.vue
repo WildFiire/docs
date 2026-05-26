@@ -232,7 +232,7 @@ export default {
 }
 .pu-btn.primary {
   background: linear-gradient(135deg, #ff7800, #f59e0b);
-  color: #fff;
+  color: var(--text-primary);
   box-shadow: 0 4px 14px rgba(255,120,0,0.25);
 }
 .pu-btn.primary:hover {
@@ -320,7 +320,7 @@ export default {
 }
 .pu-card:hover {
   background: rgba(255,255,255,0.04);
-  border-color: rgba(255,255,255,0.1);
+  border-color: var(--text-muted);
   transform: translateX(4px);
 }
 
@@ -386,10 +386,10 @@ export default {
 .pu-author span { font-size: 12px; font-weight: 600; color: var(--text-muted); }
 
 /* Light Theme overrides */
-:global(.wildfire-dashboard.light-theme) .pu-card { background: #fff; border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
+:global(.wildfire-dashboard.light-theme) .pu-card { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.02); }
 :global(.wildfire-dashboard.light-theme) .pu-card:hover { border-color: rgba(0,0,0,0.15); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 :global(.wildfire-dashboard.light-theme) .pu-card-line { background: rgba(0,0,0,0.08); }
 :global(.wildfire-dashboard.light-theme) .pu-f-btn { border-color: rgba(0,0,0,0.1); color: #666; }
 :global(.wildfire-dashboard.light-theme) .pu-f-btn.active { background: rgba(255,120,0,0.1); border-color: #ff7800; color: #ff7800; }
-:global(.wildfire-dashboard.light-theme) .pu-empty { background: #fff; border-color: rgba(0,0,0,0.1); }
+:global(.wildfire-dashboard.light-theme) .pu-empty { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.1); }
 </style>

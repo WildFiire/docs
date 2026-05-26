@@ -202,7 +202,7 @@ export default {
 /* ── File ── */
 .node-item.file.selected {
   background: var(--accent, #ff7800);
-  color: #fff;
+  color: var(--text-primary);
 }
 .node-item.file.selected .node-file-icon { color: #fff !important; }
 .node-file-icon { display:flex; align-items:center; flex-shrink:0; transition:color 0.12s; }

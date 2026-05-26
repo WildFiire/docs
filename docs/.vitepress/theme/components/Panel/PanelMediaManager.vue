@@ -294,7 +294,7 @@ export default {
 .mm-title { font-size: 24px; font-weight: 800; color: var(--text-primary); margin: 0 0 4px; }
 .mm-subtitle { font-size: 13px; color: var(--text-muted); margin: 0; }
 
-.scan-btn { display: flex; align-items: center; gap: 8px; background: var(--accent, #6366f1); color: #fff; border: none; padding: 10px 18px; border-radius: 8px; font-size: 11px; font-weight: 800; letter-spacing: 0.8px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+.scan-btn { display: flex; align-items: center; gap: 8px; background: var(--accent, #6366f1); color: var(--text-primary); border: none; padding: 10px 18px; border-radius: 8px; font-size: 11px; font-weight: 800; letter-spacing: 0.8px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
 .scan-btn:hover:not(:disabled) { filter: brightness(1.15); transform: translateY(-1px); }
 .scan-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
 .spin { animation: spin 1s linear infinite; }
@@ -327,7 +327,7 @@ export default {
 .asset-card:hover .asset-preview img { transform: scale(1.05); }
 .asset-icon-preview { display: flex; flex-direction: column; align-items: center; gap: 6px; opacity: 0.5; }
 .asset-icon-preview span { font-size: 10px; font-weight: 700; letter-spacing: 1px; }
-.asset-ext-badge { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: #fff; font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; }
+.asset-ext-badge { position: absolute; top: 6px; right: 6px; background: rgba(0,0,0,0.6); backdrop-filter: blur(4px); color: var(--text-primary); font-size: 9px; font-weight: 700; padding: 2px 6px; border-radius: 4px; letter-spacing: 0.5px; }
 
 .asset-info { padding: 8px 10px; }
 .asset-name { display: block; font-size: 11px; font-weight: 600; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; margin-bottom: 2px; }
@@ -336,7 +336,7 @@ export default {
 /* Hover overlay on card */
 .asset-hover-overlay { position: absolute; inset: 0; background: rgba(0,0,0,0.45); display: flex; align-items: center; justify-content: center; opacity: 0; transition: opacity 0.2s; backdrop-filter: blur(2px); }
 .asset-card:hover .asset-hover-overlay { opacity: 1; }
-.video-preview { color: rgba(255,255,255,0.7); }
+.video-preview { color: var(--text-muted); }
 
 /* LIGHTBOX */
 .lb-fade-enter-active, .lb-fade-leave-active { transition: opacity 0.25s ease; }
@@ -344,35 +344,35 @@ export default {
 
 .mm-lightbox { position: fixed; inset: 0; z-index: 99999; background: rgba(0,0,0,0.92); backdrop-filter: blur(12px); display: flex; align-items: center; justify-content: center; gap: 16px; padding: 16px; }
 
-.lb-nav { flex-shrink: 0; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: #fff; width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; z-index: 1; }
+.lb-nav { flex-shrink: 0; background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); color: var(--text-primary); width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; z-index: 1; }
 .lb-nav:hover { background: rgba(255,255,255,0.15); transform: scale(1.1); }
 
 .lb-box { flex: 1; max-width: 900px; max-height: 90vh; background: rgba(15,15,28,0.95); border: 1px solid rgba(255,255,255,0.1); border-radius: 16px; overflow: hidden; display: flex; flex-direction: column; }
 
 .lb-header { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 14px 18px; border-bottom: 1px solid rgba(255,255,255,0.08); flex-shrink: 0; }
 .lb-meta { min-width: 0; }
-.lb-name { display: block; font-size: 14px; font-weight: 700; color: #fff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.lb-path { display: block; font-size: 11px; font-family: monospace; color: rgba(255,255,255,0.4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lb-name { display: block; font-size: 14px; font-weight: 700; color: var(--text-primary); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lb-path { display: block; font-size: 11px; font-family: monospace; color: var(--text-muted); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .lb-header-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-.adp-pill { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 700; color: rgba(255,255,255,0.5); letter-spacing: 0.5px; }
-.lb-icon-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.6); width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
-.lb-icon-btn:hover { background: rgba(255,255,255,0.12); color: #fff; }
+.adp-pill { background: rgba(255,255,255,0.07); border: 1px solid rgba(255,255,255,0.12); border-radius: 20px; padding: 3px 10px; font-size: 10px; font-weight: 700; color: var(--text-muted); letter-spacing: 0.5px; }
+.lb-icon-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-muted); width: 30px; height: 30px; border-radius: 7px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.2s; }
+.lb-icon-btn:hover { background: rgba(255,255,255,0.12); color: var(--text-primary); }
 .lb-close-btn:hover { background: rgba(239,68,68,0.2); border-color: rgba(239,68,68,0.5); color: #ef4444; }
 
 .lb-media { flex: 1; display: flex; align-items: center; justify-content: center; overflow: hidden; background: rgba(0,0,0,0.3); min-height: 300px; }
 .lb-img { max-width: 100%; max-height: 70vh; object-fit: contain; display: block; }
 .lb-video { max-width: 100%; max-height: 70vh; display: block; outline: none; }
-.lb-file-fallback { display: flex; flex-direction: column; align-items: center; gap: 12px; color: rgba(255,255,255,0.5); font-size: 13px; text-align: center; padding: 40px; }
+.lb-file-fallback { display: flex; flex-direction: column; align-items: center; gap: 12px; color: var(--text-muted); font-size: 13px; text-align: center; padding: 40px; }
 .lb-open-link { color: var(--accent, #6366f1); font-size: 12px; font-weight: 700; text-decoration: none; border: 1px solid rgba(99,102,241,0.4); padding: 6px 14px; border-radius: 6px; transition: all 0.2s; }
 .lb-open-link:hover { background: rgba(99,102,241,0.15); }
 
-.lb-counter { padding: 10px; text-align: center; font-size: 11px; color: rgba(255,255,255,0.3); font-family: monospace; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
+.lb-counter { padding: 10px; text-align: center; font-size: 11px; color: var(--text-muted); font-family: monospace; border-top: 1px solid rgba(255,255,255,0.06); flex-shrink: 0; }
 
 /* Light Theme */
-:global(.wildfire-dashboard.light-theme) .kpi-pill { background: #fff; border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
-:global(.wildfire-dashboard.light-theme) .filter-btn { background: #fff; border-color: rgba(0,0,0,0.1); color: #64748b; }
-:global(.wildfire-dashboard.light-theme) .mm-search { background: #fff; border-color: rgba(0,0,0,0.1); }
-:global(.wildfire-dashboard.light-theme) .asset-card { background: #fff; border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
+:global(.wildfire-dashboard.light-theme) .kpi-pill { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+:global(.wildfire-dashboard.light-theme) .filter-btn { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.1); color: #64748b; }
+:global(.wildfire-dashboard.light-theme) .mm-search { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.1); }
+:global(.wildfire-dashboard.light-theme) .asset-card { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 8px rgba(0,0,0,0.05); }
 :global(.wildfire-dashboard.light-theme) .asset-preview { background: #f1f5f9; }
 :global(.wildfire-dashboard.light-theme) .asset-detail-panel { background: rgba(255,255,255,0.98); border-color: rgba(99,102,241,0.3); box-shadow: 0 -8px 40px rgba(0,0,0,0.12); }
 </style>

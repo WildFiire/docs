@@ -227,7 +227,7 @@ export default {
 .hc-legend { display: flex; gap: 16px; flex-wrap: wrap; }
 .hc-leg-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-muted); cursor: pointer; padding: 6px 10px; border-radius: 6px; transition: all 0.2s; border: 1px solid transparent; }
 .hc-leg-item:hover { background: rgba(255,255,255,0.04); }
-.hc-leg-item.active { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.1); color: var(--text-primary); }
+.hc-leg-item.active { background: rgba(255,255,255,0.08); border-color: var(--text-muted); color: var(--text-primary); }
 .hc-dot { width: 8px; height: 8px; border-radius: 50%; }
 .hc-fresh-bg { background: #22c55e; }
 .hc-aging-bg { background: #f59e0b; }
@@ -246,7 +246,7 @@ export default {
 /* List */
 .pcd-list { display: flex; flex-direction: column; gap: 8px; }
 .pcd-row { display: flex; align-items: center; gap: 16px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.05); padding: 16px; border-radius: 12px; transition: all 0.2s; }
-.pcd-row:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.1); transform: translateY(-1px); }
+.pcd-row:hover { background: rgba(255,255,255,0.04); border-color: var(--text-muted); transform: translateY(-1px); }
 .pcd-row-icon { width: 40px; height: 40px; border-radius: 10px; display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .icon-fresh { background: rgba(34,197,94,0.1); color: #22c55e; }
 .icon-aging { background: rgba(245,158,11,0.1); color: #f59e0b; }
@@ -267,7 +267,7 @@ export default {
 .stale-text { color: #ef4444; }
 
 .pcd-row-btn { background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); color: var(--text-primary); padding: 8px 14px; border-radius: 8px; font-size: 12px; font-weight: 700; text-decoration: none; transition: all 0.2s; margin-left: 12px; }
-.pcd-row-btn:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.pcd-row-btn:hover { background: rgba(255,255,255,0.1); color: var(--text-primary); }
 
 .pcd-empty { display: flex; flex-direction: column; align-items: center; gap: 12px; padding: 40px; color: var(--text-muted); font-size: 14px; background: rgba(255,255,255,0.02); border-radius: 12px; border: 1px dashed rgba(255,255,255,0.1); }
 
@@ -292,16 +292,16 @@ export default {
 :global(.wildfire-dashboard.light-theme) .pcd-health-card,
 :global(.wildfire-dashboard.light-theme) .pcd-search-box,
 :global(.wildfire-dashboard.light-theme) .pcd-sort,
-:global(.wildfire-dashboard.light-theme) .pcd-row { background: #fff; border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
+:global(.wildfire-dashboard.light-theme) .pcd-row { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.08); box-shadow: 0 2px 6px rgba(0,0,0,0.03); }
 
 :global(.wildfire-dashboard.light-theme) .hc-bar-wrap { background: rgba(0,0,0,0.05); }
 :global(.wildfire-dashboard.light-theme) .hc-leg-item.active { background: #f0f0f0; border-color: rgba(0,0,0,0.1); color: #111; }
 :global(.wildfire-dashboard.light-theme) .hc-count { background: rgba(0,0,0,0.05); color: #111; }
 :global(.wildfire-dashboard.light-theme) .pcd-search-box input { color: #111; }
 :global(.wildfire-dashboard.light-theme) .pcd-sort.active { background: rgba(255,120,0,0.1); border-color: rgba(255,120,0,0.3); color: #ff7800; }
-:global(.wildfire-dashboard.light-theme) .pcd-row:hover { background: #f8f9fa; border-color: rgba(0,0,0,0.15); }
-:global(.wildfire-dashboard.light-theme) .pcd-row-btn { background: #f8f9fa; border-color: rgba(0,0,0,0.1); color: #111; }
+:global(.wildfire-dashboard.light-theme) .pcd-row:hover { background: rgba(248,249,250,0.95); border-color: rgba(0,0,0,0.15); }
+:global(.wildfire-dashboard.light-theme) .pcd-row-btn { background: rgba(248,249,250,0.95); border-color: rgba(0,0,0,0.1); color: #111; }
 :global(.wildfire-dashboard.light-theme) .pcd-row-btn:hover { background: #e2e8f0; }
-:global(.wildfire-dashboard.light-theme) .pcd-pg { background: #fff; border-color: rgba(0,0,0,0.1); color: #111; }
+:global(.wildfire-dashboard.light-theme) .pcd-pg { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.1); color: #111; }
 :global(.wildfire-dashboard.light-theme) .pcd-pg:hover:not(:disabled) { background: #f0f0f0; }
 </style>

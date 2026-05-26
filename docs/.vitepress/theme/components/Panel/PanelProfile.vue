@@ -1111,8 +1111,8 @@ export default {
   display:flex; flex-direction:column; gap:18px; animation:pp-fade 0.35s ease;
 }
 .panel-profile.light-theme {
-  --bg-primary:#f0f0f5; --bg-secondary:#fff; --bg-tertiary:#e2e2ea;
-  --border-color:#c4c4d0; --text-primary:#0f0f14; --text-secondary:#2a2a38;
+  --bg-primary:rgba(240, 240, 245, 0.95); --bg-secondary:rgba(255, 255, 255, 0.95); --bg-tertiary:rgba(226, 226, 234, 0.95);
+  --border-color:rgba(196, 196, 208, 0.8); --text-primary:#0f0f14; --text-secondary:#2a2a38;
   --text-muted:#4a4a5a; --accent-glow:rgba(255, 120, 0,0.1);
   --accent-dim: rgba(255, 120, 0,0.07); --accent-soft: rgba(255, 120, 0,0.12);
   --accent-mid: rgba(255, 120, 0,0.22); --accent-strong: rgba(255, 120, 0,0.4);
@@ -1148,7 +1148,7 @@ export default {
 /* Profile info */
 .pp-profile-info { flex:1; min-width:180px; padding-top:14px; }
 .pp-name-row { display:flex; align-items:center; gap:10px; flex-wrap:wrap; margin-bottom:5px; }
-.pp-name { margin:0; font-size:23px; font-weight:800; color:#fff; text-shadow:0 2px 14px rgba(0,0,0,0.7); letter-spacing:-0.3px; }
+.pp-name { margin:0; font-size:23px; font-weight:800; color: var(--text-primary); text-shadow:0 2px 14px rgba(0,0,0,0.7); letter-spacing:-0.3px; }
 .pp-lvl-chip { display:inline-flex; align-items:center; gap:5px; font-size:10px; font-weight:700; padding:3px 10px; border-radius:20px; letter-spacing:0.5px; text-transform:uppercase; }
 .pp-lvl-chip.newcomer { background:rgba(138,138,149,0.16); color:#9a9aaa; border:1px solid rgba(138,138,149,0.28); }
 .pp-lvl-chip.bronze   { background:rgba(205,127,50,0.18); color:#d4903a; border:1px solid rgba(205,127,50,0.38); }
@@ -1168,7 +1168,7 @@ export default {
 .pp-gh-pill { display:flex; flex-direction:column; align-items:center; padding:13px 22px; gap:3px; transition:background 0.15s; }
 .pp-gh-pill:hover { background:rgba(255,255,255,0.05); }
 .pp-gh-pill + .pp-gh-pill { border-left:1px solid rgba(255,255,255,0.09); }
-.pp-gh-pill-val { font-size:18px; font-weight:800; color:#fff; line-height:1; }
+.pp-gh-pill-val { font-size:18px; font-weight:800; color: var(--text-primary); line-height:1; }
 .pp-gh-pill-lbl { font-size:9px; color:rgba(255,255,255,0.42); text-transform:uppercase; letter-spacing:0.6px; }
 
 /* ── STAT TILES ── */
@@ -1350,7 +1350,7 @@ export default {
 .pp-lang-pct { font-size:11px; font-weight:700; color:var(--text-muted); width:32px; text-align:right; flex-shrink:0; }
 .pp-file-list { display:flex; flex-direction:column; gap:5px; }
 .pp-file-row { display:flex; align-items:center; gap:8px; padding:7px 10px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:9px; transition:border-color 0.15s; }
-.pp-file-row:hover { border-color:rgba(255,255,255,0.1); }
+.pp-file-row:hover { border-color: var(--text-muted); }
 .pp-file-rank { font-size:13px; flex-shrink:0; width:22px; text-align:center; }
 .pp-file-icon { color:var(--text-muted); flex-shrink:0; }
 .pp-file-name { flex:1; font-size:11px; font-weight:600; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; }
@@ -1378,7 +1378,7 @@ export default {
 .pp-cmp-rank.bronze { color:#cd7f32; }
 .pp-cmp-avatar { width:26px; height:26px; border-radius:50%; border:1px solid rgba(255,255,255,0.10); flex-shrink:0; }
 .pp-cmp-name { width:90px; flex-shrink:0; font-size:12px; font-weight:600; color:var(--text-secondary); white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
-.pp-you-tag { display:inline-block; font-size:8px; background:var(--accent); color:#fff; padding:1px 4px; border-radius:4px; margin-left:4px; vertical-align:middle; font-weight:700; }
+.pp-you-tag { display:inline-block; font-size:8px; background:var(--accent); color: var(--text-primary); padding:1px 4px; border-radius:4px; margin-left:4px; vertical-align:middle; font-weight:700; }
 .pp-cmp-bar-wrap { flex:1; height:6px; background:var(--bg-tertiary); border-radius:3px; overflow:hidden; }
 .pp-cmp-bar { height:100%; border-radius:3px; background:rgba(255,255,255,0.12); transition:width 0.6s ease; }
 .pp-cmp-bar.me { background:linear-gradient(90deg,var(--accent),var(--accent-alt)); box-shadow:0 0 6px var(--accent-mid); }
@@ -1410,7 +1410,7 @@ export default {
 
 /* Live bg preview */
 .pp-bg-live-preview { width:100%; height:80px; border-radius:10px; border:1px solid rgba(255,255,255,0.09); background-size:cover; background-position:center; background-color:rgba(255,255,255,0.04); display:flex; align-items:flex-end; overflow:hidden; margin-bottom:16px; transition:background 0.4s; }
-.pp-bg-live-overlay { width:100%; padding:6px 12px; background:linear-gradient(to top, rgba(0,0,0,0.65), transparent); font-size:10px; color:rgba(255,255,255,0.7); font-weight:600; }
+.pp-bg-live-overlay { width:100%; padding:6px 12px; background:linear-gradient(to top, rgba(0,0,0,0.65), transparent); font-size:10px; color: var(--text-muted); font-weight:600; }
 
 /* README bg info */
 .pp-readme-bg-info { display:flex; align-items:flex-start; gap:8px; padding:10px 14px; background:var(--accent-dim); border:1px solid var(--accent-soft); border-radius:10px; margin-bottom:14px; font-size:11px; color:var(--text-muted); line-height:1.5; }
@@ -1457,10 +1457,10 @@ export default {
 .pp-btn.danger:hover { background:rgba(239,68,68,0.08); border-color:#ef4444; }
 
 /* ── HERO TEXT (always white on image bg) ── */
-.pp-profile-row .pp-name { color:#fff; text-shadow:0 1px 6px rgba(0,0,0,0.7); }
+.pp-profile-row .pp-name { color: var(--text-primary); text-shadow:0 1px 6px rgba(0,0,0,0.7); }
 .pp-profile-row .pp-login { color:rgba(255,255,255,0.65); }
 .pp-profile-row .pp-hero-meta { color:rgba(255,255,255,0.55); }
-.pp-profile-row .pp-hero-meta a { color:rgba(255,255,255,0.7); }
+.pp-profile-row .pp-hero-meta a { color: var(--text-muted); }
 
 /* ── RECENT COMMITS ── */
 .pp-rc-list { display:flex; flex-direction:column; }
@@ -1474,7 +1474,7 @@ export default {
 /* ── WIKI PAGES ── */
 .pp-wiki-list { display:flex; flex-direction:column; gap:4px; }
 .pp-wiki-row { display:flex; align-items:center; gap:8px; padding:6px 8px; border-radius:8px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); transition:border-color 0.15s; }
-.pp-wiki-row:hover { border-color:rgba(255,255,255,0.1); }
+.pp-wiki-row:hover { border-color: var(--text-muted); }
 .pp-wiki-dot { width:6px; height:6px; border-radius:50%; background:var(--accent); flex-shrink:0; opacity:0.8; }
 .pp-wiki-name { font-size:12px; font-weight:600; color:var(--text-secondary); flex-shrink:0; white-space:nowrap; }
 .pp-wiki-path { flex:1; font-size:10px; color:var(--text-muted); font-family:monospace; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-width:0; opacity:0.6; }
@@ -1485,7 +1485,7 @@ export default {
 .pp-accent-swatches { display:flex; gap:6px; flex-wrap:wrap; align-items:center; }
 .pp-accent-swatch { width:28px; height:28px; border-radius:50%; border:2.5px solid transparent; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:transform 0.18s, box-shadow 0.18s, border-color 0.18s; padding:0; flex-shrink:0; }
 .pp-accent-swatch:hover { transform:scale(1.22); box-shadow:0 0 0 3px rgba(255,255,255,0.2); }
-.pp-accent-swatch.active { border-color:#fff; box-shadow:0 0 0 3px rgba(255,255,255,0.35), 0 2px 8px rgba(0,0,0,0.4); transform:scale(1.18); }
+.pp-accent-swatch.active { border-color: var(--text-primary); box-shadow:0 0 0 3px rgba(255,255,255,0.35), 0 2px 8px rgba(0,0,0,0.4); transform:scale(1.18); }
 .panel-profile.light-theme .pp-accent-swatch:hover { box-shadow:0 0 0 3px rgba(0,0,0,0.15); }
 .panel-profile.light-theme .pp-accent-swatch.active { border-color:#1a1a1a; box-shadow:0 0 0 3px rgba(0,0,0,0.2), 0 2px 8px rgba(0,0,0,0.15); }
 
@@ -1504,21 +1504,21 @@ export default {
 .panel-profile.light-theme .pp-gh-pill + .pp-gh-pill { border-left-color:rgba(0,0,0,0.10); }
 .panel-profile.light-theme .pp-gh-pill-val { color:var(--text-primary); }
 .panel-profile.light-theme .pp-gh-pill-lbl { color:var(--text-muted); }
-.panel-profile.light-theme .pp-tile { background:#ffffff; border-color:rgba(0,0,0,0.10); box-shadow:0 2px 16px rgba(0,0,0,0.07); }
+.panel-profile.light-theme .pp-tile { background: rgba(255,255,255,0.95); border-color:rgba(0,0,0,0.10); box-shadow:0 2px 16px rgba(0,0,0,0.07); }
 .panel-profile.light-theme .pp-tile-icon { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.10); }
 .panel-profile.light-theme .pp-tile.commits .pp-tile-icon { background:var(--accent-dim); border-color:var(--accent-mid); }
 .panel-profile.light-theme .pp-tile.prs .pp-tile-icon { background:rgba(34,197,94,0.08); border-color:rgba(34,197,94,0.2); }
 .panel-profile.light-theme .pp-tile.impact .pp-tile-icon { background:rgba(59,130,246,0.08); border-color:rgba(59,130,246,0.2); }
 .panel-profile.light-theme .pp-tile-val { color:var(--text-primary); }
-.panel-profile.light-theme .pp-card { background:#ffffff; border-color:rgba(0,0,0,0.10); box-shadow:0 2px 16px rgba(0,0,0,0.07); }
+.panel-profile.light-theme .pp-card { background: rgba(255,255,255,0.95); border-color:rgba(0,0,0,0.10); box-shadow:0 2px 16px rgba(0,0,0,0.07); }
 .panel-profile.light-theme .pp-card-title { color:#6a6a7a; }
 .panel-profile.light-theme .pp-card-badge { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.10); color:#6a6a7a; }
 .panel-profile.light-theme .pp-cmp-bar { background:rgba(0,0,0,0.08); }
 .panel-profile.light-theme .pp-act-tip { background:rgba(255,255,255,0.98); border-color:#c8c8d8; color:var(--text-primary); box-shadow:0 4px 16px rgba(0,0,0,0.12); }
 .panel-profile.light-theme .pp-ach-item { background:#f8f8fc; border-color:rgba(0,0,0,0.09); }
 .panel-profile.light-theme .pp-ach-icon { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.09); }
-.panel-profile.light-theme .pp-ach-lock { background:#fff; border-color:rgba(0,0,0,0.12); }
-.panel-profile.light-theme .pp-xp-pct-label { background:#fff; border-color:#c8c8d8; color:var(--accent); }
+.panel-profile.light-theme .pp-ach-lock { background: rgba(255,255,255,0.95); border-color:rgba(0,0,0,0.12); }
+.panel-profile.light-theme .pp-xp-pct-label { background: rgba(255,255,255,0.95); border-color:#c8c8d8; color:var(--accent); }
 .panel-profile.light-theme .pp-file-row { background:#f8f8fc; border-color:rgba(0,0,0,0.08); }
 .panel-profile.light-theme .pp-wiki-row { background:#f8f8fc; border-color:rgba(0,0,0,0.08); }
 .panel-profile.light-theme .pp-ms { border-color:rgba(0,0,0,0.10); }

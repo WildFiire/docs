@@ -98,6 +98,12 @@ function toggleCollapse() {
   color: var(--vp-c-text-1);
 }
 
+@media (max-width: 768px) {
+  .wf-sidebar-toggle-btn {
+    display: none !important;
+  }
+}
+
 .wf-st-icon {
   width: 16px;
   height: 16px;

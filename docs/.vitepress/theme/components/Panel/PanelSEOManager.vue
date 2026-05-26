@@ -187,7 +187,7 @@ export default {
 .tag-warn { background: rgba(245,158,11,0.1); color: #f59e0b; }
 .tag-err { background: rgba(239,68,68,0.1); color: #ef4444; }
 
-.score-badge { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: #fff; }
+.score-badge { width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 12px; font-weight: 800; color: var(--text-primary); }
 .score-ok { background: #22c55e; box-shadow: 0 0 12px rgba(34,197,94,0.4); }
 .score-warn { background: #f59e0b; box-shadow: 0 0 12px rgba(245,158,11,0.4); }
 .score-err { background: #ef4444; box-shadow: 0 0 12px rgba(239,68,68,0.4); }
@@ -197,8 +197,8 @@ export default {
 .edit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
 /* Light Theme Overrides */
-:global(.wildfire-dashboard.light-theme) .seo-manager-view .kpi-card { background: #ffffff; border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-:global(.wildfire-dashboard.light-theme) .seo-manager-view .seo-table-container { background: #ffffff; border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+:global(.wildfire-dashboard.light-theme) .seo-manager-view .kpi-card { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+:global(.wildfire-dashboard.light-theme) .seo-manager-view .seo-table-container { background: rgba(255,255,255,0.95); border-color: rgba(0,0,0,0.1); box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
 :global(.wildfire-dashboard.light-theme) .seo-manager-view .sm-table th, :global(.wildfire-dashboard.light-theme) .seo-manager-view .sm-table td { border-bottom-color: rgba(0,0,0,0.05); }
 :global(.wildfire-dashboard.light-theme) .seo-manager-view .edit-btn { background: rgba(0,0,0,0.03); border-color: rgba(0,0,0,0.1); color: #0f172a; }
 :global(.wildfire-dashboard.light-theme) .seo-manager-view .edit-btn:hover { background: rgba(0,0,0,0.08); }

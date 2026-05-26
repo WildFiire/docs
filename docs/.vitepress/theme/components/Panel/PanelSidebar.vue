@@ -588,7 +588,7 @@ export default {
 .ps-act-btn:hover {
   background: rgba(255, 255, 255, 0.1);
   color: var(--txt);
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--txt-m);
   transform: translateY(-2px);
 }
 
@@ -652,7 +652,7 @@ export default {
 .ps-root.ps-light {
   --bg:     rgba(246,246,252,0.94);
   --txt:    #16161e;
-  --txt-m:  #7878 96;
+  --txt-m:  #787896;
   --txt-s:  #4a4a62;
   --border: rgba(0,0,0,0.075);
 

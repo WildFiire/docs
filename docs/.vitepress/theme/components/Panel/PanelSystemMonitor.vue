@@ -362,7 +362,7 @@ export default {
 @keyframes spin{100%{transform:rotate(360deg)}}
 .mon-kpi-row{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;}
 .mon-kpi{display:flex;align-items:center;gap:12px;background:var(--bg-secondary);border:1px solid var(--border-color);border-radius:12px;padding:14px 16px;}
-.mon-kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;}
+.mon-kpi-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color: var(--text-primary);}
 .mon-kpi-val{font-size:1.2rem;font-weight:800;color:var(--text-primary);font-family:monospace;}
 .mon-kpi-lbl{font-size:.7rem;color:var(--text-muted,#8b949e);font-weight:600;text-transform:uppercase;letter-spacing:.5px;margin-top:1px;}
 .mon-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}

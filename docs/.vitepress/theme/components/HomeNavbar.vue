@@ -84,7 +84,7 @@
                   <div class="hn-guest-icon">
                     <Icon icon="solar:shield-user-bold-duotone" width="32" height="32" />
                   </div>
-                  <span class="hn-guest-title orbitron-font">Wildfire Portal</span>
+                  <span class="hn-guest-title orbitron-font notranslate">Wildfire Portal</span>
                   <span class="hn-guest-sub">Autentificare pentru acces panel.</span>
                 </div>
                 <a href="/panel" class="hn-btn primary-btn full-width mt-2">
@@ -92,6 +92,28 @@
                   Login cu GitHub
                 </a>
               </template>
+            </div>
+          </transition>
+        </div>
+
+        <!-- Language Switcher -->
+        <div class="hn-lang-wrap" ref="langWrapRef">
+          <button class="hn-lang-trigger" @click="langMenuOpen = !langMenuOpen" :title="'Current language: ' + currentLang">
+            <Icon :icon="currentFlag" width="20" height="20" />
+          </button>
+          
+          <transition name="dropdown-pop">
+            <div v-if="langMenuOpen" class="hn-lang-dropdown liquid-panel notranslate">
+              <button 
+                v-for="lang in languages" 
+                :key="lang.code"
+                class="hn-lang-item" 
+                :class="{ 'active': currentLang === lang.code }"
+                @click="changeLang(lang.code)"
+              >
+                <Icon :icon="lang.flag" class="hn-flag" width="20" height="20" />
+                {{ lang.name }}
+              </button>
             </div>
           </transition>
         </div>
@@ -134,6 +156,9 @@
     </div>
   </header>
 
+  <!-- Hidden Google Translate Element -->
+  <div id="google_translate_element" style="display:none;"></div>
+
   <transition name="fade-scale">
     <div class="mobile-menu liquid-panel-full" v-if="open">
       <div class="mm-user-section">
@@ -152,7 +177,7 @@
         </template>
         <template v-else>
           <div class="mm-guest">
-            <span class="orbitron-font mm-guest-title">Portal</span>
+            <span class="orbitron-font mm-guest-title notranslate">Wildfire Portal</span>
             <span class="mm-guest-sub">Sign in to access dev tools.</span>
           </div>
           <a href="/panel" class="hn-btn primary-btn full-width" @click="open=false">Login cu GitHub</a>
@@ -175,7 +200,7 @@
         </a>
       </div>
       
-      <div class="mm-footer">
+      <div class="mm-footer notranslate">
         <p class="mm-footer-note orbitron-font">Wildfire Ecosystem</p>
       </div>
     </div>
@@ -197,6 +222,50 @@ const navUser = ref<{ login: string; avatar_url: string; name: string } | null>(
 const userOpen = ref(false)
 const userWrapRef = ref<HTMLElement | null>(null)
 
+const langMenuOpen = ref(false)
+const langWrapRef = ref<HTMLElement | null>(null)
+const currentLang = ref('ro')
+
+const languages = [
+  { code: 'ro', name: 'Română', flag: 'circle-flags:ro' },
+  { code: 'en', name: 'English', flag: 'circle-flags:uk' },
+]
+
+const currentFlag = computed(() => {
+  const l = languages.find(l => l.code === currentLang.value)
+  return l ? l.flag : 'circle-flags:ro'
+})
+
+function updateGoogtransCookie(code: string) {
+  const host = window.location.hostname
+  const isLocal = host === 'localhost' || host === '127.0.0.1'
+  document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  if (!isLocal) {
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${host};`
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${host};`
+  }
+  if (code !== 'ro') {
+    document.cookie = `googtrans=/ro/${code}; path=/;`
+    if (!isLocal) {
+      document.cookie = `googtrans=/ro/${code}; path=/; domain=.${host};`
+    }
+  }
+}
+
+function getCookie(name: string) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))
+  if (match) return match[2]
+  return null
+}
+
+function changeLang(code: string) {
+  currentLang.value = code
+  updateGoogtransCookie(code)
+  setTimeout(() => {
+    window.location.reload()
+  }, 100)
+}
+
 const navLogout = () => {
   localStorage.removeItem('github_token')
   localStorage.removeItem('github_user')
@@ -204,9 +273,12 @@ const navLogout = () => {
   userOpen.value = false
 }
 
-const onUserOutsideClick = (e: MouseEvent) => {
+const onOutsideClick = (e: MouseEvent) => {
   if (userWrapRef.value && !userWrapRef.value.contains(e.target as Node)) {
     userOpen.value = false
+  }
+  if (langWrapRef.value && !langWrapRef.value.contains(e.target as Node)) {
+    langMenuOpen.value = false
   }
 }
 
@@ -256,18 +328,42 @@ const onScroll = () => {
 
 onMounted(() => {
   window.addEventListener('scroll', onScroll, { passive: true })
-  document.addEventListener('click', onUserOutsideClick)
+  document.addEventListener('click', onOutsideClick)
   try {
     const raw = localStorage.getItem('github_user')
     if (raw && localStorage.getItem('github_token')) {
       navUser.value = JSON.parse(raw)
     }
   } catch {}
+
+  // Inject Google Translate script globally (Home page needs this)
+  if (!document.getElementById('google-translate-script')) {
+    const script = document.createElement('script')
+    script.id = 'google-translate-script'
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
+    document.body.appendChild(script)
+  }
+
+  ;(window as any).googleTranslateElementInit = () => {
+    new (window as any).google.translate.TranslateElement({
+      pageLanguage: 'ro',
+      includedLanguages: 'ro,en',
+      autoDisplay: false,
+    }, 'google_translate_element')
+  }
+
+  const googtrans = getCookie('googtrans')
+  if (googtrans) {
+    const parts = googtrans.split('/')
+    if (parts.length > 2 && parts[2]) {
+      currentLang.value = parts[2]
+    }
+  }
 })
 
 onUnmounted(() => {
   window.removeEventListener('scroll', onScroll)
-  document.removeEventListener('click', onUserOutsideClick)
+  document.removeEventListener('click', onOutsideClick)
   document.body.style.overflow = ''
   if (scrollRaf) cancelAnimationFrame(scrollRaf)
 })
@@ -285,29 +381,36 @@ onUnmounted(() => {
   --wf-orange-glow: rgba(255, 120, 0, 0.4);
 }
 
-/* ===== PREMIUM LIQUID GLASS ===== */
+/* ===== PREMIUM THICK GLASS PANEL ===== */
 .liquid-panel {
-  background: rgba(255, 255, 255, 0.08) !important; 
-  backdrop-filter: blur(8px) saturate(120%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(120%) !important;
-  border: 1px solid rgba(255, 255, 255, 0.25) !important;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.4), 0 12px 32px rgba(0, 0, 0, 0.15) !important;
+  background: rgba(255, 255, 255, 0.95) !important; 
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+  border: 1px solid rgba(255, 255, 255, 1) !important;
+  box-shadow: 
+    0 16px 40px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 1),
+    inset 0 0 20px rgba(255, 255, 255, 0.5) !important;
+  border-radius: 16px;
 }
 
 .dark .liquid-panel {
-  background: rgba(30, 30, 30, 0.25) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+  background: rgba(24, 24, 28, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 
+    0 16px 40px rgba(0, 0, 0, 0.5), 
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 0 20px rgba(255, 255, 255, 0.05) !important;
 }
 
 .liquid-panel-full {
-  background: rgba(245, 245, 245, 0.5) !important;
-  backdrop-filter: blur(12px) saturate(150%) !important;
-  -webkit-backdrop-filter: blur(12px) saturate(150%) !important;
+  background: rgba(250, 250, 250, 0.6) !important;
+  backdrop-filter: blur(32px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(160%) !important;
 }
 
 .dark .liquid-panel-full {
-  background: rgba(10, 10, 10, 0.5) !important;
+  background: rgba(15, 15, 18, 0.5) !important;
 }
 
 /* ===== NAVBAR MAIN (LIQUID BUBBLE HYBRID) ===== */
@@ -327,7 +430,9 @@ onUnmounted(() => {
 .nav.scrolled { 
   top: 0; 
   padding: 0; 
-}.nav-inner {
+}
+
+.nav-inner {
   width: 100%; 
   max-width: 1000px; 
   height: 52px; 
@@ -338,14 +443,16 @@ onUnmounted(() => {
   border-radius: 99px; 
   pointer-events: auto;
   
-  background: rgba(255, 255, 255, 0.7) !important; 
-  backdrop-filter: blur(8px) saturate(180%) !important;
-  -webkit-backdrop-filter: blur(8px) saturate(180%) !important;
+  background: rgba(255, 255, 255, 0.55) !important; 
+  backdrop-filter: blur(28px) saturate(160%) !important;
+  -webkit-backdrop-filter: blur(28px) saturate(160%) !important;
   
-  border: 1px solid rgba(0, 0, 0, 0.08) !important;
+  border: 1px solid rgba(255, 255, 255, 0.6) !important;
   box-shadow: 
-    inset 0 1px 1px rgba(255, 255, 255, 0.9), 
-    0 10px 30px rgba(0, 0, 0, 0.04) !important; 
+    0 16px 40px rgba(0, 0, 0, 0.08),
+    0 4px 12px rgba(0, 0, 0, 0.04),
+    inset 0 1px 1px rgba(255, 255, 255, 0.9),
+    inset 0 0 20px rgba(255, 255, 255, 0.5) !important; 
     
   transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -356,24 +463,27 @@ onUnmounted(() => {
   height: 56px; 
   padding: 0 32px;
   
-  background: rgba(255, 255, 255, 0.85) !important;
-  backdrop-filter: blur(10px) saturate(200%) !important;
-  -webkit-backdrop-filter: blur(10px) saturate(200%) !important;
+  background: rgba(255, 255, 255, 0.65) !important;
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
   
   border: none !important;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06) !important;
-  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04) !important;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.8) !important;
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.08) !important;
 }
 
 .dark .nav-inner {
-  background: rgba(30, 30, 30, 0.25) !important; 
+  background: rgba(20, 20, 22, 0.45) !important; 
   border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.15), 0 12px 32px rgba(0, 0, 0, 0.4) !important;
+  box-shadow: 
+    0 16px 40px rgba(0, 0, 0, 0.4), 
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 0 20px rgba(255, 255, 255, 0.03) !important;
 }
 
 .dark .nav.scrolled .nav-inner {
-  background: rgba(10, 10, 10, 0.4) !important; 
-  border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important; 
+  background: rgba(15, 15, 18, 0.55) !important; 
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15) !important; 
   box-shadow: 0 16px 40px rgba(0, 0, 0, 0.6) !important;
 }
 
@@ -729,7 +839,83 @@ html:not(.dark) .hn-online-dot { border-color: #fff; }
 .ghost-btn:hover { background: rgba(128,128,128,0.1); opacity: 1; }
 .full-width { justify-content: center; width: 100%; }
 
+/* LANG SWITCHER DESKTOP */
+.hn-lang-wrap { position: relative; display: flex; align-items: center; }
+.hn-lang-trigger {
+  width: 32px; 
+  height: 32px; 
+  border-radius: 50%; 
+  border: none;
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 16px;
+  cursor: pointer;
+  transition: transform 0.2s;
+}
+.hn-lang-trigger:hover {
+  transform: scale(1.1);
+}
 
+.hn-lang-dropdown { 
+  position: absolute; 
+  top: calc(100% + 14px); 
+  right: -10px; 
+  width: 160px; 
+  padding: 8px; 
+  border-radius: 16px; 
+  display: flex; 
+  flex-direction: column; 
+  gap: 4px; 
+  z-index: 1000; 
+  max-height: 50vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.hn-lang-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  text-decoration: none;
+  border: none;
+  background: transparent;
+  width: 100%;
+  text-align: left;
+  color: var(--vp-c-text-1);
+  transition: all 0.2s ease;
+}
+.hn-lang-item:hover { 
+  background: rgba(255, 255, 255, 0.05); 
+  transform: translateX(2px);
+}
+html:not(.dark) .hn-lang-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+.hn-lang-item.active { 
+  background: rgba(255, 106, 51, 0.15); 
+  color: #ff6a33; 
+  font-weight: 600;
+  border-left: 3px solid #ff6a33;
+  padding-left: 9px;
+}
+html:not(.dark) .hn-lang-item.active {
+  background: rgba(255, 106, 51, 0.1);
+}
+.hn-flag {
+  font-size: 16px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  transition: transform 0.2s;
+}
+.hn-lang-item:hover .hn-flag {
+  transform: scale(1.15);
+}
 
 /* ===== HAMBURGER & MOBILE TOGGLE ===== */
 .mobile-only { display: none; }
@@ -914,13 +1100,18 @@ html:not(.dark) .hn-guest-icon { background: rgba(255, 120, 0, 0.05); }
     border-color: rgba(255, 255, 255, 0.05);
   }
 
-  .mm-footer-note {
+  .dark .mm-footer {
+    padding: 20px;
     text-align: center;
-    font-size: 10px;
-    opacity: 0.3;
-    letter-spacing: 2px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  .mm-footer-note {
+    font-size: 11px;
+    color: var(--vp-c-text-3);
     text-transform: uppercase;
-    margin-bottom: 10px;
+    letter-spacing: 0.1em;
+    margin: 0;
   }
 }
 </style>

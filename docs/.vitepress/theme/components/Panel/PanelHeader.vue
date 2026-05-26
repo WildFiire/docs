@@ -241,7 +241,7 @@ export default {
 
 .action-btn.primary {
   background: var(--accent);
-  color: #fff;
+  color: var(--text-primary);
   border-color: var(--accent);
   box-shadow: 0 4px 12px var(--accent-glow);
 }

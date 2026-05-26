@@ -4305,6 +4305,8 @@ html:not(.dark) .wf-market .wf-market-tip {
 /* Mobile sidebar — full screen, above navbar */
 @media (max-width: 959px) {
   .VPSidebar {
+    display: flex !important;
+    flex-direction: column !important;
     z-index: 100 !important;
     top: 0 !important;
     height: 100vh !important;

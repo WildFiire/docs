@@ -471,7 +471,7 @@ export default {
 @keyframes feFadeIn { from { opacity:0; transform:translateY(8px) } to { opacity:1; transform:none } }
 
 .panel-files.light-theme {
-  --bg-primary:#f0f0f5; --bg-secondary:#fff; --bg-tertiary:#e8e8f0;
+  --bg-primary: rgba(240, 240, 245, 0.95); --bg-secondary: rgba(255, 255, 255, 0.95); --bg-tertiary: rgba(232, 232, 240, 0.95);
   --border-color:#ddd; --text-primary:#222; --text-muted:#666;
   --node-dir-color: rgba(0,0,0,0.65);
   --node-dir-hover: #111;
@@ -525,7 +525,7 @@ export default {
 .panel-files.light-theme .fe-preview { background:var(--bg-secondary); border-color:var(--border-color); box-shadow:0 2px 12px rgba(0,0,0,0.06); }
 .panel-files.light-theme .fe-preview-head { background:rgba(0,0,0,0.02); border-color:var(--border-color); }
 .panel-files.light-theme .fe-search { background:rgba(0,0,0,0.03); border-color:var(--border-color); }
-.panel-files.light-theme .fe-sort-menu { background:#fff; border-color:var(--border-color); box-shadow:0 8px 24px rgba(0,0,0,0.1); }
+.panel-files.light-theme .fe-sort-menu { background: rgba(255,255,255,0.95); border-color:var(--border-color); box-shadow:0 8px 24px rgba(0,0,0,0.1); }
 .panel-files.light-theme .fe-sort-menu button:hover { background:rgba(0,0,0,0.04); color:var(--text-primary); }
 .panel-files.light-theme .fe-sort-btn { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
 .panel-files.light-theme .fe-view-toggle > button { background:rgba(0,0,0,0.04); border-color:var(--border-color); }
@@ -548,7 +548,7 @@ export default {
 .fe-panel-actions { display:flex; gap:4px; }
 .fpa-btn { display:flex; align-items:center; gap:5px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.09); color:var(--text-muted); padding:4px 8px; border-radius:7px; cursor:pointer; font-size:10px; font-weight:600; transition:all 0.15s; text-decoration:none; }
 .fpa-btn:hover, .fpa-btn:hover svg { border-color:var(--accent); color:var(--accent); }
-.fpa-btn.accent { background:var(--accent); color:#fff; border-color:var(--accent); }
+.fpa-btn.accent { background:var(--accent); color: var(--text-primary); border-color:var(--accent); }
 .fpa-btn.accent:hover { opacity:0.85; }
 .fe-tree-body { flex:1; overflow-y:auto; overflow-x:auto; padding:8px; min-width:0; }
 .fe-tree-body::-webkit-scrollbar { width:3px; }
@@ -626,7 +626,7 @@ export default {
 .panel-files.light-theme .fems-lbl { color:#999; }
 .panel-files.light-theme .fe-preview-head { background:rgba(0,0,0,0.02); }
 .panel-files.light-theme .fe-panel-head { background:rgba(0,0,0,0.025); }
-.panel-files.light-theme .fpa-btn { background:#fff; }
+.panel-files.light-theme .fpa-btn { background: rgba(255,255,255,0.95); }
 .panel-files.light-theme .feb-msg { background:rgba(0,0,0,0.04); border-color:rgba(0,0,0,0.1); }
 .panel-files.light-theme .feb-avatar { border-color:rgba(0,0,0,0.1); }
 

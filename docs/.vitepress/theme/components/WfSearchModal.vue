@@ -150,7 +150,7 @@
 
             <div class="footer-right">
               <span class="watermark-text">Powered by</span>
-              <div class="watermark-brand">
+              <div class="watermark-brand notranslate">
                 <img src="/icons/wildfire.webp" alt="Wildfire Logo" class="watermark-logo" />
                 <span class="brand-name">Wildfire</span>
               </div>

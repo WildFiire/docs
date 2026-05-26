@@ -344,7 +344,7 @@ export default {
   box-sizing: border-box;
 }
 .panel-feedbacks.light-theme {
-  --bg-primary:   #f0f0f5;
+  --bg-primary: rgba(240, 240, 245, 0.95);
   --bg-secondary: #ffffff;
   --bg-tertiary:  #e2e2ea;
   --border-color: #c4c4d0;

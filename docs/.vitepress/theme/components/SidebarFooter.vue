@@ -25,6 +25,25 @@
           </div>
         </transition>
 
+        <!-- Language Popup -->
+        <transition name="wsf-pop">
+          <div v-if="langMenuOpen" class="wsf-popup wsf-popup-lang notranslate">
+            <button 
+              v-for="lang in languages" 
+              :key="lang.code"
+              class="wsf-popup-item" 
+              :class="{ 'active': currentLang === lang.code }"
+              @click="changeLang(lang.code)"
+            >
+              <Icon :icon="lang.flag" class="wsf-flag" width="20" height="20" />
+              {{ lang.name }}
+            </button>
+          </div>
+        </transition>
+
+        <!-- Hidden Google Translate Element -->
+        <div id="google_translate_element" style="display:none;"></div>
+
         <!-- Pill bar -->
         <div class="wsf-pill">
 
@@ -62,6 +81,12 @@
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="14" height="14"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
 
+          <!-- Language toggle -->
+          <div class="wsf-pill-sep"></div>
+          <button class="wsf-pill-btn wsf-pill-lang" @click="toggleLangMenu" :title="'Current language: ' + currentLang">
+            <Icon :icon="currentFlag" width="20" height="20" />
+          </button>
+
         </div>
 
       </div>
@@ -70,13 +95,73 @@
 </template>
 
 <script setup>
-import { ref, watch, onMounted, onUnmounted, nextTick } from 'vue'
-import { useData } from 'vitepress'
+import { ref, watch, onMounted, onUnmounted, nextTick, computed } from 'vue'
+import { useData, useRoute } from 'vitepress'
+import { Icon } from '@iconify/vue'
 
 const { isDark } = useData()
+const route = useRoute()
 const user = ref(null)
 const menuOpen = ref(false)
+const langMenuOpen = ref(false)
 const wrapRef = ref(null)
+
+const languages = [
+  { code: 'ro', name: 'Română', flag: 'circle-flags:ro' },
+  { code: 'en', name: 'English', flag: 'circle-flags:uk' },
+]
+
+const currentLang = ref('ro')
+
+const currentFlag = computed(() => {
+  const l = languages.find(l => l.code === currentLang.value)
+  return l ? l.flag : 'circle-flags:ro'
+})
+
+// Set and remove cookies securely across localhost and prod domains
+function updateGoogtransCookie(code) {
+  const host = window.location.hostname
+  const isLocal = host === 'localhost' || host === '127.0.0.1'
+
+  // Clear existing
+  document.cookie = 'googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;'
+  if (!isLocal) {
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=.${host};`
+    document.cookie = `googtrans=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${host};`
+  }
+
+  // Set new
+  if (code !== 'ro') {
+    document.cookie = `googtrans=/ro/${code}; path=/;`
+    if (!isLocal) {
+      document.cookie = `googtrans=/ro/${code}; path=/; domain=.${host};`
+    }
+  }
+}
+
+function getCookie(name) {
+  const match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'))
+  if (match) return match[2]
+  return null
+}
+
+watch(() => route.path, () => {
+  if (currentLang.value !== 'ro') {
+    // Force a small delay to let Vue render the new page, then trigger Google Translate's re-evaluation
+    setTimeout(() => {
+      const gObj = window.google && window.google.translate
+      if (gObj) {
+        // Some hacky ways to force Google Translate to re-translate the DOM after SPA navigation
+        // It's cleaner to just let the user know, or simulate a combo change if available
+        const select = document.querySelector('.goog-te-combo')
+        if (select) {
+          select.value = currentLang.value
+          select.dispatchEvent(new Event('change'))
+        }
+      }
+    }, 600)
+  }
+})
 
 onMounted(() => {
   try {
@@ -84,6 +169,31 @@ onMounted(() => {
     if (raw && localStorage.getItem('github_token')) user.value = JSON.parse(raw)
   } catch {}
   document.addEventListener('click', onOutside)
+
+  // Inject Google Translate script globally
+  if (!document.getElementById('google-translate-script')) {
+    const script = document.createElement('script')
+    script.id = 'google-translate-script'
+    script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit'
+    document.body.appendChild(script)
+  }
+
+  window.googleTranslateElementInit = () => {
+    new window.google.translate.TranslateElement({
+      pageLanguage: 'ro',
+      includedLanguages: 'ro,en',
+      autoDisplay: false,
+    }, 'google_translate_element')
+  }
+
+  // Check existing cookie for current lang
+  const googtrans = getCookie('googtrans')
+  if (googtrans) {
+    const parts = googtrans.split('/')
+    if (parts.length > 2 && parts[2]) {
+      currentLang.value = parts[2]
+    }
+  }
 })
 
 onUnmounted(() => {
@@ -91,10 +201,32 @@ onUnmounted(() => {
 })
 
 function onOutside(e) {
-  if (wrapRef.value && !wrapRef.value.contains(e.target)) menuOpen.value = false
+  if (wrapRef.value && !wrapRef.value.contains(e.target)) {
+    menuOpen.value = false
+    langMenuOpen.value = false
+  }
 }
 
-function toggleMenu() { menuOpen.value = !menuOpen.value }
+function toggleMenu() { 
+  menuOpen.value = !menuOpen.value 
+  langMenuOpen.value = false
+}
+
+function toggleLangMenu() {
+  langMenuOpen.value = !langMenuOpen.value
+  menuOpen.value = false
+}
+
+function changeLang(code) {
+  currentLang.value = code
+  updateGoogtransCookie(code)
+  
+  // Reload the page so Google Translate's initial load catches the new cookie
+  // and translates the whole DOM gracefully
+  setTimeout(() => {
+    window.location.reload()
+  }, 100)
+}
 
 function logout() {
   localStorage.removeItem('github_token')
@@ -296,27 +428,56 @@ html:not(.dark) .wsf-pill-sep {
 /* ── Popup (opens upward) ── */
 .wsf-popup {
   position: absolute;
-  bottom: calc(100% + 6px);
+  bottom: calc(100% + 10px);
   left: 12px;
   right: 12px;
-  background: var(--vp-c-bg-elv);
-  border: 1px solid var(--vp-c-divider);
-  border-radius: 10px;
-  padding: 6px;
-  box-shadow: 0 -4px 20px rgba(0,0,0,0.25);
+  
+  /* Thick Glass Core */
+  background: rgba(24, 24, 28, 0.95);
+  backdrop-filter: blur(32px) saturate(180%) !important;
+  -webkit-backdrop-filter: blur(32px) saturate(180%) !important;
+  
+  /* Glossy Borders & Shadows */
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 16px;
+  box-shadow: 
+    0 16px 40px rgba(0, 0, 0, 0.5), 
+    inset 0 1px 1px rgba(255, 255, 255, 0.15),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  
+  padding: 8px;
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: 4px;
   z-index: 100;
+  max-height: 50vh;
+  overflow-y: auto;
+  -webkit-overflow-scrolling: touch;
+  transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+html:not(.dark) .wsf-popup {
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid rgba(255, 255, 255, 1);
+  box-shadow: 
+    0 16px 40px rgba(0, 0, 0, 0.1),
+    inset 0 1px 1px rgba(255, 255, 255, 1),
+    inset 0 0 20px rgba(255, 255, 255, 0.5);
+}
+
+.wsf-popup-lang {
+  left: auto;
+  right: 8px;
+  width: 160px;
 }
 
 .wsf-popup-item {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 7px 10px;
-  border-radius: 7px;
-  font-size: 12.5px;
+  gap: 10px;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   text-decoration: none;
@@ -325,17 +486,100 @@ html:not(.dark) .wsf-pill-sep {
   width: 100%;
   text-align: left;
   color: var(--vp-c-text-1);
-  transition: background 0.12s, color 0.12s;
+  transition: all 0.2s ease;
 }
-.wsf-popup-item:hover { background: var(--vp-c-bg-soft); }
+.wsf-popup-item:hover { 
+  background: rgba(255, 255, 255, 0.05); 
+  transform: translateX(2px);
+}
+html:not(.dark) .wsf-popup-item:hover {
+  background: rgba(0, 0, 0, 0.04);
+}
+
+.wsf-popup-item.active { 
+  background: rgba(255, 106, 51, 0.15); 
+  color: #ff6a33; 
+  font-weight: 600;
+  border-left: 3px solid #ff6a33;
+  padding-left: 9px;
+}
+html:not(.dark) .wsf-popup-item.active {
+  background: rgba(255, 106, 51, 0.1);
+}
+
 .wsf-popup-item.highlight { color: #ff6a33; background: rgba(255,120,0,0.08); }
 .wsf-popup-item.highlight:hover { background: rgba(255,120,0,0.15); }
 .wsf-popup-item.danger { color: var(--vp-c-text-3); }
 .wsf-popup-item.danger:hover { background: var(--vp-c-bg-soft); color: #f87171; }
+
+.wsf-flag {
+  font-size: 16px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+  transition: transform 0.2s;
+}
+.wsf-popup-item:hover .wsf-flag {
+  transform: scale(1.15);
+}
+
+.wsf-pill-lang {
+  font-size: 14px;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
 /* ── Popup animation ── */
 .wsf-pop-enter-active,
 .wsf-pop-leave-active { transition: opacity 0.15s ease, transform 0.15s ease; }
 .wsf-pop-enter-from,
 .wsf-pop-leave-to { opacity: 0; transform: translateY(6px); }
+</style>
+
+<style>
+/* Global CSS to completely hide Google Translate default UI */
+html {
+  top: 0 !important;
+}
+body {
+  top: 0 !important;
+}
+
+/* Hide the banner frame */
+iframe.goog-te-banner-frame,
+.goog-te-banner-frame {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+  height: 0 !important;
+  width: 0 !important;
+}
+
+/* Hide the tooltip that appears on hover */
+#goog-gt-tt, 
+.goog-te-balloon-frame {
+  display: none !important;
+  visibility: hidden !important;
+  opacity: 0 !important;
+}
+
+/* Remove hover background colors applied by GT */
+.goog-text-highlight {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+
+/* Hide any dynamic containers GT injects */
+.VIpgJd-ZVi9od-ORHb-OEVmcd,
+.VIpgJd-ZVi9od-l4eHX-hSRGPd,
+.VIpgJd-ZVi9od-aZ2wEe-wOHMyf {
+  display: none !important;
+}
+
+/* Hide the widget container itself */
+#google_translate_element {
+  display: none !important;
+}
 </style>
