@@ -3,6 +3,7 @@
   "devDependencies": {
     "@types/node": "^25.3.3",
     "dotenv-cli": "^11.0.0",
+    "sharp": "^0.34.5",
     "terser": "^5.31.0",
     "vite-plugin-api": "^1.0.7",
     "vitepress": "^2.0.0-alpha.16"

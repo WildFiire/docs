@@ -28,7 +28,10 @@ export default defineConfig({
     // PRECONNECT — must come before any script/link that uses these origins
     ['link', { rel: 'preconnect', href: 'https://fonts.googleapis.com' }],
     ['link', { rel: 'preconnect', href: 'https://fonts.gstatic.com', crossorigin: '' }],
-    ['link', { rel: 'preconnect', href: 'https://cdn.jsdelivr.net' }],
+    // www.gstatic.com is in the critical path (Google Translate widget)
+    ['link', { rel: 'preconnect', href: 'https://www.gstatic.com' }],
+    // api.iconify.design is fetched early by iconify-icon.min.js
+    ['link', { rel: 'dns-prefetch', href: 'https://api.iconify.design' }],
     
     // Fallback CSP for environments where server headers are not manageable
     ['meta', {
@@ -38,7 +41,17 @@ export default defineConfig({
 
     // Iconify — loaded locally to satisfy CSP
     ['script', { src: '/scripts/iconify-icon.min.js', async: '' }],
-    ['script', {}, `(function(){var l=document.createElement('link');l.rel='stylesheet';l.href='https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap';document.head.appendChild(l)})()`],
+
+    // Google Fonts — non-blocking load via preload trick (eliminates render-blocking CSS)
+    // Step 1: preload the font CSS as a high-priority resource but don't apply it yet
+    ['link', {
+      rel: 'preload',
+      as: 'style',
+      href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap',
+      onload: "this.onload=null;this.rel='stylesheet'"
+    }],
+    // Step 2: noscript fallback for users with JS disabled
+    ['noscript', {}, '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap">'],
 
     // PRELOAD PENTRU LCP
     ['link', {

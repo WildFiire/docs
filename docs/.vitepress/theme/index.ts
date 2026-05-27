@@ -318,7 +318,13 @@ export default {
         let moTimer: ReturnType<typeof setTimeout> | null = null
         const observer = new MutationObserver(() => {
           if (moTimer) return
-          moTimer = setTimeout(() => { moTimer = null; fixLenisOverflow() }, 200)
+          // Defer to next frame — avoids forced synchronous layout (reflow)
+          // that would occur if we read scrollHeight/clientHeight immediately
+          // after a DOM mutation.
+          moTimer = setTimeout(() => {
+            moTimer = null
+            requestAnimationFrame(fixLenisOverflow)
+          }, 200)
         })
         observer.observe(document.body, { childList: true, subtree: true })
       }

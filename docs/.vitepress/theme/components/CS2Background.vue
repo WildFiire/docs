@@ -3,7 +3,7 @@
     <!-- Wallpaper image -->
     <img
       ref="wallpaperEl"
-      src="/wallpaper/poza.jpg"
+      src="/wallpaper/poza.webp"
       alt=""
       class="cs2-bg__wallpaper"
       width="1920" height="1080"
