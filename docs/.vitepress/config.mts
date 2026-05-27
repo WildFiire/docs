@@ -5,6 +5,7 @@ import path from 'path'
 import { lastUpdatesPlugin } from './plugins/lastUpdatesPlugin'
 import { newPagesPlugin } from './plugins/newPagesPlugin'
 import { commitCache } from './plugins/commitCache'
+import { getAllGitStats } from './plugins/gitCache'
 
 const __vitepressDir = fileURLToPath(new URL('.', import.meta.url))
 const docsDir = path.resolve(__vitepressDir, '..')
@@ -469,9 +470,6 @@ export default defineConfig({
 
   async transformPageData(pageData, ctx) {
     try {
-      const token = process.env.VITE_GITHUB_TOKEN
-      if (!token) return
-
       // Full repo-relative path (e.g. docs/informatii/about.md)
       const repoPath = ('docs/' + pageData.relativePath).replace(/\\/g, '/')
 
@@ -480,6 +478,36 @@ export default defineConfig({
         if (login) pageData.frontmatter.gitLastCommitter = login
         return
       }
+
+      // Try local git cache first (much faster and avoids rate limits)
+      const stats = getAllGitStats(repoRoot)
+      const stat = stats.get(repoPath)
+      
+      if (stat) {
+        const { email, name } = stat
+        let login: string | null = null
+        
+        const m1 = email.match(/^\d+\+(.+)@users\.noreply\.github\.com$/)
+        const m2 = email.match(/^(.+)@users\.noreply\.github\.com$/)
+        
+        if (m1) {
+          login = m1[1]
+        } else if (m2) {
+          login = m2[1]
+        } else if (name) {
+          login = name.toLowerCase().replace(/[^a-z0-9_-]/g, '')
+        }
+        
+        if (login && login !== 'unknown') {
+          commitCache.set(repoPath, login)
+          pageData.frontmatter.gitLastCommitter = login
+          return
+        }
+      }
+
+      // Fallback to GitHub API if local git history is incomplete or gives 'unknown'
+      const token = process.env.VITE_GITHUB_TOKEN
+      if (!token) return
 
       // commits?path= resolves through merge commits → returns actual PR author
       const res = await fetch(

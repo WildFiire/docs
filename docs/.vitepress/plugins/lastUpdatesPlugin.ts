@@ -1,7 +1,7 @@
-import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
 import { commitCache } from './commitCache'
+import { getAllGitStats, invalidateGitStats } from './gitCache'
 
 const VIRTUAL_ID = 'virtual:last-updates'
 const RESOLVED_ID = '\0virtual:last-updates'
@@ -128,20 +128,15 @@ function parseCaseHeader(content: string): ParsedHeader | null {
 function getGitInfo(filepath: string, repoRoot: string): { timestamp: number; username: string; date: string } {
   try {
     const rel = path.relative(repoRoot, filepath).replace(/\\/g, '/')
-    const raw = execSync(`git log -1 --format="%ct|%ae|%an" -- "${rel}"`, {
-      cwd: repoRoot,
-      encoding: 'utf-8',
-      stdio: ['pipe', 'pipe', 'pipe']
-    }).trim().replace(/^"|"$/g, '')
+    const stats = getAllGitStats(repoRoot)
+    const stat = stats.get(rel)
 
-    if (!raw) {
+    if (!stat) {
       return { timestamp: Math.floor(Date.now() / 1000), username: 'unknown', date: formatDate(new Date()) }
     }
 
-    const [ts, email, name] = raw.split('|')
-    const timestamp = parseInt(ts) || 0
-    const username = extractUsername(email || '', name || '')
-    return { timestamp, username, date: formatDate(new Date(timestamp * 1000)) }
+    const username = extractUsername(stat.email, stat.name)
+    return { timestamp: stat.timestamp, username, date: formatDate(new Date(stat.timestamp * 1000)) }
   } catch {
     return { timestamp: 0, username: 'unknown', date: '—' }
   }
@@ -193,7 +188,7 @@ function walkMd(dir: string): string[] {
   return out
 }
 
-async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard[]> {
+async function buildCards(docsDir: string, repoRoot: string, isDev = false): Promise<UpdateCard[]> {
   const configPath = path.join(docsDir, '.vitepress', 'config.mts')
   const iconMap = buildIconMap(configPath)
   const files = walkMd(docsDir)
@@ -250,6 +245,11 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
   results.sort((a, b) => b.timestamp - a.timestamp)
   const top6 = results.slice(0, 6)
 
+  // In dev, skip GitHub API calls — speeds up hot-reload significantly
+  if (isDev) {
+    return top6.map(({ timestamp: _t, docsRelPath: _p, ...card }) => card as UpdateCard)
+  }
+
   // Resolve real GitHub login for each card in parallel
   // Uses commits?path= so PR submitter is returned, not the merger
   const token = process.env.VITE_GITHUB_TOKEN || ''
@@ -271,10 +271,11 @@ async function buildCards(docsDir: string, repoRoot: string): Promise<UpdateCard
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function lastUpdatesPlugin(docsDir: string, repoRoot: string): any {
+  const isDev = process.env.NODE_ENV !== 'production'
   let cachedPromise: Promise<UpdateCard[]> | null = null
 
   function getCards(): Promise<UpdateCard[]> {
-    if (!cachedPromise) cachedPromise = buildCards(docsDir, repoRoot)
+    if (!cachedPromise) cachedPromise = buildCards(docsDir, repoRoot, isDev)
     return cachedPromise
   }
 
@@ -287,7 +288,7 @@ export function lastUpdatesPlugin(docsDir: string, repoRoot: string): any {
     },
 
     buildStart() {
-      cachedPromise = buildCards(docsDir, repoRoot)
+      cachedPromise = buildCards(docsDir, repoRoot, isDev)
     },
 
     async load(id: string) {
@@ -300,12 +301,12 @@ export function lastUpdatesPlugin(docsDir: string, repoRoot: string): any {
       if (file.endsWith('.md')) {
         // Invalidate lastUpdates virtual module
         cachedPromise = null
+        invalidateGitStats()
         const mod = server.moduleGraph.getModuleById(RESOLVED_ID)
         if (mod) server.moduleGraph.invalidateModule(mod)
         // Invalidate transformPageData cache so updated-by re-fetches for this file
         const repoPath = 'docs/' + path.relative(docsDir, file).replace(/\\/g, '/')
         commitCache.delete(repoPath)
-        server.ws.send({ type: 'full-reload' })
       }
     }
   }

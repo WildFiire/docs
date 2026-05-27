@@ -88,12 +88,12 @@ function initLenis() {
   if (typeof window === 'undefined' || lenisInstance) return
 
   lenisInstance = new Lenis({
-    duration: 1.2,
-    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    duration: 1.0,
+    easing: (t) => 1 - Math.pow(1 - t, 4),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
     smoothWheel: true,
-    wheelMultiplier: 1,
+    wheelMultiplier: 1.1,
     touchMultiplier: 2,
     infinite: false,
     prevent: (node) => node.closest('.VPSidebar') !== null,
@@ -144,21 +144,19 @@ import WikiHome from './components/WikiHome.vue'
 import HomeNavbar from './components/HomeNavbar.vue'
 import NavSearch from './components/NavSearch.vue'
 import WildfireTag from './components/WildfireTag.vue'
-import DocUserWidget from './components/DocUserWidget.vue'
 import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/VPNavBarAppearance.vue'
-import ReadingProgressBar from './components/ReadingProgressBar.vue'
 import BackToTop from './components/BackToTop.vue'
-import DocEnhancements from './components/DocEnhancements.vue'
 import CaseHeader from './components/CaseHeader.vue'
-import FluidLightbox from './components/FluidLightbox.vue'
 import SidebarToggle from './components/SidebarToggle.vue'
 import MobileScrollSpy from './components/MobileScrollSpy.vue'
 import WfTOC from './components/WfTOC.vue'
 import SidebarFooter from './components/SidebarFooter.vue'
 import SidebarFloatingControls from './components/SidebarFloatingControls.vue'
-import WfSearchModal from './components/WfSearchModal.vue'
 
 // Componente lazy — split in chunks separate, nu blocheaza theme.js
+const DocEnhancements = defineAsyncComponent(() => import('./components/DocEnhancements.vue'))
+const FluidLightbox = defineAsyncComponent(() => import('./components/FluidLightbox.vue'))
+const WfSearchModal = defineAsyncComponent(() => import('./components/WfSearchModal.vue'))
 const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
 const AboutWiki = defineAsyncComponent(() => import('./components/AboutWiki.vue'))
 const Changelogs = defineAsyncComponent(() => import('./components/Changelogs.vue'))
@@ -231,6 +229,24 @@ export default {
       // Delay Lenis init to let page settle
       requestAnimationFrame(() => {
         setTimeout(initLenis, 100)
+        // Immediate fallback dispatches for first-load async components
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 400)
+        setTimeout(() => window.dispatchEvent(new Event('resize')), 1000)
+        // Reactive: watch document.body height changes caused by async components
+        // (SiteMap, FeedbackWidget, ContributorsWF) loading and adding content.
+        // ResizeObserver on document.documentElement does NOT fire for this because
+        // html's box size = viewport (constant). Body height grows, so it does fire.
+        setTimeout(() => {
+          if (typeof ResizeObserver === 'undefined') return
+          let bodyResizeTimer: ReturnType<typeof setTimeout> | null = null
+          new ResizeObserver(() => {
+            if (bodyResizeTimer) clearTimeout(bodyResizeTimer)
+            bodyResizeTimer = setTimeout(() => {
+              bodyResizeTimer = null
+              window.dispatchEvent(new Event('resize'))
+            }, 150)
+          }).observe(document.body)
+        }, 300)
       })
 
       // Lock horizontal scroll during text-selection drag (prevents content shift)
@@ -296,21 +312,17 @@ export default {
       setTimeout(fixLenisOverflow, 500)
       setTimeout(fixLenisOverflow, 1000)
       
-      // Also watch for DOM changes (sidebar might be added dynamically)
+      // Watch for DOM changes (sidebar might be added dynamically) — debounced to
+      // avoid calling fixLenisOverflow on every single mutation during scroll/animations
       if (typeof MutationObserver !== 'undefined') {
+        let moTimer: ReturnType<typeof setTimeout> | null = null
         const observer = new MutationObserver(() => {
-          fixLenisOverflow()
+          if (moTimer) return
+          moTimer = setTimeout(() => { moTimer = null; fixLenisOverflow() }, 200)
         })
         observer.observe(document.body, { childList: true, subtree: true })
       }
       
-      router.onAfterRouteChange = () => {
-        nextTick(() => {
-          setTimeout(fixLenisOverflow, 50)
-          setTimeout(fixLenisOverflow, 200)
-          setTimeout(fixLenisOverflow, 500)
-        })
-      }
     }
     
     // Componente principale
@@ -416,7 +428,14 @@ export default {
 
         // Re-inject after every SPA navigation (nextTick waits for Vue's sidebar re-render)
         router.onAfterRouteChange = () => {
-          nextTick(() => requestAnimationFrame(setupBadges))
+          nextTick(() => {
+            requestAnimationFrame(setupBadges)
+            // Force Lenis to recalculate scroll bounds — catches lazy-loaded content
+            // that increases page height after Lenis has already set its limit
+            setTimeout(() => window.dispatchEvent(new Event('resize')), 300)
+            setTimeout(() => window.dispatchEvent(new Event('resize')), 800)
+            setTimeout(() => window.dispatchEvent(new Event('resize')), 1500)
+          })
         }
 
 

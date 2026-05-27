@@ -22,9 +22,11 @@
 <script setup>
 import { ref, onMounted, onUnmounted, computed } from 'vue'
 import { useData } from 'vitepress'
+import { useSidebarCollapse } from '../composables/useSidebarCollapse'
 
 const { frontmatter } = useData()
 const isHome = computed(() => frontmatter.value.layout === 'home')
+const { toggleCollapse } = useSidebarCollapse()
 
 const collapsed = ref(false)
 let observer = null
@@ -39,17 +41,6 @@ onMounted(() => {
 })
 
 onUnmounted(() => observer?.disconnect())
-
-function toggleCollapse() {
-  const isCollapsed = document.documentElement.classList.contains('sidebar-collapsed')
-  if (isCollapsed) {
-    document.documentElement.classList.remove('sidebar-collapsed')
-    localStorage.setItem('wf-sidebar-collapsed', 'false')
-  } else {
-    document.documentElement.classList.add('sidebar-collapsed')
-    localStorage.setItem('wf-sidebar-collapsed', 'true')
-  }
-}
 </script>
 
 <style scoped>

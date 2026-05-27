@@ -448,7 +448,10 @@ const onKeydown = (e: KeyboardEvent) => {
   }
 }
 onMounted(() => window.addEventListener('keydown', onKeydown, true))
-onUnmounted(() => window.removeEventListener('keydown', onKeydown, true))
+onUnmounted(() => {
+  window.removeEventListener('keydown', onKeydown, true)
+  document.documentElement.classList.remove('search-open')
+})
 </script>
 
 <style scoped>

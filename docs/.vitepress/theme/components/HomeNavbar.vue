@@ -470,10 +470,11 @@ onUnmounted(() => {
   border-radius: 22px;
   pointer-events: auto;
   position: relative;
-  background: rgba(255,255,255,0.62);
+  overflow: hidden;
+  background: rgba(255,255,255,0.72);
   backdrop-filter: blur(24px) saturate(160%);
   -webkit-backdrop-filter: blur(24px) saturate(160%);
-  border: 1px solid rgba(255,255,255,0.72);
+  border: 1px solid rgba(255, 120, 0, 0.14);
   box-shadow: 0 4px 20px rgba(0,0,0,0.06), 0 1px 4px rgba(0,0,0,0.03), inset 0 1px 0 rgba(255,255,255,0.9);
   transition: all 0.55s cubic-bezier(0.16,1,0.3,1);
 }
@@ -482,11 +483,11 @@ onUnmounted(() => {
   content: '';
   position: absolute;
   bottom: 0;
-  left: 15%;
-  right: 15%;
+  left: 10%;
+  right: 10%;
   height: 1px;
-  background: linear-gradient(90deg, transparent, rgba(255,120,0,0.5), transparent);
-  opacity: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,120,0,0.6), transparent);
+  opacity: 0.25;
   transition: opacity 0.4s ease;
   border-radius: 0 0 22px 22px;
 }
@@ -497,21 +498,22 @@ onUnmounted(() => {
   border-radius: 0;
   height: 56px;
   padding: 0 36px;
-  background: rgba(255,255,255,0.78);
+  background: rgba(255,255,255,0.88);
   border-color: transparent;
-  border-bottom: 1px solid rgba(0,0,0,0.07);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.07);
+  border-bottom: 1px solid rgba(255, 120, 0, 0.15);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.07), 0 0 0 0 transparent;
 }
 
 .dark .nav-inner {
-  background: rgba(13,13,17,0.62);
-  border: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.32), inset 0 1px 0 rgba(255,255,255,0.06);
+  background: linear-gradient(135deg, rgba(255,120,0,0.05) 0%, rgba(10,10,14,0.82) 60%);
+  border: 1px solid rgba(255, 120, 0, 0.12);
+  box-shadow: 0 4px 20px rgba(0,0,0,0.32), 0 0 0 1px rgba(255,120,0,0.05), inset 0 1px 0 rgba(255,255,255,0.04);
 }
 .dark .nav.scrolled .nav-inner {
-  background: rgba(10,10,14,0.88);
-  border-bottom: 1px solid rgba(255,255,255,0.08);
-  box-shadow: 0 4px 20px rgba(0,0,0,0.45);
+  background: rgba(8,8,12,0.92);
+  border-color: transparent;
+  border-bottom: 1px solid rgba(255, 120, 0, 0.14);
+  box-shadow: 0 4px 24px rgba(0,0,0,0.5);
 }
 
 /* ===== LOGO ===== */

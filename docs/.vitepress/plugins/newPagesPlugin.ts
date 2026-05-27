@@ -1,6 +1,6 @@
-import { execSync } from 'child_process'
 import fs from 'fs'
 import path from 'path'
+import { getAllGitStats } from './gitCache'
 
 const VIRTUAL_ID = 'virtual:new-pages'
 const RESOLVED_ID = '\0virtual:new-pages'
@@ -9,6 +9,7 @@ const NEW_COUNT = 5 // badge on the N most recently committed .md files
 
 function getRecentlyUpdatedPaths(docsDir: string, repoRoot: string): string[] {
   const files: Array<{ link: string; ts: number }> = []
+  const gitStats = getAllGitStats(repoRoot)
 
   function walk(dir: string) {
     try {
@@ -19,16 +20,11 @@ function getRecentlyUpdatedPaths(docsDir: string, repoRoot: string): string[] {
         } else if (entry.isFile() && entry.name.endsWith('.md')) {
           try {
             const rel = path.relative(repoRoot, full).replace(/\\/g, '/')
-            const raw = execSync(`git log -1 --format="%ct" -- "${rel}"`, {
-              cwd: repoRoot,
-              encoding: 'utf-8',
-              stdio: ['pipe', 'pipe', 'pipe']
-            }).trim().replace(/^"|"$/g, '')
-            const ts = parseInt(raw) || 0
-            if (ts > 0) {
+            const stat = gitStats.get(rel)
+            if (stat && stat.timestamp > 0) {
               const docsRel = path.relative(docsDir, full).replace(/\\/g, '/')
               const link = '/' + docsRel.replace(/\.md$/, '')
-              files.push({ link, ts })
+              files.push({ link, ts: stat.timestamp })
             }
           } catch {
             // skip

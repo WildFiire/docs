@@ -2,7 +2,7 @@ import express from 'express'
 import { createRequire } from 'module'
 import { fileURLToPath } from 'url'
 import { dirname, join } from 'path'
-import { readFileSync, writeFileSync, existsSync } from 'fs'
+import { promises as fsPromises, readFileSync, existsSync } from 'fs'
 import { config } from 'dotenv'
 import translate from 'google-translate-api-x'
 
@@ -64,9 +64,9 @@ function loadBgs() {
   return {}
 }
 
-function saveBgs(data) {
+async function saveBgs(data) {
   try {
-    writeFileSync(bgFilePath, JSON.stringify(data, null, 2), 'utf-8')
+    await fsPromises.writeFile(bgFilePath, JSON.stringify(data, null, 2), 'utf-8')
   } catch (e) { console.error('Failed to save profile backgrounds:', e) }
 }
 
@@ -77,11 +77,11 @@ app.get('/api/profile-bg/:login', (req, res) => {
   res.json(bg || { presetId: 'default', customColor: '#1a1a2e', customUrl: '' })
 })
 
-app.post('/api/profile-bg', (req, res) => {
+app.post('/api/profile-bg', async (req, res) => {
   const { login, presetId, customColor, customUrl } = req.body
   if (!login) return res.status(400).json({ error: 'login required' })
   profileBgs[login] = { presetId: presetId || 'default', customColor: customColor || '#1a1a2e', customUrl: customUrl || '' }
-  saveBgs(profileBgs)
+  await saveBgs(profileBgs)
   res.json({ ok: true })
 })
 

@@ -39,11 +39,14 @@
         class="lu-card"
         :style="{ '--accent': getHexColor(card.tagColor) }"
       >
+        <!-- Sliding top accent line -->
+        <div class="lu-card__accent" aria-hidden="true"></div>
+
         <!-- Accent strip -->
         <div class="lu-card__strip" :style="{ background: getHexColor(card.tagColor) }"></div>
 
         <!-- Watermark -->
-        <span class="lu-card__watermark orbitron-font" :style="{ color: getHexColor(card.tagColor) }">{{ card.category }}</span>
+        <span class="lu-card__watermark orbitron-font">{{ card.category }}</span>
 
         <div class="lu-card__body">
           <!-- Category badge -->
@@ -274,34 +277,56 @@ function cardStyle(color) {
   margin-bottom: 24px;
 }
 
-/* ── Cards (matches WikiHome wf-card) ── */
+/* ── Cards ── */
 .lu-card {
   position: relative;
   border-radius: 16px;
-  background: rgba(255, 255, 255, 0.02);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent, #ff7800) 6%, transparent) 0%, rgba(8, 8, 12, 0.85) 60%);
+  border: 1px solid color-mix(in srgb, var(--accent, #ff7800) 16%, transparent);
   text-decoration: none;
   color: var(--vp-c-text-1);
   overflow: hidden;
   display: flex;
   flex-direction: row;
-  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1),
-              box-shadow 0.3s ease,
-              border-color 0.3s ease;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+              box-shadow 0.4s ease,
+              border-color 0.4s ease;
 }
 .lu-card:hover {
-  transform: translateY(-4px);
-  border-color: rgba(255, 120, 0, 0.25);
-  box-shadow: 0 0 20px rgba(255, 120, 0, 0.06),
-              inset 0 1px 0 rgba(255, 255, 255, 0.04);
+  transform: translateY(-6px);
+  border-color: color-mix(in srgb, var(--accent, #ff7800) 30%, transparent);
+  box-shadow:
+    0 28px 64px rgba(0, 0, 0, 0.35),
+    0 0 0 1px color-mix(in srgb, var(--accent, #ff7800) 12%, transparent),
+    0 8px 32px color-mix(in srgb, var(--accent, #ff7800) 8%, transparent);
 }
 html:not(.dark) .lu-card {
-  background: rgba(255, 255, 255, 0.7);
-  border-color: rgba(0, 0, 0, 0.08);
+  background: linear-gradient(145deg, color-mix(in srgb, var(--accent, #ff7800) 5%, transparent) 0%, rgba(255, 255, 255, 0.92) 55%);
+  border-color: color-mix(in srgb, var(--accent, #ff7800) 18%, transparent);
 }
 html:not(.dark) .lu-card:hover {
-  border-color: rgba(255, 120, 0, 0.2);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+  border-color: color-mix(in srgb, var(--accent, #ff7800) 32%, transparent);
+  box-shadow:
+    0 24px 60px rgba(0, 0, 0, 0.1),
+    0 0 0 1px color-mix(in srgb, var(--accent, #ff7800) 18%, transparent);
+}
+
+/* Sliding top accent line */
+.lu-card__accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--accent, #ff7800) 50%, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 3;
+  pointer-events: none;
+}
+.lu-card:hover .lu-card__accent {
+  transform: scaleX(1);
 }
 
 /* Accent strip */
@@ -321,20 +346,21 @@ html:not(.dark) .lu-card:hover {
   right: 10px;
   top: 50%;
   transform: translateY(-50%);
-  font-size: 38px;
+  font-size: 52px;
   font-weight: 900;
   line-height: 1;
-  opacity: 0.03;
+  color: transparent;
+  -webkit-text-stroke: 1px color-mix(in srgb, var(--accent, #ff7800) 10%, transparent);
   pointer-events: none;
   user-select: none;
   letter-spacing: -2px;
   text-transform: uppercase;
   white-space: nowrap;
   z-index: 0;
-  transition: opacity 0.3s ease;
+  transition: -webkit-text-stroke-color 0.35s ease;
 }
 .lu-card:hover .lu-card__watermark {
-  opacity: 0.07;
+  -webkit-text-stroke-color: color-mix(in srgb, var(--accent, #ff7800) 22%, transparent);
 }
 
 /* Card body */
@@ -554,37 +580,40 @@ html:not(.dark) .sk-strip {
 .sk-avatar { width: 22px; height: 22px; border-radius: 50%; flex-shrink: 0; }
 .sk-name { height: 10px; width: 80px; border-radius: 3px; }
 
-/* ── Footer CTA (matches wf-btn--ghost) ── */
+/* ── Footer CTA ── */
 .lu-footer { text-align: center; margin-top: 8px; }
 .lu-view-all {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 10px 22px;
+  padding: 11px 26px;
   border-radius: 10px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: 0.8px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   text-transform: uppercase;
   text-decoration: none;
   white-space: nowrap;
-  background: transparent;
-  color: rgba(255, 255, 255, 0.7);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  background: rgba(255, 120, 0, 0.08);
+  color: #ff7800;
+  border: 1px solid rgba(255, 120, 0, 0.22);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 .lu-view-all:hover {
-  border-color: rgba(255, 255, 255, 0.25);
-  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 120, 0, 0.42);
+  background: rgba(255, 120, 0, 0.14);
   transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(255, 120, 0, 0.12);
 }
 html:not(.dark) .lu-view-all {
-  color: rgba(0, 0, 0, 0.6);
-  border-color: rgba(0, 0, 0, 0.1);
+  color: #c95200;
+  background: rgba(255, 120, 0, 0.06);
+  border-color: rgba(255, 120, 0, 0.18);
 }
 html:not(.dark) .lu-view-all:hover {
-  border-color: rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 0, 0.03);
+  border-color: rgba(255, 120, 0, 0.35);
+  background: rgba(255, 120, 0, 0.1);
+  box-shadow: 0 8px 24px rgba(255, 120, 0, 0.08);
 }
 .lu-arrow-icon { transition: transform 0.2s; }
 .lu-view-all:hover .lu-arrow-icon { transform: translateX(4px); }

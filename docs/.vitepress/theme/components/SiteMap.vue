@@ -233,7 +233,38 @@ onMounted(() => {
 .footer-grid {
   display: grid;
   grid-template-columns: 1.6fr 0.8fr 0.8fr 0.8fr;
-  gap: 48px;
+  gap: 16px;
+}
+
+/* ===== COLUMN BOXES ===== */
+.footer-col {
+  position: relative;
+  overflow: hidden;
+  border-radius: 18px;
+  background: linear-gradient(145deg, rgba(255, 120, 0, 0.03) 0%, rgba(8, 8, 12, 0.6) 60%);
+  border: 1px solid rgba(255, 120, 0, 0.08);
+  padding: 24px;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.footer-col::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff7800 50%, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.footer-col:hover::before {
+  transform: scaleX(1);
+}
+
+.footer-col:hover {
+  border-color: rgba(255, 120, 0, 0.2);
+  box-shadow: 0 8px 32px rgba(255, 120, 0, 0.06);
 }
 
 /* ===== BRAND ===== */
@@ -462,6 +493,11 @@ onMounted(() => {
   background: transparent;
 }
 
+:root.dark .footer-col {
+  background: linear-gradient(145deg, rgba(255, 120, 0, 0.04) 0%, rgba(8, 8, 12, 0.75) 60%);
+  border-color: rgba(255, 120, 0, 0.09);
+}
+
 :root.dark .watermark-text {
   -webkit-text-stroke: 1.5px rgba(255, 120, 0, 0.07);
 }
@@ -536,6 +572,17 @@ onMounted(() => {
    ================================================================ */
 :root:not(.dark) .footer {
   background: transparent;
+}
+
+:root:not(.dark) .footer-col {
+  background: rgba(255, 255, 255, 0.82);
+  border-color: rgba(255, 120, 0, 0.1);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.03);
+}
+
+:root:not(.dark) .footer-col:hover {
+  border-color: rgba(255, 120, 0, 0.25);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.07);
 }
 
 :root:not(.dark) .watermark-text {
@@ -620,14 +667,14 @@ onMounted(() => {
 @media (max-width: 1100px) {
   .footer-grid {
     grid-template-columns: 1.5fr 1fr 1fr 1fr;
-    gap: 36px;
+    gap: 12px;
   }
 }
 
 @media (max-width: 900px) {
   .footer-grid {
     grid-template-columns: 1fr 1fr;
-    gap: 40px 32px;
+    gap: 12px;
   }
 
   .brand-col {

@@ -28,8 +28,7 @@ input,
 
 html,
 body,
-#app,
-.Layout {
+#app {
   overflow-x: clip !important;
   max-width: 100%;
   /* cursor: none; — TEMPORARILY DISABLED */
@@ -838,7 +837,6 @@ body:not(.home) *,
 /* Asigură că scroll-ul funcționează dar bara e ascunsă */
 .VPSidebar,
 .VPDocAsideOutline,
-.VPDoc.has-sidebar.has-aside,
 .vp-doc aside,
 .VPDocAside,
 .aside-container {
@@ -846,6 +844,10 @@ body:not(.home) *,
   scrollbar-width: none;
   overflow-y: auto;
 }
+
+/* VPDoc.has-sidebar.has-aside must NOT be overflow-y: auto — it is the main
+   content wrapper and must scroll via the window, not a nested scroll container.
+   Scrollbar is already hidden above via scrollbar-width: none and webkit rules. */
 
 .VPSidebar::-webkit-scrollbar,
 .VPDocAsideOutline::-webkit-scrollbar,
@@ -1961,6 +1963,7 @@ svg,
   margin: 0;
   background: linear-gradient(to bottom, #ffffff, #a0a0a0);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   line-height: 1.1;
 }
@@ -4786,4 +4789,4 @@ body {
   background-color: transparent !important;
   border: none !important; 
   box-shadow: none !important;
-}
+}
