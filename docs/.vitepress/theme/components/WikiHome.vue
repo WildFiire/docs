@@ -367,7 +367,7 @@ const exploreSections = [
   },
   {
     title: 'Currency', desc: 'Valute, economie, Fire Coins si tranzactii.',
-    href: '/currency/', color: '#10b981', badge: 'ECONOMY',
+    href: '/currency/phoenixcoins', color: '#10b981', badge: 'ECONOMY',
     icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9h4.5a2.5 2.5 0 0 1 0 5H9"/></svg>',
   },
   {
@@ -695,7 +695,7 @@ onUnmounted(() => {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: #fff;
-  text-shadow: 0 0 60px rgba(255, 120, 0, 0.15);
+  text-shadow: 0 0 40px rgba(255, 120, 0, 0.07);
   opacity: 1;
 }
 
@@ -810,7 +810,7 @@ onUnmounted(() => {
 
 .wf-search:hover .wf-search__icon {
   opacity: 1;
-  filter: drop-shadow(0 0 8px rgba(255, 120, 0, 0.6));
+  filter: drop-shadow(0 0 4px rgba(255, 120, 0, 0.25));
 }
 
 .wf-search__text {
@@ -844,7 +844,7 @@ onUnmounted(() => {
   background: #ff7800;
   color: #fff;
   border-color: #ff7800;
-  box-shadow: 0 0 12px rgba(255, 120, 0, 0.4);
+  box-shadow: 0 0 6px rgba(255, 120, 0, 0.15);
 }
 
 /* CTA Buttons */
@@ -912,7 +912,7 @@ onUnmounted(() => {
   background: linear-gradient(145deg, #ff7800 0%, #e56a00 100%);
   color: #fff;
   border-color: rgba(255, 120, 0, 0.6);
-  box-shadow: 0 4px 20px rgba(255, 120, 0, 0.35), 0 0 0 1px rgba(255, 120, 0, 0.2);
+  box-shadow: 0 4px 16px rgba(255, 120, 0, 0.15), 0 0 0 1px rgba(255, 120, 0, 0.12);
   backdrop-filter: none;
   -webkit-backdrop-filter: none;
 }
@@ -921,7 +921,7 @@ onUnmounted(() => {
   background: linear-gradient(145deg, #ff8c1a 0%, #ff7800 100%);
   border-color: rgba(255, 120, 0, 0.85);
   transform: translateY(-2px);
-  box-shadow: 0 10px 36px rgba(255, 120, 0, 0.5), 0 0 0 1px rgba(255, 120, 0, 0.3), 0 0 24px rgba(255, 120, 0, 0.2);
+  box-shadow: 0 10px 28px rgba(255, 120, 0, 0.2), 0 0 0 1px rgba(255, 120, 0, 0.18);
 }
 
 .wf-home--light .wf-btn--ghost {
@@ -1041,9 +1041,8 @@ onUnmounted(() => {
   border-color: rgba(255, 120, 0, 0.28);
   transform: translateY(-6px);
   box-shadow:
-    0 28px 64px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 120, 0, 0.1),
-    0 8px 32px rgba(255, 120, 0, 0.06);
+    0 20px 48px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 120, 0, 0.08);
 }
 
 /* Sliding orange accent line at top */
@@ -1113,9 +1112,9 @@ onUnmounted(() => {
 }
 
 .qs-card:hover .qs-card__icon {
-  background: rgba(255, 120, 0, 0.15);
-  border-color: rgba(255, 120, 0, 0.35);
-  box-shadow: 0 0 18px rgba(255, 120, 0, 0.22);
+  background: rgba(255, 120, 0, 0.12);
+  border-color: rgba(255, 120, 0, 0.28);
+  box-shadow: 0 0 10px rgba(255, 120, 0, 0.1);
 }
 
 .qs-card__icon :deep(svg) {
@@ -1313,12 +1312,11 @@ onUnmounted(() => {
 }
 
 .wf-card:hover {
-  border-color: rgba(255, 120, 0, 0.28);
+  border-color: rgba(255, 120, 0, 0.22);
   transform: translateY(-6px);
   box-shadow:
-    0 28px 64px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 120, 0, 0.1),
-    0 8px 32px rgba(255, 120, 0, 0.06);
+    0 20px 48px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(255, 120, 0, 0.08);
 }
 
 .wf-home--light .wf-card {
@@ -1349,9 +1347,9 @@ onUnmounted(() => {
 }
 
 .wf-card:hover .wf-card__icon {
-  background: rgba(255, 120, 0, 0.15);
-  border-color: rgba(255, 120, 0, 0.35);
-  box-shadow: 0 0 18px rgba(255, 120, 0, 0.22);
+  background: rgba(255, 120, 0, 0.12);
+  border-color: rgba(255, 120, 0, 0.28);
+  box-shadow: 0 0 10px rgba(255, 120, 0, 0.1);
 }
 
 .wf-card__title {
@@ -1786,7 +1784,7 @@ onUnmounted(() => {
   transform: translate(-50%, -50%);
   width: 400px;
   height: 400px;
-  background: radial-gradient(circle, rgba(255, 120, 0, 0.08) 0%, transparent 60%);
+  background: radial-gradient(circle, rgba(255, 120, 0, 0.03) 0%, transparent 60%);
   z-index: -1;
   pointer-events: none;
 }
@@ -1869,12 +1867,11 @@ onUnmounted(() => {
 
 .wf-hero-split__right-panel:hover {
   transform: scale(0.92) rotateY(0deg) rotateX(0deg) translateY(-5px);
-  background: linear-gradient(145deg, rgba(255, 120, 0, 0.07) 0%, rgba(12, 12, 18, 0.85) 60%);
-  border-color: rgba(255, 120, 0, 0.28);
+  background: linear-gradient(145deg, rgba(255, 120, 0, 0.05) 0%, rgba(12, 12, 18, 0.85) 60%);
+  border-color: rgba(255, 120, 0, 0.22);
   box-shadow:
-    0 30px 60px rgba(0, 0, 0, 0.5),
-    0 0 0 1px rgba(255, 120, 0, 0.12),
-    0 0 48px rgba(255, 120, 0, 0.08);
+    0 24px 50px rgba(0, 0, 0, 0.45),
+    0 0 0 1px rgba(255, 120, 0, 0.1);
 }
 
 .wf-home--light .wf-hero-split__right-panel {
@@ -2025,7 +2022,7 @@ onUnmounted(() => {
   font-weight: 900;
   color: #ff7800;
   margin-bottom: 10px;
-  text-shadow: 0 0 30px rgba(255, 120, 0, 0.45);
+  text-shadow: 0 0 20px rgba(255, 120, 0, 0.18);
   letter-spacing: -1px;
 }
 
@@ -2081,12 +2078,11 @@ onUnmounted(() => {
 
 .wf-explore-card:hover .wf-explore-card__accent { transform: scaleX(1); }
 .wf-explore-card:hover {
-  border-color: color-mix(in srgb, var(--sec-color) 32%, transparent);
+  border-color: color-mix(in srgb, var(--sec-color) 28%, transparent);
   transform: translateY(-5px);
   box-shadow:
-    0 20px 48px rgba(0, 0, 0, 0.3),
-    0 0 0 1px color-mix(in srgb, var(--sec-color) 12%, transparent),
-    0 0 28px color-mix(in srgb, var(--sec-color) 8%, transparent);
+    0 16px 40px rgba(0, 0, 0, 0.25),
+    0 0 0 1px color-mix(in srgb, var(--sec-color) 10%, transparent);
 }
 
 .wf-explore-card__icon {
@@ -2104,8 +2100,8 @@ onUnmounted(() => {
 }
 
 .wf-explore-card:hover .wf-explore-card__icon {
-  background: color-mix(in srgb, var(--sec-color) 18%, transparent);
-  box-shadow: 0 0 16px color-mix(in srgb, var(--sec-color) 28%, transparent);
+  background: color-mix(in srgb, var(--sec-color) 14%, transparent);
+  box-shadow: 0 0 8px color-mix(in srgb, var(--sec-color) 10%, transparent);
 }
 
 .wf-explore-card__title {
@@ -2180,15 +2176,15 @@ onUnmounted(() => {
 
 .wf-discord-banner:hover::before { transform: scaleX(1); }
 .wf-discord-banner:hover {
-  border-color: rgba(88, 101, 242, 0.3);
-  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(88, 101, 242, 0.1), 0 0 40px rgba(88, 101, 242, 0.06);
+  border-color: rgba(88, 101, 242, 0.22);
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.25), 0 0 0 1px rgba(88, 101, 242, 0.08);
 }
 
 .wf-discord-banner__glow {
   position: absolute;
   top: -60px; right: 5%;
   width: 420px; height: 420px;
-  background: radial-gradient(circle, rgba(88, 101, 242, 0.1) 0%, transparent 70%);
+  background: radial-gradient(circle, rgba(88, 101, 242, 0.04) 0%, transparent 70%);
   pointer-events: none;
 }
 
@@ -2234,14 +2230,14 @@ onUnmounted(() => {
   text-transform: uppercase;
   white-space: nowrap;
   border: 1px solid rgba(255, 255, 255, 0.12);
-  box-shadow: 0 8px 32px rgba(88, 101, 242, 0.4), 0 0 0 1px rgba(88, 101, 242, 0.2);
+  box-shadow: 0 4px 18px rgba(88, 101, 242, 0.2), 0 0 0 1px rgba(88, 101, 242, 0.1);
   transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .wf-discord-btn:hover {
   background: #4752c4;
   transform: translateY(-3px);
-  box-shadow: 0 16px 48px rgba(88, 101, 242, 0.55), 0 0 0 1px rgba(88, 101, 242, 0.3);
+  box-shadow: 0 10px 32px rgba(88, 101, 242, 0.28), 0 0 0 1px rgba(88, 101, 242, 0.18);
 }
 
 .wf-home--light .wf-discord-banner {
