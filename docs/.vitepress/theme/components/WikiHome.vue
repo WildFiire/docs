@@ -89,7 +89,7 @@
           </div>
 
           <!-- Scroll hint -->
-          <div class="wf-hero__scroll-hint anim-item" data-anim="slide-up" data-delay="500" :class="{ 'fade-out': scrollY > 100 }">
+          <div class="wf-hero__scroll-hint anim-item" data-anim="slide-up" data-delay="500" :class="{ 'fade-out': scrollHintFaded }">
             <span class="wf-hero__scroll-text">SCROLL</span>
             <div class="wf-hero__scroll-mouse">
               <div class="wf-hero__scroll-wheel"></div>
@@ -268,7 +268,8 @@ const { page, isDark } = useData()
 const isHomePage = computed(() => page.value.relativePath === 'index.md' || page.value.relativePath === 'index')
 const isMounted = ref(false)
 const logoStart = ref(false)
-const scrollY = ref(0)
+let _scrollY = 0
+const scrollHintFaded = ref(false)
 
 const spySections = [
   { id: 'hero', label: 'Hero' },
@@ -313,7 +314,7 @@ const handleTiltMove = (i: number, e: MouseEvent) => {
 }
 const handleTiltLeave = (i: number) => { 
   tiltData[i] = { rx: 0, ry: 0 }
-  delete tiltRects[i]
+  // Keep tiltRects cached — avoids forced getBoundingClientRect() on next mousemove
 }
 
 const tiltStyle = (i: number) => {
@@ -526,7 +527,9 @@ const updateParallax = () => {
   parallaxRaf = null
   if (!inBrowser) return
   const sy = window.scrollY
-  scrollY.value = sy
+  _scrollY = sy
+  // Only update scroll hint visibility reactively (cheap boolean flip)
+  scrollHintFaded.value = sy > 100
   if (heroContainer.value) {
     if (window.innerWidth > 1024) {
       heroContainer.value.style.transform = `translateY(${-sy * 0.18}px)`
@@ -761,9 +764,7 @@ onUnmounted(() => {
   padding: 14px 24px;
   margin-bottom: 32px;
 
-  background: linear-gradient(145deg, rgba(255, 120, 0, 0.05) 0%, rgba(8, 8, 12, 0.78) 60%);
-  backdrop-filter: blur(16px) saturate(150%);
-  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  background: rgba(10, 10, 16, 0.82);
 
   border: 1px solid rgba(255, 120, 0, 0.14);
   border-radius: 16px;
@@ -872,9 +873,7 @@ onUnmounted(() => {
   cursor: pointer;
 }
 .wf-btn--primary {
-  background: linear-gradient(145deg, rgba(255, 120, 0, 0.1) 0%, rgba(8, 8, 12, 0.7) 60%);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
+  background: rgba(255, 120, 0, 0.12);
   color: #fff;
   border: 1px solid rgba(255, 120, 0, 0.38);
   box-shadow: 0 0 0 1px rgba(255, 120, 0, 0.06);
@@ -895,9 +894,7 @@ onUnmounted(() => {
 }
 
 .wf-btn--ghost {
-  background: linear-gradient(145deg, rgba(255, 120, 0, 0.03) 0%, rgba(8, 8, 12, 0.5) 60%);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(10, 10, 16, 0.65);
   color: rgba(255, 255, 255, 0.7);
   border: 1px solid rgba(255, 120, 0, 0.1);
 }
@@ -1035,9 +1032,7 @@ onUnmounted(() => {
   padding: 28px;
   border-radius: 20px;
   border: 1px solid rgba(255, 120, 0, 0.08);
-  background: linear-gradient(145deg, rgba(255, 120, 0, 0.04) 0%, rgba(8, 8, 12, 0.85) 60%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(10, 10, 16, 0.88);
   overflow: hidden;
   transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
@@ -1294,9 +1289,7 @@ onUnmounted(() => {
   position: relative;
   padding: 28px;
   border-radius: 20px;
-  background: linear-gradient(145deg, rgba(255, 120, 0, 0.04) 0%, rgba(8, 8, 12, 0.85) 60%);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
+  background: rgba(10, 10, 16, 0.88);
   border: 1px solid rgba(255, 120, 0, 0.08);
   text-decoration: none;
   color: var(--vp-c-text-1);
@@ -1425,8 +1418,6 @@ onUnmounted(() => {
   color: #ff7800;
   border: 1px solid rgba(255, 120, 0, 0.15);
   margin-bottom: 14px;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 /* ===== SECTION LABEL (wildfire.ro style) ===== */
@@ -1556,9 +1547,7 @@ onUnmounted(() => {
   position: relative;
   border-radius: 16px;
   padding: 28px 24px 20px;
-  background: rgba(255, 255, 255, 0.02);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  background: rgba(10, 10, 16, 0.65);
   border: none;
   overflow: hidden;
 }
@@ -1605,9 +1594,8 @@ onUnmounted(() => {
 /* ===== SCROLL ANIMATIONS ===== */
 .anim-item {
   opacity: 0;
-  transition: opacity 3s cubic-bezier(0.16, 1, 0.3, 1),
-              transform 3s cubic-bezier(0.16, 1, 0.3, 1);
-  /* Removed will-change to save GPU memory */
+  transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+              transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .anim-item[data-anim="slide-up"] {
@@ -1741,42 +1729,11 @@ onUnmounted(() => {
   transform: rotateY(4deg) rotateX(1deg); /* Flattens interactively on hover */
 }
 
-/* 3D Pop-out effects for internal elements */
+/* Single parent float replaces 7 individual per-element translateZ animations
+   — reduces GPU compositing layers from 7+ down to 1 */
 @keyframes floatZ-logo {
   0%, 100% { transform: translateZ(50px); }
   50% { transform: translateZ(70px) translateY(-5px); }
-}
-@keyframes floatZ-title-1 {
-  0%, 100% { transform: translateZ(40px); }
-  50% { transform: translateZ(55px); }
-}
-@keyframes floatZ-title-2 {
-  0%, 100% { transform: translateZ(35px); }
-  50% { transform: translateZ(45px); }
-}
-@keyframes floatZ-title-3 {
-  0%, 100% { transform: translateZ(45px); }
-  50% { transform: translateZ(60px); }
-}
-@keyframes floatZ-sub {
-  0%, 100% { transform: translateZ(25px); }
-  50% { transform: translateZ(35px); }
-}
-@keyframes floatZ-search {
-  0%, 100% { transform: translateZ(30px); }
-  50% { transform: translateZ(45px); }
-}
-@keyframes floatZ-btn-1 {
-  0%, 100% { transform: translateZ(20px); }
-  50% { transform: translateZ(30px); }
-}
-@keyframes floatZ-btn-2 {
-  0%, 100% { transform: translateZ(10px); }
-  50% { transform: translateZ(20px); }
-}
-@keyframes floatZ-hint {
-  0%, 100% { transform: translateZ(5px); }
-  50% { transform: translateZ(15px); }
 }
 
 .wf-hero-split__left-inner .wf-hero__logo {
@@ -1789,26 +1746,21 @@ onUnmounted(() => {
 
 .wf-hero-split__left-inner .wf-hero__title .t-white {
   display: inline-block;
-  animation: floatZ-title-1 4.5s ease-in-out infinite 0.2s;
 }
 
 .wf-hero-split__left-inner .wf-hero__title .t-fire {
   display: inline-block;
-  animation: floatZ-title-2 5s ease-in-out infinite 0.5s;
 }
 
 .wf-hero-split__left-inner .wf-hero__title .t-docs {
   display: inline-flex;
-  animation: floatZ-title-3 5.5s ease-in-out infinite 0.8s;
 }
 
 .wf-hero-split__left-inner .wf-hero-float--sub {
-  animation: floatZ-sub 5.5s ease-in-out infinite 1s;
   transform-style: preserve-3d;
 }
 
 .wf-hero-split__left-inner .wf-hero-float--search {
-  animation: floatZ-search 4.5s ease-in-out infinite 1.5s;
   z-index: 20;
   transform-style: preserve-3d;
   width: 100%;
@@ -1819,17 +1771,11 @@ onUnmounted(() => {
 }
 
 .wf-hero-split__left-inner .wf-hero-float--btn1 {
-  animation: floatZ-btn-1 4.8s ease-in-out infinite 0.3s;
   transform-style: preserve-3d;
 }
 
 .wf-hero-split__left-inner .wf-hero-float--btn2 {
-  animation: floatZ-btn-2 5.2s ease-in-out infinite 0.9s;
   transform-style: preserve-3d;
-}
-
-.wf-hero-split__left-inner .wf-hero__scroll-hint {
-  animation: floatZ-hint 6s ease-in-out infinite 1.2s;
 }
 
 .wf-hero-split__left::before {
@@ -1891,9 +1837,7 @@ onUnmounted(() => {
   overflow: hidden;
   width: 100%;
   padding: 16px 24px;
-  background: linear-gradient(145deg, rgba(255, 120, 0, 0.05) 0%, rgba(8, 8, 12, 0.75) 60%);
-  backdrop-filter: blur(24px) saturate(150%);
-  -webkit-backdrop-filter: blur(24px) saturate(150%);
+  background: rgba(10, 10, 16, 0.8);
   border: 1px solid rgba(255, 120, 0, 0.1);
   border-radius: 20px;
   box-shadow:

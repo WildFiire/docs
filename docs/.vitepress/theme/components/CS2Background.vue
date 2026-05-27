@@ -2,6 +2,7 @@
   <div class="cs2-bg" :class="{ 'cs2-bg--light': !isDark }">
     <!-- Wallpaper image -->
     <img
+      ref="wallpaperEl"
       src="/wallpaper/poza.jpg"
       alt=""
       class="cs2-bg__wallpaper"
@@ -10,10 +11,10 @@
       loading="eager"
       decoding="async"
       role="presentation"
-      :style="{ transform: `scale(${1.08 * bounceScale})` }"
+      style="transform: scale(1.08)"
     />
     <!-- Filter overlay for brightness/saturation -->
-    <div class="cs2-bg__filter-overlay" :style="{ opacity: 1 - scrollBrightness, filter: `saturate(${scrollSaturation})` }"></div>
+    <div ref="filterOverlayEl" class="cs2-bg__filter-overlay"></div>
     <!-- Dark overlay on top of wallpaper -->
     <div class="cs2-bg__overlay"></div>
 
@@ -23,19 +24,17 @@
     <div class="cs2-bg__fire-edge cs2-bg__fire-edge--right"></div>
     <div class="cs2-bg__heat-haze"></div>
 
-    <!-- Animated gradient orbs -->
+    <!-- Animated gradient orbs (2 instead of 4) -->
     <div class="cs2-bg__orb cs2-bg__orb--1"></div>
     <div class="cs2-bg__orb cs2-bg__orb--2"></div>
-    <div class="cs2-bg__orb cs2-bg__orb--3"></div>
-    <div class="cs2-bg__orb cs2-bg__orb--4"></div>
 
     <!-- Ember streaks -->
     <div class="cs2-bg__streak cs2-bg__streak--1"></div>
     <div class="cs2-bg__streak cs2-bg__streak--2"></div>
 
-    <!-- Floating particles -->
+    <!-- Floating particles (6 instead of 12) -->
     <div class="cs2-bg__particles">
-      <span v-for="n in 12" :key="n" class="cs2-bg__particle" :style="particleStyle(n)"></span>
+      <span v-for="n in 6" :key="n" class="cs2-bg__particle" :style="particleStyle(n)"></span>
     </div>
 
     <!-- NeuroNoise bottom layer -->
@@ -58,7 +57,7 @@
     <div class="cs2-bg__vignette"></div>
 
     <!-- Scroll darken overlay -->
-    <div class="cs2-bg__scroll-fade" :style="{ opacity: scrollDarken }"></div>
+    <div ref="scrollFadeEl" class="cs2-bg__scroll-fade"></div>
   </div>
 </template>
 
@@ -72,22 +71,27 @@ const props = defineProps<{
   isDark?: boolean
 }>()
 
-const scrollOpacity = ref(props.scrollOpacity ?? 0)
-const bounceScale = ref(1)
-const scrollDarken = ref(0)
-const scrollBrightness = ref(1)
-const scrollSaturation = ref(1)
+// No reactive scroll values needed — all written directly to DOM refs
+
+// DOM refs for direct scroll-driven style writes (no Vue reactivity per scroll event)
+const wallpaperEl = ref<HTMLImageElement | null>(null)
+const filterOverlayEl = ref<HTMLDivElement | null>(null)
+const scrollFadeEl = ref<HTMLDivElement | null>(null)
+
 let velocity = 0
 let bounceTarget = 1
 let bounceCurrent = 1
 let rafId: number | null = null
 
 const lerp = (a: number, b: number, t: number) => a + (b - a) * t
+const SETTLE_THRESHOLD = 0.0002
 
 const onWheel = (e: WheelEvent) => {
   if (e.ctrlKey) {
     const delta = e.deltaY > 0 ? -0.04 : 0.04
     velocity += delta
+    // Restart the loop if it was settled
+    if (!rafId) rafId = requestAnimationFrame(updateParallax)
   }
 }
 
@@ -98,9 +102,14 @@ const onScroll = () => {
     const scrollY = window.scrollY
     const maxScroll = 800
     const progress = Math.min(scrollY / maxScroll, 1)
-    scrollDarken.value = progress * 0.6
-    scrollBrightness.value = 1 - progress * 0.4
-    scrollSaturation.value = 1 - progress * 0.7
+    // Write directly to DOM — skip Vue reactivity entirely
+    if (filterOverlayEl.value) {
+      filterOverlayEl.value.style.opacity = String(progress * 0.4)
+      filterOverlayEl.value.style.filter = `saturate(${1 - progress * 0.7})`
+    }
+    if (scrollFadeEl.value) {
+      scrollFadeEl.value.style.opacity = String(progress * 0.6)
+    }
     scrollRaf = null
   })
 }
@@ -114,7 +123,22 @@ const updateParallax = () => {
   const springForce = (1 - bounceTarget) * 0.06
   bounceTarget += springForce
   bounceCurrent = lerp(bounceCurrent, bounceTarget, 0.1)
-  bounceScale.value = Math.round(bounceCurrent * 1000) / 1000
+
+  // Write directly to DOM — no Vue reactivity cost
+  if (wallpaperEl.value) {
+    const scale = Math.round(bounceCurrent * 1000) / 1000
+    wallpaperEl.value.style.transform = `scale(${1.08 * scale})`
+  }
+
+  // Stop loop when spring has fully settled (avoids infinite RAF)
+  const settled = Math.abs(velocity) < SETTLE_THRESHOLD &&
+                  Math.abs(bounceCurrent - 1) < SETTLE_THRESHOLD &&
+                  Math.abs(bounceTarget - 1) < SETTLE_THRESHOLD
+  if (settled) {
+    if (wallpaperEl.value) wallpaperEl.value.style.transform = 'scale(1.08)'
+    rafId = null
+    return
+  }
 
   rafId = requestAnimationFrame(updateParallax)
 }
@@ -123,7 +147,7 @@ onMounted(() => {
   window.addEventListener('wheel', onWheel, { passive: true })
   window.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
-  rafId = requestAnimationFrame(updateParallax)
+  // Don't auto-start the RAF — only start on wheel events
 })
 
 onUnmounted(() => {
@@ -226,7 +250,7 @@ const particleStyle = (n: number) => {
   top: 0;
   bottom: 0;
   width: 200px;
-  filter: blur(40px);
+  /* Removed filter:blur(40px) — CSS blur on fixed elements forces a compositing layer repaint every frame */
   animation: edgePulse 6s ease-in-out infinite;
 }
 
