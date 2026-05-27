@@ -181,6 +181,72 @@
         </div>
       </div>
     </section>
+
+    <!-- ============ 4. STATS BANNER ============ -->
+    <div class="wf-divider"><span class="wf-divider__line"></span></div>
+    <section id="stats" class="wf-section wf-stats">
+      <div class="wf-container">
+        <div class="wf-stats__grid">
+          <div v-for="(stat, i) in statsData" :key="i" class="wf-stat anim-item" data-anim="slide-up" :data-delay="i * 80">
+            <span class="wf-stat__number orbitron-font">{{ stat.value }}</span>
+            <span class="wf-stat__label orbitron-font">{{ stat.label }}</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 5. SECTION EXPLORER ============ -->
+    <div class="wf-divider"><span class="wf-divider__line"></span></div>
+    <section id="explore" class="wf-section wf-explore">
+      <div class="wf-container">
+        <div class="wf-section-label anim-item" data-anim="slide-up">
+          <span class="wf-section-label__line"></span>
+          <span class="wf-section-label__text orbitron-font">EXPLORE</span>
+          <span class="wf-section-label__line"></span>
+        </div>
+        <h2 class="wf-section__title orbitron-font anim-item" data-anim="slide-up">Exploreaza <span class="wf-accent">Sectiunile</span></h2>
+        <p class="wf-section__desc anim-item" data-anim="slide-up">Naviga prin toate categoriile de documentatie Wildfire</p>
+        <div class="wf-explore__grid">
+          <a
+            v-for="(sec, i) in exploreSections"
+            :key="i"
+            :href="sec.href"
+            class="wf-explore-card anim-item"
+            :style="{ '--sec-color': sec.color }"
+            data-anim="slide-up"
+            :data-delay="i * 80"
+          >
+            <div class="wf-explore-card__accent" aria-hidden="true"></div>
+            <div class="wf-explore-card__icon" v-html="sec.icon"></div>
+            <h3 class="wf-explore-card__title orbitron-font">{{ sec.title }}</h3>
+            <p class="wf-explore-card__desc">{{ sec.desc }}</p>
+            <span class="wf-explore-card__badge orbitron-font">{{ sec.badge }}</span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============ 6. DISCORD CTA ============ -->
+    <div class="wf-divider"><span class="wf-divider__line"></span></div>
+    <section id="community" class="wf-section wf-community">
+      <div class="wf-container">
+        <div class="wf-discord-banner anim-item" data-anim="slide-up">
+          <div class="wf-discord-banner__glow" aria-hidden="true"></div>
+          <div class="wf-discord-banner__left">
+            <span class="wf-discord-banner__eyebrow orbitron-font">COMUNITATE</span>
+            <h2 class="wf-discord-banner__title orbitron-font">Alatura-te pe <span class="wf-accent">Discord</span></h2>
+            <p class="wf-discord-banner__desc">Intreaba, contribuie si fii la curent cu toate noutatile comunitatii Wildfire.</p>
+          </div>
+          <div class="wf-discord-banner__right">
+            <a href="https://discord.gg/wildfire" target="_blank" rel="noopener noreferrer" class="wf-discord-btn orbitron-font">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057c.002.022.015.043.03.05a19.9 19.9 0 0 0 5.993 3.03.079.079 0 0 0 .084-.026c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+              Join Discord
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
   </main>
 </template>
 
@@ -209,6 +275,9 @@ const spySections = [
   { id: 'updates', label: 'Updates' },
   { id: 'quickstart', label: 'Quick Start' },
   { id: 'features', label: 'Why Wiki' },
+  { id: 'stats', label: 'Stats' },
+  { id: 'explore', label: 'Explore' },
+  { id: 'community', label: 'Community' },
 ]
 
 // Magnetic buttons
@@ -280,6 +349,41 @@ const quickstartCards = [
   { icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>', title: 'Contribuitori', desc: 'Documentatia este scrisa si mentinuta de echipa si comunitatea Wildfire.', img: '/wallpaper/contributors.png' },
   { icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="3" y="3" width="7" height="9"/><rect x="14" y="3" width="7" height="5"/><rect x="14" y="12" width="7" height="9"/><rect x="3" y="16" width="7" height="5"/></svg>', title: 'Panel Admin', desc: 'Gestioneaza pagini, contribuitori si statistici dintr-un singur dashboard.', img: '/wallpaper/panel.png' },
   { icon: '<svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>', title: 'Comunitate', desc: 'Alatura-te pe Discord pentru suport, discutii si events.', img: '/wallpaper/community.png' },
+]
+
+const statsData = [
+  { value: '500+', label: 'Membri Activi' },
+  { value: '200+', label: 'Pagini Docs' },
+  { value: '5', label: 'Sectiuni Wiki' },
+  { value: '24/7', label: 'Mereu Actualizat' },
+]
+
+const exploreSections = [
+  {
+    title: 'Informatii', desc: 'Reguli, ghiduri si informatii generale despre server.',
+    href: '/informatii/about', color: '#ff7800', badge: 'INFO',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4M12 8h.01"/></svg>',
+  },
+  {
+    title: 'Currency', desc: 'Valute, economie, Fire Coins si tranzactii.',
+    href: '/currency/', color: '#10b981', badge: 'ECONOMY',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><circle cx="12" cy="12" r="10"/><path d="M12 6v12M9 9h4.5a2.5 2.5 0 0 1 0 5H9"/></svg>',
+  },
+  {
+    title: 'Sisteme', desc: 'Sisteme de joc, mecanici si functionalitati.',
+    href: '/systems/skins/informatiiws', color: '#ef4444', badge: 'SYSTEMS',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>',
+  },
+  {
+    title: 'Market', desc: 'Shop, VIP Tiers, marketplace si Fire Coins.',
+    href: '/market/premium-shop/sanks', color: '#8b5cf6', badge: 'MARKET',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>',
+  },
+  {
+    title: 'Updates', desc: 'Cele mai recente actualizari si schimbari.',
+    href: '/updates_wiki/updateswiki', color: '#f59e0b', badge: 'UPDATES',
+    icon: '<svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>',
+  },
 ]
 
 const featureCards = [
@@ -804,6 +908,40 @@ onUnmounted(() => {
   color: #fff;
   transform: translateY(-1px);
   box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2), 0 0 12px rgba(255, 120, 0, 0.06);
+}
+
+/* ── Light mode button overrides ── */
+.wf-home--light .wf-btn--primary {
+  background: linear-gradient(145deg, #ff7800 0%, #e56a00 100%);
+  color: #fff;
+  border-color: rgba(255, 120, 0, 0.6);
+  box-shadow: 0 4px 20px rgba(255, 120, 0, 0.35), 0 0 0 1px rgba(255, 120, 0, 0.2);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.wf-home--light .wf-btn--primary:hover {
+  background: linear-gradient(145deg, #ff8c1a 0%, #ff7800 100%);
+  border-color: rgba(255, 120, 0, 0.85);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 36px rgba(255, 120, 0, 0.5), 0 0 0 1px rgba(255, 120, 0, 0.3), 0 0 24px rgba(255, 120, 0, 0.2);
+}
+
+.wf-home--light .wf-btn--ghost {
+  background: rgba(255, 255, 255, 0.82);
+  color: rgba(0, 0, 0, 0.72);
+  border: 1px solid rgba(255, 120, 0, 0.28);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 120, 0, 0.08);
+}
+
+.wf-home--light .wf-btn--ghost:hover {
+  background: rgba(255, 255, 255, 0.97);
+  border-color: rgba(255, 120, 0, 0.55);
+  color: #e06500;
+  transform: translateY(-1px);
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.1), 0 0 0 1px rgba(255, 120, 0, 0.2), 0 0 16px rgba(255, 120, 0, 0.12);
 }
 
 /* Scroll hint */
@@ -1899,5 +2037,281 @@ onUnmounted(() => {
   .wf-hero-split__right :deep(.lu-grid) {
     grid-template-columns: 1fr !important;
   }
+}
+
+/* ===== STATS BANNER ===== */
+.wf-stats__grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+}
+
+.wf-stat {
+  position: relative;
+  overflow: hidden;
+  padding: 32px 24px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, rgba(255, 120, 0, 0.04) 0%, rgba(8, 8, 12, 0.85) 60%);
+  border: 1px solid rgba(255, 120, 0, 0.1);
+  text-align: center;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wf-stat::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #ff7800 50%, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wf-stat:hover::before { transform: scaleX(1); }
+.wf-stat:hover {
+  border-color: rgba(255, 120, 0, 0.28);
+  transform: translateY(-4px);
+  box-shadow: 0 20px 48px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(255, 120, 0, 0.1);
+}
+
+.wf-stat__number {
+  display: block;
+  font-size: clamp(32px, 4vw, 48px);
+  font-weight: 900;
+  color: #ff7800;
+  margin-bottom: 10px;
+  text-shadow: 0 0 30px rgba(255, 120, 0, 0.45);
+  letter-spacing: -1px;
+}
+
+.wf-stat__label {
+  display: block;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--vp-c-text-3);
+}
+
+.wf-home--light .wf-stat {
+  background: rgba(255, 255, 255, 0.85);
+  border-color: rgba(255, 120, 0, 0.12);
+}
+
+@media (max-width: 768px) {
+  .wf-stats__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ===== SECTION EXPLORER ===== */
+.wf-explore__grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 14px;
+}
+
+.wf-explore-card {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 20px 20px;
+  border-radius: 18px;
+  background: linear-gradient(145deg, color-mix(in srgb, var(--sec-color) 5%, transparent) 0%, rgba(8, 8, 12, 0.82) 60%);
+  border: 1px solid color-mix(in srgb, var(--sec-color) 14%, transparent);
+  text-decoration: none;
+  color: var(--vp-c-text-1);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease, transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wf-explore-card__accent {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--sec-color) 50%, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wf-explore-card:hover .wf-explore-card__accent { transform: scaleX(1); }
+.wf-explore-card:hover {
+  border-color: color-mix(in srgb, var(--sec-color) 32%, transparent);
+  transform: translateY(-5px);
+  box-shadow:
+    0 20px 48px rgba(0, 0, 0, 0.3),
+    0 0 0 1px color-mix(in srgb, var(--sec-color) 12%, transparent),
+    0 0 28px color-mix(in srgb, var(--sec-color) 8%, transparent);
+}
+
+.wf-explore-card__icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 46px;
+  height: 46px;
+  border-radius: 12px;
+  background: color-mix(in srgb, var(--sec-color) 10%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sec-color) 18%, transparent);
+  color: var(--sec-color);
+  flex-shrink: 0;
+  transition: background 0.3s ease, box-shadow 0.3s ease;
+}
+
+.wf-explore-card:hover .wf-explore-card__icon {
+  background: color-mix(in srgb, var(--sec-color) 18%, transparent);
+  box-shadow: 0 0 16px color-mix(in srgb, var(--sec-color) 28%, transparent);
+}
+
+.wf-explore-card__title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--vp-c-text-1);
+  margin: 0;
+  letter-spacing: 0.3px;
+}
+
+.wf-explore-card__desc {
+  font-size: 12px;
+  color: var(--vp-c-text-3);
+  line-height: 1.5;
+  flex: 1;
+  margin: 0;
+}
+
+.wf-explore-card__badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 9px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: color-mix(in srgb, var(--sec-color) 12%, transparent);
+  border: 1px solid color-mix(in srgb, var(--sec-color) 20%, transparent);
+  color: var(--sec-color);
+  align-self: flex-start;
+  margin-top: auto;
+}
+
+.wf-home--light .wf-explore-card {
+  background: rgba(255, 255, 255, 0.88);
+  border-color: color-mix(in srgb, var(--sec-color) 16%, transparent);
+}
+
+@media (max-width: 1024px) {
+  .wf-explore__grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+@media (max-width: 640px) {
+  .wf-explore__grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+/* ===== DISCORD CTA ===== */
+.wf-discord-banner {
+  position: relative;
+  overflow: hidden;
+  padding: 52px 56px;
+  border-radius: 24px;
+  background: linear-gradient(135deg, rgba(88, 101, 242, 0.07) 0%, rgba(255, 120, 0, 0.04) 50%, rgba(8, 8, 12, 0.88) 100%);
+  border: 1px solid rgba(88, 101, 242, 0.16);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 48px;
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
+}
+
+.wf-discord-banner::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(88, 101, 242, 0.7) 50%, transparent);
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wf-discord-banner:hover::before { transform: scaleX(1); }
+.wf-discord-banner:hover {
+  border-color: rgba(88, 101, 242, 0.3);
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(88, 101, 242, 0.1), 0 0 40px rgba(88, 101, 242, 0.06);
+}
+
+.wf-discord-banner__glow {
+  position: absolute;
+  top: -60px; right: 5%;
+  width: 420px; height: 420px;
+  background: radial-gradient(circle, rgba(88, 101, 242, 0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.wf-discord-banner__eyebrow {
+  display: block;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3px;
+  color: rgba(88, 101, 242, 0.8);
+  margin-bottom: 10px;
+}
+
+.wf-discord-banner__title {
+  font-size: clamp(22px, 3vw, 32px);
+  font-weight: 800;
+  line-height: 1.2;
+  margin: 0 0 12px;
+  color: var(--vp-c-text-1);
+}
+
+.wf-discord-banner__desc {
+  font-size: 14.5px;
+  color: var(--vp-c-text-2);
+  line-height: 1.65;
+  max-width: 480px;
+  margin: 0;
+}
+
+.wf-discord-banner__right { flex-shrink: 0; }
+
+.wf-discord-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px 32px;
+  border-radius: 14px;
+  background: #5865f2;
+  color: #fff;
+  text-decoration: none;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: 0 8px 32px rgba(88, 101, 242, 0.4), 0 0 0 1px rgba(88, 101, 242, 0.2);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.wf-discord-btn:hover {
+  background: #4752c4;
+  transform: translateY(-3px);
+  box-shadow: 0 16px 48px rgba(88, 101, 242, 0.55), 0 0 0 1px rgba(88, 101, 242, 0.3);
+}
+
+.wf-home--light .wf-discord-banner {
+  background: rgba(255, 255, 255, 0.9);
+  border-color: rgba(88, 101, 242, 0.18);
+}
+
+@media (max-width: 768px) {
+  .wf-discord-banner {
+    flex-direction: column;
+    padding: 36px 28px;
+    gap: 28px;
+    text-align: center;
+  }
+  .wf-discord-banner__desc { max-width: 100%; }
 }
 </style>

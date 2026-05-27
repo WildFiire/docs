@@ -480,38 +480,51 @@ html.light .wf-search-overlay {
 /* ── Modal — Liquid Glass Shell ──────────────────────────── */
 .wf-search-modal {
   width: 100%;
-  max-width: 480px;
-  border-radius: 12px;
+  max-width: 560px;
+  border-radius: 20px;
   display: flex;
   flex-direction: column;
   position: relative;
   height: auto;
   min-height: unset;
 
-  /* DARK: True liquid glass */
-  background: rgba(10, 10, 12, 0.72);
-  backdrop-filter: blur(16px) saturate(160%);
-  -webkit-backdrop-filter: blur(16px) saturate(160%);
-  border: 1px solid rgba(255, 255, 255, 0.08);
+  /* DARK: True liquid glass with orange accent */
+  background: rgba(10, 10, 12, 0.80);
+  backdrop-filter: blur(24px) saturate(160%);
+  -webkit-backdrop-filter: blur(24px) saturate(160%);
+  border: 1px solid rgba(255, 120, 0, 0.14);
   box-shadow:
     0 0 0 1px rgba(255, 255, 255, 0.04) inset,
-    0 32px 64px -16px rgba(0, 0, 0, 0.7),
+    0 32px 80px -16px rgba(0, 0, 0, 0.75),
     0 8px 32px rgba(0, 0, 0, 0.4),
-    0 0 80px rgba(255, 120, 0, 0.04);
+    0 0 60px rgba(255, 120, 0, 0.08),
+    0 0 120px rgba(255, 120, 0, 0.04);
 }
 
-/* Iridescent top-edge glow (dark only) */
+/* Orange top accent line */
+.wf-search-modal::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 10%; right: 10%;
+  height: 1.5px;
+  background: linear-gradient(90deg, transparent, rgba(255, 120, 0, 0.7) 50%, transparent);
+  border-radius: 20px 20px 0 0;
+  pointer-events: none;
+  z-index: 2;
+}
+
+/* Iridescent border glow (dark only) */
 .wf-search-modal::before {
   content: '';
   position: absolute;
   inset: 0;
-  border-radius: 12px;
+  border-radius: 20px;
   padding: 1px;
   background: linear-gradient(
     135deg,
-    rgba(255, 255, 255, 0.18) 0%,
-    rgba(255, 255, 255, 0.04) 40%,
-    rgba(255, 120, 0, 0.12) 100%
+    rgba(255, 255, 255, 0.14) 0%,
+    rgba(255, 255, 255, 0.02) 35%,
+    rgba(255, 120, 0, 0.22) 100%
   );
   -webkit-mask:
     linear-gradient(#fff 0 0) content-box,
@@ -522,17 +535,18 @@ html.light .wf-search-overlay {
   z-index: 0;
 }
 
-/* LIGHT: Frosted white glass */
+/* LIGHT: Frosted white glass with orange tint */
 html:not(.dark) .wf-search-modal,
 html.light .wf-search-modal {
-  background: rgba(255, 255, 255, 0.82);
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(0, 0, 0, 0.08);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(24px) saturate(200%);
+  -webkit-backdrop-filter: blur(24px) saturate(200%);
+  border: 1px solid rgba(255, 120, 0, 0.14);
   box-shadow:
-    0 0 0 1px rgba(255, 255, 255, 0.9) inset,
-    0 24px 60px -12px rgba(0, 0, 0, 0.18),
-    0 8px 20px rgba(0, 0, 0, 0.08);
+    0 0 0 1px rgba(255, 255, 255, 0.95) inset,
+    0 24px 60px -12px rgba(0, 0, 0, 0.15),
+    0 8px 20px rgba(0, 0, 0, 0.07),
+    0 0 40px rgba(255, 120, 0, 0.06);
 }
 html:not(.dark) .wf-search-modal::before,
 html.light .wf-search-modal::before { display: none; }
@@ -541,21 +555,29 @@ html.light .wf-search-modal::before { display: none; }
 .search-header {
   display: flex;
   align-items: center;
-  padding: 0 10px;
-  height: 48px;
-  gap: 8px;
-  border-top-left-radius: 12px;
-  border-top-right-radius: 12px;
+  padding: 0 14px;
+  height: 54px;
+  gap: 10px;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
   overflow: hidden;
   position: relative;
   z-index: 1;
-  /* Glass header tint */
-  background: rgba(255, 255, 255, 0.03);
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
+  background: rgba(255, 120, 0, 0.03);
+  border-bottom: 1px solid rgba(255, 120, 0, 0.08);
+  transition: background 0.3s ease, border-color 0.3s ease;
+}
+.search-header:focus-within {
+  background: rgba(255, 120, 0, 0.05);
+  border-bottom-color: rgba(255, 120, 0, 0.18);
 }
 html:not(.dark) .search-header {
-  background: rgba(255, 255, 255, 0.6);
-  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 120, 0, 0.025);
+  border-bottom: 1px solid rgba(255, 120, 0, 0.08);
+}
+html:not(.dark) .search-header:focus-within {
+  background: rgba(255, 120, 0, 0.05);
+  border-bottom-color: rgba(255, 120, 0, 0.15);
 }
 
 .search-icon { color: #a1a1aa; flex-shrink: 0; }
@@ -568,8 +590,9 @@ html:not(.dark) .search-icon { color: #a1a1aa; }
   border: none;
   outline: none;
   color: #fff;
-  font-size: 14px;
+  font-size: 15px;
   font-weight: 400;
+  letter-spacing: 0.01em;
 }
 html:not(.dark) .search-header input { color: #09090b; }
 .search-header input::placeholder { color: #71717a; }
@@ -835,9 +858,10 @@ html:not(.dark) .ec-desc { color: #71717a; }
 }
 .result-item:hover,
 .result-item.active {
-  background: rgba(255, 120, 0, 0.06);
-  border-color: rgba(255, 120, 0, 0.2);
+  background: rgba(255, 120, 0, 0.08);
+  border-color: rgba(255, 120, 0, 0.25);
   border-left-color: #ff7800;
+  box-shadow: 0 2px 12px rgba(255, 120, 0, 0.06);
 }
 html:not(.dark) .result-item:hover,
 html:not(.dark) .result-item.active {
@@ -1112,21 +1136,20 @@ html:not(.dark) .empty-explore-mini { border-top-color: rgba(0, 0, 0, 0.05); }
   display: flex;
   align-items: center;
   gap: 10px;
-  padding: 6px 10px;
+  padding: 8px 14px;
   position: relative;
   flex-wrap: nowrap;
-  min-height: 40px;
+  min-height: 42px;
   overflow: visible;
   z-index: 10;
-  border-bottom-left-radius: 12px;
-  border-bottom-right-radius: 12px;
-  /* Glass footer tint */
-  background: rgba(255, 255, 255, 0.03);
-  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background: rgba(255, 120, 0, 0.03);
+  border-top: 1px solid rgba(255, 120, 0, 0.08);
 }
 html:not(.dark) .search-footer {
-  background: rgba(255, 255, 255, 0.5);
-  border-top: 1px solid rgba(0, 0, 0, 0.06);
+  background: rgba(255, 120, 0, 0.02);
+  border-top: 1px solid rgba(255, 120, 0, 0.08);
 }
 
 /* Filter zone (dropdown) */
@@ -1410,7 +1433,7 @@ html:not(.dark) .brand-name { color: #09090b; text-shadow: none; }
   }
   .wf-search-modal {
     max-width: 100%;
-    border-radius: 14px;
+    border-radius: 16px;
   }
   .search-body {
     max-height: 60vh;
