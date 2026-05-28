@@ -76,8 +76,6 @@ const dotClass = computed(() => tagData.value.dot)
   border-style: solid;
   position: relative;
   overflow: hidden;
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
 }
 
 .tag-text {

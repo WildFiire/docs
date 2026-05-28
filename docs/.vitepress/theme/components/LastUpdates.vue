@@ -232,9 +232,11 @@ function cardStyle(color) {
   background: #22c55e;
   box-shadow: 0 0 6px #22c55e;
 }
-@keyframes luPulse {
-  0% { transform: scale(1); opacity: 0.8; }
-  100% { transform: scale(2.2); opacity: 0; }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes luPulse {
+    0% { transform: scale(1); opacity: 0.8; }
+    100% { transform: scale(2.2); opacity: 0; }
+  }
 }
 
 .lu-title {
@@ -544,9 +546,11 @@ html:not(.dark) .lu-card:hover .lu-card__avatar-ring {
 }
 
 /* ── Skeleton ── */
-@keyframes luShimmer {
-  0% { background-position: -400px 0; }
-  100% { background-position: 400px 0; }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes luShimmer {
+    0% { background-position: -400px 0; }
+    100% { background-position: 400px 0; }
+  }
 }
 .lu-card--sk { min-height: 140px; pointer-events: none; }
 .sk-strip {

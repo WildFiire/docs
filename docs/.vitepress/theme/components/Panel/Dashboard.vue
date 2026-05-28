@@ -42,8 +42,8 @@
         </template>
       </PanelSidebar>
 
-      <main ref="mainContent" class="dashboard-main" :class="{ 'sidebar-collapsed': sidebarCollapsed }" data-lenis-prevent>
-        <div class="view-container">
+      <main ref="mainContent" class="dashboard-main" :class="{ 'sidebar-collapsed': sidebarCollapsed, 'studio-mode': currentView === 'studio' }" data-lenis-prevent>
+        <div class="view-container" :class="{ 'studio-view-container': currentView === 'studio' }">
           <!-- DASHBOARD VIEW -->
           <div v-if="currentView === 'dashboard'" class="dashboard-view">
             <template v-if="isLoading">
@@ -2316,9 +2316,25 @@
   padding-left: 24px;
 }
 
+.dashboard-main.studio-mode {
+  padding: 0;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
 .view-container {
   max-width: 1400px;
   margin: 0 auto;
+}
+
+.view-container.studio-view-container {
+  max-width: none;
+  margin: 0;
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
 }
 
 .dashboard-view {

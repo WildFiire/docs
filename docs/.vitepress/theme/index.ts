@@ -5,10 +5,8 @@ import DefaultTheme, { VPButton } from 'vitepress/theme'
 import './style.css'
 import { Icon } from '@iconify/vue'
 import { searchState } from './store'
-import Lenis from 'lenis'
-
-// Lenis instance - shared across components
-let lenisInstance: Lenis | null = null
+// Lenis instance - shared across components (lazily imported)
+let lenisInstance: any | null = null
 let lenisRafId: number | null = null
 
 // ── Horizontal-scroll lock during text-selection drag ──────────────────────
@@ -75,8 +73,8 @@ function initSelectionScrollLock() {
   setTimeout(attachLocks, 1000)
 }
 
-// Initialize Lenis smooth scroll
-function initLenis() {
+// Initialize Lenis smooth scroll (Lenis is lazy-imported to keep it out of the main bundle)
+async function initLenis() {
   // Stop Lenis during text selection so it doesn't fight the browser
   document.addEventListener('selectstart', () => {
     lenisInstance?.stop()
@@ -87,16 +85,18 @@ function initLenis() {
 
   if (typeof window === 'undefined' || lenisInstance) return
 
+  const { default: Lenis } = await import('lenis')
+
   lenisInstance = new Lenis({
     duration: 1.0,
-    easing: (t) => 1 - Math.pow(1 - t, 4),
+    easing: (t: number) => 1 - Math.pow(1 - t, 4),
     orientation: 'vertical',
     gestureOrientation: 'vertical',
     smoothWheel: true,
     wheelMultiplier: 1.1,
     touchMultiplier: 2,
     infinite: false,
-    prevent: (node) => node.closest('.VPSidebar') !== null,
+    prevent: (node: Element) => node.closest('.VPSidebar') !== null,
   })
 
   function raf(time: number) {

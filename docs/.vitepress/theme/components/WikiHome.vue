@@ -986,6 +986,8 @@ onUnmounted(() => {
   animation: scrollWheel 2.5s ease-in-out infinite;
 }
 
+@media (prefers-reduced-motion: no-preference) {
+
 @keyframes scrollWheel {
   0%, 100% { 
     transform: translateY(0); 
@@ -1010,6 +1012,8 @@ onUnmounted(() => {
   0%, 100% { opacity: 0.4; transform: scaleY(0.6); transform-origin: top; }
   50% { opacity: 1; transform: scaleY(1); }
 }
+
+} /* end prefers-reduced-motion */
 
 /* ===== QUICK START — STAGGERED CARDS ===== */
 .wf-quickstart {
@@ -1584,9 +1588,11 @@ onUnmounted(() => {
   display: none;
 }
 
+@media (prefers-reduced-motion: no-preference) {
 @keyframes cursorBlink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
 }
 
 /* ===== SCROLL ANIMATIONS ===== */
@@ -1618,9 +1624,11 @@ onUnmounted(() => {
 }
 
 /* ===== GENERIC ANIMATIONS ===== */
-@keyframes fadeSlideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes fadeSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
 }
 
 /* ===== RESPONSIVE ===== */
@@ -1729,12 +1737,15 @@ onUnmounted(() => {
 
 /* Single parent float replaces 7 individual per-element translateZ animations
    — reduces GPU compositing layers from 7+ down to 1 */
-@keyframes floatZ-logo {
-  0%, 100% { transform: translateZ(50px); }
-  50% { transform: translateZ(70px) translateY(-5px); }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes floatZ-logo {
+    0%, 100% { transform: translateZ(50px); }
+    50% { transform: translateZ(70px) translateY(-5px); }
+  }
 }
 
 .wf-hero-split__left-inner .wf-hero__logo {
+  will-change: transform;
   animation: floatZ-logo 6s ease-in-out infinite;
 }
 

@@ -199,9 +199,11 @@ onMounted(() => {
   animation: watermarkPulse 6s ease-in-out infinite;
 }
 
-@keyframes watermarkPulse {
-  0%, 100% { opacity: 0.3; transform: scale(1); }
-  50% { opacity: 0.7; transform: scale(1.01); }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes watermarkPulse {
+    0%, 100% { opacity: 0.3; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.01); }
+  }
 }
 
 /* ===== TOP ACCENT ===== */
@@ -459,9 +461,11 @@ onMounted(() => {
   animation: heartPulse 2s ease-in-out infinite;
 }
 
-@keyframes heartPulse {
-  0%, 100% { transform: scale(1); }
-  50% { transform: scale(1.15); }
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes heartPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.15); }
+  }
 }
 
 .footer-bottom-right {
