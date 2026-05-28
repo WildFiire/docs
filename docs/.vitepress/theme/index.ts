@@ -152,6 +152,7 @@ import MobileScrollSpy from './components/MobileScrollSpy.vue'
 import WfTOC from './components/WfTOC.vue'
 import SidebarFooter from './components/SidebarFooter.vue'
 import SidebarFloatingControls from './components/SidebarFloatingControls.vue'
+import PageTag from './components/PageTag.vue'
 
 // Componente lazy — split in chunks separate, nu blocheaza theme.js
 const DocEnhancements = defineAsyncComponent(() => import('./components/DocEnhancements.vue'))
@@ -194,6 +195,11 @@ export default {
       'home-hero-before': () => h(WikiHome),
 
       'doc-footer-before': () => h(FeedbackWidget),
+
+      'doc-before': () => {
+        const fm = frontmatter.value
+        return (fm.tag || fm.category || fm.status) ? h(PageTag) : null
+      },
 
       // Navbar
       'sidebar-nav-before': () => frontmatter.value.layout === false ? null : h('div', { class: 'wf-sidebar-sticky-nav' }, [
@@ -363,6 +369,7 @@ export default {
 
     // NOUA COMPONENTA PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)
+    app.component('PageTag', PageTag)
 
     // Toate tag-urile
 
