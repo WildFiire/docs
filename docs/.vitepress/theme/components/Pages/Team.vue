@@ -280,7 +280,7 @@ const hierarchyDefinition = [
     color: '#7a3c3c',
     emoji: '',
     roleClass: 'founder',
-    roleBio: 'Fondatorul comunității Wildfire. Se ocupă exclusiv de dezvoltare (scripting, infrastructură) și de mentenanța tehnică a serverelor.',
+    roleBio: `Fondatorul comunității Wildfire. Se ocupă exclusiv de dezvoltare (scripting, infrastructură) și de mentenanța tehnică a serverelor.`,
     members: [
       { 
         id: 'trapi', 
@@ -301,7 +301,7 @@ const hierarchyDefinition = [
     color: '#a60303',
     emoji: '👑',
     roleClass: 'cm',
-    roleBio: 'Liderul suprem al echipei. Ia deciziile finale, vine cu cele mai bune idei de dezvoltare, gestionează tot staff-ul și coordonează comunitatea.',
+    roleBio: `Liderul suprem al echipei. Ia deciziile finale, vine cu cele mai bune idei de dezvoltare, gestionează tot staff-ul și coordonează comunitatea.`,
     members: [
       { 
         id: 'iannc', 
@@ -336,7 +336,7 @@ const hierarchyDefinition = [
     color: '#c4511a',
     emoji: '🐦‍🔥',
     roleClass: 'comm.advisor',
-    roleBio: 'Sfătuitor al comunității, oferă suport și expertiză în luarea deciziilor importante, asigurându-se de bunul mers al proiectelor.',
+    roleBio: `Sfătuitor al comunității, oferă suport și expertiză în luarea deciziilor importante, asigurându-se de bunul mers al proiectelor.`,
     members: [
       { 
         id: 'username', 
@@ -384,7 +384,7 @@ const hierarchyDefinition = [
     color: '#9b59b6',
     emoji: '💜',
     roleClass: 'sm',
-    roleBio: 'Coordonatorul principal al staff-ului. Îndrumă și supraveghează întreaga echipă, soluționează conflictele interne și raportează direct către conducere.',
+    roleBio: `Coordonatorul principal al staff-ului. Îndrumă și supraveghează întreaga echipă, soluționează conflictele interne și raportează direct către conducere.`,
     members: [
       { 
         id: 'booyeto', 
@@ -406,7 +406,7 @@ const hierarchyDefinition = [
     color: '#4a9eff',
     emoji: '🌀',
     roleClass: 'admin',
-    roleBio: 'Gestionează situații complexe independent și contribuie cu idei. Verifică aptitudinile adminilor, ajută la formarea lor și ține legătura cu gradele inferioare.',
+    roleBio: `Gestionează situații complexe independent și contribuie cu idei. Verifică aptitudinile adminilor, ajută la formarea lor și ține legătura cu gradele inferioare.`,
     members: [
       { 
         id: 'dennis', 
@@ -441,21 +441,8 @@ const hierarchyDefinition = [
     color: '#f1c40f',
     emoji: '🔱',
     roleClass: 'mod',
-    roleBio: 'Menține ordinea și disciplina pe server. Funcționează ca un mentor pentru Helperi, observându-le comportamentul și intervenind atunci când este cazul.',
+    roleBio: `Menține ordinea și disciplina pe server. Funcționează ca un mentor pentru Helperi, observându-le comportamentul și intervenind atunci când este cazul.`,
     members: [
-      { 
-        id: 'codrin', 
-        name: 'codriin', 
-        display: 'skill issue', 
-        fullRole: 'Moderator CS2', 
-        emoji: '🔱', 
-        discordId: '998255640256446516', 
-        color: '#f1c40f', 
-        roleClass: 'mod', 
-        cls: '', 
-        init: 'C', 
-        crown: false
-      },
       { 
         id: 'juanito', 
         name: 'dibu37', 
@@ -476,7 +463,7 @@ const hierarchyDefinition = [
     color: '#2ecc71',
     emoji: '🔰',
     roleClass: 'helper',
-    roleBio: 'Oferă suport jucătorilor noi, raportează problemele gradelor superioare și menține o atitudine prietenoasă pe parcursul stagiului său de pregătire.',
+    roleBio: `Oferă suport jucătorilor noi, raportează problemele gradelor superioare și menține o atitudine prietenoasă pe parcursul stagiului său de pregătire.`,
     members: [
       { 
         id: 'adn', 
