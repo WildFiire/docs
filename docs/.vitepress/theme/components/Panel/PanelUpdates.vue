@@ -233,11 +233,11 @@ export default {
 .pu-btn.primary {
   background: linear-gradient(135deg, #ff7800, #f59e0b);
   color: var(--text-primary);
-  box-shadow: 0 4px 14px rgba(255,120,0,0.25);
+  /* glow removed */
 }
 .pu-btn.primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255,120,0,0.35);
+  /* glow removed */
 }
 .pu-btn.secondary {
   background: rgba(255,255,255,0.05);

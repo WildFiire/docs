@@ -233,6 +233,12 @@ outline: "deep"
         <td><span class="wf-badge wf-badge-sm">Server Manager</span></td>
       </tr>
       <tr>
+        <td><span class="wf-cmd-pill"><Icon icon="lucide:map" width="13" height="13" />!map</span></td>
+        <td><code>!map &lt;de_harta&gt;</code></td>
+        <td>Schimba harta serverului.</td>
+        <td><span class="wf-badge wf-badge-sm">Server Manager</span></td>
+      </tr>
+      <tr>
         <td><span class="wf-cmd-pill"><Icon icon="lucide:map" width="13" height="13" />!ar</span></td>
         <td><code>!ar</code></td>
         <td>Deschide editorul de zone (Zones Editor).</td>

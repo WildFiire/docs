@@ -3,24 +3,32 @@
 
     <div class="ps-rail" aria-hidden="true"></div>
 
-    <!-- BRAND -->
-    <div class="ps-brand" @click="$emit('navigate','dashboard')">
-      <div class="ps-logo-wrap">
-        <slot name="logo">
-          <img src="/icons/wildfire.webp" alt="WildFire" width="72" height="72">
-        </slot>
+    <!-- HEADER -->
+    <div class="ps-header" :class="{ slim: collapsed }">
+      <div class="ps-brand" @click="$emit('navigate','dashboard')">
+        <div class="ps-logo-wrap">
+          <slot name="logo">
+            <img src="/icons/wildfire.webp" alt="WildFire" width="72" height="72">
+          </slot>
+        </div>
+        <div class="ps-brand-text" v-show="!collapsed">
+          <span class="ps-brand-name">
+            <span class="ps-brand-wf">{{ brandName1 }}</span><span class="ps-brand-fire">{{ brandName2 }}</span>
+          </span>
+          <span class="ps-brand-tag">{{ brandSub }}</span>
+        </div>
       </div>
-      <div class="ps-brand-text" v-show="!collapsed">
-        <span class="ps-brand-name">
-          <span class="ps-brand-wf">WILD</span><span class="ps-brand-fire">FIRE</span>
-        </span>
-        <span class="ps-brand-tag">CONTROL PANEL</span>
-      </div>
+      
+      <!-- Top Collapse Toggle -->
+      <button class="ps-collapse-top" @click="$emit('action', 'toggle-collapse')" :title="collapsed ? 'Expand' : 'Collapse'">
+        <Icon v-if="collapsed" icon="solar:hamburger-menu-linear" width="18" height="18" />
+        <Icon v-else icon="solar:sidebar-minimalistic-line-duotone" width="18" height="18" />
+      </button>
     </div>
 
     <!-- NAV -->
     <nav class="ps-nav" data-lenis-prevent>
-      <template v-for="group in navGroups" :key="group.label">
+      <template v-for="group in activeNavGroups" :key="group.label">
         <!-- Group label -->
         <div class="ps-group-label" v-show="!collapsed">
           <span class="ps-gl-line" aria-hidden="true"></span>
@@ -30,13 +38,15 @@
         <div class="ps-gl-dot" v-show="collapsed" aria-hidden="true"></div>
 
         <!-- Items -->
-        <button
+        <component
+          :is="item.link ? 'a' : 'button'"
           v-for="item in group.items"
           :key="item.id"
           class="ps-item"
           :class="{ active: currentView === item.id, 'ps-item-profile': item.id === 'profile' }"
           :title="item.label"
-          @click="$emit('navigate', item.id)"
+          :href="item.link"
+          @click="item.link ? null : $emit('navigate', item.id)"
         >
           <span class="ps-track" aria-hidden="true"></span>
           <span class="ps-fill"  aria-hidden="true"></span>
@@ -51,55 +61,57 @@
             class="ps-badge"
             :class="item.badge === 'NEW' ? 'badge-new' : 'badge-live'"
           >{{ item.badge }}</span>
-        </button>
+        </component>
       </template>
     </nav>
 
-    <!-- FOOTER -->
+    <!-- FOOTER (PRO) -->
     <div class="ps-footer">
+      
+      <!-- User identity card (Pro styling) -->
+      <div class="ps-user-card-wrap" :class="{ slim: collapsed }" v-if="userLogin">
+        <div class="ps-user" :class="{ slim: collapsed }" @click="$emit('navigate','profile')">
+          <div class="ps-av-wrap" :title="userLogin">
+            <div class="ps-av-ring"></div>
+              <img :src="userAvatar" :alt="userLogin" class="ps-av">
+            </div>
+            <div class="ps-user-info" v-show="!collapsed" :title="userLogin">
+              <span class="ps-uname">{{ userLogin }}</span>
+              <div class="ps-role-badge">
+                <span class="ps-urole">MEMBER</span>
+              </div>
+            </div>
+        </div>
+      </div>
 
-      <!-- Back to wiki — top action -->
-      <a href="/" class="ps-back" :class="{ slim: collapsed }" title="Back to Wiki">
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-          <polyline points="15 18 9 12 15 6"/>
-        </svg>
-        <span v-show="!collapsed">Back to Wiki</span>
+      <!-- Quick Actions Dock (Pro styling) -->
+      <div class="ps-actions-wrap" v-show="!collapsed">
+        <div class="ps-actions-slot">
+          <button class="ps-act-btn" @click="$emit('action', 'issue')" title="New Issue">
+            <Icon icon="solar:info-circle-linear" width="16" height="16" />
+          </button>
+          <div class="ps-act-divider"></div>
+          <button class="ps-act-btn" @click="$emit('action', 'refresh')" title="Refresh Data">
+            <Icon icon="solar:refresh-circle-linear" width="16" height="16" />
+          </button>
+          <div class="ps-act-divider"></div>
+          <button class="ps-act-btn" @click="$emit('action', 'theme')" title="Toggle Theme">
+            <svg v-if="isLightTheme" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
+            <svg v-else viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+          </button>
+          
+          <div class="ps-act-divider"></div>
+          <button class="ps-act-btn ps-act-danger" @click.stop="$emit('logout')" title="Logout">
+            <Icon icon="solar:logout-2-linear" width="18" height="18" />
+          </button>
+        </div>
+      </div>
+      
+      <!-- Return to Docs button -->
+      <a href="/" class="ps-back" :class="{ slim: collapsed }" title="Return to Docs">
+        <Icon icon="solar:double-alt-arrow-left-line-duotone" width="16" height="16" />
+        <span v-show="!collapsed">Return to Docs</span>
       </a>
-
-      <!-- GLOBAL ACTIONS -->
-      <div class="ps-actions-slot" v-show="!collapsed">
-        <button class="ps-act-btn" @click="$emit('action', 'issue')" title="New Issue">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/></svg>
-        </button>
-        <button class="ps-act-btn" @click="$emit('action', 'pr')" title="New Pull Request">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="18" cy="18" r="3"/><circle cx="6" cy="6" r="3"/><path d="M13 6h3a2 2 0 0 1 2 2v7"/><line x1="6" y1="9" x2="6" y2="21"/></svg>
-        </button>
-        <button class="ps-act-btn" @click="$emit('action', 'refresh')" title="Refresh Data">
-          <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12a9 9 0 0 1-9 9 9 9 0 0 1-9-9 9 9 0 0 1 9-9"/><path d="M21 3v6h-6"/></svg>
-        </button>
-        <button class="ps-act-btn" @click="$emit('action', 'theme')" title="Toggle Theme">
-          <svg v-if="isLightTheme" viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
-          <svg v-else viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
-        </button>
-      </div>
-
-      <!-- User identity row -->
-      <div class="ps-user" :class="{ slim: collapsed }">
-        <div class="ps-av-wrap" @click="$emit('navigate','profile')" :title="userLogin">
-          <img :src="userAvatar" :alt="userLogin" class="ps-av">
-        </div>
-        <div class="ps-user-info" v-show="!collapsed" @click="$emit('navigate','profile')" :title="userLogin">
-          <span class="ps-uname">{{ userLogin }}</span>
-          <span class="ps-urole">Member</span>
-        </div>
-        <button class="ps-logout" @click.stop="$emit('logout')" title="Sign Out" v-show="!collapsed">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
-            <polyline points="16 17 21 12 16 7"/>
-            <line x1="21" y1="12" x2="9" y2="12"/>
-          </svg>
-        </button>
-      </div>
 
     </div>
 
@@ -107,8 +119,11 @@
 </template>
 
 <script>
+import { Icon } from '@iconify/vue'
+
 export default {
   name: 'PanelSidebar',
+  components: { Icon },
   emits: ['navigate', 'logout', 'action'],
   props: {
     collapsed:    { type: Boolean, default: false },
@@ -116,6 +131,15 @@ export default {
     userLogin:    { type: String,  default: '' },
     userAvatar:   { type: String,  default: '' },
     isLightTheme: { type: Boolean, default: false },
+    customNavGroups: { type: Array, default: null },
+    brandName1:   { type: String, default: 'WILD' },
+    brandName2:   { type: String, default: 'FIRE' },
+    brandSub:     { type: String, default: 'DASHBOARD' },
+  },
+  computed: {
+    activeNavGroups() {
+      return this.customNavGroups || this.navGroups;
+    }
   },
   data() {
     return {
@@ -277,6 +301,7 @@ export default {
   overflow-y: hidden;
   isolation: isolate;
   background: var(--bg);
+  color: var(--txt);
   border-right: 1px solid var(--border);
   box-shadow: 4px 0 48px rgba(0,0,0,0.6);
   transition: width var(--dur) var(--ease);
@@ -302,24 +327,67 @@ export default {
   z-index: 0;
 }
 
-/* ── BRAND ── */
+/* ── HEADER & BRAND ── */
+.ps-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 14px;
+  border-bottom: 1px solid var(--border);
+  position: relative;
+  z-index: 2;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+}
+.ps-root.ps-light .ps-header {
+  border-bottom-color: rgba(0,0,0,0.07);
+}
+.ps-header.slim {
+  flex-direction: column;
+  padding: 16px 0;
+  gap: 16px;
+  justify-content: center;
+}
+
 .ps-brand {
   display: flex;
   align-items: center;
   gap: 12px;
-  padding: 18px 14px 16px;
   cursor: pointer;
-  position: relative;
-  z-index: 2;
-  border-bottom: 1px solid var(--border);
+  text-decoration: none;
+  flex: 1;
+  min-width: 0;
+  border-radius: 12px;
+  padding: 4px;
+  margin: -4px;
   transition: background 0.18s;
-  flex-shrink: 0;
 }
 .ps-brand:hover { background: rgba(255,255,255,0.025); }
+.ps-root.ps-light .ps-brand:hover { background: rgba(0,0,0,0.018); }
 
 .ps-root.collapsed .ps-brand {
-  padding: 14px 0;
+  display: flex;
   justify-content: center;
+}
+
+.ps-collapse-top {
+  background: transparent;
+  border: none;
+  color: var(--txt-m);
+  width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+.ps-collapse-top:hover {
+  background: rgba(255,255,255,0.05);
+  color: var(--txt);
+}
+.ps-root.ps-light .ps-collapse-top:hover {
+  background: rgba(0,0,0,0.05);
+  color: #000;
 }
 
 /* Logo box — sharp, minimal */
@@ -475,7 +543,7 @@ export default {
   border-color: rgba(255,120,0,0.18);
   transform: translateX(0) !important;
   background: linear-gradient(115deg, rgba(255,120,0,0.12) 0%, rgba(255,80,0,0.05) 55%, transparent 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.05), 0 0 16px rgba(255,120,0,0.07);
+  /* glow removed */
 }
 .ps-item.active .ps-track { opacity: 1; transform: scaleY(1); }
 .ps-item.active .ps-fill  { opacity: 0; }
@@ -489,7 +557,7 @@ export default {
 }
 .ps-item.active .ps-icon {
   opacity: 1;
-  filter: drop-shadow(0 0 5px rgba(255,120,0,0.55));
+  /* glow removed */
 }
 
 .ps-label {
@@ -534,112 +602,239 @@ export default {
   border-color: var(--ac);
 }
 
-/* ── FOOTER ── */
-/* ── FOOTER ── */
+/* ── PRO FOOTER STYLES ── */
 .ps-footer {
-  border-top: 1px solid var(--border);
-  display: flex;
-  flex-direction: column;
   position: relative;
   z-index: 2;
   flex-shrink: 0;
+  padding: 20px 14px 14px;
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.18));
+}
+.ps-footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 14px; right: 14px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.06), transparent);
+}
+.ps-root.ps-light .ps-footer {
+  background: linear-gradient(180deg, transparent, rgba(0,0,0,0.02));
+}
+.ps-root.ps-light .ps-footer::before {
+  background: linear-gradient(90deg, transparent, rgba(0,0,0,0.06), transparent);
 }
 
-/* Back to Wiki — top nav action */
-.ps-back {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 10px 14px;
-  font-size: 10px;
-  font-weight: 600;
-  letter-spacing: 0.3px;
-  color: var(--txt-m);
-  text-decoration: none;
-  border-bottom: 1px solid var(--border);
-  transition: background 0.18s, color 0.18s;
-  font-family: 'Inter', sans-serif;
-  opacity: 0.7;
+.ps-user-card-wrap {
+  margin-bottom: 12px;
 }
-.ps-back:hover { background: rgba(255,255,255,0.04); color: var(--txt); opacity: 1; }
-.ps-back.slim  { justify-content: center; padding: 10px; }
-
-/* Custom Actions Slot */
-.ps-actions-slot {
-  display: flex;
-  gap: 8px;
-  padding: 12px 14px;
-  border-bottom: 1px solid var(--border);
-  justify-content: center;
-}
-.ps-act-btn {
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  width: 32px;
-  height: 32px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--txt-m);
-  cursor: pointer;
-  transition: 0.2s;
-}
-.ps-act-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
-  color: var(--txt);
-  border-color: var(--txt-m);
-  transform: translateY(-2px);
+.ps-user-card-wrap.slim {
+  margin-bottom: 0;
 }
 
-/* User identity strip */
 .ps-user {
   display: flex;
   align-items: center;
-  gap: 10px;
-  padding: 12px 12px;
+  gap: 14px;
+  padding: 10px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  border-radius: 16px;
   cursor: pointer;
-  transition: background 0.18s;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  text-decoration: none;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1), inset 0 1px 0 rgba(255,255,255,0.04);
+  position: relative;
+  overflow: hidden;
 }
-.ps-user:hover { background: rgba(255,255,255,0.04); }
-.ps-user.slim  { justify-content: center; padding: 12px; }
+.ps-user::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, rgba(255,120,0,0.1) 0%, transparent 100%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.ps-user:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 120, 0, 0.2);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.2), 0 0 0 1px rgba(255,120,0,0.1), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+.ps-user:hover::after { opacity: 1; }
 
-.ps-av-wrap { position: relative; flex-shrink: 0; cursor: pointer; }
-.ps-av {
-  width: 32px; height: 32px;
-  border-radius: 8px;
-  border: 1px solid var(--border);
-  object-fit: cover; display: block;
-  transition: border-color 0.2s;
+.ps-user.slim {
+  padding: 12px;
+  background: transparent;
+  border-color: transparent;
+  box-shadow: none;
 }
-.ps-user:hover .ps-av { border-color: rgba(255,120,0,0.4); }
+.ps-user.slim:hover {
+  transform: scale(1.05);
+}
+
+.ps-root.ps-light .ps-user {
+  background: #ffffff;
+  border-color: rgba(0,0,0,0.06);
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+}
+.ps-root.ps-light .ps-user:hover {
+  background: #ffffff;
+  border-color: rgba(255,120,0,0.3);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+}
+
+.ps-av-wrap {
+  position: relative;
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 38px; height: 38px;
+}
+.ps-av-ring {
+  position: absolute;
+  inset: -1px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ff7800, #ff2200);
+  opacity: 0;
+  transition: opacity 0.3s;
+  z-index: 0;
+}
+.ps-user:hover .ps-av-ring { opacity: 1; }
+
+.ps-av {
+  width: 100%; height: 100%;
+  border-radius: 11px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  object-fit: cover;
+  position: relative;
+  z-index: 2;
+  background: var(--bg);
+}
+.ps-root.ps-light .ps-av { border-color: rgba(0,0,0,0.1); }
 
 .ps-user-info {
   display: flex; flex-direction: column;
-  gap: 2px; min-width: 0; flex: 1;
-  cursor: pointer;
+  gap: 4px; min-width: 0; flex: 1;
+  position: relative; z-index: 2;
 }
 .ps-uname {
-  font-size: 11.5px; font-weight: 700;
+  font-size: 13px; font-weight: 700;
   color: var(--txt);
   white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
-}
-.ps-urole {
-  font-size: 9px; font-weight: 500;
-  color: var(--txt-m); letter-spacing: 0.5px;
-  text-transform: uppercase; opacity: 0.6;
+  font-family: 'Inter', sans-serif;
+  letter-spacing: -0.2px;
+  line-height: 1;
 }
 
-.ps-logout {
-  background: none; border: none;
-  color: var(--txt-m); padding: 5px;
-  cursor: pointer; border-radius: 6px;
-  display: flex; align-items: center;
-  flex-shrink: 0;
-  transition: color 0.18s, background 0.18s;
-  opacity: 0.45;
+.ps-role-badge {
+  background: linear-gradient(90deg, rgba(255,120,0,0.15), rgba(255,40,0,0.05));
+  border: 1px solid rgba(255,120,0,0.2);
+  padding: 3px 8px;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
 }
-.ps-logout:hover { color: #e74c3c; background: rgba(231,76,60,0.1); opacity: 1; }
+
+.ps-urole {
+  font-size: 8.5px; font-weight: 800;
+  color: var(--ac); letter-spacing: 1px;
+  text-transform: uppercase;
+  line-height: 1;
+  font-family: 'Orbitron', sans-serif;
+}
+
+.ps-actions-wrap {
+  margin-bottom: 8px;
+}
+.ps-actions-slot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 6px;
+  background: rgba(0, 0, 0, 0.2);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 14px;
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.3);
+}
+.ps-root.ps-light .ps-actions-slot {
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.06);
+  box-shadow: inset 0 2px 4px rgba(0,0,0,0.02);
+}
+
+.ps-act-divider {
+  width: 1px; height: 16px;
+  background: rgba(255,255,255,0.1);
+}
+.ps-root.ps-light .ps-act-divider { background: rgba(0,0,0,0.1); }
+
+.ps-act-btn {
+  background: transparent;
+  border: none;
+  border-radius: 10px;
+  width: 36px;
+  height: 36px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--txt-m);
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.16,1,0.3,1);
+}
+.ps-act-btn:hover {
+  background: rgba(255, 255, 255, 0.08);
+  color: var(--txt);
+  transform: translateY(-1px);
+}
+.ps-root.ps-light .ps-act-btn:hover {
+  background: #ffffff;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+.ps-act-danger:hover {
+  background: rgba(239, 68, 68, 0.15) !important;
+  color: #ef4444 !important;
+}
+
+.ps-back {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  padding: 12px;
+  border-radius: 12px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  color: var(--txt-m);
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.05);
+  cursor: pointer;
+  transition: all 0.3s cubic-bezier(0.16,1,0.3,1);
+  font-family: 'Inter', sans-serif;
+  text-transform: uppercase;
+  text-decoration: none;
+}
+.ps-root.ps-light .ps-back {
+  background: rgba(0,0,0,0.03);
+  border-color: rgba(0,0,0,0.06);
+}
+.ps-back:hover {
+  background: rgba(255, 120, 0, 0.1);
+  border-color: rgba(255, 120, 0, 0.3);
+  color: var(--ac);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(255,120,0,0.15);
+}
+.ps-root.ps-light .ps-back:hover {
+  background: #ffffff;
+}
+.ps-back.slim {
+  padding: 12px;
+}
 
 /* ── MOBILE ── */
 @media (max-width: 640px) {
@@ -682,28 +877,15 @@ export default {
   color: var(--ac);
   border-color: rgba(255,120,0,0.18);
   background: linear-gradient(115deg, rgba(255,120,0,0.09) 0%, rgba(255,80,0,0.04) 55%, transparent 100%);
-  box-shadow: inset 0 1px 0 rgba(255,255,255,0.8), 0 2px 12px rgba(255,120,0,0.1);
+  /* glow removed */
 }
 .ps-root.ps-light .ps-gl-text { color: #9090a8; }
 .ps-root.ps-light .ps-gl-line { background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08)); }
 .ps-root.ps-light .ps-gl-line:first-child { background: linear-gradient(90deg, rgba(0,0,0,0.08), transparent); }
 .ps-root.ps-light .ps-gl-dot { background: rgba(255,120,0,0.25); }
 
-.ps-root.ps-light .ps-footer { border-top-color: rgba(0,0,0,0.07); }
-.ps-root.ps-light .ps-user:hover { background: rgba(0,0,0,0.03); }
-.ps-root.ps-light .ps-av { border-color: rgba(0,0,0,0.12); }
-.ps-root.ps-light .ps-user:hover .ps-av { border-color: rgba(255,120,0,0.35); }
-.ps-root.ps-light .ps-uname { color: #16161e; }
-.ps-root.ps-light .ps-back { border-bottom-color: rgba(0,0,0,0.07); color: #787896; }
-.ps-root.ps-light .ps-back:hover { background: rgba(0,0,0,0.03); color: #16161e; }
-.ps-root.ps-light .ps-logout:hover { background: rgba(231,76,60,0.08); }
-
-.ps-root.ps-light .ps-act-btn {
-  background: rgba(0, 0, 0, 0.03);
-  color: var(--txt-m);
-}
-.ps-root.ps-light .ps-act-btn:hover {
-  background: rgba(0, 0, 0, 0.06);
-  color: #1a1a2e;
-}
+.ps-root.ps-light .ps-gl-text { color: #9090a8; }
+.ps-root.ps-light .ps-gl-line { background: linear-gradient(90deg, transparent, rgba(0,0,0,0.08)); }
+.ps-root.ps-light .ps-gl-line:first-child { background: linear-gradient(90deg, rgba(0,0,0,0.08), transparent); }
+.ps-root.ps-light .ps-gl-dot { background: rgba(255,120,0,0.25); }
 </style>

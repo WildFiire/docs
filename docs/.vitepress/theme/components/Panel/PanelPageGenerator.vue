@@ -1471,8 +1471,8 @@
 import { defineComponent } from 'vue'
 import { useData } from 'vitepress'
 import { Icon } from '@iconify/vue'
-import CS2Background from '../CS2Background.vue'
-import LiquidMetalLogo from '../LiquidMetalLogo.vue'
+import CS2Background from '../Home/CS2Background.vue'
+import LiquidMetalLogo from '../Home/LiquidMetalLogo.vue'
 
 export default defineComponent({
   name: 'PanelPageGenerator',

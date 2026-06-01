@@ -1031,8 +1031,8 @@
 
 <script>
     import { useData } from 'vitepress'
-    import CS2Background from '../CS2Background.vue'
-    import LiquidMetalLogo from '../LiquidMetalLogo.vue'
+    import CS2Background from '../Home/CS2Background.vue'
+    import LiquidMetalLogo from '../Home/LiquidMetalLogo.vue'
     import PanelLogin from './PanelLogin.vue'
     import PanelSidebar from './PanelSidebar.vue'
     import PanelFiles from './PanelFiles.vue'
@@ -1440,6 +1440,19 @@
       
       mounted() {
         this.isMounted = true
+
+        const path = window.location.pathname
+        const match = path.match(/\/panel\/([a-z0-9-]+)/)
+        if (match && match[1]) {
+          this.currentView = match[1]
+        }
+        this._popStateHandler = () => {
+          const m = window.location.pathname.match(/\/panel\/([a-z0-9-]+)/)
+          if (m && m[1]) this.currentView = m[1]
+          else this.currentView = 'dashboard'
+        }
+        window.addEventListener('popstate', this._popStateHandler)
+
         const isDark = document.documentElement.classList.contains('dark')
         const vpTheme = localStorage.getItem('vitepress-theme-appearance')
         this.isLightTheme = (vpTheme === 'light') || (!isDark && vpTheme !== 'dark')
@@ -1480,6 +1493,9 @@
       },
       
       beforeUnmount() {
+        if (this._popStateHandler) {
+          window.removeEventListener('popstate', this._popStateHandler)
+        }
         if (this._themeObserver) this._themeObserver.disconnect()
         if (this._scrollRaf) cancelAnimationFrame(this._scrollRaf)
         this._clearRefreshInterval()
@@ -1574,7 +1590,11 @@
     
     handleNavClick(item) {
       // PanelSidebar emits a string id; mobile nav passes the full item object
-      this.currentView = typeof item === 'string' ? item : item.id
+      const view = typeof item === 'string' ? item : item.id
+      if (this.currentView !== view) {
+        this.currentView = view
+        window.history.pushState(null, '', '/panel/' + view)
+      }
     },
 
     
@@ -2227,7 +2247,7 @@
 .wildfire-dashboard.light-theme .nav-item:hover { background: rgba(255, 120, 0, 0.06); color: #1a1a2e; }
 .wildfire-dashboard.light-theme .nav-item.active {
   background: rgba(255, 120, 0, 0.12); color: var(--accent);
-  box-shadow: inset 0 0 0 1px rgba(255, 120, 0, 0.15);
+  /* glow removed */
   border-left: 3px solid var(--accent);
 }
 .wildfire-dashboard.light-theme .dashboard-header {
@@ -2351,7 +2371,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  filter: drop-shadow(0 10px 25px rgba(255, 120, 0, 0.4));
+  /* glow removed */
   margin-bottom: 6px;
 }
 
@@ -2555,7 +2575,7 @@
 .nav-item.active {
   background: linear-gradient(135deg, rgba(255, 120, 0, 0.18), rgba(255, 80, 0, 0.08));
   color: var(--accent);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 0 0 1px rgba(255, 120, 0, 0.22), 0 4px 20px rgba(255, 120, 0, 0.12);
+  /* glow removed */
   border-color: rgba(255, 120, 0, 0.28);
   border-left: 3px solid var(--accent);
   backdrop-filter: blur(16px);
@@ -3135,7 +3155,7 @@
   white-space: nowrap;
   flex-shrink: 0;
   margin-right: 8px;
-  box-shadow: 0 0 10px rgba(255, 120, 0, 0.1);
+  /* glow removed */
 }
 
 .rps-item {
@@ -5681,7 +5701,7 @@
 .hm-i1 { background: rgba(255, 120, 0, 0.2); }
 .hm-i2 { background: rgba(255, 120, 0, 0.4); }
 .hm-i3 { background: rgba(255, 120, 0, 0.65); }
-.hm-i4 { background: rgba(255, 120, 0, 0.9); box-shadow: 0 0 6px rgba(255, 120, 0, 0.5); }
+.hm-i4 { background: rgba(255, 120, 0, 0.9); /* glow removed */ }
 
 .wildfire-dashboard.light-theme .hm-i0 { background: rgba(0,0,0,0.06); }
 .wildfire-dashboard.light-theme .hm-i1 { background: rgba(255, 120, 0, 0.18); }

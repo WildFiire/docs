@@ -1153,7 +1153,7 @@ export default {
 .pp-lvl-chip.newcomer { background:rgba(138,138,149,0.16); color:#9a9aaa; border:1px solid rgba(138,138,149,0.28); }
 .pp-lvl-chip.bronze   { background:rgba(205,127,50,0.18); color:#d4903a; border:1px solid rgba(205,127,50,0.38); }
 .pp-lvl-chip.silver   { background:rgba(200,200,210,0.16); color:#d8d8e8; border:1px solid rgba(200,200,210,0.38); }
-.pp-lvl-chip.gold     { background:rgba(255,215,0,0.14); color:#ffd700; border:1px solid rgba(255,215,0,0.42); box-shadow:0 0 16px rgba(255,215,0,0.18); }
+.pp-lvl-chip.gold     { background:rgba(255,215,0,0.14); color:#ffd700; border:1px solid rgba(255,215,0,0.42); /* glow removed */ }
 .pp-lvl-chip.platinum { background:rgba(136,212,232,0.14); color:#90daf0; border:1px solid rgba(136,212,232,0.38); box-shadow:0 0 16px rgba(136,212,232,0.18); }
 .pp-lvl-chip.legend   { background:var(--accent-dim); color:var(--accent-alt2); border:1px solid var(--accent-strong); box-shadow:0 0 20px var(--accent-soft); }
 .pp-login { font-size:12px; color:rgba(255,255,255,0.50); display:block; margin-bottom:7px; letter-spacing:0.1px; }
@@ -1189,7 +1189,7 @@ export default {
 .pp-tile.commits .pp-tile-accent { background:linear-gradient(90deg,var(--accent-alt),var(--accent-alt2)); box-shadow:0 0 12px var(--accent-mid); }
 .pp-tile.prs .pp-tile-accent     { background:linear-gradient(90deg,#16a34a,#4ade80); box-shadow:0 0 12px rgba(34,197,94,0.3); }
 .pp-tile.impact .pp-tile-accent  { background:linear-gradient(90deg,#2563eb,#60a5fa); box-shadow:0 0 12px rgba(59,130,246,0.3); }
-.pp-tile.level .pp-tile-accent   { background:linear-gradient(90deg,#b45309,#fbbf24); box-shadow:0 0 12px rgba(255,215,0,0.3); }
+.pp-tile.level .pp-tile-accent   { background:linear-gradient(90deg,#b45309,#fbbf24); /* glow removed */ }
 .pp-tile-icon { width:42px; height:42px; border-radius:12px; background:rgba(255,255,255,0.07); border:1px solid rgba(255,255,255,0.11); display:flex; align-items:center; justify-content:center; color:var(--text-muted); flex-shrink:0; }
 .pp-tile.commits .pp-tile-icon { color:var(--accent-alt2); background:var(--accent-dim); border-color:var(--accent-mid); }
 .pp-tile.prs .pp-tile-icon     { color:#4ade80; background:rgba(34,197,94,0.09); border-color:rgba(34,197,94,0.22); }
@@ -1389,7 +1389,7 @@ export default {
 .pp-ach-item { display:flex; align-items:center; gap:10px; padding:10px 12px; background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.08); border-radius:12px; cursor:help; transition:all 0.2s; }
 .pp-ach-item:hover { transform:translateY(-1px); }
 .pp-ach-item.unlocked { border-color:rgba(255,255,255,0.08); }
-.pp-ach-item.unlocked.legendary { box-shadow:0 0 12px rgba(255,215,0,0.12); }
+.pp-ach-item.unlocked.legendary { /* glow removed */ }
 .pp-ach-item.unlocked.epic      { box-shadow:0 0 10px rgba(139,92,246,0.12); }
 .pp-ach-icon { width:38px; height:38px; flex-shrink:0; border-radius:10px; border:1px solid rgba(255,255,255,0.09); background:rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; position:relative; }
 .pp-ach-lock { position:absolute; top:-4px; right:-4px; width:16px; height:16px; background:rgba(6,6,18,0.7); border-radius:50%; display:flex; align-items:center; justify-content:center; color:var(--text-muted); border:1px solid rgba(255,255,255,0.10); }

@@ -40,6 +40,8 @@ outline: deep
   </div>
 </div>
 
+<RankSimulator />
+
 <!-- 2.0 PROGRESIE RANKS -->
 
 ### <div style="display: none;">2.0 PROGRESIE RANKS</div>

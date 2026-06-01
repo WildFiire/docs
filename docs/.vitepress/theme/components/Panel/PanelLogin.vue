@@ -137,8 +137,8 @@
 <script>
 import panelConfig from '../../panel.config.js'
 import { Icon } from '@iconify/vue'
-import CS2Background from '../CS2Background.vue'
-import LiquidMetalLogo from '../LiquidMetalLogo.vue'
+import CS2Background from '../Home/CS2Background.vue'
+import LiquidMetalLogo from '../Home/LiquidMetalLogo.vue'
 
 export default {
   name: 'PanelLogin',
@@ -591,7 +591,7 @@ export default {
   margin: 0 auto 20px;
   color: var(--accent);
   backdrop-filter: blur(16px);
-  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.18), 0 4px 28px rgba(255, 120, 0, 0.18);
+  /* glow removed */
 }
 
 .card-header h2 {
@@ -648,14 +648,14 @@ export default {
   border-radius: 14px;
   font-size: 12px;
   letter-spacing: 0.5px;
-  box-shadow: 0 6px 28px rgba(255, 120, 0, 0.42), inset 0 1px 0 rgba(255, 255, 255, 0.22);
+  /* glow removed */
   border: 1px solid rgba(255, 160, 80, 0.3);
   transition: all 0.22s ease;
 }
 
 .oauth-btn.github:hover:not(:disabled) {
   transform: translateY(-3px);
-  box-shadow: 0 12px 40px rgba(255, 120, 0, 0.58), inset 0 1px 0 rgba(255, 255, 255, 0.28);
+  /* glow removed */
   background: linear-gradient(135deg, #ff9a30, #ff6010);
 }
 

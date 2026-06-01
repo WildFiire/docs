@@ -2,7 +2,8 @@ import { h, defineAsyncComponent, nextTick, onMounted, onUnmounted, ref } from '
 import { useData } from 'vitepress'
 import type { Theme } from 'vitepress'
 import DefaultTheme, { VPButton } from 'vitepress/theme'
-import './style.css'
+import './styles/style.css'
+import './styles/nav-extras.css'
 import { Icon } from '@iconify/vue'
 import { searchState } from './store'
 // Lenis instance - shared across components (lazily imported)
@@ -67,10 +68,8 @@ function initSelectionScrollLock() {
     window.addEventListener('scroll', onWindowScroll, { passive: true, capture: true })
   }
 
-  // Run immediately and after DOM settles
+  // Run immediately and let standard layout observers handle the rest
   attachLocks()
-  setTimeout(attachLocks, 300)
-  setTimeout(attachLocks, 1000)
 }
 
 // Initialize Lenis smooth scroll (Lenis is lazy-imported to keep it out of the main bundle)
@@ -140,36 +139,39 @@ const githubToken = import.meta.env.VITE_GITHUB_TOKEN || ''
 const githubClientId = import.meta.env.VITE_GITHUB_CLIENT_ID || ''
 
 // Componente critice — necesare pe prima randare, raman in theme.js
-import WikiHome from './components/WikiHome.vue'
-import HomeNavbar from './components/HomeNavbar.vue'
-import NavSearch from './components/NavSearch.vue'
-import WildfireTag from './components/WildfireTag.vue'
+import WikiHome from './components/Home/WikiHome.vue'
+import HomeNavbar from './components/Home/HomeNavbar.vue'
+import NavSearch from './components/Search/NavSearch.vue'
+import WildfireTag from './components/Docs/WildfireTag.vue'
 import VPNavBarAppearance from 'vitepress/dist/client/theme-default/components/VPNavBarAppearance.vue'
-import BackToTop from './components/BackToTop.vue'
-import CaseHeader from './components/CaseHeader.vue'
-import SidebarToggle from './components/SidebarToggle.vue'
-import MobileScrollSpy from './components/MobileScrollSpy.vue'
-import WfTOC from './components/WfTOC.vue'
-import SidebarFooter from './components/SidebarFooter.vue'
-import SidebarFloatingControls from './components/SidebarFloatingControls.vue'
-import PageTag from './components/PageTag.vue'
+import BackToTop from './components/Layout/BackToTop.vue'
+import CaseHeader from './components/Docs/CaseHeader.vue'
+import SidebarToggle from './components/Layout/SidebarToggle.vue'
+import MobileScrollSpy from './components/Layout/MobileScrollSpy.vue'
+import WfTOC from './components/Layout/WfTOC.vue'
+import SidebarFooter from './components/Layout/SidebarFooter.vue'
+import SidebarFloatingControls from './components/Layout/SidebarFloatingControls.vue'
+import PageTag from './components/Docs/PageTag.vue'
 
 // Componente lazy — split in chunks separate, nu blocheaza theme.js
-const DocEnhancements = defineAsyncComponent(() => import('./components/DocEnhancements.vue'))
-const FluidLightbox = defineAsyncComponent(() => import('./components/FluidLightbox.vue'))
-const WfSearchModal = defineAsyncComponent(() => import('./components/WfSearchModal.vue'))
-const LastUpdates = defineAsyncComponent(() => import('./components/LastUpdates.vue'))
-const AboutWiki = defineAsyncComponent(() => import('./components/AboutWiki.vue'))
-const Changelogs = defineAsyncComponent(() => import('./components/Changelogs.vue'))
-const StatsGithub = defineAsyncComponent(() => import('./components/StatsGithub.vue'))
-const Team = defineAsyncComponent(() => import('./components/Team.vue'))
-const Terms = defineAsyncComponent(() => import('./components/Terms.vue'))
-const Privacy = defineAsyncComponent(() => import('./components/Privacy.vue'))
-const FeedbackWidget = defineAsyncComponent(() => import('./components/FeedbackWidget.vue'))
-const ContributorsWF = defineAsyncComponent(() => import('./components/ContributorsWF.vue'))
-const SiteMap = defineAsyncComponent(() => import('./components/SiteMap.vue'))
-const PageNotFound = defineAsyncComponent(() => import('./components/PageNotFound.vue'))
-const FileTreeItem = defineAsyncComponent(() => import('./components/FileTreeItem.vue'))
+const DocEnhancements = defineAsyncComponent(() => import('./components/Layout/DocEnhancements.vue'))
+const FluidLightbox = defineAsyncComponent(() => import('./components/Widgets/FluidLightbox.vue'))
+const WfSearchModal = defineAsyncComponent(() => import('./components/Search/WfSearchModal.vue'))
+const LastUpdates = defineAsyncComponent(() => import('./components/Home/LastUpdates.vue'))
+const AboutWiki = defineAsyncComponent(() => import('./components/Home/AboutWiki.vue'))
+const Changelogs = defineAsyncComponent(() => import('./components/Pages/Changelogs.vue'))
+const AllChangelogs = defineAsyncComponent(() => import('./components/Pages/AllChangelogs.vue'))
+const UpdatesHub = defineAsyncComponent(() => import('./components/Pages/UpdatesHub.vue'))
+const StatsGithub = defineAsyncComponent(() => import('./components/Widgets/StatsGithub.vue'))
+const Team = defineAsyncComponent(() => import('./components/Pages/Team.vue'))
+const Terms = defineAsyncComponent(() => import('./components/Pages/Terms.vue'))
+const Privacy = defineAsyncComponent(() => import('./components/Pages/Privacy.vue'))
+const FeedbackWidget = defineAsyncComponent(() => import('./components/Widgets/FeedbackWidget.vue'))
+const ContributorsWF = defineAsyncComponent(() => import('./components/Widgets/ContributorsWF.vue'))
+const RelatedPages = defineAsyncComponent(() => import('./components/Widgets/RelatedPages.vue'))
+const SiteMap = defineAsyncComponent(() => import('./components/Layout/SiteMap.vue'))
+const PageNotFound = defineAsyncComponent(() => import('./components/Layout/PageNotFound.vue'))
+const FileTreeItem = defineAsyncComponent(() => import('./components/Docs/FileTreeItem.vue'))
 
 // Panel — lazy (numai pe /panel)
 const Dashboard = defineAsyncComponent(() => import('./components/Panel/Dashboard.vue'))
@@ -181,6 +183,10 @@ const PanelContributors = defineAsyncComponent(() => import('./components/Panel/
 const PanelAudit = defineAsyncComponent(() => import('./components/Panel/PanelAudit.vue'))
 const PanelAnalytics = defineAsyncComponent(() => import('./components/Panel/PanelAnalytics.vue'))
 const PanelLogin = defineAsyncComponent(() => import('./components/Panel/PanelLogin.vue'))
+
+// Pages — lazy
+const VIPComparison = defineAsyncComponent(() => import('./components/Pages/VIPComparison.vue'))
+const RankSimulator = defineAsyncComponent(() => import('./components/Pages/RankSimulator.vue'))
 
 
 // Tag-uri — statice, CSS trebuie disponibil imediat pe paginile de continut
@@ -219,7 +225,7 @@ export default {
       'aside-outline-before': () => frontmatter.value.layout === false ? null : h(WfTOC),
 
       // 🔥 CONTRIBUTORS - jos inainte de footer
-      'aside-bottom': () => frontmatter.value.layout === false ? null : h(ContributorsWF),
+      'aside-bottom': () => frontmatter.value.layout === false ? null : [h(ContributorsWF), h(RelatedPages)],
 
       // Not Found Page
       'not-found': () => h(PageNotFound),
@@ -236,8 +242,8 @@ export default {
       requestAnimationFrame(() => {
         setTimeout(initLenis, 100)
         // Immediate fallback dispatches for first-load async components
-        setTimeout(() => window.dispatchEvent(new Event('resize')), 400)
-        setTimeout(() => window.dispatchEvent(new Event('resize')), 1000)
+        setTimeout(() => lenisInstance?.resize(), 400)
+        setTimeout(() => lenisInstance?.resize(), 1000)
         // Reactive: watch document.body height changes caused by async components
         // (SiteMap, FeedbackWidget, ContributorsWF) loading and adding content.
         // ResizeObserver on document.documentElement does NOT fire for this because
@@ -249,7 +255,7 @@ export default {
             if (bodyResizeTimer) clearTimeout(bodyResizeTimer)
             bodyResizeTimer = setTimeout(() => {
               bodyResizeTimer = null
-              window.dispatchEvent(new Event('resize'))
+              lenisInstance?.resize()
             }, 150)
           }).observe(document.body)
         }, 300)
@@ -312,11 +318,9 @@ export default {
         }
       }
       
-      // Run immediately and repeatedly
+      // Run immediately and once after a short delay for async components
       fixLenisOverflow()
       setTimeout(fixLenisOverflow, 100)
-      setTimeout(fixLenisOverflow, 500)
-      setTimeout(fixLenisOverflow, 1000)
       
       // Watch for DOM changes (sidebar might be added dynamically) — debounced to
       // avoid calling fixLenisOverflow on every single mutation during scroll/animations
@@ -342,6 +346,8 @@ export default {
     app.component('HomeNavbar', HomeNavbar)
     app.component('LastUpdates', LastUpdates)
     app.component('Changelogs', Changelogs)
+    app.component('AllChangelogs', AllChangelogs)
+    app.component('UpdatesHub', UpdatesHub)
     app.component('NavSearch', NavSearch)
     app.component('WildfireTag', WildfireTag)
     app.component('SiteMap', SiteMap)
@@ -370,6 +376,9 @@ export default {
     // NOUA COMPONENTA PENTRU FILE TREE
     app.component('FileTreeItem', FileTreeItem)
     app.component('PageTag', PageTag)
+    app.component('VIPComparison', VIPComparison)
+    app.component('RankSimulator', RankSimulator)
+    app.component('RelatedPages', RelatedPages)
 
     // Toate tag-urile
 
@@ -445,9 +454,9 @@ export default {
             requestAnimationFrame(setupBadges)
             // Force Lenis to recalculate scroll bounds — catches lazy-loaded content
             // that increases page height after Lenis has already set its limit
-            setTimeout(() => window.dispatchEvent(new Event('resize')), 300)
-            setTimeout(() => window.dispatchEvent(new Event('resize')), 800)
-            setTimeout(() => window.dispatchEvent(new Event('resize')), 1500)
+            setTimeout(() => lenisInstance?.resize(), 300)
+            setTimeout(() => lenisInstance?.resize(), 800)
+            setTimeout(() => lenisInstance?.resize(), 1500)
           })
         }
 

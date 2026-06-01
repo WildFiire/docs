@@ -6,6 +6,7 @@ import { lastUpdatesPlugin } from './plugins/lastUpdatesPlugin'
 import { newPagesPlugin } from './plugins/newPagesPlugin'
 import { commitCache } from './plugins/commitCache'
 import { getAllGitStats } from './plugins/gitCache'
+import fs from 'fs'
 
 const __vitepressDir = fileURLToPath(new URL('.', import.meta.url))
 const docsDir = path.resolve(__vitepressDir, '..')
@@ -47,11 +48,11 @@ export default defineConfig({
     ['link', {
       rel: 'preload',
       as: 'style',
-      href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap',
+      href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap',
       onload: "this.onload=null;this.rel='stylesheet'"
     }],
     // Step 2: noscript fallback for users with JS disabled
-    ['noscript', {}, '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap">'],
+    ['noscript', {}, '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap">'],
 
     // PRELOAD PENTRU LCP
     ['link', {
@@ -70,6 +71,8 @@ export default defineConfig({
 
     // SEO & SOCIAL SHARING (CS2 COUNTER-STRIKE BRANDING)
     ['meta', { name: 'keywords', content: 'cs2, counter-strike 2, wildfire.ro, wildfire, wiki, wikipedia, docs, tutoriale cs2, servere cs2, wildfire wildfire.ro docs' }],
+    ['meta', { property: 'og:locale', content: 'ro_RO' }],
+    ['meta', { property: 'og:site_name', content: 'Wildfire.ro Docs' }],
     ['meta', { property: 'og:title', content: 'Wildfire.ro Docs - CS2 Wikipedia' }],
     ['meta', { property: 'og:description', content: 'Documentatia platformei Wildfire - Resurse, sisteme si informatii pentru Counter-Strike 2.' }],
     ['meta', { property: 'og:image', content: 'https://docs.wildfire.ro/wallpaper/content.webp' }],
@@ -86,109 +89,7 @@ export default defineConfig({
     `],
 
     // Restore sidebar-collapsed state before first paint (no layout flash)
-    ['script', {}, `(function(){try{if(localStorage.getItem('wf-sidebar-collapsed')==='true'){document.documentElement.classList.add('sidebar-collapsed')}}catch(e){}})()`],
-
-    // CSS PENTRU STILIZARE ICONITE SI VERSIUNE
-    ['style', {}, `
-      .nav-icon {
-        display: inline-block;
-        vertical-align: middle;
-        margin-right: 6px;
-        width: 16px;
-        height: 16px;
-        position: relative;
-        top: -1px;
-      }
-      
-      img.nav-icon {
-        filter: brightness(0.9);
-        transition: filter 0.2s;
-      }
-      
-      img.nav-icon:hover {
-        filter: brightness(1.2);
-      }
-      
-      .version-badge {
-        display: inline-block;
-        padding: 2px 8px;
-        background-color: var(--vp-c-bg-soft);
-        border: 1px solid var(--vp-c-divider);
-        border-radius: 20px;
-        font-weight: 600;
-        font-size: 10px;
-        color: var(--vp-c-text-1);
-        margin-left: 1rem;
-      }
-      
-      .version-tag {
-        display: inline-block;
-        padding: 2px 8px;
-        background: rgba(255, 69, 0, 0.08);
-        border: 1px solid rgba(255, 69, 0, 0.3);
-        border-radius: 6px;
-        font-weight: 600;
-        font-size: 10px;
-        color: #ff5c1a;
-        margin-left: 0.5rem;
-        vertical-align: middle;
-        transition: all 0.2s ease;
-      }
-      
-      .version-tag:hover {
-        background: #ff4500;
-        border-color: #ff4500;
-        color: white;
-      }
-      
-      .navbar-hint {
-        padding: 0.75rem 1rem;
-        background-color: var(--vp-c-bg-soft);
-        border-radius: 8px;
-        margin: 1rem;
-        font-size: 0.85rem;
-        border-left: 3px solid #22c55e;
-      }
-      
-      .navbar-hint strong {
-        color: #22c55e;
-        display: block;
-        margin-bottom: 0.25rem;
-      }
-      
-      .navbar-hint p {
-        margin: 0;
-        color: var(--vp-c-text-2);
-      }
-      
-      .navbar-hint .hover-hint {
-        font-size: 0.75rem;
-        color: var(--vp-c-text-3);
-        font-style: italic;
-        margin-top: 0.25rem;
-      }
-      
-
-      
-      .version-container {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        padding: 0.75rem 1rem;
-        border-top: 1px solid var(--vp-c-divider);
-        margin-top: 1rem;
-      }
-      
-      .version-label {
-        font-weight: 600;
-        color: var(--vp-c-text-1);
-      }
-      
-      .version-number {
-        color: #22c55e;
-        font-weight: 700;
-      }
-    `]
+    ['script', {}, `(function(){try{if(localStorage.getItem('wf-sidebar-collapsed')==='true'){document.documentElement.classList.add('sidebar-collapsed')}}catch(e){}})()`]
   ],
 
   lastUpdated: true,
@@ -217,11 +118,11 @@ export default defineConfig({
         link: '/informatii/faq'
       }, {
         text: '<iconify-icon icon="solar:chart-square-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Dashboard',
-        link: '/panel'
+        link: '/panel/'
       },
       {
         text: '<iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Echipa',
-        link: '/team'
+        link: '/about/team'
       },
     ],
 
@@ -380,6 +281,7 @@ export default defineConfig({
             text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Tiers',
             collapsed: true,
             items: [
+              { text: '<iconify-icon icon="solar:chart-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Comparatie VIP', link: '/market/vip/vip-overview' },
               { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Rebirth', link: '/market/vip/rebirth' },
               { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Immortal', link: '/market/vip/immortal' },
               { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Mythic', link: '/market/vip/mythic' },
@@ -395,8 +297,7 @@ export default defineConfig({
         text: '<iconify-icon icon="solar:code-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> 3.0.0 <span class="version-tag">v3.0.0</span>',
         collapsed: true,
         items: [
-          { text: '<iconify-icon icon="solar:global-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Actualizari', link: '/updates_wiki/updateswiki' },
-          { text: '<iconify-icon icon="solar:hand-heart-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Cum poti contribui?', link: '/updates_wiki/contribute' }
+          { text: '<iconify-icon icon="lucide:git-branch" class="nav-icon" width="16" height="16"></iconify-icon> Updates Hub', link: '/updates_wiki/hub' },
         ]
       }
     ],
@@ -561,14 +462,55 @@ export default defineConfig({
   },
 
   vite: {
-    plugins: [lastUpdatesPlugin(docsDir, repoRoot), newPagesPlugin(docsDir, repoRoot)],
+    plugins: [
+      lastUpdatesPlugin(docsDir, repoRoot),
+      newPagesPlugin(docsDir, repoRoot),
+      {
+        name: 'save-team-plugin',
+        configureServer(server) {
+          server.middlewares.use((req, res, next) => {
+            if (req.url === '/__api/save-team' && req.method === 'POST') {
+              let body = ''
+              req.on('data', chunk => { body += chunk })
+              req.on('end', () => {
+                try {
+                  const { code } = JSON.parse(body)
+                  const targetPath = path.resolve(__dirname, 'theme/components/Pages/Team.vue')
+                  let content = fs.readFileSync(targetPath, 'utf-8')
+                  
+                  const regex = /const hierarchyDefinition = \[[\s\S]*\]\s*hierarchy\.value = hierarchyDefinition/
+                  const newCode = `const hierarchyDefinition = ${code}\n\nhierarchy.value = hierarchyDefinition`
+                  
+                  if (regex.test(content)) {
+                    content = content.replace(regex, newCode)
+                    fs.writeFileSync(targetPath, content, 'utf-8')
+                    res.statusCode = 200
+                    res.end(JSON.stringify({ success: true }))
+                  } else {
+                    res.statusCode = 500
+                    res.end(JSON.stringify({ error: 'Could not find hierarchyDefinition in Team.vue' }))
+                  }
+                } catch (error) {
+                  res.statusCode = 500
+                  res.end(JSON.stringify({ error: String(error) }))
+                }
+              })
+              return
+            }
+            next()
+          })
+        }
+      }
+    ],
 
     build: {
-      cssCodeSplit: false,
-      target: 'es2018',
+      cssCodeSplit: true,
+      target: 'es2020',
       minify: 'esbuild',
       cssMinify: true,
-      sourcemap: false
+      sourcemap: false,
+      chunkSizeWarningLimit: 1000,
+      reportCompressedSize: false
     },
     server: {
       fs: {
@@ -591,7 +533,7 @@ export default defineConfig({
       noExternal: ['vue', 'chart.js', 'lodash', '@iconify/vue']
     },
     optimizeDeps: {
-      include: ['@vueuse/core', 'lenis'],
+      include: ['@vueuse/core', 'lenis', 'chart.js', 'minisearch'],
       exclude: ['@paper-design/shaders-react']
     }
   }

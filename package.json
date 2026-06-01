@@ -1,6 +1,8 @@
 {
   "type": "module",
   "devDependencies": {
+    "@iconify/json": "^2.2.453",
+    "@paper-design/shaders-react": "^0.0.72",
     "@types/node": "^25.3.3",
     "dotenv-cli": "^11.0.0",
     "sharp": "^0.34.5",
@@ -16,9 +18,7 @@
     "generator": "node tools/generator/server.js"
   },
   "dependencies": {
-    "@iconify/json": "^2.2.453",
     "@iconify/vue": "^5.0.0",
-    "@paper-design/shaders-react": "^0.0.72",
     "@vueuse/core": "^14.3.0",
     "@vueuse/integrations": "^14.2.1",
     "chart.js": "^4.5.1",

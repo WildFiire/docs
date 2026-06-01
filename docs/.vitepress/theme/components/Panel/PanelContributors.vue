@@ -234,9 +234,9 @@ export default {
 
 /* Hero */
 .ct-hero { position:relative; display:flex; align-items:center; gap:20px; background:rgba(255,120,0,.06); border:1px solid rgba(255,120,0,.2); border-radius:16px; padding:24px; cursor:pointer; overflow:hidden; transition:all .2s; }
-.ct-hero:hover { transform:translateY(-2px); box-shadow:0 16px 48px rgba(255,120,0,.12); border-color:rgba(255,120,0,.4); }
+.ct-hero:hover { transform:translateY(-2px); /* glow removed */ border-color:rgba(255,120,0,.4); }
 .ct-hero-glow { position:absolute; top:-40px; right:-40px; width:200px; height:200px; background:radial-gradient(circle,rgba(255,120,0,.15) 0%,transparent 70%); pointer-events:none; }
-.ct-hero-img { width:88px; height:88px; border-radius:50%; border:3px solid rgba(255,120,0,.6); box-shadow:0 0 24px rgba(255,120,0,.3); flex-shrink:0; z-index:1; }
+.ct-hero-img { width:88px; height:88px; border-radius:50%; border:3px solid rgba(255,120,0,.6); /* glow removed */ flex-shrink:0; z-index:1; }
 .ct-hero-info { flex:1; z-index:1; }
 .ct-hero-crown { font-size:11px; font-weight:800; color:#f59e0b; letter-spacing:1px; margin-bottom:6px; }
 .ct-hero-name { font-size:26px; font-weight:900; color:var(--text-primary); margin-bottom:6px; }

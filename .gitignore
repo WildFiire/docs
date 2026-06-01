@@ -40,3 +40,7 @@ Desktop.ini
 .vercel
 .env*.local
 
+# Debug / scratch files
+parse_log.txt
+card-editor.html
+
