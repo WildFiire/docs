@@ -98,10 +98,10 @@ app.post('/api/translate', async (req, res) => {
   }
 })
 
-app.use(express.static(join(__dirname, 'docs/.vitepress/dist')))
+app.use(express.static(join(__dirname, '../docs/.vitepress/dist')))
 
 app.get('/*splat', (req, res) => {
-  res.sendFile(join(__dirname, 'docs/.vitepress/dist/index.html'))
+  res.sendFile(join(__dirname, '../docs/.vitepress/dist/index.html'))
 })
 
 app.listen(PORT, () => {
