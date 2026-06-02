@@ -141,7 +141,8 @@ export default defineConfig({
             text: '<iconify-icon icon="solar:shield-user-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Staff',
             collapsed: true,
             items: [
-              { text: '<iconify-icon icon="lucide:terminal" class="nav-icon" width="16" height="16"></iconify-icon> Comenzi Staff', link: '/informatii/staff/comenzi' }
+              { text: '<iconify-icon icon="lucide:terminal" class="nav-icon" width="16" height="16"></iconify-icon> Comenzi Staff', link: '/informatii/staff/comenzi' },
+              { text: '<iconify-icon icon="lucide:user-plus" class="nav-icon" width="16" height="16"></iconify-icon> Cum sa aplici', link: '/informatii/staff/cum-aplici' }
             ]
           },
 
