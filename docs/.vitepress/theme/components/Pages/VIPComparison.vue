@@ -43,26 +43,6 @@
         </div>
       </template>
 
-      <!-- Buy buttons row -->
-      <div class="vip-footer-row">
-        <div class="vip-cell vip-cell--feature"></div>
-        <div
-          v-for="tier in tiers"
-          :key="tier.id"
-          class="vip-cell vip-cell--btn"
-          :style="{ '--tier-color': tier.color }"
-        >
-          <a
-            v-if="tier.link"
-            :href="tier.link"
-            class="vip-buy-btn"
-            :style="{ borderColor: tier.color, color: tier.color }"
-          >
-            {{ tier.cta }}
-          </a>
-          <span v-else class="vip-auto-tag">Automat</span>
-        </div>
-      </div>
     </div>
     <p class="vip-note">* Mythic se obtine exclusiv prin performanta (top ore / top skill). Preturile in coins variaza cu durata.</p>
   </div>
@@ -86,8 +66,6 @@ const tiers = [
     price: 'Gratuit (noapte)',
     color: '#6366f1',
     icon: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`,
-    link: '/market/vip/vip-night',
-    cta: 'Detalii',
     highlight: false,
   },
   {
@@ -96,8 +74,6 @@ const tiers = [
     price: '3€ / coins',
     color: '#8b5cf6',
     icon: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/></svg>`,
-    link: '/market/vip/rebirth',
-    cta: 'Cumpara',
     highlight: false,
   },
   {
@@ -106,8 +82,6 @@ const tiers = [
     price: '6.5€ / coins',
     color: '#ec4899',
     icon: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
-    link: '/market/vip/immortal',
-    cta: 'Cumpara',
     highlight: true,
   },
   {
@@ -116,8 +90,6 @@ const tiers = [
     price: 'Prin performanta',
     color: '#f59e0b',
     icon: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
-    link: '/market/vip/mythic',
-    cta: 'Detalii',
     highlight: false,
   },
 ]
@@ -170,10 +142,17 @@ const featureGroups = [
 .vip-table-wrap {
   width: 100%;
   overflow-x: auto;
-  margin: 28px 0 12px;
-  border-radius: 16px;
+  margin: 32px 0 16px;
+  border-radius: 20px;
   border: 1px solid var(--vp-c-divider);
   background: var(--vp-c-bg-elv);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+}
+
+.dark .vip-table-wrap {
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  background: rgba(30, 30, 30, 0.4);
+  backdrop-filter: blur(12px);
 }
 
 .vip-table {
@@ -187,179 +166,153 @@ const featureGroups = [
   grid-template-columns: 180px repeat(4, 1fr);
   background: var(--vp-c-bg-soft);
   border-bottom: 1px solid var(--vp-c-divider);
-  border-radius: 16px 16px 0 0;
+  border-radius: 20px 20px 0 0;
   overflow: hidden;
 }
 
+.dark .vip-thead {
+  background: rgba(40, 40, 40, 0.5);
+}
+
 .vip-th {
-  padding: 16px 10px 14px;
+  padding: 20px 10px 18px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 5px;
+  gap: 6px;
   text-align: center;
   border-right: 1px solid var(--vp-c-divider);
   position: relative;
+  transition: background 0.2s ease;
 }
 .vip-th:last-child { border-right: none; }
 
 .vip-th--feature {
   align-items: flex-start;
-  padding-left: 16px;
-  font-size: 10px;
+  padding-left: 20px;
+  font-size: 11px;
   font-weight: 700;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
   color: var(--vp-c-text-3);
   justify-content: flex-end;
 }
 
 .vip-th--highlight {
-  background: rgba(var(--tier-color-rgb, 236, 72, 153), 0.06);
+  background: linear-gradient(to bottom, rgba(236, 72, 153, 0.08), transparent);
 }
+.dark .vip-th--highlight {
+  background: linear-gradient(to bottom, rgba(236, 72, 153, 0.15), transparent);
+}
+
 .vip-th--highlight::after {
   content: 'POPULAR';
   position: absolute;
   top: 0;
   left: 50%;
   transform: translateX(-50%);
-  font-size: 8px;
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: 1px;
+  letter-spacing: 1.2px;
   color: #fff;
   background: v-bind('tiers.find(t => t.highlight)?.color ?? "#ec4899"');
-  padding: 2px 8px;
-  border-radius: 0 0 6px 6px;
+  padding: 3px 10px;
+  border-radius: 0 0 8px 8px;
+  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4);
 }
 
 .vip-th__icon {
   display: flex;
   align-items: center;
   color: var(--tier-color);
-  margin-top: 10px;
+  margin-top: 12px;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 }
-.vip-th__icon :deep(svg) { display: block; }
+.vip-th__icon :deep(svg) { display: block; width: 22px; height: 22px; }
 
 .vip-th__name {
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 800;
   color: var(--tier-color);
   text-transform: uppercase;
-  letter-spacing: 0.5px;
+  letter-spacing: 0.8px;
 }
 
 .vip-th__price {
-  font-size: 10px;
-  color: var(--vp-c-text-3);
-  font-weight: 500;
+  font-size: 11px;
+  color: var(--vp-c-text-2);
+  font-weight: 600;
+  margin-top: 2px;
 }
 
 /* === GROUP LABEL === */
 .vip-group-label {
   display: flex;
   align-items: center;
-  gap: 7px;
-  padding: 10px 16px 6px;
-  font-size: 10px;
-  font-weight: 700;
+  gap: 8px;
+  padding: 12px 20px 8px;
+  font-size: 11px;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.6px;
-  color: var(--vp-c-text-3);
+  letter-spacing: 0.8px;
+  color: var(--vp-c-text-2);
   border-bottom: 1px solid var(--vp-c-divider);
   background: var(--vp-c-bg-alt);
 }
+.dark .vip-group-label {
+  background: rgba(20, 20, 20, 0.4);
+}
 .vip-group-icon { display: inline-flex; align-items: center; color: var(--vp-c-brand-1); }
-.vip-group-icon :deep(svg) { display: block; }
+.vip-group-icon :deep(svg) { display: block; width: 14px; height: 14px; }
 
 /* === ROWS === */
 .vip-row {
   display: grid;
   grid-template-columns: 180px repeat(4, 1fr);
   border-bottom: 1px solid var(--vp-c-divider);
-  transition: background 0.15s ease;
+  transition: background 0.2s ease, transform 0.2s ease;
 }
-.vip-row:hover { background: rgba(var(--wf-accent-rgb), 0.03); }
-.vip-row--alt { background: rgba(0,0,0,0.015); }
-.dark .vip-row--alt { background: rgba(255,255,255,0.015); }
+.vip-row:last-child {
+  border-bottom: none;
+}
+.vip-row:hover { background: rgba(var(--vp-c-brand-1-rgb), 0.04); }
+.dark .vip-row:hover { background: rgba(255, 255, 255, 0.03); }
+
+.vip-row--alt { background: rgba(0,0,0,0.01); }
+.dark .vip-row--alt { background: rgba(255,255,255,0.01); }
 
 .vip-cell {
-  padding: 11px 10px;
+  padding: 14px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12.5px;
+  font-size: 13px;
   border-right: 1px solid var(--vp-c-divider);
-  min-height: 42px;
+  min-height: 46px;
 }
 .vip-cell:last-child { border-right: none; }
 
 .vip-cell--feature {
   justify-content: flex-start;
-  padding-left: 16px;
-  font-size: 12.5px;
-  font-weight: 500;
+  padding-left: 20px;
+  font-weight: 600;
   color: var(--vp-c-text-1);
 }
 
 .vip-cell--highlight {
-  background: rgba(236, 72, 153, 0.04);
+  background: rgba(236, 72, 153, 0.03);
+}
+.dark .vip-cell--highlight {
+  background: rgba(236, 72, 153, 0.06);
 }
 
 .vip-cell :deep(svg) { display: block; }
 
 .vip-val {
-  font-size: 12px;
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: 800;
   color: var(--tier-color, var(--vp-c-text-1));
-}
-
-/* === FOOTER (buy buttons) === */
-.vip-footer-row {
-  display: grid;
-  grid-template-columns: 180px repeat(4, 1fr);
-  border-top: 1px solid var(--vp-c-divider);
-  background: var(--vp-c-bg-soft);
-  border-radius: 0 0 16px 16px;
-  overflow: hidden;
-}
-
-.vip-cell--btn {
-  padding: 14px 10px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  border-right: 1px solid var(--vp-c-divider);
-}
-.vip-cell--btn:last-child { border-right: none; }
-
-.vip-buy-btn {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 7px 16px;
-  border-radius: 8px;
-  border: 1.5px solid;
-  font-size: 11px;
-  font-weight: 700;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  background: transparent;
-  transition: all 0.18s ease;
-}
-.vip-buy-btn:hover {
-  background: var(--tier-color);
-  color: #fff !important;
-  transform: translateY(-1px);
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
-}
-
-.vip-auto-tag {
-  font-size: 10px;
-  font-weight: 600;
-  color: var(--vp-c-text-3);
-  text-transform: uppercase;
-  letter-spacing: 0.4px;
+  text-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
 /* Note */

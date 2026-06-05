@@ -115,7 +115,7 @@ audience: ["Jucator", "VIP"]
   </div>
 </div>
 
-<div class="wf-system-tip" style="margin-top: 24px; border-color: rgba(139,92,246,0.3); background: rgba(139,92,246,0.05);">
+<div class="wf-system-tip">
   <Icon icon="lucide:shopping-cart" width="22" height="22" color="#8b5cf6" />
-  <span>Poti achizitiona gradele VIP direct din magazinul platformei sau folosind <strong>Phoenix Coins</strong>. Duratele disponibile: 7, 15 sau 30 de zile.</span>
+  <span>Poti achizitiona gradele VIP direct din magazinul platformei. <br><br><strong>⚠️ WORK IN PROGRESS:</strong> In viitor vom implementa optiunea de a cumpara VIP folosind <strong>Phoenix Coins</strong>. Momentan sistemul este in lucru. <br><br>Duratele disponibile: 7, 15 sau 30 de zile.</span>
 </div>
