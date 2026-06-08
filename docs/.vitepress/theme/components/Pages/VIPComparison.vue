@@ -1,18 +1,22 @@
 <template>
   <div class="vip-table-wrap">
-    <!-- Header row -->
     <div class="vip-table">
-      <!-- Column headers -->
+      <!-- Header row -->
       <div class="vip-thead">
-        <div class="vip-th vip-th--feature">Functionalitate</div>
+        <div class="vip-th vip-th--feature">Funcționalitate</div>
         <div
-          v-for="tier in tiers"
+          v-for="(tier, index) in tiers"
           :key="tier.id"
           class="vip-th"
-          :class="['vip-th--' + tier.id, { 'vip-th--highlight': tier.highlight }]"
+          :class="[
+            'vip-th--' + tier.id, 
+            { 'vip-th--highlight': tier.highlight, 'is-hovered': hoveredColumn === index }
+          ]"
           :style="{ '--tier-color': tier.color }"
+          @mouseenter="hoveredColumn = index"
+          @mouseleave="hoveredColumn = null"
         >
-          <span class="vip-th__icon" v-html="tier.icon"></span>
+          <span class="vip-th__icon"><Icon :icon="tier.icon" width="24" height="24" /></span>
           <span class="vip-th__name">{{ tier.name }}</span>
           <span class="vip-th__price">{{ tier.price }}</span>
         </div>
@@ -21,43 +25,54 @@
       <!-- Feature rows grouped by category -->
       <template v-for="group in featureGroups" :key="group.label">
         <div class="vip-group-label">
-          <span class="vip-group-icon" v-html="group.icon"></span>
+          <span class="vip-group-icon"><Icon :icon="group.icon" width="16" height="16" /></span>
           {{ group.label }}
         </div>
         <div
           v-for="row in group.rows"
           :key="row.key"
           class="vip-row"
-          :class="{ 'vip-row--alt': row.alt }"
         >
           <div class="vip-cell vip-cell--feature">{{ row.label }}</div>
           <div
-            v-for="tier in tiers"
+            v-for="(tier, index) in tiers"
             :key="tier.id"
             class="vip-cell"
-            :class="{ 'vip-cell--highlight': tier.highlight }"
+            :class="[
+              'vip-cell--' + tier.id,
+              { 'vip-cell--highlight': tier.highlight, 'is-hovered': hoveredColumn === index }
+            ]"
             :style="{ '--tier-color': tier.color }"
+            @mouseenter="hoveredColumn = index"
+            @mouseleave="hoveredColumn = null"
           >
-            <span v-html="renderCell(row.values[tier.id])"></span>
+            <template v-if="row.values[tier.id] === true">
+              <Icon icon="lucide:check" width="20" height="20" class="vip-icon-check" />
+            </template>
+            <template v-else-if="row.values[tier.id] === false || row.values[tier.id] === null || row.values[tier.id] === undefined">
+              <Icon icon="lucide:x" width="18" height="18" class="vip-icon-cross" />
+            </template>
+            <template v-else>
+              <span class="vip-val">{{ row.values[tier.id] }}</span>
+            </template>
           </div>
         </div>
       </template>
-
     </div>
-    <p class="vip-note">* Mythic se obtine exclusiv prin performanta (top ore / top skill). Preturile in coins variaza cu durata.</p>
+    
+    <div class="vip-footer">
+      <p class="vip-note">
+        <Icon icon="lucide:info" width="15" height="15" />
+        * Mythic se obține exclusiv prin performanță (top ore / top skill). Prețurile în coins variază cu durata aleasă.
+      </p>
+    </div>
   </div>
 </template>
 
 <script setup>
-const CHECK = `<svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: #22c55e"><polyline points="20 6 9 17 4 12"/></svg>`
-const CROSS = `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="color: rgba(128,128,128,0.4)"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`
+import { ref } from 'vue'
 
-function renderCell(val) {
-  if (val === true)  return CHECK
-  if (val === false) return CROSS
-  if (val === null || val === undefined) return CROSS
-  return `<span class="vip-val">${val}</span>`
-}
+const hoveredColumn = ref(null)
 
 const tiers = [
   {
@@ -65,7 +80,7 @@ const tiers = [
     name: 'VIP Night',
     price: 'Gratuit (noapte)',
     color: '#6366f1',
-    icon: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>`,
+    icon: 'lucide:moon',
     highlight: false,
   },
   {
@@ -73,7 +88,7 @@ const tiers = [
     name: 'VIP Rebirth',
     price: '3€ / coins',
     color: '#8b5cf6',
-    icon: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7z"/></svg>`,
+    icon: 'lucide:crown',
     highlight: false,
   },
   {
@@ -81,15 +96,15 @@ const tiers = [
     name: 'VIP Immortal',
     price: '6.5€ / coins',
     color: '#ec4899',
-    icon: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>`,
+    icon: 'lucide:star',
     highlight: true,
   },
   {
     id: 'mythic',
     name: 'VIP Mythic',
-    price: 'Prin performanta',
+    price: 'Prin performanță',
     color: '#f59e0b',
-    icon: `<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>`,
+    icon: 'lucide:trophy',
     highlight: false,
   },
 ]
@@ -97,17 +112,17 @@ const tiers = [
 const featureGroups = [
   {
     label: 'Combat & Stats',
-    icon: `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M14.5 10c-.83 0-1.5-.67-1.5-1.5v-5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5z"/><path d="M20.5 10H19V8.5c0-.83.67-1.5 1.5-1.5s1.5.67 1.5 1.5-.67 1.5-1.5 1.5z"/><path d="M9.5 14c.83 0 1.5.67 1.5 1.5v5c0 .83-.67 1.5-1.5 1.5S8 21.33 8 20.5v-5c0-.83.67-1.5 1.5-1.5z"/><path d="M3.5 14H5v1.5c0 .83-.67 1.5-1.5 1.5S2 16.33 2 15.5 2.67 14 3.5 14z"/><path d="M14 14.5c0-.83.67-1.5 1.5-1.5h5c.83 0 1.5.67 1.5 1.5s-.67 1.5-1.5 1.5h-5c-.83 0-1.5-.67-1.5-1.5z"/><path d="M15.5 19H14v1.5c0 .83.67 1.5 1.5 1.5s1.5-.67 1.5-1.5-.67-1.5-1.5-1.5z"/><path d="M10 9.5C10 8.67 9.33 8 8.5 8h-5C2.67 8 2 8.67 2 9.5S2.67 11 3.5 11h5c.83 0 1.5-.67 1.5-1.5z"/><path d="M8.5 5H10V3.5C10 2.67 9.33 2 8.5 2S7 2.67 7 3.5 7.67 5 8.5 5z"/></svg>`,
+    icon: 'lucide:swords',
     rows: [
-      { key: 'armor', label: 'Armura (AP)', values: { night: '102 AP', rebirth: '100 AP', immortal: '105 AP', mythic: '110 AP' } },
+      { key: 'armor', label: 'Armură (AP)', values: { night: '102 AP', rebirth: '100 AP', immortal: '105 AP', mythic: '110 AP' } },
       { key: 'speed', label: 'Speed Bonus', values: { night: '1.05x', rebirth: '1.1x', immortal: '1.15x', mythic: '1.2x' } },
       { key: 'money', label: 'Money Bonus', values: { night: '1500$', rebirth: '1500$', immortal: '2000$', mythic: '2500$' } },
       { key: 'reload', label: 'Fast Reload', values: { night: true, rebirth: true, immortal: true, mythic: 'Ultra Fast' } },
     ]
   },
   {
-    label: 'Abilitati Speciale',
-    icon: `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>`,
+    label: 'Abilități Speciale',
+    icon: 'lucide:zap',
     rows: [
       { key: 'jump', label: 'Double Jump', values: { night: false, rebirth: false, immortal: true, mythic: 'x2' } },
       { key: 'bhop', label: 'Auto-Bhop', values: { night: false, rebirth: false, immortal: false, mythic: true } },
@@ -117,7 +132,7 @@ const featureGroups = [
   },
   {
     label: 'Echipament',
-    icon: `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 0 1-8 0"/></svg>`,
+    icon: 'lucide:briefcase',
     rows: [
       { key: 'defuse', label: 'Defuse Kit & Zeus', values: { night: true, rebirth: true, immortal: true, mythic: true } },
       { key: 'grenades', label: 'Full Grenades', values: { night: true, rebirth: true, immortal: true, mythic: true } },
@@ -127,7 +142,7 @@ const featureGroups = [
   },
   {
     label: 'Identitate & Chat',
-    icon: `<svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg>`,
+    icon: 'lucide:message-square',
     rows: [
       { key: 'chattag', label: 'Chat Color & TAG', values: { night: true, rebirth: true, immortal: true, mythic: 'Supreme' } },
       { key: 'tabtag', label: 'TAG in Scoreboard', values: { night: true, rebirth: true, immortal: true, mythic: true } },
@@ -147,55 +162,91 @@ const featureGroups = [
   border: 1px solid var(--vp-c-divider);
   background: var(--vp-c-bg-elv);
   box-shadow: 0 12px 32px rgba(0, 0, 0, 0.05);
+  position: relative;
+  /* Smooth horizontal scrolling for mobile */
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
 }
 
 .dark .vip-table-wrap {
-  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.2), inset 0 1px 1px rgba(255, 255, 255, 0.05);
   background: rgba(30, 30, 30, 0.4);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .vip-table {
-  min-width: 680px;
+  min-width: 760px; /* Minimum width before scrolling triggers */
   width: 100%;
+  display: flex;
+  flex-direction: column;
 }
 
 /* === HEADER === */
 .vip-thead {
   display: grid;
-  grid-template-columns: 180px repeat(4, 1fr);
+  grid-template-columns: 220px repeat(4, 1fr);
   background: var(--vp-c-bg-soft);
   border-bottom: 1px solid var(--vp-c-divider);
-  border-radius: 20px 20px 0 0;
-  overflow: hidden;
+  position: sticky;
+  top: 0;
+  z-index: 20;
 }
 
 .dark .vip-thead {
-  background: rgba(40, 40, 40, 0.5);
+  background: rgba(20, 20, 20, 0.85);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
 }
 
 .vip-th {
-  padding: 20px 10px 18px;
+  padding: 24px 12px 20px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
   text-align: center;
   border-right: 1px solid var(--vp-c-divider);
   position: relative;
-  transition: background 0.2s ease;
+  transition: background 0.3s ease, transform 0.3s ease;
+}
+.dark .vip-th {
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 .vip-th:last-child { border-right: none; }
 
+/* Sticky feature column */
+.vip-th--feature, .vip-cell--feature {
+  position: sticky;
+  left: 0;
+  z-index: 10;
+  background: var(--vp-c-bg-soft);
+}
+.dark .vip-th--feature, .dark .vip-cell--feature {
+  background: rgba(25, 25, 25, 1);
+}
+
+/* Header hover effect */
+.vip-th.is-hovered {
+  background: rgba(var(--vp-c-brand-1-rgb), 0.04);
+}
+.dark .vip-th.is-hovered {
+  background: rgba(255, 255, 255, 0.03);
+}
+
 .vip-th--feature {
   align-items: flex-start;
-  padding-left: 20px;
+  padding-left: 24px;
   font-size: 11px;
-  font-weight: 700;
+  font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
+  letter-spacing: 1.2px;
   color: var(--vp-c-text-3);
   justify-content: flex-end;
+  border-right: 2px solid var(--vp-c-divider) !important;
+}
+.dark .vip-th--feature {
+  border-right: 2px solid rgba(255,255,255,0.08) !important;
 }
 
 .vip-th--highlight {
@@ -203,6 +254,12 @@ const featureGroups = [
 }
 .dark .vip-th--highlight {
   background: linear-gradient(to bottom, rgba(236, 72, 153, 0.15), transparent);
+}
+.vip-th--highlight.is-hovered {
+  background: linear-gradient(to bottom, rgba(236, 72, 153, 0.15), transparent);
+}
+.dark .vip-th--highlight.is-hovered {
+  background: linear-gradient(to bottom, rgba(236, 72, 153, 0.25), transparent);
 }
 
 .vip-th--highlight::after {
@@ -215,31 +272,54 @@ const featureGroups = [
   font-weight: 800;
   letter-spacing: 1.2px;
   color: #fff;
-  background: v-bind('tiers.find(t => t.highlight)?.color ?? "#ec4899"');
-  padding: 3px 10px;
+  background: var(--tier-color, #ec4899);
+  padding: 4px 12px;
   border-radius: 0 0 8px 8px;
-  box-shadow: 0 2px 8px rgba(236, 72, 153, 0.4);
+  box-shadow: 0 4px 12px rgba(236, 72, 153, 0.4);
+}
+
+/* Mythic Glow */
+.vip-th--mythic {
+  position: relative;
+}
+.dark .vip-th--mythic::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--tier-color), transparent);
+  opacity: 0.5;
 }
 
 .vip-th__icon {
   display: flex;
   align-items: center;
+  justify-content: center;
   color: var(--tier-color);
   margin-top: 12px;
-  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.15));
+  transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+  padding: 8px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.5);
 }
-.vip-th__icon :deep(svg) { display: block; width: 22px; height: 22px; }
+.dark .vip-th__icon {
+  background: rgba(0, 0, 0, 0.2);
+}
+.vip-th.is-hovered .vip-th__icon {
+  transform: scale(1.15) translateY(-2px);
+}
 
 .vip-th__name {
-  font-size: 13px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--tier-color);
   text-transform: uppercase;
   letter-spacing: 0.8px;
+  margin-top: 4px;
 }
 
 .vip-th__price {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--vp-c-text-2);
   font-weight: 600;
   margin-top: 2px;
@@ -249,54 +329,76 @@ const featureGroups = [
 .vip-group-label {
   display: flex;
   align-items: center;
-  gap: 8px;
-  padding: 12px 20px 8px;
-  font-size: 11px;
+  gap: 10px;
+  padding: 14px 24px;
+  font-size: 12px;
   font-weight: 800;
   text-transform: uppercase;
-  letter-spacing: 0.8px;
-  color: var(--vp-c-text-2);
+  letter-spacing: 1px;
+  color: var(--vp-c-text-1);
   border-bottom: 1px solid var(--vp-c-divider);
   background: var(--vp-c-bg-alt);
+  position: sticky;
+  left: 0;
+  z-index: 15;
 }
 .dark .vip-group-label {
-  background: rgba(20, 20, 20, 0.4);
+  background: rgba(20, 20, 20, 0.95);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  border-top: 1px solid rgba(255, 255, 255, 0.03);
 }
-.vip-group-icon { display: inline-flex; align-items: center; color: var(--vp-c-brand-1); }
-.vip-group-icon :deep(svg) { display: block; width: 14px; height: 14px; }
+.vip-group-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--vp-c-brand-1);
+  background: rgba(var(--vp-c-brand-1-rgb), 0.1);
+  padding: 6px;
+  border-radius: 6px;
+}
 
 /* === ROWS === */
 .vip-row {
   display: grid;
-  grid-template-columns: 180px repeat(4, 1fr);
+  grid-template-columns: 220px repeat(4, 1fr);
   border-bottom: 1px solid var(--vp-c-divider);
-  transition: background 0.2s ease, transform 0.2s ease;
+  transition: background 0.2s ease;
+  background: transparent;
+}
+.dark .vip-row {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 }
 .vip-row:last-child {
   border-bottom: none;
 }
-.vip-row:hover { background: rgba(var(--vp-c-brand-1-rgb), 0.04); }
-.dark .vip-row:hover { background: rgba(255, 255, 255, 0.03); }
-
-.vip-row--alt { background: rgba(0,0,0,0.01); }
-.dark .vip-row--alt { background: rgba(255,255,255,0.01); }
+.vip-row:hover {
+  background: rgba(0, 0, 0, 0.02);
+}
+.dark .vip-row:hover {
+  background: rgba(255, 255, 255, 0.02);
+}
 
 .vip-cell {
-  padding: 14px 12px;
+  padding: 16px 12px;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 13px;
+  font-size: 14px;
   border-right: 1px solid var(--vp-c-divider);
-  min-height: 46px;
+  min-height: 56px;
+  transition: background 0.3s ease;
+}
+.dark .vip-cell {
+  border-right: 1px solid rgba(255, 255, 255, 0.05);
 }
 .vip-cell:last-child { border-right: none; }
 
-.vip-cell--feature {
-  justify-content: flex-start;
-  padding-left: 20px;
-  font-weight: 600;
-  color: var(--vp-c-text-1);
+/* Cell hover highlights */
+.vip-cell.is-hovered {
+  background: rgba(0, 0, 0, 0.02);
+}
+.dark .vip-cell.is-hovered {
+  background: rgba(255, 255, 255, 0.03);
 }
 
 .vip-cell--highlight {
@@ -305,22 +407,104 @@ const featureGroups = [
 .dark .vip-cell--highlight {
   background: rgba(236, 72, 153, 0.06);
 }
+.vip-cell--highlight.is-hovered {
+  background: rgba(236, 72, 153, 0.06);
+}
+.dark .vip-cell--highlight.is-hovered {
+  background: rgba(236, 72, 153, 0.1);
+}
 
-.vip-cell :deep(svg) { display: block; }
+/* Feature Name Cell */
+.vip-cell--feature {
+  justify-content: flex-start;
+  padding-left: 24px;
+  font-weight: 600;
+  color: var(--vp-c-text-1);
+  border-right: 2px solid var(--vp-c-divider) !important;
+}
+.dark .vip-cell--feature {
+  border-right: 2px solid rgba(255,255,255,0.08) !important;
+}
+
+.vip-icon-check {
+  color: #10b981;
+  filter: drop-shadow(0 2px 4px rgba(16, 185, 129, 0.2));
+}
+.vip-icon-cross {
+  color: var(--vp-c-text-3);
+  opacity: 0.4;
+}
 
 .vip-val {
-  font-size: 13px;
+  font-size: 13.5px;
   font-weight: 800;
   color: var(--tier-color, var(--vp-c-text-1));
   text-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  background: rgba(var(--vp-c-brand-1-rgb), 0.05);
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid rgba(0,0,0,0.05);
+}
+.dark .vip-val {
+  background: rgba(255,255,255,0.05);
+  border: 1px solid rgba(255,255,255,0.05);
+}
+.dark .vip-cell--mythic .vip-val {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(245, 158, 11, 0.2);
 }
 
-/* Note */
+/* === FOOTER === */
+.vip-footer {
+  padding: 16px 24px;
+  border-top: 1px solid var(--vp-c-divider);
+  background: var(--vp-c-bg-soft);
+  border-radius: 0 0 20px 20px;
+}
+.dark .vip-footer {
+  background: rgba(20, 20, 20, 0.6);
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+}
 .vip-note {
-  font-size: 11.5px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12.5px;
   color: var(--vp-c-text-3);
-  margin: 10px 0 0;
+  margin: 0;
   line-height: 1.6;
-  padding: 0 4px;
+}
+.vip-note :deep(svg) {
+  color: var(--vp-c-brand-1);
+}
+
+/* Scrollbar styling */
+.vip-table-wrap::-webkit-scrollbar {
+  height: 8px;
+}
+.vip-table-wrap::-webkit-scrollbar-track {
+  background: transparent;
+}
+.vip-table-wrap::-webkit-scrollbar-thumb {
+  background: var(--vp-c-divider);
+  border-radius: 4px;
+}
+.vip-table-wrap::-webkit-scrollbar-thumb:hover {
+  background: var(--vp-c-text-3);
+}
+
+@media (max-width: 768px) {
+  .vip-table-wrap {
+    margin: 20px -24px;
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+  .vip-th--feature, .vip-cell--feature {
+    padding-left: 16px;
+  }
+  .vip-footer {
+    border-radius: 0;
+  }
 }
 </style>

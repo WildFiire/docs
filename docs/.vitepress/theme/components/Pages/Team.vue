@@ -477,6 +477,19 @@ const hierarchyDefinition = [
         cls: '', 
         init: 'S', 
         crown: false
+      },
+      { 
+        id: 'username', 
+        name: 'laur3nt1uu', 
+        display: 'Laur3nt1uu', 
+        fullRole: 'Helper CS2', 
+        emoji: '🔰', 
+        discordId: '505052127521931264', 
+        color: '#2ecc71', 
+        roleClass: 'helper', 
+        cls: '', 
+        init: 'l', 
+        crown: false
       }
     ]
   }

@@ -22,6 +22,13 @@ audience: ["Jucator", "VIP"]
   badge-icon="lucide:crown"
 />
 
+<div class="coming-soon-wrapper" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 20px; text-align: center; background: rgba(139, 92, 246, 0.05); border: 1px dashed rgba(139, 92, 246, 0.3); border-radius: 24px; margin-top: 40px;">
+  <Icon icon="lucide:clock" width="48" height="48" color="#8b5cf6" style="margin-bottom: 20px; opacity: 0.8;" />
+  <h2 style="margin: 0; font-size: 28px; font-weight: 800; color: var(--vp-c-text-1);">Work in Progress</h2>
+  <p style="margin: 10px 0 0; color: var(--vp-c-text-2); max-width: 400px; line-height: 1.6;">Sistemul VIP și comparația detaliată a gradelor sunt momentan în lucru. Vom reveni curând!</p>
+</div>
+
+<!-- 
 <div class="wf-info-card" style="margin-top: 30px; border-left: 4px solid #8b5cf6; background: rgba(139, 92, 246, 0.03);">
   <div class="wf-info-icon">
     <Icon icon="lucide:crown" width="20" height="20" color="#8b5cf6" />
@@ -119,3 +126,4 @@ audience: ["Jucator", "VIP"]
   <Icon icon="lucide:shopping-cart" width="22" height="22" color="#8b5cf6" />
   <span>Poti achizitiona gradele VIP direct din magazinul platformei. <br><br><strong>⚠️ WORK IN PROGRESS:</strong> In viitor vom implementa optiunea de a cumpara VIP folosind <strong>Phoenix Coins</strong>. Momentan sistemul este in lucru. <br><br>Duratele disponibile: 7, 15 sau 30 de zile.</span>
 </div>
+-->
