@@ -11,9 +11,9 @@
     "vitepress": "^2.0.0-alpha.16"
   },
   "scripts": {
-    "docs:dev": "dotenv -e .env -- vitepress dev docs",
-    "docs:build": "dotenv -e .env -- vitepress build docs",
-    "docs:preview": "vitepress preview docs",
+    "dev": "dotenv -e .env -- vitepress dev docs",
+    "build": "dotenv -e .env -- vitepress build docs",
+    "preview": "vitepress preview docs",
     "start": "node server.js",
     "generator": "node tools/generator/server.js"
   },

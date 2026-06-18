@@ -1,10 +1,10 @@
 <template>
   <div class="cl-root">
     <!-- FILTERS -->
-    <div class="cl-filters">
+    <div class="cl-filters cl-glass-panel">
       <div class="cl-search-box">
         <svg class="cl-search-icon" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
-        <input type="text" v-model="search" placeholder="Search commits (e.g. 'feat', 'update', or an author name)..." />
+        <input type="text" v-model="search" placeholder="Search commits (feat, update, author)..." />
         <button v-if="search" class="cl-clear-btn" @click="search = ''">
           <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M18 6L6 18M6 6l12 12"/></svg>
         </button>
@@ -36,7 +36,7 @@
             {{ sortOrder === 'desc' ? 'Newest' : 'Oldest' }}
           </button>
           <div class="cl-count" v-if="!isLoading">
-            <strong>{{ filteredCommits.length }}</strong> commits
+            <strong class="orbitron-font">{{ filteredCommits.length }}</strong> commits
           </div>
         </div>
       </div>
@@ -44,44 +44,48 @@
 
     <!-- COMMITS TIMELINE -->
     <div class="cl-timeline-wrap">
-      <div v-if="isLoading" class="cl-loading">
-        <div class="cl-spinner"></div>
-        <p>Syncing commits from GitHub...</p>
+      <div v-if="isLoading" class="cl-loading cl-glass-panel">
+        <div class="cl-pulse-loader"></div>
+        <p class="orbitron-font" style="letter-spacing:1px; color:var(--T1);">SYNCING GITHUB FEED...</p>
       </div>
 
-      <div v-else-if="error" class="cl-error">
-        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/></svg>
+      <div v-else-if="error" class="cl-error cl-glass-panel">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" style="color: #ff3b30; margin-bottom:12px;"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><circle cx="12" cy="16" r="1"/></svg>
         <p>{{ error }}</p>
         <button class="cl-btn" @click="fetchCommits">Try Again</button>
       </div>
 
-      <div v-else-if="filteredCommits.length === 0" class="cl-empty">
-        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
+      <div v-else-if="filteredCommits.length === 0" class="cl-empty cl-glass-panel">
+        <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" style="color:var(--T3); margin-bottom:12px;"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.35-4.35"/></svg>
         <p>No commits match your filters.</p>
         <button class="cl-btn" @click="resetFilters">Reset Filters</button>
       </div>
 
-      <div v-else class="cl-timeline">
+      <div v-else class="cl-git-timeline">
+        <div class="cl-git-stem"></div>
         <transition-group name="cl-list">
-          <div v-for="(commit, idx) in filteredCommits" :key="commit.id" class="cl-item">
+          <div v-for="(commit, idx) in filteredCommits" :key="commit.id" class="cl-git-item">
+            
+            <div class="cl-git-node" v-html="commit.emoji"></div>
+            
             <!-- Card -->
-            <div class="cl-card" :class="{ 'cl-card-open': open[commit.id] }">
+            <div class="cl-card cl-glass-card" :class="{ 'cl-card-open': open[commit.id] }">
               <div class="cl-card-header" @click="toggle(commit.id)">
                 <div class="cl-card-meta">
                   <div class="cl-author">
                     <img :src="`https://github.com/${commit.author}.png?size=32`" :alt="commit.author" loading="lazy" />
-                    <a :href="`https://github.com/${commit.author}`" target="_blank" @click.stop>{{ commit.author }}</a>
+                    <a :href="`https://github.com/${commit.author}`" target="_blank" @click.stop class="orbitron-font">{{ commit.author }}</a>
                   </div>
                   <span class="cl-meta-dot">·</span>
-                  <span class="cl-date">{{ formatDate(commit.date) }}</span>
+                  <span class="cl-date" style="font-family: var(--vp-font-family-base);">{{ formatDate(commit.date) }}</span>
                   <span class="cl-meta-dot">·</span>
-                  <a :href="commit.url" target="_blank" class="cl-hash" @click.stop>
+                  <a :href="commit.url" target="_blank" class="cl-hash orbitron-font" @click.stop>
                     <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/></svg>
                     {{ commit.hash.substring(0, 7) }}
                   </a>
                 </div>
                 
-                <h3 class="cl-title">{{ commit.message }}</h3>
+                <h3 class="cl-title" style="font-family: var(--vp-font-family-base);">{{ commit.message }}</h3>
                 
                 <div class="cl-card-footer">
                   <div class="cl-card-tags">
@@ -108,7 +112,7 @@
                     <p>{{ commit.description }}</p>
                   </div>
                   <div v-if="commit.files.length" class="cl-files">
-                    <div class="cl-files-title">Files Changed</div>
+                    <div class="cl-files-title orbitron-font">Files Changed</div>
                     <ul>
                       <li v-for="f in commit.files" :key="f">{{ f }}</li>
                     </ul>
@@ -398,128 +402,157 @@ export default {
 
 <style scoped>
 .cl-root {
-  padding: 0;
-  display: flex; flex-direction: column; gap: 24px;
+  display: flex; flex-direction: column; gap: 32px; padding-top: 10px;
 }
-.cl-filters {
-  display: flex; flex-direction: column; gap: 16px;
-  background: var(--CARD); border: 1px solid var(--BD);
+
+/* Glass Panels */
+.cl-glass-panel {
+  background: rgba(0,0,0,0.1); border: 1px solid var(--BD);
   padding: 24px; border-radius: 20px;
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+  box-shadow: 0 8px 32px rgba(0,0,0,0.1);
 }
-.cl-search-box {
-  position: relative; display: flex; align-items: center;
+
+.cl-filters {
+  display: flex; flex-direction: column; gap: 20px;
 }
-.cl-search-icon {
-  position: absolute; left: 16px; color: var(--T3); pointer-events: none;
-}
+
+/* Search Box Premium */
+.cl-search-box { position: relative; display: flex; align-items: center; }
+.cl-search-icon { position: absolute; left: 20px; color: var(--T3); pointer-events: none; }
 .cl-search-box input {
   width: 100%; background: var(--SURF); border: 1px solid var(--BD);
-  border-radius: 14px; padding: 14px 44px; font-size: 14px; color: var(--T1);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  border-radius: 16px; padding: 16px 50px; font-size: 15px; color: var(--T1);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 .cl-search-box input:focus {
-  outline: none; border-color: rgba(255,120,0,0.4);
-  box-shadow: 0 0 0 3px rgba(255,120,0,0.1);
+  outline: none; border-color: rgba(255,140,0,0.6);
+  background: var(--CARD);
+  box-shadow: 0 0 0 4px rgba(255,140,0,0.1), 0 10px 24px rgba(0,0,0,0.1);
+  transform: translateY(-2px);
 }
 .cl-clear-btn {
-  position: absolute; right: 16px; background: none; border: none; color: var(--T3);
-  cursor: pointer; padding: 4px; border-radius: 50%;
+  position: absolute; right: 20px; background: var(--CARD); border: 1px solid var(--BD); color: var(--T3);
+  cursor: pointer; padding: 6px; border-radius: 50%; transition: all 0.3s;
 }
-.cl-clear-btn:hover { color: var(--P); background: var(--SURF); }
+.cl-clear-btn:hover { color: #ff3b30; border-color: #ff3b30; transform: scale(1.1); }
 
-.cl-filter-row {
-  display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px;
-}
-.cl-tags { display: flex; gap: 8px; flex-wrap: wrap; }
+/* Filter Tags */
+.cl-filter-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 16px; }
+.cl-tags { display: flex; gap: 10px; flex-wrap: wrap; }
 .cl-tag-btn {
-  background: var(--SURF); border: 1px solid var(--BD); color: var(--T2);
-  padding: 6px 14px; border-radius: 20px; font-size: 13px; font-weight: 600; cursor: pointer;
-  display: flex; align-items: center; gap: 6px; transition: all 0.2s;
+  background: rgba(0,0,0,0.15); border: 1px solid var(--BD); color: var(--T2);
+  padding: 8px 16px; border-radius: 24px; font-size: 13px; font-weight: 700; cursor: pointer;
+  display: flex; align-items: center; gap: 8px; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.cl-tag-btn:hover { background: rgba(255,255,255,0.03); color: var(--T1); }
-.cl-tag-btn.active { background: var(--Ps); border-color: rgba(255,120,0,0.3); color: var(--P); }
+.cl-tag-btn:hover { background: rgba(0,0,0,0.25); color: var(--T1); transform: translateY(-2px); }
+.cl-tag-btn.active { background: var(--Ps); border-color: var(--P); color: var(--P); transform: translateY(-2px); box-shadow: 0 4px 12px rgba(255,140,0,0.2); }
 
 .cl-dot { width: 8px; height: 8px; border-radius: 50%; }
-.cl-dot-feat { background: #34c759; }
-.cl-dot-fix { background: #ff3b30; }
-.cl-dot-docs { background: #007aff; }
-.cl-dot-refactor { background: #af52de; }
-.cl-dot-update { background: var(--T3); }
+.cl-dot-feat { background: #34c759; box-shadow: 0 0 8px #34c759; }
+.cl-dot-fix { background: #ff3b30; box-shadow: 0 0 8px #ff3b30; }
+.cl-dot-docs { background: #007aff; box-shadow: 0 0 8px #007aff; }
+.cl-dot-refactor { background: #af52de; box-shadow: 0 0 8px #af52de; }
 
-.cl-sort-wrap { display: flex; align-items: center; gap: 16px; }
+.cl-sort-wrap { display: flex; align-items: center; gap: 20px; }
 .cl-sort-btn {
-  background: none; border: none; color: var(--T2); display: flex; align-items: center; gap: 6px;
-  cursor: pointer; font-size: 13px; font-weight: 600; transition: color 0.2s;
+  background: none; border: none; color: var(--T2); display: flex; align-items: center; gap: 8px;
+  cursor: pointer; font-size: 14px; font-weight: 700; transition: color 0.2s;
 }
 .cl-sort-btn:hover { color: var(--T1); }
-.cl-count { font-size: 13px; color: var(--T3); }
-.cl-count strong { color: var(--T1); }
+.cl-count { font-size: 14px; color: var(--T3); }
+.cl-count strong { color: var(--T1); font-size: 16px; }
 
-/* Timeline Stack */
-.cl-timeline-wrap { position: relative; }
-.cl-timeline { position: relative; }
-
-.cl-item { position: relative; margin-bottom: 20px; z-index: 1; }
-
-/* Card */
-.cl-card {
-  background: var(--CARD); border: 1px solid var(--BD); border-radius: 16px;
-  transition: border-color 0.2s, transform 0.2s, box-shadow 0.2s; overflow: hidden;
+/* GIT TIMELINE LAYOUT */
+.cl-git-timeline { position: relative; margin-top: 16px; padding-left: 40px; }
+.cl-git-stem {
+  position: absolute; top: 0; bottom: 0; left: 15px; width: 2px;
+  background: linear-gradient(to bottom, var(--P), transparent);
+  box-shadow: 0 0 8px var(--P); border-radius: 2px;
 }
-.cl-card:hover {
-  border-color: rgba(255,120,0,0.3); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0,0,0,0.1);
-}
-.cl-card-open { border-color: rgba(255,120,0,0.4); }
 
-.cl-card-header { padding: 16px 20px; cursor: pointer; }
-.cl-card-meta { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--T3); margin-bottom: 8px; }
-.cl-author { display: flex; align-items: center; gap: 6px; }
-.cl-author img { width: 22px; height: 22px; border-radius: 50%; border: 1px solid var(--BD); }
-.cl-author a { color: var(--T1); font-weight: 600; text-decoration: none; }
+.cl-git-item { position: relative; margin-bottom: 24px; z-index: 1; }
+
+.cl-git-node {
+  position: absolute; left: -40px; top: 20px; width: 32px; height: 32px;
+  background: var(--CARD); border: 2px solid var(--P); border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 0 12px rgba(255,140,0,0.4); z-index: 2; color: var(--P);
+}
+.cl-git-node svg { width: 16px; height: 16px; }
+
+/* Premium Glass Card */
+.cl-glass-card {
+  background: rgba(0,0,0,0.15); border: 1px solid var(--BD); border-radius: 20px;
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); overflow: hidden;
+}
+.cl-glass-card:hover {
+  border-color: rgba(255,140,0,0.4); transform: translateX(8px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.2), inset 0 1px 1px rgba(255,255,255,0.05);
+}
+.cl-card-open { border-color: rgba(255,140,0,0.6); box-shadow: 0 12px 32px rgba(255,140,0,0.1); }
+
+.cl-card-header { padding: 20px 24px; cursor: pointer; }
+.cl-card-meta { display: flex; align-items: center; gap: 10px; font-size: 13px; color: var(--T3); margin-bottom: 12px; }
+.cl-author { display: flex; align-items: center; gap: 8px; }
+.cl-author img { width: 24px; height: 24px; border-radius: 50%; border: 1px solid var(--BD); }
+.cl-author a { color: var(--T1); text-decoration: none; font-size:14px; }
 .cl-author a:hover { color: var(--P); }
-.cl-hash { color: var(--T3); text-decoration: none; display: flex; align-items: center; gap: 4px; font-family: monospace; }
-.cl-hash:hover { color: var(--P); }
+.cl-hash { color: var(--P); text-decoration: none; display: flex; align-items: center; gap: 6px; font-size:13px; background:var(--Ps); padding:4px 8px; border-radius:8px;}
+.cl-hash:hover { background: rgba(255,140,0,0.2); }
 
-.cl-title { font-size: 16px; font-weight: 700; color: var(--T1); margin: 0 0 12px 0; line-height: 1.5; }
+.cl-title { font-size: 18px; font-weight: 700; color: var(--T1); margin: 0 0 16px 0; line-height: 1.4; }
 
 .cl-card-footer { display: flex; align-items: center; justify-content: space-between; }
-.cl-card-tags { display: flex; gap: 6px; }
-.cl-chip { padding: 4px 10px; border-radius: 12px; font-size: 11px; font-weight: 700; text-transform: uppercase; }
-.cl-chip-feat { background: rgba(52,199,89,0.1); color: #34c759; }
-.cl-chip-fix { background: rgba(255,59,48,0.1); color: #ff3b30; }
-.cl-chip-docs { background: rgba(0,122,255,0.1); color: #007aff; }
-.cl-chip-refactor { background: rgba(175,82,222,0.1); color: #af52de; }
-.cl-chip-update { background: rgba(136,136,152,0.1); color: var(--T2); }
+.cl-card-tags { display: flex; gap: 8px; }
+.cl-chip { padding: 4px 12px; border-radius: 12px; font-size: 11px; font-weight: 800; text-transform: uppercase; letter-spacing:0.5px; }
+.cl-chip-feat { background: rgba(52,199,89,0.15); color: #34c759; border: 1px solid rgba(52,199,89,0.3); }
+.cl-chip-fix { background: rgba(255,59,48,0.15); color: #ff3b30; border: 1px solid rgba(255,59,48,0.3); }
+.cl-chip-docs { background: rgba(0,122,255,0.15); color: #007aff; border: 1px solid rgba(0,122,255,0.3); }
+.cl-chip-refactor { background: rgba(175,82,222,0.15); color: #af52de; border: 1px solid rgba(175,82,222,0.3); }
+.cl-chip-update { background: rgba(136,136,152,0.15); color: var(--T2); border: 1px solid var(--BD); }
 
-.cl-card-stats { display: flex; align-items: center; gap: 12px; font-size: 13px; font-weight: 600; }
+.cl-card-stats { display: flex; align-items: center; gap: 14px; font-size: 14px; font-weight: 700; }
 .cl-stat-add { color: #34c759; }
 .cl-stat-del { color: #ff3b30; }
-.cl-stat-files { color: var(--T3); display: flex; align-items: center; gap: 4px; }
+.cl-stat-files { color: var(--T3); display: flex; align-items: center; gap: 6px; }
 
 .cl-expand-btn {
-  background: var(--SURF); border: 1px solid var(--BD); border-radius: 50%; width: 28px; height: 28px;
-  display: flex; align-items: center; justify-content: center; color: var(--T2); cursor: pointer; transition: all 0.2s;
+  background: var(--CARD); border: 1px solid var(--BD); border-radius: 50%; width: 32px; height: 32px;
+  display: flex; align-items: center; justify-content: center; color: var(--T2); cursor: pointer; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
-.cl-card:hover .cl-expand-btn { background: var(--Ps); color: var(--P); border-color: rgba(255,120,0,0.2); }
-.cl-expand-btn.active { transform: rotate(180deg); background: var(--P); color: #fff; }
+.cl-glass-card:hover .cl-expand-btn { background: var(--Ps); color: var(--P); border-color: var(--P); }
+.cl-expand-btn.active { transform: rotate(180deg); background: var(--P); color: #fff; box-shadow: 0 4px 12px rgba(255,140,0,0.3); }
 
-.cl-card-body { padding: 0 20px 20px 20px; border-top: 1px solid var(--BD); margin-top: 4px; padding-top: 16px; }
-.cl-desc { font-size: 14px; color: var(--T2); line-height: 1.6; white-space: pre-wrap; background: var(--SURF); padding: 14px 16px; border-radius: 10px; border: 1px solid var(--BD); }
-.cl-files { margin-top: 16px; }
-.cl-files-title { font-size: 11px; font-weight: 700; color: var(--T3); text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.05em; }
-.cl-files ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 6px; }
-.cl-files li { font-size: 13px; color: var(--T2); font-family: monospace; background: var(--SURF); padding: 6px 10px; border-radius: 8px; border: 1px solid var(--BD); }
+.cl-card-body { padding: 0 24px 24px 24px; border-top: 1px solid var(--BD); background: rgba(0,0,0,0.2); }
+.cl-desc { font-size: 15px; color: var(--T2); line-height: 1.6; white-space: pre-wrap; margin-top:20px; }
+.cl-files { margin-top: 24px; }
+.cl-files-title { font-size: 12px; font-weight: 800; color: var(--T3); text-transform: uppercase; margin-bottom: 12px; letter-spacing: 1px; }
+.cl-files ul { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 8px; }
+.cl-files li { font-size: 13px; color: var(--T2); font-family: monospace; background: var(--CARD); padding: 8px 12px; border-radius: 8px; border: 1px solid var(--BD); }
 
-.cl-empty-details { font-size: 13px; color: var(--T3); font-style: italic; }
-.cl-loading, .cl-error, .cl-empty { text-align: center; padding: 40px 20px; color: var(--T2); background: var(--CARD); border: 1px solid var(--BD); border-radius: 20px; }
-.cl-spinner { width: 32px; height: 32px; border: 3px solid var(--BD); border-top-color: var(--P); border-radius: 50%; animation: cl-spin 1s linear infinite; margin: 0 auto 16px; }
-@keyframes cl-spin { to { transform: rotate(360deg); } }
-.cl-btn { background: var(--SURF); border: 1px solid var(--BD); color: var(--T1); padding: 8px 16px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-top: 16px; }
-.cl-btn:hover { background: var(--Ps); border-color: rgba(255,120,0,0.3); color: var(--P); }
+.cl-empty-details { font-size: 14px; color: var(--T3); font-style: italic; margin-top: 20px; }
 
-.cl-list-enter-active, .cl-list-leave-active { transition: all 0.4s ease; }
-.cl-list-enter-from { opacity: 0; transform: translateY(20px); }
-.cl-list-leave-to { opacity: 0; transform: translateY(-20px); }
-.cl-slide-enter-active, .cl-slide-leave-active { transition: all 0.3s ease; max-height: 1000px; overflow: hidden; }
+/* Loading State */
+.cl-loading, .cl-error, .cl-empty { text-align: center; padding: 60px 20px; color: var(--T2); display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.cl-pulse-loader { width: 48px; height: 48px; background: var(--P); border-radius: 50%; margin-bottom: 24px; animation: cl-pulse 1.5s infinite cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+@keyframes cl-pulse { 0% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255,140,0,0.5); } 70% { transform: scale(1); box-shadow: 0 0 0 20px rgba(255,140,0,0); } 100% { transform: scale(0.8); box-shadow: 0 0 0 0 rgba(255,140,0,0); } }
+.cl-btn { background: var(--CARD); border: 1px solid var(--BD); color: var(--T1); padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; transition: all 0.3s; margin-top: 20px; }
+.cl-btn:hover { background: var(--Ps); border-color: var(--P); color: var(--P); box-shadow: 0 4px 12px rgba(255,140,0,0.2); }
+
+.cl-list-enter-active, .cl-list-leave-active { transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.cl-list-enter-from { opacity: 0; transform: translateY(30px) scale(0.98); }
+.cl-list-leave-to { opacity: 0; transform: translateY(-30px) scale(0.98); }
+.cl-slide-enter-active, .cl-slide-leave-active { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); max-height: 1500px; overflow: hidden; }
 .cl-slide-enter-from, .cl-slide-leave-to { opacity: 0; max-height: 0; padding-top: 0; padding-bottom: 0; margin-top: 0; }
+
+@media (max-width: 768px) {
+  .cl-git-timeline { padding-left: 20px; }
+  .cl-git-stem { left: 5px; }
+  .cl-git-node { left: -25px; width: 20px; height: 20px; }
+  .cl-git-node svg { display: none; }
+  .cl-card-footer { flex-direction: column; align-items: flex-start; gap: 16px; }
+  .cl-expand-btn { align-self: flex-end; margin-top: -30px; }
+}
 </style>

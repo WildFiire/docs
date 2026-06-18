@@ -26,395 +26,457 @@
 
     <!-- PAGE CONTENT -->
     <main class="uh-main">
+      <div class="uh-ambient" aria-hidden="true">
+        <span class="uh-orb uh-orb--fire"></span>
+        <span class="uh-orb uh-orb--blue"></span>
+      </div>
 
-      <!-- ═══════════════ OVERVIEW ═══════════════ -->
-      <section v-show="activeTab === 'overview'" class="uh-page">
-        <div class="uh-wrap">
-
-          <!-- PREMIUM HERO -->
-          <div class="uh-hero-premium">
-            <!-- Background effects -->
-            <div class="uh-hp-bg-glow"></div>
-            <div class="uh-hp-bg-grid"></div>
-
-            <div class="uh-hp-content">
-              <div class="uh-hp-badge">
-                <span class="uh-hp-badge-dot"></span>
-                v3.0.0 is now live
+      <!-- ═══════════════ OVERVIEW DASHBOARD ═══════════════ -->
+      <section class="uh-page" :class="{ 'page-active': activeTab === 'overview', 'page-inactive': activeTab !== 'overview' }">
+        <div class="uh-wrap uh-wrap--dashboard">
+          
+          <!-- TOP METRICS ROW -->
+          <div class="uh-dash-metrics">
+            <div class="uh-hp-stat-card">
+              <div class="uh-hp-stat-icon" style="color:var(--PUR); background:var(--PUS)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
+              <div class="uh-hp-stat-info">
+                <div class="uh-hp-stat-val orbitron-font">v3.0.0</div>
+                <div class="uh-hp-stat-lbl">Current Version</div>
               </div>
-              
-              <h1 class="uh-hp-title">
-                The next generation of <br/>
-                <span class="uh-hp-highlight">Wildfire.ro Docs</span>
-              </h1>
-              
-              <p class="uh-hp-subtitle">
-                A complete rebuild focusing on performance, beautiful design systems, and real-time GitHub integrations. Everything you need, faster than ever.
-              </p>
-
-              <div class="uh-hp-actions">
-                <button class="uh-hp-btn-primary" @click="setTab('changelogs')">
-                  Explore Changelogs
-                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-                </button>
-                <button class="uh-hp-btn-secondary" @click="setTab('versions')">
-                  Version History
-                </button>
+            </div>
+            
+            <div class="uh-hp-stat-card uh-hp-stat-card--commits">
+              <div class="uh-hp-stat-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg></div>
+              <div class="uh-hp-stat-info">
+                <div class="uh-hp-stat-val orbitron-font">100+</div>
+                <div class="uh-hp-stat-lbl">Commits Synced</div>
               </div>
             </div>
 
-            <div class="uh-hp-visuals">
-              <div class="uh-hp-stat-card">
-                <div class="uh-hp-stat-icon" style="color: var(--P); background: var(--Ps);">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg>
-                </div>
-                <div class="uh-hp-stat-info">
-                  <div class="uh-hp-stat-val">100+</div>
-                  <div class="uh-hp-stat-lbl">Commits Synced</div>
-                </div>
+            <div class="uh-hp-stat-card uh-hp-stat-card--live">
+              <div class="uh-hp-stat-icon"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+              <div class="uh-hp-stat-info">
+                <div class="uh-hp-stat-val orbitron-font uh-hp-stat-val--live">LIVE</div>
+                <div class="uh-hp-stat-lbl">System Status</div>
               </div>
+            </div>
 
-              <div class="uh-hp-stat-card">
-                <div class="uh-hp-stat-icon" style="color: var(--GRN); background: var(--GRS);">
-                  <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
-                </div>
-                <div class="uh-hp-stat-info">
-                  <div class="uh-hp-stat-val" style="color: var(--GRN);">LIVE</div>
-                  <div class="uh-hp-stat-lbl">System Status</div>
-                </div>
-              </div>
-
-              <div class="uh-hp-stat-card uh-hp-span-2">
-                <div class="uh-hp-contribs">
-                  <div class="uh-hp-c-text">
-                    <span class="uh-hp-c-val">{{ isLoadingContributors ? '...' : githubContributors.length + '+' }}</span>
-                    <span class="uh-hp-c-lbl">Active Contributors</span>
-                  </div>
-                  <div class="uh-hp-c-avatars" v-if="githubContributors.length">
-                    <a v-for="c in githubContributors" :key="c.login" :href="c.html_url" target="_blank" class="uh-hp-contrib-badge">
-                      <img :src="c.avatar_url + (c.avatar_url.includes('?') ? '&' : '?') + 's=60'" :alt="c.login" class="uh-hp-cb-avatar">
-                      <span class="uh-hp-cb-name">@{{ c.login }}</span>
-                    </a>
-                  </div>
-                </div>
+            <div class="uh-hp-stat-card">
+              <div class="uh-hp-stat-icon" style="color:var(--BLU); background:var(--BLS)"><svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></div>
+              <div class="uh-hp-stat-info">
+                <div class="uh-hp-stat-val orbitron-font">{{ isLoadingContributors ? '...' : githubContributors.length + '+' }}</div>
+                <div class="uh-hp-stat-lbl">Active Contributors</div>
               </div>
             </div>
           </div>
 
-          <!-- QUICK NAV GRID (Refined) -->
-          <div class="uh-ov-label">EXPLORE</div>
-          <div class="uh-quick-grid">
-            <div class="uh-quick-card" @click="setTab('changelogs')">
-              <div class="uh-qc-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg></div>
-              <div class="uh-qc-content">
-                <h4>Commit Changelog</h4>
-                <p>Live GitHub feed — tracking every commit in real-time.</p>
+          <!-- DASHBOARD GRID -->
+          <div class="uh-dashboard-grid">
+            
+            <!-- HERO WIDGET (Span 8) -->
+            <div class="uh-dash-widget uh-widget-span-8 uh-hero-premium" style="display:flex; flex-direction:column; justify-content:center; align-items:flex-start; margin-bottom:0; min-height:100%; padding:48px 44px;">
+              <div class="uh-hp-border-glow" aria-hidden="true"></div>
+              <div class="uh-hp-bg-glow"></div>
+              <div class="uh-hp-bg-grid"></div>
+              <span class="uh-hp-watermark orbitron-font" aria-hidden="true" style="right:-30px;">HUB</span>
+
+              <div class="uh-hp-content" style="width:100%;">
+                <div class="uh-hp-badge">
+                  <span class="uh-hp-badge-dot"></span>
+                  v3.0.0 is now live
+                </div>
+
+                <h1 class="uh-hp-title orbitron-font">
+                  The next generation of<br/>
+                  <span class="uh-hp-brand"><span class="uh-hp-wild">Wild</span><span class="uh-hp-fire">Fire</span></span>
+                  <span class="uh-hp-docs"> Docs</span>
+                </h1>
+
+                <p class="uh-hp-subtitle" style="margin-bottom: 28px; max-width: 85%;">
+                  A complete rebuild focused on performance, premium design systems, and real-time GitHub integrations — everything you need, faster than ever.
+                </p>
+
+                <div class="uh-hp-actions">
+                  <a href="/hub/changelogs" class="uh-hp-btn-primary">
+                    Explore Changelogs
+                    <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                  </a>
+                  <a href="/hub/versions" class="uh-hp-btn-secondary">Version History</a>
+                </div>
               </div>
-              <svg class="uh-qc-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
             </div>
 
-            <div class="uh-quick-card" @click="setTab('versions')">
-              <div class="uh-qc-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg></div>
-              <div class="uh-qc-content">
-                <h4>Version History</h4>
-                <p>Curated major releases, highlights, and bugfixes.</p>
+            <!-- QUICK LINKS WIDGET (Span 4) -->
+            <div class="uh-dash-widget uh-widget-span-4 uh-widget-glass">
+              <div class="uh-widget-header">
+                <div class="uh-section-label uh-section-label--left">
+                  <span class="uh-section-label__line"></span>
+                  <span class="uh-section-label__text orbitron-font">EXPLORE</span>
+                </div>
+                <h3 class="orbitron-font">Quick Links</h3>
               </div>
-              <svg class="uh-qc-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <div class="uh-dash-quick-links">
+                <a v-for="item in quickNavItems" :key="item.id" :href="item.link" class="uh-dash-ql-item" :class="'uh-dash-ql--' + item.accent">
+                  <div class="uh-dash-ql-icon" v-html="item.icon"></div>
+                  <div class="uh-dash-ql-text">
+                    <h4>{{ item.title }}</h4>
+                    <p>{{ item.desc }}</p>
+                  </div>
+                  <svg class="uh-dash-ql-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+                </a>
+              </div>
             </div>
 
-            <div class="uh-quick-card" @click="setTab('contribute')">
-              <div class="uh-qc-icon"><svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg></div>
-              <div class="uh-qc-content">
-                <h4>Contribute</h4>
-                <p>Join the open source effort to improve the documentation.</p>
+            <!-- HIGHLIGHTS WIDGET (Span 6) -->
+            <div class="uh-dash-widget uh-widget-span-6 uh-widget-glass">
+              <div class="uh-widget-header">
+                <div class="uh-section-label uh-section-label--left">
+                  <span class="uh-section-label__line"></span>
+                  <span class="uh-section-label__text orbitron-font">v3.0.0 HIGHLIGHTS</span>
+                </div>
+                <h3 class="orbitron-font">What's New</h3>
               </div>
-              <svg class="uh-qc-arrow" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+              <div class="uh-dash-highlights">
+                <div v-for="h in v3Highlights" :key="h.text" class="uh-dash-hl-item" :class="'uh-dash-hl--' + h.type">
+                  <div class="uh-dash-hl-icon" :class="'hi-' + h.type">
+                    <svg v-if="h.type === 'feat'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+                    <svg v-else-if="h.type === 'fix'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+                    <svg v-else viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/></svg>
+                  </div>
+                  <div class="uh-dash-hl-text">{{ h.text }}</div>
+                  <span class="uh-hl-tag-clean">{{ h.type }}</span>
+                </div>
+              </div>
             </div>
-          </div>
 
-          <!-- HIGHLIGHTS (Clean List) -->
-          <div class="uh-ov-label" style="margin-top:40px">v3.0.0 HIGHLIGHTS</div>
-          <div class="uh-highlight-list">
-            <div class="uh-hl-item" v-for="h in v3Highlights" :key="h.text">
-              <div class="uh-hl-icon" :class="'hi-' + h.type">
-                <svg v-if="h.type === 'feat'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                <svg v-if="h.type === 'fix'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                <svg v-if="h.type === 'docs'" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+            <!-- COMMUNITY WIDGET (Span 6) -->
+            <div class="uh-dash-widget uh-widget-span-6 uh-widget-glass" style="display:flex; flex-direction:column;">
+              <div class="uh-widget-header" style="margin-bottom: 20px;">
+                <div class="uh-section-label uh-section-label--left">
+                  <span class="uh-section-label__line"></span>
+                  <span class="uh-section-label__text orbitron-font">COMMUNITY</span>
+                </div>
+                <h3 class="orbitron-font">Top Contributors</h3>
               </div>
-              <div class="uh-hl-text">{{ h.text }}</div>
-              <div class="uh-hl-tag-clean">{{ h.type }}</div>
+              <div class="uh-dash-contribs" style="flex:1;">
+                <a v-for="c in githubContributors.slice(0, 8)" :key="c.login" :href="c.html_url" target="_blank" rel="noopener noreferrer" class="uh-dash-contrib-card">
+                  <img :src="c.avatar_url + (c.avatar_url.includes('?') ? '&' : '?') + 's=60'" :alt="c.login" class="uh-dash-cc-avatar">
+                  <div class="uh-dash-cc-info">
+                    <span class="uh-dash-cc-name">@{{ c.login }}</span>
+                    <span class="uh-dash-cc-commits" v-if="c.contributions">{{ c.contributions }} commits</span>
+                  </div>
+                </a>
+                <div v-if="!githubContributors.length" class="uh-contrib-live-loading">Loading...</div>
+              </div>
             </div>
+
           </div>
 
         </div>
       </section>
 
       <!-- ═══════════════ CHANGELOGS ═══════════════ -->
-      <section v-show="activeTab === 'changelogs'" class="uh-page">
-        <div class="uh-wrap uh-changelogs-wrap">
-
-          <!-- Section header -->
-          <div class="uh-section-head">
-            <div class="uh-section-head-left">
-              <div class="uh-section-icon orange">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg>
+      <section class="uh-page" :class="{ 'page-active': activeTab === 'changelogs', 'page-inactive': activeTab !== 'changelogs' }">
+        <div class="uh-wrap uh-wrap--dashboard">
+          <div class="uh-dashboard-grid">
+            <div class="uh-dash-widget uh-widget-span-12 uh-widget-glass" style="padding: 32px 40px;">
+              <div class="uh-section-head" style="margin-bottom: 24px; border-bottom: none; padding-bottom: 0;">
+                <div class="uh-section-head-left">
+                  <div class="uh-section-icon orange">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg>
+                  </div>
+                  <div>
+                    <div class="uh-section-label uh-section-label--left">
+                      <span class="uh-section-label__line"></span>
+                      <span class="uh-section-label__text orbitron-font">LIVE FEED</span>
+                    </div>
+                    <h2 class="uh-section-title orbitron-font" style="margin-bottom:4px;">Commit <span class="uh-accent">Changelog</span></h2>
+                    <p class="uh-section-sub">WildFiire/docs · main · real-time GitHub feed</p>
+                  </div>
+                </div>
+                <a href="https://github.com/WildFiire/docs/commits/main" target="_blank" rel="noopener noreferrer" class="uh-btn uh-btn-glass uh-btn-sm">
+                  <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                  Open GitHub
+                </a>
               </div>
-              <div>
-                <h2 class="uh-section-title">Commit Changelog</h2>
-                <p class="uh-section-sub">WildFiire/docs · main · real-time GitHub feed</p>
+              <div class="uh-changelogs-frame" style="box-shadow:none; border:none; padding:0; background:transparent; backdrop-filter:none;">
+                <Changelogs />
               </div>
             </div>
-            <a href="https://github.com/WildFiire/docs/commits/main" target="_blank" class="uh-btn uh-btn-glass uh-btn-sm">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-              Open GitHub
-            </a>
           </div>
-
-          <!-- Embedded Changelogs component with custom wrapper -->
-          <div class="uh-changelogs-frame">
-            <Changelogs />
-          </div>
-
         </div>
       </section>
 
-      <!-- ═══════════════ VERSIONS ═══════════════ -->
-      <section v-show="activeTab === 'versions'" class="uh-page">
-        <div class="uh-wrap">
-
-          <div class="uh-section-head">
-            <div class="uh-section-head-left">
-              <div class="uh-section-icon purple">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
-              </div>
-              <div>
-                <h2 class="uh-section-title">Version History</h2>
-                <p class="uh-section-sub">Release notes complete — de la prima lansare pana azi</p>
-              </div>
-            </div>
-            <button class="uh-btn uh-btn-glass uh-btn-sm" @click="expandAllVersions = !expandAllVersions">
-              {{ expandAllVersions ? 'Collapse All' : 'Expand All' }}
-            </button>
-          </div>
-
-          <div class="uh-timeline">
-            <div
-              v-for="(ver, idx) in versions"
-              :key="ver.tag"
-              class="uh-tl-row"
-              :class="{ 'tl-first': idx === 0 }"
-            >
-              <!-- Left: node + line -->
-              <div class="uh-tl-left">
-                <div class="uh-tl-node" :class="'tln-' + ver.type">
-                  <span v-html="ver.icon"></span>
-                </div>
-                <div class="uh-tl-stem" v-if="idx < versions.length - 1"></div>
-              </div>
-
-              <!-- Right: card -->
-              <div class="uh-tl-card" :class="{ 'tlc-open': openVersions[ver.tag] || expandAllVersions }">
-                <div class="uh-tl-card-hd" @click="toggleVer(ver.tag)">
-                  <div class="uh-tl-card-left">
-                    <div class="uh-tl-tag-row">
-                      <code class="uh-tl-tag">{{ ver.tag }}</code>
-                      <span class="uh-chip" :class="'uh-chip-' + ver.typeColor">{{ ver.typeLabel }}</span>
-                      <span v-if="idx === 0" class="uh-chip uh-chip-orange" style="animation: uh-badge-pulse 2s ease infinite">LATEST</span>
-                    </div>
-                    <p class="uh-tl-title">{{ ver.title }}</p>
-                    <div class="uh-tl-meta">
-                      <span><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{{ ver.date }}</span>
-                      <span>·</span>
-                      <span><svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg>{{ ver.commitCount }} commits</span>
-                    </div>
+      <!-- ═══════════════ VERSIONS (MASTER-DETAIL DASHBOARD) ═══════════════ -->
+      <section class="uh-page" :class="{ 'page-active': activeTab === 'versions', 'page-inactive': activeTab !== 'versions' }">
+        <div class="uh-wrap uh-wrap--dashboard">
+          
+          <div class="uh-dashboard-grid">
+            <div class="uh-dash-widget uh-widget-span-12 uh-widget-glass" style="padding: 32px 40px;">
+              
+              <!-- HEADER -->
+              <div class="uh-section-head" style="margin-bottom: 32px; border-bottom: 1px solid var(--BD); padding-bottom: 24px;">
+                <div class="uh-section-head-left">
+                  <div class="uh-section-icon purple">
+                    <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
                   </div>
-                  <div class="uh-tl-chevron" :class="{ open: openVersions[ver.tag] || expandAllVersions }">
-                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor"><path d="M6 9l6 6 6-6"/></svg>
+                  <div>
+                    <div class="uh-section-label uh-section-label--left">
+                      <span class="uh-section-label__line"></span>
+                      <span class="uh-section-label__text orbitron-font">RELEASES</span>
+                    </div>
+                    <h2 class="uh-section-title orbitron-font" style="margin-bottom:4px;">Version <span class="uh-accent">History</span></h2>
+                    <p class="uh-section-sub">Explorati istoricul complet al lansarilor.</p>
                   </div>
                 </div>
-
-                <transition name="uh-slide">
-                  <div v-if="openVersions[ver.tag] || expandAllVersions" class="uh-tl-card-body">
-                    <div class="uh-tl-body-grid">
-                      <!-- Highlights -->
-                      <div class="uh-tl-col" v-if="ver.highlights?.length">
-                        <div class="uh-tl-col-label">
-                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
-                          Highlights
-                        </div>
-                        <ul class="uh-tl-hl-list">
-                          <li v-for="h in ver.highlights" :key="h.text">
-                            <span class="uh-dot" :class="'d-' + h.type"></span>
-                            <span>{{ h.text }}</span>
-                            <span class="uh-hl-tag" :class="'t-' + h.type">{{ h.type }}</span>
-                          </li>
-                        </ul>
-                      </div>
-                      <!-- Features -->
-                      <div class="uh-tl-col" v-if="ver.features?.length">
-                        <div class="uh-tl-col-label">
-                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-                          Features
-                        </div>
-                        <div class="uh-feat-chips">
-                          <span v-for="f in ver.features" :key="f" class="uh-feat-chip">{{ f }}</span>
-                        </div>
-                        <!-- Fixes inline -->
-                        <div class="uh-tl-col-label" style="margin-top:16px" v-if="ver.fixes?.length">
-                          <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
-                          Fixes
-                        </div>
-                        <ul class="uh-fix-list" v-if="ver.fixes?.length">
-                          <li v-for="f in ver.fixes" :key="f">
-                            <svg viewBox="0 0 24 24" width="10" height="10" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
-                            {{ f }}
-                          </li>
-                        </ul>
-                      </div>
-                    </div>
-                    <!-- Contributors -->
-                    <div class="uh-tl-contrib" v-if="ver.contributors?.length">
-                      <span class="uh-tl-col-label" style="margin-bottom:8px; display:flex">
-                        <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg>
-                        Contributors
-                      </span>
-                      <div class="uh-avatars">
-                        <a v-for="c in ver.contributors" :key="c" :href="`https://github.com/${c}`" target="_blank" class="uh-hp-contrib-badge">
-                          <img :src="`https://github.com/${c}.png?size=40`" :alt="c" loading="lazy" class="uh-hp-cb-avatar">
-                          <span class="uh-hp-cb-name">@{{ c }}</span>
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </transition>
               </div>
+
+              <!-- SPLIT DASHBOARD -->
+              <div class="uh-versions-split" style="display: grid; grid-template-columns: 320px 1fr; gap: 40px;">
+                
+                <!-- LEFT NAVIGATION -->
+                <div class="uh-versions-left" style="display: flex; flex-direction: column; gap: 12px; height: 100%;">
+                  <button
+                    v-for="(ver, idx) in versions"
+                    :key="ver.tag"
+                    class="uh-vnav-btn"
+                    :class="{ 'active': selectedVersion === ver.tag }"
+                    @click="selectedVersion = ver.tag"
+                  >
+                    <div class="uh-vnav-icon" :class="'vnav-' + ver.typeColor" v-html="ver.icon"></div>
+                    <div class="uh-vnav-info">
+                      <span class="uh-vnav-tag orbitron-font">{{ ver.tag }}</span>
+                      <span class="uh-vnav-date" style="font-family: var(--vp-font-family-base);">{{ ver.date }}</span>
+                    </div>
+                    <div v-if="idx === 0" class="uh-vnav-badge">LATEST</div>
+                  </button>
+                </div>
+
+                <!-- RIGHT DETAILS -->
+                <div class="uh-versions-right" style="background: rgba(0,0,0,0.15); border: 1px solid var(--BD); border-radius: 20px; padding: 32px; min-height: 500px;">
+                  <transition name="uh-fade" mode="out-in">
+                    <div :key="selectedVersion" class="uh-version-details" v-if="activeVersionData">
+                      
+                      <div class="uh-vd-header">
+                        <div class="uh-vd-tag-row">
+                          <span class="uh-vnav-tag orbitron-font" style="font-size:22px; color:var(--T1);">{{ activeVersionData.tag }}</span>
+                          <span class="uh-chip" :class="'uh-chip-' + activeVersionData.typeColor">{{ activeVersionData.typeLabel }}</span>
+                        </div>
+                        <h3 class="uh-vd-title" style="font-family: var(--vp-font-family-base); font-size: 20px; font-weight: 600; color: var(--T1); margin: 0 0 20px; line-height: 1.4;">
+                          {{ activeVersionData.title }}
+                        </h3>
+                        <div class="uh-vd-meta" style="font-family: var(--vp-font-family-base);">
+                          <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" style="margin-right:6px; vertical-align:middle;"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>{{ activeVersionData.date }}</span>
+                          <span class="uh-vd-dot"></span>
+                          <span><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" style="margin-right:6px; vertical-align:middle;"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg>{{ activeVersionData.commitCount }} commits</span>
+                        </div>
+                      </div>
+
+                      <div class="uh-vd-body">
+                        <div class="uh-vd-grid">
+                          <!-- Left Col -->
+                          <div class="uh-vd-col">
+                            <div v-if="activeVersionData.highlights?.length">
+                              <div class="uh-tl-col-label"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg> Highlights</div>
+                              <ul class="uh-tl-hl-list">
+                                <li v-for="h in activeVersionData.highlights" :key="h.text">
+                                  <span class="uh-dot" :class="'d-' + h.type"></span>
+                                  <span>{{ h.text }}</span>
+                                  <span class="uh-hl-tag" :class="'t-' + h.type">{{ h.type }}</span>
+                                </li>
+                              </ul>
+                            </div>
+                            
+                            <div v-if="activeVersionData.fixes?.length" style="margin-top:28px;">
+                              <div class="uh-tl-col-label"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg> Bug Fixes</div>
+                              <ul class="uh-fix-list">
+                                <li v-for="f in activeVersionData.fixes" :key="f">
+                                  <svg viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg> {{ f }}
+                                </li>
+                              </ul>
+                            </div>
+                          </div>
+
+                          <!-- Right Col -->
+                          <div class="uh-vd-col">
+                            <div v-if="activeVersionData.features?.length">
+                              <div class="uh-tl-col-label"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg> Core Features</div>
+                              <div class="uh-feat-chips">
+                                <span v-for="f in activeVersionData.features" :key="f" class="uh-feat-chip" style="font-family: var(--vp-font-family-base);">{{ f }}</span>
+                              </div>
+                            </div>
+
+                            <div v-if="activeVersionData.contributors?.length" style="margin-top:28px;">
+                              <div class="uh-tl-col-label"><svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg> Top Contributors</div>
+                              <div class="uh-avatars" style="display:flex; flex-wrap:wrap; gap:10px;">
+                                <a v-for="c in activeVersionData.contributors" :key="c" :href="`https://github.com/${c}`" target="_blank" class="uh-hp-contrib-badge" style="background:var(--CARD); border:1px solid var(--BD); padding:4px 10px 4px 4px; border-radius:30px; display:flex; align-items:center; gap:8px;">
+                                  <img :src="`https://github.com/${c}.png?size=40`" :alt="c" loading="lazy" class="uh-hp-cb-avatar" style="width:24px; height:24px; border-radius:50%;">
+                                  <span class="uh-hp-cb-name" style="font-size:12px; font-weight:600; color:var(--T2);">@{{ c }}</span>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </transition>
+                </div>
+
+              </div>
+
             </div>
           </div>
-
         </div>
       </section>
 
       <!-- ═══════════════ CONTRIBUTE ═══════════════ -->
-      <section v-show="activeTab === 'contribute'" class="uh-page">
-        <div class="uh-wrap">
+      <section class="uh-page" :class="{ 'page-active': activeTab === 'contribute', 'page-inactive': activeTab !== 'contribute' }">
+        <div class="uh-wrap uh-wrap--dashboard">
+          <div class="uh-dashboard-grid">
 
-          <div class="uh-section-head">
-            <div class="uh-section-head-left">
-              <div class="uh-section-icon blue">
-                <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
-              </div>
-              <div>
-                <h2 class="uh-section-title">Contribuie</h2>
-                <p class="uh-section-sub">Ajuta la construirea Wildfire.ro Docs</p>
-              </div>
-            </div>
-            <a href="https://github.com/WildFiire/docs" target="_blank" class="uh-btn uh-btn-fire uh-btn-sm">
-              <svg viewBox="0 0 24 24" width="13" height="13" fill="none" stroke="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-              Fork pe GitHub
-            </a>
-          </div>
-
-          <!-- Premium Intro banner -->
-          <div class="uh-hero-premium uh-intro-premium" style="grid-template-columns: 1fr; padding: 40px; margin-bottom: 40px;">
-            <div class="uh-hp-bg-glow" style="background: radial-gradient(circle, rgba(0,122,255,0.15), transparent 70%);"></div>
-            <div class="uh-hp-bg-grid" style="mask-image: radial-gradient(circle at left, black, transparent 80%); -webkit-mask-image: radial-gradient(circle at left, black, transparent 80%);"></div>
-            <div class="uh-hp-content" style="text-align: center; display: flex; flex-direction: column; align-items: center;">
-              <div class="uh-section-icon blue" style="margin-bottom: 20px; width: 56px; height: 56px; border-radius: 16px;">
-                <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
-              </div>
-              <h3 class="uh-hp-title" style="font-size: 32px;">De ce sa contribui?</h3>
-              <p class="uh-hp-subtitle" style="margin-bottom: 0; max-width: 600px;">
-                Wildfire.ro e construit de <strong>oameni ca tine</strong>. Fie ca ai idei, gasesti bug-uri sau vrei sa scrii cod — orice contribuitie conteaza si iti va fi recunoscuta in public.
-              </p>
-            </div>
-          </div>
-
-          <!-- NEW LIVE CONTRIBUTORS GRID -->
-          <div class="uh-ov-label">OUR CONTRIBUTORS</div>
-          <div class="uh-contrib-live-grid" v-if="!isLoadingContributors && githubContributors.length">
-            <a v-for="c in githubContributors" :key="c.login" :href="c.html_url" target="_blank" class="uh-clg-card">
-              <img :src="c.avatar_url + (c.avatar_url.includes('?') ? '&' : '?') + 's=80'" :alt="c.login" class="uh-clg-avatar" />
-              <div class="uh-clg-info">
-                <span class="uh-clg-name">@{{ c.login }}</span>
-                <span class="uh-clg-commits">{{ c.contributions }} commits</span>
-              </div>
-            </a>
-          </div>
-          <div v-else class="uh-contrib-live-loading">
-            Loading contributors from GitHub...
-          </div>
-
-          <!-- How-to cards (Glassmorphism) -->
-          <div class="uh-ov-label" style="margin-top:44px">ROLE-URI</div>
-          <div class="uh-contrib-row">
-            <div class="uh-hp-stat-card uh-contrib-glass-card" v-for="c in contributeCards" :key="c.title">
-              <div class="uh-cc-ico" v-html="c.icon" style="background: var(--BLS); border: 1px solid rgba(0,122,255,0.3); color: var(--BLU);"></div>
-              <h4>{{ c.title }}</h4>
-              <p>{{ c.desc }}</p>
-              <ul>
-                <li v-for="it in c.items" :key="it">
-                  <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor" style="stroke: var(--BLU);"><polyline points="20 6 9 17 4 12"/></svg>
-                  {{ it }}
-                </li>
-              </ul>
-              <span class="uh-cc-badge" style="background: var(--BLS); border: 1px solid rgba(0,122,255,0.2); color: var(--BLU);">{{ c.badge }}</span>
-            </div>
-          </div>
-
-          <!-- Premium Steps -->
-          <div class="uh-ov-label" style="margin-top:44px">CUM INCEPI</div>
-          <div class="uh-steps-premium">
-            <div class="uh-sp-step" v-for="s in steps" :key="s.num">
-              <div class="uh-sp-num-wrap">
-                <div class="uh-sp-num">{{ s.num }}</div>
-                <div class="uh-sp-line" v-if="s.num < 4"></div>
-              </div>
-              <div class="uh-sp-content">
-                <h4>{{ s.title }}</h4>
-                <p>{{ s.desc }}</p>
-              </div>
-            </div>
-          </div>
-
-          <!-- FAQ (Refined) -->
-          <div class="uh-ov-label" style="margin-top:44px">FAQ</div>
-          <div class="uh-faq">
-            <div
-              v-for="faq in faqs"
-              :key="faq.q"
-              class="uh-faq-item uh-faq-premium"
-              :class="{ open: openFaq === faq.q }"
-              @click="openFaq = openFaq === faq.q ? null : faq.q"
-            >
-              <div class="uh-faq-q">
-                <span>{{ faq.q }}</span>
-                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" class="uh-faq-chevron"><path d="M6 9l6 6 6-6"/></svg>
-              </div>
-              <transition name="uh-slide">
-                <div v-if="openFaq === faq.q" class="uh-faq-a">{{ faq.a }}</div>
-              </transition>
-            </div>
-          </div>
-
-          <!-- Final CTA -->
-          <div class="uh-final-cta">
-            <div class="uh-final-cta-glow"></div>
-            <div class="uh-final-cta-inner">
-              <h3>Gata sa contribui?</h3>
-              <p>Deschide un Pull Request pe GitHub sau discuta ideile pe Discord.</p>
-              <div class="uh-cta-btns">
-                <a href="https://github.com/WildFiire/docs" target="_blank" class="uh-btn uh-btn-fire">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
-                  GitHub Repo
-                </a>
-                <a href="https://discord.gg/Knu76DhE9h" target="_blank" class="uh-btn uh-btn-discord">
-                  <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
-                  Discord
+            <!-- Hero Span 12 -->
+            <div class="uh-dash-widget uh-widget-span-12 uh-hero-premium uh-intro-premium" style="display:flex; flex-direction:column; align-items:center; text-align:center; padding: 64px 40px;">
+              <div class="uh-hp-border-glow uh-hp-border-glow--blue" aria-hidden="true"></div>
+              <div class="uh-hp-bg-glow uh-hp-bg-glow--blue"></div>
+              <div class="uh-hp-bg-grid"></div>
+              <span class="uh-hp-watermark orbitron-font" aria-hidden="true">OSS</span>
+              <div class="uh-hp-content uh-hp-content--center" style="width:100%;">
+                <div class="uh-section-icon blue uh-intro-icon" style="margin: 0 auto 24px;">
+                  <svg viewBox="0 0 24 24" width="28" height="28" fill="none" stroke="currentColor"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                </div>
+                <div class="uh-section-label" style="justify-content:center; margin-bottom:12px;">
+                  <span class="uh-section-label__line"></span>
+                  <span class="uh-section-label__text orbitron-font">OPEN SOURCE</span>
+                  <span class="uh-section-label__line"></span>
+                </div>
+                <h3 class="uh-hp-title orbitron-font uh-intro-title">De ce sa contribui?</h3>
+                <p class="uh-hp-subtitle uh-intro-sub" style="margin: 0 auto 24px;">
+                  Wildfire.ro e construit de <strong>oameni ca tine</strong>. Fie ca ai idei, gasesti bug-uri sau vrei sa scrii cod — orice contributie conteaza.
+                </p>
+                <a href="https://github.com/WildFiire/docs" target="_blank" rel="noopener noreferrer" class="uh-btn uh-btn-fire" style="margin: 0 auto;">
+                  <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                  Fork pe GitHub
                 </a>
               </div>
             </div>
-          </div>
 
+            <!-- Role-uri Span 12 -->
+            <div class="uh-dash-widget uh-widget-span-12">
+              <div class="uh-section-label uh-section-label--left">
+                <span class="uh-section-label__line"></span>
+                <span class="uh-section-label__text orbitron-font">ROLE-URI ACTIVE</span>
+              </div>
+              <div class="uh-contrib-row" style="margin-top:16px;">
+                <div class="uh-hp-stat-card uh-contrib-glass-card" v-for="c in contributeCards" :key="c.title" style="min-height:100%;">
+                  <div class="uh-cc-ico" v-html="c.icon"></div>
+                  <h4 class="orbitron-font">{{ c.title }}</h4>
+                  <p>{{ c.desc }}</p>
+                  <ul>
+                    <li v-for="it in c.items" :key="it">
+                      <svg viewBox="0 0 24 24" width="11" height="11" fill="none" stroke="currentColor"><polyline points="20 6 9 17 4 12"/></svg>
+                      {{ it }}
+                    </li>
+                  </ul>
+                  <span class="uh-cc-badge">{{ c.badge }}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cum Incepi Span 6 -->
+            <div class="uh-dash-widget uh-widget-span-6 uh-widget-glass">
+              <div class="uh-widget-header">
+                <div class="uh-section-label uh-section-label--left">
+                  <span class="uh-section-label__line"></span>
+                  <span class="uh-section-label__text orbitron-font">CUM INCEPI</span>
+                </div>
+                <h3 class="orbitron-font">Pasi Simpli</h3>
+              </div>
+              <div class="uh-steps-premium">
+                <div class="uh-sp-step" v-for="s in steps" :key="s.num">
+                  <div class="uh-sp-num-wrap">
+                    <div class="uh-sp-num">{{ s.num }}</div>
+                    <div class="uh-sp-line" v-if="s.num < 4"></div>
+                  </div>
+                  <div class="uh-sp-content">
+                    <h4>{{ s.title }}</h4>
+                    <p>{{ s.desc }}</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- FAQ Span 6 -->
+            <div class="uh-dash-widget uh-widget-span-6 uh-widget-glass">
+              <div class="uh-widget-header">
+                <div class="uh-section-label uh-section-label--left">
+                  <span class="uh-section-label__line"></span>
+                  <span class="uh-section-label__text orbitron-font">FAQ</span>
+                </div>
+                <h3 class="orbitron-font">Intrebari Frecvente</h3>
+              </div>
+              <div class="uh-faq">
+                <div
+                  v-for="faq in faqs"
+                  :key="faq.q"
+                  class="uh-faq-item uh-faq-premium"
+                  :class="{ open: openFaq === faq.q }"
+                  @click="openFaq = openFaq === faq.q ? null : faq.q"
+                >
+                  <div class="uh-faq-q">
+                    <span>{{ faq.q }}</span>
+                    <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" class="uh-faq-chevron"><path d="M6 9l6 6 6-6"/></svg>
+                  </div>
+                  <transition name="uh-slide">
+                    <div v-if="openFaq === faq.q" class="uh-faq-a">{{ faq.a }}</div>
+                  </transition>
+                </div>
+              </div>
+              
+              <!-- Live Contributors Embed -->
+              <div class="uh-widget-header" style="margin-top:40px;">
+                <div class="uh-section-label uh-section-label--left">
+                  <span class="uh-section-label__line"></span>
+                  <span class="uh-section-label__text orbitron-font">OUR CONTRIBUTORS</span>
+                </div>
+              </div>
+              <div class="uh-dash-contribs" v-if="!isLoadingContributors && githubContributors.length">
+                <a v-for="c in githubContributors.slice(0, 4)" :key="c.login" :href="c.html_url" target="_blank" class="uh-dash-contrib-card">
+                  <img :src="c.avatar_url + (c.avatar_url.includes('?') ? '&' : '?') + 's=60'" :alt="c.login" class="uh-dash-cc-avatar" />
+                  <div class="uh-dash-cc-info">
+                    <span class="uh-dash-cc-name">@{{ c.login }}</span>
+                    <span class="uh-dash-cc-commits">{{ c.contributions }} commits</span>
+                  </div>
+                </a>
+              </div>
+            </div>
+
+            <!-- Final CTA Span 12 -->
+            <div class="uh-dash-widget uh-widget-span-12">
+              <div class="uh-final-cta" style="margin-top:0;">
+                <div class="uh-final-cta-glow"></div>
+                <div class="uh-final-cta-inner">
+                  <div class="uh-section-label" style="justify-content:center;">
+                    <span class="uh-section-label__line"></span>
+                    <span class="uh-section-label__text orbitron-font">JOIN US</span>
+                    <span class="uh-section-label__line"></span>
+                  </div>
+                  <h3 class="orbitron-font">Gata sa contribui?</h3>
+                  <p>Deschide un Pull Request pe GitHub sau discuta ideile pe Discord.</p>
+                  <div class="uh-cta-btns">
+                    <a href="https://github.com/WildFiire/docs" target="_blank" class="uh-btn uh-btn-fire">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                      GitHub Repo
+                    </a>
+                    <a href="https://discord.gg/Knu76DhE9h" target="_blank" class="uh-btn uh-btn-discord">
+                      <svg viewBox="0 0 24 24" width="14" height="14" fill="currentColor"><path d="M20.317 4.37a19.791 19.791 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.864-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.736 19.736 0 0 0 3.677 4.37a.07.07 0 0 0-.032.027C.533 9.046-.32 13.58.099 18.057a.082.082 0 0 0 .031.057 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.874-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.107 13.107 0 0 1-1.872-.892.077.077 0 0 1-.008-.128 10.2 10.2 0 0 0 .372-.292.074.074 0 0 1 .077-.01c3.928 1.793 8.18 1.793 12.062 0a.074.074 0 0 1 .078.01c.12.098.246.198.373.292a.077.077 0 0 1-.006.127 12.299 12.299 0 0 1-1.873.892.077.077 0 0 0-.041.107c.36.698.772 1.362 1.225 1.993a.076.076 0 0 0 .084.028 19.839 19.839 0 0 0 6.002-3.03.077.077 0 0 0 .032-.054c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.03zM8.02 15.33c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.956 2.418-2.157 2.418zm7.975 0c-1.183 0-2.157-1.085-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.096 2.157 2.42 0 1.333-.946 2.418-2.157 2.418z"/></svg>
+                      Discord
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
         </div>
       </section>
 
@@ -423,7 +485,7 @@
 </template>
 
 <script>
-import { useRoute } from 'vitepress'
+import { useRoute, useRouter } from 'vitepress'
 import CS2Background from '../Home/CS2Background.vue'
 
 export default {
@@ -432,13 +494,50 @@ export default {
 
   setup() {
     const route = useRoute()
-    return { route }
+    const router = useRouter()
+    return { route, router }
   },
 
   computed: {
     heroVer() { return this.versions[0] },
+    activeVersionData() {
+      return this.versions.find(v => v.tag === this.selectedVersion) || this.versions[0]
+    },
     githubToken() {
+      if (typeof window === 'undefined') return import.meta.env.VITE_GITHUB_TOKEN
       return window.__GITHUB_TOKEN || import.meta.env.VITE_GITHUB_TOKEN
+    },
+
+    quickNavItems() {
+      return [
+        {
+          id: 'changelogs',
+          link: '/hub/changelogs',
+          num: '01',
+          title: 'Commit Changelog',
+          desc: 'Live GitHub feed — tracking every commit in real-time.',
+          accent: 'orange',
+          icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="4"/><line x1="1.05" y1="12" x2="7" y2="12"/><line x1="17.01" y1="12" x2="22.96" y2="12"/></svg>',
+        },
+        {
+          id: 'versions',
+          link: '/hub/versions',
+          num: '02',
+          title: 'Version History',
+          desc: 'Curated major releases, highlights, and bugfixes.',
+          accent: 'purple',
+          icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>',
+        },
+        {
+          id: 'contribute',
+          link: '/hub/contribute',
+          num: '03',
+          title: 'Contribute',
+          desc: 'Join the open source effort to improve the documentation.',
+          accent: 'blue',
+          icon: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+        },
+      ]
     },
 
     activeTab() {
@@ -479,6 +578,7 @@ export default {
       sidebarCollapsed: false,
       expandAllVersions: false,
       openVersions: { 'v3.0.0': true },
+      selectedVersion: 'v3.0.0',
       openFaq: null,
 
       tabs: [
@@ -602,15 +702,16 @@ export default {
       this.isDark = stored !== 'light'
     } catch {}
     this.applyTheme()
-    window.addEventListener('scroll', this.onScroll, { passive: true })
     this.fetchGitHubContributors()
   },
 
-  beforeUnmount() {
-    if (typeof window !== 'undefined') window.removeEventListener('scroll', this.onScroll)
-  },
-
   methods: {
+    switchTab(tab) {
+      this.activeTab = tab;
+      if (typeof window !== 'undefined') {
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    },
     async fetchGitHubContributors() {
       try {
         const headers = { 'Accept': 'application/vnd.github.v3+json' }
@@ -668,7 +769,14 @@ export default {
     },
 
     setTab(id) {
-      // Ignored: Vitepress routing takes over
+      const paths = {
+        overview: '/hub/',
+        changelogs: '/hub/changelogs',
+        versions: '/hub/versions',
+        contribute: '/hub/contribute',
+      }
+      const path = paths[id]
+      if (path && this.router) this.router.go(path)
     },
 
     toggleVer(tag) {
@@ -692,17 +800,18 @@ export default {
   --Px: rgba(255,120,0,0.06);
   --Pa: rgba(255,120,0,0.22);
 
-  --BG:    #060608;
-  --CARD:  rgba(12, 12, 18, 0.88);
-  --SURF:  rgba(18, 18, 26, 0.7);
-  --INPUT: rgba(22, 22, 30, 0.9);
+  --BG:    #050507;
+  --CARD:  rgba(10, 10, 16, 0.65);
+  --SURF:  rgba(16, 16, 24, 0.55);
+  --INPUT: rgba(22, 22, 30, 0.7);
+  --GLASS: rgba(255,255,255,0.02);
 
-  --T1: #f0f0f8;
-  --T2: #b8b8cc;
-  --T3: #666680;
+  --T1: #f4f4fa;
+  --T2: #b4b4c8;
+  --T3: #6a6a80;
 
-  --BD:  rgba(255,255,255,0.06);
-  --BDA: rgba(255,120,0,0.22);
+  --BD:  rgba(255,255,255,0.07);
+  --BDA: rgba(255,120,0,0.28);
 
   --GRN: #34c759; --GRS: rgba(52,199,89,0.14);
   --RED: #ff3b30; --RDS: rgba(255,59,48,0.14);
@@ -710,27 +819,32 @@ export default {
   --PUR: #af52de; --PUS: rgba(175,82,222,0.14);
 
   --NAV: 56px;
-  --WRAP: 960px;
-  --R: 12px;
+  --WRAP: 1040px;
+  --R: 14px;
 
-  /* Flex layout for sidebar + main */
   display: flex;
   min-height: 100vh;
-  /* background: var(--BG);  Removed so CS2Background is visible */
   color: var(--T1);
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', system-ui, sans-serif;
   -webkit-font-smoothing: antialiased;
 }
 
-/* Light mode */
+.orbitron-font {
+  font-family: 'Orbitron', sans-serif !important;
+  letter-spacing: 0.3px;
+}
+
+.uh-accent { color: var(--P); }
+
 .uh-root.uh-light {
-  --BG:   #f3f3f7;
-  --CARD: rgba(255,255,255,0.92);
-  --SURF: rgba(240,240,248,0.8);
-  --T1:   #111118;
+  --BG:   #f0f0f6;
+  --CARD: rgba(255,255,255,0.94);
+  --SURF: rgba(244,244,250,0.85);
+  --GLASS: rgba(0,0,0,0.02);
+  --T1:   #101018;
   --T2:   #3a3a4a;
-  --T3:   #888898;
-  --BD:   rgba(0,0,0,0.07);
+  --T3:   #7a7a8a;
+  --BD:   rgba(0,0,0,0.08);
 }
 /* ── Main ── */
 .uh-sidebar-sticky {
@@ -745,16 +859,99 @@ export default {
   min-height: 100vh;
   position: relative;
   z-index: 1;
+  overflow: hidden;
+}
+
+.uh-ambient {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+}
+
+.uh-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+  opacity: 0.45;
+  animation: uh-float 12s ease-in-out infinite alternate;
+}
+
+@keyframes uh-float {
+  0% { transform: translate(0, 0) scale(1); }
+  50% { transform: translate(30px, -40px) scale(1.05); }
+  100% { transform: translate(-20px, 20px) scale(0.95); }
+}
+
+.uh-orb--fire {
+  width: 420px;
+  height: 420px;
+  top: -80px;
+  right: -60px;
+  background: radial-gradient(circle, rgba(255,120,0,0.35), transparent 70%);
+  animation-duration: 14s;
+}
+
+.uh-orb--blue {
+  width: 360px;
+  height: 360px;
+  bottom: 10%;
+  left: -80px;
+  background: radial-gradient(circle, rgba(0,122,255,0.18), transparent 70%);
+  animation-duration: 18s;
+  animation-direction: alternate-reverse;
 }
 
 .uh-page {
   min-height: 100%;
+  position: relative;
+  z-index: 1;
 }
 
 .uh-wrap {
   max-width: var(--WRAP);
   margin: 0 auto;
-  padding: 40px 24px 80px;
+  padding: 44px 28px 88px;
+}
+
+/* Section labels (Wildfire brand) */
+.uh-section-label {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 12px;
+}
+
+.uh-section-label--left { justify-content: flex-start; }
+.uh-section-label--spaced { margin-top: 48px; }
+
+.uh-section-label__line {
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--P));
+  flex-shrink: 0;
+}
+
+.uh-section-label__line:last-child {
+  background: linear-gradient(90deg, var(--P), transparent);
+}
+
+.uh-section-label__text {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 3.5px;
+  color: var(--P);
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.uh-section-title {
+  font-size: clamp(20px, 2.5vw, 26px);
+  font-weight: 700;
+  color: var(--T1);
+  margin: 0 0 24px;
+  letter-spacing: 0.3px;
 }
 
 /* ── Buttons ── */
@@ -763,24 +960,25 @@ export default {
   padding: 9px 20px; border-radius: 40px;
   font-size: 13px; font-weight: 700;
   text-decoration: none; border: none; cursor: pointer;
-  transition: all 0.2s; position: relative; overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); position: relative; overflow: hidden;
 }
 .uh-btn::after {
   content: '';
   position: absolute; inset: 0;
   background: linear-gradient(90deg, transparent 0%, rgba(255,255,255,0.1) 50%, transparent 100%);
   transform: translateX(-100%);
-  transition: transform 0.4s ease;
+  transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .uh-btn:hover::after { transform: translateX(100%); }
 .uh-btn-fire { background: linear-gradient(135deg, var(--P), #d95c00); color: white; box-shadow: 0 4px 16px rgba(255,120,0,0.3); }
-.uh-btn-fire:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,120,0,0.45); }
+.uh-btn-fire:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 24px rgba(255,120,0,0.45); }
 .uh-btn-glass { background: var(--CARD); border: 1px solid var(--BD); color: var(--T2); }
-.uh-btn-glass:hover { border-color: var(--BDA); color: var(--P); transform: translateY(-2px); }
+.uh-btn-glass:hover { border-color: var(--BDA); color: var(--P); transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
 .uh-btn-discord { background: #5865f2; color: white; box-shadow: 0 4px 16px rgba(88,101,242,0.3); }
-.uh-btn-discord:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(88,101,242,0.45); }
+.uh-btn-discord:hover { transform: translateY(-3px) scale(1.02); box-shadow: 0 8px 24px rgba(88,101,242,0.45); }
 .uh-btn-sm { padding: 6px 14px; font-size: 12px; }
-.uh-btn svg { stroke: currentColor; flex-shrink: 0; }
+.uh-btn svg { stroke: currentColor; flex-shrink: 0; transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+.uh-btn:hover svg { transform: scale(1.1); }
 .uh-btn-fire svg, .uh-btn-discord svg { stroke: white; }
 .uh-btn-discord svg { fill: white; stroke: none; }
 
@@ -810,39 +1008,83 @@ export default {
   position: relative;
   background: var(--CARD);
   border: 1px solid var(--BD);
-  border-radius: 20px;
-  padding: 40px;
-  margin-bottom: 32px;
+  border-radius: 24px;
+  padding: 44px;
+  margin-bottom: 40px;
   display: grid;
-  grid-template-columns: 1fr 340px;
-  gap: 40px;
+  grid-template-columns: 1.1fr 0.9fr;
+  gap: 36px;
   align-items: center;
   overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.15), inset 0 1px 0 rgba(255,255,255,0.05);
+  box-shadow:
+    0 24px 64px rgba(0,0,0,0.28),
+    inset 0 1px 1px rgba(255,255,255,0.12);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+
+.uh-hp-border-glow {
+  position: absolute;
+  inset: 0;
+  border-radius: 24px;
+  padding: 1px;
+  background: linear-gradient(135deg, rgba(255,120,0,0.5), transparent 40%, rgba(255,120,0,0.15));
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+  opacity: 0.7;
+}
+
+.uh-hp-border-glow--blue {
+  background: linear-gradient(135deg, rgba(0,122,255,0.45), transparent 40%, rgba(0,122,255,0.12));
+}
+
+.uh-hp-watermark {
+  position: absolute;
+  right: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: clamp(80px, 12vw, 140px);
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,120,0,0.08);
+  pointer-events: none;
+  z-index: 0;
+  line-height: 1;
+  user-select: none;
 }
 
 .uh-hp-bg-glow {
   position: absolute;
-  top: -100px;
-  right: -100px;
-  width: 400px;
-  height: 400px;
-  background: radial-gradient(circle, rgba(255,120,0,0.15), transparent 70%);
+  top: -120px;
+  right: -80px;
+  width: 440px;
+  height: 440px;
+  background: radial-gradient(circle, rgba(255,120,0,0.18), transparent 70%);
   filter: blur(50px);
   pointer-events: none;
   z-index: 0;
+}
+
+.uh-hp-bg-glow--blue {
+  background: radial-gradient(circle, rgba(0,122,255,0.16), transparent 70%);
+  top: auto;
+  bottom: -100px;
+  left: -60px;
+  right: auto;
 }
 
 .uh-hp-bg-grid {
   position: absolute;
   inset: 0;
   background-image: linear-gradient(var(--BD) 1px, transparent 1px), linear-gradient(90deg, var(--BD) 1px, transparent 1px);
-  background-size: 40px 40px;
-  opacity: 0.15;
+  background-size: 36px 36px;
+  opacity: 0.12;
   pointer-events: none;
   z-index: 0;
-  mask-image: radial-gradient(circle at top right, black, transparent 80%);
-  -webkit-mask-image: radial-gradient(circle at top right, black, transparent 80%);
+  mask-image: radial-gradient(circle at top right, black, transparent 78%);
+  -webkit-mask-image: radial-gradient(circle at top right, black, transparent 78%);
 }
 
 .uh-hp-content {
@@ -850,267 +1092,524 @@ export default {
   z-index: 1;
 }
 
+.uh-hp-content--center {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .uh-hp-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 6px 12px;
+  padding: 6px 14px;
   background: rgba(255,120,0,0.1);
-  border: 1px solid rgba(255,120,0,0.2);
-  border-radius: 20px;
+  border: 1px solid rgba(255,120,0,0.25);
+  border-radius: 999px;
   font-size: 11px;
   font-weight: 700;
   color: var(--P);
   text-transform: uppercase;
-  letter-spacing: 0.05em;
-  margin-bottom: 24px;
+  letter-spacing: 0.06em;
+  margin-bottom: 20px;
 }
+
 .uh-hp-badge-dot {
   width: 6px;
   height: 6px;
   background: var(--P);
   border-radius: 50%;
-  box-shadow: 0 0 8px var(--P);
+  box-shadow: 0 0 10px var(--P);
   animation: hp-pulse 2s infinite;
 }
-@keyframes hp-pulse { 0% { opacity: 1; } 50% { opacity: 0.4; } 100% { opacity: 1; } }
+
+@keyframes hp-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.35; } }
 
 .uh-hp-title {
-  font-size: 42px;
+  font-size: clamp(28px, 4vw, 44px);
   font-weight: 800;
-  line-height: 1.15;
+  line-height: 1.12;
   color: var(--T1);
   margin: 0 0 16px;
-  letter-spacing: -1px;
+  letter-spacing: -0.5px;
 }
-.uh-hp-highlight {
-  background: linear-gradient(135deg, #ff9800, #ff4500);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
+
+.uh-hp-brand { display: inline-block; }
+.uh-hp-wild { color: var(--T1); }
+.uh-hp-fire { color: var(--P); }
+.uh-hp-docs { color: var(--T2); font-weight: 600; font-size: 0.85em; }
 
 .uh-hp-subtitle {
   font-size: 15px;
   color: var(--T2);
-  line-height: 1.6;
-  max-width: 90%;
-  margin: 0 0 32px;
+  line-height: 1.65;
+  max-width: 92%;
+  margin: 0 0 28px;
 }
 
 .uh-hp-actions {
   display: flex;
-  gap: 16px;
+  gap: 14px;
   align-items: center;
+  flex-wrap: wrap;
+}
+
+.uh-hp-btn-primary,
+.uh-hp-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.22s ease;
 }
 
 .uh-hp-btn-primary {
-  display: flex; align-items: center; gap: 8px;
   background: linear-gradient(135deg, var(--P), #d95c00);
   color: white;
   border: none;
-  padding: 12px 24px;
+  padding: 12px 22px;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  cursor: pointer;
-  transition: all 0.2s;
-  box-shadow: 0 4px 14px rgba(255,120,0,0.3), inset 0 1px 0 rgba(255,255,255,0.2);
+  box-shadow: 0 6px 20px rgba(255,120,0,0.32), inset 0 1px 0 rgba(255,255,255,0.2);
 }
+
 .uh-hp-btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(255,120,0,0.4), inset 0 1px 0 rgba(255,255,255,0.2);
+  box-shadow: 0 10px 28px rgba(255,120,0,0.42);
 }
+
 .uh-hp-btn-primary svg { transition: transform 0.2s; }
 .uh-hp-btn-primary:hover svg { transform: translateX(4px); }
 
 .uh-hp-btn-secondary {
-  background: transparent;
+  background: var(--GLASS);
   color: var(--T1);
   border: 1px solid var(--BD);
-  padding: 12px 24px;
+  padding: 12px 22px;
   border-radius: 12px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 600;
-  cursor: pointer;
-  transition: all 0.2s;
-}
-.uh-hp-btn-secondary:hover {
-  background: var(--SURF);
-  border-color: var(--T3);
 }
 
-.uh-hp-visuals {
+.uh-hp-btn-secondary:hover {
+  background: var(--SURF);
+  border-color: var(--BDA);
+  transform: translateY(-1px);
+}
+
+.uh-hp-bento {
   position: relative;
   z-index: 1;
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 16px;
+  gap: 14px;
 }
 
 .uh-hp-stat-card {
-  background: rgba(255,255,255,0.03);
+  background: var(--GLASS);
   border: 1px solid var(--BD);
   border-radius: 16px;
-  padding: 16px;
+  padding: 18px;
   display: flex;
   flex-direction: column;
   gap: 12px;
-  backdrop-filter: blur(10px);
-  transition: border-color 0.2s, transform 0.2s;
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
 }
+
 .uh-root.uh-light .uh-hp-stat-card { background: rgba(0,0,0,0.02); }
+
 .uh-hp-stat-card:hover {
-  border-color: rgba(255,120,0,0.3);
-  transform: translateY(-2px);
+  border-color: var(--BDA);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(255,120,0,0.12), inset 0 1px 1px rgba(255,255,255,0.1);
+  background: rgba(255,120,0,0.04);
 }
-.uh-hp-span-2 { grid-column: span 2; }
+
+.uh-hp-stat-card--wide { grid-column: span 2; }
+
+.uh-hp-stat-card--commits .uh-hp-stat-icon {
+  color: var(--P);
+  background: var(--Ps);
+}
+
+.uh-hp-stat-card--live .uh-hp-stat-icon {
+  color: var(--GRN);
+  background: var(--GRS);
+}
 
 .uh-hp-stat-icon {
-  width: 32px; height: 32px;
-  border-radius: 10px;
-  display: flex; align-items: center; justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 11px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .uh-hp-stat-info { display: flex; flex-direction: column; gap: 4px; }
-.uh-hp-stat-val { font-size: 18px; font-weight: 800; color: var(--T1); font-family: 'Share Tech Mono', monospace; }
-.uh-hp-stat-lbl { font-size: 11px; font-weight: 600; color: var(--T3); }
+.uh-hp-stat-val { font-size: 20px; font-weight: 800; color: var(--T1); }
+.uh-hp-stat-val--live { color: var(--GRN); }
+.uh-hp-stat-lbl { font-size: 11px; font-weight: 600; color: var(--T3); letter-spacing: 0.04em; }
 
 .uh-hp-contribs {
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
 }
+
 .uh-hp-c-text { display: flex; flex-direction: column; gap: 4px; }
-.uh-hp-c-val { font-size: 18px; font-weight: 800; color: var(--T1); }
+.uh-hp-c-val { font-size: 20px; font-weight: 800; color: var(--T1); }
 .uh-hp-c-lbl { font-size: 11px; font-weight: 600; color: var(--T3); }
 
-.uh-hp-c-avatars { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 4px; }
+.uh-hp-c-avatars { display: flex; flex-wrap: wrap; gap: 8px; }
+
 .uh-hp-contrib-badge {
-  display: flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,0.02); border: 1px solid var(--BD);
-  border-radius: 20px; padding: 3px 10px 3px 3px;
-  text-decoration: none; transition: transform 0.2s, border-color 0.2s, background 0.2s;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--GLASS);
+  border: 1px solid var(--BD);
+  border-radius: 999px;
+  padding: 3px 10px 3px 3px;
+  text-decoration: none;
+  transition: transform 0.2s, border-color 0.2s, background 0.2s;
 }
-.uh-root.uh-light .uh-hp-contrib-badge { background: rgba(0,0,0,0.02); }
+
 .uh-hp-contrib-badge:hover {
-  transform: translateY(-2px); border-color: rgba(255,120,0,0.4);
-  background: rgba(255,120,0,0.05);
+  transform: translateY(-2px);
+  border-color: var(--BDA);
+  background: rgba(255,120,0,0.06);
 }
+
 .uh-hp-cb-avatar {
-  width: 22px; height: 22px; border-radius: 50%; border: 1px solid rgba(255,255,255,0.1);
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  border: 1px solid rgba(255,255,255,0.12);
 }
-.uh-hp-cb-name {
-  font-size: 11.5px; font-weight: 600; color: var(--T2);
-}
+
+.uh-hp-cb-name { font-size: 11px; font-weight: 600; color: var(--T2); }
 .uh-hp-contrib-badge:hover .uh-hp-cb-name { color: var(--T1); }
-.uh-hp-cb-more { font-size: 11.5px; font-weight: 700; color: var(--T3); padding: 0 4px; }
+
+.uh-intro-premium {
+  grid-template-columns: 1fr;
+  margin-bottom: 36px;
+  padding: 48px 40px;
+}
+
+.uh-intro-icon {
+  width: 58px !important;
+  height: 58px !important;
+  border-radius: 16px !important;
+  margin-bottom: 18px;
+}
+
+.uh-intro-title { font-size: clamp(24px, 3vw, 32px) !important; }
+.uh-intro-sub { margin-bottom: 0 !important; max-width: 580px; }
 
 @media (max-width: 900px) {
-  .uh-hero-premium { grid-template-columns: 1fr; }
-  .uh-hp-visuals { grid-template-columns: 1fr 1fr; }
+  .uh-hero-premium { grid-template-columns: 1fr; padding: 32px 24px; }
+  .uh-hp-bento { grid-template-columns: 1fr 1fr; }
+  .uh-hp-watermark { display: none; }
 }
 
 /* Quick Grid */
-.uh-ov-label {
-  font-size: 11px; font-weight: 800; letter-spacing: 0.1em; color: var(--T3);
-  text-transform: uppercase; margin-bottom: 14px;
-  display: flex; align-items: center; gap: 8px;
-}
-.uh-ov-label::after { content: ''; flex: 1; height: 1px; background: var(--BD); }
-
 .uh-quick-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   gap: 16px;
+  margin-bottom: 8px;
 }
+
 @media (max-width: 768px) { .uh-quick-grid { grid-template-columns: 1fr; } }
 
 .uh-quick-card {
+  position: relative;
   background: var(--CARD);
   border: 1px solid var(--BD);
-  border-radius: 12px;
-  padding: 20px;
+  border-radius: 16px;
+  padding: 22px;
   display: flex;
   align-items: flex-start;
   gap: 16px;
   cursor: pointer;
-  transition: all 0.2s;
+  text-decoration: none;
+  color: inherit;
+  overflow: hidden;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.06);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
+
+.uh-quick-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--P), transparent);
+  opacity: 0;
+  transition: opacity 0.4s;
+}
+
+.uh-quick-card--purple::before { background: linear-gradient(90deg, var(--PUR), transparent); }
+.uh-quick-card--blue::before { background: linear-gradient(90deg, var(--BLU), transparent); }
+
 .uh-quick-card:hover {
   border-color: var(--BDA);
   background: var(--SURF);
-  transform: translateY(-2px);
+  transform: translateY(-6px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.25), inset 0 1px 1px rgba(255,255,255,0.1);
 }
+
+.uh-quick-card:hover::before { opacity: 1; }
+
+.uh-qc-watermark {
+  position: absolute;
+  right: 12px;
+  top: 8px;
+  font-size: 42px;
+  font-weight: 900;
+  color: transparent;
+  -webkit-text-stroke: 1px rgba(255,255,255,0.04);
+  pointer-events: none;
+  line-height: 1;
+}
+
 .uh-qc-icon {
-  width: 40px; height: 40px;
-  border-radius: 8px;
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
   background: var(--Ps);
   color: var(--P);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-shrink: 0;
+  transition: transform 0.25s;
 }
+
+.uh-quick-card--purple .uh-qc-icon { background: var(--PUS); color: var(--PUR); }
+.uh-quick-card--blue .uh-qc-icon { background: var(--BLS); color: var(--BLU); }
+
+.uh-quick-card:hover .uh-qc-icon { transform: scale(1.06); }
+
 .uh-qc-content h4 {
   font-size: 14px;
   font-weight: 700;
   color: var(--T1);
-  margin: 0 0 4px;
+  margin: 0 0 6px;
 }
+
 .uh-qc-content p {
   font-size: 12.5px;
   color: var(--T3);
   margin: 0;
-  line-height: 1.4;
+  line-height: 1.45;
 }
+
 .uh-qc-arrow {
   margin-left: auto;
   align-self: center;
   color: var(--T3);
-  transition: transform 0.2s, color 0.2s;
+  transition: transform 0.22s, color 0.22s;
 }
+
 .uh-quick-card:hover .uh-qc-arrow {
-  transform: translateX(4px);
+  transform: translateX(5px);
   color: var(--P);
 }
 
-/* Highlight List */
-.uh-highlight-list {
-  background: var(--CARD);
-  border: 1px solid var(--BD);
-  border-radius: 12px;
-  display: flex;
-  flex-direction: column;
+/* Highlight Grid */
+.uh-highlight-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
 }
+
+@media (max-width: 640px) { .uh-highlight-grid { grid-template-columns: 1fr; } }
+
 .uh-hl-item {
   display: flex;
   align-items: center;
-  gap: 16px;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--BD);
+  gap: 14px;
+  padding: 16px 18px;
+  background: var(--CARD);
+  border: 1px solid var(--BD);
+  border-radius: 14px;
+  transition: border-color 0.2s, transform 0.2s;
 }
-.uh-hl-item:last-child { border-bottom: none; }
-.uh-hl-icon {
-  display: flex; align-items: center; justify-content: center;
+
+.uh-hl-item:hover {
+  border-color: var(--BDA);
+  transform: translateY(-2px);
 }
+
+.uh-hl-item--feat { border-left: 3px solid var(--GRN); }
+.uh-hl-item--fix  { border-left: 3px solid var(--RED); }
+.uh-hl-item--docs { border-left: 3px solid var(--BLU); }
+
+.uh-hl-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
 .hi-feat { color: var(--GRN); }
 .hi-fix { color: var(--RED); }
 .hi-docs { color: var(--BLU); }
+
 .uh-hl-text {
   flex: 1;
-  font-size: 13.5px;
+  font-size: 13px;
   color: var(--T1);
+  line-height: 1.45;
 }
+
 .uh-hl-tag-clean {
-  font-size: 10px;
-  font-weight: 700;
+  font-size: 9px;
+  font-weight: 800;
   text-transform: uppercase;
+  letter-spacing: 0.08em;
   color: var(--T3);
   background: var(--SURF);
-  padding: 2px 6px;
-  border-radius: 4px;
+  padding: 4px 8px;
+  border-radius: 6px;
+  flex-shrink: 0;
 }
+
+/* ══════════════════════ DASHBOARD CSS ══════════════════════ */
+
+/* Dashboard Wrap */
+.uh-wrap--dashboard {
+  max-width: 1200px;
+}
+
+/* Dashboard Metrics */
+.uh-dash-metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+@media (max-width: 900px) { .uh-dash-metrics { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 500px) { .uh-dash-metrics { grid-template-columns: 1fr; } }
+
+/* Dashboard Grid */
+.uh-dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(12, 1fr);
+  gap: 24px;
+}
+@media (max-width: 1024px) {
+  .uh-dashboard-grid { display: flex; flex-direction: column; }
+}
+
+.uh-dash-widget {
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+}
+
+.uh-widget-span-12 { grid-column: span 12; }
+.uh-widget-span-8 { grid-column: span 8; }
+.uh-widget-span-6 { grid-column: span 6; }
+.uh-widget-span-4 { grid-column: span 4; }
+
+.uh-widget-glass {
+  background: var(--CARD);
+  border: 1px solid var(--BD);
+  padding: 28px;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  box-shadow: 0 16px 40px rgba(0,0,0,0.18), inset 0 1px 1px rgba(255,255,255,0.08);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.uh-widget-glass:hover {
+  border-color: var(--BDA);
+  box-shadow: 0 24px 48px rgba(0,0,0,0.22), inset 0 1px 1px rgba(255,255,255,0.12);
+}
+
+.uh-widget-header {
+  margin-bottom: 24px;
+}
+.uh-widget-header h3 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--T1);
+  margin: 0;
+  letter-spacing: 0.5px;
+}
+
+/* Quick Links Dashboard */
+.uh-dash-quick-links {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.uh-dash-ql-item {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px; border-radius: 16px;
+  background: var(--GLASS); border: 1px solid var(--BD);
+  text-decoration: none; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.uh-dash-ql-item:hover {
+  background: var(--SURF); border-color: var(--BDA);
+  transform: translateX(6px) scale(1.02);
+  box-shadow: 0 12px 24px rgba(0,0,0,0.15);
+}
+.uh-dash-ql-icon {
+  width: 40px; height: 40px; border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  background: var(--Ps); color: var(--P); flex-shrink: 0;
+}
+.uh-dash-ql--purple .uh-dash-ql-icon { background: var(--PUS); color: var(--PUR); }
+.uh-dash-ql--blue .uh-dash-ql-icon { background: var(--BLS); color: var(--BLU); }
+.uh-dash-ql-text h4 { font-size: 14px; font-weight: 700; color: var(--T1); margin: 0 0 2px; }
+.uh-dash-ql-text p { font-size: 11.5px; color: var(--T3); margin: 0; line-height: 1.4; }
+.uh-dash-ql-arrow { margin-left: auto; color: var(--T3); transition: transform 0.4s; }
+.uh-dash-ql-item:hover .uh-dash-ql-arrow { transform: translateX(4px); color: var(--P); }
+
+/* Dashboard Highlights */
+.uh-dash-highlights {
+  display: flex; flex-direction: column; gap: 10px;
+}
+.uh-dash-hl-item {
+  display: flex; align-items: center; gap: 12px;
+  padding: 14px 16px; background: var(--GLASS);
+  border: 1px solid var(--BD); border-radius: 14px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.uh-dash-hl-item:hover { background: var(--SURF); border-color: var(--BDA); transform: translateX(4px) scale(1.02); }
+.uh-dash-hl--feat { border-left: 3px solid var(--GRN); }
+.uh-dash-hl--fix { border-left: 3px solid var(--RED); }
+.uh-dash-hl--docs { border-left: 3px solid var(--BLU); }
+.uh-dash-hl-icon { display: flex; align-items: center; justify-content: center; flex-shrink: 0; }
+.uh-dash-hl-text { flex: 1; font-size: 13px; color: var(--T1); }
+
+/* Dashboard Contributors */
+.uh-dash-contribs {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 12px;
+}
+.uh-dash-contrib-card {
+  display: flex; align-items: center; gap: 10px;
+  padding: 12px; border-radius: 12px; background: var(--GLASS);
+  border: 1px solid var(--BD); text-decoration: none;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.uh-dash-contrib-card:hover {
+  background: var(--SURF); border-color: var(--BDA); transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+.uh-dash-cc-avatar { width: 36px; height: 36px; border-radius: 50%; border: 1px solid var(--BD); }
+.uh-dash-cc-info { display: flex; flex-direction: column; }
+.uh-dash-cc-name { font-size: 13px; font-weight: 700; color: var(--T1); }
+.uh-dash-cc-commits { font-size: 11px; color: var(--T3); }
 
 /* ══════════════════════ CHANGELOGS ══════════════════════ */
 .uh-changelogs-wrap { padding-top: 32px; }
@@ -1119,7 +1618,15 @@ export default {
   display: flex; align-items: center; justify-content: space-between;
   gap: 16px; margin-bottom: 28px; flex-wrap: wrap;
 }
-.uh-section-head-left { display: flex; align-items: center; gap: 14px; }
+
+.uh-section-head--premium {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--BD);
+  margin-bottom: 32px;
+}
+
+.uh-section-head-left { display: flex; align-items: center; gap: 16px; }
+.uh-section-head .uh-section-title { margin: 0 0 4px; }
 .uh-section-icon {
   width: 46px; height: 46px; border-radius: 14px;
   display: flex; align-items: center; justify-content: center; flex-shrink: 0;
@@ -1130,7 +1637,6 @@ export default {
 .uh-section-icon.purple svg { stroke: var(--PUR); }
 .uh-section-icon.blue   { background: var(--BLS); border: 1px solid rgba(0,122,255,0.3); }
 .uh-section-icon.blue svg { stroke: var(--BLU); }
-.uh-section-title { font-size: 22px; font-weight: 800; color: var(--T1); margin: 0 0 4px; }
 .uh-section-sub   { font-size: 13px; color: var(--T3); margin: 0; }
 
 /* Changelogs embed frame */
@@ -1139,7 +1645,10 @@ export default {
   border: 1px solid var(--BD);
   border-radius: 24px;
   padding: 24px;
-  /* Give the inner Changelogs component space */
+  box-shadow: 0 16px 48px rgba(0,0,0,0.18), inset 0 1px 1px rgba(255,255,255,0.08);
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 /* Override Changelogs inner max-width so it fills the frame */
@@ -1190,12 +1699,21 @@ export default {
 .uh-tl-card {
   background: var(--CARD); border: 1px solid var(--BD);
   border-radius: var(--R); margin-bottom: 14px; overflow: hidden;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
 }
-.uh-tl-card:hover { border-color: var(--BDA); }
+.uh-tl-card:hover { 
+  border-color: var(--BDA); 
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.15);
+}
 .tl-first .uh-tl-card {
   border-color: var(--BDA);
-  box-shadow: 0 0 0 1px rgba(255,120,0,0.08), 0 12px 40px rgba(0,0,0,0.25);
+  box-shadow:
+    0 0 0 1px rgba(255,120,0,0.1),
+    0 16px 48px rgba(0,0,0,0.28),
+    inset 0 1px 1px rgba(255,255,255,0.08);
 }
 
 .uh-tl-card-hd {
@@ -1279,15 +1797,20 @@ export default {
   gap: 12px;
   background: var(--CARD);
   border: 1px solid var(--BD);
-  border-radius: 12px;
-  padding: 12px;
+  border-radius: 14px;
+  padding: 14px;
   text-decoration: none;
-  transition: transform 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  box-shadow: inset 0 1px 1px rgba(255,255,255,0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
 }
+
 .uh-clg-card:hover {
-  transform: translateY(-2px);
-  border-color: rgba(0,122,255,0.4);
-  box-shadow: 0 8px 24px rgba(0,122,255,0.1);
+  transform: translateY(-5px) scale(1.02);
+  border-color: rgba(0,122,255,0.45);
+  box-shadow: 0 16px 40px rgba(0,122,255,0.18), inset 0 1px 1px rgba(255,255,255,0.1);
+  background: rgba(0,122,255,0.04);
 }
 .uh-clg-avatar {
   width: 44px; height: 44px;
@@ -1315,24 +1838,72 @@ export default {
 
 .uh-contrib-glass-card {
   align-items: flex-start;
-  padding: 24px;
+  padding: 26px;
+  border-color: rgba(0,122,255,0.15);
 }
+
+.uh-contrib-glass-card:hover {
+  border-color: rgba(0,122,255,0.35);
+  box-shadow: 0 14px 40px rgba(0,122,255,0.08);
+}
+
 .uh-contrib-glass-card h4 {
-  font-size: 18px; font-weight: 800; color: var(--T1); margin: 0 0 8px;
+  font-size: 17px;
+  font-weight: 800;
+  color: var(--T1);
+  margin: 0 0 8px;
 }
+
 .uh-contrib-glass-card p {
-  font-size: 13.5px; color: var(--T2); line-height: 1.5; margin: 0 0 20px;
+  font-size: 13.5px;
+  color: var(--T2);
+  line-height: 1.5;
+  margin: 0 0 20px;
 }
+
 .uh-contrib-glass-card ul {
-  list-style: none; padding: 0; margin: 0 0 20px;
-  display: flex; flex-direction: column; gap: 8px;
+  list-style: none;
+  padding: 0;
+  margin: 0 0 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
+
 .uh-contrib-glass-card li {
-  display: flex; align-items: flex-start; gap: 8px;
-  font-size: 13px; color: var(--T2);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--T2);
 }
-.uh-cc-ico { width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-bottom: 16px; }
-.uh-cc-badge { font-size: 10px; font-weight: 700; letter-spacing: 0.07em; padding: 2px 9px; border-radius: 20px; text-transform: uppercase; }
+
+.uh-contrib-glass-card li svg { stroke: var(--BLU); flex-shrink: 0; margin-top: 2px; }
+
+.uh-cc-ico {
+  width: 46px;
+  height: 46px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+  background: var(--BLS);
+  border: 1px solid rgba(0,122,255,0.28);
+  color: var(--BLU);
+}
+
+.uh-cc-badge {
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  padding: 4px 10px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  background: var(--BLS);
+  border: 1px solid rgba(0,122,255,0.22);
+  color: var(--BLU);
+}
 
 /* Premium Steps */
 .uh-steps-premium {
@@ -1407,23 +1978,131 @@ export default {
 
 /* Final CTA */
 .uh-final-cta {
-  margin-top: 44px; position: relative;
-  background: var(--CARD); border: 1px solid var(--BD);
-  border-radius: 16px; padding: 50px 40px; text-align: center; overflow: hidden;
-  box-shadow: 0 8px 32px rgba(0,0,0,0.08);
+  margin-top: 48px;
+  position: relative;
+  background: var(--CARD);
+  border: 1px solid var(--BD);
+  border-radius: 20px;
+  padding: 52px 40px;
+  text-align: center;
+  overflow: hidden;
+  box-shadow: 0 20px 56px rgba(0,0,0,0.16), inset 0 1px 0 rgba(255,255,255,0.05);
 }
-.uh-final-cta-glow { display: none; }
+
+.uh-final-cta-glow {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(255,120,0,0.1), transparent 65%);
+  pointer-events: none;
+}
+
 .uh-final-cta-inner { position: relative; z-index: 1; }
+
+.uh-final-cta .uh-section-label {
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
 .uh-final-cta h3 {
-  font-size: 26px; font-weight: 800; margin: 0 0 12px;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 800;
+  margin: 0 0 12px;
   color: var(--T1);
 }
 .uh-final-cta p { font-size: 15px; color: var(--T2); max-width: 380px; margin: 0 auto 28px; }
 .uh-cta-btns { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; }
 
+
+/* ══════════════════════ MASTER-DETAIL VERSIONS ══════════════════════ */
+.uh-version-nav {
+  display: flex; flex-direction: column; gap: 12px;
+}
+.uh-vnav-btn {
+  display: flex; align-items: center; gap: 16px;
+  width: 100%; text-align: left;
+  background: var(--CARD); border: 1px solid var(--BD);
+  padding: 16px 20px; border-radius: 16px;
+  cursor: pointer; transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+}
+.uh-vnav-btn:hover {
+  border-color: rgba(0,122,255,0.4); transform: translateX(6px);
+  box-shadow: 0 8px 24px rgba(0,122,255,0.08);
+}
+.uh-vnav-btn.active {
+  border-color: var(--BLU);
+  background: linear-gradient(135deg, rgba(0,122,255,0.1), rgba(0,122,255,0.02));
+  box-shadow: 0 12px 32px rgba(0,122,255,0.15), inset 0 0 0 1px rgba(0,122,255,0.5);
+  transform: translateX(8px);
+}
+.uh-vnav-icon {
+  width: 38px; height: 38px; border-radius: 10px;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; background: var(--BLS); color: var(--BLU);
+}
+.uh-vnav-icon.vnav-orange { background: rgba(255,140,0,0.15); color: #ff8c00; }
+.uh-vnav-icon.vnav-purple { background: rgba(168,85,247,0.15); color: #a855f7; }
+.uh-vnav-icon.vnav-green { background: rgba(34,197,94,0.15); color: #22c55e; }
+.uh-vnav-info { display: flex; flex-direction: column; gap: 4px; flex: 1; }
+.uh-vnav-tag { font-size: 15px; font-weight: 700; color: var(--T1); }
+.uh-vnav-date { font-size: 12px; color: var(--T3); }
+.uh-vnav-badge {
+  font-size: 10px; font-weight: 800; background: rgba(255,140,0,0.15); color: #ff8c00;
+  padding: 4px 8px; border-radius: 6px; letter-spacing: 0.5px;
+}
+
+.uh-version-details {
+  display: flex; flex-direction: column; height: 100%;
+}
+.uh-vd-header { border-bottom: 1px solid var(--BD); padding-bottom: 24px; margin-bottom: 24px; }
+.uh-vd-tag-row { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+.uh-vd-title { font-size: 24px; font-weight: 800; color: var(--T1); margin: 0 0 16px; line-height: 1.3; }
+.uh-vd-meta { display: flex; align-items: center; gap: 12px; font-size: 13.5px; color: var(--T3); }
+.uh-vd-dot { width: 4px; height: 4px; border-radius: 50%; background: var(--BD); }
+.uh-vd-grid { display: grid; grid-template-columns: 1.5fr 1fr; gap: 32px; }
+@media (max-width: 800px) { .uh-vd-grid { grid-template-columns: 1fr; } }
+
+.uh-fade-enter-active, .uh-fade-leave-active { transition: opacity 0.3s ease, transform 0.3s ease; }
+.uh-fade-enter-from, .uh-fade-leave-to { opacity: 0; transform: translateY(10px); }
+
+
+@media (max-width: 900px) {
+  .uh-versions-split { grid-template-columns: 1fr !important; }
+}
+
+/* ══════════════════════ LIQUID DEPTH PAGE TRANSITIONS ══════════════════════ */
+.uh-pages-wrapper {
+  display: grid;
+  width: 100%;
+}
+.uh-page {
+  grid-area: 1 / 1;
+  width: 100%;
+  transition: opacity 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275), 
+              filter 0.5s ease,
+              visibility 0.5s ease;
+}
+.uh-page.page-inactive {
+  opacity: 0;
+  pointer-events: none;
+  visibility: hidden;
+  transform: scale(0.96) translateY(20px);
+  filter: blur(8px);
+  z-index: 0;
+}
+.uh-page.page-active {
+  opacity: 1;
+  pointer-events: auto;
+  visibility: visible;
+  transform: scale(1) translateY(0);
+  filter: blur(0);
+  z-index: 1;
+}
+
 /* ══════════════════════ TRANSITIONS ══════════════════════ */
 .uh-slide-enter-active, .uh-slide-leave-active {
-  transition: max-height 0.3s cubic-bezier(0.4,0,0.2,1), opacity 0.22s ease;
+  transition: max-height 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.4s ease;
   overflow: hidden;
   max-height: 800px;
 }
@@ -1431,12 +2110,10 @@ export default {
 
 /* ══════════════════════ RESPONSIVE ══════════════════════ */
 @media (max-width: 640px) {
-  .uh-nav-inner { padding: 0 14px; gap: 8px; }
-  .uh-logo-name, .uh-logo-sep, .uh-logo-sub { display: none; }
-  .uh-ver-pill { display: none; }
-  .uh-wrap { padding: 24px 14px 60px; }
-  .uh-final-cta { padding: 32px 20px; }
-  .uh-intro-banner { flex-direction: column; padding: 20px; }
-  .uh-changelogs-frame { padding: 14px; }
+  .uh-wrap { padding: 28px 16px 64px; }
+  .uh-final-cta { padding: 36px 22px; }
+  .uh-changelogs-frame { padding: 14px; border-radius: 18px; }
+  .uh-hp-bento { grid-template-columns: 1fr; }
+  .uh-hp-stat-card--wide { grid-column: span 1; }
 }
 </style>
