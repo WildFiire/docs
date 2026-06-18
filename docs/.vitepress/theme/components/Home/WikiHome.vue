@@ -116,8 +116,8 @@
       </div>
     </section>
 
-    <!-- Divider -->
-    <div class="wf-divider"><span class="wf-divider__line"></span></div>
+    <!-- Moving Divider -->
+    <MovingDivider />
 
     <!-- ============ 2. QUICK START — STAGGERED CARDS ============ -->
     <section id="quickstart" class="wf-section wf-quickstart">
@@ -157,8 +157,8 @@
 
     </section>
 
-    <!-- Divider -->
-    <div class="wf-divider"><span class="wf-divider__line"></span></div>
+    <!-- Moving Divider -->
+    <MovingDivider />
 
     <!-- ============ 3. WHY WIKI ============ -->
     <section id="features" class="wf-section wf-features">
@@ -194,7 +194,7 @@
     </section>
 
     <!-- ============ 4. STATS BANNER ============ -->
-    <div class="wf-divider"><span class="wf-divider__line"></span></div>
+    <MovingDivider />
     <section id="stats" class="wf-section wf-stats" ref="statsSection">
       <div class="wf-container">
         <div class="wf-stats__grid">
@@ -210,7 +210,7 @@
     </section>
 
     <!-- ============ 5. SECTION EXPLORER ============ -->
-    <div class="wf-divider"><span class="wf-divider__line"></span></div>
+    <MovingDivider />
     <section id="explore" class="wf-section wf-explore">
       <div class="wf-container">
         <div class="wf-section-label anim-item" data-anim="slide-up">
@@ -243,7 +243,7 @@
     </section>
 
     <!-- ============ 6. DISCORD CTA ============ -->
-    <div class="wf-divider"><span class="wf-divider__line"></span></div>
+    <MovingDivider />
     <section id="community" class="wf-section wf-community">
       <div class="wf-container">
         <div class="wf-discord-banner anim-item" data-anim="slide-up">
@@ -276,6 +276,7 @@ import AboutWiki from './AboutWiki.vue'
 import CS2Background from './CS2Background.vue'
 import ScrollSpy from '../Layout/ScrollSpy.vue'
 import LiquidMetalLogo from './LiquidMetalLogo.vue'
+import MovingDivider from '../../../components/MovingDivider.vue'
 import { useMagnetic } from '../../composables/UI/useMouseInteraction'
 import { searchState } from '../../store'
 import { useTypingEffect } from '../../composables/Home/useTypingEffect'

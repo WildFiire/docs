@@ -172,6 +172,7 @@ const RelatedPages = defineAsyncComponent(() => import('./components/Widgets/Rel
 const SiteMap = defineAsyncComponent(() => import('./components/Layout/SiteMap.vue'))
 const PageNotFound = defineAsyncComponent(() => import('./components/Layout/PageNotFound.vue'))
 const FileTreeItem = defineAsyncComponent(() => import('./components/Docs/FileTreeItem.vue'))
+const PageTransition = defineAsyncComponent(() => import('../components/PageTransition.vue'))
 
 // Panel — lazy (numai pe /panel)
 const Dashboard = defineAsyncComponent(() => import('./components/Panel/Dashboard.vue'))
@@ -231,7 +232,7 @@ export default {
       'not-found': () => h(PageNotFound),
 
       // 🔥 Global UX enhancements
-      'layout-top': () => frontmatter.value.layout === false ? null : [h(BackToTop), h(DocEnhancements), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy), h(WfSearchModal)]
+      'layout-top': () => frontmatter.value.layout === false ? null : [h(PageTransition), h(BackToTop), h(DocEnhancements), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy), h(WfSearchModal)]
     })
   },
 

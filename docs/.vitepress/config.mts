@@ -142,7 +142,8 @@ export default defineConfig({
             collapsed: true,
             items: [
               { text: '<iconify-icon icon="lucide:terminal" class="nav-icon" width="16" height="16"></iconify-icon> Comenzi Staff', link: '/informatii/staff/comenzi' },
-              { text: '<iconify-icon icon="lucide:user-plus" class="nav-icon" width="16" height="16"></iconify-icon> Cum sa aplici', link: '/informatii/staff/cum-aplici' }
+              { text: '<iconify-icon icon="lucide:user-plus" class="nav-icon" width="16" height="16"></iconify-icon> Cum sa aplici', link: '/informatii/staff/cum-aplici' },
+              { text: '<iconify-icon icon="solar:danger-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Motive Oficiale', link: '/informatii/staff/motive-staff' }
             ]
           },
 
