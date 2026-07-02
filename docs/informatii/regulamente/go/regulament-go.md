@@ -43,7 +43,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">1.1</span> Orice tentativa de trisare este pedepsita cu <span class="wf-info-punish wf-info-font">BAN PERMANENT</span>
+    <span class="wf-info-number wf-info-font">1.1</span> Orice tentativă de trișare (folosirea de coduri, programe terțe, script-uri nepermise sau exploatarea gravă a bug-urilor) este strict interzisă și se pedepsește cu <span class="wf-info-punish wf-info-font">BAN PERMANENT</span>.
   </div>
 </div>
 
@@ -84,10 +84,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">1.4</span> Jignirea staff-ului duce la  
-    <span class="wf-info-badge wf-info-font">MUTE</span>
-    <span class="wf-info-badge wf-info-font">GAG</span>
-    <span class="wf-info-badge wf-info-font">SILENCE</span>
+    <span class="wf-info-number wf-info-font">1.4</span> Adresarea de injurii, atacurile personale sau lipsa de respect manifestată față de membrii staff-ului sunt strict interzise și se sancționează direct cu <span class="wf-info-badge wf-info-font">SILENCE 1 ZI</span>.
   </div>
 </div>
 
@@ -102,7 +99,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">1.5</span> Abuzul excesiv (spam) pe <span class="wf-info-highlight wf-info-font">u@</span> este interzis, drept urmare duce la <span class="wf-info-badge wf-info-font">GAG</span>
+    <span class="wf-info-number wf-info-font">1.5</span> Sesizările pe chat-ul adminilor (<span class="wf-info-highlight wf-info-font">u@</span>) trebuie să fie concrete și transmise printr-un singur mesaj clar (ex: "u@ Jucătorul X are aimbot"). Sunt strict interzise mesajele vagi de tip "report", precum și repetarea aceluiași mesaj (spam). Abuzul se sancționează cu <span class="wf-info-badge wf-info-font">GAG</span>
   </div>
 </div>
 
@@ -133,11 +130,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">1.7</span> Jignirea adusa serverului sau comunitatii duce la o sanctiune de  
-    <span class="wf-info-badge wf-info-font">GAG</span>
-    <span class="wf-info-badge wf-info-font">MUTE</span>
-    <span class="wf-info-punish wf-info-font">BAN TEMPORAR</span>
-    <span class="wf-info-punish wf-info-font">BAN PERMANENT</span>
+    <span class="wf-info-number wf-info-font">1.7</span> Defăimarea, înjurăturile sau aducerea de ofense grave la adresa serverului sau a întregii comunități atrag după sine o sancțiune de <span class="wf-info-badge wf-info-font">SILENCE 1 ZI</span> sau <span class="wf-info-punish wf-info-font">SILENCE PERMANENT</span>
   </div>
 </div>
 
@@ -150,8 +143,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">1.8</span> Este strict interzis sa detineti mai mult de un cont de CS2 pe server!  
-    Sanctiunea este <span class="wf-info-punish wf-info-font">BAN PERMANENT</span>
+    <span class="wf-info-number wf-info-font">1.8</span> Este permisă folosirea conturilor secundare pe server. Totuși, conectarea de pe un alt cont cu scopul de a ocoli o pedeapsă activă primită pe contul principal (Ban Evading / Mute Evading) este strict interzisă.
   </div>
 </div>
 
@@ -166,6 +158,64 @@ outline: "deep"
   <div class="wf-info-content">
     <span class="wf-info-number wf-info-font">1.9</span> Cererile de unban se fac intr-un interval de  
     <span class="wf-info-highlight wf-info-font">maximum 10 zile</span> de cand a fost sanctionat jucatorul.
+  </div>
+</div>
+
+<!-- 1.10 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
+      <polyline points="16 17 21 12 16 7"/>
+      <line x1="21" y1="12" x2="9" y2="12"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">1.10</span> <span class="wf-info-highlight wf-info-font">Evaziunea Sancțiunilor (Evasion):</span> Deconectarea intenționată de pe server (din meniu sau folosind comenzile "disconnect" / "quit") pentru a evita aplicarea unei sancțiuni (Gag, Mute, Slay) de către un membru staff este strict interzisă.  
+    Sancțiune: Dublarea sancțiunii inițiale sau <span class="wf-info-punish wf-info-font">BAN 24 ORE</span>
+  </div>
+</div>
+
+<!-- 1.11 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 0 0-3-3.87"/>
+      <path d="M16 3.13a4 4 0 0 1 0 7.75"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">1.11</span> <span class="wf-info-highlight wf-info-font">Regula "S-a jucat fratele meu":</span> Sunteți 100% responsabili pentru orice acțiune realizată de pe contul vostru de Steam pe acest server. Scuze de tipul "s-a jucat fratele meu" sau "mi-a furat cineva contul" NU vor fi luate în considerare la cererile de unban. Ban-ul rămâne.
+  </div>
+</div>
+
+<!-- 1.12 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">1.12</span> <span class="wf-info-highlight wf-info-font">Ban Evading:</span> Dacă aveți un ban activ pe un cont, este strict interzis să intrați pe server de pe un alt cont secundar pentru a juca și a ocoli pedeapsa (Ban Evade). Această acțiune atrage după sine <span class="wf-info-punish wf-info-font">BAN PE IP</span> și aplicarea banului permanent pe absolut toate conturile folosite.
+  </div>
+</div>
+
+<!-- 1.13 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
+      <line x1="12" y1="9" x2="12" y2="13"/>
+      <line x1="12" y1="17" x2="12.01" y2="17"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">1.13</span> <span class="wf-info-highlight wf-info-font">Inducerea în eroare a Staff-ului:</span> Mințirea intenționată a unui membru staff, sfidarea repetată a răspunsurilor date pe chatul adminilor (u@) sau falsificarea de dovezi pentru a atrage sancționarea nedreaptă a altui jucător duce la <span class="wf-info-punish wf-info-font">BAN 7 ZILE / PERMANENT</span>
   </div>
 </div>
 
@@ -193,12 +243,8 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">2.1</span> Este strict interzisa deranjarea serverului prin voice-chat.  
-    Sanctiune:  
-    <span class="wf-info-badge wf-info-font">MUTE</span>
-    <span class="wf-info-badge wf-info-font">GAG</span>
-    <span class="wf-info-badge wf-info-font">SILENCE</span>
-    <span class="wf-info-punish wf-info-font">BAN PERMANENT</span>
+    <span class="wf-info-number wf-info-font">2.1</span> Sunt permise discuțiile libere pe voice-chat (despre gameplay, subiecte cotidiene etc.), cu condiția de a păstra bunul simț. Acestea nu trebuie să acapareze complet comunicarea audio sau să deranjeze concentrarea celorlalți jucători. În caz contrar, se va considera Mic Spam.  
+    Sancțiune: <span class="wf-info-badge wf-info-font">MUTE 10 MIN</span>
   </div>
 </div>
 
@@ -225,8 +271,8 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">2.3</span> Este interzisa metoda <span class="wf-info-highlight wf-info-font">monitor</span> (cand doi jucatori din echipe diferite isi dau info).  
-    Riscati:  
+    <span class="wf-info-number wf-info-font">2.3</span> Este strict interzisă <span class="wf-info-highlight wf-info-font">Metoda „Monitor”</span>. Aceasta presupune ca doi jucători din echipe adverse să comunice prin programe externe (Discord, TeamSpeak etc.) pentru a-și dezvălui reciproc pozițiile inamicilor.  
+    Sancțiuni:  
     <span class="wf-info-badge wf-info-font">KICK</span>
     <span class="wf-info-punish wf-info-font">BAN 120 MIN</span>
   </div>
@@ -240,13 +286,9 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">2.4</span> Pentru intrebari legate de server sau reclamarea altor jucatori se foloseste  
-    <span class="wf-info-highlight wf-info-font">"Say_team @mesaj" (u@)</span>.  
-    Este interzisa folosirea chat-ului general pentru reclamarea altor jucatori (ex: "e codat").  
-    Nerespectarea acestei reguli se va sanctiona cu  
-    <span class="wf-info-badge wf-info-font">MUTE</span>
-    <span class="wf-info-badge wf-info-font">GAG</span>
-    <span class="wf-info-badge wf-info-font">SILENCE</span>
+    <span class="wf-info-number wf-info-font">2.4</span> Pentru întrebări legate de server sau reclamarea altor jucători se folosește exclusiv chat-ul echipei cu prefixul <span class="wf-info-highlight wf-info-font">@ (u@)</span>.  
+    Este strict interzisă folosirea chat-ului general pentru a acuza alți jucători (ex: "X are cod").  
+    Nerespectarea acestei reguli se va sancționa cu <span class="wf-info-badge wf-info-font">GAG</span>
   </div>
 </div>
 
@@ -258,9 +300,8 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">2.5</span> Toxicitatea si flame-ul la adresa celorlalti jucatori aduse sub forma de  
-    <span class="wf-info-highlight wf-info-font">"ez"</span>, <span class="wf-info-highlight wf-info-font">"culcat"</span>, <span class="wf-info-highlight wf-info-font">"sit"</span>, <span class="wf-info-highlight wf-info-font">"au maseaua"</span>, <span class="wf-info-highlight wf-info-font">"taci"</span> etc.  
-    se vor sanctiona cu  
+    <span class="wf-info-number wf-info-font">2.5</span> Toxicitatea, flame-ul și instigarea la ceartă (provocările) la adresa celorlalți jucători, prin folosirea unor expresii arogante precum <span class="wf-info-highlight wf-info-font">"ez"</span>, <span class="wf-info-highlight wf-info-font">"culcat"</span>, <span class="wf-info-highlight wf-info-font">"sit"</span>, <span class="wf-info-highlight wf-info-font">"au măseaua"</span>, <span class="wf-info-highlight wf-info-font">"taci"</span> etc., sunt strict interzise.  
+    Sancțiuni aplicabile:  
     <span class="wf-info-badge wf-info-font">MUTE</span>
     <span class="wf-info-badge wf-info-font">GAG</span>
     <span class="wf-info-badge wf-info-font">SILENCE</span>
@@ -281,7 +322,99 @@ outline: "deep"
     <span class="wf-info-badge wf-info-font">MUTE</span>
     <span class="wf-info-badge wf-info-font">GAG</span>
     <span class="wf-info-badge wf-info-font">SILENCE</span>
-    <span class="wf-info-punish wf-info-font">BAN TEMPORAR</span>
+  </div>
+</div>
+
+<!-- 2.7 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
+      <line x1="12" y1="8" x2="12" y2="12"/>
+      <line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">2.7</span> <span class="wf-info-highlight wf-info-font">Raportări False din Frustrare pe u@:</span> Sesizarea unui posibil codat pe chat-ul adminilor (u@) se face o singură dată. Este strict interzis spam-ul din frustrare doar pentru că ați fost omorât. Dacă un admin v-a răspuns că se uită, lăsați-l să-și facă treaba.  
+    Sancțiune: <span class="wf-info-badge wf-info-font">GAG 10-30 MIN</span>
+  </div>
+</div>
+
+<!-- 2.8 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+      <line x1="23" y1="9" x2="17" y2="15"/>
+      <line x1="17" y1="9" x2="23" y2="15"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">2.8</span> <span class="wf-info-highlight wf-info-font">Păstrarea Liniștii la "Clutch-uri":</span> Dacă ești mort, ești obligat să nu faci zgomot de fundal și să nu comunici informații irelevante când colegii tăi au rămas singuri (1v1, 1v2), pentru a nu le acoperi pașii inamicilor.  
+    Sancțiune: <span class="wf-info-badge wf-info-font">MUTE</span>
+  </div>
+</div>
+
+<!-- 2.9 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <line x1="17" y1="10" x2="3" y2="10"/>
+      <line x1="21" y1="6" x2="3" y2="6"/>
+      <line x1="21" y1="14" x2="3" y2="14"/>
+      <line x1="17" y1="18" x2="3" y2="18"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">2.9</span> <span class="wf-info-highlight wf-info-font">Abuzul de Bind-uri (Spam Text / ASCII Art):</span> Este interzisă folosirea "bind-urilor" de chat care conțin texte extrem de lungi, spam repetat la fiecare kill sau folosirea desenelor din caractere (ASCII Art) care umplu tot chat-ul serverului.  
+    Sancțiune: <span class="wf-info-badge wf-info-font">GAG</span> -> <span class="wf-info-punish wf-info-font">BAN 120 MIN</span>
+  </div>
+</div>
+
+<!-- 2.10 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <line x1="1" y1="1" x2="23" y2="23"/>
+      <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/>
+      <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/>
+      <line x1="12" y1="19" x2="12" y2="23"/>
+      <line x1="8" y1="23" x2="16" y2="23"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">2.10</span> <span class="wf-info-highlight wf-info-font">Voice changer:</span> Folosirea programelor de distorsiune a vocii (Voicemod, Clownfish etc.) care transformă vocea în tonuri ascuțite, robotice sau deranjante pentru troll, este încadrată la "Mic Spam".  
+    Sancțiune: <span class="wf-info-badge wf-info-font">MUTE TEMPORAR / PERMANENT</span>
+  </div>
+</div>
+
+<!-- 2.11 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+      <circle cx="8.5" cy="8.5" r="1.5"/>
+      <polyline points="21 15 16 10 5 21"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">2.11</span> <span class="wf-info-highlight wf-info-font">Nume și Avatare Inadecvate:</span> Folosirea unui Nickname sau Avatar pe Steam care conține elemente pornografice, extremiste, naziste, rasiste sau instigatoare la ură este interzisă.  
+    Sancțiune: Avertisment -> <span class="wf-info-badge wf-info-font">KICK</span> -> <span class="wf-info-punish wf-info-font">BAN 120 MIN</span>
+  </div>
+</div>
+
+<!-- 2.12 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/>
+      <line x1="15" y1="9" x2="9" y2="15"/>
+      <line x1="9" y1="9" x2="15" y2="15"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">2.12</span> <span class="wf-info-highlight wf-info-font">Toleranță ZERO:</span> Chiar dacă limbajul vulgar mai poate fi iertat, insultele rasiale (ex: N-word), extremiste, homofobe sau amenințările grave din viața reală (amenințări cu bătaia, doxxing) sunt strict interzise.  
+    Sancțiune: <span class="wf-info-punish wf-info-font">BAN PERMANENT</span>
   </div>
 </div>
 
@@ -307,8 +440,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">3.1</span> Orice tentativa de frauda / inselaciune / impersonare se pedepseste cu  
-    <span class="wf-info-punish wf-info-font">BAN PERMANENT</span>
+    <span class="wf-info-number wf-info-font">3.1</span> <span class="wf-info-highlight wf-info-font">Scam & Trade-uri:</span> Orice tentativă de fraudă sau înșelăciune la schimburile de iteme (Trade) între jucătorii de pe server este strict interzisă. Cei prinși cu "țepe" vor primi direct <span class="wf-info-punish wf-info-font">BAN 7 ZILE</span> pe server și restricție <span class="wf-info-badge wf-info-font">TRADEBAN</span>, aplicându-se forțarea unui Revert Trade pentru returnarea bunurilor.
   </div>
 </div>
 
@@ -335,8 +467,8 @@ outline: "deep"
     </svg>
   </div>
   <div class="wf-info-content">
-    <span class="wf-info-number wf-info-font">3.3</span> Daca un jucator pretinde in mod fals ca este un membru staff, acesta va fi sanctionat cu  
-    <span class="wf-info-badge wf-info-font">SILENCE</span> sau <span class="wf-info-punish wf-info-font">BAN 7 ZILE</span>
+    <span class="wf-info-number wf-info-font">3.3</span> Nu vă asumați rolul de membru staff dacă nu dețineți un grad. Dacă un jucător încalcă regulamentul, raportați-l pe u@. Este interzis să dați voi ordine pe chat/voice, să amenințați jucătorii sau să vă certați. Lăsați staff-ul să își facă treaba!  
+    Sanctiune: <span class="wf-info-badge wf-info-font">MUTE / GAG 10 MIN</span>
   </div>
 </div>
 
@@ -352,7 +484,7 @@ outline: "deep"
   </div>
   <div class="wf-info-content">
     <span class="wf-info-number wf-info-font">3.4</span> Daca un jucator ii obliga sau ii convinge pe altii sa iasa de pe server pentru a juca doar cu o anumita persoana, va primi  
-    <span class="wf-info-punish wf-info-font">BAN 7 ZILE</span>
+    <span class="wf-info-badge wf-info-font">SILENCE</span>
   </div>
 </div>
 
@@ -368,11 +500,8 @@ outline: "deep"
   <div class="wf-info-content">
     <span class="wf-info-number wf-info-font">3.5</span> Este strict interzis sa chemati jucatorii la  
     <span class="wf-info-highlight wf-info-font">competitive / popflash / faceit / etc.</span>  
-    Riscati  
-    <span class="wf-info-badge wf-info-font">MUTE</span>
-    <span class="wf-info-badge wf-info-font">GAG</span>
+    Riscati:
     <span class="wf-info-badge wf-info-font">SILENCE</span>
-    <span class="wf-info-punish wf-info-font">BAN TEMPORAR</span>
   </div>
 </div>
 
@@ -391,6 +520,78 @@ outline: "deep"
     <span class="wf-info-number wf-info-font">3.6</span> Este interzis <span class="wf-info-highlight wf-info-font">griefing / troll</span>.  
     Prima sanctiune: <span class="wf-info-badge wf-info-font">SLAY</span><br>
     Daca se repeta: <span class="wf-info-punish wf-info-font">BAN 120 MIN</span>
+  </div>
+</div>
+
+<!-- 3.7 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <line x1="12" y1="20" x2="12" y2="10"/>
+      <line x1="18" y1="20" x2="18" y2="4"/>
+      <line x1="6" y1="20" x2="6" y2="16"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">3.7</span> <span class="wf-info-highlight wf-info-font">Influențarea Votului (RTV / Nextmap):</span> Este strict interzis să forțați sau să influențați alți jucători să voteze o anumită hartă ori să dea `rtv`. Expresiile de tipul "dați rtv", "votați 1", "alegeți mirage" (pe chat sau voice) sunt interzise și se sancționează cu <span class="wf-info-badge wf-info-font">SILENCE</span>
+  </div>
+</div>
+
+<!-- 3.8 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/>
+      <circle cx="12" cy="12" r="6"/>
+      <circle cx="12" cy="12" r="2"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">3.8</span> <span class="wf-info-highlight wf-info-font">Bomb Griefing:</span> Este strict interzis ca teroristul care deține bomba (C4) să o arunce intenționat în locuri de unde nu mai poate fi recuperată sau să refuze clar plantarea ei când zona este sigură.  
+    Sancțiune: <span class="wf-info-badge wf-info-font">SLAY</span> -> <span class="wf-info-punish wf-info-font">BAN 120 MIN</span>
+  </div>
+</div>
+
+<!-- 3.9 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <rect x="5" y="2" width="14" height="20" rx="7" ry="7"/>
+      <line x1="12" y1="6" x2="12" y2="10"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">3.9</span> <span class="wf-info-highlight wf-info-font">Macro-uri / Scripturi:</span> Pe lângă "codurile" clasice, folosirea oricărui tip de Macro/Script configurat din soft-ul perifericelor pentru a realiza BunnyHop automat sau No Recoil se consideră tot o formă de trișare.  
+    Sancțiune: <span class="wf-info-punish wf-info-font">BAN PERMANENT</span>
+  </div>
+</div>
+
+<!-- 3.10 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="9" cy="21" r="1"/>
+      <circle cx="20" cy="21" r="1"/>
+      <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">3.10</span> <span class="wf-info-highlight wf-info-font">Cerșitul și Comerțul:</span> Este interzis să folosiți serverul ca piață pentru a vinde/cumpăra skin-uri sau conturi pe bani reali. De asemenea, cerșitul de VIP, grade sau skin-uri este interzis.  
+    Sancțiune: <span class="wf-info-badge wf-info-font">GAG / MUTE</span> -> <span class="wf-info-punish wf-info-font">BAN TEMPORAR</span>
+  </div>
+</div>
+
+<!-- 3.11 -->
+<div class="wf-info-card">
+  <div class="wf-info-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>
+      <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71"/>
+    </svg>
+  </div>
+  <div class="wf-info-content">
+    <span class="wf-info-number wf-info-font">3.11</span> <span class="wf-info-highlight wf-info-font">Reclamă (Advertising):</span> Promovarea altor comunități, servere de Discord, servere de CS2 sau site-uri de pariuri este strict interzisă – atât prin mesaje, cât și prin folosirea link-urilor direct în nickname.  
+    Sancțiune: Avertisment -> <span class="wf-info-badge wf-info-font">KICK</span> -> <span class="wf-info-punish wf-info-font">BAN PERMANENT</span>
   </div>
 </div>
 

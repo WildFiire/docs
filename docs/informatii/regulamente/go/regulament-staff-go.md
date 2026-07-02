@@ -1,4 +1,4 @@
-﻿---
+---
 title: "Regulament STAFF"
 description: "Descopera totul despre Regulament STAFF pe platforma Wildfire.ro. Resurse complete, ghiduri si sisteme detaliate pentru Counter-Strike 2."
 outline: "deep"
@@ -269,7 +269,55 @@ outline: "deep"
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">2.8</span> <span class="highlight orbitron-font">Dovezile</span> se tin in PC <span class="highlight orbitron-font">10 zile</span>.
+    <span class="rule-number orbitron-font">2.8</span> <span class="highlight orbitron-font">Obligativitatea și Păstrarea Dovezilor (Demo/Screen):</span> Orice sancțiune majoră acordată (în special Ban Permanent) trebuie susținută obligatoriu de o dovadă clară. Aveți obligația să păstrați dovezile în PC timp de minim <span class="highlight orbitron-font">10 ZILE</span> de la acordarea sancțiunii, pentru a le prezenta la cererile de unban sau reclamații. Lipsa dovezii duce la <span class="badge-warn orbitron-font">WARN</span> / <span class="badge-remove orbitron-font">REMOVE</span> și debanarea jucătorului.
+  </div>
+</div>
+
+<!-- 2.9 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="8.5" cy="7" r="4"/><line x1="18" y1="8" x2="23" y2="13"/><line x1="23" y1="8" x2="18" y2="13"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">2.9</span> <span class="highlight orbitron-font">Conturile "Sub acoperire" (Smurf):</span> Membrii staff sunt obligați să joace exclusiv de pe contul principal (pe care au gradul). Intrarea pe server de pe conturi secundare (smurf/no-prime) fără aprobarea prealabilă a Managerului pentru a testa jucătorii sau a ascunde gradul este interzisă. <span class="badge-remove orbitron-font">Sanctiune: REMOVE</span>
+  </div>
+</div>
+
+<!-- 2.10 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M3 18v-6a9 9 0 0 1 18 0v6"/><path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">2.10</span> <span class="highlight orbitron-font">Regula Camerei de Discord "Nu Deranjați STAFF":</span> Canalele private de voce de pe Discord sunt destinate exclusiv discuțiilor administrative importante, ședințelor sau verificărilor. Este strict interzisă mutarea (move) jucătorilor obișnuiți în aceste canale pentru a sta la povești. De asemenea, dacă în canal se află deja 2-3 membri staff care rezolvă o problemă, ceilalți admini trebuie să ceară permisiunea înainte de a intra peste ei. <span class="badge-warn orbitron-font">Sanctiune: WARN</span>
+  </div>
+</div>
+
+<!-- 2.11 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/><line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/><line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/><line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">2.11</span> <span class="highlight orbitron-font">Abuzul de permisiuni pe Discord:</span> Permisiunile de moderare deținute pe serverul de Discord (Move, Server Mute, Deafen, Timeout, Kick si Ban) trebuie folosite cu maximă responsabilitate. Folosirea acestora sub formă de joacă, troll sau din motive personale este strict interzisă. <span class="badge-remove orbitron-font">Sanctiune: WARN -> REMOVE</span>
+  </div>
+</div>
+
+<!-- 2.12 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">2.12</span> <span class="highlight orbitron-font">Confidențialitatea Staff-ului (Interzis "Leaking Info"):</span> Este strict interzisă fotografierea (screenshot), distribuirea sau divulgarea conversațiilor și deciziilor luate pe canalele private destinate exclusiv Staff-ului către jucătorii obișnuiți. Tot ce se discută în staff rămâne în staff. <span class="badge-remove orbitron-font">Sanctiune: REMOVE DIRECT</span>
   </div>
 </div>
 
@@ -314,11 +362,11 @@ outline: "deep"
 <div class="rule-card">
   <div class="rule-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
-      <circle cx="12" cy="12" r="10"/><line x1="18" y1="6" x2="6" y2="18"/>
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 9.9-1"/>
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">3.3</span> Este <span class="highlight orbitron-font">STRICT INTERZIS</span> sa debanati un jucator care a fost banat de un alt admin. <span class="badge-remove orbitron-font">Sanctiune: REMOVE</span>
+    <span class="rule-number orbitron-font">3.3</span> <span class="highlight orbitron-font">Debanarea jucătorilor (Unban):</span> Niciun Moderator, sau Administrator+ nu are voie să folosească comanda de UNBAN pe cont propriu, chiar dacă a dat un ban din greșeală (inclusiv debanarea jucătorilor banați de alt admin). Orice debanare se solicită și se aprobă pe site prin intermediul cererilor-unban. <span class="badge-remove orbitron-font">Sanctiune: REMOVE DIRECT</span>
   </div>
 </div>
 
@@ -369,7 +417,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">3.6</span> Adminii nu au voie sa ofere <span class="highlight orbitron-font">favoruri</span> indiferent de natura situatiei. <span class="badge-remove orbitron-font">Sanctiune: REMOVE</span>
+    <span class="rule-number orbitron-font">3.6</span> Adminii nu au voie sa oferte <span class="highlight orbitron-font">favoruri</span> indiferent de natura situatiei. <span class="badge-remove orbitron-font">Sanctiune: REMOVE</span>
   </div>
 </div>
 
@@ -393,7 +441,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">3.8</span> Incepand cu ora <span class="highlight orbitron-font">12:00 AM → 07:00 AM</span>, se recomanda o atitudine mai concilianta fata de jucatorii care folosesc un limbaj vulgar, avand in vedere ca dupa aceasta ora numarul copiilor activi scade considerabil. Se permite, intr-o masura rezonabila, anumite glume si expresii vulgare, cu conditia ca acestea sa ramana in limita unui comportament decent si a bunului simt.
+    <span class="rule-number orbitron-font">3.8</span> Incepand cu ora <span class="highlight orbitron-font">12:00 AM → 07:00 AM</span>, se recomanda o atitudine mai concilianta fata de jucatorii care folosesc un limbaj vulgar, avand in vedere ca dupa aceasta ora numarul copiilor activi scade considerabil.
   </div>
 </div>
 
@@ -406,6 +454,102 @@ outline: "deep"
   </div>
   <div class="rule-content">
     <span class="rule-number orbitron-font">3.9</span> Daca intre staff apare un <span class="highlight orbitron-font">conflict</span>, acesta trebuie discutat cu <span class="highlight orbitron-font">Server Manager-ul</span>.
+  </div>
+</div>
+
+<!-- 3.10 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">3.10</span> <span class="highlight orbitron-font">Motive Clare pentru Sancțiuni:</span> Atunci când acordați o sancțiune (Kick, Ban, Mute, Gag, Silence), comanda trebuie să conțină un motiv explicit și real. Sunt strict interzise motivele la mișto, arogante sau scurte (ex: "sal", "pa", "ieși", "cod", "jet"). <span class="badge-warn orbitron-font">Sanctiune: WARN</span>
+  </div>
+</div>
+
+<!-- 3.11 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">3.11</span> <span class="highlight orbitron-font">Abuzul comenzilor (Troll):</span> Este strict interzisă folosirea comenzilor de pedeapsă (slay, slap, blind, freeze, kick etc.) pe jucători sau pe alți colegi din staff sub formă de glumă sau pentru amuzament personal. <span class="badge-remove orbitron-font">Sanctiune: WARN -> REMOVE</span>
+  </div>
+</div>
+
+<!-- 3.12 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <polyline points="14.5 17.5 3 6 3 3 6 3 17.5 14.5"/><line x1="13" y1="19" x2="19" y2="13"/><line x1="16" y1="16" x2="20" y2="20"/><line x1="19" y1="21" x2="21" y2="19"/><polyline points="14.5 6.5 18 3 21 3 21 6 17.5 9.5"/><line x1="5" y1="14" x2="9" y2="18"/><line x1="7" y1="17" x2="4" y2="20"/><line x1="3" y1="19" x2="5" y2="21"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">3.12</span> <span class="highlight orbitron-font">Cearta cu jucătorii:</span> Ca membru staff, vă este interzis să vă certați, să răspundeți la provocări sau să înjurați jucătorii. Dacă un jucător devine toxic sau greșește, acționați strict prin comenzi (Gag/Mute/Silence), nu îi răspundeți cu aceeași monedă la microfon sau pe chat. <span class="badge-remove orbitron-font">Sanctiune: WARN -> DOWNGRADE -> REMOVE</span>
+  </div>
+</div>
+
+<!-- 3.13 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <polygon points="1 6 1 22 8 18 16 22 23 18 23 2 16 6 8 2 1 6"/><line x1="8" y1="2" x2="8" y2="18"/><line x1="16" y1="6" x2="16" y2="22"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">3.13</span> <span class="highlight orbitron-font">Schimbarea Hărții și Abuzul de Vot:</span> Este strict interzis să schimbați harta după bunul plac doar pentru că nu vă place, sau să dați vot la mijlocul hărții. Harta se poate schimba prin vot doar în ultimele 5 minute sau dacă serverul este gol. <span class="badge-warn orbitron-font">Sanctiune: WARN</span>
+  </div>
+</div>
+
+<!-- 3.14 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <line x1="1" y1="1" x2="23" y2="23"/><path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6"/><path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">3.14</span> <span class="highlight orbitron-font">Critica publică între admini:</span> Este interzis să certați, să corectați sau să atrageți atenția unui alt coleg din staff pe chat-ul general / voice cu privire la deciziile sau comenzile pe care acesta le-a aplicat. Orice nemulțumire sau greșeală observată se discută discret pe chat-ul administrativ (u@) sau pe Discord. <span class="badge-warn orbitron-font">Sanctiune: WARN</span>
+  </div>
+</div>
+
+<!-- 3.15 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <rect x="2" y="3" width="20" height="14" rx="2" ry="2"/><line x1="8" y1="21" x2="16" y2="21"/><line x1="12" y1="17" x2="12" y2="21"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">3.15</span> <span class="highlight orbitron-font">Abuzul de mesaje globale:</span> Comenzile de tip mesaj global pe ecran (csay, y@) sunt destinate exclusiv anunțurilor administrative importante. Este interzisă folosirea acestor comenzi pentru a glumi sau a purta conversații banale. <span class="badge-warn orbitron-font">Sanctiune: WARN</span>
+  </div>
+</div>
+
+<!-- 3.16 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/><polyline points="17 6 23 6 23 12"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">3.16</span> <span class="highlight orbitron-font">Sancționarea Progresivă:</span> Pentru încălcări ce țin de comportament, limbaj sau troll, adminii sunt obligați să sancționeze treptat jucătorul (Avertisment -> Mute/Gag -> Kick -> Ban 120m -> Ban extins). Săritul direct la pedeapsa maximă din răzbunare se pedepsește cu Warn.
+  </div>
+</div>
+
+<!-- 3.17 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <polygon points="23 7 16 12 23 17 23 7"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">3.17</span> <span class="highlight orbitron-font">Obligativitatea salvării dovezilor:</span> Este strict interzis să banați un jucător pentru cheat-uri "pe instinct". Banul permanent se dă doar dacă adminul s-a pus spectator și a făcut o dovadă video (demo / clip) sau dacă sistemul anticheat confirmă. <span class="badge-remove orbitron-font">Sanctiune: REMOVE DIRECT</span>
   </div>
 </div>
 
@@ -589,6 +733,30 @@ outline: "deep"
   </div>
   <div class="rule-content">
     <span class="rule-number orbitron-font">5.6</span> <span class="highlight orbitron-font">Lucrati in echipa!</span> Comunicarea constanta intre membrii staff previne conflictele si erorile.
+  </div>
+</div>
+
+<!-- 5.7 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">5.7</span> <span class="highlight orbitron-font">Răspunsul la sesizările pe u@:</span> Când un jucător reclamă un posibil codat pe chat-ul adminilor, aveți obligația de a vă pune Spectator pentru a verifica. Ignorarea intenționată a chat-ului în favoarea jocului personal este interzisă. <span class="badge-warn orbitron-font">Sanctiune: WARN</span>
+  </div>
+</div>
+
+<!-- 5.8 -->
+<div class="rule-card">
+  <div class="rule-icon">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
+      <circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/>
+    </svg>
+  </div>
+  <div class="rule-content">
+    <span class="rule-number orbitron-font">5.8</span> <span class="highlight orbitron-font">Respectarea termenelor:</span> Membrii staff sunt obligați să răspundă la Reclamații, Cereri Helper sau Cereri Unban în termen de maxim 24 de ore. La o cerere îndreptată împotriva ta, ai obligația absolută de a încărca dovada. <span class="badge-remove orbitron-font">Sanctiune: WARN -> DOWNGRADE</span>
   </div>
 </div>
 
