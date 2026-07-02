@@ -10,6 +10,11 @@ jobs:
     runs-on: ubuntu-latest
     
     steps:
+      - name: Debug Secrets Configuration
+        run: |
+          echo "VPS_HOST is: ${{ secrets.VPS_HOST != '' && 'SET' || 'EMPTY' }}"
+          echo "VPS_USER is: ${{ secrets.VPS_USER != '' && 'SET' || 'EMPTY' }}"
+          echo "VPS_SSH_KEY is: ${{ secrets.VPS_SSH_KEY != '' && 'SET' || 'EMPTY' }}"
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
         with:
