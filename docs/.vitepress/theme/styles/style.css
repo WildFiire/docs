@@ -5224,3 +5224,105 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
   color: rgb(167, 139, 250);
 }
 
+/* ============================================================================
+   WF CARD BADGES — wf-new / wf-updated
+   Aplica un badge vizual pe orice card cu aceste clase.
+   Folosire: <div class="wf-info-card wf-new"> sau <div class="rule-card wf-updated">
+   ============================================================================ */
+
+/* Baza: pozitionare relativa pentru badge-ul absolut */
+.wf-new,
+.wf-updated {
+  position: relative;
+  overflow: visible;
+}
+
+/* Badge-ul comun */
+.wf-new::before,
+.wf-updated::before {
+  content: attr(data-badge);
+  position: absolute;
+  top: -10px;
+  right: -8px;
+  z-index: 10;
+  font-size: 9.5px;
+  font-weight: 800;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  font-family: 'Orbitron', 'Inter', sans-serif;
+  padding: 2px 7px 2px 6px;
+  border-radius: 6px;
+  line-height: 1.6;
+  pointer-events: none;
+  user-select: none;
+  white-space: nowrap;
+  /* Shimmer animation */
+  background-size: 200% 100%;
+  animation: wf-badge-shimmer 2.4s linear infinite;
+}
+
+/* NEW — orange fire */
+.wf-new::before {
+  content: 'NEW';
+  background: linear-gradient(
+    105deg,
+    #ff4500 0%,
+    #ff6a00 40%,
+    #ff8c00 50%,
+    #ff6a00 60%,
+    #ff4500 100%
+  );
+  background-size: 200% 100%;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(255, 69, 0, 0.55), 0 2px 6px rgba(0,0,0,0.3);
+  border: 1px solid rgba(255, 106, 0, 0.45);
+}
+
+/* UPDATED — amber/gold fire */
+.wf-updated::before {
+  content: 'UPDATED';
+  background: linear-gradient(
+    105deg,
+    #d97706 0%,
+    #f59e0b 40%,
+    #fbbf24 50%,
+    #f59e0b 60%,
+    #d97706 100%
+  );
+  background-size: 200% 100%;
+  color: #fff;
+  box-shadow: 0 0 8px rgba(217, 119, 6, 0.55), 0 2px 6px rgba(0,0,0,0.3);
+  border: 1px solid rgba(245, 158, 11, 0.45);
+}
+
+/* Shimmer sweep */
+@keyframes wf-badge-shimmer {
+  0%   { background-position: 100% 0; }
+  100% { background-position: -100% 0; }
+}
+
+/* Dot indicator mic in coltul din stanga-sus al cardului (optional, elegant) */
+.wf-new::after,
+.wf-updated::after {
+  content: '';
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  pointer-events: none;
+  animation: wf-dot-blink 1.8s ease-in-out infinite;
+}
+.wf-new::after {
+  background: #ff4500;
+  box-shadow: 0 0 5px rgba(255, 69, 0, 0.8);
+}
+.wf-updated::after {
+  background: #f59e0b;
+  box-shadow: 0 0 5px rgba(245, 158, 11, 0.8);
+}
+@keyframes wf-dot-blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.35; transform: scale(0.7); }
+}

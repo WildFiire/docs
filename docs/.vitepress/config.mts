@@ -120,10 +120,7 @@ export default defineConfig({
         text: '<iconify-icon icon="solar:chart-square-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Dashboard',
         link: '/panel/'
       },
-      {
-        text: '<iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Echipa',
-        link: '/about/team'
-      },
+
     ],
 
     sidebar: [
@@ -135,6 +132,7 @@ export default defineConfig({
           // { text: '<iconify-icon icon="lucide:rocket" class="nav-icon" width="16" height="16"></iconify-icon> Incepe aici', link: '/informatii/getting-started' },
           { text: '<iconify-icon icon="lucide:star" class="nav-icon" width="16" height="16"></iconify-icon> Despre Wildfire', link: '/informatii/about' },
           { text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Intrebari frecvente', link: '/informatii/faq' },
+          { text: '<iconify-icon icon="lucide:file-clock" class="nav-icon" width="16" height="16"></iconify-icon> Patch Notes', link: '/informatii/patch-notes' },
 
           // STAFF
           {
@@ -293,15 +291,6 @@ export default defineConfig({
           },
         ]
       },
-
-      // SECTIUNEA "RECENT GUI" CU VERSION TAG (ACELASI DESIGN CA IN FOOTER)
-      {
-        text: '<iconify-icon icon="solar:code-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> 3.0.0 <span class="version-tag">v3.0.0</span>',
-        collapsed: true,
-        items: [
-          { text: '<iconify-icon icon="lucide:git-branch" class="nav-icon" width="16" height="16"></iconify-icon> Updates Hub', link: '/updates_wiki/hub' },
-        ]
-      }
     ],
 
     editLink: {
@@ -339,6 +328,32 @@ export default defineConfig({
       provider: 'local',
       options: {
         detailedView: true,
+        // Extract text from raw HTML blocks so <div>, <span>, custom components
+        // are indexed instead of silently stripped.
+        _render(src, env, md) {
+          const html = md.render(src, env)
+          // Strip all HTML tags but keep the inner text
+          // This ensures text inside <div class="wf-info-box">, <span>, etc. is indexed
+          return html
+            // Remove script/style blocks entirely
+            .replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/gi, ' ')
+            // Remove HTML comments
+            .replace(/<!--[\s\S]*?-->/g, ' ')
+            // Replace block-level tags with spaces so words don't merge
+            .replace(/<\/(div|p|li|h[1-6]|section|article|header|footer|blockquote|pre|table|tr|td|th)>/gi, ' ')
+            // Remove all remaining tags
+            .replace(/<[^>]+>/g, '')
+            // Decode common HTML entities
+            .replace(/&amp;/g, '&')
+            .replace(/&lt;/g, '<')
+            .replace(/&gt;/g, '>')
+            .replace(/&nbsp;/g, ' ')
+            .replace(/&quot;/g, '"')
+            .replace(/&#39;/g, "'")
+            // Collapse whitespace
+            .replace(/\s+/g, ' ')
+            .trim()
+        },
         miniSearch: {
           options: {
             tokenize: (text: string) => {
@@ -349,10 +364,10 @@ export default defineConfig({
             }
           },
           searchOptions: {
-            fuzzy: 0.2,
+            fuzzy: 0.25,
             prefix: true,
             combineWith: 'OR',
-            boost: { title: 4, text: 2, titles: 1 }
+            boost: { title: 6, titles: 4, text: 2 }
           }
         },
         translations: {
@@ -466,43 +481,7 @@ export default defineConfig({
   vite: {
     plugins: [
       lastUpdatesPlugin(docsDir, repoRoot),
-      newPagesPlugin(docsDir, repoRoot),
-      {
-        name: 'save-team-plugin',
-        configureServer(server) {
-          server.middlewares.use((req, res, next) => {
-            if (req.url === '/__api/save-team' && req.method === 'POST') {
-              let body = ''
-              req.on('data', chunk => { body += chunk })
-              req.on('end', () => {
-                try {
-                  const { code } = JSON.parse(body)
-                  const targetPath = path.resolve(__dirname, 'theme/components/Pages/Team.vue')
-                  let content = fs.readFileSync(targetPath, 'utf-8')
-                  
-                  const regex = /const hierarchyDefinition = \[[\s\S]*\]\s*hierarchy\.value = hierarchyDefinition/
-                  const newCode = `const hierarchyDefinition = ${code}\n\nhierarchy.value = hierarchyDefinition`
-                  
-                  if (regex.test(content)) {
-                    content = content.replace(regex, newCode)
-                    fs.writeFileSync(targetPath, content, 'utf-8')
-                    res.statusCode = 200
-                    res.end(JSON.stringify({ success: true }))
-                  } else {
-                    res.statusCode = 500
-                    res.end(JSON.stringify({ error: 'Could not find hierarchyDefinition in Team.vue' }))
-                  }
-                } catch (error) {
-                  res.statusCode = 500
-                  res.end(JSON.stringify({ error: String(error) }))
-                }
-              })
-              return
-            }
-            next()
-          })
-        }
-      }
+      newPagesPlugin(docsDir, repoRoot)
     ],
 
     build: {

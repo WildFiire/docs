@@ -350,6 +350,31 @@ outline: "deep"
   </div>
 </div>
 
+### <div style="display: none;">5.0 DISCORD STATUS DROPS</div>
+
+## <span style="display:none">Discord Drops</span>
+
+<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.2);" class="wf-system-title-hover">
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:message-square" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />5.0 DISCORD STATUS DROPS</span>
+</div>
+
+<div class="wf-system-card wf-new">
+  <div class="wf-system-icon"><Icon icon="lucide:message-square" width="18" height="18" color="#ff8c00" /></div>
+  <div class="wf-system-content">
+    <p>Recompensam jucatorii fideli comunitatii printr-un sistem de drop-uri automate pe baza statusului de Discord.</p>
+    
+  <ul class="wf-system-custom-list">
+      <li><Icon icon="lucide:link" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Pasi necesari:</span> Adauga <code>discord.gg/wildfire</code> in statusul tau pe Discord. In plus, este obligatoriu ca pe site sa ai conectat contul tau de Discord (direct din dashboard).</span></li>
+      <li><Icon icon="lucide:clock" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Recompensa:</span> Primesti o cutie (case) garantat la fiecare <strong>8 ore</strong>, inclusiv o sansa sa primesti mult ravnitul <strong>Exclusive Case</strong>!</span></li>
+    </ul>
+  </div>
+</div>
+
+<div class="wf-system-tip orange">
+  <Icon icon="lucide:save" width="22" height="22" color="#ff8c00" />
+  <span><span class="wf-system-highlight">Salvare automata:</span> Daca ai primit o cutie (inclusiv din Discord drop) si iesi de pe server inainte sa o deschizi, nu iti face griji! Aceasta nu se pierde, ci este salvata automat in inventarul tau, fiind disponibila oricand la urmatoarea logare.</span>
+</div>
+
 <!-- INFO BOX FINAL -->
 <div class="wf-system-box">
   <ul>

@@ -1,6 +1,6 @@
 <template>
   <div class="cs2-bg" :class="{ 'cs2-bg--light': !isDark }">
-    <!-- Wallpaper image -->
+    <!-- Wallpaper -->
     <img
       ref="wallpaperEl"
       src="/wallpaper/poza.webp"
@@ -13,46 +13,46 @@
       role="presentation"
       style="transform: scale(1.08)"
     />
-    <!-- Filter overlay for brightness/saturation -->
-    <div ref="filterOverlayEl" class="cs2-bg__filter-overlay"></div>
-    <!-- Dark overlay on top of wallpaper -->
+
+    <!-- Base dark tint -->
     <div class="cs2-bg__overlay"></div>
 
-    <!-- Fiery effects -->
+    <!-- Scroll darken (opacity driven by JS) -->
+    <div ref="scrollFadeEl" class="cs2-bg__scroll-fade"></div>
+
+    <!-- Scroll brightness filter (opacity driven by JS) -->
+    <div ref="filterOverlayEl" class="cs2-bg__filter-overlay"></div>
+
+    <!-- Center hero glow — warm orange focal point -->
+    <div class="cs2-bg__center-glow"></div>
+
+    <!-- Bottom fire gradient -->
     <div class="cs2-bg__fire-bottom"></div>
+
+    <!-- Side edge accents -->
     <div class="cs2-bg__fire-edge cs2-bg__fire-edge--left"></div>
     <div class="cs2-bg__fire-edge cs2-bg__fire-edge--right"></div>
-    <div class="cs2-bg__heat-haze"></div>
 
-    <!-- Animated gradient orbs (2 instead of 4) -->
+    <!-- Ambient orbs -->
     <div class="cs2-bg__orb cs2-bg__orb--1"></div>
     <div class="cs2-bg__orb cs2-bg__orb--2"></div>
+    <div class="cs2-bg__orb cs2-bg__orb--3"></div>
 
-    <!-- Ember streaks -->
-    <div class="cs2-bg__streak cs2-bg__streak--1"></div>
-    <div class="cs2-bg__streak cs2-bg__streak--2"></div>
-
-    <!-- Floating particles (6 instead of 12) -->
-    <div class="cs2-bg__particles">
-      <span v-for="n in 6" :key="n" class="cs2-bg__particle" :style="particleStyle(n)"></span>
-    </div>
-
-    <!-- NeuroNoise bottom layer -->
-    <div class="cs2-bg__neuro">
-      <NeuroNoiseBg :width="2560" :height="400" colorBack="#00000000" :brightness="0.1" :contrast="1.2" :speed="0.8" />
-    </div>
+    <!-- Scan-line texture overlay -->
+    <div class="cs2-bg__scanlines" aria-hidden="true"></div>
 
     <!-- Vignette -->
     <div class="cs2-bg__vignette"></div>
 
-    <!-- Scroll darken overlay -->
-    <div ref="scrollFadeEl" class="cs2-bg__scroll-fade"></div>
+    <!-- Floating embers (3) -->
+    <div class="cs2-bg__particles">
+      <span v-for="n in 4" :key="n" class="cs2-bg__particle" :style="particleStyle(n)"></span>
+    </div>
   </div>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue'
-import NeuroNoiseBg from './NeuroNoiseBg.vue'
 
 const props = defineProps<{
   scrolled?: boolean
@@ -60,14 +60,11 @@ const props = defineProps<{
   isDark?: boolean
 }>()
 
-// No reactive scroll values needed — all written directly to DOM refs
-
-// DOM refs for direct scroll-driven style writes (no Vue reactivity per scroll event)
-const wallpaperEl = ref<HTMLImageElement | null>(null)
+const wallpaperEl    = ref<HTMLImageElement | null>(null)
 const filterOverlayEl = ref<HTMLDivElement | null>(null)
-const scrollFadeEl = ref<HTMLDivElement | null>(null)
+const scrollFadeEl   = ref<HTMLDivElement | null>(null)
 
-let velocity = 0
+let velocity     = 0
 let bounceTarget = 1
 let bounceCurrent = 1
 let rafId: number | null = null
@@ -77,9 +74,7 @@ const SETTLE_THRESHOLD = 0.0002
 
 const onWheel = (e: WheelEvent) => {
   if (e.ctrlKey) {
-    const delta = e.deltaY > 0 ? -0.04 : 0.04
-    velocity += delta
-    // Restart the loop if it was settled
+    velocity += e.deltaY > 0 ? -0.04 : 0.04
     if (!rafId) rafId = requestAnimationFrame(updateParallax)
   }
 }
@@ -88,84 +83,71 @@ let scrollRaf: number | null = null
 const onScroll = () => {
   if (scrollRaf) return
   scrollRaf = requestAnimationFrame(() => {
-    const scrollY = window.scrollY
-    const maxScroll = 800
-    const progress = Math.min(scrollY / maxScroll, 1)
-    // Write directly to DOM — skip Vue reactivity entirely
-    if (filterOverlayEl.value) {
-      filterOverlayEl.value.style.opacity = String(progress * 0.4)
-    }
-    if (scrollFadeEl.value) {
-      scrollFadeEl.value.style.opacity = String(progress * 0.6)
-    }
+    const progress = Math.min(window.scrollY / 800, 1)
+    if (filterOverlayEl.value) filterOverlayEl.value.style.opacity = String(progress * 0.35)
+    if (scrollFadeEl.value)    scrollFadeEl.value.style.opacity    = String(progress * 0.55)
     scrollRaf = null
   })
 }
 
 const updateParallax = () => {
-  // Zoom bounce spring
   bounceTarget += velocity
-  bounceTarget = Math.max(0.92, Math.min(1.12, bounceTarget))
-  velocity *= 0.85
-  // Spring back to 1
-  const springForce = (1 - bounceTarget) * 0.06
-  bounceTarget += springForce
+  bounceTarget  = Math.max(0.92, Math.min(1.12, bounceTarget))
+  velocity     *= 0.85
+  bounceTarget += (1 - bounceTarget) * 0.06
   bounceCurrent = lerp(bounceCurrent, bounceTarget, 0.1)
 
-  // Write directly to DOM — no Vue reactivity cost
   if (wallpaperEl.value) {
-    const scale = Math.round(bounceCurrent * 1000) / 1000
-    wallpaperEl.value.style.transform = `scale3d(${1.08 * scale}, ${1.08 * scale}, 1)`
+    const s = Math.round(bounceCurrent * 1000) / 1000
+    wallpaperEl.value.style.transform = `scale3d(${1.08 * s}, ${1.08 * s}, 1)`
   }
 
-  // Stop loop when spring has fully settled (avoids infinite RAF)
   const settled = Math.abs(velocity) < SETTLE_THRESHOLD &&
                   Math.abs(bounceCurrent - 1) < SETTLE_THRESHOLD &&
-                  Math.abs(bounceTarget - 1) < SETTLE_THRESHOLD
+                  Math.abs(bounceTarget  - 1) < SETTLE_THRESHOLD
   if (settled) {
     if (wallpaperEl.value) wallpaperEl.value.style.transform = 'scale3d(1.08, 1.08, 1)'
     rafId = null
     return
   }
-
   rafId = requestAnimationFrame(updateParallax)
 }
 
 onMounted(() => {
-  window.addEventListener('wheel', onWheel, { passive: true })
+  window.addEventListener('wheel',  onWheel,  { passive: true })
   window.addEventListener('scroll', onScroll, { passive: true })
   onScroll()
-  // Don't auto-start the RAF — only start on wheel events
 })
 
 onUnmounted(() => {
-  window.removeEventListener('wheel', onWheel)
+  window.removeEventListener('wheel',  onWheel)
   window.removeEventListener('scroll', onScroll)
-  if (rafId) cancelAnimationFrame(rafId)
+  if (rafId)     cancelAnimationFrame(rafId)
   if (scrollRaf) cancelAnimationFrame(scrollRaf)
 })
 
 const particleStyle = (n: number) => {
-  const seed = n * 7.3
-  const left = ((seed * 13.7) % 100)
-  const top = ((seed * 9.1) % 100)
-  const size = 2 + (n % 4)
-  const dur = 10 + (n % 8) * 3
-  const delay = -(n % 5) * 2
-  const opacity = 0.3 + (n % 3) * 0.15
+  const seed    = n * 7.3
+  const left    = (seed * 13.7) % 100
+  const top     = (seed * 9.1)  % 100
+  const size    = 2 + (n % 3)
+  const dur     = 12 + (n % 7) * 3
+  const delay   = -(n % 5) * 2.5
+  const opacity = 0.25 + (n % 3) * 0.12
   return {
-    left: `${left}%`,
-    top: `${top}%`,
-    width: `${size}px`,
-    height: `${size}px`,
+    left:              `${left}%`,
+    top:               `${top}%`,
+    width:             `${size}px`,
+    height:            `${size}px`,
     animationDuration: `${dur}s`,
-    animationDelay: `${delay}s`,
-    '--p-opacity': opacity,
+    animationDelay:    `${delay}s`,
+    '--p-opacity':     opacity,
   }
 }
 </script>
 
 <style scoped>
+/* ── Root ── */
 .cs2-bg {
   position: fixed;
   inset: 0;
@@ -174,7 +156,7 @@ const particleStyle = (n: number) => {
   overflow: hidden;
 }
 
-/* ===== WALLPAPER ===== */
+/* ── Wallpaper ── */
 .cs2-bg__wallpaper {
   position: absolute;
   inset: 0;
@@ -182,330 +164,227 @@ const particleStyle = (n: number) => {
   height: 100%;
   object-fit: cover;
   object-position: center;
+  /* Darken + desaturate for text contrast */
+  filter: brightness(0.22) saturate(0.65);
+  transition: filter 0.5s ease;
+}
+.cs2-bg--light .cs2-bg__wallpaper {
+  filter: brightness(0.70) saturate(0.40);
 }
 
-.cs2-bg__filter-overlay {
-  position: absolute;
-  inset: 0;
-  background: black;
-  pointer-events: none;
-  mix-blend-mode: multiply;
-  /* Reduced memory usage */
-}
-
+/* ── Base dark overlay ── */
 .cs2-bg__overlay {
   position: absolute;
   inset: 0;
-  background: rgba(2, 2, 2, 0.98);
-  transition: background 0.5s ease;
+  background: linear-gradient(
+    180deg,
+    rgba(2, 2, 5, 0.90) 0%,
+    rgba(3, 3, 8, 0.80) 45%,
+    rgba(3, 2, 6, 0.92) 100%
+  );
 }
-
 .cs2-bg--light .cs2-bg__overlay {
-  background:
-    linear-gradient(180deg, rgba(255, 255, 255, 0.82) 0%, rgba(248, 249, 254, 0.7) 40%, rgba(255, 255, 255, 0.88) 100%),
-    rgba(250, 251, 254, 0.5);
+  background: linear-gradient(
+    180deg,
+    rgba(248, 248, 255, 0.78) 0%,
+    rgba(252, 251, 255, 0.62) 50%,
+    rgba(250, 249, 255, 0.80) 100%
+  );
 }
 
-/* ===== FIERY EFFECTS ===== */
+/* ── Center hero glow ── */
+.cs2-bg__center-glow {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 900px;
+  height: 600px;
+  background: radial-gradient(
+    ellipse 60% 55% at 50% 40%,
+    rgba(255, 110, 0, 0.10) 0%,
+    rgba(255, 80, 0, 0.05) 40%,
+    transparent 70%
+  );
+  pointer-events: none;
+  animation: centerGlowPulse 8s ease-in-out infinite alternate;
+}
+.cs2-bg--light .cs2-bg__center-glow {
+  background: radial-gradient(
+    ellipse 60% 55% at 50% 40%,
+    rgba(255, 110, 0, 0.04) 0%,
+    transparent 70%
+  );
+}
+@keyframes centerGlowPulse {
+  0%   { opacity: 0.7; transform: translateX(-50%) scale(1);    }
+  100% { opacity: 1;   transform: translateX(-50%) scale(1.06); }
+}
+
+/* ── Fire bottom gradient ── */
 .cs2-bg__fire-bottom {
   position: absolute;
   bottom: 0;
   left: 0;
   right: 0;
-  height: 40%;
+  height: 35%;
   background: linear-gradient(
     to top,
-    rgba(255, 60, 0, 0.12) 0%,
-    rgba(255, 100, 0, 0.06) 25%,
-    rgba(255, 140, 0, 0.02) 50%,
+    rgba(255, 50, 0, 0.10) 0%,
+    rgba(255, 80, 0, 0.05) 30%,
     transparent 100%
   );
-  animation: fireBreath 4s ease-in-out infinite;
 }
-
 .cs2-bg--light .cs2-bg__fire-bottom {
   background: linear-gradient(
     to top,
-    rgba(255, 120, 0, 0.06) 0%,
-    rgba(255, 100, 0, 0.03) 30%,
+    rgba(255, 120, 0, 0.04) 0%,
     transparent 100%
   );
 }
 
+/* ── Side fire edges ── */
 .cs2-bg__fire-edge {
   position: absolute;
   top: 0;
   bottom: 0;
-  width: 200px;
-  /* Removed filter:blur(40px) — CSS blur on fixed elements forces a compositing layer repaint every frame */
-  animation: edgePulse 6s ease-in-out infinite;
+  width: 180px;
 }
-
 .cs2-bg__fire-edge--left {
-  left: -60px;
-  background: linear-gradient(
-    to right,
-    rgba(255, 50, 0, 0.15) 0%,
-    rgba(255, 80, 0, 0.05) 40%,
-    transparent 100%
-  );
+  left: -30px;
+  background: linear-gradient(to right, rgba(255, 60, 0, 0.10) 0%, transparent 100%);
 }
-
 .cs2-bg__fire-edge--right {
-  right: -60px;
-  background: linear-gradient(
-    to left,
-    rgba(255, 50, 0, 0.15) 0%,
-    rgba(255, 80, 0, 0.05) 40%,
-    transparent 100%
-  );
-  animation-delay: 3s;
+  right: -30px;
+  background: linear-gradient(to left, rgba(255, 60, 0, 0.10) 0%, transparent 100%);
 }
+.cs2-bg--light .cs2-bg__fire-edge--left  { background: linear-gradient(to right, rgba(255, 120, 0, 0.04) 0%, transparent 100%); }
+.cs2-bg--light .cs2-bg__fire-edge--right { background: linear-gradient(to left,  rgba(255, 120, 0, 0.04) 0%, transparent 100%); }
 
-.cs2-bg--light .cs2-bg__fire-edge--left {
-  background: linear-gradient(to right, rgba(255, 120, 0, 0.06) 0%, transparent 100%);
-}
-.cs2-bg--light .cs2-bg__fire-edge--right {
-  background: linear-gradient(to left, rgba(255, 120, 0, 0.06) 0%, transparent 100%);
-}
-
-.cs2-bg__heat-haze {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 40% 30% at 30% 70%, rgba(255, 120, 0, 0.05) 0%, transparent 70%),
-    radial-gradient(ellipse 35% 25% at 70% 60%, rgba(255, 120, 0, 0.04) 0%, transparent 70%),
-    radial-gradient(ellipse 25% 20% at 50% 80%, rgba(255, 80, 0, 0.06) 0%, transparent 60%);
-  animation: heatShimmer 8s ease-in-out infinite alternate;
-}
-
-.cs2-bg--light .cs2-bg__heat-haze {
-  background:
-    radial-gradient(ellipse 40% 30% at 30% 70%, rgba(255, 120, 0, 0.02) 0%, transparent 70%),
-    radial-gradient(ellipse 35% 25% at 70% 60%, rgba(255, 120, 0, 0.02) 0%, transparent 70%);
-}
-
-@keyframes fireBreath {
-  0%, 100% { opacity: 0.7; transform: scaleY(1); }
-  50% { opacity: 1; transform: scaleY(1.08); }
-}
-
-@keyframes edgePulse {
-  0%, 100% { opacity: 0.5; }
-  50% { opacity: 0.9; }
-}
-
-@keyframes heatShimmer {
-  0% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-  33% { transform: translate(15px, -10px) scale(1.03); opacity: 0.9; }
-  66% { transform: translate(-10px, 8px) scale(0.98); opacity: 0.7; }
-  100% { transform: translate(5px, -5px) scale(1.01); opacity: 0.8; }
-}
-
-/* ===== GRADIENT ORBS ===== */
+/* ── Ambient orbs ── */
 .cs2-bg__orb {
   position: absolute;
   border-radius: 50%;
+  will-change: transform;
 }
-
 .cs2-bg__orb--1 {
-  width: 600px;
-  height: 600px;
-  top: -15%;
-  left: -10%;
-  background: radial-gradient(circle, rgba(255, 120, 0, 0.18) 0%, rgba(255, 120, 0, 0.06) 50%, transparent 70%);
-  animation: orbFloat1 20s ease-in-out infinite;
+  width: 700px;
+  height: 700px;
+  top: -20%;
+  left: -15%;
+  background: radial-gradient(circle, rgba(255, 100, 0, 0.13) 0%, rgba(255, 80, 0, 0.05) 50%, transparent 70%);
+  animation: orbFloat1 22s ease-in-out infinite;
 }
-
 .cs2-bg__orb--2 {
-  width: 500px;
-  height: 500px;
-  bottom: -10%;
-  right: -5%;
-  background: radial-gradient(circle, rgba(255, 100, 20, 0.14) 0%, rgba(200, 50, 0, 0.05) 50%, transparent 70%);
-  animation: orbFloat2 25s ease-in-out infinite;
+  width: 550px;
+  height: 550px;
+  bottom: -12%;
+  right: -8%;
+  background: radial-gradient(circle, rgba(255, 90, 10, 0.10) 0%, rgba(180, 40, 0, 0.04) 50%, transparent 70%);
+  animation: orbFloat2 28s ease-in-out infinite;
 }
-
 .cs2-bg__orb--3 {
-  width: 350px;
-  height: 350px;
-  top: 40%;
-  right: 20%;
-  background: radial-gradient(circle, rgba(255, 140, 0, 0.1) 0%, transparent 60%);
+  width: 380px;
+  height: 380px;
+  top: 38%;
+  right: 18%;
+  background: radial-gradient(circle, rgba(255, 130, 0, 0.07) 0%, transparent 60%);
   animation: orbFloat3 18s ease-in-out infinite;
 }
 
-.cs2-bg__orb--4 {
-  width: 250px;
-  height: 250px;
-  bottom: 30%;
-  left: 15%;
-  background: radial-gradient(circle, rgba(255, 120, 0, 0.08) 0%, transparent 60%);
-  animation: orbFloat4 22s ease-in-out infinite;
-  /* Removed to save memory */
-}
-
-/* Light mode — much subtler orbs */
-.cs2-bg--light .cs2-bg__orb--1 {
-  background: radial-gradient(circle, rgba(255, 120, 0, 0.06) 0%, rgba(255, 120, 0, 0.02) 50%, transparent 70%);
-}
-.cs2-bg--light .cs2-bg__orb--2 {
-  background: radial-gradient(circle, rgba(255, 100, 20, 0.05) 0%, transparent 60%);
-}
-.cs2-bg--light .cs2-bg__orb--3 {
-  background: radial-gradient(circle, rgba(255, 140, 0, 0.04) 0%, transparent 60%);
-}
-.cs2-bg--light .cs2-bg__orb--4 {
-  background: radial-gradient(circle, rgba(255, 120, 0, 0.03) 0%, transparent 60%);
-}
+/* Light mode — softer orbs */
+.cs2-bg--light .cs2-bg__orb--1 { background: radial-gradient(circle, rgba(255, 120, 0, 0.05) 0%, transparent 70%); }
+.cs2-bg--light .cs2-bg__orb--2 { background: radial-gradient(circle, rgba(255, 100, 0, 0.04) 0%, transparent 70%); }
+.cs2-bg--light .cs2-bg__orb--3 { background: radial-gradient(circle, rgba(255, 140, 0, 0.03) 0%, transparent 60%); }
 
 @keyframes orbFloat1 {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.8; }
-  30% { transform: translate(60px, 40px) scale(1.1); opacity: 1; }
-  60% { transform: translate(-30px, 80px) scale(0.95); opacity: 0.7; }
+  0%, 100% { transform: translate(0, 0) scale(1);       opacity: 0.75; }
+  30%       { transform: translate(50px, 35px) scale(1.08); opacity: 1;    }
+  65%       { transform: translate(-25px, 70px) scale(0.94); opacity: 0.65; }
 }
-
 @keyframes orbFloat2 {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.7; }
-  40% { transform: translate(-50px, -60px) scale(1.15); opacity: 0.9; }
-  70% { transform: translate(40px, -30px) scale(0.9); opacity: 0.6; }
+  0%, 100% { transform: translate(0, 0) scale(1);          opacity: 0.65; }
+  40%       { transform: translate(-45px, -55px) scale(1.12); opacity: 0.85; }
+  70%       { transform: translate(35px, -25px) scale(0.92); opacity: 0.55; }
 }
-
 @keyframes orbFloat3 {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.6; }
-  50% { transform: translate(-40px, 50px) scale(1.1); opacity: 0.8; }
+  0%, 100% { transform: translate(0, 0) scale(1);       opacity: 0.5; }
+  50%       { transform: translate(-35px, 45px) scale(1.1); opacity: 0.7; }
 }
 
-@keyframes orbFloat4 {
-  0%, 100% { transform: translate(0, 0) scale(1); opacity: 0.5; }
-  35% { transform: translate(30px, -40px) scale(1.2); opacity: 0.7; }
-  65% { transform: translate(-20px, 30px) scale(0.85); opacity: 0.5; }
-}
-
-/* ===== EMBER STREAKS ===== */
-.cs2-bg__streak {
+/* ── Scan-line texture ── */
+.cs2-bg__scanlines {
   position: absolute;
-  height: 1px;
-  border-radius: 2px;
-  filter: blur(0.5px);
+  inset: 0;
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.06) 2px,
+    rgba(0, 0, 0, 0.06) 4px
+  );
+  pointer-events: none;
+}
+.cs2-bg--light .cs2-bg__scanlines {
+  background-image: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0, 0, 0, 0.025) 2px,
+    rgba(0, 0, 0, 0.025) 4px
+  );
+}
+
+/* ── Vignette ── */
+.cs2-bg__vignette {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse 75% 65% at 50% 35%, transparent 25%, rgba(0, 0, 0, 0.65) 100%);
+}
+.cs2-bg--light .cs2-bg__vignette {
+  background: radial-gradient(ellipse 75% 65% at 50% 35%, transparent 45%, rgba(0, 0, 0, 0.04) 100%);
+}
+
+/* ── Scroll overlays (JS-driven opacity) ── */
+.cs2-bg__filter-overlay {
+  position: absolute;
+  inset: 0;
+  background: black;
+  mix-blend-mode: multiply;
   opacity: 0;
 }
-
-.cs2-bg__streak--1 {
-  width: 300px;
-  top: 25%;
-  left: -300px;
-  background: linear-gradient(90deg, transparent, rgba(255, 120, 0, 0.35), rgba(255, 140, 0, 0.2), transparent);
-  animation: streak1 8s ease-in-out infinite;
-  animation-delay: 2s;
+.cs2-bg__scroll-fade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.65) 100%);
+  opacity: 0;
+}
+.cs2-bg--light .cs2-bg__scroll-fade {
+  background: linear-gradient(to bottom, transparent 0%, rgba(250, 251, 254, 0.85) 100%);
 }
 
-.cs2-bg__streak--2 {
-  width: 200px;
-  top: 65%;
-  right: -200px;
-  background: linear-gradient(270deg, transparent, rgba(255, 100, 0, 0.3), rgba(255, 120, 0, 0.15), transparent);
-  animation: streak2 10s ease-in-out infinite;
-  animation-delay: 5s;
-}
-
-.cs2-bg--light .cs2-bg__streak--1 {
-  background: linear-gradient(90deg, transparent, rgba(255, 120, 0, 0.15), rgba(255, 140, 0, 0.08), transparent);
-}
-.cs2-bg--light .cs2-bg__streak--2 {
-  background: linear-gradient(270deg, transparent, rgba(255, 100, 0, 0.12), rgba(255, 120, 0, 0.06), transparent);
-}
-
-@keyframes streak1 {
-  0% { transform: translateX(0); opacity: 0; }
-  10% { opacity: 0.8; }
-  90% { opacity: 0.8; }
-  100% { transform: translateX(calc(100vw + 600px)); opacity: 0; }
-}
-
-@keyframes streak2 {
-  0% { transform: translateX(0); opacity: 0; }
-  10% { opacity: 0.6; }
-  90% { opacity: 0.6; }
-  100% { transform: translateX(calc(-100vw - 400px)); opacity: 0; }
-}
-
-/* ===== FLOATING PARTICLES ===== */
+/* ── Floating embers ── */
 .cs2-bg__particles {
   position: absolute;
   inset: 0;
   overflow: hidden;
 }
-
 .cs2-bg__particle {
   position: absolute;
   border-radius: 50%;
-  background: rgba(255, 120, 0, 0.7);
+  background: rgba(255, 130, 0, 0.75);
+  box-shadow: 0 0 4px rgba(255, 120, 0, 0.5);
   animation: particleDrift linear infinite;
-  opacity: var(--p-opacity, 0.4);
+  opacity: var(--p-opacity, 0.35);
 }
-
 .cs2-bg--light .cs2-bg__particle {
   background: rgba(255, 120, 0, 0.4);
-  opacity: calc(var(--p-opacity, 0.4) * 0.5);
+  opacity: calc(var(--p-opacity, 0.35) * 0.4);
 }
-
 @keyframes particleDrift {
-  0% {
-    transform: translateY(0) translateX(0);
-    opacity: 0;
-  }
-  10% {
-    opacity: var(--p-opacity, 0.4);
-  }
-  90% {
-    opacity: var(--p-opacity, 0.4);
-  }
-  100% {
-    transform: translateY(-120px) translateX(40px);
-    opacity: 0;
-  }
-}
-
-/* ===== NEURO NOISE BOTTOM ===== */
-.cs2-bg__neuro {
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 400px;
-  overflow: hidden;
-  mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 100%);
-  -webkit-mask-image: linear-gradient(to top, rgba(0, 0, 0, 1) 0%, transparent 100%);
-}
-
-.cs2-bg__neuro-canvas {
-  width: 100% !important;
-  height: 100% !important;
-  display: block;
-}
-
-/* ===== VIGNETTE ===== */
-.cs2-bg__vignette {
-  position: absolute;
-  inset: 0;
-  background: radial-gradient(ellipse 70% 60% at center, transparent 30%, rgba(0, 0, 0, 0.7) 100%);
-}
-
-.cs2-bg--light .cs2-bg__vignette {
-  background: radial-gradient(ellipse 70% 60% at center, transparent 50%, rgba(0, 0, 0, 0.04) 100%);
-}
-
-/* ===== SCROLL FADE ===== */
-.cs2-bg__scroll-fade {
-  position: absolute;
-  inset: 0;
-  background: linear-gradient(to bottom, transparent 0%, rgba(0, 0, 0, 0.7) 100%);
-  opacity: 0;
-  transition: opacity 0.3s ease;
-}
-
-.cs2-bg--light .cs2-bg__scroll-fade {
-  background: linear-gradient(to bottom, transparent 0%, rgba(250, 251, 254, 0.85) 100%);
+  0%   { transform: translateY(0) translateX(0);      opacity: 0; }
+  8%   { opacity: var(--p-opacity, 0.35); }
+  92%  { opacity: var(--p-opacity, 0.35); }
+  100% { transform: translateY(-140px) translateX(30px); opacity: 0; }
 }
 </style>

@@ -102,7 +102,33 @@ outline: deep
 
 <div class="wf-system-tip red">
   <Icon icon="lucide:info" width="22" height="22" color="#ef4444" />
-  <span>Poti verifica rank-ul tau si top-ul jucatorilor folosind comenzile <code>!rank</code>, <code>!top</code> sau direct pe <a href="https://wildfire.ro/panel" target="_blank" style="color: #ef4444; font-weight: 700; text-decoration: none;">wildfire.ro/panel</a>.</span>
+  <span>Poti verifica rank-ul tau si top-ul jucatorilor folosind comenzile <code>!rank</code>, <code>!top</code> sau direct pe <a href="https://wildfire.ro/dashboard" target="_blank" style="color: #ef4444; font-weight: 700; text-decoration: none;">wildfire.ro/dashboard</a>.</span>
+</div>
+
+<!-- 3.0 LEADERBOARD & SEZOANE -->
+
+### <div style="display: none;">3.0 LEADERBOARD & SEZOANE</div>
+
+## <span style="display:none">Sezoane</span>
+
+<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(239, 68, 68, 0.2);" class="wf-system-title-hover">
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ef4444, #dc2626, #b91c1c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:calendar-clock" width="30" height="30" color="#ef4444" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />3.0 LEADERBOARD & SEZOANE</span>
+</div>
+
+<div class="wf-system-card wf-new">
+  <div class="wf-system-icon"><Icon icon="lucide:trophy" width="18" height="18" color="#ef4444" /></div>
+  <div class="wf-system-content">
+    <p>Pentru a mentine un mediu competitiv si echilibrat, serverul foloseste un sistem lunar de <strong>Sezoane</strong>.</p>
+    
+  <ul class="wf-system-custom-list">
+      <li><Icon icon="lucide:refresh-ccw" width="18" height="18" color="#ef4444" /><span><span class="wf-system-highlight">Resetare Lunara:</span> Topul si progresia de ELO se vor reseta automat <strong>in fiecare luna, pe data de 1</strong>.</span></li>
+      <li><Icon icon="lucide:gift" width="18" height="18" color="#ef4444" /><span><span class="wf-system-highlight">Premii pentru Top 3:</span> La finalul fiecarei luni, jucatorii care se afla pe primele 3 locuri in <strong>Top SKILL</strong> (ELO) vor primi recompense speciale pe server.</span></li>
+    </ul>
+    
+   <div style="margin-top: 16px; background: rgba(239, 68, 68, 0.05); border-left: 4px solid #ef4444; padding: 12px; border-radius: 8px;">
+      <p style="font-size: 14px; margin: 0; color: var(--vp-c-text-2);">Mentine-ti activitatea, castiga meciuri si asigura-te ca ramai pe primele pozitii pana la finalul lunii pentru a obtine premiile garantate!</p>
+    </div>
+  </div>
 </div>
 
 </div>

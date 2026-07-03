@@ -186,7 +186,7 @@ outline: "deep"
   <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:monitor" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />5.0 MVP Pe Site</span>
 </div>
 
-<div class="wf-system-card">
+<div class="wf-system-card wf-updated">
   <div class="wf-system-icon"><Icon icon="lucide:monitor" width="18" height="18" color="#ff8c00" /></div>
   <div class="wf-system-content">
     <p>Toate MVP-urile tale pot fi gestionate si din contul tau de pe <span class="wf-system-highlight">site-ul oficial</span>. Acceseaza <code>wildfire.ro/skins-market</code> si autentifica-te cu Steam pentru a accesa sectiunea <span class="wf-system-highlight">MVP</span>.</p>
@@ -215,9 +215,44 @@ outline: "deep"
       <li><Icon icon="lucide:shuffle" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Random MVP</span> — activeaza modul aleatoriu</span></li>
     </ul>
     
-  <div class="wf-system-tip orange">
+  <div class="wf-system-tip orange" style="margin-top: 16px;">
       <Icon icon="lucide:sparkles" width="22" height="22" color="#ff8c00" />
-      <span><span class="wf-system-highlight">MVP-uri Custom</span> — poti cumpara un MVP personalizat contra cost.</span>
+      <span><span class="wf-system-highlight">Calitate Premium:</span> Toate MVP-urile dispun acum de un design nou, unde cover-ul original se transforma automat in <span class="wf-system-highlight">Template-ul Wildfire</span>. Audio-ul a fost de asemenea imbunatatit pentru o claritate impecabila!</span>
+    </div>
+
+  </div>
+</div>
+
+### 6.0 Custom MVP & Entry Songs
+
+<div style="display: flex; align-items: center; gap: 16px; margin: 48px 0 28px 0; padding-bottom: 14px; border-bottom: 2px solid rgba(255,140,0,0.25);" class="wf-system-title-hover">
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ff8c00, #ff5500, #ff4400); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:music" width="30" height="30" color="#ff8c00" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />6.0 Custom MVP & Entry Songs</span>
+</div>
+
+<div class="wf-system-card wf-new">
+  <div class="wf-system-icon"><Icon icon="lucide:music" width="18" height="18" color="#ff8c00" /></div>
+  <div class="wf-system-content">
+    <p>Pe langa colectia standard, jucatorii pot obtine sau achizitiona melodii personalizate, beneficiind de sisteme avansate si recunoastere vizuala.</p>
+    
+  <div style="margin-top: 20px;">
+      <h4 style="color: #ff8c00; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;"><Icon icon="lucide:crown" width="16" height="16" /> Custom MVP (Premium - 15 Lei)</h4>
+      <p style="margin-bottom: 12px; font-size: 14px;">Achizitionabil direct de pe <a href="https://wildfire.ro/mvp-anthem-request" target="_blank" class="wf-system-highlight">Dashboard (Request MVP Anthem)</a>. Pachetul iti ofera un MVP custom cu urmatoarele beneficii:</p>
+      <ul class="wf-system-custom-list">
+        <li><Icon icon="lucide:scissors" width="18" height="18" color="#ff8c00" /><span><strong>Editare direct din browser:</strong> Poti taia (trim) melodia cum doresti; efectul de fade se aplica automat.</span></li>
+        <li><Icon icon="lucide:zap" width="18" height="18" color="#ff8c00" /><span><strong>Procesare instanta:</strong> MVP-ul se adauga automat si instant pe server.</span></li>
+        <li><Icon icon="lucide:badge-check" width="18" height="18" color="#ff8c00" /><span><strong>Tag Exclusiv:</strong> Cand iei MVP, textul <span class="wf-system-highlight" style="font-weight: bold;">"PREMIUM MVP"</span> este afisat in meniul de final de runda.</span></li>
+      </ul>
+    </div>
+
+  <div style="margin-top: 24px;">
+      <h4 style="color: #00c851; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;"><Icon icon="lucide:mic" width="16" height="16" /> MVP-uri Gratuite (Propuneri)</h4>
+      <p style="font-size: 14px;">Jucatorii pot propune propriile melodii pentru a fi adaugate. Acestea vor fi trimise catre conducere, care le va revizui (accept sau reject) pentru a fi integrate in catalogul serverului.</p>
+    </div>
+
+  <div style="margin-top: 24px; background: rgba(0,0,0,0.2); padding: 16px; border-radius: 12px; border-left: 4px solid #ff8c00;">
+      <h4 style="color: #ff8c00; font-weight: bold; margin-bottom: 8px; display: flex; align-items: center; gap: 6px;"><Icon icon="lucide:door-open" width="16" height="16" /> Entry Songs</h4>
+      <p style="font-size: 14px;">Sistemul prin care la conectarea ta pe server ruleaza o melodie personalizata este acum activ!</p>
+      <p style="font-size: 14px; margin-top: 6px;"><span class="wf-system-highlight">Important:</span> Momentan, dupa ce platesti pachetul pe site (<a href="https://wildfire.ro/mvp-anthem-request" target="_blank" style="color: #ff8c00; text-decoration: underline;">Request MVP/Entry</a>), trebuie sa ii trimiti un mesaj privat lui <b>Trapi</b> pe Discord, iar el se va ocupa manual de procesarea si setarea melodiei tale.</p>
     </div>
 
   </div>

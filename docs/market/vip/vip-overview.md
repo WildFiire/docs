@@ -22,13 +22,7 @@ audience: ["Jucator", "VIP"]
   badge-icon="lucide:crown"
 />
 
-<div class="coming-soon-wrapper" style="display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 80px 20px; text-align: center; background: rgba(139, 92, 246, 0.05); border: 1px dashed rgba(139, 92, 246, 0.3); border-radius: 24px; margin-top: 40px;">
-  <Icon icon="lucide:clock" width="48" height="48" color="#8b5cf6" style="margin-bottom: 20px; opacity: 0.8;" />
-  <h2 style="margin: 0; font-size: 28px; font-weight: 800; color: var(--vp-c-text-1);">Work in Progress</h2>
-  <p style="margin: 10px 0 0; color: var(--vp-c-text-2); max-width: 400px; line-height: 1.6;">Sistemul VIP și comparația detaliată a gradelor sunt momentan în lucru. Vom reveni curând!</p>
-</div>
 
-<!-- 
 <div class="wf-info-card" style="margin-top: 30px; border-left: 4px solid #8b5cf6; background: rgba(139, 92, 246, 0.03);">
   <div class="wf-info-icon">
     <Icon icon="lucide:crown" width="20" height="20" color="#8b5cf6" />
@@ -122,8 +116,58 @@ audience: ["Jucator", "VIP"]
   </div>
 </div>
 
-<div class="wf-system-tip">
-  <Icon icon="lucide:shopping-cart" width="22" height="22" color="#8b5cf6" />
-  <span>Poti achizitiona gradele VIP direct din magazinul platformei. <br><br><strong>⚠️ WORK IN PROGRESS:</strong> In viitor vom implementa optiunea de a cumpara VIP folosind <strong>Phoenix Coins</strong>. Momentan sistemul este in lucru. <br><br>Duratele disponibile: 7, 15 sau 30 de zile.</span>
+<div class="wf-info-divider"></div>
+
+## <span style="display:none">Magazin VIP Integrat</span>
+
+<div class="wf-info-title" style="color: #8b5cf6;">
+  <Icon icon="lucide:shopping-cart" width="22" height="22" color="#8b5cf6" style="margin-right: 10px;" />
+  <span>Magazin VIP Integrat pe Website</span>
 </div>
--->
+
+<div class="wf-info-grid">
+  <div class="wf-info-card wf-new" style="border-bottom: 2px solid #8b5cf6;">
+    <div class="wf-info-content">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="background: rgba(139,92,246,0.1); padding: 8px; border-radius: 8px;">
+          <Icon icon="lucide:zap" width="20" height="20" color="#8b5cf6" />
+        </div>
+        <div>
+          <div style="font-weight: 800; font-size: 15px; color: #8b5cf6;">Achizitie Automata</div>
+          <div style="font-size: 13px; opacity: 0.7; margin-top: 4px;">Cumpara pachete VIP direct de pe site (abonament lunar sau valabilitate 30 zile). Se aplica automat!</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wf-info-card wf-new" style="border-bottom: 2px solid #ec4899;">
+    <div class="wf-info-content">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="background: rgba(236,72,153,0.1); padding: 8px; border-radius: 8px;">
+          <Icon icon="lucide:gift" width="20" height="20" color="#ec4899" />
+        </div>
+        <div>
+          <div style="font-weight: 800; font-size: 15px; color: #ec4899;">Gift to a Friend</div>
+          <div style="font-size: 13px; opacity: 0.7; margin-top: 4px;">Acum poti cumpara pachete VIP sub forma de cadou si le poti darui prietenilor tai.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="wf-info-card wf-new" style="border-bottom: 2px solid #00c851;">
+    <div class="wf-info-content">
+      <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="background: rgba(0,200,81,0.1); padding: 8px; border-radius: 8px;">
+          <Icon icon="lucide:ticket" width="20" height="20" color="#00c851" />
+        </div>
+        <div>
+          <div style="font-weight: 800; font-size: 15px; color: #00c851;">Redeem VIP Code</div>
+          <div style="font-size: 13px; opacity: 0.7; margin-top: 4px;">Poti activa pachete VIP folosind coduri promotionale direct din platforma.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wf-system-tip" style="margin-top: 24px;">
+  <Icon icon="lucide:external-link" width="22" height="22" color="#8b5cf6" />
+  <span>Poti achizitiona gradele VIP direct din magazinul oficial. <strong><a href="https://wildfire.ro/vip" target="_blank" style="color: #8b5cf6;">Link: wildfire.ro/vip</a></strong></span>
+</div>

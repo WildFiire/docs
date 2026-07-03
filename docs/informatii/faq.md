@@ -113,8 +113,10 @@ outline: deep
       <div class="wf-info-grid">
         <div class="wf-system-card"><span><b>Stats:</b> Ore jucate, KD, HS%, ELO.</span></div>
         <div class="wf-system-card"><span><b>Management:</b> Inventar, Loadout, Skins Market.</span></div>
-        <div class="wf-system-card"><span><b>Features:</b> Daily Wheel, MVP & Shop settings.</span></div>
+        <div class="wf-system-card wf-new"><span><b>Features:</b> Daily Wheel, VIP/MVP Shop.</span></div>
+        <div class="wf-system-card wf-new"><span><b>Tickets & Unban:</b> Sistem de discutii pentru cereri unban (mesaje multiple suportate).</span></div>
       </div>
+      <p style="margin-top: 12px; font-size: 14px; opacity: 0.8;"><i>Nota: Community Managerii au acces full la panel pentru gestionare VIP, pachete MVP si sanctiuni.</i></p>
     </div>
   </div>
 </div>

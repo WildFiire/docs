@@ -247,7 +247,6 @@
     <section id="community" class="wf-section wf-community">
       <div class="wf-container">
         <div class="wf-discord-banner anim-item" data-anim="slide-up">
-          <div class="wf-discord-banner__glow" aria-hidden="true"></div>
           <div class="wf-discord-banner__left">
             <span class="wf-discord-banner__eyebrow orbitron-font">COMUNITATE</span>
             <h2 class="wf-discord-banner__title orbitron-font">Alatura-te pe <span class="wf-accent">Discord</span></h2>
@@ -1586,31 +1585,15 @@ onUnmounted(() => {
   flex-direction: column;
   align-items: flex-start;
   text-align: left;
-  transform: rotateY(12deg) rotateX(4deg); /* Much stronger 3D effect */
-  transform-style: preserve-3d;
-  backface-visibility: hidden; /* Prevents text blur */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
   width: 100%;
 }
 
-.wf-hero-split__left:hover .wf-hero-split__left-inner {
-  transform: rotateY(4deg) rotateX(1deg); /* Flattens interactively on hover */
-}
 
-/* Single parent float replaces 7 individual per-element translateZ animations
-   — reduces GPU compositing layers from 7+ down to 1 */
-@media (prefers-reduced-motion: no-preference) {
-  @keyframes floatZ-logo {
-    0%, 100% { transform: translateZ(50px); }
-    50% { transform: translateZ(70px) translateY(-5px); }
-  }
-}
 
 .wf-hero-split__left-inner .wf-hero__logo {
-  will-change: transform;
-  animation: floatZ-logo 6s ease-in-out infinite;
+  /* No floating animation — keeps GPU layers minimal */
 }
 
 .wf-hero-split__left-inner .wf-hero__title {
@@ -1630,25 +1613,24 @@ onUnmounted(() => {
 }
 
 .wf-hero-split__left-inner .wf-hero-float--sub {
-  transform-style: preserve-3d;
+  /* no transform-style needed */
 }
 
 .wf-hero-split__left-inner .wf-hero-float--search {
   z-index: 20;
-  transform-style: preserve-3d;
   width: 100%;
 }
 
 .wf-hero-split__left-inner .wf-hero__actions {
-  transform-style: preserve-3d;
+  /* no transform-style needed */
 }
 
 .wf-hero-split__left-inner .wf-hero-float--btn1 {
-  transform-style: preserve-3d;
+  /* no transform-style needed */
 }
 
 .wf-hero-split__left-inner .wf-hero-float--btn2 {
-  transform-style: preserve-3d;
+  /* no transform-style needed */
 }
 
 .wf-hero-split__left::before {
@@ -1713,13 +1695,10 @@ onUnmounted(() => {
   background: rgba(10, 10, 16, 0.8);
   border: 1px solid rgba(255, 120, 0, 0.1);
   border-radius: 20px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
-  transform: scale(0.88) rotateY(-4deg) rotateX(2deg);
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  transition: border-color 0.4s ease, box-shadow 0.4s ease;
 }
 
 .wf-hero-split__right-panel::before {
@@ -1739,10 +1718,8 @@ onUnmounted(() => {
 }
 
 .wf-hero-split__right-panel:hover {
-  transform: scale(0.92) rotateY(0deg) rotateX(0deg) translateY(-5px);
-  background: linear-gradient(145deg, rgba(255, 120, 0, 0.05) 0%, rgba(12, 12, 18, 0.85) 60%);
   border-color: rgba(255, 120, 0, 0.22);
-  /* glow removed */
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3);
 }
 
 .wf-home--light .wf-hero-split__right-panel {
@@ -1792,17 +1769,7 @@ onUnmounted(() => {
     margin-left: 0;
     align-self: center;
   }
-  
-  /* Reset 3D transforms for mobile */
-  .wf-hero-split__left-inner,
-  .wf-hero-split__left:hover .wf-hero-split__left-inner,
-  .wf-hero-split__right-panel,
-  .wf-hero-split__right-panel:hover {
-    transform: none !important;
-  }
-  .wf-hero-split__left-inner > * {
-    transform: none !important;
-  }
+  /* Layout adjustments for mobile */
   .wf-hero-split__right {
     margin-right: 0;
     max-width: 100%;

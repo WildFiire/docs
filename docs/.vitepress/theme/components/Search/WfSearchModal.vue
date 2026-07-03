@@ -242,12 +242,13 @@ const loadSearchIndex = async () => {
     if (data) {
       searchIndex.value = markRaw(
         MiniSearch.loadJSON(data.default, {
-          fields: ['title', 'titles', 'text', 'headers'],
-          storeFields: ['title', 'titles', 'text', 'headers'],
+          fields: ['title', 'titles', 'text'],
+          storeFields: ['title', 'titles', 'text'],
           searchOptions: {
-            fuzzy: 0.2,
+            fuzzy: 0.25,
             prefix: true,
-            boost: { title: 6, titles: 4, headers: 3, text: 1 }
+            combineWith: 'OR',
+            boost: { title: 6, titles: 4, text: 2 }
           }
         })
       )
@@ -372,26 +373,39 @@ const sectionPages = computed(() =>
 )
 
 
-/* ── Snippet extractor (Optimizat pt paragrafe) ──────────── */
+/* ── Snippet extractor ──────────────────────────────────── */
+const stripHtml = (s: string) =>
+  s.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim()
+
 const extractSnippet = (text: string, q: string): string => {
   if (!text) return ''
-  const lower = text.toLowerCase()
-  const qi    = lower.indexOf(q.toLowerCase())
-  
-  if (qi === -1) return text.slice(0, 200) + (text.length > 200 ? '...' : '')
-  
-  // Extragem un context mai larg pentru a umple ~3 randuri
-  const start = Math.max(0, qi - 60)
-  const end   = Math.min(text.length, qi + 180)
-  return (start > 0 ? '... ' : '') + text.slice(start, end) + (end < text.length ? ' ...' : '')
+  const clean = stripHtml(text)
+  const lower = clean.toLowerCase()
+  const terms = q.toLowerCase().split(/\s+/).filter(Boolean)
+
+  // Find the earliest position where any query term appears
+  let best = -1
+  for (const term of terms) {
+    const pos = lower.indexOf(term)
+    if (pos !== -1 && (best === -1 || pos < best)) best = pos
+  }
+
+  if (best === -1) return clean.slice(0, 200) + (clean.length > 200 ? '...' : '')
+
+  const start = Math.max(0, best - 60)
+  const end   = Math.min(clean.length, best + 200)
+  return (start > 0 ? '... ' : '') + clean.slice(start, end) + (end < clean.length ? ' ...' : '')
 }
 
-/* ── Highlight (Stil Fumadocs - Doar text galben) ────────── */
+/* ── Highlight — each query word highlighted individually ── */
 const escRe = (s: string) => s.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 
 const highlightText = (text: string): string => {
   if (!query.value || !text) return text
-  return text.replace(new RegExp(`(${escRe(query.value)})`, 'gi'), '<mark>$1</mark>')
+  const terms = query.value.trim().split(/\s+/).filter(Boolean)
+  if (!terms.length) return text
+  const pattern = terms.map(escRe).join('|')
+  return text.replace(new RegExp(`(${pattern})`, 'gi'), '<mark>$1</mark>')
 }
 
 /* ── Navigation ──────────────────────────────────────────── */

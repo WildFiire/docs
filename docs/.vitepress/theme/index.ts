@@ -161,9 +161,7 @@ const LastUpdates = defineAsyncComponent(() => import('./components/Home/LastUpd
 const AboutWiki = defineAsyncComponent(() => import('./components/Home/AboutWiki.vue'))
 const Changelogs = defineAsyncComponent(() => import('./components/Pages/Changelogs.vue'))
 const AllChangelogs = defineAsyncComponent(() => import('./components/Pages/AllChangelogs.vue'))
-const UpdatesHub = defineAsyncComponent(() => import('./components/Pages/UpdatesHub.vue'))
 const StatsGithub = defineAsyncComponent(() => import('./components/Widgets/StatsGithub.vue'))
-const Team = defineAsyncComponent(() => import('./components/Pages/Team.vue'))
 const Terms = defineAsyncComponent(() => import('./components/Pages/Terms.vue'))
 const Privacy = defineAsyncComponent(() => import('./components/Pages/Privacy.vue'))
 const FeedbackWidget = defineAsyncComponent(() => import('./components/Widgets/FeedbackWidget.vue'))
@@ -172,7 +170,6 @@ const RelatedPages = defineAsyncComponent(() => import('./components/Widgets/Rel
 const SiteMap = defineAsyncComponent(() => import('./components/Layout/SiteMap.vue'))
 const PageNotFound = defineAsyncComponent(() => import('./components/Layout/PageNotFound.vue'))
 const FileTreeItem = defineAsyncComponent(() => import('./components/Docs/FileTreeItem.vue'))
-const PageTransition = defineAsyncComponent(() => import('../components/PageTransition.vue'))
 
 // Panel — lazy (numai pe /panel)
 const Dashboard = defineAsyncComponent(() => import('./components/Panel/Dashboard.vue'))
@@ -232,7 +229,7 @@ export default {
       'not-found': () => h(PageNotFound),
 
       // 🔥 Global UX enhancements
-      'layout-top': () => frontmatter.value.layout === false ? null : [h(PageTransition), h(BackToTop), h(DocEnhancements), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy), h(WfSearchModal)]
+      'layout-top': () => frontmatter.value.layout === false ? null : [h(BackToTop), h(DocEnhancements), h(FluidLightbox), h(SidebarFloatingControls), h(MobileScrollSpy), h(WfSearchModal)]
     })
   },
 
@@ -348,14 +345,12 @@ export default {
     app.component('LastUpdates', LastUpdates)
     app.component('Changelogs', Changelogs)
     app.component('AllChangelogs', AllChangelogs)
-    app.component('UpdatesHub', UpdatesHub)
     app.component('NavSearch', NavSearch)
     app.component('WildfireTag', WildfireTag)
     app.component('SiteMap', SiteMap)
     app.component('PageNotFound', PageNotFound)
     app.component('AboutWiki', AboutWiki)
     app.component('StatsGithub', StatsGithub)
-    app.component('Team', Team)
     app.component('Icon', Icon)
     app.component('Terms', Terms)
     app.component('Privacy', Privacy)

@@ -67,4 +67,23 @@ outline: "deep"
   <span>Asigura-te ca profilul tau de Steam este public si legat corect de contul de Faceit pentru ca sistemul sa poata prelua informatiile automat.</span>
 </div>
 
+### <div style="display: none;">3.0 COMENZI DISPONIBILE</div>
+
+## <span style="display:none">Comenzi</span>
+
+<div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(239, 68, 68, 0.2);" class="wf-system-title-hover">
+  <span style="font-size: 28px; font-weight: 800; line-height: 1; display: inline-block; background: linear-gradient(135deg, #ef4444, #dc2626, #b91c1c); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;" class="wf-system-font"><Icon icon="lucide:terminal" width="30" height="30" color="#ef4444" style="display: inline-block; vertical-align: middle; margin-right: 8px;" />3.0 COMENZI DISPONIBILE</span>
+</div>
+
+<div class="wf-system-card wf-new">
+  <div class="wf-system-icon"><Icon icon="lucide:terminal" width="18" height="18" color="#ef4444" /></div>
+  <div class="wf-system-content">
+    <p>Ai la dispozitie urmatoarele comenzi pentru a interactiona cu sistemul de Faceit direct de pe server:</p>
+    <ul class="wf-system-custom-list">
+      <li><Icon icon="lucide:info" width="18" height="18" color="#ef4444" /><span><span class="wf-system-highlight"><code>!faceitinfo</code></span> — Iti afiseaza nivelul actual si statisticile de pe Faceit.</span></li>
+      <li><Icon icon="lucide:toggle-left" width="18" height="18" color="#ef4444" /><span><span class="wf-system-highlight"><code>!faceitlevel</code></span> — Activeaza sau dezactiveaza afisarea badge-ului de Faceit din scoreboard (TAB). <em>*Necesita minim Nivel 6.</em></span></li>
+    </ul>
+  </div>
+</div>
+
 </div>

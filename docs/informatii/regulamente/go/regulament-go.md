@@ -34,7 +34,7 @@ outline: "deep"
 <div class="wf-info-grid">
 
 <!-- 1.1 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
@@ -48,7 +48,7 @@ outline: "deep"
 </div>
 
 <!-- 1.2 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
@@ -60,7 +60,7 @@ outline: "deep"
 </div>
 
 <!-- 1.3 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -76,7 +76,7 @@ outline: "deep"
 </div>
 
 <!-- 1.4 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -89,7 +89,7 @@ outline: "deep"
 </div>
 
 <!-- 1.5 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M21 10.5V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h10.5"/>
@@ -104,7 +104,7 @@ outline: "deep"
 </div>
 
 <!-- 1.6 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
@@ -123,7 +123,7 @@ outline: "deep"
 </div>
 
 <!-- 1.7 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M3 12h3l3-9 3 18 3-9h3"/>
@@ -135,7 +135,7 @@ outline: "deep"
 </div>
 
 <!-- 1.8 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
@@ -148,7 +148,7 @@ outline: "deep"
 </div>
 
 <!-- 1.9 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
@@ -162,7 +162,7 @@ outline: "deep"
 </div>
 
 <!-- 1.10 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/>
@@ -177,7 +177,7 @@ outline: "deep"
 </div>
 
 <!-- 1.11 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -192,7 +192,7 @@ outline: "deep"
 </div>
 
 <!-- 1.12 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
@@ -206,7 +206,7 @@ outline: "deep"
 </div>
 
 <!-- 1.13 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/>
@@ -233,7 +233,7 @@ outline: "deep"
 <div class="wf-info-grid">
 
 <!-- 2.1 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
@@ -249,7 +249,7 @@ outline: "deep"
 </div>
 
 <!-- 2.2 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
@@ -263,7 +263,7 @@ outline: "deep"
 </div>
 
 <!-- 2.3 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
@@ -279,7 +279,7 @@ outline: "deep"
 </div>
 
 <!-- 2.4 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
@@ -293,7 +293,7 @@ outline: "deep"
 </div>
 
 <!-- 2.5 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
@@ -309,7 +309,7 @@ outline: "deep"
 </div>
 
 <!-- 2.6 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M2 12h2l2-5 3 10 3-10 3 10 3-10 2 5h2"/>
@@ -326,7 +326,7 @@ outline: "deep"
 </div>
 
 <!-- 2.7 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"/>
@@ -341,7 +341,7 @@ outline: "deep"
 </div>
 
 <!-- 2.8 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
@@ -356,7 +356,7 @@ outline: "deep"
 </div>
 
 <!-- 2.9 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <line x1="17" y1="10" x2="3" y2="10"/>
@@ -372,7 +372,7 @@ outline: "deep"
 </div>
 
 <!-- 2.10 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <line x1="1" y1="1" x2="23" y2="23"/>
@@ -389,7 +389,7 @@ outline: "deep"
 </div>
 
 <!-- 2.11 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
@@ -404,7 +404,7 @@ outline: "deep"
 </div>
 
 <!-- 2.12 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/>
@@ -432,7 +432,7 @@ outline: "deep"
 <div class="wf-info-grid">
 
 <!-- 3.1 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -445,7 +445,7 @@ outline: "deep"
 </div>
 
 <!-- 3.2 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/>
@@ -459,7 +459,7 @@ outline: "deep"
 </div>
 
 <!-- 3.3 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
@@ -473,7 +473,7 @@ outline: "deep"
 </div>
 
 <!-- 3.4 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
@@ -489,7 +489,7 @@ outline: "deep"
 </div>
 
 <!-- 3.5 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
@@ -506,7 +506,7 @@ outline: "deep"
 </div>
 
 <!-- 3.6 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/>
@@ -524,7 +524,7 @@ outline: "deep"
 </div>
 
 <!-- 3.7 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <line x1="12" y1="20" x2="12" y2="10"/>
@@ -538,7 +538,7 @@ outline: "deep"
 </div>
 
 <!-- 3.8 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <circle cx="12" cy="12" r="10"/>
@@ -553,7 +553,7 @@ outline: "deep"
 </div>
 
 <!-- 3.9 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <rect x="5" y="2" width="14" height="20" rx="7" ry="7"/>
@@ -567,7 +567,7 @@ outline: "deep"
 </div>
 
 <!-- 3.10 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <circle cx="9" cy="21" r="1"/>
@@ -582,7 +582,7 @@ outline: "deep"
 </div>
 
 <!-- 3.11 -->
-<div class="wf-info-card">
+<div class="wf-info-card wf-new">
   <div class="wf-info-icon">
     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="2">
       <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71"/>

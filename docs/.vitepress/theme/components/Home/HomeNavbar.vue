@@ -623,9 +623,7 @@ const psNavGroups = computed(() => {
       items: [
         { id: 'informatii', label: 'Informatii', link: '/informatii/about', icon: 'solar:info-circle-bold-duotone' },
         { id: 'faq', label: 'FAQ', link: '/informatii/faq', icon: 'solar:question-circle-bold-duotone' },
-        { id: 'updates', label: 'Updates Hub', link: '/hub/', icon: 'solar:fire-bold-duotone', badge: 'NEW' },
-        { id: 'dashboard', label: 'Dashboard Panel', link: '/panel/', icon: 'solar:chart-square-bold-duotone' },
-        { id: 'echipa', label: 'Echipa', link: '/about/team', icon: 'solar:users-group-two-rounded-bold-duotone' }
+        { id: 'dashboard', label: 'Dashboard Panel', link: '/panel/', icon: 'solar:chart-square-bold-duotone' }
       ]
     },
     ...dynamicGroups,
