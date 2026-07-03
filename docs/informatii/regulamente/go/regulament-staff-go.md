@@ -23,6 +23,7 @@ outline: "deep"
 <!-- REGULAMENT STAFF - TOATE REGULILE -->
 <!-- ================================================ -->
 
+
 <!-- CAP. I | Cerinte pentru aplicatie -->
 <div style="display: flex; align-items: center; gap: 16px; margin: 40px 0 25px 0; padding-bottom: 12px; border-bottom: 2px solid rgba(255,140,0,0.3); transition: transform 0.3s ease;" class="title-hover">
   <div style="display: flex; align-items: center; justify-content: center; width: 36px; height: 36px;"></div>
