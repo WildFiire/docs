@@ -104,6 +104,8 @@ export default defineConfig({
 
     siteTitle: 'Wildfire.ro Docs',
 
+
+
     nav: [
       // {
       //   text: '<iconify-icon icon="solar:home-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Getting started',
@@ -356,6 +358,9 @@ export default defineConfig({
         },
         miniSearch: {
           options: {
+            // Also store 'text' so WfSearchModal can extract snippets
+            // @ts-ignore - VitePress types don't expose storeFields but MiniSearch uses it
+            storeFields: ['title', 'titles', 'text'],
             tokenize: (text: string) => {
               return text
                 .toLowerCase()

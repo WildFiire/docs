@@ -418,7 +418,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">3.6</span> Adminii nu au voie sa oferte <span class="highlight orbitron-font">favoruri</span> indiferent de natura situatiei. <span class="badge-remove orbitron-font">Sanctiune: REMOVE</span>
+    <span class="rule-number orbitron-font">3.6</span> Adminii nu au voie sa faca <span class="highlight orbitron-font">favoruri</span> indiferent de natura situatiei. <span class="badge-remove orbitron-font">Sanctiune: REMOVE</span>
   </div>
 </div>
 
@@ -757,7 +757,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">5.8</span> <span class="highlight orbitron-font">Respectarea termenelor:</span> Membrii staff sunt obligați să răspundă la Reclamații, Cereri Helper sau Cereri Unban în termen de maxim 24 de ore. La o cerere îndreptată împotriva ta, ai obligația absolută de a încărca dovada. <span class="badge-remove orbitron-font">Sanctiune: WARN -> DOWNGRADE</span>
+    <span class="rule-number orbitron-font">5.8</span> <span class="highlight orbitron-font">Respectarea termenelor:</span> Membrii staff sunt obligați să răspundă la Cereri Helper si la comisia unban în termen de maxim 24 de ore. La o cerere îndreptată împotriva ta, ai obligația absolută de a încărca dovada. <span class="badge-remove orbitron-font">Sanctiune: WARN -> DOWNGRADE</span>
   </div>
 </div>
 

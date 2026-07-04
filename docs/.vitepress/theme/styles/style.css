@@ -4913,7 +4913,6 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
   user-select: none !important;
   -webkit-user-select: none !important;
   -webkit-user-drag: none !important;
-  user-drag: none !important;
   pointer-events: none !important;
 }
 
@@ -5093,6 +5092,7 @@ img, svg, .rule-icon, .rule-icon svg, .nav-icon, [class*="icon"] {
 .section-title span {
   background: linear-gradient(135deg, #ff8c00, #ff4400);
   -webkit-background-clip: text;
+  background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 800;
   color: #ff8c00;
