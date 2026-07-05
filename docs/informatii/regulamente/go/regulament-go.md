@@ -156,7 +156,7 @@ outline: "deep"
   </div>
   <div class="wf-info-content">
     <span class="wf-info-number wf-info-font">1.9</span> Cererile de unban se fac intr-un interval de  
-    <span class="wf-info-highlight wf-info-font">maximum 10 zile</span> de cand a fost sanctionat jucatorul.
+    <span class="wf-info-highlight wf-info-font">maximum 7 zile</span> de cand a fost sanctionat jucatorul.
   </div>
 </div>
 

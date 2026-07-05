@@ -270,7 +270,7 @@ outline: "deep"
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">2.8</span> <span class="highlight orbitron-font">Obligativitatea și Păstrarea Dovezilor (Demo/Screen):</span> Orice sancțiune majoră acordată (în special Ban Permanent) trebuie susținută obligatoriu de o dovadă clară. Aveți obligația să păstrați dovezile în PC timp de minim <span class="highlight orbitron-font">10 ZILE</span> de la acordarea sancțiunii, pentru a le prezenta la cererile de unban sau reclamații. Lipsa dovezii duce la <span class="badge-warn orbitron-font">WARN</span> / <span class="badge-remove orbitron-font">REMOVE</span> și debanarea jucătorului.
+    <span class="rule-number orbitron-font">2.8</span> <span class="highlight orbitron-font">Obligativitatea și Păstrarea Dovezilor (Demo/Screen):</span> Orice sancțiune majoră acordată (în special Ban Permanent) trebuie susținută obligatoriu de o dovadă clară. Aveți obligația să păstrați dovezile în PC timp de minim <span class="highlight orbitron-font">7 ZILE</span> de la acordarea sancțiunii, pentru a le prezenta la cererile de unban sau reclamații. Lipsa dovezii duce la <span class="badge-warn orbitron-font">WARN</span> / <span class="badge-remove orbitron-font">REMOVE</span> și debanarea jucătorului.
   </div>
 </div>
 
