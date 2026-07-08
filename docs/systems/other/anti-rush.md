@@ -38,6 +38,7 @@ outline: deep
 <li><Icon icon="lucide:lock" width="18" height="18" color="#ef4444" /><span><b>Bariere Invizibile:</b> Zonele cheie sunt blocate de pereti invizibili care impiedica trecerea jucatorilor CT.</span></li>
 <li><Icon icon="lucide:timer" width="18" height="18" color="#ef4444" /><span><b>Timp de Asteptare:</b> Barierele raman active timp de fix <b>30 de secunde</b> de la inceperea rundei.</span></li>
 <li><Icon icon="lucide:map" width="18" height="18" color="#ef4444" /><span><b>Harti Specifice:</b> Sistemul este implementat pe hartile unde rush-ul CT poate strica flow-ul jocului (ex: Dust2, Mirage).</span></li>
+<li><Icon icon="lucide:users" width="18" height="18" color="#ef4444" /><span><b>Activare Automata:</b> Sistemul devine activ doar atunci cand pe server se afla <b>cel putin 25 de jucatori</b>.</span></li>
 </ul>
 </div>
 </div>

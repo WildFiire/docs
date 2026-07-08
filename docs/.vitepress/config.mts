@@ -33,7 +33,7 @@ export default defineConfig({
     ['link', { rel: 'preconnect', href: 'https://www.gstatic.com' }],
     // api.iconify.design is fetched early by iconify-icon.min.js
     ['link', { rel: 'dns-prefetch', href: 'https://api.iconify.design' }],
-    
+
     // Fallback CSP for environments where server headers are not manageable
     ['meta', {
       'http-equiv': 'Content-Security-Policy',
@@ -271,7 +271,7 @@ export default defineConfig({
             items: [
               { text: '<iconify-icon icon="solar:medal-ribbon-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom MVP', link: '/market/premium-shop/mvp' },
               // { text: '<iconify-icon icon="solar:shield-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom Badge / Pin', link: '/market/premium-shop/custom-badge' },
-              // { text: '<iconify-icon icon="lucide-door-open" class="nav-icon" width="16" height="16"></iconify-icon> Entry Sounds', link: '/market/premium-shop/entrysounds' },
+              { text: '<iconify-icon icon="lucide-door-open" class="nav-icon" width="16" height="16"></iconify-icon> Entry Songs', link: '/market/premium-shop/entry-songs' },
               { text: '<iconify-icon icon="solar:volume-loud-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Sank Sounds', link: '/market/premium-shop/sanks' },
               { text: '<iconify-icon icon="solar:users-group-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Server Slots', link: '/market/server-slots' },
             ]
@@ -330,50 +330,11 @@ export default defineConfig({
       provider: 'local',
       options: {
         detailedView: true,
-        // Extract text from raw HTML blocks so <div>, <span>, custom components
-        // are indexed instead of silently stripped.
-        _render(src, env, md) {
-          const html = md.render(src, env)
-          // Strip all HTML tags but keep the inner text
-          // This ensures text inside <div class="wf-info-box">, <span>, etc. is indexed
-          return html
-            // Remove script/style blocks entirely
-            .replace(/<(script|style)[^>]*>[\s\S]*?<\/\1>/gi, ' ')
-            // Remove HTML comments
-            .replace(/<!--[\s\S]*?-->/g, ' ')
-            // Replace block-level tags with spaces so words don't merge
-            .replace(/<\/(div|p|li|h[1-6]|section|article|header|footer|blockquote|pre|table|tr|td|th)>/gi, ' ')
-            // Remove all remaining tags
-            .replace(/<[^>]+>/g, '')
-            // Decode common HTML entities
-            .replace(/&amp;/g, '&')
-            .replace(/&lt;/g, '<')
-            .replace(/&gt;/g, '>')
-            .replace(/&nbsp;/g, ' ')
-            .replace(/&quot;/g, '"')
-            .replace(/&#39;/g, "'")
-            // Collapse whitespace
-            .replace(/\s+/g, ' ')
-            .trim()
-        },
         miniSearch: {
           options: {
-            // Also store 'text' so WfSearchModal can extract snippets
-            // @ts-ignore - VitePress types don't expose storeFields but MiniSearch uses it
-            storeFields: ['title', 'titles', 'text'],
-            tokenize: (text: string) => {
-              return text
-                .toLowerCase()
-                .split(/[\s\-_.,;:!?()[\]{}"'`/\\<>]+/)
-                .filter((t: string) => t.length > 1)
-            }
-          },
-          searchOptions: {
-            fuzzy: 0.25,
-            prefix: true,
-            combineWith: 'OR',
-            boost: { title: 6, titles: 4, text: 2 }
-          }
+            // Store 'text' so WfSearchModal can extract snippets
+            storeFields: ['title', 'titles', 'text']
+          } as any
         },
         translations: {
           button: { buttonText: 'Cauta', buttonAriaLabel: 'Cauta' },
@@ -418,14 +379,14 @@ export default defineConfig({
       // Try local git cache first (much faster and avoids rate limits)
       const stats = getAllGitStats(repoRoot)
       const stat = stats.get(repoPath)
-      
+
       if (stat) {
         const { email, name } = stat
         let login: string | null = null
-        
+
         const m1 = email.match(/^\d+\+(.+)@users\.noreply\.github\.com$/)
         const m2 = email.match(/^(.+)@users\.noreply\.github\.com$/)
-        
+
         if (m1) {
           login = m1[1]
         } else if (m2) {
@@ -433,7 +394,7 @@ export default defineConfig({
         } else if (name) {
           login = name.toLowerCase().replace(/[^a-z0-9_-]/g, '')
         }
-        
+
         if (login && login !== 'unknown') {
           commitCache.set(repoPath, login)
           pageData.frontmatter.gitLastCommitter = login

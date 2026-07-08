@@ -110,6 +110,11 @@
                 </div>
               </div>
 
+              <!-- Error State -->
+              <div v-if="errorMsg" class="search-empty" style="color: #ff4444; margin-bottom: 12px;">
+                <div class="typing-text">Index Load Error: {{ errorMsg }}</div>
+              </div>
+
               <!-- Empty State (No results found) -->
               <div v-else-if="query" class="search-empty">
                 <div class="typing-icon">
@@ -173,7 +178,7 @@ import MiniSearch from 'minisearch'
 import localSearchIndex from '@localSearchIndex'
 
 const router = useRouter()
-const { localeIndex } = useData()
+const { localeIndex, theme } = useData()
 
 /* ── Scroll lock ─────────────────────────────────────────── */
 watch(() => searchState.isOpen, (open) => {
@@ -234,12 +239,15 @@ const clearQuery = () => {
 const searchIndexData = shallowRef(localSearchIndex)
 const searchIndex     = ref<MiniSearch | null>(null)
 
+const errorMsg = ref('')
+
 const loadSearchIndex = async () => {
   const locale      = localeIndex.value || 'root'
   const indexLoader = searchIndexData.value[locale] || searchIndexData.value['root']
-  if (!indexLoader) return
+  if (!indexLoader) { errorMsg.value = 'No indexLoader found for locale ' + locale; return }
   try {
     const data = await indexLoader()
+    if (!data || !data.default) { errorMsg.value = 'Index data or data.default is missing'; return }
     if (data) {
       searchIndex.value = markRaw(
         MiniSearch.loadJSON(data.default, {
@@ -249,13 +257,18 @@ const loadSearchIndex = async () => {
             fuzzy: 0.25,
             prefix: true,
             combineWith: 'OR',
-            boost: { title: 6, titles: 4, text: 2 }
-          }
+            boost: { title: 6, titles: 4, text: 2 },
+            ...(theme.value.search?.provider === 'local' &&
+              theme.value.search.options?.miniSearch?.searchOptions)
+          },
+          ...(theme.value.search?.provider === 'local' &&
+            theme.value.search.options?.miniSearch?.options)
         })
       )
     }
-  } catch (err) {
+  } catch (err: any) {
     console.error('[WfSearch] Failed to load index:', err)
+    errorMsg.value = err.message || String(err)
   }
 }
 
@@ -276,7 +289,15 @@ watch(query, (newQuery) => {
   itemRefs.value = []
   if (!newQuery || !searchIndex.value) { rawResults.value = []; return }
 
-  const hits = searchIndex.value.search(newQuery)
+  const hits = searchIndex.value.search(newQuery, {
+    fuzzy: 0.25,
+    prefix: true,
+    combineWith: 'OR',
+    boost: { title: 6, titles: 4, text: 2 },
+    ...(theme.value.search?.provider === 'local' &&
+      theme.value.search.options?.miniSearch?.searchOptions)
+  })
+  
   rawResults.value = hits.map(r => {
     const titles  = (r.titles as string[]) || []
     const rawText = (r.text as string) || ''
@@ -319,7 +340,6 @@ const results = computed(() => {
 watch(activeFilter, () => { activeIndex.value = 0; itemRefs.value = [] })
 
 /* ── Dynamic Section Mapping (Extracted from config.mts) ───── */
-const { theme } = useData()
 
 const SECTION_MAP = computed(() => {
   const map: Record<string, any[]> = {}

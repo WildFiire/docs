@@ -22,6 +22,11 @@ outline: "deep"
 
 <div class="wf-system">
 
+<div class="wf-system-tip" style="border-left: 4px solid #ff4444; background: rgba(255, 68, 68, 0.1); margin-bottom: 30px;">
+  <Icon icon="lucide:archive" width="24" height="24" color="#ff4444" />
+  <span style="color: var(--vp-c-text-1);"><span class="wf-system-highlight" style="color: #ff4444; font-weight: bold;">Sistem Eliminat.</span> La cererea comunitatii, acest sistem a fost scos de pe server. Pagina ramane disponibila doar cu rol de prezentare (showcase).</span>
+</div>
+
 <!-- 1.0 INFORMATII GENERALE -->
 
 ### <div style="display: none;">1.0 INFORMATII GENERALE</div>

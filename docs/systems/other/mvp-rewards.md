@@ -70,7 +70,6 @@ outline: deep
  <ul class="wf-system-custom-list">
       <li><Icon icon="lucide:coins" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">PHX Coins:</span> Moneda principala a serverului.</span></li>
       <li><Icon icon="lucide:package" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Free Cases:</span> Cutii moca pentru skin-uri.</span></li>
-      <li><Icon icon="lucide:refresh-cw" width="18" height="18" color="#ff8c00" /><span><span class="wf-system-highlight">Wear Re-rolls:</span> Token-uri pentru a schimba uzura (float) skin-urilor.</span></li>
     </ul>
   </div>
 </div>
