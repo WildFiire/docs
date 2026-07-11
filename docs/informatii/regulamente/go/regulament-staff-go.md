@@ -757,7 +757,39 @@ outline: "deep"
     </svg>
   </div>
   <div class="rule-content">
-    <span class="rule-number orbitron-font">5.8</span> <span class="highlight orbitron-font">Respectarea termenelor:</span> Membrii staff sunt obligați să răspundă la Cereri Helper si la comisia unban în termen de maxim 24 de ore. La o cerere îndreptată împotriva ta, ai obligația absolută de a încărca dovada. <span class="badge-remove orbitron-font">Sanctiune: WARN -> DOWNGRADE</span>
+    <span class="rule-number orbitron-font">5.8</span> <span class="highlight orbitron-font">Termen și Soluționare Cereri/Reclamații:</span> Termenul maxim de soluționare pentru Cereri Helper, Cereri Unban și Reclamații este de <span class="highlight orbitron-font">3 zile</span>.<br>
+    Dreptul de a răspunde la aceste secțiuni este structurat astfel:
+    <ul style="list-style: none; padding: 0; margin: 12px 0 12px 28px;">
+      <li style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="3" style="flex-shrink: 0; margin-top: 5px;"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>
+          <span class="highlight orbitron-font">Cereri Helper:</span> Pot răspunde toți membrii staff-ului (începând cu gradul de Helper). O cerere validă se va concluziona doar după acumularea a <span class="highlight orbitron-font">minim jumătate din numărul membrilor staff</span> (aproximativ <span class="highlight orbitron-font">6-7 păreri obligatorii</span>). Distribuția minimă a acestor păreri trebuie să fie următoarea:
+          <ul style="list-style: none; padding: 0; margin: 8px 0 8px 18px;">
+            <li style="position: relative; padding-left: 15px; margin-bottom: 4px;">
+              <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">•</span> Minim 3-4 <span class="highlight orbitron-font">Helperi</span>
+            </li>
+            <li style="position: relative; padding-left: 15px; margin-bottom: 4px;">
+              <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">•</span> Minim 1 <span class="highlight orbitron-font">Moderator</span>
+            </li>
+            <li style="position: relative; padding-left: 15px; margin-bottom: 4px;">
+              <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">•</span> Minim 1 <span class="highlight orbitron-font">Administrator</span> / <span class="highlight orbitron-font">Supervizor</span>
+            </li>
+            <li style="position: relative; padding-left: 15px; margin-bottom: 4px;">
+              <span style="position: absolute; left: 0; top: 0; color: #ff8c00; font-weight: bold;">•</span> Minim 1 <span class="highlight orbitron-font">Server Manager</span> / <span class="highlight orbitron-font">Community Manager</span>
+            </li>
+          </ul>
+        </span>
+      </li>
+      <li style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="3" style="flex-shrink: 0; margin-top: 5px;"><polyline points="20 6 9 17 4 12"/></svg>
+        <span><span class="highlight orbitron-font">Cereri Unban:</span> Pot răspunde doar gradele de <span class="highlight orbitron-font">Administrator+</span>.</span>
+      </li>
+      <li style="display: flex; align-items: flex-start; gap: 10px; margin-bottom: 6px;">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#ff8c00" stroke-width="3" style="flex-shrink: 0; margin-top: 5px;"><polyline points="20 6 9 17 4 12"/></svg>
+        <span><span class="highlight orbitron-font">Reclamații:</span> Procesul este gestionat doar de gradele <span class="highlight orbitron-font">Server Manager+</span>. Aceștia vor răspunde primii la reclamație și vor cere adminului reclamat să încarce dovada doar dacă consideră că este necesar.</span>
+      </li>
+    </ul>
+    Cererile făcute "la mișto" sau în scârbă, care nu îndeplinesc condițiile, vor fi <span class="highlight orbitron-font">Respinse automat</span>, fără a necesita părerile staff-ului. La o cerere de unban sau atunci când îți este solicitată dovada la o reclamație, ai obligația absolută de a o încărca în acest termen. <span class="badge-remove orbitron-font">Sanctiune: WARN -> DOWNGRADE</span>
   </div>
 </div>
 
