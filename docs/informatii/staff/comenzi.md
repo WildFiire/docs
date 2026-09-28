@@ -335,7 +335,7 @@ outline: "deep"
     <div class="wf-immunity-badge">Immunity: 100</div>
   </div>
   <div class="wf-grade-tags">
-    <code class="wf-tag-owner">* (FULL SERVER & CONSOLE ACCESS)</code>
+    <code class="wf-tag-owner">* (FULL ACCESS & DEV)</code>
   </div>
 </div>
 
