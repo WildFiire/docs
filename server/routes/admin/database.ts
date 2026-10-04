@@ -80,8 +80,12 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
   }
 
   try {
-    const body = req.body;
-    const { action } = body;
+    const rawBody = req.body || {};
+    const body =
+      rawBody.body && typeof rawBody.body === 'object' && !Array.isArray(rawBody.body)
+        ? rawBody.body
+        : rawBody;
+    const action = body.action || rawBody.action;
 
     // 1. Test Supabase Connection
     if (action === 'test_connection') {

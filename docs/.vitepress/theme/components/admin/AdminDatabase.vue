@@ -172,10 +172,7 @@ const newGuidesRequestsCount = computed(() => reports.value.filter((r) => r.type
 
 async function handleUpdateReportStatus(id: string, newStatus: 'open' | 'in_progress' | 'resolved') {
   try {
-    await api('/api/admin/database', {
-      method: 'POST',
-      body: { action: 'update_report_status', id, status: newStatus },
-    });
+    await api('/api/admin/database', { action: 'update_report_status', id, status: newStatus });
     reports.value = reports.value.map((r) => (r.id === id ? { ...r, status: newStatus } : r));
   } catch (err) {
     console.error('Failed to update report status', err);
@@ -184,10 +181,7 @@ async function handleUpdateReportStatus(id: string, newStatus: 'open' | 'in_prog
 
 async function handleDeleteReport(id: string) {
   try {
-    await api('/api/admin/database', {
-      method: 'POST',
-      body: { action: 'delete_report', id },
-    });
+    await api('/api/admin/database', { action: 'delete_report', id });
     reports.value = reports.value.filter((r) => r.id !== id);
   } catch (err) {
     console.error('Failed to delete report', err);
@@ -196,10 +190,7 @@ async function handleDeleteReport(id: string) {
 
 async function handleDeleteFeedback(id: string) {
   try {
-    await api('/api/admin/database', {
-      method: 'POST',
-      body: { action: 'delete_feedback', id },
-    });
+    await api('/api/admin/database', { action: 'delete_feedback', id });
     feedbacks.value = feedbacks.value.filter((f) => f.id !== id);
   } catch (err) {
     console.error('Failed to delete feedback', err);
@@ -217,12 +208,9 @@ async function handleTestConnection() {
 
   try {
     const data = await api('/api/admin/database', {
-      method: 'POST',
-      body: {
-        action: 'test_connection',
-        url: supabaseUrl.value,
-        anonKey: supabaseAnonKey.value,
-      },
+      action: 'test_connection',
+      url: supabaseUrl.value,
+      anonKey: supabaseAnonKey.value,
     });
     testResult.value = data;
   } catch (err: any) {
@@ -238,13 +226,10 @@ async function handleSaveConfig() {
 
   try {
     const data = await api('/api/admin/database', {
-      method: 'POST',
-      body: {
-        action: 'save_config',
-        provider: dbProvider.value,
-        supabaseUrl: supabaseUrl.value,
-        supabaseAnonKey: supabaseAnonKey.value,
-      },
+      action: 'save_config',
+      provider: dbProvider.value,
+      supabaseUrl: supabaseUrl.value,
+      supabaseAnonKey: supabaseAnonKey.value,
     });
 
     if (data?.status) {
@@ -265,10 +250,7 @@ async function handleSyncAllToSupabase() {
   syncingAll.value = true;
   actionMessage.value = null;
   try {
-    const data = await api('/api/admin/database', {
-      method: 'POST',
-      body: { action: 'sync_all_to_supabase' },
-    });
+    const data = await api('/api/admin/database', { action: 'sync_all_to_supabase' });
     if (data?.success) {
       const c = data.counts || {};
       actionMessage.value = {

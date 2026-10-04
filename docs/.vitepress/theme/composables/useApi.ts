@@ -9,19 +9,45 @@ export class ApiError extends Error {
 }
 export async function api<T = any>(
   url: string,
-  body?: unknown,
-  method = body === undefined ? 'GET' : 'POST',
+  bodyOrOptions?: unknown,
+  methodArg?: string,
 ): Promise<T> {
+  let effectiveMethod = methodArg;
+  let effectiveBody = bodyOrOptions;
+
+  // Unpack fetch-style options if called as api(url, { method: 'POST', body: {...} })
+  if (
+    bodyOrOptions &&
+    typeof bodyOrOptions === 'object' &&
+    !Array.isArray(bodyOrOptions) &&
+    !(bodyOrOptions instanceof FormData) &&
+    'body' in bodyOrOptions &&
+    ('method' in bodyOrOptions || methodArg === undefined)
+  ) {
+    const opts = bodyOrOptions as { method?: string; body?: unknown };
+    if (opts.method) effectiveMethod = opts.method;
+    effectiveBody = opts.body;
+  }
+
+  if (!effectiveMethod) {
+    effectiveMethod = effectiveBody === undefined ? 'GET' : 'POST';
+  }
+
   const response = await fetch(url, {
-    method,
+    method: effectiveMethod,
     credentials: 'same-origin',
     headers:
-      body instanceof FormData
+      effectiveBody instanceof FormData
         ? {}
-        : body === undefined
+        : effectiveBody === undefined
           ? {}
           : { 'Content-Type': 'application/json' },
-    body: body === undefined ? undefined : body instanceof FormData ? body : JSON.stringify(body),
+    body:
+      effectiveBody === undefined
+        ? undefined
+        : effectiveBody instanceof FormData
+          ? effectiveBody
+          : JSON.stringify(effectiveBody),
   });
   const text = await response.text();
   let data: any;
