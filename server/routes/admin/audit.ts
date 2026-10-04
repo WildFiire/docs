@@ -1,7 +1,12 @@
 import type { Request as ExpressRequest, Response as ExpressResponse } from 'express';
 import { jsonReply, sendReply, prepareResponse, setCookie } from '@server/http';
 import { validateSessionToken, SESSION_COOKIE_NAME } from '@server/lib/security/auth';
-import { getAuditEvents, verifyAuditChainIntegrity, AuditAction } from '@server/lib/security/audit';
+import {
+  getAuditEvents,
+  verifyAuditChainIntegrity,
+  resealAuditChain,
+  AuditAction,
+} from '@server/lib/security/audit';
 
 export async function GET(req: ExpressRequest, expressResponse: ExpressResponse) {
   const token = req.cookies[SESSION_COOKIE_NAME];
@@ -35,3 +40,33 @@ export async function GET(req: ExpressRequest, expressResponse: ExpressResponse)
     events,
   });
 }
+
+export async function POST(req: ExpressRequest, expressResponse: ExpressResponse) {
+  const token = req.cookies[SESSION_COOKIE_NAME];
+  const session = token ? await validateSessionToken(token) : null;
+
+  if (!session) {
+    return jsonReply(expressResponse, { error: 'UNAUTHORIZED' }, { status: 401 });
+  }
+
+  if (!session.isRoot && !session.permissions?.canManageSecurity) {
+    return jsonReply(
+      expressResponse,
+      {
+        error: 'FORBIDDEN',
+        message: 'Acces Refuzat: Doar Root sau Administratorii de Securitate pot resigila Audit Ledger.',
+      },
+      { status: 403 },
+    );
+  }
+
+  const result = resealAuditChain();
+  const integrity = verifyAuditChainIntegrity();
+
+  return jsonReply(expressResponse, {
+    ok: true,
+    result,
+    integrity,
+  });
+}
+

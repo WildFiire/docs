@@ -20,7 +20,8 @@
     "route": "/api/admin/audit",
     "file": "server/routes/admin/audit.ts",
     "methods": [
-      "GET"
+      "GET",
+      "POST"
     ]
   },
   {

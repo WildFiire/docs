@@ -24,6 +24,7 @@
     "server:build": "node scripts/build-server.mjs",
     "docs:preview": "vitepress preview docs",
     "start": "node server.js",
+    "audit:reseal": "node scripts/reseal-audit.mjs",
     "generator": "node tools/generator/server.js"
   },
   "dependencies": {

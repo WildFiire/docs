@@ -217,3 +217,48 @@ export function verifyAuditChainIntegrity(): {
 
   return { isValid: true, totalEvents: ledger.length };
 }
+
+/**
+ * Reseals the entire audit ledger by recomputing and repairing
+ * SHA-256 cryptographic hashes and chained references in chronological order.
+ */
+export function resealAuditChain(): {
+  success: boolean;
+  totalEvents: number;
+  fixedCount: number;
+} {
+  const ledger = loadAuditLedger();
+  if (ledger.length === 0) {
+    return { success: true, totalEvents: 0, fixedCount: 0 };
+  }
+
+  const chronological = [...ledger].reverse();
+  let prev = GENESIS_HASH;
+  let fixedCount = 0;
+
+  for (let i = 0; i < chronological.length; i++) {
+    const e = chronological[i];
+    const details = e.details || {};
+
+    if (e.previousHash !== prev) {
+      e.previousHash = prev;
+      fixedCount++;
+    }
+
+    const payload = `${e.previousHash}|${e.id}|${e.timestamp}|${e.action}|${e.actor}|${e.ip}|${JSON.stringify(details)}`;
+    const expected = sha256(payload);
+
+    if (e.hash !== expected) {
+      e.hash = expected;
+      fixedCount++;
+    }
+
+    prev = e.hash;
+  }
+
+  const resealed = chronological.reverse();
+  saveAuditLedger(resealed);
+
+  return { success: true, totalEvents: resealed.length, fixedCount };
+}
+

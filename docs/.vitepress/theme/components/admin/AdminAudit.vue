@@ -58,6 +58,28 @@ function handleExportJSON() {
   a.click();
   URL.revokeObjectURL(url);
 }
+
+const resealing = ref(false);
+
+async function handleResealChain() {
+  if (!confirm('Ești sigur că dorești să recalculezi și să resigilezi întregul lanț criptografic SHA-256? Această acțiune va repara orice discrepanță de integritate.')) {
+    return;
+  }
+  resealing.value = true;
+  try {
+    const res = await fetch('/api/admin/audit', { method: 'POST' });
+    const data = await res.json();
+    if (data.ok) {
+      await loadAuditData();
+    } else {
+      alert(data.message || 'Eroare la resigilarea lanțului.');
+    }
+  } catch (err: any) {
+    alert(err?.message || 'Eroare de conexiune.');
+  } finally {
+    resealing.value = false;
+  }
+}
 </script>
 
 <template>
@@ -103,13 +125,23 @@ function handleExportJSON() {
         width="18"
         height="18"
       />
-      <span>
+      <span style="flex: 1;">
         {{
           integrity.isValid
             ? `Cryptographic Hash Chain Integrity: 100% VERIFIED across ${integrity.totalEvents} events.`
             : `CRITICAL ALERT: Audit ledger tampering detected! Hash chain mismatch.`
         }}
       </span>
+      <button
+        v-if="!integrity.isValid"
+        type="button"
+        @click="handleResealChain"
+        class="admin-btn admin-btn--primary"
+        :disabled="resealing"
+      >
+        <Icon icon="lucide:wrench" width="14" height="14" />
+        <span>{{ resealing ? 'Se resigilează...' : 'Resigilează Lanțul SHA-256' }}</span>
+      </button>
     </div>
 
     <!-- Audit Table Card -->
