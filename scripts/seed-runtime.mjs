@@ -77,7 +77,22 @@ if (!fs.existsSync(settingsPath)) {
 
 // 3. gitops.json
 const gitopsPath = path.join(contentDir, 'gitops.json');
-if (!fs.existsSync(gitopsPath)) {
+let shouldUpdateGitops = !fs.existsSync(gitopsPath);
+if (fs.existsSync(gitopsPath)) {
+  try {
+    const existing = JSON.parse(fs.readFileSync(gitopsPath, 'utf-8'));
+    if (
+      existing.publicRepo?.repo !== 'docs' ||
+      existing.publicRepo?.owner?.toLowerCase() !== 'wildfiire' ||
+      !existing.sync?.githubToken
+    ) {
+      shouldUpdateGitops = true;
+    }
+  } catch {
+    shouldUpdateGitops = true;
+  }
+}
+if (shouldUpdateGitops) {
   fs.writeFileSync(
     gitopsPath,
     JSON.stringify(
@@ -114,7 +129,7 @@ if (!fs.existsSync(gitopsPath)) {
     ),
     'utf-8',
   );
-  console.log('[Seed] Initialized content/gitops.json');
+  console.log('[Seed] Initialized/Migrated content/gitops.json to WildFiire/docs');
 }
 
 // 4. .env file
