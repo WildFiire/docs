@@ -107,8 +107,8 @@ async function init2FASetup(token: string) {
     } else {
       error.value = data.message || 'Eroare la inițializarea 2FA.';
     }
-  } catch {
-    error.value = 'Eroare de conexiune la rețea. Te rugăm să reîncerci.';
+  } catch (err: any) {
+    error.value = err.message || err.data?.message || 'Eroare la inițializarea 2FA.';
   } finally {
     loading.value = false;
   }
@@ -132,10 +132,17 @@ async function handle2FASubmit() {
       error.value = data.message || 'Cod 2FA incorect.';
       loading.value = false;
     }
-  } catch {
-    error.value = 'Eroare de conexiune la rețea. Te rugăm să reîncerci.';
+  } catch (err: any) {
+    error.value = err.message || err.data?.message || 'Cod 2FA incorect sau sesiune expirată. Apasă pe Anulează pentru a reîncerca autentificarea.';
     loading.value = false;
   }
+}
+
+function cancel2FA() {
+  authStep.value = 'login';
+  totpCode.value = '';
+  tempToken.value = '';
+  error.value = '';
 }
 </script>
 
@@ -396,7 +403,7 @@ async function handle2FASubmit() {
             type="button"
             class="admin-btn admin-btn--ghost"
             style="width: 100%; margin-top: 0.5rem;"
-            @click="authStep = 'login'; totpCode = '';"
+            @click="cancel2FA"
           >
             Anulează
           </button>

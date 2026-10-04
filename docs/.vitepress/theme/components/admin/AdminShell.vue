@@ -149,15 +149,16 @@ async function logout() {
     <!-- Liquid organic waves & fire background -->
     <LiquidBackground />
 
+    <!-- When visiting /admin/login, display the login form immediately -->
+    <AdminLogin v-if="login && !user" />
+
     <!-- Dedicated Thematic Loading Experience for the Admin Panel -->
     <AdminThematicLoader
-      v-if="loading && !user"
+      v-else-if="loading && !user"
       mode="fullscreen"
       title="WILDFIRE MISSION CONTROL"
       subtitle="Se verifică sesiunea criptografică și matricea de securitate…"
     />
-
-    <AdminLogin v-else-if="login" />
 
     <template v-else>
       <!-- Fixed Top Admin Header 1:1 with wf-docscore -->
