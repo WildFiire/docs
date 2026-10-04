@@ -30,11 +30,14 @@ export default defineConfig({
   lang: 'ro-RO',
   cleanUrls: true,
   ignoreDeadLinks: true,
+  sitemap: {
+    hostname: 'https://docs.wildfire.ro'
+  },
 
 
   head: [
     ['link', { rel: 'icon', type: 'image/webp', href: '/icons/wildfire.webp' }],
-    ['meta', { name: 'theme-color', content: '#ff4000ff' }],
+    ['meta', { name: 'theme-color', content: '#ff4000' }],
     ['meta', { name: 'description', content: 'Documentatia platformei Wildfire - Resurse, sisteme si informatii pentru Counter-Strike 2.' }],
     ['meta', { name: 'robots', content: 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' }],
 
@@ -222,12 +225,22 @@ export default defineConfig({
       const ogUrl = `https://docs.wildfire.ro/api/og?slug=${encodeURIComponent(cleanSlug)}`
       const pageTitle = pageData.frontmatter.title || pageData.title || 'Wildfire Docs'
       const pageDesc = pageData.frontmatter.description || pageData.description || 'Documentatia platformei Wildfire'
+      const canonicalUrl = `https://docs.wildfire.ro/${cleanSlug === 'index' ? 'docs' : cleanSlug}`
       pageData.frontmatter.head = [
         ...(pageData.frontmatter.head || []),
         ['meta', { property: 'og:image', content: ogUrl }],
-        ['meta', { name: 'twitter:image', content: ogUrl }],
+        ['meta', { property: 'og:image:width', content: '1200' }],
+        ['meta', { property: 'og:image:height', content: '630' }],
+        ['meta', { property: 'og:image:type', content: 'image/png' }],
         ['meta', { property: 'og:title', content: pageTitle }],
-        ['meta', { property: 'og:description', content: pageDesc }]
+        ['meta', { property: 'og:description', content: pageDesc }],
+        ['meta', { property: 'og:url', content: canonicalUrl }],
+        ['meta', { property: 'og:type', content: cleanSlug === 'index' ? 'website' : 'article' }],
+        ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+        ['meta', { name: 'twitter:image', content: ogUrl }],
+        ['meta', { name: 'twitter:title', content: pageTitle }],
+        ['meta', { name: 'twitter:description', content: pageDesc }],
+        ['meta', { name: 'theme-color', content: '#ff4000' }]
       ]
     }
     try {
