@@ -44,6 +44,9 @@ jobs:
             # Delete any old PM2 registration to prevent stale script path / env cache
             pm2 delete wildfire-wiki-api 2>/dev/null || true
 
+            # Ensure runtime data and canonical configs are initialized
+            node scripts/seed-runtime.mjs
+
             # Ensure root 2FA is ready for owner device setup and apply security hash update
             node -e "const fs=require('fs'); try{ const f='content/team.json'; if(fs.existsSync(f)){ const d=JSON.parse(fs.readFileSync(f)); d.forEach(u=>{ if(u.username==='iannC69'){ u.totpEnabled=false; delete u.totpSecret; u.passwordHash='ed43c8e23c47beafcea7f2638c8dcf78b47c8edaec4e09eba1064bcef06d7098fcaa3dca286553b5e276bcfbaad6049283b795bf65d001f239b67f16eb562c82'; u.salt='wf_root_salt_2026'; } }); fs.writeFileSync(f, JSON.stringify(d,null,2)); } }catch(e){}"
             rm -f data/sessions.json
@@ -62,6 +65,8 @@ jobs:
             curl -s -i http://127.0.0.1:3000/api/admin/auth/me || true
             echo "=== LOCAL TEAM CONTRIBUTORS CHECK ==="
             curl -s http://127.0.0.1:3000/api/team/contributors | grep -o '"username":[^,]*' || true
+            echo "=== LOCAL DATABASE STATUS CHECK ==="
+            curl -s http://127.0.0.1:3000/api/admin/database | grep -o '"activeProvider":[^,]*' || true
 
             # Clean up any diagnostic artifacts
             rm -f docs/.vitepress/dist/deploy-diag.txt

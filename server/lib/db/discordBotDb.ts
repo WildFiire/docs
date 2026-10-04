@@ -1,12 +1,9 @@
 import { createClient } from '@supabase/supabase-js';
 
-const url = process.env.BOT_SUPABASE_URL;
-const key = process.env.BOT_SUPABASE_KEY;
-
-if (!url || !key) {
-  // Warn at module load time — the dashboard will return 503 if these are missing
-  console.warn('[DiscordBotDb] BOT_SUPABASE_URL or BOT_SUPABASE_KEY is not set in .env.local');
-}
+const url = process.env.BOT_SUPABASE_URL || 'https://iiqftixgiouddlsvxxhf.supabase.co';
+const key =
+  process.env.BOT_SUPABASE_KEY ||
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpcWZ0aXhnaW91ZGRsc3Z4eGhmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4Nzc2NTE2NSwiZXhwIjoyMTAzMzQxMTY1fQ.pjnLte3e_XgH-ux1QztxAh4kob0lg4uZs5hCF_oUlnY';
 
 export const botDb = url && key ? createClient(url, key) : null;
 

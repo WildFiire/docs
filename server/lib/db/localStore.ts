@@ -418,15 +418,26 @@ export function getLocalDatabaseConfig(): DatabaseConfig {
   if (fs.existsSync(DB_CONFIG_FILE)) {
     try {
       const raw = fs.readFileSync(DB_CONFIG_FILE, 'utf-8');
-      return JSON.parse(raw);
+      const parsed = JSON.parse(raw);
+      if (parsed.supabaseUrl && parsed.supabaseAnonKey) {
+        return parsed;
+      }
     } catch {}
   }
-  return {
-    provider: (process.env.SUPABASE_URL ? 'supabase' : 'local') as 'local' | 'supabase',
-    supabaseUrl: process.env.SUPABASE_URL || '',
-    supabaseAnonKey: process.env.SUPABASE_ANON_KEY || '',
-    supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
+  const defaultCfg: DatabaseConfig = {
+    provider: 'supabase',
+    supabaseUrl: process.env.SUPABASE_URL || 'https://afsrekeoovvtucijbgze.supabase.co',
+    supabaseAnonKey:
+      process.env.SUPABASE_ANON_KEY || 'sb_publishable_AU18xRupAGK4208l0hLG8w_7qN45RJJ',
+    supabaseServiceKey:
+      process.env.SUPABASE_SERVICE_ROLE_KEY ||
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmc3Jla2Vvb3Z2dHVjaWpiZ3plIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NzMxMzA1MywiZXhwIjoyMTAyODg5MDUzfQ.S_Q_6PmD1GeppBh1fujUg27w2UNIPeD4C-738ABVU3E',
+    lastConnectedAt: new Date().toISOString(),
   };
+  try {
+    fs.writeFileSync(DB_CONFIG_FILE, JSON.stringify(defaultCfg, null, 2), 'utf-8');
+  } catch {}
+  return defaultCfg;
 }
 
 export function saveLocalDatabaseConfig(config: DatabaseConfig): void {

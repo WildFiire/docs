@@ -31,6 +31,7 @@ async function files(dir, base = dir) {
 try {
   handle = await fs.open(lock, 'wx', 0o600);
   await handle.writeFile(JSON.stringify({ pid: process.pid, startedAt: new Date().toISOString() }));
+  await run(['scripts/seed-runtime.mjs']);
   await run(['scripts/build-server.mjs']);
   await run(['scripts/prepare-static.mjs']);
   await run(['node_modules/vitepress/bin/vitepress.js', 'build', 'docs', '--outDir', staging]);
