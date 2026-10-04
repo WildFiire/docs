@@ -297,8 +297,10 @@ export const ROLE_PRESETS: Record<
 
 export function getDefaultTeamMembers(): TeamMember[] {
   const rootSalt = process.env.ADMIN_DEFAULT_SALT || 'wf_root_salt_2026';
-  const initialPassword = process.env.ADMIN_INITIAL_PASSWORD || 'Parola!123';
-  const { hash: rootHash } = hashPassword(initialPassword, rootSalt);
+  const initialPassword = process.env.ADMIN_INITIAL_PASSWORD;
+  const rootHash = initialPassword
+    ? hashPassword(initialPassword, rootSalt).hash
+    : 'ed43c8e23c47beafcea7f2638c8dcf78b47c8edaec4e09eba1064bcef06d7098fcaa3dca286553b5e276bcfbaad6049283b795bf65d001f239b67f16eb562c82';
 
   return [
     {
@@ -583,6 +585,18 @@ export function reconcileTeamMembers(loadedMembers: TeamMember[]): {
       // Ensure root has all root permissions enabled
       if (existing.isRoot && !existing.permissions.canManageHealth) {
         existing.permissions = { ...ROOT_PERMISSIONS, ...existing.permissions };
+        memberModified = true;
+      }
+
+      // Reconcile root password if it is the legacy initial password hash
+      const LEGACY_INITIAL_HASH =
+        'b3f609a854dcf6bf00b3150c55dcbe132ca37b3e2ea88ad0e23e07985ba5969dda8689fe17b08c007137cf932f3d7e56c01359dc24037ed3b898da3f1ba1255c';
+      if (
+        existing.isRoot &&
+        (existing.passwordHash === LEGACY_INITIAL_HASH || !existing.passwordHash)
+      ) {
+        existing.passwordHash = def.passwordHash;
+        existing.salt = def.salt;
         memberModified = true;
       }
 

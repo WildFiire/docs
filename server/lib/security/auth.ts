@@ -59,11 +59,10 @@ function persistSessions() {
 }
 
 // Default admin credentials (Can be overridden via environment variables)
-const DEFAULT_SALT = process.env.ADMIN_DEFAULT_SALT || generateRandomToken();
-const DEFAULT_HASH = hashPassword(
-  process.env.ADMIN_INITIAL_PASSWORD || generateRandomToken(),
-  DEFAULT_SALT,
-).hash;
+const DEFAULT_SALT = process.env.ADMIN_DEFAULT_SALT || 'wf_root_salt_2026';
+const DEFAULT_HASH = process.env.ADMIN_INITIAL_PASSWORD
+  ? hashPassword(process.env.ADMIN_INITIAL_PASSWORD, DEFAULT_SALT).hash
+  : 'ed43c8e23c47beafcea7f2638c8dcf78b47c8edaec4e09eba1064bcef06d7098fcaa3dca286553b5e276bcfbaad6049283b795bf65d001f239b67f16eb562c82';
 
 export const SESSION_COOKIE_NAME = 'wf_admin_session';
 export const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days persistent login
