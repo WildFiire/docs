@@ -59,6 +59,8 @@ jobs:
             pm2 logs wildfire-wiki-api --lines 30 --nostream || true
             echo "=== LOCAL API HEALTH CHECK (127.0.0.1:3000) ==="
             curl -s -i http://127.0.0.1:3000/api/admin/auth/me || true
+            echo "=== LOCAL TEAM CONTRIBUTORS CHECK ==="
+            curl -s http://127.0.0.1:3000/api/team/contributors | grep -o '"username":[^,]*' || true
 
             # Clean up any diagnostic artifacts
             rm -f docs/.vitepress/dist/deploy-diag.txt

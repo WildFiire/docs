@@ -66,8 +66,11 @@ try {
   users = JSON.parse(fs.readFileSync(path.join(runtime, 'content/team.json'), 'utf8'))
     .filter((u) => u.status === 'active')
     .map((u) => u.username)
-    .filter((u) => /^[a-zA-Z0-9_-]{1,64}$/.test(u));
 } catch {}
+const defaultUsernames = ['iannC69', 'Yakuza', 'V1ccX', 'umpy'];
+for (const u of defaultUsernames) {
+  if (!users.includes(u)) users.push(u);
+}
 for (const username of users)
   for (const prefix of ['team', 'docs/team'])
     write(

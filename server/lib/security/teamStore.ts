@@ -295,50 +295,339 @@ export const ROLE_PRESETS: Record<
  * Synchronizes team members and passwords directly to .env.local
  */
 
-function initRootMember(): TeamMember {
-  const salt = process.env.ADMIN_DEFAULT_SALT || 'wf_root_salt_2026';
+export function getDefaultTeamMembers(): TeamMember[] {
+  const rootSalt = process.env.ADMIN_DEFAULT_SALT || 'wf_root_salt_2026';
   const initialPassword = process.env.ADMIN_INITIAL_PASSWORD || 'Parola!123';
-  const { hash } = hashPassword(initialPassword, salt);
+  const { hash: rootHash } = hashPassword(initialPassword, rootSalt);
 
-  return {
-    id: 'user_root_iannc69',
-    username: 'iannC69',
-    displayName: 'iannC (Founder & Root)',
-    email: 'iannc@wildfire.ro',
-    role: 'root_admin',
-    avatarColor: '#ff6b00',
-    passwordHash: hash,
-    salt,
-    permissions: ROOT_PERMISSIONS,
-    status: 'active',
-    isRoot: true,
-    createdAt: new Date().toISOString(),
-    lastLoginAt: new Date().toISOString(),
-  };
+  return [
+    {
+      id: 'user_root_iannc69',
+      username: 'iannC69',
+      displayName: 'iannC',
+      email: 'iannc@wildfire.ro',
+      role: 'root_admin',
+      customTitle: 'Lead Docs & Systems Architect',
+      avatarUrl:
+        'https://avatars.fastly.steamstatic.com/f9a2171998ee2677dae87089953177799dbf7dc1_full.jpg',
+      avatarColor: '#ff6b00',
+      bio: 'Se ocupă de structura, redactarea și actualizarea platformei de documentație, integrarea sistemelor tehnice și experiența generală a ghidurilor WildFire.',
+      responsibilities: [
+        'Arhitectură Documentație',
+        'Redactare & Ghiduri Tehnice',
+        'Optimizare Docs Engine',
+        'Supervizare Echipă Docs',
+        'Securitate & 2FA',
+      ],
+      badges: ['LEAD ARCHITECT', 'DOCS SPECIALIST', 'SYSTEMS LEAD'],
+      discord: '371621920162185216',
+      steamId: 'https://steamcommunity.com/id/1iannc/',
+      githubUsername: 'iannC69',
+      docsModifiedCount: 1,
+      passwordHash: rootHash,
+      salt: rootSalt,
+      totpEnabled: false,
+      permissions: ROOT_PERMISSIONS,
+      status: 'active',
+      isRoot: true,
+      createdAt: '2026-08-17T18:20:32.349+00:00',
+      lastLoginAt: new Date().toISOString(),
+    },
+    {
+      id: 'user_83750fc6a71f918f089d8f783542baf9',
+      username: 'Yakuza',
+      displayName: 'Yakuza',
+      email: 'yakuza@wildfire.ro',
+      role: 'content_editor',
+      customTitle: 'Senior Content Editor & Reviewer',
+      avatarUrl:
+        'https://avatars.akamai.steamstatic.com/e2847cb722e1ec8bf9df607659f7f5e3804a0182_full.jpg',
+      avatarColor: '#10b981',
+      bio: 'Responsabil de elaborarea ghidurilor detaliate pentru jucători, proceduri de joc, revizuirea mecanicii și acuratețea datelor.',
+      responsibilities: [
+        'Ghiduri Jucători',
+        'Sisteme & MVP',
+        'Media & Asset Vault',
+        'Verificare Acuratețe',
+      ],
+      badges: ['CONTENT LEAD', 'VERIFIED GUIDE'],
+      discord: '778170514036228097',
+      steamId: 'https://steamcommunity.com/id/YakuzaTheImmortal',
+      githubUsername: 'Yakuza2377',
+      docsModifiedCount: 3,
+      passwordHash:
+        'f824a42578d0586e470a99ef629c5f6d2f34afffcdab78de9b204d69ebc541ae57ffac9b43a6495fba81c01b56b4e601979b9916259acb41350e8929d3aa8b4f',
+      salt: 'salt_a33fb9bd2f803c2ee297b267',
+      totpEnabled: false,
+      permissions: {
+        canEditDocs: true,
+        canViewAudit: false,
+        canDeleteDocs: false,
+        canManageTeam: false,
+        canManageMedia: true,
+        canTriggerPanic: false,
+        canManageApiKeys: false,
+        canViewAnalytics: true,
+        canManageSecurity: false,
+        canManageSettings: false,
+        canManageHealth: true,
+        canManageTasks: true,
+        canViewAiStats: false,
+        canManageDb: false,
+        canManageSnapshots: false,
+        canManageWebhooks: false,
+        canManageDiscordBot: false,
+      },
+      status: 'active',
+      isRoot: false,
+      createdAt: '2026-08-21T14:15:00.61+00:00',
+      lastLoginAt: '2026-08-22T10:11:39.115+00:00',
+    },
+    {
+      id: 'user_5d1bd9841e1a0968998b302637aaced5',
+      username: 'V1ccX',
+      displayName: 'V1ccX',
+      role: 'content_editor',
+      customTitle: 'Senior Content Editor',
+      avatarUrl:
+        'https://avatars.akamai.steamstatic.com/4963bca91b1b3edf88de548e459b2092a35312e7_full.jpg',
+      avatarColor: '#06b6d4',
+      bio: 'Redactează documentația tehnică a serverelor CS2, realizează task-uri de conținut și actualizări periodice.',
+      responsibilities: [
+        'Documentație Tehnică',
+        'Actualizări Periodice',
+        'Task Management',
+      ],
+      badges: ['CONTENT CREATOR'],
+      discord: '996796351587287100',
+      steamId: 'https://steamcommunity.com/profiles/76561199698821208',
+      githubUsername: 'Vicc09',
+      docsModifiedCount: 2,
+      passwordHash:
+        'a83b581b6bc88de0bd4954849da0a859df0d89b4bc3638cc233a56675d4e2df1c88daa1c0b61c74322c3f0729a295632d4085e5eb5cf478918d7622ed1c459b6',
+      salt: 'salt_c136591ad0fc7e653fcd5d5a',
+      totpEnabled: false,
+      permissions: {
+        canEditDocs: true,
+        canManageDb: false,
+        canViewAudit: false,
+        canDeleteDocs: false,
+        canManageTeam: false,
+        canManageMedia: true,
+        canManageTasks: true,
+        canViewAiStats: false,
+        canManageHealth: true,
+        canTriggerPanic: false,
+        canManageApiKeys: false,
+        canViewAnalytics: true,
+        canManageSecurity: false,
+        canManageSettings: false,
+        canManageWebhooks: false,
+        canManageSnapshots: false,
+        canManageDiscordBot: false,
+      },
+      status: 'active',
+      isRoot: false,
+      createdAt: '2026-08-22T10:01:24.486+00:00',
+      lastLoginAt: '2026-10-04T11:09:20.42+00:00',
+    },
+    {
+      id: 'user_2f6fcb4ed5f4780859ff8a272d017a60',
+      username: 'umpy',
+      displayName: 'umpy',
+      role: 'root_admin',
+      customTitle: 'Co-Root & Systems Lead',
+      avatarUrl:
+        'https://avatars.akamai.steamstatic.com/562c921ff1c8b59f1c5f9642c39608af2984128b_full.jpg',
+      avatarColor: '#8b5cf6',
+      bio: 'Co-fondator și responsabil de infrastructura tehnică a serverelor CS2 WildFire. Supervizează stabilitatea rețelei, integrarea sistemelor tehnice și calitatea.',
+      responsibilities: [
+        'Infrastructură & Servere CS2',
+        'Supervizare Tehnică & Sisteme',
+        'Mentenanță & Stabilitate',
+        'Revizuire Ghiduri Tehnice',
+      ],
+      badges: ['SYSTEMS CO-LEAD', 'ROOT FOUNDER'],
+      discord: '650621084223275010',
+      steamId: 'https://steamcommunity.com/profiles/76561198974838451',
+      githubUsername: 'umpy04',
+      docsModifiedCount: 0,
+      passwordHash:
+        '3c515f70a32f26ab6eeb08402105b118219bf72ae6fcf56d275111ee3c03cf955b9f21d9dc66d9e588d0c56b4d64c86e8bfa50cafb169e219a9a9c799de59deb',
+      salt: 'salt_46e9d28bdec8f5b50df834db',
+      totpEnabled: false,
+      permissions: {
+        canEditDocs: true,
+        canManageDb: true,
+        canViewAudit: true,
+        canDeleteDocs: true,
+        canManageTeam: false,
+        canManageMedia: true,
+        canManageTasks: true,
+        canViewAiStats: true,
+        canManageHealth: true,
+        canTriggerPanic: false,
+        canManageApiKeys: true,
+        canViewAnalytics: true,
+        canManageSecurity: true,
+        canManageSettings: true,
+        canManageWebhooks: true,
+        canManageSnapshots: true,
+        canManageDiscordBot: false,
+      },
+      status: 'active',
+      isRoot: false,
+      createdAt: '2026-08-25T13:54:01.625+00:00',
+      lastLoginAt: null,
+    },
+  ];
+}
+
+export function reconcileTeamMembers(loadedMembers: TeamMember[]): {
+  members: TeamMember[];
+  modified: boolean;
+} {
+  const defaults = getDefaultTeamMembers();
+  if (!loadedMembers || loadedMembers.length === 0) {
+    return { members: defaults, modified: true };
+  }
+
+  let modified = false;
+  const result: TeamMember[] = [...loadedMembers];
+
+  for (const def of defaults) {
+    const existingIndex = result.findIndex(
+      (m) => m.username.toLowerCase() === def.username.toLowerCase(),
+    );
+
+    if (existingIndex === -1) {
+      result.push(def);
+      modified = true;
+    } else {
+      const existing = { ...result[existingIndex] };
+      let memberModified = false;
+
+      // Reconcile avatarUrl if missing or empty
+      if (!existing.avatarUrl || existing.avatarUrl.trim() === '') {
+        if (def.avatarUrl) {
+          existing.avatarUrl = def.avatarUrl;
+          memberModified = true;
+        }
+      }
+
+      // Reconcile customTitle if missing or empty
+      if (!existing.customTitle || existing.customTitle.trim() === '') {
+        if (def.customTitle) {
+          existing.customTitle = def.customTitle;
+          memberModified = true;
+        }
+      }
+
+      // Reconcile bio if missing or empty
+      if (!existing.bio || existing.bio.trim() === '') {
+        if (def.bio) {
+          existing.bio = def.bio;
+          memberModified = true;
+        }
+      }
+
+      // Reconcile discord if missing or empty
+      if (!existing.discord || existing.discord.trim() === '') {
+        if (def.discord) {
+          existing.discord = def.discord;
+          memberModified = true;
+        }
+      }
+
+      // Reconcile steamId if missing or empty
+      if (!existing.steamId || existing.steamId.trim() === '') {
+        if (def.steamId) {
+          existing.steamId = def.steamId;
+          memberModified = true;
+        }
+      }
+
+      // Reconcile githubUsername if missing or empty
+      if (!existing.githubUsername || existing.githubUsername.trim() === '') {
+        if (def.githubUsername) {
+          existing.githubUsername = def.githubUsername;
+          memberModified = true;
+        }
+      }
+
+      // Reconcile badges if empty or missing
+      if (!existing.badges || existing.badges.length === 0) {
+        if (def.badges && def.badges.length > 0) {
+          existing.badges = def.badges;
+          memberModified = true;
+        }
+      }
+
+      // Reconcile responsibilities if empty or missing
+      if (!existing.responsibilities || existing.responsibilities.length === 0) {
+        if (def.responsibilities && def.responsibilities.length > 0) {
+          existing.responsibilities = def.responsibilities;
+          memberModified = true;
+        }
+      }
+
+      // Fix legacy placeholder displayName for root
+      if (
+        (existing.username.toLowerCase() === 'iannc69' || existing.isRoot) &&
+        existing.displayName === 'iannC (Founder & Root)'
+      ) {
+        existing.displayName = 'iannC';
+        memberModified = true;
+      }
+
+      // Ensure root has all root permissions enabled
+      if (existing.isRoot && !existing.permissions.canManageHealth) {
+        existing.permissions = { ...ROOT_PERMISSIONS, ...existing.permissions };
+        memberModified = true;
+      }
+
+      if (memberModified) {
+        result[existingIndex] = existing;
+        modified = true;
+      }
+    }
+  }
+
+  return { members: result, modified };
+}
+
+function initRootMember(): TeamMember {
+  return getDefaultTeamMembers()[0];
 }
 
 export function loadTeamMembersSync(): TeamMember[] {
+  let loaded: TeamMember[] | null = null;
   try {
     if (fs.existsSync(TEAM_FILE_PATH)) {
       const raw = fs.readFileSync(TEAM_FILE_PATH, 'utf-8');
-      return JSON.parse(raw);
+      loaded = JSON.parse(raw);
     }
   } catch (err) {
     console.error('Failed to sync load team members:', err);
   }
-  const root = initRootMember();
-  try {
-    const dir = path.dirname(TEAM_FILE_PATH);
-    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-    fs.writeFileSync(TEAM_FILE_PATH, JSON.stringify([root], null, 2), 'utf-8');
-  } catch {}
-  return [root];
+
+  const { members: reconciled, modified } = reconcileTeamMembers(loaded || []);
+  if (modified || !fs.existsSync(TEAM_FILE_PATH)) {
+    try {
+      const dir = path.dirname(TEAM_FILE_PATH);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(TEAM_FILE_PATH, JSON.stringify(reconciled, null, 2), 'utf-8');
+    } catch (e) {
+      console.error('Failed to persist reconciled team members:', e);
+    }
+  }
+  return reconciled;
 }
 
 export async function loadTeamMembers(): Promise<TeamMember[]> {
+  let members: TeamMember[] | null = null;
   try {
     const config = getLocalDatabaseConfig();
-    let members: TeamMember[] | null = null;
 
     if (config.provider === 'supabase' && config.supabaseUrl && config.supabaseAnonKey) {
       const { supabaseGetTeamMembers } = await import('../db/supabase');
@@ -348,10 +637,6 @@ export async function loadTeamMembers(): Promise<TeamMember[]> {
       });
       if (dbMembers && dbMembers.length > 0) {
         members = dbMembers;
-        // Optionally update the local cache
-        const dir = path.dirname(TEAM_FILE_PATH);
-        if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
-        fs.writeFileSync(TEAM_FILE_PATH, JSON.stringify(members, null, 2), 'utf-8');
       }
     }
 
@@ -359,24 +644,15 @@ export async function loadTeamMembers(): Promise<TeamMember[]> {
       const raw = fs.readFileSync(TEAM_FILE_PATH, 'utf-8');
       members = JSON.parse(raw);
     }
-
-    if (members) {
-      const hasRoot = members.some(
-        (m) => m.username.toLowerCase() === 'iannc69' || m.username.toLowerCase() === 'iannc',
-      );
-      if (!hasRoot) {
-        members.unshift(initRootMember());
-        await saveTeamMembers(members);
-      }
-      return members;
-    }
   } catch (err) {
     console.error('Failed to load team members:', err);
   }
 
-  const initial = [initRootMember()];
-  await saveTeamMembers(initial);
-  return initial;
+  const { members: reconciled, modified } = reconcileTeamMembers(members || []);
+  if (modified || !fs.existsSync(TEAM_FILE_PATH)) {
+    await saveTeamMembers(reconciled);
+  }
+  return reconciled;
 }
 
 async function syncTeamToSupabase(members: TeamMember[]): Promise<void> {
