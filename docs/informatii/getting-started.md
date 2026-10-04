@@ -1,7 +1,14 @@
 ---
 title: Ghid de Inceput CS2
-description: Cum sa iti asociezi contul de Steam cu Discord si primele comenzi esentiale pe serverul Wildfire.ro.
+description: >-
+  Cum sa iti asociezi contul de Steam cu Discord si primele comenzi esentiale pe
+  serverul Wildfire.ro.
 outline: deep
+gitLastCommitter: Vicc09
+lastUpdatedBy: V1ccX
+author: Vicc09
+uploadedBy: Vicc09
+lastUpdated: 1791127885599
 ---
 
 Bine ai venit pe **WildFire.ro**! Pentru a avea acces complet la toate facilitatile comunitatii, a primi recompense zilnice si a-ti asigura contul, urmeaza acest ghid rapid de initiere.
@@ -50,7 +57,7 @@ Serverul iti va afisa in chat si in consola un cod unic de asociere format din 6
 Acceseaza serverul oficial de [Discord WildFire](https://discord.gg/wildfire), navigheaza pe canalul `#verificare` si ruleaza comanda:
 
 ```bash
-/verify [codul_tau]
+/verify [codul]
 ```
 
 </Step>
