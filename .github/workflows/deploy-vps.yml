@@ -48,24 +48,16 @@ jobs:
             pm2 start server.js --name wildfire-wiki-api --time
             pm2 save
 
-            # Diagnostic checks written to static dist for remote inspection
+            # Diagnostic checks in GitHub Actions logs
             sleep 3
-            {
-              echo "=== NODE VERSION ==="
-              node -v
-              echo "=== PM2 STATUS ==="
-              pm2 status
-              echo "=== PM2 RECENT LOGS ==="
-              pm2 logs wildfire-wiki-api --lines 40 --nostream
-              echo "=== LISTENING PORTS (3000 / node) ==="
-              ss -tulpn | grep -E "3000|node|nginx" || netstat -tlpn | grep -E "3000|node" || true
-              echo "=== LOCAL API HEALTH CHECK (127.0.0.1:3000) ==="
-              curl -s -i http://127.0.0.1:3000/api/admin/auth/me || true
-              echo "=== NGINX SITES CONFIG (API PROXY) ==="
-              grep -rn "proxy_pass" /etc/nginx/ || true
-              echo "=== NGINX ERROR LOG (LAST 20 LINES) ==="
-              tail -n 20 /var/log/nginx/error.log || true
-            } > docs/.vitepress/dist/deploy-diag.txt 2>&1 || true
+            pm2 status
+            echo "=== PM2 RECENT LOGS ==="
+            pm2 logs wildfire-wiki-api --lines 30 --nostream || true
+            echo "=== LOCAL API HEALTH CHECK (127.0.0.1:3000) ==="
+            curl -s -i http://127.0.0.1:3000/api/admin/auth/me || true
+
+            # Clean up any diagnostic artifacts
+            rm -f docs/.vitepress/dist/deploy-diag.txt
 
 
 

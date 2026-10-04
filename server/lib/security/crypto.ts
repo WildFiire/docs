@@ -1,8 +1,30 @@
 import crypto from 'crypto';
+import fs from 'node:fs';
+import path from 'node:path';
+import { RUNTIME_ROOT } from '@server/storage/paths';
 
-const SECRET_KEY = process.env.ADMIN_SESSION_SECRET;
-if (!SECRET_KEY || SECRET_KEY.length < 32)
-  throw new Error('ADMIN_SESSION_SECRET must contain at least 32 characters');
+function getSessionSecret(): string {
+  const envSecret = process.env.ADMIN_SESSION_SECRET;
+  if (envSecret && envSecret.trim().length >= 32) {
+    return envSecret.trim();
+  }
+  const secretFile = path.join(RUNTIME_ROOT, 'data', '.session-secret');
+  try {
+    if (fs.existsSync(secretFile)) {
+      const saved = fs.readFileSync(secretFile, 'utf8').trim();
+      if (saved.length >= 32) return saved;
+    }
+    const generated = crypto.randomBytes(32).toString('hex');
+    fs.mkdirSync(path.dirname(secretFile), { recursive: true });
+    fs.writeFileSync(secretFile, generated, { mode: 0o600 });
+    console.warn('[SECURITY] ADMIN_SESSION_SECRET not configured in .env; generated persistent key in data/.session-secret');
+    return generated;
+  } catch {
+    return crypto.randomBytes(32).toString('hex');
+  }
+}
+
+const SECRET_KEY = getSessionSecret();
 
 /**
  * Constant-time string equality check to prevent timing attacks.

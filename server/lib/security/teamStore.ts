@@ -297,9 +297,18 @@ export const ROLE_PRESETS: Record<
 
 function initRootMember(): TeamMember {
   const salt = generateRandomToken(16);
-  const initialPassword = process.env.ADMIN_INITIAL_PASSWORD;
-  if (!initialPassword)
-    throw new Error('ADMIN_INITIAL_PASSWORD is required to initialize an empty account store');
+  let initialPassword = process.env.ADMIN_INITIAL_PASSWORD;
+  if (!initialPassword) {
+    initialPassword = generateRandomToken(24);
+    try {
+      const passFile = path.join(path.dirname(TEAM_FILE_PATH), '.initial-root-password');
+      if (!fs.existsSync(passFile)) {
+        fs.mkdirSync(path.dirname(passFile), { recursive: true });
+        fs.writeFileSync(passFile, initialPassword, { mode: 0o600 });
+        console.warn('[SECURITY] ADMIN_INITIAL_PASSWORD not configured; saved initial password to data/.initial-root-password');
+      }
+    } catch {}
+  }
   const { hash } = hashPassword(initialPassword, salt);
 
   // Sync root to .env.local
