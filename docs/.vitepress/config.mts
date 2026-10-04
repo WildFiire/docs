@@ -196,6 +196,21 @@ export default defineConfig({
     darkModeSwitchTitle: 'Comuta la modul intunecat'
   },
 
+  // Remove VP's auto-generated preload for self-hosted Inter woff2 files.
+  // We load Inter via Google Fonts (see head[] above), so the local woff2
+  // preloads are never consumed — causing "preloaded but not used" warnings.
+  transformHead({ head }) {
+    return head.filter(tag => {
+      if (tag[0] === 'link' && tag[1]?.rel === 'preload' && tag[1]?.as === 'font') {
+        const href: string = tag[1]?.href ?? ''
+        if (href.includes('inter-roman') || href.includes('inter-italic')) {
+          return false
+        }
+      }
+      return true
+    })
+  },
+
   async transformPageData(pageData, ctx) {
     const sourcePath = path.join(docsDir,pageData.relativePath)
     if (!pageData.relativePath.startsWith('admin/') && fs.existsSync(sourcePath)) {
