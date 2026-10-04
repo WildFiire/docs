@@ -183,9 +183,22 @@ export function syncHeadings(seedItems?: TocItem[]) {
         }
       }
     }
-    items.value = reconciled;
+    const targetList = (seedItems && seedItems.length > 0) ? reconciled : domList;
+    const isIdentical =
+      items.value.length === targetList.length &&
+      items.value.every((it, idx) => it.id === targetList[idx].id && it.title === targetList[idx].title && it.depth === targetList[idx].depth);
+
+    if (!isIdentical) {
+      items.value = targetList;
+    }
   } else {
-    items.value = domList;
+    const isIdentical =
+      items.value.length === domList.length &&
+      items.value.every((it, idx) => it.id === domList[idx].id && it.title === domList[idx].title && it.depth === domList[idx].depth);
+
+    if (!isIdentical) {
+      items.value = domList;
+    }
   }
 
   // Restore active ID from URL hash if valid

@@ -1,11 +1,17 @@
 <script setup lang="ts">
-import { ref, onMounted, onUnmounted, nextTick } from 'vue';
-import { useRouter } from 'vitepress';
+import { ref, onMounted, onUnmounted, watch } from 'vue';
+import { useRouter, useRoute } from 'vitepress';
 import DocSkeleton from '../ui/DocSkeleton.vue';
 
 const router = useRouter();
+const route = useRoute();
 const isNavigating = ref(false);
 let navTimer: ReturnType<typeof setTimeout> | null = null;
+
+watch(() => route.path, () => {
+  if (navTimer) clearTimeout(navTimer);
+  isNavigating.value = false;
+});
 
 onMounted(() => {
   if (typeof window === 'undefined') return;
@@ -18,15 +24,13 @@ onMounted(() => {
     if (navTimer) clearTimeout(navTimer);
     navTimer = setTimeout(() => {
       isNavigating.value = false;
-    }, 4000);
+    }, 400);
     if (originalBefore) originalBefore(to);
   };
 
   router.onAfterRouteChange = (to) => {
     if (navTimer) clearTimeout(navTimer);
-    navTimer = setTimeout(() => {
-      isNavigating.value = false;
-    }, 80);
+    isNavigating.value = false;
     if (originalAfter) originalAfter(to);
   };
 });

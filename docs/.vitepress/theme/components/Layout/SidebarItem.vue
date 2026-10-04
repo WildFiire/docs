@@ -91,9 +91,10 @@ function toggle(e?: MouseEvent) {
   open.value = !open.value;
 }
 
-function closeMobileSidebar() {
-  if (typeof window !== 'undefined' && window.innerWidth <= 1024) {
-    layout.mobileOpen = false;
+function handleItemClick(e: MouseEvent) {
+  closeMobileSidebar();
+  if (hasChildren.value) {
+    open.value = true;
   }
 }
 </script>
@@ -142,7 +143,7 @@ function closeMobileSidebar() {
           'nav-item--nested': depth > 1,
         }"
         :aria-current="active ? 'page' : undefined"
-        @click="closeMobileSidebar"
+        @click="handleItemClick"
       >
         <span class="nav-item-indicator" aria-hidden="true" />
         <span class="nav-item-icon">

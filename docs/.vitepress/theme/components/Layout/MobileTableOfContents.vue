@@ -53,9 +53,7 @@ function doSync() {
   }
 }
 
-watch(() => props.items, () => {
-  doSync();
-}, { deep: true });
+
 
 watch(() => route.path, () => {
   isOpen.value = false;

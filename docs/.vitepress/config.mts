@@ -69,9 +69,9 @@ export default defineConfig({
     ['link', {
       rel: 'preload',
       as: 'image',
-      href: '/icons/wildfire.webp',
+      href: '/logo.png',
       fetchpriority: 'high',
-      type: 'image/webp'
+      type: 'image/png'
     }],
 
     // VIEWPORT OPTIMIZAT

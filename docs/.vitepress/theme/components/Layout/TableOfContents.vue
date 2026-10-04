@@ -148,8 +148,11 @@ function onHashChange() {
 }
 
 watch(() => props.items, () => {
-  doSync();
-}, { deep: true });
+  nextTick(() => {
+    updateCapsulePosition();
+    onScrollSpy();
+  });
+});
 
 watch(() => route.path, () => {
   nextTick(() => {

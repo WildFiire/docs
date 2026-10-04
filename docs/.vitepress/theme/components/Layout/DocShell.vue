@@ -82,10 +82,19 @@ import { useTableOfContents } from '../../composables/useTableOfContents';
 const { items: globalTocItems, syncHeadings } = useTableOfContents();
 
 const tocItems = computed(() => {
-  const precomputed = (docHeadingsMap as Record<string, any[]>)[slug.value];
+  const map = (docHeadingsMap || {}) as Record<string, any[]>;
+  const rawSlug = slug.value;
+  const cleanSlug = rawSlug.replace(/^docs\//, '');
+  const precomputed =
+    map[rawSlug] ||
+    map[`${rawSlug}/index`] ||
+    map[cleanSlug] ||
+    map[`${cleanSlug}/index`];
   if (precomputed && precomputed.length > 0) return precomputed;
+  const fromPage = flattenHeaders(page.value.headers || []);
+  if (fromPage.length > 0) return fromPage;
   if (globalTocItems.value && globalTocItems.value.length > 0) return globalTocItems.value;
-  return flattenHeaders(page.value.headers || []);
+  return [];
 });
 const showToc = computed(() => frontmatter.value.showToc !== false && (tocItems.value.length > 0 || globalTocItems.value.length > 0));
 
