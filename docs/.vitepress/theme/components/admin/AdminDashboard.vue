@@ -3,7 +3,6 @@ import { ref, computed, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { api } from '../../composables/useApi';
 import AdminLiveTerminal from './AdminLiveTerminal.vue';
-import AdminThematicLoader from './AdminThematicLoader.vue';
 
 const props = defineProps<{ user: any }>();
 
@@ -61,12 +60,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <AdminThematicLoader
-    v-if="loading"
-    mode="inline"
-    title="MISSION CONTROL TELEMETRY"
-    subtitle="Se sincronizează indicatorii de securitate și telemetria serverelor…"
-  />
+  <div v-if="loading" class="adx-loading-state">
+    <Icon icon="lucide:refresh-cw" width="28" height="28" class="animate-spin text-amber-500 mb-2" />
+    <span>Se sincronizează indicatorii Mission Control...</span>
+  </div>
 
   <div v-else-if="error" class="adx-error-state">
     <Icon icon="lucide:alert-triangle" class="text-red-500" width="32" height="32" />

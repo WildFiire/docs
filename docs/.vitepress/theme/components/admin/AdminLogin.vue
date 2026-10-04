@@ -78,6 +78,11 @@ async function handleSubmit() {
     }
 
     if (data.success) {
+      if (data.user) {
+        try {
+          localStorage.setItem('wf_admin_user', JSON.stringify(data.user));
+        } catch {}
+      }
       window.location.href = '/admin';
     } else {
       error.value = data.message || 'Credențiale de administrator invalide.';
@@ -127,6 +132,11 @@ async function handle2FASubmit() {
     });
 
     if (data.success) {
+      if (data.user) {
+        try {
+          localStorage.setItem('wf_admin_user', JSON.stringify(data.user));
+        } catch {}
+      }
       window.location.href = '/admin';
     } else {
       error.value = data.message || 'Cod 2FA incorect.';

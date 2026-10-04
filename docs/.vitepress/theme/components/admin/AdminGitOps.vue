@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { Icon } from '@iconify/vue';
-import AdminThematicLoader from './AdminThematicLoader.vue';
 
 interface DiagnosticStep {
   id: string;
@@ -576,12 +575,10 @@ onUnmounted(() => {
 
 <template>
   <!-- Loading state -->
-  <AdminThematicLoader
-    v-if="loading"
-    mode="inline"
-    title="GITOPS MULTI-REPO ENGINE"
-    subtitle="Se inițializează canalele securizate GitHub și telemetria repo-ului…"
-  />
+  <div v-if="loading" class="st-loading-state">
+    <Icon icon="lucide:refresh-cw" width="28" height="28" class="animate-spin text-amber-500 mb-2" />
+    <span>Se sincronizează spațiul GitOps...</span>
+  </div>
 
   <!-- Main View -->
   <div v-else class="admin-page-container" style="max-width: 1280px; margin: 0 auto">
@@ -2313,6 +2310,18 @@ onUnmounted(() => {
 
 .st-spin {
   animation: spin 1s linear infinite;
+}
+
+.st-loading-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 380px;
+  gap: 8px;
+  color: var(--vp-c-text-2, #888);
+  font-size: 13px;
+  font-weight: 500;
 }
 
 .st-grid {

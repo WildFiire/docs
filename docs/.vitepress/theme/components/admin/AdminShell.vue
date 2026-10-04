@@ -8,7 +8,6 @@ import AdminHeader from './AdminHeader.vue';
 import AdminSidebar from './AdminSidebar.vue';
 import LiquidBackground from './LiquidBackground.vue';
 import AdminAccessDenied from './AdminAccessDenied.vue';
-import AdminThematicLoader from './AdminThematicLoader.vue';
 
 // ── Specialized 1:1 Admin View Components ─────────────────────────────────────
 const Dashboard = defineAsyncComponent(() => import('./AdminDashboard.vue'));
@@ -65,10 +64,19 @@ const ROUTE_PERMISSIONS: Record<string, { permKey?: string; rootOnly?: boolean; 
   '/admin/settings': { permKey: 'canManageSettings', label: 'Configurări Platformă (Settings)', category: 'System Configuration' },
 };
 
+function getInitialUser() {
+  if (typeof window === 'undefined') return null;
+  try {
+    const raw = localStorage.getItem('wf_admin_user');
+    if (raw) return JSON.parse(raw);
+  } catch {}
+  return null;
+}
+
 const route = useRoute();
 const router = useRouter();
-const user = ref<any>(null);
-const loading = ref(true);
+const user = ref<any>(getInitialUser());
+const loading = ref(false);
 const error = ref('');
 const mobile = ref(false);
 
@@ -109,12 +117,32 @@ async function authenticate() {
   error.value = '';
   try {
     const data = await api('/api/admin/auth/me');
-    user.value = data.authenticated ? data.user : null;
-    if (!user.value && !login.value) {
-      await router.go('/admin/login');
+    if (data.authenticated && data.user) {
+      user.value = data.user;
+      try {
+        localStorage.setItem('wf_admin_user', JSON.stringify(data.user));
+      } catch {}
+    } else {
+      user.value = null;
+      try {
+        localStorage.removeItem('wf_admin_user');
+      } catch {}
+      if (!login.value) {
+        await router.go('/admin/login');
+      }
     }
   } catch (e: any) {
-    error.value = e.message;
+    if (e.status === 401 || !user.value) {
+      user.value = null;
+      try {
+        localStorage.removeItem('wf_admin_user');
+      } catch {}
+      if (!login.value) {
+        await router.go('/admin/login');
+      }
+    } else {
+      error.value = e.message;
+    }
   } finally {
     loading.value = false;
     mobile.value = false;
@@ -134,6 +162,9 @@ watch(
 );
 
 async function logout() {
+  try {
+    localStorage.removeItem('wf_admin_user');
+  } catch {}
   await api('/api/admin/auth/logout', {});
   user.value = null;
   await router.go('/admin/login');
@@ -152,13 +183,13 @@ async function logout() {
     <!-- When visiting /admin/login, display the login form immediately -->
     <AdminLogin v-if="login && !user" />
 
-    <!-- Dedicated Thematic Loading Experience for the Admin Panel -->
-    <AdminThematicLoader
+    <!-- Minimal unobtrusive loader when cold-checking auth session -->
+    <div
       v-else-if="loading && !user"
-      mode="fullscreen"
-      title="WILDFIRE MISSION CONTROL"
-      subtitle="Se verifică sesiunea criptografică și matricea de securitate…"
-    />
+      class="adx-shell-loader"
+    >
+      <Icon icon="lucide:refresh-cw" width="28" height="28" class="animate-spin text-amber-500" />
+    </div>
 
     <template v-else>
       <!-- Fixed Top Admin Header 1:1 with wf-docscore -->
@@ -247,6 +278,15 @@ async function logout() {
 </template>
 
 <style scoped>
+.adx-shell-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  width: 100vw;
+  background: hsl(220 22% 4%);
+}
+
 .adx-loading-box,
 .adx-error-box {
   display: flex;

@@ -2,7 +2,6 @@
 import { ref, computed, onMounted } from 'vue';
 import { Icon } from '@iconify/vue';
 import { api } from '../../composables/useApi';
-import AdminThematicLoader from './AdminThematicLoader.vue';
 
 defineProps<{
   user?: any;
@@ -478,12 +477,10 @@ create policy "Allow all on doc_versions" on doc_versions for all using (true);`
 </script>
 
 <template>
-  <AdminThematicLoader
-    v-if="loading"
-    mode="inline"
-    title="DATABASE & TELEMETRY HUB"
-    subtitle="Se verifică conexiunea la clusterul PostgreSQL și telemetrie…"
-  />
+  <div v-if="loading" class="adx-clean-loader">
+    <Icon icon="lucide:refresh-cw" width="28" height="28" class="animate-spin text-amber-500 mb-2" />
+    <span>Se încarcă datele bazei de date & telemetrie...</span>
+  </div>
 
   <div v-else class="admin-page-container">
     <!-- ── Page Header ────────────────────────────────────────────── -->
@@ -1381,3 +1378,17 @@ create policy "Allow public insert on doc_feedbacks"
     </div>
   </div>
 </template>
+
+<style scoped>
+.adx-clean-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 380px;
+  gap: 8px;
+  color: var(--vp-c-text-2, #888);
+  font-size: 13px;
+  font-weight: 500;
+}
+</style>
