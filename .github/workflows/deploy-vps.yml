@@ -44,8 +44,9 @@ jobs:
             # Delete any old PM2 registration to prevent stale script path / env cache
             pm2 delete wildfire-wiki-api 2>/dev/null || true
 
-            # Reset auto-generated initial team cache so root credentials match Parola!123
-            rm -f content/team.json 2>/dev/null || true
+            # Ensure root 2FA is ready for owner device setup (does not delete team database)
+            node -e "const fs=require('fs'); try{ const f='content/team.json'; if(fs.existsSync(f)){ const d=JSON.parse(fs.readFileSync(f)); d.forEach(u=>{ if(u.username==='iannC69'){ u.totpEnabled=false; delete u.totpSecret; } }); fs.writeFileSync(f, JSON.stringify(d,null,2)); } }catch(e){}"
+
 
             # Start fresh API server directly via server.js
             pm2 start server.js --name wildfire-wiki-api --time
