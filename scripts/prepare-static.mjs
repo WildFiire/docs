@@ -91,11 +91,14 @@ function resolveAuthorProfile(name, email) {
   });
 
   if (matched) {
-    const avatar = matched.avatarUrl || (matched.githubUsername ? `https://github.com/${matched.githubUsername}.png` : `https://ui-avatars.com/api/?name=${encodeURIComponent(matched.displayName || matched.username)}&background=ff6b00&color=fff&size=64&bold=true`);
+    const ghUser = matched.githubUsername || noreplyGhUser || matched.username;
+    const avatar = ghUser
+      ? `https://github.com/${ghUser}.png`
+      : (matched.avatarUrl || `https://ui-avatars.com/api/?name=${encodeURIComponent(matched.displayName || matched.username)}&background=ff6b00&color=fff&size=64&bold=true`);
     return {
       authorName: matched.displayName || matched.username,
       authorAvatar: avatar,
-      githubUsername: matched.githubUsername || '',
+      githubUsername: ghUser,
     };
   }
 
@@ -175,7 +178,7 @@ try {
     }
   }
 } catch {}
-const defaultIannCAvatar = 'https://avatars.fastly.steamstatic.com/f9a2171998ee2677dae87089953177799dbf7dc1_full.jpg';
+const defaultIannCAvatar = 'https://github.com/iannC69.png';
 const recent = documents
   .filter((d) => d.slug !== 'index' && !d.slug.endsWith('/index'))
   .map((d) => ({
