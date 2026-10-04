@@ -44,6 +44,9 @@ jobs:
             # Delete any old PM2 registration to prevent stale script path / env cache
             pm2 delete wildfire-wiki-api 2>/dev/null || true
 
+            # Reset auto-generated initial team cache so root credentials match Parola!123
+            rm -f content/team.json 2>/dev/null || true
+
             # Start fresh API server directly via server.js
             pm2 start server.js --name wildfire-wiki-api --time
             pm2 save

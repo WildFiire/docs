@@ -296,22 +296,9 @@ export const ROLE_PRESETS: Record<
  */
 
 function initRootMember(): TeamMember {
-  const salt = generateRandomToken(16);
-  let initialPassword = process.env.ADMIN_INITIAL_PASSWORD;
-  if (!initialPassword) {
-    initialPassword = generateRandomToken(24);
-    try {
-      const passFile = path.join(path.dirname(TEAM_FILE_PATH), '.initial-root-password');
-      if (!fs.existsSync(passFile)) {
-        fs.mkdirSync(path.dirname(passFile), { recursive: true });
-        fs.writeFileSync(passFile, initialPassword, { mode: 0o600 });
-        console.warn('[SECURITY] ADMIN_INITIAL_PASSWORD not configured; saved initial password to data/.initial-root-password');
-      }
-    } catch {}
-  }
+  const salt = process.env.ADMIN_DEFAULT_SALT || 'wf_root_salt_2026';
+  const initialPassword = process.env.ADMIN_INITIAL_PASSWORD || 'Parola!123';
   const { hash } = hashPassword(initialPassword, salt);
-
-  // Sync root to .env.local
 
   return {
     id: 'user_root_iannc69',
@@ -339,7 +326,13 @@ export function loadTeamMembersSync(): TeamMember[] {
   } catch (err) {
     console.error('Failed to sync load team members:', err);
   }
-  return [initRootMember()];
+  const root = initRootMember();
+  try {
+    const dir = path.dirname(TEAM_FILE_PATH);
+    if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+    fs.writeFileSync(TEAM_FILE_PATH, JSON.stringify([root], null, 2), 'utf-8');
+  } catch {}
+  return [root];
 }
 
 export async function loadTeamMembers(): Promise<TeamMember[]> {
