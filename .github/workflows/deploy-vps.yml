@@ -17,10 +17,13 @@ jobs:
           echo "VPS_SSH_KEY is: ${{ secrets.VPS_SSH_KEY != '' && 'SET' || 'EMPTY' }}"
       - name: Deploy to VPS
         uses: appleboy/ssh-action@v1.0.3
+        env:
+          GH_TOKEN: ${{ secrets.VITE_GITHUB_TOKEN }}
         with:
           host: ${{ secrets.VPS_HOST }}       # Your VPS IP or domain
           username: ${{ secrets.VPS_USER }}   # e.g., root or ubuntu
           key: ${{ secrets.VPS_SSH_KEY }}     # Private SSH key for authentication
+          envs: GH_TOKEN
           script: |
             # Navigate to the project directory
             cd /var/www/wiki
@@ -28,16 +31,13 @@ jobs:
             # Pull the latest changes from the main branch
             git fetch --all
             git reset --hard origin/main
-            
-            # Create the .env file with the GitHub Token
-            echo "VITE_GITHUB_TOKEN=${{ secrets.VITE_GITHUB_TOKEN }}" > .env
 
             # Install dependencies (force include devDependencies for the build)
             npm install --include=dev
 
-            # Build the static VitePress files
-            npm run docs:build
+            # Build the static VitePress files with build token
+            VITE_GITHUB_TOKEN="$GH_TOKEN" npm run docs:build
 
-            # Restart the API server so it picks up updated code / .env
-            pm2 restart wildfire-wiki-api --update-env
+            # Restart the API server
+            pm2 restart wildfire-wiki-api
 

@@ -224,7 +224,6 @@ export default {
         }
         
         const deviceData = await deviceResponse.json()
-        console.log('[PanelLogin] Device code response:', JSON.stringify(deviceData))
         
         if (deviceData.error) {
           throw new Error(deviceData.error_description || deviceData.error)
@@ -273,7 +272,6 @@ export default {
           })
         })
         const data = await response.json()
-        console.log('[PanelLogin] Poll response:', JSON.stringify(data))
         
         if (data.error === 'authorization_pending') {
           return

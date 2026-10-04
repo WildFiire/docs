@@ -1,0 +1,3780 @@
+{
+  "currency/credits": [
+    {
+      "id": "_1-cum-sa-obtii-credite",
+      "title": "1. Cum sa Obtii Credite",
+      "depth": 2
+    },
+    {
+      "id": "_2-magazinul-cosmetic-shop",
+      "title": "2. Magazinul Cosmetic (!shop)",
+      "depth": 2
+    },
+    {
+      "id": "_3-utilizarea-creditelor-la-casino-in-game",
+      "title": "3. Utilizarea Creditelor la Casino In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-utile-pentru-credite",
+      "title": "4. Comenzi Utile pentru Credite",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/currency/credits": [
+    {
+      "id": "_1-cum-sa-obtii-credite",
+      "title": "1. Cum sa Obtii Credite",
+      "depth": 2
+    },
+    {
+      "id": "_2-magazinul-cosmetic-shop",
+      "title": "2. Magazinul Cosmetic (!shop)",
+      "depth": 2
+    },
+    {
+      "id": "_3-utilizarea-creditelor-la-casino-in-game",
+      "title": "3. Utilizarea Creditelor la Casino In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-utile-pentru-credite",
+      "title": "4. Comenzi Utile pentru Credite",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "currency/index": [
+    {
+      "id": "comparatie-credite-vs-phoenix-coins-phx",
+      "title": "Comparatie: Credite vs Phoenix Coins (PHX)",
+      "depth": 2
+    },
+    {
+      "id": "ghiduri-detaliate-pe-valute",
+      "title": "Ghiduri Detaliate pe Valute",
+      "depth": 2
+    },
+    {
+      "id": "comenzi-rapide-de-economie",
+      "title": "Comenzi Rapide de Economie",
+      "depth": 2
+    }
+  ],
+  "docs/currency/index": [
+    {
+      "id": "comparatie-credite-vs-phoenix-coins-phx",
+      "title": "Comparatie: Credite vs Phoenix Coins (PHX)",
+      "depth": 2
+    },
+    {
+      "id": "ghiduri-detaliate-pe-valute",
+      "title": "Ghiduri Detaliate pe Valute",
+      "depth": 2
+    },
+    {
+      "id": "comenzi-rapide-de-economie",
+      "title": "Comenzi Rapide de Economie",
+      "depth": 2
+    }
+  ],
+  "currency/phoenixcoins": [
+    {
+      "id": "_1-cum-sa-obtii-phoenix-coins-phx",
+      "title": "1. Cum sa Obtii Phoenix Coins (PHX)",
+      "depth": 2
+    },
+    {
+      "id": "a-misiuni-in-game-missions",
+      "title": "A. Misiuni In-Game (!missions)",
+      "depth": 3
+    },
+    {
+      "id": "b-progresie-sezoniera-battlepass",
+      "title": "B. Progresie Sezoniera & BattlePass",
+      "depth": 3
+    },
+    {
+      "id": "c-skins-market-donatii-web",
+      "title": "C. Skins Market & Donatii Web",
+      "depth": 3
+    },
+    {
+      "id": "_2-utilizarea-phoenix-coins-in-joc",
+      "title": "2. Utilizarea Phoenix Coins in Joc",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide-pentru-phoenix-coins",
+      "title": "3. Comenzi Rapide pentru Phoenix Coins",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-recomandate",
+      "title": "Resurse si Ghiduri Recomandate",
+      "depth": 2
+    }
+  ],
+  "docs/currency/phoenixcoins": [
+    {
+      "id": "_1-cum-sa-obtii-phoenix-coins-phx",
+      "title": "1. Cum sa Obtii Phoenix Coins (PHX)",
+      "depth": 2
+    },
+    {
+      "id": "a-misiuni-in-game-missions",
+      "title": "A. Misiuni In-Game (!missions)",
+      "depth": 3
+    },
+    {
+      "id": "b-progresie-sezoniera-battlepass",
+      "title": "B. Progresie Sezoniera & BattlePass",
+      "depth": 3
+    },
+    {
+      "id": "c-skins-market-donatii-web",
+      "title": "C. Skins Market & Donatii Web",
+      "depth": 3
+    },
+    {
+      "id": "_2-utilizarea-phoenix-coins-in-joc",
+      "title": "2. Utilizarea Phoenix Coins in Joc",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide-pentru-phoenix-coins",
+      "title": "3. Comenzi Rapide pentru Phoenix Coins",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-recomandate",
+      "title": "Resurse si Ghiduri Recomandate",
+      "depth": 2
+    }
+  ],
+  "index": [
+    {
+      "id": "welcome-to-docs-platform",
+      "title": "Welcome to Docs Platform",
+      "depth": 2
+    },
+    {
+      "id": "what-makes-this-different",
+      "title": "What makes this different?",
+      "depth": 2
+    },
+    {
+      "id": "architecture-overview",
+      "title": "Architecture overview",
+      "depth": 2
+    },
+    {
+      "id": "tech-stack",
+      "title": "Tech stack",
+      "depth": 2
+    },
+    {
+      "id": "navigare-rapida",
+      "title": "Navigare Rapidă",
+      "depth": 2
+    }
+  ],
+  "docs/index": [
+    {
+      "id": "welcome-to-docs-platform",
+      "title": "Welcome to Docs Platform",
+      "depth": 2
+    },
+    {
+      "id": "what-makes-this-different",
+      "title": "What makes this different?",
+      "depth": 2
+    },
+    {
+      "id": "architecture-overview",
+      "title": "Architecture overview",
+      "depth": 2
+    },
+    {
+      "id": "tech-stack",
+      "title": "Tech stack",
+      "depth": 2
+    },
+    {
+      "id": "navigare-rapida",
+      "title": "Navigare Rapidă",
+      "depth": 2
+    }
+  ],
+  "informatii/about": [
+    {
+      "id": "ce-servere-rulam",
+      "title": "Ce Servere Rulam",
+      "depth": 2
+    },
+    {
+      "id": "competitive-classic",
+      "title": "Competitive Classic",
+      "depth": 3
+    },
+    {
+      "id": "sistem-economic-custom",
+      "title": "Sistem Economic Custom",
+      "depth": 2
+    },
+    {
+      "id": "rank-si-progres",
+      "title": "Rank si Progres",
+      "depth": 2
+    },
+    {
+      "id": "suita-de-sisteme-custom",
+      "title": "Suita de Sisteme Custom",
+      "depth": 2
+    },
+    {
+      "id": "weapon-skins-ws",
+      "title": "Weapon Skins (!ws)",
+      "depth": 3
+    },
+    {
+      "id": "sistem-de-cases",
+      "title": "Sistem de Cases",
+      "depth": 4
+    },
+    {
+      "id": "cutite-manusi",
+      "title": "Cutite & Manusi",
+      "depth": 4
+    },
+    {
+      "id": "gambling-casino",
+      "title": "Gambling & Casino",
+      "depth": 3
+    },
+    {
+      "id": "roulette-—-rl",
+      "title": "Roulette — !rl",
+      "depth": 4
+    },
+    {
+      "id": "slots-—-slot",
+      "title": "Slots — !slot",
+      "depth": 4
+    },
+    {
+      "id": "dices-barbut-—-dice",
+      "title": "Dices (Barbut) — !dice",
+      "depth": 4
+    },
+    {
+      "id": "magazinul-serverului-shop",
+      "title": "Magazinul Serverului (!shop)",
+      "depth": 3
+    },
+    {
+      "id": "mvp-anthem",
+      "title": "MVP Anthem",
+      "depth": 3
+    },
+    {
+      "id": "sank-sounds",
+      "title": "Sank Sounds",
+      "depth": 3
+    },
+    {
+      "id": "gold-member-beneficii-vip",
+      "title": "Gold Member & Beneficii VIP",
+      "depth": 3
+    },
+    {
+      "id": "comunitatea-wildfire",
+      "title": "Comunitatea WildFire",
+      "depth": 2
+    },
+    {
+      "id": "exploreaza-documentatia",
+      "title": "Exploreaza Documentatia",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/about": [
+    {
+      "id": "ce-servere-rulam",
+      "title": "Ce Servere Rulam",
+      "depth": 2
+    },
+    {
+      "id": "competitive-classic",
+      "title": "Competitive Classic",
+      "depth": 3
+    },
+    {
+      "id": "sistem-economic-custom",
+      "title": "Sistem Economic Custom",
+      "depth": 2
+    },
+    {
+      "id": "rank-si-progres",
+      "title": "Rank si Progres",
+      "depth": 2
+    },
+    {
+      "id": "suita-de-sisteme-custom",
+      "title": "Suita de Sisteme Custom",
+      "depth": 2
+    },
+    {
+      "id": "weapon-skins-ws",
+      "title": "Weapon Skins (!ws)",
+      "depth": 3
+    },
+    {
+      "id": "sistem-de-cases",
+      "title": "Sistem de Cases",
+      "depth": 4
+    },
+    {
+      "id": "cutite-manusi",
+      "title": "Cutite & Manusi",
+      "depth": 4
+    },
+    {
+      "id": "gambling-casino",
+      "title": "Gambling & Casino",
+      "depth": 3
+    },
+    {
+      "id": "roulette-—-rl",
+      "title": "Roulette — !rl",
+      "depth": 4
+    },
+    {
+      "id": "slots-—-slot",
+      "title": "Slots — !slot",
+      "depth": 4
+    },
+    {
+      "id": "dices-barbut-—-dice",
+      "title": "Dices (Barbut) — !dice",
+      "depth": 4
+    },
+    {
+      "id": "magazinul-serverului-shop",
+      "title": "Magazinul Serverului (!shop)",
+      "depth": 3
+    },
+    {
+      "id": "mvp-anthem",
+      "title": "MVP Anthem",
+      "depth": 3
+    },
+    {
+      "id": "sank-sounds",
+      "title": "Sank Sounds",
+      "depth": 3
+    },
+    {
+      "id": "gold-member-beneficii-vip",
+      "title": "Gold Member & Beneficii VIP",
+      "depth": 3
+    },
+    {
+      "id": "comunitatea-wildfire",
+      "title": "Comunitatea WildFire",
+      "depth": 2
+    },
+    {
+      "id": "exploreaza-documentatia",
+      "title": "Exploreaza Documentatia",
+      "depth": 2
+    }
+  ],
+  "informatii/faq": [
+    {
+      "id": "conectare-si-general",
+      "title": "Conectare si General",
+      "depth": 2
+    },
+    {
+      "id": "cum-ma-conectez-pe-server",
+      "title": "Cum ma conectez pe server?",
+      "depth": 3
+    },
+    {
+      "id": "staff-si-asistenta",
+      "title": "Staff si Asistenta",
+      "depth": 2
+    },
+    {
+      "id": "cum-aplic-pentru-gradul-de-helper-sau-raportez-un-bug",
+      "title": "Cum aplic pentru gradul de Helper sau raportez un bug?",
+      "depth": 3
+    },
+    {
+      "id": "cum-functioneaza-sistemul-de-tickete",
+      "title": "Cum functioneaza Sistemul de Tickete?",
+      "depth": 3
+    },
+    {
+      "id": "dashboard-si-profil-web",
+      "title": "Dashboard si Profil Web",
+      "depth": 2
+    },
+    {
+      "id": "ce-functii-are-dashboard-ul-oficial-panel",
+      "title": "Ce functii are Dashboard-ul oficial (!panel)?",
+      "depth": 3
+    },
+    {
+      "id": "skin-uri-si-weaponskins-ws",
+      "title": "Skin-uri si WeaponSkins (!ws)",
+      "depth": 2
+    },
+    {
+      "id": "cum-functioneaza-skin-urile-manusile-cutitele-si-agentii",
+      "title": "Cum functioneaza skin-urile, manusile, cutitele si agentii?",
+      "depth": 3
+    },
+    {
+      "id": "gambling-si-casino-in-game",
+      "title": "Gambling si Casino In-Game",
+      "depth": 2
+    },
+    {
+      "id": "unde-si-pe-ce-pot-paria-creditele",
+      "title": "Unde si pe ce pot paria creditele?",
+      "depth": 3
+    },
+    {
+      "id": "economie-si-magazin-shop",
+      "title": "Economie si Magazin (!shop)",
+      "depth": 2
+    },
+    {
+      "id": "ce-pot-cumpara-din-shop-si-cum-gestionez-balanta-eco",
+      "title": "Ce pot cumpara din !shop si cum gestionez balanta !eco?",
+      "depth": 3
+    },
+    {
+      "id": "tipurile-de-valuta-din-joc",
+      "title": "Tipurile de Valuta din Joc:",
+      "depth": 4
+    },
+    {
+      "id": "beneficii-vip-si-membri-premium",
+      "title": "Beneficii VIP si Membri Premium",
+      "depth": 2
+    },
+    {
+      "id": "ce-avantaje-ofera-statutul-gold-member-si-vip",
+      "title": "Ce avantaje ofera statutul Gold Member si VIP?",
+      "depth": 3
+    },
+    {
+      "id": "sisteme-suplimentare-de-joc",
+      "title": "Sisteme Suplimentare de Joc",
+      "depth": 2
+    },
+    {
+      "id": "regulamente-oficiale",
+      "title": "Regulamente Oficiale",
+      "depth": 2
+    },
+    {
+      "id": "comenzi-rapide-in-game",
+      "title": "Comenzi Rapide In-Game",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/faq": [
+    {
+      "id": "conectare-si-general",
+      "title": "Conectare si General",
+      "depth": 2
+    },
+    {
+      "id": "cum-ma-conectez-pe-server",
+      "title": "Cum ma conectez pe server?",
+      "depth": 3
+    },
+    {
+      "id": "staff-si-asistenta",
+      "title": "Staff si Asistenta",
+      "depth": 2
+    },
+    {
+      "id": "cum-aplic-pentru-gradul-de-helper-sau-raportez-un-bug",
+      "title": "Cum aplic pentru gradul de Helper sau raportez un bug?",
+      "depth": 3
+    },
+    {
+      "id": "cum-functioneaza-sistemul-de-tickete",
+      "title": "Cum functioneaza Sistemul de Tickete?",
+      "depth": 3
+    },
+    {
+      "id": "dashboard-si-profil-web",
+      "title": "Dashboard si Profil Web",
+      "depth": 2
+    },
+    {
+      "id": "ce-functii-are-dashboard-ul-oficial-panel",
+      "title": "Ce functii are Dashboard-ul oficial (!panel)?",
+      "depth": 3
+    },
+    {
+      "id": "skin-uri-si-weaponskins-ws",
+      "title": "Skin-uri si WeaponSkins (!ws)",
+      "depth": 2
+    },
+    {
+      "id": "cum-functioneaza-skin-urile-manusile-cutitele-si-agentii",
+      "title": "Cum functioneaza skin-urile, manusile, cutitele si agentii?",
+      "depth": 3
+    },
+    {
+      "id": "gambling-si-casino-in-game",
+      "title": "Gambling si Casino In-Game",
+      "depth": 2
+    },
+    {
+      "id": "unde-si-pe-ce-pot-paria-creditele",
+      "title": "Unde si pe ce pot paria creditele?",
+      "depth": 3
+    },
+    {
+      "id": "economie-si-magazin-shop",
+      "title": "Economie si Magazin (!shop)",
+      "depth": 2
+    },
+    {
+      "id": "ce-pot-cumpara-din-shop-si-cum-gestionez-balanta-eco",
+      "title": "Ce pot cumpara din !shop si cum gestionez balanta !eco?",
+      "depth": 3
+    },
+    {
+      "id": "tipurile-de-valuta-din-joc",
+      "title": "Tipurile de Valuta din Joc:",
+      "depth": 4
+    },
+    {
+      "id": "beneficii-vip-si-membri-premium",
+      "title": "Beneficii VIP si Membri Premium",
+      "depth": 2
+    },
+    {
+      "id": "ce-avantaje-ofera-statutul-gold-member-si-vip",
+      "title": "Ce avantaje ofera statutul Gold Member si VIP?",
+      "depth": 3
+    },
+    {
+      "id": "sisteme-suplimentare-de-joc",
+      "title": "Sisteme Suplimentare de Joc",
+      "depth": 2
+    },
+    {
+      "id": "regulamente-oficiale",
+      "title": "Regulamente Oficiale",
+      "depth": 2
+    },
+    {
+      "id": "comenzi-rapide-in-game",
+      "title": "Comenzi Rapide In-Game",
+      "depth": 2
+    }
+  ],
+  "informatii/getting-started": [
+    {
+      "id": "conectare-rapida-pe-server",
+      "title": "Conectare Rapida pe Server",
+      "depth": 2
+    },
+    {
+      "id": "verificare-si-asociere-cont-steam-➔-discord",
+      "title": "Verificare si Asociere Cont (Steam ➔ Discord)",
+      "depth": 2
+    },
+    {
+      "id": "comenzi-esentiale-pentru-jucatori",
+      "title": "Comenzi Esentiale pentru Jucatori",
+      "depth": 2
+    },
+    {
+      "id": "urmatorii-pasi-recomandati",
+      "title": "Urmatorii Pasi Recomandati",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/getting-started": [
+    {
+      "id": "conectare-rapida-pe-server",
+      "title": "Conectare Rapida pe Server",
+      "depth": 2
+    },
+    {
+      "id": "verificare-si-asociere-cont-steam-➔-discord",
+      "title": "Verificare si Asociere Cont (Steam ➔ Discord)",
+      "depth": 2
+    },
+    {
+      "id": "comenzi-esentiale-pentru-jucatori",
+      "title": "Comenzi Esentiale pentru Jucatori",
+      "depth": 2
+    },
+    {
+      "id": "urmatorii-pasi-recomandati",
+      "title": "Urmatorii Pasi Recomandati",
+      "depth": 2
+    }
+  ],
+  "informatii/regulamente/index": [
+    {
+      "id": "ghiduri-si-regulamente-pe-categorii",
+      "title": "Ghiduri si Regulamente pe Categorii",
+      "depth": 2
+    },
+    {
+      "id": "principii-fundamentale-de-conduita",
+      "title": "Principii Fundamentale de Conduita",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/regulamente/index": [
+    {
+      "id": "ghiduri-si-regulamente-pe-categorii",
+      "title": "Ghiduri si Regulamente pe Categorii",
+      "depth": 2
+    },
+    {
+      "id": "principii-fundamentale-de-conduita",
+      "title": "Principii Fundamentale de Conduita",
+      "depth": 2
+    }
+  ],
+  "informatii/regulamente/regulament-go": [
+    {
+      "id": "capitolul-i-—-reguli-generale-integritate",
+      "title": "Capitolul I — Reguli Generale & Integritate",
+      "depth": 2
+    },
+    {
+      "id": "_1-1-trisarea-si-programele-terte",
+      "title": "1.1 Trisarea si Programele Terte",
+      "depth": 3
+    },
+    {
+      "id": "_1-2-limbaj-si-comportament-civilizat",
+      "title": "1.2 Limbaj si Comportament Civilizat",
+      "depth": 3
+    },
+    {
+      "id": "_1-3-respect-fata-de-membrii-staff",
+      "title": "1.3 Respect fata de Membrii Staff",
+      "depth": 3
+    },
+    {
+      "id": "_1-4-raportari-pe-chat-ul-adminilor-u",
+      "title": "1.4 Raportari pe Chat-ul Adminilor (u@)",
+      "depth": 3
+    },
+    {
+      "id": "_1-5-defaimarea-serverului-si-comunitatii",
+      "title": "1.5 Defaimarea Serverului si Comunitatii",
+      "depth": 3
+    },
+    {
+      "id": "_1-6-conturi-secundare-si-evaziune-ban-evade",
+      "title": "1.6 Conturi Secundare si Evaziune (Ban Evade)",
+      "depth": 3
+    },
+    {
+      "id": "_1-7-evaziunea-sanctiunilor-evasion",
+      "title": "1.7 Evaziunea Sanctiunilor (Evasion)",
+      "depth": 3
+    },
+    {
+      "id": "_1-8-termenul-pentru-cererile-de-unban",
+      "title": "1.8 Termenul pentru Cererile de Unban",
+      "depth": 3
+    },
+    {
+      "id": "_1-9-inducerea-in-eroare-a-staff-ului",
+      "title": "1.9 Inducerea in Eroare a Staff-ului",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-ii-—-comportament-comunicare-voice-chat",
+      "title": "Capitolul II — Comportament & Comunicare (Voice / Chat)",
+      "depth": 2
+    },
+    {
+      "id": "_2-1-utilizarea-microfonului-voice-chat",
+      "title": "2.1 Utilizarea Microfonului (Voice Chat)",
+      "depth": 3
+    },
+    {
+      "id": "_2-2-pastrarea-linistii-la-faze-decisive-clutch",
+      "title": "2.2 Pastrarea Linistii la Faze Decisive (Clutch)",
+      "depth": 3
+    },
+    {
+      "id": "_2-3-statul-afk-inactivitate",
+      "title": "2.3 Statul AFK (Inactivitate)",
+      "depth": 3
+    },
+    {
+      "id": "_2-4-metoda-monitor-ghosting",
+      "title": "2.4 Metoda \"Monitor\" (Ghosting)",
+      "depth": 3
+    },
+    {
+      "id": "_2-5-toxicitate-si-provocari-in-chat",
+      "title": "2.5 Toxicitate si Provocari in Chat",
+      "depth": 3
+    },
+    {
+      "id": "_2-6-limba-oficiala-de-comunicare",
+      "title": "2.6 Limba Oficiala de Comunicare",
+      "depth": 3
+    },
+    {
+      "id": "_2-7-programe-de-modificare-a-vocii-voice-changer",
+      "title": "2.7 Programe de Modificare a Vocii (Voice Changer)",
+      "depth": 3
+    },
+    {
+      "id": "_2-8-nume-si-avatare-inadecvate-pe-steam",
+      "title": "2.8 Nume si Avatare Inadecvate pe Steam",
+      "depth": 3
+    },
+    {
+      "id": "_2-9-toleranta-zero-la-rasism-si-doxxing",
+      "title": "2.9 Toleranta Zero la Rasism si Doxxing",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-iii-—-interdictii-griefing-sanctiuni-grave",
+      "title": "Capitolul III — Interdictii, Griefing & Sanctiuni Grave",
+      "depth": 2
+    },
+    {
+      "id": "_3-1-inselaciuni-si-frauda-la-schimburi-trade-scam",
+      "title": "3.1 Inselaciuni si Frauda la Schimburi (Trade Scam)",
+      "depth": 3
+    },
+    {
+      "id": "_3-2-utilizare-vpn-proxy",
+      "title": "3.2 Utilizare VPN / Proxy",
+      "depth": 3
+    },
+    {
+      "id": "_3-3-falsificarea-identitatii-de-staff",
+      "title": "3.3 Falsificarea Identitatii de Staff",
+      "depth": 3
+    },
+    {
+      "id": "_3-4-sabotaj-intentionat-griefing-bomb-griefing",
+      "title": "3.4 Sabotaj Intentionat (Griefing & Bomb Griefing)",
+      "depth": 3
+    },
+    {
+      "id": "_3-5-reclama-si-promovare-neautorizata",
+      "title": "3.5 Reclama si Promovare Neautorizata",
+      "depth": 3
+    },
+    {
+      "id": "_3-6-comert-pe-bani-reali-si-cersit",
+      "title": "3.6 Comert pe Bani Reali si Cersit",
+      "depth": 3
+    },
+    {
+      "id": "tabel-sinoptic-al-sanctiunilor",
+      "title": "Tabel Sinoptic al Sanctiunilor",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-iv-—-dispozitii-finale",
+      "title": "Capitolul IV — Dispozitii Finale",
+      "depth": 2
+    },
+    {
+      "id": "sectiuni-conexe-de-regulament",
+      "title": "Sectiuni Conexe de Regulament",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/regulamente/regulament-go": [
+    {
+      "id": "capitolul-i-—-reguli-generale-integritate",
+      "title": "Capitolul I — Reguli Generale & Integritate",
+      "depth": 2
+    },
+    {
+      "id": "_1-1-trisarea-si-programele-terte",
+      "title": "1.1 Trisarea si Programele Terte",
+      "depth": 3
+    },
+    {
+      "id": "_1-2-limbaj-si-comportament-civilizat",
+      "title": "1.2 Limbaj si Comportament Civilizat",
+      "depth": 3
+    },
+    {
+      "id": "_1-3-respect-fata-de-membrii-staff",
+      "title": "1.3 Respect fata de Membrii Staff",
+      "depth": 3
+    },
+    {
+      "id": "_1-4-raportari-pe-chat-ul-adminilor-u",
+      "title": "1.4 Raportari pe Chat-ul Adminilor (u@)",
+      "depth": 3
+    },
+    {
+      "id": "_1-5-defaimarea-serverului-si-comunitatii",
+      "title": "1.5 Defaimarea Serverului si Comunitatii",
+      "depth": 3
+    },
+    {
+      "id": "_1-6-conturi-secundare-si-evaziune-ban-evade",
+      "title": "1.6 Conturi Secundare si Evaziune (Ban Evade)",
+      "depth": 3
+    },
+    {
+      "id": "_1-7-evaziunea-sanctiunilor-evasion",
+      "title": "1.7 Evaziunea Sanctiunilor (Evasion)",
+      "depth": 3
+    },
+    {
+      "id": "_1-8-termenul-pentru-cererile-de-unban",
+      "title": "1.8 Termenul pentru Cererile de Unban",
+      "depth": 3
+    },
+    {
+      "id": "_1-9-inducerea-in-eroare-a-staff-ului",
+      "title": "1.9 Inducerea in Eroare a Staff-ului",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-ii-—-comportament-comunicare-voice-chat",
+      "title": "Capitolul II — Comportament & Comunicare (Voice / Chat)",
+      "depth": 2
+    },
+    {
+      "id": "_2-1-utilizarea-microfonului-voice-chat",
+      "title": "2.1 Utilizarea Microfonului (Voice Chat)",
+      "depth": 3
+    },
+    {
+      "id": "_2-2-pastrarea-linistii-la-faze-decisive-clutch",
+      "title": "2.2 Pastrarea Linistii la Faze Decisive (Clutch)",
+      "depth": 3
+    },
+    {
+      "id": "_2-3-statul-afk-inactivitate",
+      "title": "2.3 Statul AFK (Inactivitate)",
+      "depth": 3
+    },
+    {
+      "id": "_2-4-metoda-monitor-ghosting",
+      "title": "2.4 Metoda \"Monitor\" (Ghosting)",
+      "depth": 3
+    },
+    {
+      "id": "_2-5-toxicitate-si-provocari-in-chat",
+      "title": "2.5 Toxicitate si Provocari in Chat",
+      "depth": 3
+    },
+    {
+      "id": "_2-6-limba-oficiala-de-comunicare",
+      "title": "2.6 Limba Oficiala de Comunicare",
+      "depth": 3
+    },
+    {
+      "id": "_2-7-programe-de-modificare-a-vocii-voice-changer",
+      "title": "2.7 Programe de Modificare a Vocii (Voice Changer)",
+      "depth": 3
+    },
+    {
+      "id": "_2-8-nume-si-avatare-inadecvate-pe-steam",
+      "title": "2.8 Nume si Avatare Inadecvate pe Steam",
+      "depth": 3
+    },
+    {
+      "id": "_2-9-toleranta-zero-la-rasism-si-doxxing",
+      "title": "2.9 Toleranta Zero la Rasism si Doxxing",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-iii-—-interdictii-griefing-sanctiuni-grave",
+      "title": "Capitolul III — Interdictii, Griefing & Sanctiuni Grave",
+      "depth": 2
+    },
+    {
+      "id": "_3-1-inselaciuni-si-frauda-la-schimburi-trade-scam",
+      "title": "3.1 Inselaciuni si Frauda la Schimburi (Trade Scam)",
+      "depth": 3
+    },
+    {
+      "id": "_3-2-utilizare-vpn-proxy",
+      "title": "3.2 Utilizare VPN / Proxy",
+      "depth": 3
+    },
+    {
+      "id": "_3-3-falsificarea-identitatii-de-staff",
+      "title": "3.3 Falsificarea Identitatii de Staff",
+      "depth": 3
+    },
+    {
+      "id": "_3-4-sabotaj-intentionat-griefing-bomb-griefing",
+      "title": "3.4 Sabotaj Intentionat (Griefing & Bomb Griefing)",
+      "depth": 3
+    },
+    {
+      "id": "_3-5-reclama-si-promovare-neautorizata",
+      "title": "3.5 Reclama si Promovare Neautorizata",
+      "depth": 3
+    },
+    {
+      "id": "_3-6-comert-pe-bani-reali-si-cersit",
+      "title": "3.6 Comert pe Bani Reali si Cersit",
+      "depth": 3
+    },
+    {
+      "id": "tabel-sinoptic-al-sanctiunilor",
+      "title": "Tabel Sinoptic al Sanctiunilor",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-iv-—-dispozitii-finale",
+      "title": "Capitolul IV — Dispozitii Finale",
+      "depth": 2
+    },
+    {
+      "id": "sectiuni-conexe-de-regulament",
+      "title": "Sectiuni Conexe de Regulament",
+      "depth": 2
+    }
+  ],
+  "informatii/regulamente/regulament-staff-go": [
+    {
+      "id": "capitolul-i-—-criterii-pentru-aplicatie-recrutare",
+      "title": "Capitolul I — Criterii pentru Aplicatie (Recrutare)",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-ii-—-reguli-generale-conduita-staff",
+      "title": "Capitolul II — Reguli Generale & Conduita Staff",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-iii-—-utilizarea-comenzilor-moderare",
+      "title": "Capitolul III — Utilizarea Comenzilor & Moderare",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-iv-—-activitate-lunara-prezenta",
+      "title": "Capitolul IV — Activitate Lunara & Prezenta",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-v-—-solutionarea-ticketelor-reclamatiilor",
+      "title": "Capitolul V — Solutionarea Ticketelor & Reclamatiilor",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/regulamente/regulament-staff-go": [
+    {
+      "id": "capitolul-i-—-criterii-pentru-aplicatie-recrutare",
+      "title": "Capitolul I — Criterii pentru Aplicatie (Recrutare)",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-ii-—-reguli-generale-conduita-staff",
+      "title": "Capitolul II — Reguli Generale & Conduita Staff",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-iii-—-utilizarea-comenzilor-moderare",
+      "title": "Capitolul III — Utilizarea Comenzilor & Moderare",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-iv-—-activitate-lunara-prezenta",
+      "title": "Capitolul IV — Activitate Lunara & Prezenta",
+      "depth": 2
+    },
+    {
+      "id": "capitolul-v-—-solutionarea-ticketelor-reclamatiilor",
+      "title": "Capitolul V — Solutionarea Ticketelor & Reclamatiilor",
+      "depth": 2
+    }
+  ],
+  "informatii/regulamente/regulament-vip-go": [
+    {
+      "id": "capitolul-i-—-conduita-obligatii-vip",
+      "title": "Capitolul I — Conduita & Obligatii VIP",
+      "depth": 2
+    },
+    {
+      "id": "_1-1-privilegiu-nu-imunitate",
+      "title": "1.1 Privilegiu, nu Imunitate",
+      "depth": 3
+    },
+    {
+      "id": "_1-2-interdictia-partajarii-gradului-account-sharing",
+      "title": "1.2 Interdictia Partajarii Gradului (Account Sharing)",
+      "depth": 3
+    },
+    {
+      "id": "_1-3-rolul-de-model-in-comunitate",
+      "title": "1.3 Rolul de Model in Comunitate",
+      "depth": 3
+    },
+    {
+      "id": "_1-4-sesizarea-abuzurilor-intre-membri-vip",
+      "title": "1.4 Sesizarea Abuzurilor Intre Membri VIP",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-ii-—-reguli-privind-mecanica-de-double-jump",
+      "title": "Capitolul II — Reguli privind Mecanica de Double Jump",
+      "depth": 2
+    },
+    {
+      "id": "_2-1-zone-inaccesibile-si-exploatari-de-harta",
+      "title": "2.1 Zone Inaccesibile si Exploatari de Harta",
+      "depth": 3
+    },
+    {
+      "id": "_2-2-saritura-peste-bariere-anti-rush",
+      "title": "2.2 Saritura peste Bariere Anti-Rush",
+      "depth": 3
+    },
+    {
+      "id": "_2-3-crearea-de-unghiuri-nedrepte-unfair-angles",
+      "title": "2.3 Crearea de Unghiuri Nedrepte (Unfair Angles)",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-iii-—-efecte-audio-sank-sounds-sm",
+      "title": "Capitolul III — Efecte Audio & Sank Sounds (!sm)",
+      "depth": 2
+    },
+    {
+      "id": "_3-1-interdictia-spam-ului-audio",
+      "title": "3.1 Interdictia Spam-ului Audio",
+      "depth": 3
+    },
+    {
+      "id": "_3-2-respectarea-momentelor-de-clutch",
+      "title": "3.2 Respectarea Momentelor de Clutch",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-iv-—-clauze-tehnice-banuri-vac-nerambursare",
+      "title": "Capitolul IV — Clauze Tehnice, Banuri VAC & Nerambursare",
+      "depth": 2
+    },
+    {
+      "id": "_4-1-toleranta-zero-la-cheating-vac-game-ban",
+      "title": "4.1 Toleranta Zero la Cheating (VAC / Game Ban)",
+      "depth": 3
+    },
+    {
+      "id": "_4-2-clauza-de-nerambursabilitate",
+      "title": "4.2 Clauza de Nerambursabilitate",
+      "depth": 3
+    },
+    {
+      "id": "matricea-sanctiunilor-pentru-membri-vip",
+      "title": "Matricea Sanctiunilor pentru Membri VIP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-utile",
+      "title": "Resurse si Ghiduri Utile",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/regulamente/regulament-vip-go": [
+    {
+      "id": "capitolul-i-—-conduita-obligatii-vip",
+      "title": "Capitolul I — Conduita & Obligatii VIP",
+      "depth": 2
+    },
+    {
+      "id": "_1-1-privilegiu-nu-imunitate",
+      "title": "1.1 Privilegiu, nu Imunitate",
+      "depth": 3
+    },
+    {
+      "id": "_1-2-interdictia-partajarii-gradului-account-sharing",
+      "title": "1.2 Interdictia Partajarii Gradului (Account Sharing)",
+      "depth": 3
+    },
+    {
+      "id": "_1-3-rolul-de-model-in-comunitate",
+      "title": "1.3 Rolul de Model in Comunitate",
+      "depth": 3
+    },
+    {
+      "id": "_1-4-sesizarea-abuzurilor-intre-membri-vip",
+      "title": "1.4 Sesizarea Abuzurilor Intre Membri VIP",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-ii-—-reguli-privind-mecanica-de-double-jump",
+      "title": "Capitolul II — Reguli privind Mecanica de Double Jump",
+      "depth": 2
+    },
+    {
+      "id": "_2-1-zone-inaccesibile-si-exploatari-de-harta",
+      "title": "2.1 Zone Inaccesibile si Exploatari de Harta",
+      "depth": 3
+    },
+    {
+      "id": "_2-2-saritura-peste-bariere-anti-rush",
+      "title": "2.2 Saritura peste Bariere Anti-Rush",
+      "depth": 3
+    },
+    {
+      "id": "_2-3-crearea-de-unghiuri-nedrepte-unfair-angles",
+      "title": "2.3 Crearea de Unghiuri Nedrepte (Unfair Angles)",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-iii-—-efecte-audio-sank-sounds-sm",
+      "title": "Capitolul III — Efecte Audio & Sank Sounds (!sm)",
+      "depth": 2
+    },
+    {
+      "id": "_3-1-interdictia-spam-ului-audio",
+      "title": "3.1 Interdictia Spam-ului Audio",
+      "depth": 3
+    },
+    {
+      "id": "_3-2-respectarea-momentelor-de-clutch",
+      "title": "3.2 Respectarea Momentelor de Clutch",
+      "depth": 3
+    },
+    {
+      "id": "capitolul-iv-—-clauze-tehnice-banuri-vac-nerambursare",
+      "title": "Capitolul IV — Clauze Tehnice, Banuri VAC & Nerambursare",
+      "depth": 2
+    },
+    {
+      "id": "_4-1-toleranta-zero-la-cheating-vac-game-ban",
+      "title": "4.1 Toleranta Zero la Cheating (VAC / Game Ban)",
+      "depth": 3
+    },
+    {
+      "id": "_4-2-clauza-de-nerambursabilitate",
+      "title": "4.2 Clauza de Nerambursabilitate",
+      "depth": 3
+    },
+    {
+      "id": "matricea-sanctiunilor-pentru-membri-vip",
+      "title": "Matricea Sanctiunilor pentru Membri VIP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-utile",
+      "title": "Resurse si Ghiduri Utile",
+      "depth": 2
+    }
+  ],
+  "informatii/staff/comenzi": [
+    {
+      "id": "_1-tabelul-complet-al-comenzilor-administrative",
+      "title": "1. Tabelul Complet al Comenzilor Administrative",
+      "depth": 2
+    },
+    {
+      "id": "_2-formatul-unitatile-de-timp-pentru-sanctiuni-timp",
+      "title": "2. Formatul & Unitatile de Timp pentru Sanctiuni ([timp])",
+      "depth": 2
+    },
+    {
+      "id": "exemple-practice-de-executie-in-chat-consola",
+      "title": "Exemple Practice de Executie in Chat / Consola:",
+      "depth": 3
+    },
+    {
+      "id": "_3-ierarhia-gradelor-si-permisiunilor",
+      "title": "3. Ierarhia Gradelor si Permisiunilor",
+      "depth": 2
+    },
+    {
+      "id": "resurse-administrative-conexe",
+      "title": "Resurse Administrative Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/staff/comenzi": [
+    {
+      "id": "_1-tabelul-complet-al-comenzilor-administrative",
+      "title": "1. Tabelul Complet al Comenzilor Administrative",
+      "depth": 2
+    },
+    {
+      "id": "_2-formatul-unitatile-de-timp-pentru-sanctiuni-timp",
+      "title": "2. Formatul & Unitatile de Timp pentru Sanctiuni ([timp])",
+      "depth": 2
+    },
+    {
+      "id": "exemple-practice-de-executie-in-chat-consola",
+      "title": "Exemple Practice de Executie in Chat / Consola:",
+      "depth": 3
+    },
+    {
+      "id": "_3-ierarhia-gradelor-si-permisiunilor",
+      "title": "3. Ierarhia Gradelor si Permisiunilor",
+      "depth": 2
+    },
+    {
+      "id": "resurse-administrative-conexe",
+      "title": "Resurse Administrative Conexe",
+      "depth": 2
+    }
+  ],
+  "informatii/staff/cum-aplici": [
+    {
+      "id": "criterii-minime-obligatorii",
+      "title": "Criterii Minime Obligatorii",
+      "depth": 2
+    },
+    {
+      "id": "ghid-de-aplicare-pas-cu-pas",
+      "title": "Ghid de Aplicare Pas cu Pas",
+      "depth": 2
+    },
+    {
+      "id": "ce-oferim-echipei-noastre",
+      "title": "Ce Oferim Echipei Noastre?",
+      "depth": 2
+    },
+    {
+      "id": "pachete-vip-oferite-membrilor-staff",
+      "title": "Pachete VIP Oferite Membrilor Staff",
+      "depth": 3
+    },
+    {
+      "id": "resurse-administrative-recomandate",
+      "title": "Resurse Administrative Recomandate",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/staff/cum-aplici": [
+    {
+      "id": "criterii-minime-obligatorii",
+      "title": "Criterii Minime Obligatorii",
+      "depth": 2
+    },
+    {
+      "id": "ghid-de-aplicare-pas-cu-pas",
+      "title": "Ghid de Aplicare Pas cu Pas",
+      "depth": 2
+    },
+    {
+      "id": "ce-oferim-echipei-noastre",
+      "title": "Ce Oferim Echipei Noastre?",
+      "depth": 2
+    },
+    {
+      "id": "pachete-vip-oferite-membrilor-staff",
+      "title": "Pachete VIP Oferite Membrilor Staff",
+      "depth": 3
+    },
+    {
+      "id": "resurse-administrative-recomandate",
+      "title": "Resurse Administrative Recomandate",
+      "depth": 2
+    }
+  ],
+  "informatii/staff/index": [
+    {
+      "id": "module-ghiduri-administrative",
+      "title": "Module & Ghiduri Administrative",
+      "depth": 2
+    },
+    {
+      "id": "ierarhia-gradelor-administrative",
+      "title": "Ierarhia Gradelor Administrative",
+      "depth": 2
+    },
+    {
+      "id": "protocoale-esentiale-de-moderare",
+      "title": "Protocoale Esentiale de Moderare",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/staff/index": [
+    {
+      "id": "module-ghiduri-administrative",
+      "title": "Module & Ghiduri Administrative",
+      "depth": 2
+    },
+    {
+      "id": "ierarhia-gradelor-administrative",
+      "title": "Ierarhia Gradelor Administrative",
+      "depth": 2
+    },
+    {
+      "id": "protocoale-esentiale-de-moderare",
+      "title": "Protocoale Esentiale de Moderare",
+      "depth": 2
+    }
+  ],
+  "informatii/staff/motive-staff": [
+    {
+      "id": "_1-tabelul-motivelor-oficiale-de-sanctiune",
+      "title": "1. Tabelul Motivelor Oficiale de Sanctiune",
+      "depth": 2
+    },
+    {
+      "id": "_2-recomandari-bune-practici",
+      "title": "2. Recomandari & Bune Practici",
+      "depth": 2
+    },
+    {
+      "id": "resurse-administrative-conexe",
+      "title": "Resurse Administrative Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/staff/motive-staff": [
+    {
+      "id": "_1-tabelul-motivelor-oficiale-de-sanctiune",
+      "title": "1. Tabelul Motivelor Oficiale de Sanctiune",
+      "depth": 2
+    },
+    {
+      "id": "_2-recomandari-bune-practici",
+      "title": "2. Recomandari & Bune Practici",
+      "depth": 2
+    },
+    {
+      "id": "resurse-administrative-conexe",
+      "title": "Resurse Administrative Conexe",
+      "depth": 2
+    }
+  ],
+  "market/index": [
+    {
+      "id": "_1-pilonii-principali-ai-ecosistemului-market",
+      "title": "1. Pilonii Principali ai Ecosistemului Market",
+      "depth": 2
+    },
+    {
+      "id": "_2-sinteza-gradelor-vip-active-pe-server",
+      "title": "2. Sinteza Gradelor VIP Active pe Server",
+      "depth": 2
+    },
+    {
+      "id": "_3-facilitati-avansate-ale-magazinului-online",
+      "title": "3. Facilitati Avansate ale Magazinului Online",
+      "depth": 2
+    },
+    {
+      "id": "_4-reguli-de-conduita-pentru-detinatorii-vip",
+      "title": "4. Reguli de Conduita pentru Detinatorii VIP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-recomandate",
+      "title": "Resurse si Ghiduri Recomandate",
+      "depth": 2
+    }
+  ],
+  "docs/market/index": [
+    {
+      "id": "_1-pilonii-principali-ai-ecosistemului-market",
+      "title": "1. Pilonii Principali ai Ecosistemului Market",
+      "depth": 2
+    },
+    {
+      "id": "_2-sinteza-gradelor-vip-active-pe-server",
+      "title": "2. Sinteza Gradelor VIP Active pe Server",
+      "depth": 2
+    },
+    {
+      "id": "_3-facilitati-avansate-ale-magazinului-online",
+      "title": "3. Facilitati Avansate ale Magazinului Online",
+      "depth": 2
+    },
+    {
+      "id": "_4-reguli-de-conduita-pentru-detinatorii-vip",
+      "title": "4. Reguli de Conduita pentru Detinatorii VIP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-recomandate",
+      "title": "Resurse si Ghiduri Recomandate",
+      "depth": 2
+    }
+  ],
+  "market/premium-shop/entry-songs": [
+    {
+      "id": "_1-cum-functioneaza-redarea-la-conectare",
+      "title": "1. Cum Functioneaza Redarea la Conectare",
+      "depth": 2
+    },
+    {
+      "id": "_2-procedura-pas-cu-pas-de-activare",
+      "title": "2. Procedura Pas cu Pas de Activare",
+      "depth": 2
+    },
+    {
+      "id": "_3-sinteza-cerintelor-tehnice",
+      "title": "3. Sinteza Cerintelor Tehnice",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/premium-shop/entry-songs": [
+    {
+      "id": "_1-cum-functioneaza-redarea-la-conectare",
+      "title": "1. Cum Functioneaza Redarea la Conectare",
+      "depth": 2
+    },
+    {
+      "id": "_2-procedura-pas-cu-pas-de-activare",
+      "title": "2. Procedura Pas cu Pas de Activare",
+      "depth": 2
+    },
+    {
+      "id": "_3-sinteza-cerintelor-tehnice",
+      "title": "3. Sinteza Cerintelor Tehnice",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "market/premium-shop/index": [
+    {
+      "id": "_1-serviciile-premium-disponibile",
+      "title": "1. Serviciile Premium Disponibile",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-serviciilor-preturilor-si-cerintelor",
+      "title": "2. Tabelul Serviciilor, Preturilor si Cerintelor",
+      "depth": 2
+    },
+    {
+      "id": "_3-cum-se-activeaza-pachetele-premium",
+      "title": "3. Cum se Activeaza Pachetele Premium",
+      "depth": 2
+    },
+    {
+      "id": "_4-controlul-sunetelor-pentru-jucatori",
+      "title": "4. Controlul Sunetelor pentru Jucatori",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/premium-shop/index": [
+    {
+      "id": "_1-serviciile-premium-disponibile",
+      "title": "1. Serviciile Premium Disponibile",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-serviciilor-preturilor-si-cerintelor",
+      "title": "2. Tabelul Serviciilor, Preturilor si Cerintelor",
+      "depth": 2
+    },
+    {
+      "id": "_3-cum-se-activeaza-pachetele-premium",
+      "title": "3. Cum se Activeaza Pachetele Premium",
+      "depth": 2
+    },
+    {
+      "id": "_4-controlul-sunetelor-pentru-jucatori",
+      "title": "4. Controlul Sunetelor pentru Jucatori",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "market/premium-shop/mvp": [
+    {
+      "id": "_1-avantajele-pachetului-custom-mvp",
+      "title": "1. Avantajele Pachetului Custom MVP",
+      "depth": 2
+    },
+    {
+      "id": "_2-ghid-pas-cu-pas-de-configurare",
+      "title": "2. Ghid Pas cu Pas de Configurare",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide-in-joc",
+      "title": "3. Comenzi Rapide in Joc",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/premium-shop/mvp": [
+    {
+      "id": "_1-avantajele-pachetului-custom-mvp",
+      "title": "1. Avantajele Pachetului Custom MVP",
+      "depth": 2
+    },
+    {
+      "id": "_2-ghid-pas-cu-pas-de-configurare",
+      "title": "2. Ghid Pas cu Pas de Configurare",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide-in-joc",
+      "title": "3. Comenzi Rapide in Joc",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "market/premium-shop/sanks": [
+    {
+      "id": "_1-meniul-principal-de-sunete-sm",
+      "title": "1. Meniul Principal de Sunete (!sm)",
+      "depth": 2
+    },
+    {
+      "id": "_2-previzualizare-utilizare-directa-din-chat",
+      "title": "2. Previzualizare & Utilizare Directa din Chat",
+      "depth": 2
+    },
+    {
+      "id": "_3-sound-of-the-day-utilizari-recente",
+      "title": "3. Sound of the Day & Utilizari Recente",
+      "depth": 2
+    },
+    {
+      "id": "_4-controlul-volumului-oprire-globala-sounds",
+      "title": "4. Controlul Volumului & Oprire Globala (!sounds)",
+      "depth": 2
+    },
+    {
+      "id": "_5-reguli-de-utilizare-cooldown-anti-spam",
+      "title": "5. Reguli de Utilizare & Cooldown Anti-Spam",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/premium-shop/sanks": [
+    {
+      "id": "_1-meniul-principal-de-sunete-sm",
+      "title": "1. Meniul Principal de Sunete (!sm)",
+      "depth": 2
+    },
+    {
+      "id": "_2-previzualizare-utilizare-directa-din-chat",
+      "title": "2. Previzualizare & Utilizare Directa din Chat",
+      "depth": 2
+    },
+    {
+      "id": "_3-sound-of-the-day-utilizari-recente",
+      "title": "3. Sound of the Day & Utilizari Recente",
+      "depth": 2
+    },
+    {
+      "id": "_4-controlul-volumului-oprire-globala-sounds",
+      "title": "4. Controlul Volumului & Oprire Globala (!sounds)",
+      "depth": 2
+    },
+    {
+      "id": "_5-reguli-de-utilizare-cooldown-anti-spam",
+      "title": "5. Reguli de Utilizare & Cooldown Anti-Spam",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "market/server-slots": [
+    {
+      "id": "_1-cum-functioneaza-sloturile-rezervate-reserved-slots",
+      "title": "1. Cum Functioneaza Sloturile Rezervate (Reserved Slots)",
+      "depth": 2
+    },
+    {
+      "id": "_2-ghid-de-conectare-prioritara-prin-consola",
+      "title": "2. Ghid de Conectare Prioritara prin Consola",
+      "depth": 2
+    },
+    {
+      "id": "_3-tabelul-nivelelor-de-prioritate-la-conectare",
+      "title": "3. Tabelul Nivelelor de Prioritate la Conectare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/server-slots": [
+    {
+      "id": "_1-cum-functioneaza-sloturile-rezervate-reserved-slots",
+      "title": "1. Cum Functioneaza Sloturile Rezervate (Reserved Slots)",
+      "depth": 2
+    },
+    {
+      "id": "_2-ghid-de-conectare-prioritara-prin-consola",
+      "title": "2. Ghid de Conectare Prioritara prin Consola",
+      "depth": 2
+    },
+    {
+      "id": "_3-tabelul-nivelelor-de-prioritate-la-conectare",
+      "title": "3. Tabelul Nivelelor de Prioritate la Conectare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "market/vip/immortal": [
+    {
+      "id": "_1-tarife-oficiale-durate-de-achizitie",
+      "title": "1. Tarife Oficiale & Durate de Achizitie",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-beneficiilor-complete-vip-immortal",
+      "title": "2. Tabelul Beneficiilor Complete VIP Immortal",
+      "depth": 2
+    },
+    {
+      "id": "_3-abilitati-tactice-cheie",
+      "title": "3. Abilitati Tactice Cheie",
+      "depth": 2
+    },
+    {
+      "id": "a-double-jump-saritura-dubla-in-aer",
+      "title": "A. Double Jump (Saritura Dubla in Aer)",
+      "depth": 3
+    },
+    {
+      "id": "b-healthshot-vampire-regeneration",
+      "title": "B. Healthshot & Vampire Regeneration",
+      "depth": 3
+    },
+    {
+      "id": "_4-procedura-de-achizitie-activare",
+      "title": "4. Procedura de Achizitie & Activare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/vip/immortal": [
+    {
+      "id": "_1-tarife-oficiale-durate-de-achizitie",
+      "title": "1. Tarife Oficiale & Durate de Achizitie",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-beneficiilor-complete-vip-immortal",
+      "title": "2. Tabelul Beneficiilor Complete VIP Immortal",
+      "depth": 2
+    },
+    {
+      "id": "_3-abilitati-tactice-cheie",
+      "title": "3. Abilitati Tactice Cheie",
+      "depth": 2
+    },
+    {
+      "id": "a-double-jump-saritura-dubla-in-aer",
+      "title": "A. Double Jump (Saritura Dubla in Aer)",
+      "depth": 3
+    },
+    {
+      "id": "b-healthshot-vampire-regeneration",
+      "title": "B. Healthshot & Vampire Regeneration",
+      "depth": 3
+    },
+    {
+      "id": "_4-procedura-de-achizitie-activare",
+      "title": "4. Procedura de Achizitie & Activare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "market/vip/index": [
+    {
+      "id": "_1-catalogul-gradelor-vip-active",
+      "title": "1. Catalogul Gradelor VIP Active",
+      "depth": 2
+    },
+    {
+      "id": "_2-sinteza-gradelor-si-tarifelor-oficiale",
+      "title": "2. Sinteza Gradelor si Tarifelor Oficiale",
+      "depth": 2
+    },
+    {
+      "id": "_3-cum-functioneaza-achizitia-si-activarea",
+      "title": "3. Cum Functioneaza Achizitia si Activarea",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-utile-pentru-detinatorii-vip",
+      "title": "4. Comenzi Utile pentru Detinatorii VIP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/vip/index": [
+    {
+      "id": "_1-catalogul-gradelor-vip-active",
+      "title": "1. Catalogul Gradelor VIP Active",
+      "depth": 2
+    },
+    {
+      "id": "_2-sinteza-gradelor-si-tarifelor-oficiale",
+      "title": "2. Sinteza Gradelor si Tarifelor Oficiale",
+      "depth": 2
+    },
+    {
+      "id": "_3-cum-functioneaza-achizitia-si-activarea",
+      "title": "3. Cum Functioneaza Achizitia si Activarea",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-utile-pentru-detinatorii-vip",
+      "title": "4. Comenzi Utile pentru Detinatorii VIP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "market/vip/mythic": [
+    {
+      "id": "_1-metode-de-obtinere-tarife",
+      "title": "1. Metode de Obtinere & Tarife",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-beneficiilor-complete-vip-mythic",
+      "title": "2. Tabelul Beneficiilor Complete VIP Mythic",
+      "depth": 2
+    },
+    {
+      "id": "_3-abilitati-tactice-cheie",
+      "title": "3. Abilitati Tactice Cheie",
+      "depth": 2
+    },
+    {
+      "id": "a-double-jump-saritura-dubla-in-aer",
+      "title": "A. Double Jump (Saritura Dubla in Aer)",
+      "depth": 3
+    },
+    {
+      "id": "b-healthshot-regenerare-la-eliminari",
+      "title": "B. Healthshot & Regenerare la Eliminari",
+      "depth": 3
+    },
+    {
+      "id": "_4-procedura-de-revendicare-activare",
+      "title": "4. Procedura de Revendicare / Activare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/vip/mythic": [
+    {
+      "id": "_1-metode-de-obtinere-tarife",
+      "title": "1. Metode de Obtinere & Tarife",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-beneficiilor-complete-vip-mythic",
+      "title": "2. Tabelul Beneficiilor Complete VIP Mythic",
+      "depth": 2
+    },
+    {
+      "id": "_3-abilitati-tactice-cheie",
+      "title": "3. Abilitati Tactice Cheie",
+      "depth": 2
+    },
+    {
+      "id": "a-double-jump-saritura-dubla-in-aer",
+      "title": "A. Double Jump (Saritura Dubla in Aer)",
+      "depth": 3
+    },
+    {
+      "id": "b-healthshot-regenerare-la-eliminari",
+      "title": "B. Healthshot & Regenerare la Eliminari",
+      "depth": 3
+    },
+    {
+      "id": "_4-procedura-de-revendicare-activare",
+      "title": "4. Procedura de Revendicare / Activare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "market/vip/rebirth": [
+    {
+      "id": "_1-tarife-oficiale-durate-de-achizitie",
+      "title": "1. Tarife Oficiale & Durate de Achizitie",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-beneficiilor-complete-vip-rebirth",
+      "title": "2. Tabelul Beneficiilor Complete VIP Rebirth",
+      "depth": 2
+    },
+    {
+      "id": "_3-ghid-de-achizitie-activare",
+      "title": "3. Ghid de Achizitie & Activare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/vip/rebirth": [
+    {
+      "id": "_1-tarife-oficiale-durate-de-achizitie",
+      "title": "1. Tarife Oficiale & Durate de Achizitie",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-beneficiilor-complete-vip-rebirth",
+      "title": "2. Tabelul Beneficiilor Complete VIP Rebirth",
+      "depth": 2
+    },
+    {
+      "id": "_3-ghid-de-achizitie-activare",
+      "title": "3. Ghid de Achizitie & Activare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "market/vip/vip-overview": [
+    {
+      "id": "_1-tabel-comparativ-master-—-toate-gradele-vip",
+      "title": "1. Tabel Comparativ Master — Toate Gradele VIP",
+      "depth": 2
+    },
+    {
+      "id": "_2-cum-alegi-pachetul-vip-potrivit",
+      "title": "2. Cum Alegi Pachetul VIP Potrivit?",
+      "depth": 2
+    },
+    {
+      "id": "_3-facilitatile-magazinului-vip-online",
+      "title": "3. Facilitatile Magazinului VIP Online",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/vip/vip-overview": [
+    {
+      "id": "_1-tabel-comparativ-master-—-toate-gradele-vip",
+      "title": "1. Tabel Comparativ Master — Toate Gradele VIP",
+      "depth": 2
+    },
+    {
+      "id": "_2-cum-alegi-pachetul-vip-potrivit",
+      "title": "2. Cum Alegi Pachetul VIP Potrivit?",
+      "depth": 2
+    },
+    {
+      "id": "_3-facilitatile-magazinului-vip-online",
+      "title": "3. Facilitatile Magazinului VIP Online",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "market/vip/vip-test": [
+    {
+      "id": "_1-cum-activezi-sesiunea-gratuita-de-7-zile",
+      "title": "1. Cum Activezi Sesiunea Gratuita de 7 Zile",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-beneficiilor-active-in-timpul-celor-7-zile",
+      "title": "2. Tabelul Beneficiilor Active in Timpul Celor 7 Zile",
+      "depth": 2
+    },
+    {
+      "id": "_3-cooldown-reactivare",
+      "title": "3. Cooldown & Reactivare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/market/vip/vip-test": [
+    {
+      "id": "_1-cum-activezi-sesiunea-gratuita-de-7-zile",
+      "title": "1. Cum Activezi Sesiunea Gratuita de 7 Zile",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-beneficiilor-active-in-timpul-celor-7-zile",
+      "title": "2. Tabelul Beneficiilor Active in Timpul Celor 7 Zile",
+      "depth": 2
+    },
+    {
+      "id": "_3-cooldown-reactivare",
+      "title": "3. Cooldown & Reactivare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/gambling/dices": [
+    {
+      "id": "_1-cum-functioneaza-duelul-de-barbut",
+      "title": "1. Cum Functioneaza Duelul de Barbut",
+      "depth": 2
+    },
+    {
+      "id": "_2-comenzi-rapide-pentru-barbut",
+      "title": "2. Comenzi Rapide pentru Barbut",
+      "depth": 2
+    },
+    {
+      "id": "_3-demonstratie-video-in-game",
+      "title": "3. Demonstrație Video In-Game",
+      "depth": 2
+    },
+    {
+      "id": "alte-jocuri-de-casino-disponibile",
+      "title": "Alte Jocuri de Casino Disponibile",
+      "depth": 2
+    }
+  ],
+  "docs/systems/gambling/dices": [
+    {
+      "id": "_1-cum-functioneaza-duelul-de-barbut",
+      "title": "1. Cum Functioneaza Duelul de Barbut",
+      "depth": 2
+    },
+    {
+      "id": "_2-comenzi-rapide-pentru-barbut",
+      "title": "2. Comenzi Rapide pentru Barbut",
+      "depth": 2
+    },
+    {
+      "id": "_3-demonstratie-video-in-game",
+      "title": "3. Demonstrație Video In-Game",
+      "depth": 2
+    },
+    {
+      "id": "alte-jocuri-de-casino-disponibile",
+      "title": "Alte Jocuri de Casino Disponibile",
+      "depth": 2
+    }
+  ],
+  "systems/gambling/index": [
+    {
+      "id": "jocuri-de-casino-disponibile",
+      "title": "Jocuri de Casino Disponibile",
+      "depth": 2
+    },
+    {
+      "id": "tabel-comparativ-al-jocurilor-de-casino",
+      "title": "Tabel Comparativ al Jocurilor de Casino",
+      "depth": 2
+    }
+  ],
+  "docs/systems/gambling/index": [
+    {
+      "id": "jocuri-de-casino-disponibile",
+      "title": "Jocuri de Casino Disponibile",
+      "depth": 2
+    },
+    {
+      "id": "tabel-comparativ-al-jocurilor-de-casino",
+      "title": "Tabel Comparativ al Jocurilor de Casino",
+      "depth": 2
+    }
+  ],
+  "systems/gambling/roulette": [
+    {
+      "id": "_1-cum-functioneaza-ruleta-in-4-pasi",
+      "title": "1. Cum Functioneaza Ruleta in 4 Pasi",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-cotelor-si-multiplicatorilor-de-castig",
+      "title": "2. Tabelul Cotelor si Multiplicatorilor de Castig",
+      "depth": 2
+    },
+    {
+      "id": "_3-demonstratie-video-in-game",
+      "title": "3. Demonstrație Video In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-rapide-pentru-ruleta",
+      "title": "4. Comenzi Rapide pentru Ruleta",
+      "depth": 2
+    },
+    {
+      "id": "alte-jocuri-de-casino-disponibile",
+      "title": "Alte Jocuri de Casino Disponibile",
+      "depth": 2
+    }
+  ],
+  "docs/systems/gambling/roulette": [
+    {
+      "id": "_1-cum-functioneaza-ruleta-in-4-pasi",
+      "title": "1. Cum Functioneaza Ruleta in 4 Pasi",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-cotelor-si-multiplicatorilor-de-castig",
+      "title": "2. Tabelul Cotelor si Multiplicatorilor de Castig",
+      "depth": 2
+    },
+    {
+      "id": "_3-demonstratie-video-in-game",
+      "title": "3. Demonstrație Video In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-rapide-pentru-ruleta",
+      "title": "4. Comenzi Rapide pentru Ruleta",
+      "depth": 2
+    },
+    {
+      "id": "alte-jocuri-de-casino-disponibile",
+      "title": "Alte Jocuri de Casino Disponibile",
+      "depth": 2
+    }
+  ],
+  "systems/gambling/slots": [
+    {
+      "id": "_1-cum-se-joaca-la-slots-in-4-pasi",
+      "title": "1. Cum se Joaca la Slots in 4 Pasi",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-simbolurilor-si-multiplicatorilor-de-plata",
+      "title": "2. Tabelul Simbolurilor si Multiplicatorilor de Plata",
+      "depth": 2
+    },
+    {
+      "id": "_3-demonstratie-video-in-game",
+      "title": "3. Demonstrație Video In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-rapide-pentru-slots",
+      "title": "4. Comenzi Rapide pentru Slots",
+      "depth": 2
+    },
+    {
+      "id": "alte-jocuri-de-casino-disponibile",
+      "title": "Alte Jocuri de Casino Disponibile",
+      "depth": 2
+    }
+  ],
+  "docs/systems/gambling/slots": [
+    {
+      "id": "_1-cum-se-joaca-la-slots-in-4-pasi",
+      "title": "1. Cum se Joaca la Slots in 4 Pasi",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-simbolurilor-si-multiplicatorilor-de-plata",
+      "title": "2. Tabelul Simbolurilor si Multiplicatorilor de Plata",
+      "depth": 2
+    },
+    {
+      "id": "_3-demonstratie-video-in-game",
+      "title": "3. Demonstrație Video In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-rapide-pentru-slots",
+      "title": "4. Comenzi Rapide pentru Slots",
+      "depth": 2
+    },
+    {
+      "id": "alte-jocuri-de-casino-disponibile",
+      "title": "Alte Jocuri de Casino Disponibile",
+      "depth": 2
+    }
+  ],
+  "systems/index": [
+    {
+      "id": "categoriile-majore-de-sisteme",
+      "title": "Categoriile Majore de Sisteme",
+      "depth": 2
+    },
+    {
+      "id": "tabel-sinoptic-al-modulelor-si-comenzilor",
+      "title": "Tabel Sinoptic al Modulelor si Comenzilor",
+      "depth": 2
+    },
+    {
+      "id": "caracteristici-de-top-ale-serverului",
+      "title": "Caracteristici de Top ale Serverului",
+      "depth": 2
+    }
+  ],
+  "docs/systems/index": [
+    {
+      "id": "categoriile-majore-de-sisteme",
+      "title": "Categoriile Majore de Sisteme",
+      "depth": 2
+    },
+    {
+      "id": "tabel-sinoptic-al-modulelor-si-comenzilor",
+      "title": "Tabel Sinoptic al Modulelor si Comenzilor",
+      "depth": 2
+    },
+    {
+      "id": "caracteristici-de-top-ale-serverului",
+      "title": "Caracteristici de Top ale Serverului",
+      "depth": 2
+    }
+  ],
+  "systems/other/anti-rush": [
+    {
+      "id": "_1-cum-functioneaza-protectia-anti-rush",
+      "title": "1. Cum Functioneaza Protectia Anti-Rush",
+      "depth": 2
+    },
+    {
+      "id": "_2-notificari-si-avertismente-in-game",
+      "title": "2. Notificari si Avertismente In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_3-harti-suportate-si-puncte-de-protectie",
+      "title": "3. Harti Suportate si Puncte de Protectie",
+      "depth": 2
+    },
+    {
+      "id": "_4-reguli-sanctiuni-pentru-exploatare",
+      "title": "4. Reguli & Sanctiuni pentru Exploatare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/anti-rush": [
+    {
+      "id": "_1-cum-functioneaza-protectia-anti-rush",
+      "title": "1. Cum Functioneaza Protectia Anti-Rush",
+      "depth": 2
+    },
+    {
+      "id": "_2-notificari-si-avertismente-in-game",
+      "title": "2. Notificari si Avertismente In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_3-harti-suportate-si-puncte-de-protectie",
+      "title": "3. Harti Suportate si Puncte de Protectie",
+      "depth": 2
+    },
+    {
+      "id": "_4-reguli-sanctiuni-pentru-exploatare",
+      "title": "4. Reguli & Sanctiuni pentru Exploatare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/c4-planter": [
+    {
+      "id": "_1-elementele-interfetei-vizuale-hud",
+      "title": "1. Elementele Interfetei Vizuale HUD",
+      "depth": 2
+    },
+    {
+      "id": "_2-timpi-critici-de-retake-dezamorsare",
+      "title": "2. Timpi Critici de Retake & Dezamorsare",
+      "depth": 2
+    },
+    {
+      "id": "_3-recompense-economice-si-puncte-elo",
+      "title": "3. Recompense Economice si Puncte ELO",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    },
+    {
+      "id": "test",
+      "title": "test",
+      "depth": 3
+    }
+  ],
+  "docs/systems/other/c4-planter": [
+    {
+      "id": "_1-elementele-interfetei-vizuale-hud",
+      "title": "1. Elementele Interfetei Vizuale HUD",
+      "depth": 2
+    },
+    {
+      "id": "_2-timpi-critici-de-retake-dezamorsare",
+      "title": "2. Timpi Critici de Retake & Dezamorsare",
+      "depth": 2
+    },
+    {
+      "id": "_3-recompense-economice-si-puncte-elo",
+      "title": "3. Recompense Economice si Puncte ELO",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    },
+    {
+      "id": "test",
+      "title": "test",
+      "depth": 3
+    }
+  ],
+  "systems/other/faceit-badge": [
+    {
+      "id": "_1-cum-functioneaza-afisarea-insignei-in-scoreboard",
+      "title": "1. Cum Functioneaza Afisarea Insignei in Scoreboard",
+      "depth": 2
+    },
+    {
+      "id": "_2-comenzi-disponibile-pe-server",
+      "title": "2. Comenzi Disponibile pe Server",
+      "depth": 2
+    },
+    {
+      "id": "_3-matricea-nivelurilor-si-punctajului-elo-faceit",
+      "title": "3. Matricea Nivelurilor si Punctajului ELO FACEIT",
+      "depth": 2
+    },
+    {
+      "id": "_4-cerinte-tehnice-pentru-sincronizare",
+      "title": "4. Cerinte Tehnice pentru Sincronizare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/faceit-badge": [
+    {
+      "id": "_1-cum-functioneaza-afisarea-insignei-in-scoreboard",
+      "title": "1. Cum Functioneaza Afisarea Insignei in Scoreboard",
+      "depth": 2
+    },
+    {
+      "id": "_2-comenzi-disponibile-pe-server",
+      "title": "2. Comenzi Disponibile pe Server",
+      "depth": 2
+    },
+    {
+      "id": "_3-matricea-nivelurilor-si-punctajului-elo-faceit",
+      "title": "3. Matricea Nivelurilor si Punctajului ELO FACEIT",
+      "depth": 2
+    },
+    {
+      "id": "_4-cerinte-tehnice-pentru-sincronizare",
+      "title": "4. Cerinte Tehnice pentru Sincronizare",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/gold-member": [
+    {
+      "id": "_1-beneficiile-exclusive-gold-member",
+      "title": "1. Beneficiile Exclusive Gold Member",
+      "depth": 2
+    },
+    {
+      "id": "_2-cum-activezi-statutul-gold-member-pas-cu-pas",
+      "title": "2. Cum Activezi Statutul Gold Member Pas cu Pas",
+      "depth": 2
+    },
+    {
+      "id": "_3-clauze-de-mentinere-a-statutului",
+      "title": "3. Clauze de Mentinere a Statutului",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-pachete-conexe",
+      "title": "Resurse si Pachete Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/gold-member": [
+    {
+      "id": "_1-beneficiile-exclusive-gold-member",
+      "title": "1. Beneficiile Exclusive Gold Member",
+      "depth": 2
+    },
+    {
+      "id": "_2-cum-activezi-statutul-gold-member-pas-cu-pas",
+      "title": "2. Cum Activezi Statutul Gold Member Pas cu Pas",
+      "depth": 2
+    },
+    {
+      "id": "_3-clauze-de-mentinere-a-statutului",
+      "title": "3. Clauze de Mentinere a Statutului",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-pachete-conexe",
+      "title": "Resurse si Pachete Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/hide-teammates": [
+    {
+      "id": "_1-beneficiile-cheie-ale-modului-ht",
+      "title": "1. Beneficiile Cheie ale Modului !ht",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-modurilor-de-functionare",
+      "title": "2. Tabelul Modurilor de Functionare",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide",
+      "title": "3. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/hide-teammates": [
+    {
+      "id": "_1-beneficiile-cheie-ale-modului-ht",
+      "title": "1. Beneficiile Cheie ale Modului !ht",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-modurilor-de-functionare",
+      "title": "2. Tabelul Modurilor de Functionare",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide",
+      "title": "3. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/hit-effect": [
+    {
+      "id": "_1-zone-de-impact-feedback-vizual",
+      "title": "1. Zone de Impact & Feedback Vizual",
+      "depth": 2
+    },
+    {
+      "id": "_2-interfata-grafica-hitmark",
+      "title": "2. Interfata Grafica Hitmark",
+      "depth": 2
+    },
+    {
+      "id": "_3-logica-de-securitate-anti-exploit-line-of-sight",
+      "title": "3. Logica de Securitate Anti-Exploit (Line of Sight)",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-active",
+      "title": "Resurse si Sisteme Active",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/hit-effect": [
+    {
+      "id": "_1-zone-de-impact-feedback-vizual",
+      "title": "1. Zone de Impact & Feedback Vizual",
+      "depth": 2
+    },
+    {
+      "id": "_2-interfata-grafica-hitmark",
+      "title": "2. Interfata Grafica Hitmark",
+      "depth": 2
+    },
+    {
+      "id": "_3-logica-de-securitate-anti-exploit-line-of-sight",
+      "title": "3. Logica de Securitate Anti-Exploit (Line of Sight)",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-active",
+      "title": "Resurse si Sisteme Active",
+      "depth": 2
+    }
+  ],
+  "systems/other/index": [
+    {
+      "id": "_1-competitiv-progresie-profil",
+      "title": "1. Competitiv, Progresie & Profil",
+      "depth": 2
+    },
+    {
+      "id": "_2-audio-mvp-anthems-efecte-vizuale",
+      "title": "2. Audio, MVP Anthems & Efecte Vizuale",
+      "depth": 2
+    },
+    {
+      "id": "_3-optimizare-gameplay-management-meci",
+      "title": "3. Optimizare Gameplay & Management Meci",
+      "depth": 2
+    },
+    {
+      "id": "_4-comunicare-setari-client",
+      "title": "4. Comunicare & Setari Client",
+      "depth": 2
+    },
+    {
+      "id": "sinteza-comenzilor-rapide-din-aceasta-sectiune",
+      "title": "Sinteza Comenzilor Rapide din Aceasta Sectiune",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/index": [
+    {
+      "id": "_1-competitiv-progresie-profil",
+      "title": "1. Competitiv, Progresie & Profil",
+      "depth": 2
+    },
+    {
+      "id": "_2-audio-mvp-anthems-efecte-vizuale",
+      "title": "2. Audio, MVP Anthems & Efecte Vizuale",
+      "depth": 2
+    },
+    {
+      "id": "_3-optimizare-gameplay-management-meci",
+      "title": "3. Optimizare Gameplay & Management Meci",
+      "depth": 2
+    },
+    {
+      "id": "_4-comunicare-setari-client",
+      "title": "4. Comunicare & Setari Client",
+      "depth": 2
+    },
+    {
+      "id": "sinteza-comenzilor-rapide-din-aceasta-sectiune",
+      "title": "Sinteza Comenzilor Rapide din Aceasta Sectiune",
+      "depth": 2
+    }
+  ],
+  "systems/other/map-chooser": [
+    {
+      "id": "_1-modulele-principale-ale-sistemului",
+      "title": "1. Modulele Principale ale Sistemului",
+      "depth": 2
+    },
+    {
+      "id": "a-rock-the-vote-rtv",
+      "title": "A. Rock The Vote (!rtv)",
+      "depth": 3
+    },
+    {
+      "id": "b-nominalizare-harta-nominate",
+      "title": "B. Nominalizare Harta (!nominate)",
+      "depth": 3
+    },
+    {
+      "id": "c-meniul-grafic-de-vot-end-match-vote",
+      "title": "C. Meniul Grafic de Vot (End-Match Vote)",
+      "depth": 3
+    },
+    {
+      "id": "_2-tabelul-comenzilor-de-vot-si-informatii",
+      "title": "2. Tabelul Comenzilor de Vot si Informatii",
+      "depth": 2
+    },
+    {
+      "id": "_3-pool-ul-de-harti-active",
+      "title": "3. Pool-ul de Harti Active",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/map-chooser": [
+    {
+      "id": "_1-modulele-principale-ale-sistemului",
+      "title": "1. Modulele Principale ale Sistemului",
+      "depth": 2
+    },
+    {
+      "id": "a-rock-the-vote-rtv",
+      "title": "A. Rock The Vote (!rtv)",
+      "depth": 3
+    },
+    {
+      "id": "b-nominalizare-harta-nominate",
+      "title": "B. Nominalizare Harta (!nominate)",
+      "depth": 3
+    },
+    {
+      "id": "c-meniul-grafic-de-vot-end-match-vote",
+      "title": "C. Meniul Grafic de Vot (End-Match Vote)",
+      "depth": 3
+    },
+    {
+      "id": "_2-tabelul-comenzilor-de-vot-si-informatii",
+      "title": "2. Tabelul Comenzilor de Vot si Informatii",
+      "depth": 2
+    },
+    {
+      "id": "_3-pool-ul-de-harti-active",
+      "title": "3. Pool-ul de Harti Active",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/mention-system": [
+    {
+      "id": "_1-cum-functioneaza-notificarile-de-mentiune",
+      "title": "1. Cum Functioneaza Notificarile de Mentiune",
+      "depth": 2
+    },
+    {
+      "id": "_2-personalizare-dezactivare-din-settings",
+      "title": "2. Personalizare & Dezactivare din !settings",
+      "depth": 2
+    },
+    {
+      "id": "_3-reguli-de-conduita-si-anti-spam",
+      "title": "3. Reguli de Conduita si Anti-Spam",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/mention-system": [
+    {
+      "id": "_1-cum-functioneaza-notificarile-de-mentiune",
+      "title": "1. Cum Functioneaza Notificarile de Mentiune",
+      "depth": 2
+    },
+    {
+      "id": "_2-personalizare-dezactivare-din-settings",
+      "title": "2. Personalizare & Dezactivare din !settings",
+      "depth": 2
+    },
+    {
+      "id": "_3-reguli-de-conduita-si-anti-spam",
+      "title": "3. Reguli de Conduita si Anti-Spam",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/missions": [
+    {
+      "id": "_1-interfata-misiunilor-si-controale-in-game",
+      "title": "1. Interfata Misiunilor si Controale In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_2-categorii-de-misiuni-recompense",
+      "title": "2. Categorii de Misiuni & Recompense",
+      "depth": 2
+    },
+    {
+      "id": "a-misiuni-zilnice-daily-quests",
+      "title": "A. Misiuni Zilnice (Daily Quests)",
+      "depth": 3
+    },
+    {
+      "id": "b-misiuni-saptamanale-weekly-quests",
+      "title": "B. Misiuni Saptamanale (Weekly Quests)",
+      "depth": 3
+    },
+    {
+      "id": "_3-tabel-sinoptic-al-categoriilor-de-misiuni",
+      "title": "3. Tabel Sinoptic al Categoriilor de Misiuni",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-rapide-pentru-misiuni",
+      "title": "4. Comenzi Rapide pentru Misiuni",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/missions": [
+    {
+      "id": "_1-interfata-misiunilor-si-controale-in-game",
+      "title": "1. Interfata Misiunilor si Controale In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_2-categorii-de-misiuni-recompense",
+      "title": "2. Categorii de Misiuni & Recompense",
+      "depth": 2
+    },
+    {
+      "id": "a-misiuni-zilnice-daily-quests",
+      "title": "A. Misiuni Zilnice (Daily Quests)",
+      "depth": 3
+    },
+    {
+      "id": "b-misiuni-saptamanale-weekly-quests",
+      "title": "B. Misiuni Saptamanale (Weekly Quests)",
+      "depth": 3
+    },
+    {
+      "id": "_3-tabel-sinoptic-al-categoriilor-de-misiuni",
+      "title": "3. Tabel Sinoptic al Categoriilor de Misiuni",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-rapide-pentru-misiuni",
+      "title": "4. Comenzi Rapide pentru Misiuni",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/mvp-rewards": [
+    {
+      "id": "_1-notificarea-de-castig-in-chat",
+      "title": "1. Notificarea de Castig in Chat",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-recompenselor-sanselor-de-drop",
+      "title": "2. Tabelul Recompenselor & Sanselor de Drop",
+      "depth": 2
+    },
+    {
+      "id": "_3-monitorizarea-balantei-statisticilor-wstokens",
+      "title": "3. Monitorizarea Balantei & Statisticilor (!wstokens)",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-rapide",
+      "title": "4. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/mvp-rewards": [
+    {
+      "id": "_1-notificarea-de-castig-in-chat",
+      "title": "1. Notificarea de Castig in Chat",
+      "depth": 2
+    },
+    {
+      "id": "_2-tabelul-recompenselor-sanselor-de-drop",
+      "title": "2. Tabelul Recompenselor & Sanselor de Drop",
+      "depth": 2
+    },
+    {
+      "id": "_3-monitorizarea-balantei-statisticilor-wstokens",
+      "title": "3. Monitorizarea Balantei & Statisticilor (!wstokens)",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-rapide",
+      "title": "4. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/mvp": [
+    {
+      "id": "_1-cum-echipezi-o-melodie-mvp-mvp",
+      "title": "1. Cum Echipezi o Melodie MVP (!mvp)",
+      "depth": 2
+    },
+    {
+      "id": "_2-previzualizare-audio-ajustare-volum-independent",
+      "title": "2. Previzualizare Audio & Ajustare Volum Independent",
+      "depth": 2
+    },
+    {
+      "id": "controlul-volumului-in-game",
+      "title": "Controlul Volumului In-Game",
+      "depth": 3
+    },
+    {
+      "id": "_3-modul-random-mvp-varietate-la-fiecare-runda",
+      "title": "3. Modul Random MVP (Varietate la Fiecare Runda)",
+      "depth": 2
+    },
+    {
+      "id": "_4-gestionare-din-browser-pe-platforma-web",
+      "title": "4. Gestionare din Browser pe Platforma Web",
+      "depth": 2
+    },
+    {
+      "id": "_5-pachete-custom-mvp-entry-songs",
+      "title": "5. Pachete Custom MVP & Entry Songs",
+      "depth": 2
+    },
+    {
+      "id": "_6-tabelul-comenzilor-rapide-pentru-mvp",
+      "title": "6. Tabelul Comenzilor Rapide pentru MVP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/mvp": [
+    {
+      "id": "_1-cum-echipezi-o-melodie-mvp-mvp",
+      "title": "1. Cum Echipezi o Melodie MVP (!mvp)",
+      "depth": 2
+    },
+    {
+      "id": "_2-previzualizare-audio-ajustare-volum-independent",
+      "title": "2. Previzualizare Audio & Ajustare Volum Independent",
+      "depth": 2
+    },
+    {
+      "id": "controlul-volumului-in-game",
+      "title": "Controlul Volumului In-Game",
+      "depth": 3
+    },
+    {
+      "id": "_3-modul-random-mvp-varietate-la-fiecare-runda",
+      "title": "3. Modul Random MVP (Varietate la Fiecare Runda)",
+      "depth": 2
+    },
+    {
+      "id": "_4-gestionare-din-browser-pe-platforma-web",
+      "title": "4. Gestionare din Browser pe Platforma Web",
+      "depth": 2
+    },
+    {
+      "id": "_5-pachete-custom-mvp-entry-songs",
+      "title": "5. Pachete Custom MVP & Entry Songs",
+      "depth": 2
+    },
+    {
+      "id": "_6-tabelul-comenzilor-rapide-pentru-mvp",
+      "title": "6. Tabelul Comenzilor Rapide pentru MVP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/private-messages": [
+    {
+      "id": "_1-tabelul-comenzilor-de-mesagerie-privata",
+      "title": "1. Tabelul Comenzilor de Mesagerie Privata",
+      "depth": 2
+    },
+    {
+      "id": "_2-formatul-vizual-al-mesajelor-in-chat",
+      "title": "2. Formatul Vizual al Mesajelor in Chat",
+      "depth": 2
+    },
+    {
+      "id": "_3-gestionarea-alertelor-din-settings",
+      "title": "3. Gestionarea Alertelor din !settings",
+      "depth": 2
+    },
+    {
+      "id": "_4-reguli-de-conduita-protectie-anti-harassment",
+      "title": "4. Reguli de Conduita & Protectie Anti-Harassment",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/private-messages": [
+    {
+      "id": "_1-tabelul-comenzilor-de-mesagerie-privata",
+      "title": "1. Tabelul Comenzilor de Mesagerie Privata",
+      "depth": 2
+    },
+    {
+      "id": "_2-formatul-vizual-al-mesajelor-in-chat",
+      "title": "2. Formatul Vizual al Mesajelor in Chat",
+      "depth": 2
+    },
+    {
+      "id": "_3-gestionarea-alertelor-din-settings",
+      "title": "3. Gestionarea Alertelor din !settings",
+      "depth": 2
+    },
+    {
+      "id": "_4-reguli-de-conduita-protectie-anti-harassment",
+      "title": "4. Reguli de Conduita & Protectie Anti-Harassment",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/ranks": [
+    {
+      "id": "_1-cum-se-calculeaza-punctajul-elo",
+      "title": "1. Cum se Calculeaza Punctajul ELO",
+      "depth": 2
+    },
+    {
+      "id": "_2-ierarhia-gradelor-pragurile-elo",
+      "title": "2. Ierarhia Gradelor & Pragurile ELO",
+      "depth": 2
+    },
+    {
+      "id": "_3-sezoane-lunare-premii-oficiale-pentru-top-3",
+      "title": "3. Sezoane Lunare & Premii Oficiale pentru TOP 3",
+      "depth": 2
+    },
+    {
+      "id": "fondul-oficial-de-premii-clasamentul-lunar-pe-skill",
+      "title": "Fondul Oficial de Premii (Clasamentul Lunar pe Skill):",
+      "depth": 3
+    },
+    {
+      "id": "_4-procedura-de-revendicare-a-premiilor",
+      "title": "4. Procedura de Revendicare a Premiilor",
+      "depth": 2
+    },
+    {
+      "id": "_5-comenzi-rapide-pentru-clasament",
+      "title": "5. Comenzi Rapide pentru Clasament",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/ranks": [
+    {
+      "id": "_1-cum-se-calculeaza-punctajul-elo",
+      "title": "1. Cum se Calculeaza Punctajul ELO",
+      "depth": 2
+    },
+    {
+      "id": "_2-ierarhia-gradelor-pragurile-elo",
+      "title": "2. Ierarhia Gradelor & Pragurile ELO",
+      "depth": 2
+    },
+    {
+      "id": "_3-sezoane-lunare-premii-oficiale-pentru-top-3",
+      "title": "3. Sezoane Lunare & Premii Oficiale pentru TOP 3",
+      "depth": 2
+    },
+    {
+      "id": "fondul-oficial-de-premii-clasamentul-lunar-pe-skill",
+      "title": "Fondul Oficial de Premii (Clasamentul Lunar pe Skill):",
+      "depth": 3
+    },
+    {
+      "id": "_4-procedura-de-revendicare-a-premiilor",
+      "title": "4. Procedura de Revendicare a Premiilor",
+      "depth": 2
+    },
+    {
+      "id": "_5-comenzi-rapide-pentru-clasament",
+      "title": "5. Comenzi Rapide pentru Clasament",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/settings": [
+    {
+      "id": "_1-meniul-principal-de-navigare",
+      "title": "1. Meniul Principal de Navigare",
+      "depth": 2
+    },
+    {
+      "id": "_2-optiuni-de-configurare-vizuala",
+      "title": "2. Optiuni de Configurare Vizuala",
+      "depth": 2
+    },
+    {
+      "id": "_3-optiuni-de-configurare-audio-sunete-custom",
+      "title": "3. Optiuni de Configurare Audio & Sunete Custom",
+      "depth": 2
+    },
+    {
+      "id": "tabelul-optiunilor-audio-disponibile",
+      "title": "Tabelul Optiunilor Audio Disponibile:",
+      "depth": 3
+    },
+    {
+      "id": "_4-comenzi-rapide",
+      "title": "4. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/settings": [
+    {
+      "id": "_1-meniul-principal-de-navigare",
+      "title": "1. Meniul Principal de Navigare",
+      "depth": 2
+    },
+    {
+      "id": "_2-optiuni-de-configurare-vizuala",
+      "title": "2. Optiuni de Configurare Vizuala",
+      "depth": 2
+    },
+    {
+      "id": "_3-optiuni-de-configurare-audio-sunete-custom",
+      "title": "3. Optiuni de Configurare Audio & Sunete Custom",
+      "depth": 2
+    },
+    {
+      "id": "tabelul-optiunilor-audio-disponibile",
+      "title": "Tabelul Optiunilor Audio Disponibile:",
+      "depth": 3
+    },
+    {
+      "id": "_4-comenzi-rapide",
+      "title": "4. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/teambalance": [
+    {
+      "id": "_1-cum-functioneaza-sistemul-de-skill-scramble",
+      "title": "1. Cum Functioneaza Sistemul de Skill Scramble",
+      "depth": 2
+    },
+    {
+      "id": "_2-echilibrarea-numerica-automata-auto-swap",
+      "title": "2. Echilibrarea Numerica Automata (Auto-Swap)",
+      "depth": 2
+    },
+    {
+      "id": "_3-tabelul-situatiilor-de-interventie",
+      "title": "3. Tabelul Situatiilor de Interventie",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/teambalance": [
+    {
+      "id": "_1-cum-functioneaza-sistemul-de-skill-scramble",
+      "title": "1. Cum Functioneaza Sistemul de Skill Scramble",
+      "depth": 2
+    },
+    {
+      "id": "_2-echilibrarea-numerica-automata-auto-swap",
+      "title": "2. Echilibrarea Numerica Automata (Auto-Swap)",
+      "depth": 2
+    },
+    {
+      "id": "_3-tabelul-situatiilor-de-interventie",
+      "title": "3. Tabelul Situatiilor de Interventie",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/shop/chat-tags": [
+    {
+      "id": "_1-meniul-principal-de-magazin-shop",
+      "title": "1. Meniul Principal de Magazin (!shop)",
+      "depth": 2
+    },
+    {
+      "id": "_2-cele-4-categorii-de-personalizare",
+      "title": "2. Cele 4 Categorii de Personalizare",
+      "depth": 2
+    },
+    {
+      "id": "a-chat-colors-culori-pentru-mesaje",
+      "title": "A. Chat Colors (Culori pentru Mesaje)",
+      "depth": 3
+    },
+    {
+      "id": "b-chat-tags-prefixe-inainte-de-nume",
+      "title": "B. Chat Tags (Prefixe inainte de Nume)",
+      "depth": 3
+    },
+    {
+      "id": "c-name-colors-culoarea-numelui-tau",
+      "title": "C. Name Colors (Culoarea Numelui Tau)",
+      "depth": 3
+    },
+    {
+      "id": "d-tag-colors-culoarea-prefixului",
+      "title": "D. Tag Colors (Culoarea Prefixului)",
+      "depth": 3
+    },
+    {
+      "id": "_3-comenzi-rapide-optiuni-custom",
+      "title": "3. Comenzi Rapide & Optiuni Custom",
+      "depth": 2
+    },
+    {
+      "id": "_4-cum-se-combina-personalizarile",
+      "title": "4. Cum se Combina Personalizarile?",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/shop/chat-tags": [
+    {
+      "id": "_1-meniul-principal-de-magazin-shop",
+      "title": "1. Meniul Principal de Magazin (!shop)",
+      "depth": 2
+    },
+    {
+      "id": "_2-cele-4-categorii-de-personalizare",
+      "title": "2. Cele 4 Categorii de Personalizare",
+      "depth": 2
+    },
+    {
+      "id": "a-chat-colors-culori-pentru-mesaje",
+      "title": "A. Chat Colors (Culori pentru Mesaje)",
+      "depth": 3
+    },
+    {
+      "id": "b-chat-tags-prefixe-inainte-de-nume",
+      "title": "B. Chat Tags (Prefixe inainte de Nume)",
+      "depth": 3
+    },
+    {
+      "id": "c-name-colors-culoarea-numelui-tau",
+      "title": "C. Name Colors (Culoarea Numelui Tau)",
+      "depth": 3
+    },
+    {
+      "id": "d-tag-colors-culoarea-prefixului",
+      "title": "D. Tag Colors (Culoarea Prefixului)",
+      "depth": 3
+    },
+    {
+      "id": "_3-comenzi-rapide-optiuni-custom",
+      "title": "3. Comenzi Rapide & Optiuni Custom",
+      "depth": 2
+    },
+    {
+      "id": "_4-cum-se-combina-personalizarile",
+      "title": "4. Cum se Combina Personalizarile?",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/shop/color-smokes": [
+    {
+      "id": "_1-previzualizare-si-selectie-in-joc",
+      "title": "1. Previzualizare si Selectie in Joc",
+      "depth": 2
+    },
+    {
+      "id": "_2-catalogul-nuantelor-populare-de-fum",
+      "title": "2. Catalogul Nuantelor Populare de Fum",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide",
+      "title": "3. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/shop/color-smokes": [
+    {
+      "id": "_1-previzualizare-si-selectie-in-joc",
+      "title": "1. Previzualizare si Selectie in Joc",
+      "depth": 2
+    },
+    {
+      "id": "_2-catalogul-nuantelor-populare-de-fum",
+      "title": "2. Catalogul Nuantelor Populare de Fum",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide",
+      "title": "3. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/shop/index": [
+    {
+      "id": "categoriile-principale-din-magazin",
+      "title": "Categoriile Principale din Magazin",
+      "depth": 2
+    },
+    {
+      "id": "tabel-sinoptic-al-categoriilor-din-magazin",
+      "title": "Tabel Sinoptic al Categoriilor din Magazin",
+      "depth": 2
+    },
+    {
+      "id": "comenzi-rapide-de-magazin",
+      "title": "Comenzi Rapide de Magazin",
+      "depth": 2
+    }
+  ],
+  "docs/systems/shop/index": [
+    {
+      "id": "categoriile-principale-din-magazin",
+      "title": "Categoriile Principale din Magazin",
+      "depth": 2
+    },
+    {
+      "id": "tabel-sinoptic-al-categoriilor-din-magazin",
+      "title": "Tabel Sinoptic al Categoriilor din Magazin",
+      "depth": 2
+    },
+    {
+      "id": "comenzi-rapide-de-magazin",
+      "title": "Comenzi Rapide de Magazin",
+      "depth": 2
+    }
+  ],
+  "systems/shop/tracers": [
+    {
+      "id": "_1-previzualizare-si-selectie-in-joc",
+      "title": "1. Previzualizare si Selectie in Joc",
+      "depth": 2
+    },
+    {
+      "id": "_2-catalogul-fasciculelor-luminoase-disponibile",
+      "title": "2. Catalogul Fasciculelor Luminoase Disponibile",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide",
+      "title": "3. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/shop/tracers": [
+    {
+      "id": "_1-previzualizare-si-selectie-in-joc",
+      "title": "1. Previzualizare si Selectie in Joc",
+      "depth": 2
+    },
+    {
+      "id": "_2-catalogul-fasciculelor-luminoase-disponibile",
+      "title": "2. Catalogul Fasciculelor Luminoase Disponibile",
+      "depth": 2
+    },
+    {
+      "id": "_3-comenzi-rapide",
+      "title": "3. Comenzi Rapide",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/skins/agents": [
+    {
+      "id": "_1-meniul-de-agenti-controale-in-game",
+      "title": "1. Meniul de Agenti & Controale In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_2-gestiunea-inventarului-sincronizare-web",
+      "title": "2. Gestiunea Inventarului & Sincronizare Web",
+      "depth": 2
+    },
+    {
+      "id": "_3-colectii-populare-de-agenti-disponibili",
+      "title": "3. Colectii Populare de Agenti Disponibili",
+      "depth": 2
+    },
+    {
+      "id": "_4-tabelul-comenzilor-oficiale-pentru-agenti",
+      "title": "4. Tabelul Comenzilor Oficiale pentru Agenti",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/skins/agents": [
+    {
+      "id": "_1-meniul-de-agenti-controale-in-game",
+      "title": "1. Meniul de Agenti & Controale In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_2-gestiunea-inventarului-sincronizare-web",
+      "title": "2. Gestiunea Inventarului & Sincronizare Web",
+      "depth": 2
+    },
+    {
+      "id": "_3-colectii-populare-de-agenti-disponibili",
+      "title": "3. Colectii Populare de Agenti Disponibili",
+      "depth": 2
+    },
+    {
+      "id": "_4-tabelul-comenzilor-oficiale-pentru-agenti",
+      "title": "4. Tabelul Comenzilor Oficiale pentru Agenti",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/skins/cases": [
+    {
+      "id": "_1-meniul-in-game-cases-controale-din-tastatura",
+      "title": "1. Meniul In-Game !cases & Controale din Tastatura",
+      "depth": 2
+    },
+    {
+      "id": "_2-animatia-de-deschidere-echipare-instantanee-instant-equip",
+      "title": "2. Animatia de Deschidere & Echipare Instantanee (Instant Equip)",
+      "depth": 2
+    },
+    {
+      "id": "_3-protectie-anti-duplicate-refund-automat-80",
+      "title": "3. Protectie Anti-Duplicate & Refund Automat (80%)",
+      "depth": 2
+    },
+    {
+      "id": "_4-deschidere-cutii-din-browser-pe-platforma-web",
+      "title": "4. Deschidere Cutii din Browser pe Platforma Web",
+      "depth": 2
+    },
+    {
+      "id": "_4-1-previzualizare-continut-click-dreapta",
+      "title": "4.1 Previzualizare Continut (Click Dreapta)",
+      "depth": 3
+    },
+    {
+      "id": "_4-2-butoane-multi-open-x1-x3-x5-modul-quick-open",
+      "title": "4.2 Butoane Multi-Open (x1, x3, x5) & Modul QUICK OPEN",
+      "depth": 3
+    },
+    {
+      "id": "_4-3-sincronizare-instantanee-instant-sync",
+      "title": "4.3 Sincronizare Instantanee (Instant Sync)",
+      "depth": 3
+    },
+    {
+      "id": "_5-recompense-gratuite-free-spin-zilnic-discord-drops",
+      "title": "5. Recompense Gratuite: Free Spin Zilnic & Discord Drops",
+      "depth": 2
+    },
+    {
+      "id": "a-free-spin-zilnic-roata-norocului",
+      "title": "A. Free Spin Zilnic (Roata Norocului)",
+      "depth": 3
+    },
+    {
+      "id": "b-discord-status-drops-o-cutie-la-fiecare-8-ore",
+      "title": "B. Discord Status Drops (O Cutie la Fiecare 8 Ore)",
+      "depth": 3
+    },
+    {
+      "id": "_6-tabelul-comenzilor-oficiale-pentru-cutii",
+      "title": "6. Tabelul Comenzilor Oficiale pentru Cutii",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/skins/cases": [
+    {
+      "id": "_1-meniul-in-game-cases-controale-din-tastatura",
+      "title": "1. Meniul In-Game !cases & Controale din Tastatura",
+      "depth": 2
+    },
+    {
+      "id": "_2-animatia-de-deschidere-echipare-instantanee-instant-equip",
+      "title": "2. Animatia de Deschidere & Echipare Instantanee (Instant Equip)",
+      "depth": 2
+    },
+    {
+      "id": "_3-protectie-anti-duplicate-refund-automat-80",
+      "title": "3. Protectie Anti-Duplicate & Refund Automat (80%)",
+      "depth": 2
+    },
+    {
+      "id": "_4-deschidere-cutii-din-browser-pe-platforma-web",
+      "title": "4. Deschidere Cutii din Browser pe Platforma Web",
+      "depth": 2
+    },
+    {
+      "id": "_4-1-previzualizare-continut-click-dreapta",
+      "title": "4.1 Previzualizare Continut (Click Dreapta)",
+      "depth": 3
+    },
+    {
+      "id": "_4-2-butoane-multi-open-x1-x3-x5-modul-quick-open",
+      "title": "4.2 Butoane Multi-Open (x1, x3, x5) & Modul QUICK OPEN",
+      "depth": 3
+    },
+    {
+      "id": "_4-3-sincronizare-instantanee-instant-sync",
+      "title": "4.3 Sincronizare Instantanee (Instant Sync)",
+      "depth": 3
+    },
+    {
+      "id": "_5-recompense-gratuite-free-spin-zilnic-discord-drops",
+      "title": "5. Recompense Gratuite: Free Spin Zilnic & Discord Drops",
+      "depth": 2
+    },
+    {
+      "id": "a-free-spin-zilnic-roata-norocului",
+      "title": "A. Free Spin Zilnic (Roata Norocului)",
+      "depth": 3
+    },
+    {
+      "id": "b-discord-status-drops-o-cutie-la-fiecare-8-ore",
+      "title": "B. Discord Status Drops (O Cutie la Fiecare 8 Ore)",
+      "depth": 3
+    },
+    {
+      "id": "_6-tabelul-comenzilor-oficiale-pentru-cutii",
+      "title": "6. Tabelul Comenzilor Oficiale pentru Cutii",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/skins/gloves": [
+    {
+      "id": "_1-meniul-de-manusi-controale-in-game",
+      "title": "1. Meniul de Manusi & Controale In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_2-catalogul-categoriilor-de-manusi-cs2",
+      "title": "2. Catalogul Categoriilor de Manusi CS2",
+      "depth": 2
+    },
+    {
+      "id": "_3-gestiunea-inventarului-sincronizare-loadout-web",
+      "title": "3. Gestiunea Inventarului & Sincronizare Loadout Web",
+      "depth": 2
+    },
+    {
+      "id": "_4-tabelul-comenzilor-oficiale-pentru-manusi",
+      "title": "4. Tabelul Comenzilor Oficiale pentru Manusi",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/skins/gloves": [
+    {
+      "id": "_1-meniul-de-manusi-controale-in-game",
+      "title": "1. Meniul de Manusi & Controale In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_2-catalogul-categoriilor-de-manusi-cs2",
+      "title": "2. Catalogul Categoriilor de Manusi CS2",
+      "depth": 2
+    },
+    {
+      "id": "_3-gestiunea-inventarului-sincronizare-loadout-web",
+      "title": "3. Gestiunea Inventarului & Sincronizare Loadout Web",
+      "depth": 2
+    },
+    {
+      "id": "_4-tabelul-comenzilor-oficiale-pentru-manusi",
+      "title": "4. Tabelul Comenzilor Oficiale pentru Manusi",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/skins/index": [
+    {
+      "id": "_1-cum-incepem-—-structura-meniului-ws",
+      "title": "1. Cum Incepem — Structura Meniului !ws",
+      "depth": 2
+    },
+    {
+      "id": "_2-magazinul-dinamic-shop-economie",
+      "title": "2. Magazinul Dinamic (Shop & Economie)",
+      "depth": 2
+    },
+    {
+      "id": "_2-1-preturi-dinamice-oferte-speciale",
+      "title": "2.1 Preturi Dinamice & Oferte Speciale",
+      "depth": 3
+    },
+    {
+      "id": "_2-2-sistemul-de-stocuri-rare-sold-out",
+      "title": "2.2 Sistemul de Stocuri (Rare & Sold Out)",
+      "depth": 3
+    },
+    {
+      "id": "_2-3-confirmarea-securizata-a-achizitiei",
+      "title": "2.3 Confirmarea Securizata a Achizitiei",
+      "depth": 3
+    },
+    {
+      "id": "_3-inventarul-personal-inv-proprietati-avansate",
+      "title": "3. Inventarul Personal (!inv) & Proprietati Avansate",
+      "depth": 2
+    },
+    {
+      "id": "personalizarea-proprietatilor-float-seed-stattraktm",
+      "title": "Personalizarea Proprietatilor (Float, Seed & StatTrak™)",
+      "depth": 3
+    },
+    {
+      "id": "_4-modulele-ecosistemului-weaponskins",
+      "title": "4. Modulele Ecosistemului WeaponSkins",
+      "depth": 2
+    },
+    {
+      "id": "_4-1-modele-si-finisaje-de-cutite-knives",
+      "title": "4.1 Modele si Finisaje de Cutite (Knives)",
+      "depth": 3
+    },
+    {
+      "id": "_4-2-modele-si-finisaje-de-manusi-gloves",
+      "title": "4.2 Modele si Finisaje de Manusi (Gloves)",
+      "depth": 3
+    },
+    {
+      "id": "_4-3-skin-uri-de-agenti-t-ct",
+      "title": "4.3 Skin-uri de Agenti (T & CT)",
+      "depth": 3
+    },
+    {
+      "id": "_4-4-deschidere-cutii-animate-cases",
+      "title": "4.4 Deschidere Cutii Animate (!cases)",
+      "depth": 3
+    },
+    {
+      "id": "_5-tabelul-comenzilor-oficiale",
+      "title": "5. Tabelul Comenzilor Oficiale",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/skins/index": [
+    {
+      "id": "_1-cum-incepem-—-structura-meniului-ws",
+      "title": "1. Cum Incepem — Structura Meniului !ws",
+      "depth": 2
+    },
+    {
+      "id": "_2-magazinul-dinamic-shop-economie",
+      "title": "2. Magazinul Dinamic (Shop & Economie)",
+      "depth": 2
+    },
+    {
+      "id": "_2-1-preturi-dinamice-oferte-speciale",
+      "title": "2.1 Preturi Dinamice & Oferte Speciale",
+      "depth": 3
+    },
+    {
+      "id": "_2-2-sistemul-de-stocuri-rare-sold-out",
+      "title": "2.2 Sistemul de Stocuri (Rare & Sold Out)",
+      "depth": 3
+    },
+    {
+      "id": "_2-3-confirmarea-securizata-a-achizitiei",
+      "title": "2.3 Confirmarea Securizata a Achizitiei",
+      "depth": 3
+    },
+    {
+      "id": "_3-inventarul-personal-inv-proprietati-avansate",
+      "title": "3. Inventarul Personal (!inv) & Proprietati Avansate",
+      "depth": 2
+    },
+    {
+      "id": "personalizarea-proprietatilor-float-seed-stattraktm",
+      "title": "Personalizarea Proprietatilor (Float, Seed & StatTrak™)",
+      "depth": 3
+    },
+    {
+      "id": "_4-modulele-ecosistemului-weaponskins",
+      "title": "4. Modulele Ecosistemului WeaponSkins",
+      "depth": 2
+    },
+    {
+      "id": "_4-1-modele-si-finisaje-de-cutite-knives",
+      "title": "4.1 Modele si Finisaje de Cutite (Knives)",
+      "depth": 3
+    },
+    {
+      "id": "_4-2-modele-si-finisaje-de-manusi-gloves",
+      "title": "4.2 Modele si Finisaje de Manusi (Gloves)",
+      "depth": 3
+    },
+    {
+      "id": "_4-3-skin-uri-de-agenti-t-ct",
+      "title": "4.3 Skin-uri de Agenti (T & CT)",
+      "depth": 3
+    },
+    {
+      "id": "_4-4-deschidere-cutii-animate-cases",
+      "title": "4.4 Deschidere Cutii Animate (!cases)",
+      "depth": 3
+    },
+    {
+      "id": "_5-tabelul-comenzilor-oficiale",
+      "title": "5. Tabelul Comenzilor Oficiale",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-ghiduri-conexe",
+      "title": "Resurse si Ghiduri Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/skins/knives": [
+    {
+      "id": "_1-meniul-de-cutite-controale-in-game",
+      "title": "1. Meniul de Cutite & Controale In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_2-catalogul-complet-al-celor-19-modele-de-cutite-cs2",
+      "title": "2. Catalogul Complet al Celor 19 Modele de Cutite CS2",
+      "depth": 2
+    },
+    {
+      "id": "_3-gestiunea-inventarului-sincronizare-loadout-web",
+      "title": "3. Gestiunea Inventarului & Sincronizare Loadout Web",
+      "depth": 2
+    },
+    {
+      "id": "_4-tabelul-comenzilor-oficiale-pentru-cutite",
+      "title": "4. Tabelul Comenzilor Oficiale pentru Cutite",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/skins/knives": [
+    {
+      "id": "_1-meniul-de-cutite-controale-in-game",
+      "title": "1. Meniul de Cutite & Controale In-Game",
+      "depth": 2
+    },
+    {
+      "id": "_2-catalogul-complet-al-celor-19-modele-de-cutite-cs2",
+      "title": "2. Catalogul Complet al Celor 19 Modele de Cutite CS2",
+      "depth": 2
+    },
+    {
+      "id": "_3-gestiunea-inventarului-sincronizare-loadout-web",
+      "title": "3. Gestiunea Inventarului & Sincronizare Loadout Web",
+      "depth": 2
+    },
+    {
+      "id": "_4-tabelul-comenzilor-oficiale-pentru-cutite",
+      "title": "4. Tabelul Comenzilor Oficiale pentru Cutite",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ]
+}

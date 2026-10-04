@@ -1,0 +1,486 @@
+[
+  {
+    "route": "/api/admin/ai-analytics",
+    "file": "server/routes/admin/ai-analytics.ts",
+    "methods": [
+      "GET",
+      "POST",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/api-keys",
+    "file": "server/routes/admin/api-keys.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/audit",
+    "file": "server/routes/admin/audit.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/auth/2fa",
+    "file": "server/routes/admin/auth/2fa.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/auth/login",
+    "file": "server/routes/admin/auth/login.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/auth/logout",
+    "file": "server/routes/admin/auth/logout.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/auth/me",
+    "file": "server/routes/admin/auth/me.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/auth/panic",
+    "file": "server/routes/admin/auth/panic.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/auth/reset-cooldown",
+    "file": "server/routes/admin/auth/reset-cooldown.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/auth/totp",
+    "file": "server/routes/admin/auth/totp.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/backup",
+    "file": "server/routes/admin/backup.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/backups/download",
+    "file": "server/routes/admin/backups/download.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/backups",
+    "file": "server/routes/admin/backups.ts",
+    "methods": [
+      "GET",
+      "POST",
+      "PATCH",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/database",
+    "file": "server/routes/admin/database.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/discord-bot/overview",
+    "file": "server/routes/admin/discord-bot/overview.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/discord-bot/role-trackers",
+    "file": "server/routes/admin/discord-bot/role-trackers.ts",
+    "methods": [
+      "GET",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/discord-bot/staff",
+    "file": "server/routes/admin/discord-bot/staff.ts",
+    "methods": [
+      "GET",
+      "POST",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/discord-bot/tickets",
+    "file": "server/routes/admin/discord-bot/tickets.ts",
+    "methods": [
+      "GET",
+      "PATCH"
+    ]
+  },
+  {
+    "route": "/api/admin/discord-bot/watchlist",
+    "file": "server/routes/admin/discord-bot/watchlist.ts",
+    "methods": [
+      "GET",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/doc",
+    "file": "server/routes/admin/doc.ts",
+    "methods": [
+      "GET",
+      "POST",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/doc/trash",
+    "file": "server/routes/admin/doc/trash.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/doc/versions",
+    "file": "server/routes/admin/doc/versions.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/gitops/auto-poll",
+    "file": "server/routes/admin/gitops/auto-poll.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/gitops/export-initial",
+    "file": "server/routes/admin/gitops/export-initial.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/gitops",
+    "file": "server/routes/admin/gitops.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/gitops/sync",
+    "file": "server/routes/admin/gitops/sync.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/gitops/test",
+    "file": "server/routes/admin/gitops/test.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/health",
+    "file": "server/routes/admin/health.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/maintenance",
+    "file": "server/routes/admin/maintenance.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/media",
+    "file": "server/routes/admin/media.ts",
+    "methods": [
+      "GET",
+      "POST",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/notifications/preferences",
+    "file": "server/routes/admin/notifications/preferences.ts",
+    "methods": [
+      "GET",
+      "PATCH"
+    ]
+  },
+  {
+    "route": "/api/admin/notifications",
+    "file": "server/routes/admin/notifications.ts",
+    "methods": [
+      "GET",
+      "POST",
+      "PATCH",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/profile/2fa",
+    "file": "server/routes/admin/profile/2fa.ts",
+    "methods": [
+      "POST",
+      "PUT",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/profile",
+    "file": "server/routes/admin/profile.ts",
+    "methods": [
+      "GET",
+      "PUT"
+    ]
+  },
+  {
+    "route": "/api/admin/reports/ai-telemetry",
+    "file": "server/routes/admin/reports/ai-telemetry.ts",
+    "methods": [
+      "POST",
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/reports/daily-digest",
+    "file": "server/routes/admin/reports/daily-digest.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/reports/security-snapshot",
+    "file": "server/routes/admin/reports/security-snapshot.ts",
+    "methods": [
+      "POST",
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/reports/system-health",
+    "file": "server/routes/admin/reports/system-health.ts",
+    "methods": [
+      "POST",
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/search-analytics",
+    "file": "server/routes/admin/search-analytics.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/sessions",
+    "file": "server/routes/admin/sessions.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/settings",
+    "file": "server/routes/admin/settings.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/tasks",
+    "file": "server/routes/admin/tasks.ts",
+    "methods": [
+      "GET",
+      "POST",
+      "PATCH",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/team",
+    "file": "server/routes/admin/team.ts",
+    "methods": [
+      "GET",
+      "POST",
+      "PUT",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/admin/webhooks/custom-embed",
+    "file": "server/routes/admin/webhooks/custom-embed.ts",
+    "methods": [
+      "POST",
+      "PATCH"
+    ]
+  },
+  {
+    "route": "/api/ai-helper/feedback",
+    "file": "server/routes/ai-helper/feedback.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/ai-helper",
+    "file": "server/routes/ai-helper.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/ai-helper/summary",
+    "file": "server/routes/ai-helper/summary.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/ai-helper/trending",
+    "file": "server/routes/ai-helper/trending.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/analytics/view",
+    "file": "server/routes/analytics/view.ts",
+    "methods": [
+      "POST",
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/discord/avatar",
+    "file": "server/routes/discord/avatar.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/docs/feedback",
+    "file": "server/routes/docs/feedback.ts",
+    "methods": [
+      "POST",
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/docs/report",
+    "file": "server/routes/docs/report.ts",
+    "methods": [
+      "GET",
+      "POST",
+      "PATCH",
+      "DELETE"
+    ]
+  },
+  {
+    "route": "/api/search",
+    "file": "server/routes/search.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/steam/avatar",
+    "file": "server/routes/steam/avatar.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/system/logs",
+    "file": "server/routes/system/logs.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/system/subscribe",
+    "file": "server/routes/system/subscribe.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/team/contributors",
+    "file": "server/routes/team/contributors.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/team/github",
+    "file": "server/routes/team/github.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/team/profile",
+    "file": "server/routes/team/profile.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/webhooks/github",
+    "file": "server/routes/webhooks/github.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
+    "route": "/api/admin/dashboard",
+    "file": "server/routes/admin/dashboard.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/admin/publication",
+    "file": "server/routes/admin/publication.ts",
+    "methods": [
+      "GET"
+    ]
+  }
+]

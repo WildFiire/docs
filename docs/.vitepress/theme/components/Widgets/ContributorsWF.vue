@@ -69,7 +69,7 @@ const { page } = useData()
 const contributors = ref([])
 const totalCommits = ref(0)
 const loading = ref(false)
-const token = import.meta.env.VITE_GITHUB_TOKEN
+const token = ''
 
 async function fetchContributors(filePath) {
   if (!filePath) return

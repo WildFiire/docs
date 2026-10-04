@@ -153,7 +153,7 @@ export default {
     getToken() {
       return this.githubToken || 
              window.__GITHUB_TOKEN || 
-             import.meta.env.VITE_GITHUB_TOKEN
+             ''
     },
 
     async loadInitialData() {

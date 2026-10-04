@@ -1,0 +1,844 @@
+/* ============================================================
+   VITEPRESS TO WF-DOCSCORE BRIDGE STYLESHEET
+   Maps VitePress generated DOM 1:1 to wf-docscore design tokens
+   ============================================================ */
+
+/* ── Base Font & Body Background ──────────────────────────── */
+html, body {
+  font-family: var(--font-sans);
+  background-color: var(--color-bg) !important;
+  color: var(--color-text);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+}
+
+[data-theme="light"] body {
+  background-image: none;
+}
+
+/* ── 3-Column Layout Containers ───────────────────────────── */
+.wf-public {
+  min-height: 100dvh;
+  position: relative;
+  background-color: var(--color-bg);
+}
+
+.docs-main .VPContent,
+.docs-main .VPContent.has-sidebar {
+  padding-left: 0 !important;
+  padding-top: 0 !important;
+}
+
+dialog:not([open]),
+.wf-dialog:not([open]) {
+  display: none !important;
+}
+
+/* ── Markdown / VP-DOC Typography Overrides (1:1 with .prose) ── */
+.vp-doc {
+  color: var(--color-text);
+  font-size: var(--text-base, 15px);
+  line-height: var(--leading-relaxed, 1.625);
+  max-width: 100%;
+}
+
+.vp-doc :is(h1, h2, h3, h4, h5, h6) {
+  color: var(--color-text);
+  font-weight: 650;
+  letter-spacing: -0.02em;
+  line-height: var(--leading-tight, 1.25);
+  scroll-margin-top: calc(var(--header-height, 58px) + 24px);
+  position: relative;
+}
+
+.vp-doc h1 {
+  font-size: var(--text-3xl, 1.875rem);
+  margin-top: 0;
+  margin-bottom: var(--space-6, 24px);
+  font-weight: 750;
+}
+
+.vp-doc :is(h1, h2, h3, h4, h5, h6) {
+  border-top: none !important;
+  padding-top: 0 !important;
+}
+
+.vp-doc h2 {
+  font-size: var(--text-2xl, 1.45rem);
+  margin-top: 36px;
+  margin-bottom: 14px;
+  padding-bottom: 8px;
+  border-top: none !important;
+  padding-top: 0 !important;
+  border-bottom: 1px solid var(--color-border);
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.vp-doc h3 {
+  font-size: var(--text-xl, 1.15rem);
+  margin-top: 28px;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.vp-doc h4 {
+  font-size: var(--text-lg, 1.05rem);
+  margin-top: 20px;
+  margin-bottom: 8px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.vp-doc p {
+  margin-top: 0;
+  margin-bottom: 18px;
+  color: var(--color-text-secondary);
+  line-height: 1.65;
+}
+
+.vp-doc strong {
+  color: var(--color-text);
+  font-weight: 600;
+}
+
+.vp-doc a {
+  color: var(--color-primary);
+  text-decoration: underline;
+  text-decoration-color: hsl(26 100% 52% / 0.35);
+  text-underline-offset: 3px;
+  font-weight: 500;
+  transition: text-decoration-color var(--transition-fast, 0.15s), color var(--transition-fast, 0.15s);
+}
+
+.vp-doc a:hover {
+  color: var(--color-primary-hover);
+  text-decoration-color: var(--color-primary);
+}
+
+.vp-doc ul,
+.vp-doc ol {
+  margin-top: 0;
+  margin-bottom: 18px;
+  padding-left: 24px;
+  color: var(--color-text-secondary);
+}
+
+.vp-doc li {
+  margin-bottom: 6px;
+  line-height: 1.6;
+}
+
+.vp-doc ul {
+  list-style-type: disc;
+}
+
+.vp-doc ul ul {
+  list-style-type: circle;
+}
+
+.vp-doc ol {
+  list-style-type: decimal;
+}
+
+/* ── Inline Code ──────────────────────────────────────────── */
+.vp-doc :not(pre) > code {
+  background: var(--color-primary-subtle);
+  border: 1px solid var(--color-primary-border);
+  border-radius: var(--radius-sm, 4px);
+  color: var(--color-primary);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+  padding: 0.15em 0.4em;
+  font-weight: 500;
+}
+
+[data-theme="light"] .vp-doc :not(pre) > code {
+  background: hsl(26 100% 52% / 0.06);
+  border-color: hsl(26 100% 52% / 0.15);
+  color: hsl(26 100% 40%);
+}
+
+/* /* ── Code Blocks (1:1 with wf-docscore .code-block-wrapper) ── */
+.vp-doc div[class*='language-'],
+.vp-doc .code-block-wrapper {
+  border-radius: var(--radius-lg, 12px) !important;
+  margin: 0 0 var(--space-6, 24px) !important;
+  overflow: hidden !important;
+  border: 1px solid var(--color-border) !important;
+  background: #121212 !important;
+  box-shadow: var(--shadow-xs) !important;
+  position: relative !important;
+  transition: border-color var(--transition-base, 0.2s), box-shadow var(--transition-base, 0.2s) !important;
+}
+
+.vp-doc div[class*='language-']::before,
+.vp-doc .code-block-wrapper::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 1px !important;
+  background: linear-gradient(90deg, transparent 0%, hsl(26 100% 52% / 0.40) 30%, hsl(44 100% 54% / 0.55) 50%, hsl(26 100% 52% / 0.40) 70%, transparent 100%) !important;
+  opacity: 0.6 !important;
+  pointer-events: none !important;
+  z-index: 2 !important;
+}
+
+.vp-doc div[class*='language-']:hover,
+.vp-doc .code-block-wrapper:hover {
+  border-color: var(--color-border-orange) !important;
+  box-shadow: 0 4px 20px -5px hsl(26 100% 52% / 0.12) !important;
+}
+
+/* Hide VitePress default floating elements */
+.vp-doc div[class*='language-'] > span.lang,
+.vp-doc div[class*='language-'] > button.copy {
+  display: none !important;
+}
+
+.vp-doc .code-block-header {
+  align-items: center !important;
+  background: hsl(0 0% 14% / 0.6) !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  display: flex !important;
+  justify-content: space-between !important;
+  padding: 8px var(--space-4, 16px) !important;
+  backdrop-filter: blur(8px) !important;
+}
+
+.vp-doc .code-block-lang {
+  color: var(--color-text-tertiary) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.6875rem !important;
+  text-transform: uppercase !important;
+  letter-spacing: 0.08em !important;
+  font-weight: 700 !important;
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+}
+
+.vp-doc .code-block-lang::before {
+  content: '' !important;
+  display: inline-block !important;
+  width: 6px !important;
+  height: 6px !important;
+  border-radius: 50% !important;
+  background: var(--color-primary) !important;
+  opacity: 0.7 !important;
+}
+
+.vp-doc .code-block-copy {
+  align-items: center !important;
+  background: var(--glass-bg) !important;
+  border: 1px solid var(--glass-border) !important;
+  border-radius: var(--radius-sm, 6px) !important;
+  color: var(--color-text-secondary) !important;
+  cursor: pointer !important;
+  display: flex !important;
+  gap: 5px !important;
+  font-size: 0.72rem !important;
+  font-family: var(--font-sans) !important;
+  padding: 3px 8px !important;
+  transition: all var(--transition-fast, 0.15s) !important;
+}
+
+.vp-doc .code-block-copy:hover {
+  border-color: var(--color-border-orange) !important;
+  color: var(--color-primary) !important;
+  background: var(--glass-bg-hover) !important;
+}
+
+.vp-doc .code-block-copy.copied {
+  background: var(--color-primary-subtle) !important;
+  border-color: var(--color-primary-border) !important;
+  color: var(--color-primary) !important;
+}
+
+.vp-doc div[class*='language-'] pre,
+.vp-doc .code-block-wrapper pre {
+  margin: 0 !important;
+  border-radius: 0 !important;
+  border: none !important;
+  padding: var(--space-4, 16px) !important;
+  background: transparent !important;
+}
+
+.vp-doc div[class*='language-'] pre code,
+.vp-doc .code-block-wrapper pre code {
+  font-size: 0.875rem !important;
+  line-height: 1.7 !important;
+}
+
+/* Light mode code block adjustments */
+[data-theme="light"] .vp-doc div[class*='language-'],
+[data-theme="light"] .vp-doc .code-block-wrapper {
+  background: #ffffff !important;
+  border-color: var(--color-border) !important;
+}
+[data-theme="light"] .vp-doc .code-block-header {
+  background: hsl(0 0% 97%) !important;
+}
+
+/* ── GitHub Callouts (Note, Tip, Warning, Important, Caution) ── */
+.vp-doc .custom-block,
+.vp-doc .callout {
+  border-radius: var(--radius-lg, 12px) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  align-items: flex-start !important;
+  gap: var(--space-3-5, 14px) !important;
+  margin: var(--space-6, 24px) 0 !important;
+  padding: 14px 16px !important;
+  font-size: var(--text-sm, 13.125px) !important;
+  line-height: var(--leading-relaxed, 1.625) !important;
+  position: relative !important;
+  overflow: hidden !important;
+  box-shadow: var(--shadow-xs) !important;
+  transition: background var(--transition-base, 0.2s), border-color var(--transition-base, 0.2s), box-shadow var(--transition-base, 0.2s) !important;
+}
+
+.vp-doc .custom-block::before,
+.vp-doc .callout::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  height: 1px !important;
+  opacity: 0.7 !important;
+  pointer-events: none !important;
+}
+
+.vp-doc .callout-icon-wrapper {
+  align-items: center !important;
+  border-radius: var(--radius-md, 8px) !important;
+  display: flex !important;
+  flex-shrink: 0 !important;
+  height: 28px !important;
+  justify-content: center !important;
+  width: 28px !important;
+  margin-top: 1px !important;
+}
+
+.vp-doc .callout-content {
+  flex: 1 !important;
+  min-width: 0 !important;
+}
+
+.vp-doc .callout-title,
+.vp-doc .custom-block .custom-block-title {
+  font-weight: 700 !important;
+  font-size: 0.8125rem !important;
+  letter-spacing: -0.01em !important;
+  margin-bottom: 3px !important;
+}
+
+.vp-doc .callout-body,
+.vp-doc .custom-block .callout-body {
+  color: var(--color-text-secondary) !important;
+  font-size: 0.8125rem !important;
+}
+.vp-doc .callout-body p,
+.vp-doc .custom-block .callout-body p {
+  margin: 0 0 6px 0 !important;
+  color: var(--color-text-secondary) !important;
+  font-size: 0.8125rem !important;
+}
+.vp-doc .callout-body p:last-child,
+.vp-doc .custom-block .callout-body p:last-child {
+  margin-bottom: 0 !important;
+}
+
+/* Callout: Tip (Aurora Fire Orange) */
+.vp-doc .custom-block.tip,
+.vp-doc .callout--tip {
+  background: linear-gradient(135deg, hsl(26 100% 52% / 0.10) 0%, hsl(38 100% 52% / 0.04) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  border: 1px solid hsl(26 100% 52% / 0.28) !important;
+}
+.vp-doc .custom-block.tip::before,
+.vp-doc .callout--tip::before {
+  background: linear-gradient(90deg, transparent 0%, hsl(26 100% 54% / 0.8) 30%, hsl(44 100% 58% / 0.9) 50%, hsl(26 100% 54% / 0.8) 70%, transparent 100%) !important;
+}
+.vp-doc .custom-block.tip .callout-icon-wrapper,
+.vp-doc .callout--tip .callout-icon-wrapper {
+  background: hsl(26 100% 52% / 0.16) !important;
+  border: 1px solid hsl(26 100% 52% / 0.3) !important;
+  color: var(--color-primary) !important;
+}
+.vp-doc .custom-block.tip .callout-title,
+.vp-doc .callout--tip .callout-title,
+.vp-doc .custom-block.tip .custom-block-title {
+  color: var(--color-primary) !important;
+}
+
+/* Callout: Note / Info (Cyan / Sapphire Aurora) */
+.vp-doc .custom-block.note,
+.vp-doc .custom-block.info,
+.vp-doc .callout--note {
+  background: linear-gradient(135deg, hsl(210 85% 56% / 0.10) 0%, hsl(195 85% 50% / 0.03) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  border: 1px solid hsl(210 85% 56% / 0.25) !important;
+}
+.vp-doc .custom-block.note::before,
+.vp-doc .custom-block.info::before,
+.vp-doc .callout--note::before {
+  background: linear-gradient(90deg, transparent 0%, hsl(210 85% 60% / 0.8) 30%, hsl(190 90% 65% / 0.9) 50%, hsl(210 85% 60% / 0.8) 70%, transparent 100%) !important;
+}
+.vp-doc .custom-block.note .callout-icon-wrapper,
+.vp-doc .custom-block.info .callout-icon-wrapper,
+.vp-doc .callout--note .callout-icon-wrapper {
+  background: hsl(210 85% 56% / 0.15) !important;
+  border: 1px solid hsl(210 85% 56% / 0.25) !important;
+  color: hsl(210 85% 65%) !important;
+}
+.vp-doc .custom-block.note .callout-title,
+.vp-doc .custom-block.info .callout-title,
+.vp-doc .callout--note .callout-title,
+.vp-doc .custom-block.note .custom-block-title,
+.vp-doc .custom-block.info .custom-block-title {
+  color: hsl(210 85% 65%) !important;
+}
+
+/* Callout: Important (Amber Aurora) */
+.vp-doc .custom-block.important,
+.vp-doc .callout--important {
+  background: linear-gradient(135deg, hsl(32 100% 50% / 0.10) 0%, hsl(26 100% 52% / 0.04) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  border: 1px solid hsl(32 100% 50% / 0.28) !important;
+}
+.vp-doc .custom-block.important::before,
+.vp-doc .callout--important::before {
+  background: linear-gradient(90deg, transparent 0%, hsl(32 100% 52% / 0.8) 30%, hsl(45 100% 60% / 0.9) 50%, hsl(32 100% 52% / 0.8) 70%, transparent 100%) !important;
+}
+.vp-doc .custom-block.important .callout-icon-wrapper,
+.vp-doc .callout--important .callout-icon-wrapper {
+  background: hsl(32 100% 50% / 0.16) !important;
+  border: 1px solid hsl(32 100% 50% / 0.3) !important;
+  color: hsl(32 100% 52%) !important;
+}
+.vp-doc .custom-block.important .callout-title,
+.vp-doc .callout--important .callout-title,
+.vp-doc .custom-block.important .custom-block-title {
+  color: hsl(32 100% 54%) !important;
+}
+
+/* Callout: Warning (Gold Aurora) */
+.vp-doc .custom-block.warning,
+.vp-doc .callout--warning {
+  background: linear-gradient(135deg, hsl(44 100% 52% / 0.10) 0%, hsl(34 100% 50% / 0.03) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  border: 1px solid hsl(44 100% 52% / 0.25) !important;
+}
+.vp-doc .custom-block.warning::before,
+.vp-doc .callout--warning::before {
+  background: linear-gradient(90deg, transparent 0%, hsl(44 100% 56% / 0.8) 30%, hsl(52 100% 64% / 0.9) 50%, hsl(44 100% 56% / 0.8) 70%, transparent 100%) !important;
+}
+.vp-doc .custom-block.warning .callout-icon-wrapper,
+.vp-doc .callout--warning .callout-icon-wrapper {
+  background: hsl(44 100% 52% / 0.15) !important;
+  border: 1px solid hsl(44 100% 52% / 0.25) !important;
+  color: hsl(44 100% 58%) !important;
+}
+.vp-doc .custom-block.warning .callout-title,
+.vp-doc .callout--warning .callout-title,
+.vp-doc .custom-block.warning .custom-block-title {
+  color: hsl(44 100% 58%) !important;
+}
+
+/* Callout: Danger / Caution (Crimson Flame Aurora) */
+.vp-doc .custom-block.danger,
+.vp-doc .custom-block.caution,
+.vp-doc .callout--danger,
+.vp-doc .callout--caution {
+  background: linear-gradient(135deg, hsl(4 90% 52% / 0.10) 0%, hsl(16 90% 50% / 0.03) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  border: 1px solid hsl(4 90% 52% / 0.25) !important;
+}
+.vp-doc .custom-block.danger::before,
+.vp-doc .custom-block.caution::before,
+.vp-doc .callout--danger::before,
+.vp-doc .callout--caution::before {
+  background: linear-gradient(90deg, transparent 0%, hsl(4 90% 58% / 0.8) 30%, hsl(16 95% 62% / 0.9) 50%, hsl(4 90% 58% / 0.8) 70%, transparent 100%) !important;
+}
+.vp-doc .custom-block.danger .callout-icon-wrapper,
+.vp-doc .custom-block.caution .callout-icon-wrapper,
+.vp-doc .callout--danger .callout-icon-wrapper,
+.vp-doc .callout--caution .callout-icon-wrapper {
+  background: hsl(4 90% 52% / 0.15) !important;
+  border: 1px solid hsl(4 90% 52% / 0.25) !important;
+  color: hsl(4 90% 62%) !important;
+}
+.vp-doc .custom-block.danger .callout-title,
+.vp-doc .custom-block.caution .callout-title,
+.vp-doc .custom-block.danger .custom-block-title,
+.vp-doc .custom-block.caution .custom-block-title,
+.vp-doc .callout--danger .callout-title,
+.vp-doc .callout--caution .callout-title {
+  color: hsl(4 90% 62%) !important;
+}
+
+/* ── Tables (1:1 with wf-docscore prose.css) ───────────────── */
+.vp-doc table {
+  display: table !important;
+  border-collapse: separate !important;
+  border-spacing: 0 !important;
+  font-size: var(--text-sm, 13.125px) !important;
+  margin: 0 0 var(--space-6, 24px) 0 !important;
+  width: 100% !important;
+  max-width: none !important;
+  border: 1px solid var(--color-border) !important;
+  border-radius: var(--radius-lg, 11px) !important;
+  overflow: hidden !important;
+  background-color: transparent !important;
+}
+
+.vp-doc thead {
+  background-color: transparent !important;
+  display: table-header-group !important;
+}
+
+.vp-doc thead tr {
+  background-color: var(--color-surface-raised, rgb(32, 32, 32)) !important;
+  border: none !important;
+  border-bottom: none !important;
+  display: table-row !important;
+}
+
+.vp-doc th {
+  display: table-cell !important;
+  margin: 0 !important;
+  padding: 11.25px 15px !important;
+  background-color: transparent !important;
+  color: var(--color-text, rgb(237, 237, 237)) !important;
+  font-size: var(--text-sm, 13.125px) !important;
+  font-weight: 600 !important;
+  letter-spacing: 0.02em !important;
+  text-align: left !important;
+  vertical-align: middle !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-bottom: 1px solid var(--color-border) !important;
+  border-right: 1px solid var(--color-border) !important;
+}
+
+.vp-doc th:not(:last-child),
+.vp-doc td:not(:last-child) {
+  border-right: 1px solid var(--color-border) !important;
+}
+
+.vp-doc th:last-child,
+.vp-doc td:last-child {
+  border-right: none !important;
+}
+
+.vp-doc tbody {
+  background-color: transparent !important;
+  display: table-row-group !important;
+}
+
+.vp-doc tbody tr {
+  background-color: transparent !important;
+  border: none !important;
+  display: table-row !important;
+  transition: background var(--transition-fast) !important;
+}
+
+.vp-doc tbody tr:nth-child(even) {
+  background-color: var(--color-surface, rgb(26, 26, 26)) !important;
+}
+
+.vp-doc tbody tr:hover {
+  background-color: var(--glass-bg-hover, rgba(255, 255, 255, 0.03)) !important;
+}
+
+.vp-doc td {
+  display: table-cell !important;
+  margin: 0 !important;
+  padding: 11.25px 15px !important;
+  background-color: transparent !important;
+  color: var(--color-text-secondary, rgb(148, 148, 148)) !important;
+  font-size: var(--text-sm, 13.125px) !important;
+  font-weight: 400 !important;
+  line-height: var(--leading-relaxed) !important;
+  vertical-align: top !important;
+  border-top: none !important;
+  border-left: none !important;
+  border-bottom: 1px solid var(--color-border) !important;
+}
+
+.vp-doc tbody tr:last-child td {
+  border-bottom: none !important;
+}
+
+.vp-doc td strong,
+.vp-doc th strong {
+  color: var(--color-text, rgb(237, 237, 237)) !important;
+  font-weight: 650 !important;
+}
+
+.vp-doc td code,
+.vp-doc th code {
+  background: var(--color-primary-subtle) !important;
+  border: 1px solid var(--color-primary-border) !important;
+  border-radius: var(--radius-sm) !important;
+  color: var(--color-primary) !important;
+  font-family: var(--font-mono) !important;
+  font-size: 0.85em !important;
+  padding: 0.15em 0.4em !important;
+  font-weight: 500 !important;
+}
+
+/* ── Blockquotes ──────────────────────────────────────────── */
+.vp-doc blockquote:not(.custom-block) {
+  border-left: 3px solid var(--color-primary);
+  color: var(--color-text-secondary);
+  margin: 20px 0;
+  padding: 12px 18px;
+  background: linear-gradient(135deg, hsl(26 100% 52% / 0.05) 0%, var(--color-surface) 60%);
+  border-radius: 0 8px 8px 0;
+}
+
+.vp-doc blockquote:not(.custom-block) p {
+  margin: 0;
+}
+
+/* ── Horizontal Rules (<hr>) 1:1 Matching wf-docscore ── */
+.vp-doc hr,
+.prose hr {
+  border: none !important;
+  border-top: 1px solid var(--color-border) !important;
+  margin: 32px 0 !important;
+}
+
+/* Eliminate duplicate consecutive horizontal rules */
+.vp-doc hr + hr,
+.prose hr + hr,
+.vp-doc hr:has(+ hr),
+.prose hr:has(+ hr) {
+  display: none !important;
+}
+
+/* ============================================================
+   1:1 FIDELITY FIXES: HORIZONTAL SCROLL, TOC VOID & HEADING ANCHORS
+   ============================================================ */
+
+/* ── 1. Root & Container Overflow Fix (Sticky-Safe & Zero Horizontal Scroll) ── */
+html {
+  overflow-x: clip !important;
+}
+
+body {
+  overflow-x: visible !important;
+  overflow-y: visible !important;
+}
+
+.docs-layout,
+.docs-main,
+.docs-transition-container,
+.docs-transition-content {
+  overflow: visible !important;
+  transform: none !important;
+  filter: none !important;
+  perspective: none !important;
+  contain: none !important;
+}
+
+.docs-main {
+  max-width: 100% !important;
+  min-width: 0 !important;
+}
+
+.docs-page-container {
+  display: flex !important;
+  width: 100% !important;
+  min-width: 0 !important;
+  position: relative !important;
+  align-items: flex-start !important;
+  overflow: visible !important;
+  transform: none !important;
+}
+
+.docs-content-wrapper {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
+  max-width: 100% !important;
+  box-sizing: border-box !important;
+  overflow: visible !important;
+}
+
+.docs-content {
+  max-width: 820px !important;
+  min-width: 0 !important;
+  box-sizing: border-box !important;
+}
+
+/* ── 2. Table Responsive Containment (Never overflow screen) ── */
+.table-wrapper {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin: 0 0 var(--space-6, 24px) 0;
+}
+
+.table-wrapper > table {
+  margin: 0 !important;
+}
+
+.vp-doc table {
+  display: table !important;
+  width: 100% !important;
+  min-width: 100% !important;
+  table-layout: auto !important;
+  word-break: normal !important;
+}
+
+.vp-doc pre,
+.code-block-wrapper pre {
+  max-width: 100% !important;
+  overflow-x: auto !important;
+}
+
+/* ── 3. Table of Contents (TOC) 100% Sticky to Viewport on Scroll ── */
+.toc {
+  align-self: flex-start !important;
+  height: fit-content !important;
+  max-height: calc(100vh - var(--header-height, 58px) - 36px) !important;
+  overflow-y: auto !important;
+  position: -webkit-sticky !important;
+  position: sticky !important;
+  top: calc(var(--header-height, 58px) + 20px) !important;
+  width: 220px !important;
+  flex-shrink: 0 !important;
+  margin-top: 14px !important;
+  margin-right: 12px !important;
+  z-index: 25 !important;
+  transform: none !important;
+}
+
+.toc--open {
+  transform: none !important;
+}
+
+/* ── 4. Heading Anchor (#) 1:1 on Hover matching wf-docscore ── */
+.vp-doc {
+  --vp-header-anchor-symbol: "";
+}
+
+.vp-doc :is(h1, h2, h3, h4, h5, h6) .header-anchor,
+.vp-doc :is(h1, h2, h3, h4, h5, h6) .heading-anchor {
+  position: static !important;
+  float: none !important;
+  top: auto !important;
+  left: auto !important;
+  right: auto !important;
+  bottom: auto !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  margin: 0 0 0 var(--space-2, 8px) !important;
+  padding: 0 !important;
+  color: var(--color-primary) !important;
+  text-decoration: none !important;
+  font-weight: 400 !important;
+  font-size: 0.85em !important;
+  user-select: none !important;
+  opacity: 0 !important;
+  transition: opacity var(--transition-fast, 0.15s), color var(--transition-fast, 0.15s) !important;
+  line-height: 1 !important;
+  vertical-align: middle !important;
+}
+
+/* Hide anchor completely on h1, h5, h6 (wf-docscore only activates h2, h3, h4) */
+.vp-doc :is(h1, h5, h6) .header-anchor,
+.vp-doc :is(h1, h5, h6) .heading-anchor {
+  display: none !important;
+}
+
+/* Show single # anchor on hover of h2, h3, h4 */
+.vp-doc :is(h2, h3, h4):hover .header-anchor,
+.vp-doc :is(h2, h3, h4):hover .heading-anchor {
+  opacity: 0.7 !important;
+}
+
+.vp-doc :is(h2, h3, h4) .header-anchor:hover,
+.vp-doc :is(h2, h3, h4) .heading-anchor:hover {
+  opacity: 1 !important;
+  color: var(--color-primary-hover, #ff6633) !important;
+}
+
+/* Eliminate VitePress default :before symbol so there is never a double '#' */
+.vp-doc :is(h1, h2, h3, h4, h5, h6) .header-anchor::before,
+.vp-doc :is(h1, h2, h3, h4, h5, h6) .heading-anchor::before {
+  content: none !important;
+  display: none !important;
+}
+
+/* Render exactly one clean '#' symbol via ::after */
+.vp-doc :is(h2, h3, h4) .header-anchor::after,
+.vp-doc :is(h2, h3, h4) .heading-anchor::after {
+  content: "#" !important;
+  color: inherit !important;
+  font-weight: inherit !important;
+}
+
+/* ── 5. Clean Code Block Headers & Hide Default VitePress Floating Elements ── */
+.vp-doc div[class*='language-'] > span.lang,
+.vp-doc div[class*='language-'] > button.copy,
+div[class*='language-'] > span.lang,
+div[class*='language-'] > button.copy {
+  display: none !important;
+}
+
+.code-block-wrapper {
+  margin: var(--space-4, 16px) 0 !important;
+}
+
+.sidebar-wave-container {
+  overflow: hidden !important;
+  width: 100% !important;
+}
+
+/* ── 6. Media Styling (DocImage & DocVideo 1:1 Parity) ── */
+.doc-image-figure {
+  margin: 28px 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+  box-sizing: border-box !important;
+  cursor: pointer !important;
+}
+
+.doc-image-figure:hover .doc-image-zoom-overlay {
+  opacity: 1 !important;
+}
+
+.doc-image-figure:hover .doc-image-zoom-pill {
+  transform: translateY(0) !important;
+}
+
+.vp-doc table .doc-image-figure,
+.prose table .doc-image-figure {
+  margin: 6px 0 !important;
+  min-width: 90px !important;
+}
+
+.vp-doc table .doc-image-media-container,
+.prose table .doc-image-media-container {
+  min-height: 48px !important;
+}
+
+.doc-orange-player-figure {
+  margin: 28px 0 !important;
+  width: 100% !important;
+  max-width: 100% !important;
+  display: block !important;
+  box-sizing: border-box !important;
+}
+

@@ -1,7 +1,6 @@
 <template>
   <div class="org-page" :class="{ 'light-theme': isLightTheme }">
-    <!-- HomeNavbar Component -->
-    <HomeNavbar />
+    <!-- HomeNavbar Component removed since it's in PortLayout -->
 
     <div class="content-wrapper">
       <CS2Background :scrollOpacity="0" :isDark="!isLightTheme" />
@@ -159,7 +158,7 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 import { useData } from 'vitepress'
-import HomeNavbar from '../Home/HomeNavbar.vue'
+
 import CS2Background from '../Home/CS2Background.vue'
 
 const { isDark: themeFromVitePress } = useData()

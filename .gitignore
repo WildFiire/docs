@@ -44,3 +44,28 @@ Desktop.ini
 parse_log.txt
 card-editor.html
 
+# Private application state: never publish through Git or VitePress
+/content/
+/data/
+/profile-backgrounds.json
+/.wf-settings.json
+/server/.build/
+/migration/test-results/
+/docs/.vitepress/releases/
+/docs/.vitepress/build-*/
+/.env.*
+!/.env.example
+/docs/.vitepress/publication.lock
+/docs/.vitepress/published-manifest.json
+/docs/.vitepress/generated-pages.json
+
+# Test & scratch artifacts
+visual-diff/
+*-src.png
+*-tgt.png
+bottom-*.png
+navigation-docscore.json
+*.publish-*
+*.map
+.temp/
+docs/.vitepress/.temp/

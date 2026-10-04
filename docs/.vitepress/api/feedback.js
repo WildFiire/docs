@@ -30,7 +30,6 @@ export default async function handler(req, res) {
 | **Helpful?** | ${rating === 'good' ? '✅ Yes' : '❌ No'} |
 ${starRating ? `| **Rating** | ${starRating}/5 ★ (${['', 'Poor', 'Fair', 'Good', 'Very Good', 'Excellent'][starRating]}) |\n` : ''}
 | **Date** | ${new Date().toISOString()} |
-| **IP** | ${req.headers['x-forwarded-for'] || req.socket.remoteAddress || 'Anonymous'} |
 
 ---
 

@@ -1,7 +1,6 @@
 <template>
   <div class="org-page" :class="{ 'light-theme': isLightTheme }">
-    <!-- HomeNavbar Component -->
-    <HomeNavbar />
+    <!-- HomeNavbar Component removed since it's in PortLayout -->
 
     <div class="content-wrapper">
       <CS2Background :scrollOpacity="0" :isDark="!isLightTheme" />
@@ -117,10 +116,15 @@
 
           <!-- Section 7 -->
           <div class="tos-section">
-            <h2 class="tos-heading"><span class="tos-num">7.</span> Disclaimer</h2>
+            <h2 class="tos-heading"><span class="tos-num">7.</span> Disclaimer & Trademarks</h2>
             <p class="tos-text">
               Our services are provided "as is" without warranties of any kind. We are not responsible for any data loss, 
               interruptions, or damages arising from the use of our services.
+            </p>
+            <p class="tos-text">
+              Counter-Strike, Counter-Strike 2, CS:GO, and their respective logos are trademarks and/or registered trademarks 
+              of Valve Corporation. All other trademarks are the property of their respective owners. WildFire is an independent 
+              community and is not affiliated with, sponsored by, or endorsed by Valve Corporation.
             </p>
           </div>
 
@@ -151,7 +155,7 @@
 <script setup>
 import { computed, ref, onMounted, onUnmounted, watch } from 'vue'
 import { useData } from 'vitepress'
-import HomeNavbar from '../Home/HomeNavbar.vue'
+
 import CS2Background from '../Home/CS2Background.vue'
 
 const { isDark: themeFromVitePress } = useData()

@@ -34,7 +34,7 @@ app.post('/api/save', (req, res) => {
   res.json({ success: true, saved: full.replace(ROOT + path.sep, '') });
 });
 
-app.listen(PORT, () => {
+app.listen(PORT, '127.0.0.1', () => {
   console.log('\n\x1b[33m🔥 WildFire Page Generator\x1b[0m');
-  console.log(`   \x1b[36mhttp://localhost:${PORT}\x1b[0m\n`);
+  console.log(`   \x1b[36mhttp://127.0.0.1:${PORT}\x1b[0m\n`);
 });

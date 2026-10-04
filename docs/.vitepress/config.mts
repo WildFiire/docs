@@ -7,6 +7,17 @@ import { newPagesPlugin } from './plugins/newPagesPlugin'
 import { commitCache } from './plugins/commitCache'
 import { getAllGitStats } from './plugins/gitCache'
 import fs from 'fs'
+import crypto from 'node:crypto'
+import canonicalNavigation from './theme/data/navigation.json'
+
+function toVitepressSidebar(items: any[]): any[] {
+  return (items || []).map((item) => ({
+    text: item.title,
+    link: item.href,
+    collapsed: false,
+    items: item.children || item.items ? toVitepressSidebar(item.children || item.items) : undefined
+  }));
+}
 
 const __vitepressDir = fileURLToPath(new URL('.', import.meta.url))
 const docsDir = path.resolve(__vitepressDir, '..')
@@ -18,6 +29,7 @@ export default defineConfig({
 
   lang: 'ro-RO',
   cleanUrls: true,
+  ignoreDeadLinks: true,
 
 
   head: [
@@ -43,16 +55,15 @@ export default defineConfig({
     // Iconify — loaded locally to satisfy CSP
     ['script', { src: '/scripts/iconify-icon.min.js', async: '' }],
 
-    // Google Fonts — non-blocking load via preload trick (eliminates render-blocking CSS)
-    // Step 1: preload the font CSS as a high-priority resource but don't apply it yet
+    // Google Fonts — Inter font 1:1 matching wf-docscore
     ['link', {
       rel: 'preload',
       as: 'style',
-      href: 'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap',
+      href: 'https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap',
       onload: "this.onload=null;this.rel='stylesheet'"
     }],
     // Step 2: noscript fallback for users with JS disabled
-    ['noscript', {}, '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&family=Share+Tech+Mono&display=swap">'],
+    ['noscript', {}, '<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,300;0,14..32,400;0,14..32,500;0,14..32,600;0,14..32,700;1,14..32,400&display=swap">'],
 
     // PRELOAD PENTRU LCP
     ['link', {
@@ -88,8 +99,8 @@ export default defineConfig({
       window.wikiVersion = '3.0.0';
     `],
 
-    // Restore sidebar-collapsed state before first paint (no layout flash)
-    ['script', {}, `(function(){try{if(localStorage.getItem('wf-sidebar-collapsed')==='true'){document.documentElement.classList.add('sidebar-collapsed')}}catch(e){}})()`]
+    // Anti-flash: apply theme and restore sidebar-collapsed state before first paint (matching wf-docscore)
+    ['script', {}, `(function(){try{var stored=localStorage.getItem('theme');document.documentElement.setAttribute('data-theme',stored||'dark');if(localStorage.getItem('wf-sidebar-collapsed')==='true'){document.documentElement.classList.add('sidebar-collapsed');}}catch(e){document.documentElement.setAttribute('data-theme','dark');}})()`]
   ],
 
   lastUpdated: true,
@@ -107,193 +118,13 @@ export default defineConfig({
 
 
     nav: [
-      // {
-      //   text: '<iconify-icon icon="solar:home-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Getting started',
-      //   link: '/informatii/getting-started'
-      // },
-      {
-        text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informatii',
-        link: '/informatii/about'
-      },
-      {
-        text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> FAQ',
-        link: '/informatii/faq'
-      }, {
-        text: '<iconify-icon icon="solar:chart-square-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Dashboard',
-        link: '/panel/'
-      },
-
+      { text: 'Informații', link: '/docs/informatii/about' },
+      { text: 'FAQ', link: '/docs/informatii/faq' },
+      { text: 'Changelog', link: '/changelog' },
+      { text: 'Echipă', link: '/team' }
     ],
 
-    sidebar: [
-      // SECTIUNEA INFORMATII
-      {
-        text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informatii',
-        collapsed: false,
-        items: [
-          // { text: '<iconify-icon icon="lucide:rocket" class="nav-icon" width="16" height="16"></iconify-icon> Incepe aici', link: '/informatii/getting-started' },
-          { text: '<iconify-icon icon="lucide:star" class="nav-icon" width="16" height="16"></iconify-icon> Despre Wildfire', link: '/informatii/about' },
-          { text: '<iconify-icon icon="solar:question-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Intrebari frecvente', link: '/informatii/faq' },
-          { text: '<iconify-icon icon="lucide:file-clock" class="nav-icon" width="16" height="16"></iconify-icon> Patch Notes', link: '/informatii/patch-notes' },
-
-          // STAFF
-          {
-            text: '<iconify-icon icon="solar:shield-user-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Staff',
-            collapsed: true,
-            items: [
-              { text: '<iconify-icon icon="lucide:terminal" class="nav-icon" width="16" height="16"></iconify-icon> Comenzi Staff', link: '/informatii/staff/comenzi' },
-              { text: '<iconify-icon icon="lucide:user-plus" class="nav-icon" width="16" height="16"></iconify-icon> Cum sa aplici', link: '/informatii/staff/cum-aplici' },
-              { text: '<iconify-icon icon="solar:danger-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Motive Oficiale', link: '/informatii/staff/motive-staff' }
-            ]
-          },
-
-          // REGULAMENTE
-          {
-            text: '<iconify-icon icon="solar:document-text-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament',
-            collapsed: true,
-            items: [
-              {
-                text: '<iconify-icon icon="solar:gamepad-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament GO',
-                collapsed: true,
-                items: [
-                  { text: '<iconify-icon icon="solar:user-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament Jucatori', link: '/informatii/regulamente/go/regulament-go' },
-                  { text: '<iconify-icon icon="solar:shield-user-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament STAFF', link: '/informatii/regulamente/go/regulament-staff-go' },
-                  { text: '<iconify-icon icon="solar:crown-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Regulament VIP', link: '/informatii/regulamente/go/regulament-vip-go' }
-                ]
-              },
-              // {
-              //           text: 'Regulament AWP',
-              //           collapsed: true,
-              //           items: [
-              //             { text: 'Regulament Jucatori', link: '/informatii/regulamente/awp/regulament-awp' },
-              //             { text: 'Regulament STAFF', link: '/informatii/regulamente/awp/regulament-staff-awp' },
-              //             { text: 'Regulament VIP', link: '/informatii/regulamente/awp/regulament-vip-awp' }
-              //           ]
-              //         },
-              // {
-              //   text: 'Regulament ARENA',
-              //   collapsed: true,
-              //   items: [
-              //     { text: 'Regulament Jucatori', link: '/informatii/regulamente/arena/regulament-arena' },
-              //     { text: 'Regulament STAFF', link: '/informatii/regulamente/arena/regulament-staff-arena' },
-              //     { text: 'Regulament VIP', link: '/informatii/regulamente/arena/regulament-vip-arena' }
-              //   ]
-              // },
-            ]
-          }
-        ]
-      },
-
-      // SECTIUNEA CURRENCY
-      {
-        text: '<iconify-icon icon="solar:dollar-minimalistic-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Currency',
-        collapsed: false,
-        items: [
-          { text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Phoenix Coins', link: '/currency/phoenixcoins' },
-          { text: '<img src="/icons/credits.svg" class="nav-icon" width="16" height="16" alt=""> Credits', link: '/currency/credits' },
-        ]
-      },
-
-      // SECTIUNEA SYSTEMS
-      {
-        text: '<iconify-icon icon="solar:cpu-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Systems',
-        collapsed: false,
-        items: [
-          // SUBSECTIUNEA SKINS
-          {
-            text: '<iconify-icon icon="lucide-swords" class="nav-icon" width="16" height="16"></iconify-icon> WeaponSkins',
-            collapsed: true,
-            items: [
-              { text: '<iconify-icon icon="solar:info-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Informatii', link: '/systems/skins/informatiiws' },
-              { text: '<iconify-icon icon="solar:box-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Cases', link: '/systems/skins/cases' },
-              { text: '<iconify-icon icon="solar:hand-shake-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Gloves', link: '/systems/skins/gloves' },
-              { text: '<iconify-icon icon="solar:user-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Agents', link: '/systems/skins/agents' },
-              { text: '<iconify-icon icon="lucide-sparkles" class="nav-icon" width="16" height="16"></iconify-icon> Knife Skins', link: '/systems/skins/knives' },
-            ]
-          },
-
-          // SUBSECTIUNEA GAMBLING
-          {
-            text: '<iconify-icon icon="lucide-clover" class="nav-icon" width="16" height="16"></iconify-icon> Gambling',
-            collapsed: true,
-            items: [
-              { text: '<iconify-icon icon="solar:refresh-circle-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Roulette', link: '/systems/gambling/roulette' },
-              { text: '<iconify-icon icon="solar:hand-money-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Slots', link: '/systems/gambling/slots' },
-              { text: '<iconify-icon icon="solar:card-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Dices', link: '/systems/gambling/dices' },
-            ]
-          },
-
-          // SUBSECTIUNEA IN-GAME SHOP
-          {
-            text: '<iconify-icon icon="solar:shop-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> In-Game Shop (Credite)',
-            collapsed: true,
-            items: [
-              { text: '<iconify-icon icon="solar:fire-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Weapon Tracers', link: '/systems/shop/tracers' },
-              { text: '<iconify-icon icon="solar:cloud-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Color Smokes', link: '/systems/shop/color-smokes' },
-              { text: '<iconify-icon icon="solar:chat-round-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Chat & Tag-uri', link: '/systems/shop/chat-tags' },
-            ]
-          },
-
-          // SUBSECTIUNEA OTHER SYSTEMS
-          {
-            text: '<iconify-icon icon="solar:layers-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Other Systems',
-            collapsed: true,
-            items: [
-              { text: '<iconify-icon icon="solar:target-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Hit Effect', link: '/systems/other/hit-effect' },
-              { text: '<iconify-icon icon="solar:shield-warning-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Anti Rush System', link: '/systems/other/anti-rush' },
-              { text: '<iconify-icon icon="solar:settings-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Client Settings', link: '/systems/other/settings' },
-              { text: '<iconify-icon icon="solar:users-group-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Hide Teammates', link: '/systems/other/hide-teammates' },
-              { text: '<iconify-icon icon="solar:bomb-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> C4 Planter Info', link: '/systems/other/c4-planter' },
-              { text: '<iconify-icon icon="solar:letter-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Private Messages', link: '/systems/other/private-messages' },
-              { text: '<iconify-icon icon="solar:mention-square-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Mention System', link: '/systems/other/mention-system' },
-              { text: '<iconify-icon icon="solar:music-note-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> MVP Anthem', link: '/systems/other/mvp' },
-              { text: '<iconify-icon icon="solar:gift-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> MVP Rewards', link: '/systems/other/mvp-rewards' },
-              { text: '<iconify-icon icon="solar:crown-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Gold Member', link: '/systems/other/gold-member' },
-              { text: '<iconify-icon icon="solar:map-point-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Map Chooser / RTV', link: '/systems/other/map-chooser' },
-              { text: '<iconify-icon icon="solar:clipboard-check-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Missions System', link: '/systems/other/missions' },
-              { text: '<iconify-icon icon="solar:ranking-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Rank System', link: '/systems/other/ranks' },
-              { text: '<iconify-icon icon="solar:shield-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Faceit Badge System', link: '/systems/other/faceit-badge' },
-              { text: '<iconify-icon icon="solar:users-group-two-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Teambalance', link: '/systems/other/teambalance' },
-            ]
-          },
-        ]
-      },
-
-      // SECTIUNEA MARKET (DONATIONS)
-      {
-        text: '<iconify-icon icon="solar:shop-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Market (Donations)',
-        collapsed: false,
-        items: [
-          // SUBSECTIUNEA PREMIUM SHOP
-          {
-            text: '<iconify-icon icon="solar:star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Premium Shop',
-            collapsed: true,
-            items: [
-              { text: '<iconify-icon icon="solar:medal-ribbon-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom MVP', link: '/market/premium-shop/mvp' },
-              // { text: '<iconify-icon icon="solar:shield-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Custom Badge / Pin', link: '/market/premium-shop/custom-badge' },
-              { text: '<iconify-icon icon="lucide-door-open" class="nav-icon" width="16" height="16"></iconify-icon> Entry Songs', link: '/market/premium-shop/entry-songs' },
-              { text: '<iconify-icon icon="solar:volume-loud-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Sank Sounds', link: '/market/premium-shop/sanks' },
-              { text: '<iconify-icon icon="solar:users-group-rounded-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Server Slots', link: '/market/server-slots' },
-            ]
-          },
-
-
-          // SUBSECTIUNEA VIP TIERS
-          {
-            text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Tiers',
-            collapsed: true,
-            items: [
-              { text: '<iconify-icon icon="solar:chart-2-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> Comparatie VIP', link: '/market/vip/vip-overview' },
-              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Rebirth', link: '/market/vip/rebirth' },
-              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Immortal', link: '/market/vip/immortal' },
-              { text: '<iconify-icon icon="solar:crown-star-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Mythic', link: '/market/vip/mythic' },
-              { text: '<iconify-icon icon="solar:test-tube-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Test', link: '/market/vip/vip-test' },
-              { text: '<iconify-icon icon="solar:moon-bold-duotone" class="nav-icon" width="16" height="16"></iconify-icon> VIP Night', link: '/market/vip/vip-night' },
-            ]
-          },
-        ]
-      },
-    ],
+    sidebar: toVitepressSidebar(canonicalNavigation as any[]),
 
     editLink: {
       pattern: 'https://github.com/Wildfiire/docs/edit/main/docs/:path',
@@ -354,7 +185,7 @@ export default defineConfig({
     },
 
     outline: {
-      level: [2, 3],
+      level: [1, 4],
       label: 'Pe aceasta pagina'
     },
 
@@ -366,6 +197,24 @@ export default defineConfig({
   },
 
   async transformPageData(pageData, ctx) {
+    const sourcePath = path.join(docsDir,pageData.relativePath)
+    if (!pageData.relativePath.startsWith('admin/') && fs.existsSync(sourcePath)) {
+      const raw = fs.readFileSync(sourcePath,'utf8')
+      pageData.frontmatter.sha256 = crypto.createHash('sha256').update(raw).digest('hex')
+      pageData.frontmatter.renderTitle = !/^#\s+/m.test(raw) && !['home','page',false].includes(pageData.frontmatter.layout)
+
+      const cleanSlug = pageData.relativePath.replace(/\.md$/, '').replace(/(^|\/)index$/, '') || 'index'
+      const ogUrl = `https://docs.wildfire.ro/api/og?slug=${encodeURIComponent(cleanSlug)}`
+      const pageTitle = pageData.frontmatter.title || pageData.title || 'Wildfire Docs'
+      const pageDesc = pageData.frontmatter.description || pageData.description || 'Documentatia platformei Wildfire'
+      pageData.frontmatter.head = [
+        ...(pageData.frontmatter.head || []),
+        ['meta', { property: 'og:image', content: ogUrl }],
+        ['meta', { name: 'twitter:image', content: ogUrl }],
+        ['meta', { property: 'og:title', content: pageTitle }],
+        ['meta', { property: 'og:description', content: pageDesc }]
+      ]
+    }
     try {
       // Full repo-relative path (e.g. docs/informatii/about.md)
       const repoPath = ('docs/' + pageData.relativePath).replace(/\\/g, '/')
@@ -438,13 +287,22 @@ export default defineConfig({
   },
 
   markdown: {
-    lineNumbers: true,
+    config(md) {
+      const image = md.renderer.rules.image
+      md.renderer.rules.image = (tokens,idx,options,env,self) => {
+        const token=tokens[idx]
+        if (token.attrGet('src')?.startsWith('/')) token.attrSet('class','doc-image-element')
+        return image ? image(tokens,idx,options,env,self) : self.renderToken(tokens,idx,options)
+      }
+    },
+    lineNumbers: false,
     image: {
       lazyLoading: true
     }
   },
 
   vite: {
+    envPrefix: 'PUBLIC_',
     plugins: [
       lastUpdatesPlugin(docsDir, repoRoot),
       newPagesPlugin(docsDir, repoRoot)
@@ -460,28 +318,52 @@ export default defineConfig({
       reportCompressedSize: false
     },
     server: {
+      watch: {
+        ignored: [
+          '**/build-*/**',
+          '**/.vitepress/build-*/**',
+          '**/.vitepress/dist/**',
+          '**/.vitepress/cache/**',
+          '**/.vitepress/.temp/**',
+          '**/.temp/**',
+          '**/.git/**',
+          '**/generated-pages.json',
+          '**/*.publish-*',
+          '**/*.mp4',
+          '**/*.gif',
+          '**/*.webp',
+          '**/*.png',
+          (filePath: string) => {
+            const norm = String(filePath).replace(/\\/g, '/');
+            return (
+              norm.includes('/build-') ||
+              norm.includes('/.vitepress/dist') ||
+              norm.includes('/.vitepress/cache') ||
+              norm.includes('/.vitepress/.temp') ||
+              norm.includes('/.temp/') ||
+              norm.includes('/.git/') ||
+              norm.includes('.publish-') ||
+              norm.includes('publication.lock') ||
+              norm.endsWith('.mp4') ||
+              norm.endsWith('.gif') ||
+              norm.endsWith('.webp') ||
+              norm.endsWith('.png')
+            );
+          }
+        ]
+      },
       fs: {
         strict: false
       },
       proxy: {
-        '/api/github/device-code': {
-          target: 'https://github.com',
-          changeOrigin: true,
-          rewrite: () => '/login/device/code'
-        },
-        '/api/github/token': {
-          target: 'https://github.com',
-          changeOrigin: true,
-          rewrite: () => '/login/oauth/access_token'
-        }
+        '/api': { target: 'http://127.0.0.1:3000', changeOrigin: false }
       }
     },
     ssr: {
       noExternal: ['vue', 'chart.js', 'lodash', '@iconify/vue']
     },
     optimizeDeps: {
-      include: ['@vueuse/core', 'lenis', 'chart.js', 'minisearch'],
-      exclude: ['@paper-design/shaders-react']
+      include: ['@vueuse/core', 'lenis', 'chart.js', 'minisearch']
     }
   }
 })

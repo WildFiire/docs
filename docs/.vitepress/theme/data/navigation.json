@@ -1,0 +1,374 @@
+[
+  {
+    "title": "Informații",
+    "items": [
+      {
+        "title": "Despre Noi",
+        "slug": "informatii/about",
+        "href": "/docs/informatii/about",
+        "order": 99
+      },
+      {
+        "title": "Intrebari Frecvente (FAQ)",
+        "slug": "informatii/faq",
+        "href": "/docs/informatii/faq",
+        "order": 99
+      },
+      {
+        "title": "Ghid de Inceput CS2",
+        "slug": "informatii/getting-started",
+        "href": "/docs/informatii/getting-started",
+        "order": 99
+      },
+      {
+        "title": "Regulamente Oficiale",
+        "slug": "informatii/regulamente",
+        "href": "/docs/informatii/regulamente",
+        "order": 99,
+        "children": [
+          {
+            "title": "Regulament Jucatori CS2",
+            "slug": "informatii/regulamente/regulament-go",
+            "href": "/docs/informatii/regulamente/regulament-go",
+            "order": 99
+          },
+          {
+            "title": "Regulament Staff & Moderare",
+            "slug": "informatii/regulamente/regulament-staff-go",
+            "href": "/docs/informatii/regulamente/regulament-staff-go",
+            "order": 99
+          },
+          {
+            "title": "Regulament Membri VIP",
+            "slug": "informatii/regulamente/regulament-vip-go",
+            "href": "/docs/informatii/regulamente/regulament-vip-go",
+            "order": 99
+          }
+        ]
+      },
+      {
+        "title": "Ghid Administrativ Staff",
+        "slug": "informatii/staff",
+        "href": "/docs/informatii/staff",
+        "order": 99,
+        "children": [
+          {
+            "title": "Comenzi Administrative Staff",
+            "slug": "informatii/staff/comenzi",
+            "href": "/docs/informatii/staff/comenzi",
+            "order": 99
+          },
+          {
+            "title": "Cum sa intri in STAFF",
+            "slug": "informatii/staff/cum-aplici",
+            "href": "/docs/informatii/staff/cum-aplici",
+            "order": 99
+          },
+          {
+            "title": "Motive Oficiale de Sanctiune",
+            "slug": "informatii/staff/motive-staff",
+            "href": "/docs/informatii/staff/motive-staff",
+            "order": 99
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Currency",
+    "items": [
+      {
+        "title": "Sistemul de Economie & Valute",
+        "slug": "currency",
+        "href": "/docs/currency",
+        "order": 99
+      },
+      {
+        "title": "Credite In-Game (!shop)",
+        "slug": "currency/credits",
+        "href": "/docs/currency/credits",
+        "order": 99
+      },
+      {
+        "title": "Phoenix Coins (PHX)",
+        "slug": "currency/phoenixcoins",
+        "href": "/docs/currency/phoenixcoins",
+        "order": 99
+      }
+    ]
+  },
+  {
+    "title": "Systems",
+    "items": [
+      {
+        "title": "Sisteme & Functionalitati de Joc",
+        "slug": "systems",
+        "href": "/docs/systems",
+        "order": 99
+      },
+      {
+        "title": "Casino & Gambling In-Game",
+        "slug": "systems/gambling",
+        "href": "/docs/systems/gambling",
+        "order": 99,
+        "children": [
+          {
+            "title": "Barbut & Zaruri (Dices)",
+            "slug": "systems/gambling/dices",
+            "href": "/docs/systems/gambling/dices",
+            "order": 99
+          },
+          {
+            "title": "Ruleta In-Game (Roulette)",
+            "slug": "systems/gambling/roulette",
+            "href": "/docs/systems/gambling/roulette",
+            "order": 99
+          },
+          {
+            "title": "Slots / Pacanele In-Game",
+            "slug": "systems/gambling/slots",
+            "href": "/docs/systems/gambling/slots",
+            "order": 99
+          }
+        ]
+      },
+      {
+        "title": "Utilitati & Sisteme Auxiliare",
+        "slug": "systems/other",
+        "href": "/docs/systems/other",
+        "order": 99,
+        "children": [
+          {
+            "title": "Sistemul Anti-Rush (CT Protection)",
+            "slug": "systems/other/anti-rush",
+            "href": "/docs/systems/other/anti-rush",
+            "order": 99
+          },
+          {
+            "title": "Modulul C4 Planter & Timer HUD",
+            "slug": "systems/other/c4-planter",
+            "href": "/docs/systems/other/c4-planter",
+            "order": 99
+          },
+          {
+            "title": "Integrare FACEIT Badge & Statistici",
+            "slug": "systems/other/faceit-badge",
+            "href": "/docs/systems/other/faceit-badge",
+            "order": 99
+          },
+          {
+            "title": "Statutul Gold Member (Gratuit)",
+            "slug": "systems/other/gold-member",
+            "href": "/docs/systems/other/gold-member",
+            "order": 99
+          },
+          {
+            "title": "Optimizare Hide Teammates (!ht)",
+            "slug": "systems/other/hide-teammates",
+            "href": "/docs/systems/other/hide-teammates",
+            "order": 99
+          },
+          {
+            "title": "Sistemul Hit Effects & Damage Feedback",
+            "slug": "systems/other/hit-effect",
+            "href": "/docs/systems/other/hit-effect",
+            "order": 99
+          },
+          {
+            "title": "Map Chooser & Rock The Vote (!rtv)",
+            "slug": "systems/other/map-chooser",
+            "href": "/docs/systems/other/map-chooser",
+            "order": 99
+          },
+          {
+            "title": "Sistemul de Mentiuni in Chat (@Nume)",
+            "slug": "systems/other/mention-system",
+            "href": "/docs/systems/other/mention-system",
+            "order": 99
+          },
+          {
+            "title": "Sistemul de Misiuni (!missions)",
+            "slug": "systems/other/missions",
+            "href": "/docs/systems/other/missions",
+            "order": 99
+          },
+          {
+            "title": "Sistemul de Recompense MVP",
+            "slug": "systems/other/mvp-rewards",
+            "href": "/docs/systems/other/mvp-rewards",
+            "order": 99
+          },
+          {
+            "title": "Melodii & Imnuri MVP Anthem (!mvp)",
+            "slug": "systems/other/mvp",
+            "href": "/docs/systems/other/mvp",
+            "order": 99
+          },
+          {
+            "title": "Mesaje Private in Joc (!pm & !r)",
+            "slug": "systems/other/private-messages",
+            "href": "/docs/systems/other/private-messages",
+            "order": 99
+          },
+          {
+            "title": "Sistemul de Rank & ELO Competitiv",
+            "slug": "systems/other/ranks",
+            "href": "/docs/systems/other/ranks",
+            "order": 99
+          },
+          {
+            "title": "Panoul de Setari Client (!settings)",
+            "slug": "systems/other/settings",
+            "href": "/docs/systems/other/settings",
+            "order": 99
+          },
+          {
+            "title": "Sistemul de Echilibrare Echipe (Team Balance & Scramble)",
+            "slug": "systems/other/teambalance",
+            "href": "/docs/systems/other/teambalance",
+            "order": 99
+          }
+        ]
+      },
+      {
+        "title": "Magazinul Cosmetic In-Game (!shop)",
+        "slug": "systems/shop",
+        "href": "/docs/systems/shop",
+        "order": 99,
+        "children": [
+          {
+            "title": "Chat Tags & Culori Personalizate",
+            "slug": "systems/shop/chat-tags",
+            "href": "/docs/systems/shop/chat-tags",
+            "order": 99
+          },
+          {
+            "title": "Fumigene Colorate (Color Smokes)",
+            "slug": "systems/shop/color-smokes",
+            "href": "/docs/systems/shop/color-smokes",
+            "order": 99
+          },
+          {
+            "title": "Weapon Laser Tracers",
+            "slug": "systems/shop/tracers",
+            "href": "/docs/systems/shop/tracers",
+            "order": 99
+          }
+        ]
+      },
+      {
+        "title": "Sistemul WeaponSkins & Inventar In-Game (!ws)",
+        "slug": "systems/skins",
+        "href": "/docs/systems/skins",
+        "order": 99,
+        "children": [
+          {
+            "title": "Skin-uri de Agenti (T & CT Operators)",
+            "slug": "systems/skins/agents",
+            "href": "/docs/systems/skins/agents",
+            "order": 99
+          },
+          {
+            "title": "Deschidere Cutii Animate (!cases)",
+            "slug": "systems/skins/cases",
+            "href": "/docs/systems/skins/cases",
+            "order": 99
+          },
+          {
+            "title": "Modele si Finisaje de Manusi (Gloves)",
+            "slug": "systems/skins/gloves",
+            "href": "/docs/systems/skins/gloves",
+            "order": 99
+          },
+          {
+            "title": "Modele si Finisaje de Cutite (Knives)",
+            "slug": "systems/skins/knives",
+            "href": "/docs/systems/skins/knives",
+            "order": 99
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "title": "Market & Donații",
+    "items": [
+      {
+        "title": "Market & Donatii",
+        "slug": "market",
+        "href": "/docs/market",
+        "order": 99
+      },
+      {
+        "title": "Premium Shop",
+        "slug": "market/premium-shop",
+        "href": "/docs/market/premium-shop",
+        "order": 99,
+        "children": [
+          {
+            "title": "Custom Entry Songs (Melodie la Conectare)",
+            "slug": "market/premium-shop/entry-songs",
+            "href": "/docs/market/premium-shop/entry-songs",
+            "order": 99
+          },
+          {
+            "title": "Pachetul Custom MVP Anthem",
+            "slug": "market/premium-shop/mvp",
+            "href": "/docs/market/premium-shop/mvp",
+            "order": 99
+          },
+          {
+            "title": "Sank Sounds in Chat (!sm)",
+            "slug": "market/premium-shop/sanks",
+            "href": "/docs/market/premium-shop/sanks",
+            "order": 99
+          }
+        ]
+      },
+      {
+        "title": "Capacitate Server & Sloturi Rezervate",
+        "slug": "market/server-slots",
+        "href": "/docs/market/server-slots",
+        "order": 99
+      },
+      {
+        "title": "Grade VIP & Beneficii",
+        "slug": "market/vip",
+        "href": "/docs/market/vip",
+        "order": 99,
+        "children": [
+          {
+            "title": "Pachetul VIP Immortal",
+            "slug": "market/vip/immortal",
+            "href": "/docs/market/vip/immortal",
+            "order": 99
+          },
+          {
+            "title": "Pachetul VIP Mythic (Gradul Suprem)",
+            "slug": "market/vip/mythic",
+            "href": "/docs/market/vip/mythic",
+            "order": 99
+          },
+          {
+            "title": "Pachetul VIP Rebirth",
+            "slug": "market/vip/rebirth",
+            "href": "/docs/market/vip/rebirth",
+            "order": 99
+          },
+          {
+            "title": "VIP Tiers — Comparatie Completa",
+            "slug": "market/vip/vip-overview",
+            "href": "/docs/market/vip/vip-overview",
+            "order": 99
+          },
+          {
+            "title": "Testare Gratuita VIP (!viptest)",
+            "slug": "market/vip/vip-test",
+            "href": "/docs/market/vip/vip-test",
+            "order": 99
+          }
+        ]
+      }
+    ]
+  }
+]
