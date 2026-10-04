@@ -4643,6 +4643,51 @@ nextjs-portal,
   scrollbar-color: hsl(0 0% 100% / 0.12) transparent;
 }
 
+.admin-nav-group-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 10px 5px;
+  margin-top: 10px;
+  pointer-events: none;
+  user-select: none;
+}
+
+.admin-nav-group-label--first {
+  padding-top: 2px;
+  margin-top: 0;
+}
+
+.admin-nav-group-text {
+  font-size: 0.64rem;
+  font-weight: 800;
+  letter-spacing: 0.16em;
+  color: var(--color-text-tertiary);
+  text-transform: uppercase;
+  font-family: var(--font-mono);
+  opacity: 0.75;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.admin-nav-group-line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, hsl(0 0% 100% / 0.12), transparent);
+}
+
+.admin-nav-group-line:first-child {
+  background: linear-gradient(90deg, transparent, hsl(0 0% 100% / 0.12));
+  max-width: 10px;
+  flex: 0 0 10px;
+}
+
+.admin-nav-group-items {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
 .admin-nav-list::-webkit-scrollbar {
   width: 4px;
 }
@@ -4754,19 +4799,21 @@ nextjs-portal,
 /* Main Content Area — Fluid Screen Filling */
 .admin-main-content {
   flex: 1;
-  margin-left: 260px;
-  width: calc(100% - 260px);
+  margin-left: 260px !important;
+  width: calc(100% - 260px) !important;
   padding: 28px 36px;
   min-width: 0;
   display: flex;
   flex-direction: column;
   align-items: center;
+  box-sizing: border-box !important;
 }
 
 /* Inner content wrapper — centeaza tot continutul paginilor admin pe orice ecran */
 .admin-main-content > * {
   width: 100%;
   max-width: 1520px;
+  box-sizing: border-box;
 }
 
 .admin-main-content--auth {
@@ -5368,6 +5415,8 @@ select.admin-input-field:focus {
   flex-direction: column;
   gap: 24px;
   padding: 0 0 40px 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 /* ── Emergency Banners ── */
