@@ -102,12 +102,34 @@ function saveAnalyticsStore(store: LocalAnalyticsStore) {
 
 // ─── Views Operations ─────────────────────────────────────────────────────────
 
+function cleanDocSlug(slug: string): string {
+  return (slug || '')
+    .trim()
+    .replace(/^\/+|\/+$/g, '')
+    .replace(/\.(md|html)$/i, '')
+    .replace(/^docs\//i, '');
+}
+
 export function localIncrementDocView(slug: string): DocViewRecord {
   const store = readAnalyticsStore();
-  const normalizedSlug = slug.replace(/^\/+|\/+$/g, '');
+  const normalizedSlug = cleanDocSlug(slug);
+  if (!normalizedSlug) {
+    return {
+      slug: 'index',
+      total_views: 0,
+      today_views: 0,
+      last_viewed_at: new Date().toISOString(),
+    };
+  }
   const now = new Date().toISOString();
 
   let record = store.views[normalizedSlug];
+  if (!record && store.views[`docs/${normalizedSlug}`]) {
+    record = store.views[`docs/${normalizedSlug}`];
+    record.slug = normalizedSlug;
+    delete store.views[`docs/${normalizedSlug}`];
+  }
+
   if (!record) {
     record = {
       slug: normalizedSlug,
@@ -132,9 +154,10 @@ export function localIncrementDocView(slug: string): DocViewRecord {
 
 export function localGetDocViews(slug: string): DocViewRecord {
   const store = readAnalyticsStore();
-  const normalizedSlug = slug.replace(/^\/+|\/+$/g, '');
+  const normalizedSlug = cleanDocSlug(slug);
   return (
-    store.views[normalizedSlug] || {
+    store.views[normalizedSlug] ||
+    store.views[`docs/${normalizedSlug}`] || {
       slug: normalizedSlug,
       total_views: 0,
       today_views: 0,
@@ -158,7 +181,7 @@ export function localSubmitDocFeedback(
   feedbackId?: string,
 ): DocFeedbackRecord {
   const store = readAnalyticsStore();
-  const normalizedSlug = slug.replace(/^\/+|\/+$/g, '');
+  const normalizedSlug = cleanDocSlug(slug);
 
   // If existing feedbackId provided, update it in place
   if (feedbackId) {
@@ -196,8 +219,10 @@ export function localSubmitDocFeedback(
 
 export function localGetDocFeedbackStats(slug: string): FeedbackStats {
   const store = readAnalyticsStore();
-  const normalizedSlug = slug.replace(/^\/+|\/+$/g, '');
-  const docFeedbacks = store.feedbacks.filter((f) => f.slug === normalizedSlug);
+  const normalizedSlug = cleanDocSlug(slug);
+  const docFeedbacks = store.feedbacks.filter(
+    (f) => cleanDocSlug(f.slug) === normalizedSlug,
+  );
 
   const helpful = docFeedbacks.filter((f) => f.rating === 'helpful').length;
   const unhelpful = docFeedbacks.filter((f) => f.rating === 'unhelpful').length;

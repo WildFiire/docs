@@ -197,6 +197,15 @@ const recent = documents
   }))
   .sort((a, b) => b.timestamp - a.timestamp);
 write(path.join(docsRoot, '.vitepress/theme/data/recent-docs.json'), JSON.stringify(recent, null, 2));
+let docViewsMap = {};
+try {
+  const analyticsFile = path.join(runtime, 'data/doc_analytics.json');
+  if (fs.existsSync(analyticsFile)) {
+    const raw = JSON.parse(fs.readFileSync(analyticsFile, 'utf8'));
+    docViewsMap = raw.views || {};
+  }
+} catch {}
+write(path.join(docsRoot, '.vitepress/theme/data/doc-views.json'), JSON.stringify(docViewsMap, null, 2));
 for (const relative of previous) {
   const file = path.resolve(docsRoot, relative);
   if (!generated.has(relative) && file.startsWith(docsRoot + path.sep) && fs.existsSync(file))

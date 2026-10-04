@@ -22,7 +22,8 @@ const slug = computed(() => {
   return route.path
     .replace(/^\//, '')
     .replace(/\.html$/, '')
-    .replace(/\/$/, '') || 'index';
+    .replace(/\/$/, '')
+    .replace(/^docs\//, '') || 'index';
 });
 
 const pageTitle = computed(() => frontmatter.value.title || page.value.title || 'Wildfire Docs');
@@ -43,7 +44,7 @@ const breadcrumbs = computed(() => {
   const parts = slug.value.split('/').filter(Boolean);
   if (parts.length <= 1) return [];
   const items: any[] = [{ title: 'Docs', href: '/' }];
-  let p = '';
+  let p = '/docs';
   for (let i = 0; i < parts.length; i++) {
     p += '/' + parts[i];
     const isCurrent = i === parts.length - 1;

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, onMounted, computed } from 'vue';
+import { ref, onMounted, computed, watch } from 'vue';
 import { useRoute } from 'vitepress';
 import { Icon } from '@iconify/vue';
 import { api } from '../../composables/useApi';
@@ -22,7 +22,8 @@ const route = useRoute();
 const cleanSlug = computed(() => {
   return (props.slug || route.path)
     .replace(/^\/+|\/+$/g, '')
-    .replace(/\.html$/, '');
+    .replace(/\.html$/, '')
+    .replace(/^docs\//i, '');
 });
 
 const voted = ref<'helpful' | 'unhelpful' | null>(null);
@@ -46,6 +47,18 @@ async function loadStats() {
     }
   } catch {}
 }
+
+watch(cleanSlug, (newSlug) => {
+  if (!newSlug || typeof window === 'undefined') return;
+  const localVote = localStorage.getItem(`wf_voted_${newSlug}`) as 'helpful' | 'unhelpful' | null;
+  const localFbId = localStorage.getItem(`wf_fbid_${newSlug}`);
+  voted.value = localVote || null;
+  feedbackId.value = localFbId || null;
+  showCommentBox.value = false;
+  commentSent.value = false;
+  comment.value = '';
+  loadStats();
+});
 
 onMounted(() => {
   if (!cleanSlug.value || typeof window === 'undefined') return;
