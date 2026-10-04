@@ -14,8 +14,6 @@ module.exports = {
         NODE_ENV: 'production',
         PORT: 3000,
       },
-      error_file: '/var/log/wildfire/api-error.log',
-      out_file: '/var/log/wildfire/api-out.log',
       merge_logs: true,
       time: true,
     },

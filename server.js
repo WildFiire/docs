@@ -11,5 +11,7 @@ if (process.env.WF_DISABLE_EXTERNAL_WRITES === '1') {
   };
 }
 const {createApp}=await import('./server/.build/app.mjs');
-const server=createApp().listen(Number(process.env.PORT || 3000),'127.0.0.1',()=>console.log(`Wildfire API listening on ${process.env.PORT || 3000}`));
+const port = Number(process.env.PORT || 3000);
+const server = createApp().listen(port, () => console.log(`Wildfire API listening on port ${port}`));
 for(const signal of ['SIGINT','SIGTERM'])process.on(signal,()=>server.close(()=>process.exit(0)));
+

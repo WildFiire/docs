@@ -38,6 +38,7 @@ jobs:
             # Build the static VitePress files with build token
             VITE_GITHUB_TOKEN="$GH_TOKEN" npm run docs:build
 
-            # Restart the API server
-            pm2 restart wildfire-wiki-api
+            # Restart / start the API server cleanly
+            pm2 startOrRestart ecosystem.config.cjs --env production || pm2 restart wildfire-wiki-api --update-env || pm2 start server.js --name wildfire-wiki-api
+            pm2 save
 

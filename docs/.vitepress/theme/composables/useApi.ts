@@ -23,8 +23,22 @@ export async function api<T = any>(
           : { 'Content-Type': 'application/json' },
     body: body === undefined ? undefined : body instanceof FormData ? body : JSON.stringify(body),
   });
-  const data = await response.json();
+  const text = await response.text();
+  let data: any;
+  try {
+    data = text ? JSON.parse(text) : {};
+  } catch {
+    if (!response.ok) {
+      throw new ApiError(
+        `Serverul API nu răspunde (HTTP ${response.status}: ${response.statusText || 'Bad Gateway'}). Backend-ul se repornește sau este offline.`,
+        response.status,
+        text,
+      );
+    }
+    throw new ApiError('Răspuns invalid primit de la server', response.status, text);
+  }
   if (!response.ok)
     throw new ApiError(data.message || data.error || 'Cererea a eșuat', response.status, data);
   return data;
 }
+
