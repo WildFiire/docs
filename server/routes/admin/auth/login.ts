@@ -106,12 +106,8 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
     const member = authResult.member;
     resetRateLimit(rateLimitKey);
 
-    // Check 2FA requirement
-    const isRootOrCoRoot =
-      member.isRoot || member.role === 'root_admin' || member.role === 'doc_lead';
-    const force2FA = isRootOrCoRoot; // Optional: read from settings, for now force for Root and Lead
-
-    if (force2FA || member.totpEnabled) {
+    // Check 2FA requirement: required only if the account has 2FA enabled
+    if (member.totpEnabled) {
       const tempToken = signSessionToken({
         username: member.username,
         type: '2fa_pending',
@@ -120,21 +116,12 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
         userAgent,
       });
 
-      if (!member.totpEnabled) {
-        return jsonReply(expressResponse, {
-          success: true,
-          require2FASetup: true,
-          tempToken,
-          message: 'Este necesară configurarea securității 2FA.',
-        });
-      } else {
-        return jsonReply(expressResponse, {
-          success: true,
-          require2FA: true,
-          tempToken,
-          message: 'Introduceți codul 2FA.',
-        });
-      }
+      return jsonReply(expressResponse, {
+        success: true,
+        require2FA: true,
+        tempToken,
+        message: 'Introduceți codul 2FA.',
+      });
     }
 
     // 3. Success: Create Session & Reset Rate Limit
