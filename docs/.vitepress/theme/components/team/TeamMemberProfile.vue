@@ -182,14 +182,42 @@ const lastLogin = computed(() => {
   });
 });
 
+const TEAM_AVATAR_MAP: Record<string, string> = {
+  v1ccx: 'https://github.com/Vicc09.png',
+  vicc09: 'https://github.com/Vicc09.png',
+  iannc: 'https://github.com/iannC69.png',
+  iannc69: 'https://github.com/iannC69.png',
+  yakuza: 'https://github.com/Yakuza2377.png',
+  yakuza2377: 'https://github.com/Yakuza2377.png',
+  umpy: 'https://github.com/umpy04.png',
+  umpy04: 'https://github.com/umpy04.png',
+};
+
 const avatarSrc = computed(() => {
-  if (!member.value) return 'https://cdn.discordapp.com/embed/avatars/0.png';
-  return (
-    member.value.avatarUrl ||
-    (member.value.githubUsername ? `https://github.com/${member.value.githubUsername}.png` : null) ||
-    'https://cdn.discordapp.com/embed/avatars/0.png'
-  );
+  if (!member.value) return 'https://github.com/iannC69.png';
+  const uname = (member.value.username || member.value.displayName || '').toLowerCase().trim();
+  if (TEAM_AVATAR_MAP[uname]) return TEAM_AVATAR_MAP[uname];
+  if (member.value.githubUsername) {
+    const gh = member.value.githubUsername.toLowerCase().trim();
+    if (TEAM_AVATAR_MAP[gh]) return TEAM_AVATAR_MAP[gh];
+    return `https://github.com/${member.value.githubUsername}.png`;
+  }
+  if (member.value.avatarUrl && member.value.avatarUrl.includes('github')) {
+    return member.value.avatarUrl;
+  }
+  return member.value.avatarUrl || 'https://github.com/iannC69.png';
 });
+
+function handleAvatarError(event: Event) {
+  const img = event.target as HTMLImageElement;
+  if (!img) return;
+  const uname = (member.value?.username || member.value?.displayName || '').toLowerCase().trim();
+  if (TEAM_AVATAR_MAP[uname] && img.src !== TEAM_AVATAR_MAP[uname]) {
+    img.src = TEAM_AVATAR_MAP[uname];
+    return;
+  }
+  img.src = 'https://github.com/iannC69.png';
+}
 
 const steamUrl = computed(() => {
   if (!member.value?.steamId) return null;
@@ -362,7 +390,7 @@ watch(() => props.username, () => {
               :src="avatarSrc"
               :alt="member.displayName"
               class="profile-avatar-img"
-              @error="($event.target as HTMLImageElement).src = 'https://cdn.discordapp.com/embed/avatars/0.png'"
+              @error="handleAvatarError"
             />
           </div>
           <div v-if="member.status === 'active'" class="profile-avatar-beacon" title="Membru Activ în Sistem" />

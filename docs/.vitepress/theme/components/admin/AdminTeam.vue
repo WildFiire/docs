@@ -1215,6 +1215,7 @@ onMounted(() => {
               :alt="member.displayName"
               class="admin-member-avatar"
               style="object-fit: cover;"
+              @error="($event.target as HTMLImageElement).src = member.githubUsername ? `https://github.com/${member.githubUsername}.png` : 'https://github.com/iannC69.png'"
             />
             <div
               v-else
@@ -1499,7 +1500,7 @@ onMounted(() => {
                   >
                     {{ m.displayName ? m.displayName.slice(0, 1).toUpperCase() : m.username.slice(0, 1).toUpperCase() }}
                   </div>
-                  <img v-else :src="m.avatarUrl" class="mini-avatar" alt="Avatar" />
+                  <img v-else :src="m.avatarUrl" class="mini-avatar" alt="Avatar" @error="($event.target as HTMLImageElement).src = m.githubUsername ? `https://github.com/${m.githubUsername}.png` : 'https://github.com/iannC69.png'" />
                   <div>
                     <div class="font-bold text-xs flex items-center gap-1">
                       <span>{{ m.displayName }}</span>

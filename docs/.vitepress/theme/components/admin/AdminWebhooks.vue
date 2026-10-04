@@ -728,7 +728,7 @@ function handleImageError(e: Event) {
 function handleAvatarError(e: Event) {
   const target = e.currentTarget as HTMLImageElement | null;
   if (target) {
-    target.src = 'https://avatars.fastly.steamstatic.com/f9a2171998ee2677dae87089953177799dbf7dc1_full.jpg';
+    target.src = 'https://github.com/iannC69.png';
   }
 }
 </script>
@@ -1322,7 +1322,7 @@ function handleAvatarError(e: Event) {
             <div class="whk-discord-body">
               <div class="whk-discord-msg-row">
                 <img
-                  :src="embedState.authorIcon || 'https://avatars.fastly.steamstatic.com/f9a2171998ee2677dae87089953177799dbf7dc1_full.jpg'"
+                  :src="embedState.authorIcon || 'https://github.com/iannC69.png'"
                   alt="Bot Avatar"
                   class="whk-discord-avatar"
                   @error="handleAvatarError"

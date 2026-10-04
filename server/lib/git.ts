@@ -114,10 +114,9 @@ export function getAuthorProfile(name: string, email: string): ResolvedAuthorPro
       const displayName = matchedMember.displayName || matchedMember.username;
       const ghUser = matchedMember.githubUsername;
       const avatar =
+        (ghUser ? `https://github.com/${ghUser}.png` : null) ||
         matchedMember.avatarUrl ||
-        (ghUser
-          ? `https://github.com/${ghUser}.png`
-          : `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=10b981&color=fff&size=64&bold=true`);
+        `https://ui-avatars.com/api/?name=${encodeURIComponent(displayName)}&background=10b981&color=fff&size=64&bold=true`;
       const profileUrl = ghUser ? `https://github.com/${ghUser}` : `/team`;
 
       return {
@@ -144,8 +143,7 @@ export function getAuthorProfile(name: string, email: string): ResolvedAuthorPro
       username: 'iannC69',
       displayName: 'iannC',
       githubUsername: 'iannC69',
-      avatarUrl:
-        'https://avatars.fastly.steamstatic.com/f9a2171998ee2677dae87089953177799dbf7dc1_full.jpg',
+      avatarUrl: 'https://github.com/iannC69.png',
       profileUrl: 'https://github.com/iannC69',
       customTitle: 'Lead Docs & Systems Architect',
       role: 'root_admin',

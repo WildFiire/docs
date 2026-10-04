@@ -88,6 +88,45 @@ function getDiscordDefaultAvatar(userId?: string): string {
   }
 }
 
+const TEAM_AVATAR_MAP: Record<string, string> = {
+  v1ccx: 'https://github.com/Vicc09.png',
+  vicc09: 'https://github.com/Vicc09.png',
+  iannc: 'https://github.com/iannC69.png',
+  iannc69: 'https://github.com/iannC69.png',
+  yakuza: 'https://github.com/Yakuza2377.png',
+  yakuza2377: 'https://github.com/Yakuza2377.png',
+  umpy: 'https://github.com/umpy04.png',
+  umpy04: 'https://github.com/umpy04.png',
+};
+
+function getMemberAvatarUrl(member: PublicTeamMember): string {
+  const uname = (member.username || member.displayName || '').toLowerCase().trim();
+  if (TEAM_AVATAR_MAP[uname]) return TEAM_AVATAR_MAP[uname];
+  if (member.githubUsername) {
+    const gh = member.githubUsername.toLowerCase().trim();
+    if (TEAM_AVATAR_MAP[gh]) return TEAM_AVATAR_MAP[gh];
+    return `https://github.com/${member.githubUsername}.png`;
+  }
+  if (member.avatarUrl && member.avatarUrl.includes('github')) return member.avatarUrl;
+  return (
+    member.avatarUrl ||
+    steamAvatars.value[member.id] ||
+    discordProfiles.value[member.id]?.avatarUrl ||
+    'https://github.com/iannC69.png'
+  );
+}
+
+function handleMemberAvatarError(event: Event, member: PublicTeamMember) {
+  const img = event.target as HTMLImageElement;
+  if (!img) return;
+  const uname = (member.username || member.displayName || '').toLowerCase().trim();
+  if (TEAM_AVATAR_MAP[uname] && img.src !== TEAM_AVATAR_MAP[uname]) {
+    img.src = TEAM_AVATAR_MAP[uname];
+    return;
+  }
+  img.src = 'https://github.com/iannC69.png';
+}
+
 function getRoleMeta(role: string, isRoot: boolean) {
   if (isRoot || role === 'root_admin') {
     return {
@@ -557,19 +596,11 @@ onMounted(() => {
                     }"
                   >
                     <img
-                      v-if="
-                        member.avatarUrl ||
-                        steamAvatars[member.id] ||
-                        discordProfiles[member.id]?.avatarUrl
-                      "
-                      :src="
-                        member.avatarUrl ||
-                        steamAvatars[member.id] ||
-                        discordProfiles[member.id]?.avatarUrl
-                      "
+                      v-if="getMemberAvatarUrl(member)"
+                      :src="getMemberAvatarUrl(member)"
                       :alt="member.displayName"
                       style="width: 100%; height: 100%; object-fit: cover;"
-                      onerror="this.style.display='none'"
+                      @error="handleMemberAvatarError($event, member)"
                     />
                     <div
                       v-else

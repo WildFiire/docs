@@ -311,7 +311,7 @@ export function getDefaultTeamMembers(): TeamMember[] {
       role: 'root_admin',
       customTitle: 'Lead Docs & Systems Architect',
       avatarUrl:
-        'https://avatars.fastly.steamstatic.com/f9a2171998ee2677dae87089953177799dbf7dc1_full.jpg',
+        'https://github.com/iannC69.png',
       avatarColor: '#ff6b00',
       bio: 'Se ocupă de structura, redactarea și actualizarea platformei de documentație, integrarea sistemelor tehnice și experiența generală a ghidurilor WildFire.',
       responsibilities: [
@@ -343,7 +343,7 @@ export function getDefaultTeamMembers(): TeamMember[] {
       role: 'content_editor',
       customTitle: 'Senior Content Editor & Reviewer',
       avatarUrl:
-        'https://avatars.akamai.steamstatic.com/e2847cb722e1ec8bf9df607659f7f5e3804a0182_full.jpg',
+        'https://github.com/Yakuza2377.png',
       avatarColor: '#10b981',
       bio: 'Responsabil de elaborarea ghidurilor detaliate pentru jucători, proceduri de joc, revizuirea mecanicii și acuratețea datelor.',
       responsibilities: [
@@ -392,7 +392,7 @@ export function getDefaultTeamMembers(): TeamMember[] {
       role: 'content_editor',
       customTitle: 'Senior Content Editor',
       avatarUrl:
-        'https://avatars.akamai.steamstatic.com/4963bca91b1b3edf88de548e459b2092a35312e7_full.jpg',
+        'https://github.com/Vicc09.png',
       avatarColor: '#06b6d4',
       bio: 'Redactează documentația tehnică a serverelor CS2, realizează task-uri de conținut și actualizări periodice.',
       responsibilities: [
@@ -440,7 +440,7 @@ export function getDefaultTeamMembers(): TeamMember[] {
       role: 'root_admin',
       customTitle: 'Co-Root & Systems Lead',
       avatarUrl:
-        'https://avatars.akamai.steamstatic.com/562c921ff1c8b59f1c5f9642c39608af2984128b_full.jpg',
+        'https://github.com/umpy04.png',
       avatarColor: '#8b5cf6',
       bio: 'Co-fondator și responsabil de infrastructura tehnică a serverelor CS2 WildFire. Supervizează stabilitatea rețelei, integrarea sistemelor tehnice și calitatea.',
       responsibilities: [
