@@ -320,29 +320,67 @@ export async function validateSessionToken(token: string): Promise<AdminSession 
   // Cross check against live team store
   const member = await findTeamMemberByUsername(payload.username);
 
-  // If member was suspended or deleted, destroy session
-  if (!member || member.status === 'suspended') {
+  // If member was explicitly suspended, destroy session
+  if (member && member.status === 'suspended') {
     activeSessions.delete(payload.sessionId);
+    persistSessions();
     return null;
   }
 
   const isRoot = member?.isRoot ?? payload.isRoot ?? isRootUsername(payload.username);
 
   let session = activeSessions.get(payload.sessionId);
-  if (!session || session.username !== payload.username) return null;
-  else {
-    // Keep live permissions strictly updated from persistent store
-    if (member) {
-      session.isRoot = isRoot;
-      session.role = member.role;
-      session.displayName = member.displayName;
-      session.permissions = isRoot ? AUTH_ROOT_PERMISSIONS : member.permissions;
+  if (!session) {
+    // 1. Try reading from persistent session file on disk
+    try {
+      const persistedNow = readJson<{ sessions: AdminSession[]; panic: boolean }>(sessionFile, {
+        sessions: [],
+        panic: false,
+      });
+      const diskSession = persistedNow.sessions?.find((s) => s.sessionId === payload.sessionId);
+      if (diskSession) {
+        session = diskSession;
+        activeSessions.set(session.sessionId, session);
+      }
+    } catch {}
+
+    // 2. If token is valid, cryptographically verified, unexpired, and member is active:
+    // Re-hydrate session into memory & persist to disk so restarts / deploys NEVER kick out admins!
+    if (!session && (!member || member.status === 'active')) {
+      session = {
+        sessionId: payload.sessionId,
+        username: payload.username,
+        displayName: member?.displayName || payload.displayName || payload.username,
+        role: member?.role || payload.role || (isRoot ? 'root_admin' : 'content_editor'),
+        isRoot,
+        permissions: isRoot
+          ? AUTH_ROOT_PERMISSIONS
+          : (member?.permissions || payload.permissions || AUTH_DEFAULT_PERMISSIONS),
+        ip: '127.0.0.1',
+        userAgent: 'rehydrated',
+        createdAt: payload.createdAt || now,
+        lastActiveAt: now,
+        expiresAt: payload.expiresAt,
+      };
+      activeSessions.set(session.sessionId, session);
+      persistSessions();
     }
   }
 
+  if (!session || session.username.toLowerCase() !== payload.username.toLowerCase()) return null;
+
+  // Keep live permissions strictly updated from persistent store
+  if (member) {
+    session.isRoot = isRoot;
+    session.role = member.role;
+    session.displayName = member.displayName;
+    session.permissions = isRoot ? AUTH_ROOT_PERMISSIONS : member.permissions;
+  }
+
   // Check activity timeout
-  if (!session || now - session.lastActiveAt > INACTIVITY_TIMEOUT_MS) {
+  if (now - session.lastActiveAt > INACTIVITY_TIMEOUT_MS) {
     activeSessions.delete(payload.sessionId);
+    persistSessions();
     return null;
   }
 

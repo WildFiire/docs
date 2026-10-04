@@ -638,7 +638,21 @@ export function loadTeamMembersSync(): TeamMember[] {
   return reconciled;
 }
 
+let cachedMembers: TeamMember[] | null = null;
+let lastCacheTime = 0;
+const CACHE_TTL_MS = 60 * 1000; // 60 seconds in-memory cache
+
+export function invalidateTeamMemberCache(): void {
+  cachedMembers = null;
+  lastCacheTime = 0;
+}
+
 export async function loadTeamMembers(): Promise<TeamMember[]> {
+  const now = Date.now();
+  if (cachedMembers && now - lastCacheTime < CACHE_TTL_MS) {
+    return cachedMembers;
+  }
+
   let members: TeamMember[] | null = null;
   try {
     const config = getLocalDatabaseConfig();
@@ -659,13 +673,25 @@ export async function loadTeamMembers(): Promise<TeamMember[]> {
       members = JSON.parse(raw);
     }
   } catch (err) {
-    console.error('Failed to load team members:', err);
+    console.error('Failed to load team members from Supabase, using local fallback:', err);
+    if (fs.existsSync(TEAM_FILE_PATH)) {
+      try {
+        const raw = fs.readFileSync(TEAM_FILE_PATH, 'utf-8');
+        members = JSON.parse(raw);
+      } catch {}
+    }
   }
 
-  const { members: reconciled, modified } = reconcileTeamMembers(members || []);
-  if (modified || !fs.existsSync(TEAM_FILE_PATH)) {
-    await saveTeamMembers(reconciled);
+  const { members: reconciled, modified } = reconcileTeamMembers(members || cachedMembers || getDefaultTeamMembers());
+  if (!fs.existsSync(TEAM_FILE_PATH)) {
+    try {
+      const dir = path.dirname(TEAM_FILE_PATH);
+      if (!fs.existsSync(dir)) fs.mkdirSync(dir, { recursive: true });
+      fs.writeFileSync(TEAM_FILE_PATH, JSON.stringify(reconciled, null, 2), 'utf-8');
+    } catch {}
   }
+  cachedMembers = reconciled;
+  lastCacheTime = now;
   return reconciled;
 }
 
@@ -692,6 +718,7 @@ export async function saveTeamMembers(members: TeamMember[]): Promise<boolean> {
       fs.mkdirSync(dir, { recursive: true });
     }
     fs.writeFileSync(TEAM_FILE_PATH, JSON.stringify(members, null, 2), 'utf-8');
+    invalidateTeamMemberCache();
 
     // Așteptăm salvarea sincronă în Supabase
     await syncTeamToSupabase(members);
