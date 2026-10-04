@@ -65,28 +65,9 @@ export function createApp() {
     }
     next();
   });
-  app.get('/api/admin/publication', async (_req, res) => {
-    if (!(await getAuthenticatedAdminSession()))
-      return res.status(401).json({ error: 'UNAUTHORIZED' });
-    res.json(publicationState);
-  });
   app.get('/api/system/status', (_req, res) => {
     const { maintenance, announcement } = getPlatformSettings();
     res.json({ maintenance, announcement });
-  });
-  app.get('/api/admin/dashboard', async (_req, res) => {
-    const session = await getAuthenticatedAdminSession();
-    if (!session) return res.status(401).json({ error: 'UNAUTHORIZED' });
-    const docs = getRealDocsCount();
-    res.json({
-      stats: {
-        documents: docs.total,
-        categories: Object.keys(docs.categories).length,
-        uptimeSeconds: Math.floor(process.uptime()),
-      },
-      recentCommits: getRealGitCommits(),
-      publication: publicationState,
-    });
   });
   app.post('/api/admin/preview', (req, res) =>
     res.json({
