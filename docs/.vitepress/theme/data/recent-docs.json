@@ -1,5 +1,16 @@
 [
   {
+    "slug": "informatii/getting-started",
+    "href": "/docs/informatii/getting-started",
+    "title": "Ghid de Inceput CS2",
+    "description": "Cum sa iti asociezi contul de Steam cu Discord si primele comenzi esentiale pe serverul Wildfire.ro.",
+    "category": "informatii",
+    "readingTime": 3,
+    "commitHash": "ec491ad5a71f2ed78c0ef8f3e5c4daf6478d67d6",
+    "timestamp": 1791127886,
+    "authorName": "V1ccX"
+  },
+  {
     "slug": "currency/credits",
     "href": "/docs/currency/credits",
     "title": "Credite In-Game (!shop)",
@@ -39,17 +50,6 @@
     "description": "Gaseste raspunsuri rapide la cele mai frecvente intrebari despre serverul nostru, sisteme custom, economie, regulamente si comenzi.",
     "category": "informatii",
     "readingTime": 6,
-    "commitHash": "b36170f121f31fc0016791a669612a4059244560",
-    "timestamp": 1791120460,
-    "authorName": "iannC69"
-  },
-  {
-    "slug": "informatii/getting-started",
-    "href": "/docs/informatii/getting-started",
-    "title": "Ghid de Inceput CS2",
-    "description": "Cum sa iti asociezi contul de Steam cu Discord si primele comenzi esentiale pe serverul Wildfire.ro.",
-    "category": "informatii",
-    "readingTime": 3,
     "commitHash": "b36170f121f31fc0016791a669612a4059244560",
     "timestamp": 1791120460,
     "authorName": "iannC69"

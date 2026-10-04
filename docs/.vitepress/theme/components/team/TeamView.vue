@@ -35,7 +35,7 @@ const route = useRoute();
 
 // Detect if route is for a specific member profile
 const activeMemberUsername = computed(() => {
-  const path = route.path.replace(/\/$/, '');
+  const path = route.path.replace(/\/$/, '').replace(/\.html$/, '');
   const segments = path.split('/');
   const last = segments[segments.length - 1];
   if (!last || last === 'team' || last === 'index' || last === 'docs') {
