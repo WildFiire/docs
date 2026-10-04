@@ -62,14 +62,53 @@ write(path.join(docsRoot, 'docs/index.md'), '---\nlayout: home\nsearch: false\n-
 // Paths are public; account payloads never enter static data or the client bundle.
 const runtime = process.env.WF_RUNTIME_DIR || root;
 let users = [];
+let teamMembers = [];
 try {
-  users = JSON.parse(fs.readFileSync(path.join(runtime, 'content/team.json'), 'utf8'))
+  teamMembers = JSON.parse(fs.readFileSync(path.join(runtime, 'content/team.json'), 'utf8'));
+  users = teamMembers
     .filter((u) => u.status === 'active')
-    .map((u) => u.username)
+    .map((u) => u.username);
 } catch {}
 const defaultUsernames = ['iannC69', 'Yakuza', 'V1ccX', 'umpy'];
 for (const u of defaultUsernames) {
   if (!users.includes(u)) users.push(u);
+}
+
+function resolveAuthorProfile(name, email) {
+  const cleanName = (name || '').trim().toLowerCase();
+  const cleanEmail = (email || '').trim().toLowerCase();
+
+  const ghNoreplyMatch = cleanEmail.match(/^(\d+\+)?([a-z0-9_-]+)@users\.noreply\.github\.com$/i);
+  const noreplyGhUser = ghNoreplyMatch ? ghNoreplyMatch[2].toLowerCase() : '';
+
+  const matched = teamMembers.find((m) => {
+    if (m.username && m.username.toLowerCase() === cleanName) return true;
+    if (m.displayName && m.displayName.toLowerCase() === cleanName) return true;
+    if (m.githubUsername && m.githubUsername.toLowerCase() === cleanName) return true;
+    if (noreplyGhUser && m.githubUsername && m.githubUsername.toLowerCase() === noreplyGhUser) return true;
+    if (m.email && m.email.toLowerCase() === cleanEmail) return true;
+    return false;
+  });
+
+  if (matched) {
+    const avatar = matched.avatarUrl || (matched.githubUsername ? `https://github.com/${matched.githubUsername}.png` : `https://ui-avatars.com/api/?name=${encodeURIComponent(matched.displayName || matched.username)}&background=ff6b00&color=fff&size=64&bold=true`);
+    return {
+      authorName: matched.displayName || matched.username,
+      authorAvatar: avatar,
+      githubUsername: matched.githubUsername || '',
+    };
+  }
+
+  const ghUser = noreplyGhUser || (cleanName && !cleanName.includes(' ') ? cleanName : '');
+  const avatar = ghUser
+    ? `https://github.com/${ghUser}.png`
+    : `https://ui-avatars.com/api/?name=${encodeURIComponent(name || 'Wildfire')}&background=ff6b00&color=fff&size=64&bold=true`;
+
+  return {
+    authorName: name || 'Wildfire Team',
+    authorAvatar: avatar,
+    githubUsername: ghUser,
+  };
 }
 for (const username of users)
   for (const prefix of ['team', 'docs/team'])
@@ -118,13 +157,43 @@ walk(docsRoot);
 const git = new Map();
 try {
   let current;
-  for (const line of execFileSync('git',['log','--format=COMMIT|%H|%ct|%an','--name-only','--','docs'],{encoding:'utf8',maxBuffer:10*1024*1024}).split('\n')) {
-    if(line.startsWith('COMMIT|')){const [,commitHash,timestamp,authorName]=line.split('|');current={commitHash,timestamp:Number(timestamp),authorName}}
-    else if(line.trim()&&current&&!git.has(line.trim()))git.set(line.trim(),current);
+  for (const line of execFileSync('git', ['log', '--format=COMMIT|%H|%ct|%an|%ae', '--name-only', '--', 'docs'], {
+    encoding: 'utf8',
+    maxBuffer: 10 * 1024 * 1024,
+  }).split('\n')) {
+    if (line.startsWith('COMMIT|')) {
+      const [, commitHash, timestamp, authorName, authorEmail] = line.split('|');
+      const profile = resolveAuthorProfile(authorName, authorEmail);
+      current = {
+        commitHash,
+        timestamp: Number(timestamp),
+        authorName: profile.authorName,
+        authorAvatar: profile.authorAvatar,
+      };
+    } else if (line.trim() && current && !git.has(line.trim())) {
+      git.set(line.trim(), current);
+    }
   }
 } catch {}
-const recent=documents.filter(d=>d.slug!=='index'&&!d.slug.endsWith('/index')).map(d=>({slug:d.slug,href:'/docs/'+d.slug,title:d.title,description:d.description,category:d.slug.split('/')[0],readingTime:Math.max(1,Math.ceil(d.content.split(/\s+/).length/220)),...(git.get('docs/'+d.path)||{commitHash:'',timestamp:0,authorName:''})})).sort((a,b)=>b.timestamp-a.timestamp);
-write(path.join(docsRoot,'.vitepress/theme/data/recent-docs.json'),JSON.stringify(recent,null,2));
+const defaultIannCAvatar = 'https://avatars.fastly.steamstatic.com/f9a2171998ee2677dae87089953177799dbf7dc1_full.jpg';
+const recent = documents
+  .filter((d) => d.slug !== 'index' && !d.slug.endsWith('/index'))
+  .map((d) => ({
+    slug: d.slug,
+    href: '/docs/' + d.slug,
+    title: d.title,
+    description: d.description,
+    category: d.slug.split('/')[0],
+    readingTime: Math.max(1, Math.ceil(d.content.split(/\s+/).length / 220)),
+    ...(git.get('docs/' + d.path) || {
+      commitHash: '',
+      timestamp: 0,
+      authorName: 'iannC',
+      authorAvatar: defaultIannCAvatar,
+    }),
+  }))
+  .sort((a, b) => b.timestamp - a.timestamp);
+write(path.join(docsRoot, '.vitepress/theme/data/recent-docs.json'), JSON.stringify(recent, null, 2));
 for (const relative of previous) {
   const file = path.resolve(docsRoot, relative);
   if (!generated.has(relative) && file.startsWith(docsRoot + path.sep) && fs.existsSync(file))

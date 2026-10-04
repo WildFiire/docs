@@ -31,6 +31,36 @@ function getCategoryColor(category: string): string {
   return 'orange';
 }
 
+const TEAM_AVATAR_MAP: Record<string, string> = {
+  v1ccx: 'https://avatars.akamai.steamstatic.com/4963bca91b1b3edf88de548e459b2092a35312e7_full.jpg',
+  vicc09: 'https://avatars.akamai.steamstatic.com/4963bca91b1b3edf88de548e459b2092a35312e7_full.jpg',
+  iannc: 'https://avatars.fastly.steamstatic.com/f9a2171998ee2677dae87089953177799dbf7dc1_full.jpg',
+  iannc69: 'https://avatars.fastly.steamstatic.com/f9a2171998ee2677dae87089953177799dbf7dc1_full.jpg',
+  yakuza: 'https://avatars.akamai.steamstatic.com/e2847cb722e1ec8bf9df607659f7f5e3804a0182_full.jpg',
+  yakuza2377: 'https://avatars.akamai.steamstatic.com/e2847cb722e1ec8bf9df607659f7f5e3804a0182_full.jpg',
+  umpy: 'https://avatars.akamai.steamstatic.com/562c921ff1c8b59f1c5f9642c39608af2984128b_full.jpg',
+  umpy04: 'https://avatars.akamai.steamstatic.com/562c921ff1c8b59f1c5f9642c39608af2984128b_full.jpg',
+};
+
+function getAuthorAvatar(doc: any): string {
+  if (doc?.authorAvatar) return doc.authorAvatar;
+  const name = (doc?.authorName || '').toLowerCase().trim();
+  if (TEAM_AVATAR_MAP[name]) return TEAM_AVATAR_MAP[name];
+  return `https://github.com/${doc?.authorName || 'iannC69'}.png`;
+}
+
+function handleAvatarError(event: Event, name?: string) {
+  const img = event.target as HTMLImageElement;
+  if (!img) return;
+  const lowerName = (name || '').toLowerCase().trim();
+  if (TEAM_AVATAR_MAP[lowerName] && img.src !== TEAM_AVATAR_MAP[lowerName]) {
+    img.src = TEAM_AVATAR_MAP[lowerName];
+    return;
+  }
+  const fallback = encodeURIComponent(name || 'Wildfire');
+  img.src = `https://ui-avatars.com/api/?name=${fallback}&background=ff6b00&color=fff&size=64&bold=true`;
+}
+
 function formatDate(timestamp?: number): string {
   if (!timestamp) return 'Recent';
   try {
@@ -159,12 +189,13 @@ function formatDate(timestamp?: number): string {
           <div class="recent-card-footer">
             <div class="recent-card-author">
               <img
-                :src="`https://github.com/${doc.authorName || 'iannC69'}.png`"
+                :src="getAuthorAvatar(doc)"
                 :alt="doc.authorName || 'iannC69'"
                 class="recent-author-avatar"
                 width="18"
                 height="18"
                 loading="lazy"
+                @error="handleAvatarError($event, doc.authorName)"
               />
               <span class="recent-author-name">
                 <span class="recent-author-by">by</span>
