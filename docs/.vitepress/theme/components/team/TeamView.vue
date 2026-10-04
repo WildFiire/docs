@@ -61,7 +61,7 @@ const repoStats = ref<Record<string, { totalCommits: number; docsCommits: number
 const collapseDescriptions = ref<boolean>(true);
 const cardCollapseOverrides = ref<Record<string, boolean>>({});
 const githubGraphUrl = ref<string>(
-  'https://github.com/iannC69/docs-public-wf/graphs/contributors',
+  'https://github.com/WildFiire/docs/graphs/contributors',
 );
 
 function getSteamProfileUrl(steamId?: string): string | null {

@@ -39,9 +39,8 @@ export interface RecentDocItem {
 
 const DOCS_DIR = DOCS_ROOT;
 
-// Fallback GitHub repo config
-const GITHUB_REPO_OWNER = process.env.GITHUB_REPO_OWNER || 'iannC69';
-const GITHUB_REPO_NAME = process.env.GITHUB_REPO_NAME || 'wf-docscore';
+const GITHUB_REPO_OWNER = process.env.GITHUB_REPO_OWNER || 'WildFiire';
+const GITHUB_REPO_NAME = process.env.GITHUB_REPO_NAME || 'docs';
 const DEFAULT_AUTHOR = 'iannC69';
 const DEFAULT_EMAIL = 'iannc@wildfire.ro';
 
@@ -325,9 +324,12 @@ function getGitOpsFileMetadata(filePath: string): GitCommitInfo | null {
     if (!meta || !meta.files) return null;
 
     const relPath = path.relative(process.cwd(), filePath).replace(/\\/g, '/');
+    const cleanNoDocs = relPath.replace(/^docs\//, '');
     // Normalize content path matching
     const candidateKeys = [
       relPath,
+      `docs/${cleanNoDocs}`,
+      cleanNoDocs,
       relPath.replace(/^content\/docs\//, 'content/'),
       `content/${relPath}`,
       relPath.replace(/^content\//, 'content/docs/'),

@@ -57,7 +57,7 @@
         </span>
         <a v-if="uploadedByValue" :href="`https://github.com/${uploadedByValue}`" target="_blank" rel="noopener noreferrer" class="wch-meta-chip wch-author-link github-profile" :data-username="uploadedByValue">
           <img :src="`https://github.com/${uploadedByValue}.png`" :alt="uploadedByValue" width="20" height="20" loading="lazy" class="wch-author-pfp" />
-          by {{ uploadedByValue }}
+          by {{ displayAuthorName }}
         </a>
       </div>
 
@@ -177,7 +177,8 @@ const lastUpdatedText = computed(() => {
   if (!ts) return ''
   return new Date(ts).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' })
 })
-const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gitLastCommitter || frontmatter.value?.uploadedBy || '')
+const uploadedByValue = computed(() => props.uploadedBy || frontmatter.value?.gitLastCommitter || frontmatter.value?.uploadedBy || frontmatter.value?.author || '')
+const displayAuthorName = computed(() => frontmatter.value?.lastUpdatedBy || uploadedByValue.value)
 </script>
 
 <style scoped>

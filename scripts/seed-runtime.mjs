@@ -83,26 +83,26 @@ if (!fs.existsSync(gitopsPath)) {
     JSON.stringify(
       {
         publicRepo: {
-          owner: 'iannC69',
-          repo: 'docs-public-wf',
+          owner: 'WildFiire',
+          repo: 'docs',
           branch: 'main',
-          contentPath: 'content',
+          contentPath: 'docs',
           mediaPath: 'public/media',
-          editUrlTemplate: 'https://github.com/iannC69/docs-public-wf/edit/main/{path}',
+          editUrlTemplate: 'https://github.com/WildFiire/docs/edit/main/{path}',
         },
         privateRepo: {
-          owner: 'iannC69',
-          repo: 'wf-docscore',
+          owner: 'WildFiire',
+          repo: 'docs',
           branch: 'main',
         },
         sync: {
-          mode: 'submodule',
+          mode: 'api_sync',
           githubToken: GH_TOKEN,
           webhookSecret: 'wf_sec_a8b9f3e4c2d1094857bfa39281c7e6a5',
           autoRevalidate: true,
           notifyDiscord: true,
           lastSyncStatus: 'success',
-          lastSyncMessage: 'Sincronizat cu succes',
+          lastSyncMessage: 'Sincronizat cu succes pe WildFiire/docs',
           syncCount: 20,
           lastSyncTimestamp: new Date().toISOString(),
         },
@@ -129,8 +129,8 @@ NEXT_PUBLIC_APP_URL=https://docs.wildfire.ro
 ADMIN_SESSION_SECRET=wf_docscore_super_fortress_key_2026_982341908754123897412
 ADMIN_DEFAULT_SALT=wf_root_salt_2026
 
-GITHUB_REPO_OWNER=iannC69
-GITHUB_REPO_NAME=wf-docscore
+GITHUB_REPO_OWNER=WildFiire
+GITHUB_REPO_NAME=docs
 GITHUB_DOCS_BRANCH=main
 GITHUB_TOKEN=${GH_TOKEN}
 GITHUB_SYNC_TOKEN=${GH_TOKEN}

@@ -3,6 +3,7 @@ import type { Request as ExpressRequest, Response as ExpressResponse } from 'exp
 import { jsonReply, sendReply, prepareResponse, setCookie } from '@server/http';
 import fs from 'fs';
 import path from 'path';
+import matter from 'gray-matter';
 import { validateSessionToken, SESSION_COOKIE_NAME } from '@server/lib/security/auth';
 import { recordAuditEvent } from '@server/lib/security/audit';
 import { incrementMemberDocCount, findTeamMemberByUsername } from '@server/lib/security/teamStore';
@@ -170,9 +171,28 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
       fs.mkdirSync(parentDir, { recursive: true });
     }
 
+    const member = await findTeamMemberByUsername(session.username);
+    const authorUsername = member?.githubUsername || session.username;
+    const authorDisplayName = member?.displayName || session.username;
+
+    // Inject/update frontmatter so VitePress page and Git commit both have exact author metadata
+    let processedContent = content;
+    try {
+      const parsedMatter = matter(content);
+      parsedMatter.data = parsedMatter.data || {};
+      parsedMatter.data.gitLastCommitter = authorUsername;
+      parsedMatter.data.lastUpdatedBy = authorDisplayName;
+      parsedMatter.data.author = authorUsername;
+      parsedMatter.data.uploadedBy = authorUsername;
+      parsedMatter.data.lastUpdated = Date.now();
+      processedContent = matter.stringify(parsedMatter.content, parsedMatter.data);
+    } catch {
+      processedContent = content;
+    }
+
     snapshotDocument(slug, session.username);
     const temporary = `${targetPath}.tmp`;
-    fs.writeFileSync(temporary, content, 'utf-8');
+    fs.writeFileSync(temporary, processedContent, 'utf-8');
     fs.renameSync(temporary, targetPath);
 
     recordAuditEvent({
@@ -190,15 +210,15 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
     // Fails silently — doc save always succeeds regardless of Git status.
     let commitHash: string | undefined;
     try {
-      const member = await findTeamMemberByUsername(session.username);
       const gitResult = await commitDocChange({
         filePath: `docs/${cleanRelPath}`.replace(/\\/g, '/'),
-        authorName: member?.displayName || session.username,
+        authorName: authorDisplayName,
         githubUsername: member?.githubUsername,
         username: session.username,
         isRoot: member?.isRoot ?? false,
         slug,
         action: isNew ? 'create' : 'update',
+        fileContent: processedContent,
       });
       if (gitResult.success) {
         commitHash = gitResult.commitHash;
@@ -321,6 +341,22 @@ export async function DELETE(req: ExpressRequest, expressResponse: ExpressRespon
       ip,
       details: { slug, path: cleanRelPath },
     });
+
+    // ── Auto-Git Commit with GitHub authorship for DELETE ───────────────────
+    try {
+      const member = await findTeamMemberByUsername(session.username);
+      await commitDocChange({
+        filePath: `docs/${cleanRelPath}`.replace(/\\/g, '/'),
+        authorName: member?.displayName || session.username,
+        githubUsername: member?.githubUsername,
+        username: session.username,
+        isRoot: member?.isRoot ?? false,
+        slug,
+        action: 'delete',
+      });
+    } catch (gitErr: any) {
+      console.warn('[GitCommit] Delete git sync error (non-fatal):', gitErr?.message);
+    }
 
     invalidateGitCache(targetPath);
     invalidateRepoStatsCache();

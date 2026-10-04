@@ -3,8 +3,8 @@ import { jsonReply, sendReply, prepareResponse, setCookie } from '@server/http';
 import { getAllTeamRepoStats } from '@server/lib/repoContributions';
 import { getPublicTeamMembers } from '@server/lib/security/teamStore';
 
-const GITHUB_REPO_OWNER = process.env.GITHUB_REPO_OWNER || 'iannC69';
-const GITHUB_REPO_NAME = process.env.GITHUB_REPO_NAME || 'wf-docscore';
+const GITHUB_REPO_OWNER = process.env.GITHUB_REPO_OWNER || 'WildFiire';
+const GITHUB_REPO_NAME = process.env.GITHUB_REPO_NAME || 'docs';
 
 import { getGitOpsSettings } from '@server/lib/gitops/store';
 

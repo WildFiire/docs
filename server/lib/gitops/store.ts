@@ -42,23 +42,23 @@ function generateSecureSecret(): string {
 
 const DEFAULT_GITOPS_SETTINGS: GitOpsSettings = {
   publicRepo: {
-    owner: 'wildfiire',
-    repo: 'docs-public',
+    owner: 'WildFiire',
+    repo: 'docs',
     branch: 'main',
-    contentPath: 'content',
+    contentPath: 'docs',
     mediaPath: 'public/media',
-    editUrlTemplate: 'https://github.com/wildfiire/docs-public/edit/main/{path}',
+    editUrlTemplate: 'https://github.com/WildFiire/docs/edit/main/{path}',
   },
   privateRepo: {
-    owner: 'wildfiire',
+    owner: 'WildFiire',
     repo: 'docs',
     branch: 'main',
   },
   sync: {
-    mode: 'submodule',
+    mode: 'api_sync',
     githubToken: '',
     webhookSecret: generateSecureSecret(),
-    autoRevalidate: false,
+    autoRevalidate: true,
     notifyDiscord: false,
     lastSyncStatus: 'pending',
     lastSyncMessage: 'Platforma este pregătită pentru configurare și sincronizare GitOps.',
