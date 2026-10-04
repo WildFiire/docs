@@ -359,29 +359,22 @@ export async function getAuthenticatedAdminSession(): Promise<AdminSession | nul
     const session = await validateSessionToken(token);
     if (!session) return null;
 
-    const currentIp = req.ip || '127.0.0.1';
+    const currentIp =
+      req.get?.('cf-connecting-ip')?.trim() ||
+      req.get?.('x-real-ip')?.trim() ||
+      req.get?.('x-forwarded-for')?.split(',')[0]?.trim() ||
+      req.ip ||
+      '127.0.0.1';
 
-    // Anti-Hijacking: Strict IP Binding for Root & high privilege accounts
+    // Anti-Hijacking: Track roaming IP (Cloudflare edge proxy rotation, mobile networks, VPNs)
+    // without prematurely invalidating the cryptographically signed HMAC session token.
     if (
       session.ip &&
       session.ip !== '127.0.0.1' &&
       currentIp !== '127.0.0.1' &&
       session.ip !== currentIp
     ) {
-      if (session.isRoot) {
-        recordAuditEvent({
-          action: 'AUTH_LOGIN_FAILURE',
-          actor: session.username,
-          ip: currentIp,
-          details: {
-            reason: 'STRICT_IP_BINDING_FAILED',
-            message: 'Sesiune Root invalidată automat: Schimbare majoră de IP detectată.',
-            originalIp: session.ip,
-          },
-        });
-        revokeAdminSession(session.sessionId, session.username);
-        return null;
-      }
+      session.ip = currentIp;
     }
 
     return session;

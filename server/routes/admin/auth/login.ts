@@ -169,7 +169,7 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
       value: token,
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: 'lax',
       path: '/',
       maxAge: Math.floor(SESSION_DURATION_MS / 1000),
     });
