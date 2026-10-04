@@ -4816,6 +4816,17 @@ nextjs-portal,
   box-sizing: border-box;
 }
 
+@media (min-width: 1025px) {
+  .admin-root-container:not(.admin-root-container--auth) .admin-main-content {
+    margin-left: 260px !important;
+    width: calc(100% - 260px) !important;
+    max-width: calc(100% - 260px) !important;
+    padding: 28px 36px !important;
+    box-sizing: border-box !important;
+  }
+}
+
+.admin-root-container--auth .admin-main-content,
 .admin-main-content--auth {
   margin-left: 0 !important;
   padding: 0 !important;

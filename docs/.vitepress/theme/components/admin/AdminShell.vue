@@ -76,7 +76,7 @@ function getInitialUser() {
 const route = useRoute();
 const router = useRouter();
 const user = ref<any>(getInitialUser());
-const loading = ref(false);
+const loading = ref(!user.value);
 const error = ref('');
 const mobile = ref(false);
 
@@ -201,10 +201,7 @@ async function logout() {
       />
 
       <!-- Admin Body Container (Sidebar + Content) -->
-      <div
-        class="admin-body-container"
-        :class="{ 'admin-body-container--auth': !user }"
-      >
+      <div class="admin-body-container">
         <AdminSidebar
           v-if="user"
           :user="user"
@@ -212,10 +209,7 @@ async function logout() {
           @close="mobile = false"
         />
 
-        <main
-          class="admin-main-content"
-          :class="{ 'admin-main-content--auth': !user }"
-        >
+        <main class="admin-main-content">
           <div v-if="error" class="adx-error-box" role="alert">
             <Icon icon="lucide:alert-circle" class="text-red-500" width="24" height="24" />
             <p>{{ error }}</p>

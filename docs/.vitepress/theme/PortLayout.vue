@@ -84,7 +84,9 @@ watch(
   <!-- Instant Top Progress Bar -->
   <PageProgressBar />
 
-  <Admin v-if="isAdmin" />
+  <ClientOnly v-if="isAdmin">
+    <Admin />
+  </ClientOnly>
   <MaintenanceScreen v-else-if="maintenance" :state="status.maintenance" />
   <div
     v-else
