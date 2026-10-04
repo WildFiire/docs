@@ -29,7 +29,6 @@ const RelatedPages = defineAsyncComponent(() => import('./components/Widgets/Rel
 const SiteMap = defineAsyncComponent(() => import('./components/Layout/SiteMap.vue'));
 const PageNotFound = defineAsyncComponent(() => import('./components/Layout/PageNotFound.vue'));
 const FeedbackWidget = defineAsyncComponent(() => import('./components/Widgets/FeedbackWidget.vue'));
-const CompatibilityRedirect = defineAsyncComponent(() => import('./components/CompatibilityRedirect.vue'));
 
 export default {
   extends: DefaultTheme,
@@ -51,7 +50,6 @@ export default {
     app.component('SiteMap', SiteMap);
     app.component('PageNotFound', PageNotFound);
     app.component('FeedbackWidget', FeedbackWidget);
-    app.component('CompatibilityRedirect', CompatibilityRedirect);
 
     if (typeof window !== 'undefined') {
       router.onBeforeRouteChange = () => {

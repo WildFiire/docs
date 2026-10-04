@@ -10,6 +10,10 @@ import DocImage from './components/Docs/DocImage.vue';
 import DocVideo from './components/Docs/DocVideo.vue';
 import CodeBlock from './components/Docs/CodeBlock.vue';
 import CompatibilityRedirect from './components/CompatibilityRedirect.vue';
+import TeamView from './components/team/TeamView.vue';
+import ProductChangelog from './components/Pages/ProductChangelog.vue';
+import MaintenanceScreen from './components/ui/MaintenanceScreen.vue';
+
 export function registerPort(app: App) {
   for (const [name, component] of Object.entries({
     Callout,
@@ -24,18 +28,9 @@ export function registerPort(app: App) {
     CodeBlock,
     CopyablePre: CodeBlock,
     CompatibilityRedirect,
+    TeamView,
+    ProductChangelog,
+    MaintenanceScreen,
   }))
     app.component(name, component);
-  app.component(
-    'TeamView',
-    defineAsyncComponent(() => import('./components/team/TeamView.vue')),
-  );
-  app.component(
-    'ProductChangelog',
-    defineAsyncComponent(() => import('./components/Pages/ProductChangelog.vue')),
-  );
-  app.component(
-    'MaintenanceScreen',
-    defineAsyncComponent(() => import('./components/ui/MaintenanceScreen.vue')),
-  );
 }
