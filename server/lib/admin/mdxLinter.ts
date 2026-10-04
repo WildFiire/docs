@@ -109,10 +109,59 @@ export function lintMarkdown(content: string): LintResult {
       let hasDescription = false;
       const seenKeys = new Set<string>();
 
+      let currentTopKey: string | null = null;
+      let currentTopKeyLine = 0;
+      let currentTopKeyColonIndex = 0;
+      let currentTopKeyHasContent = false;
+
+      const finalizeCurrentKey = () => {
+        if (!currentTopKey) return;
+
+        if (currentTopKey === 'title') {
+          if (currentTopKeyHasContent) {
+            hasFrontmatterTitle = true;
+          } else {
+            diagnostics.push({
+              id: `fm-empty-title-${currentTopKeyLine}`,
+              line: currentTopKeyLine,
+              column: currentTopKeyColonIndex + 2,
+              message: 'Câmpul `title` din Frontmatter nu poate fi gol.',
+              severity: 'error',
+              rule: 'frontmatter/title-required',
+            });
+          }
+        } else if (currentTopKey === 'description') {
+          if (!currentTopKeyHasContent) {
+            diagnostics.push({
+              id: `fm-empty-desc-${currentTopKeyLine}`,
+              line: currentTopKeyLine,
+              column: currentTopKeyColonIndex + 2,
+              message: 'Câmpul `description` din Frontmatter este gol.',
+              severity: 'warning',
+              rule: 'frontmatter/description-recommended',
+            });
+          }
+        }
+      };
+
       fmLines.forEach((lineText, idx) => {
         const lineNum = idx + 2;
         const trimmedLine = lineText.trim();
         if (!trimmedLine || trimmedLine.startsWith('#')) return;
+
+        const isIndented = lineText.startsWith(' ') || lineText.startsWith('\t');
+        const isListItem = trimmedLine.startsWith('-');
+
+        // If it's an indented line or list item, it belongs to the current block or is a list item
+        if (isIndented || isListItem) {
+          if (trimmedLine.length > 0) {
+            currentTopKeyHasContent = true;
+          }
+          return;
+        }
+
+        // New top-level key encountered: finalize previous key checks
+        finalizeCurrentKey();
 
         const colonIndex = lineText.indexOf(':');
         if (colonIndex === -1) {
@@ -124,6 +173,7 @@ export function lintMarkdown(content: string): LintResult {
             severity: 'error',
             rule: 'frontmatter/syntax',
           });
+          currentTopKey = null;
           return;
         }
 
@@ -142,33 +192,23 @@ export function lintMarkdown(content: string): LintResult {
         }
         seenKeys.add(key);
 
+        currentTopKey = key;
+        currentTopKeyLine = lineNum;
+        currentTopKeyColonIndex = colonIndex;
+
+        const isBlockScalar = /^[>|][-+]?$/.test(val);
+        const isEmptyVal = val === '' || val === '""' || val === "''";
+
+        if (isBlockScalar || isEmptyVal) {
+          currentTopKeyHasContent = false;
+        } else {
+          currentTopKeyHasContent = true;
+        }
+
         if (key === 'title') {
           hasTitle = true;
-          if (val) {
-            hasFrontmatterTitle = true;
-          } else {
-            diagnostics.push({
-              id: `fm-empty-title-${lineNum}`,
-              line: lineNum,
-              column: colonIndex + 2,
-              message: 'Câmpul `title` din Frontmatter nu poate fi gol.',
-              severity: 'error',
-              rule: 'frontmatter/title-required',
-            });
-          }
-        }
-        if (key === 'description') {
+        } else if (key === 'description') {
           hasDescription = true;
-          if (!val) {
-            diagnostics.push({
-              id: `fm-empty-desc-${lineNum}`,
-              line: lineNum,
-              column: colonIndex + 2,
-              message: 'Câmpul `description` din Frontmatter este gol.',
-              severity: 'warning',
-              rule: 'frontmatter/description-recommended',
-            });
-          }
         }
 
         // Check unclosed quotes in values
@@ -188,6 +228,9 @@ export function lintMarkdown(content: string): LintResult {
           }
         }
       });
+
+      // Finalize the last key in frontmatter
+      finalizeCurrentKey();
 
       if (!hasTitle) {
         diagnostics.push({
