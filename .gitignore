@@ -52,10 +52,8 @@ card-editor.html
 /server/.build/
 /migration/test-results/
 /docs/.vitepress/releases/
-/docs/.vitepress/build-*/
-/.env.*
-!/.env.example
-/docs/.vitepress/publication.lock
+/.env*
+/migration/
 /docs/.vitepress/published-manifest.json
 /docs/.vitepress/generated-pages.json
 
