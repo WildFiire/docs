@@ -8,7 +8,7 @@ gitLastCommitter: Laur3nt1uu
 lastUpdatedBy: Laur3nt1uu
 author: Laur3nt1uu
 uploadedBy: Laur3nt1uu
-lastUpdated: 1791225443034
+lastUpdated: 1791225483206
 ---
 
 Ecosistemul **VIP** de pe **WildFire.ro** este structurat pe 3 niveluri progresive, oferind avantaje de gameplay, economie accelerata, mobilitate sporita si recunoastere vizuala pe server.
@@ -49,7 +49,7 @@ Ecosistemul **VIP** de pe **WildFire.ro** este structurat pe 3 niveluri progresi
 
 * **VIP Rebirth (3.00 €):** Punctul ideal de intrare daca doresti slot rezervat garantat in orele de varf, un mic avantaj de viata (105 HP) si economie suplimentara.
 * **VIP Immortal (6.50 €) — Recomandat:** Cel mai solicitat pachet din comunitate. Abilitatea de **Double Jump**, seringa de **Healthshot** si timpul de **Fast Plant** ofera un avantaj tactic decisiv in duelurile 1v1.
-* **VIP Mythic (Top 1 Skill / 10.00 €):** Gradul suprem pentru cei mai buni jucatori. Include cele mai mari puncte de viata (115 HP), regenerare maxima si **multiplicator dublu (2.0x)** la credite.
+* **VIP Mythic (Top 1 Skill):** Gradul suprem pentru cei mai buni jucatori. Include cele mai mari puncte de viata (115 HP), regenerare maxima si **multiplicator dublu (2.0x)** la credite.
 
 ---
 
