@@ -1,7 +1,14 @@
 ---
 title: Pachetul VIP Immortal
-description: Ghidul complet al pachetului VIP Immortal pe serverele WildFire CS2 — 6.5€, Double Jump, 110 HP, Healthshot, Fast Plant, tag roz si slot rezervat.
+description: >-
+  Ghidul complet al pachetului VIP Immortal pe serverele WildFire CS2 — 6.5€,
+  Double Jump, 110 HP, Healthshot, Fast Plant, tag roz si slot rezervat.
 outline: deep
+gitLastCommitter: Laur3nt1uu
+lastUpdatedBy: Laur3nt1uu
+author: Laur3nt1uu
+uploadedBy: Laur3nt1uu
+lastUpdated: 1791224893368
 ---
 
 Pachetul **VIP Immortal** este cel mai popular si apreciat grad de pe serverul **WildFire.ro**, conceput pentru jucatorii care doresc o combinatie ideala de mobilitate ridicata, avantaje tactice superioare, economie accelerata si personalizare audio-vizuala completa.
@@ -15,13 +22,13 @@ Pachetul **VIP Immortal** este cel mai popular si apreciat grad de pe serverul *
 
 ## 1. Tarife Oficiale & Durate de Achizitie
 
-Poti debloca gradul VIP Immortal atat cu bani reali de pe platforma web, cat si prin intermediul monedei serverului:
+Poti debloca gradul VIP Immortal cu bani reali de pe platforma web:
 
-| Durata Abonament | Pret in Euro (Web Store) | Pret in Phoenix Coins (In-Game) | Economie / Avantaj |
+| Durata Abonament | Pret in Euro (Web Store) | Economie / Avantaj |
 | :--- | :--- | :--- | :--- |
-| **7 Zile** | — | **3.000 PHX** | Testare saptamanala |
-| **15 Zile** | — | **6.000 PHX** | Flexibilitate medie |
-| **30 Zile (1 Luna)** | **6.50 €** | **12.000 PHX** | **Cel mai avantajos tarif** |
+| **7 Zile** | — | Testare saptamanala |
+| **15 Zile** | — | Flexibilitate medie |
+| **30 Zile (1 Luna)** | **12.000 PHX** | **Cel mai avantajos tarif** |
 
 ---
 
