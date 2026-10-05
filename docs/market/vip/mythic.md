@@ -8,7 +8,7 @@ gitLastCommitter: Laur3nt1uu
 lastUpdatedBy: Laur3nt1uu
 author: Laur3nt1uu
 uploadedBy: Laur3nt1uu
-lastUpdated: 1791225143189
+lastUpdated: 1791225256522
 ---
 
 Pachetul **VIP Mythic** reprezinta cel mai inalt rang VIP disponibil pe serverul **WildFire.ro**. Conceput pentru elita comunitatii si campionii clasamentului lunar, acest grad ofera cele mai mari avantaje economice (multiplicator 2.0x la credite), mobilitate sporita prin **Double Jump** si recunoastere vizuala de top cu tag-ul auriu `[MYTHIC]`.
@@ -63,21 +63,21 @@ Fiecare kill reusit iti reda instantaneu **+15 HP** (sau **+25 HP** la Headshot)
 
 <Steps>
 
-<Step title="Obtinere prin Skill sau Magazin">
+<Step title="Revendicare Premiu (Locul 1)">
 
-Daca ai castigat Locul 1 in clasamentul lunar, contacteaza un **Server Manager+** pe Discord. Daca doresti achizitie directa, acceseaza [wildfire.ro/vip](https://wildfire.ro/vip).
+Daca ai castigat Locul 1 in clasamentul lunar, contacteaza un **Server Manager+** pe Discord pentru validarea premiului.
 
 </Step>
 
-<Step title="Autentificare si Confirmare">
+<Step title="Confirmare si Furnizare SteamID">
 
-Conecteaza-te cu contul tau de Steam pe platforma web pentru procesarea automata a comenzii.
+Trimite SteamID-ul tau echipei staff pentru asocierea manuala a gradului Mythic pe cont.
 
 </Step>
 
 <Step title="Sincronizare Imediata in CS2">
 
-Beneficiile gradului Mythic se activeaza in sub 3 secunde direct pe SteamID-ul tau.
+Beneficiile gradului Mythic se activeaza direct pe SteamID-ul tau si devin active la urmatoarea conectare pe server.
 
 </Step>
 
