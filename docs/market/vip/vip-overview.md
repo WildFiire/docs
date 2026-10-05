@@ -1,7 +1,14 @@
 ---
 title: VIP Tiers — Comparatie Completa
-description: Comparatia detaliata a tuturor gradelor VIP active pe serverele WildFire CS2 — Rebirth (3€), Immortal (6.5€) si Mythic (Skill Top / 10€).
+description: >-
+  Comparatia detaliata a tuturor gradelor VIP active pe serverele WildFire CS2 —
+  Rebirth (3€), Immortal (6.5€) si Mythic (Skill Top / 10€).
 outline: deep
+gitLastCommitter: Laur3nt1uu
+lastUpdatedBy: Laur3nt1uu
+author: Laur3nt1uu
+uploadedBy: Laur3nt1uu
+lastUpdated: 1791225443034
 ---
 
 Ecosistemul **VIP** de pe **WildFire.ro** este structurat pe 3 niveluri progresive, oferind avantaje de gameplay, economie accelerata, mobilitate sporita si recunoastere vizuala pe server.
@@ -17,7 +24,7 @@ Ecosistemul **VIP** de pe **WildFire.ro** este structurat pe 3 niveluri progresi
 
 | Beneficiu / Facilitate | VIP Rebirth | VIP Immortal | VIP Mythic |
 | :--- | :---: | :---: | :---: |
-| **Tarif Lunar (Web Store)** | **3.00 €** | **6.50 €** (Cel Mai Popular) | **Top 1 Skill / 10.00 €** |
+| **Tarif Lunar (Web Store)** | **3.00 €** | **6.50 €** (Cel Mai Popular) | **Top 1 Skill** |
 | **Tarif Phoenix Coins (30 Zile)** | **8.000 PHX** | **12.000 PHX** | **20.000 PHX** |
 | **Puncte de Viata (HP Spawn)** | **105 HP** | **110 HP** | **115 HP** |
 | **Armura la Spawn (Armor)** | **100 AP** (cu Casca) | **105 AP** (cu Casca) | **105 AP** (cu Casca) |
