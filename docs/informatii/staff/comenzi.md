@@ -1,7 +1,14 @@
 ---
 title: Comenzi Administrative Staff
-description: Lista completa a tuturor comenzilor administrative pe serverul WildFire CS2, cu sintaxa exacta si nivelul de acces configurat pe fiecare grad.
+description: >-
+  Lista completa a tuturor comenzilor administrative pe serverul WildFire CS2,
+  cu sintaxa exacta si nivelul de acces configurat pe fiecare grad.
 outline: deep
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791221558034
 ---
 
 Aceste comenzi sunt destinate exclusiv membrilor echipei administrative **WildFire.ro**. Utilizarea comenzilor se face strict in scopul mentinerii ordinii si aplicarii regulamentului oficial.
@@ -22,14 +29,14 @@ Iata lista oficiala si integrala a comenzilor administrative disponibile pe serv
 | :--- | :--- | :--- | :--- |
 | `!admin` | `!admin` | Deschide meniul grafic principal de administrare pe ecran | **Helper** |
 | `!spec` | `!spec [jucator]` | Muta un jucator direct in modul Spectator (pentru verificari) | **Helper** |
-| `!kick` | `!kick [jucator] [motiv]` | Deconecteaza fortat un jucator de pe server | **Helper** |
+| `!kick` | `!kick [jucator]` | Deconecteaza fortat un jucator de pe server | **Helper** |
 | `!gag` | `!gag [jucator] [timp] [motiv]` | Restrictioneaza chat-ul scris al unui jucator (max. 60m) | **Helper** |
 | `!ungag` | `!ungag [jucator]` | Elimina restrictia de chat scris a unui jucator | **Helper** |
 | `!mute` | `!mute [jucator] [timp] [motiv]` | Blocheaza comunicarea audio prin microfon (max. 60m) | **Helper** |
 | `!unmute` | `!unmute [jucator]` | Deblocheaza comunicarea audio a jucatorului | **Helper** |
 | `!silence` | `!silence [jucator] [timp] [motiv]` | Restrictioneaza simultan atat chat-ul scris, cat si microfonul (max. 60m) | **Helper** |
 | `!unsilence` | `!unsilence [jucator]` | Elimina sanctiunea completa de silence a jucatorului | **Helper** |
-| `!slay` | `!slay [jucator] [motiv]` | Elimina instantaneu un jucator in runda curenta (AFK / Bomb Grief) | **Helper** |
+| `!slay` | `!slay [jucator]` | Elimina instantaneu un jucator in runda curenta (AFK / Bomb Grief) | **Helper** |
 | `!slap` | `!slap [jucator] [dmg]` | Loveste un jucator aplicand daune (pentru deblocare din pereti) | **Helper** |
 | `!rename` | `!rename [jucator] [nume_nou]` | Redenumeste un jucator cu nume indecent sau reclama | **Helper** |
 | `!team` | `!team [jucator] [T / CT / Spec]` | Muta un jucator in echipa specificata | **Helper** |
