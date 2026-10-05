@@ -8,7 +8,7 @@ gitLastCommitter: Yakuza2377
 lastUpdatedBy: Yakuza
 author: Yakuza2377
 uploadedBy: Yakuza2377
-lastUpdated: 1791221788387
+lastUpdated: 1791223544115
 ---
 
 Aceste comenzi sunt destinate exclusiv membrilor echipei administrative **WildFire.ro**. Utilizarea comenzilor se face strict in scopul mentinerii ordinii si aplicarii regulamentului oficial.
@@ -65,7 +65,7 @@ Pentru comenzile care necesita specificarea unei durate (`!gag`, `!mute`, `!sile
 | `m` | **Minute** | `10m`, `15m`, `30m`, `60m` | Sancțiuni uzuale de chat/voice (**Helper limitat la max. 60m**) |
 | `h` | **Ore** | `1h`, `2h`, `12h`, `24h` | Sanctiuni extinse sau ban-uri temporare (Moderator+) |
 | `d` | **Zile** | `1d`, `3d`, `7d`, `30d` | Ban-uri pe termen mediu/lung (Moderator+) |
-| `0` | **Permanent** | `0` sau `perm` | Ban definitiv pentru Cheat / Reclama / Refuz PC (Moderator+) |
+| `0` | **Permanent** | `0` sau `perm` | Ban definitiv pentru Cheat / Reclama (Moderator+) |
 
 ### Exemple Practice de Executie in Chat / Consola:
 
