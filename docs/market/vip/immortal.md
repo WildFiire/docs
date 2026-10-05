@@ -4,11 +4,11 @@ description: >-
   Ghidul complet al pachetului VIP Immortal pe serverele WildFire CS2 — 6.5€,
   Double Jump, 110 HP, Healthshot, Fast Plant, tag roz si slot rezervat.
 outline: deep
-gitLastCommitter: Laur3nt1uu
-lastUpdatedBy: Laur3nt1uu
-author: Laur3nt1uu
-uploadedBy: Laur3nt1uu
-lastUpdated: 1791225021242
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791225518818
 ---
 
 Pachetul **VIP Immortal** este cel mai popular si apreciat grad de pe serverul **WildFire.ro**, conceput pentru jucatorii care doresc o combinatie ideala de mobilitate ridicata, avantaje tactice superioare, economie accelerata si personalizare audio-vizuala completa.
@@ -45,7 +45,7 @@ Poti debloca gradul VIP Immortal cu bani reali de pe platforma web:
 | **Economie Shop** | **Multiplicator Credite** | **1.6x** la toate creditele castigate din playtime |
 | **Echipament CT** | **Defuse Kit Gratuit** | Primesti automat cleste de dezamorsare in fiecare runda |
 | **Obiective T** | **Fast Plant** | Timp optimizat si accelerat la plantarea bombei C4 |
-| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | Tag `[IMMORTAL]` roz + acces la culori personalizate |
+| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | Tag `[IMMORTAL]` rosu + acces la culori personalizate |
 | **Sunete & Audio** | **Sank Sounds & Entry** | Acces la comanda `!sm` + Melodie de intrare gratuita |
 | **Confort Server** | **Slot Rezervat Garantat** | Acces garantat chiar daca serverul afiseaza 32/32 |
 | **Comunitate** | **Rol Special Discord** | Gradul VIP Immortal sincronizat pe Discord |
