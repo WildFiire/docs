@@ -1,7 +1,14 @@
 ---
-title: "Grade VIP & Beneficii"
-description: "Comparația completă a gradelor VIP și avantajele fiecărui nivel (Rebirth, Immortal, Mythic, VIP Night și VIP Test) pe serverele WildFire CS2."
+title: Grade VIP & Beneficii
+description: >-
+  Comparația completă a gradelor VIP și avantajele fiecărui nivel (Rebirth,
+  Immortal, Mythic, VIP Night și VIP Test) pe serverele WildFire CS2.
 outline: deep
+gitLastCommitter: Laur3nt1uu
+lastUpdatedBy: Laur3nt1uu
+author: Laur3nt1uu
+uploadedBy: Laur3nt1uu
+lastUpdated: 1791224648401
 ---
 
 Ecosistemul **Grade VIP & Beneficii** ofera jucatorilor de pe serverul **WildFire.ro** avantaje exclusive de gameplay, facilitati economice, personalizare audio-vizuala si acces prioritar garantat 24/7.
@@ -47,7 +54,7 @@ Exploreaza paginile dedicate pentru fiecare grad si alege pachetul potrivit stil
 | :--- | :--- | :---: | :---: | :---: | :--- |
 | **VIP Rebirth** | **3.00 € / Luna** | 105 HP | +800$ | 1.3x | Slot Rezervat, Tag `[VIP]` Verde |
 | **VIP Immortal** | **6.50 € / Luna** | 110 HP | +1,200$ | 1.6x | **Double Jump**, Healthshot, Fast Plant |
-| **VIP Mythic** | **Top 1 Skill / 10.00 €** | 115 HP | +1,500$ | 2.0x | **Double Jump**, Prioritate Maxima |
+| **VIP Mythic** | **Top 1 Skill** | 115 HP | +1,500$ | 2.0x | **Double Jump**, Prioritate Maxima |
 
 ---
 
