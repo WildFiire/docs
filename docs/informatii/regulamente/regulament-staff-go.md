@@ -4,11 +4,11 @@ description: >-
   Codul deontologic al echipei administrative, criterii de recrutare Helper,
   proceduri de solutionare tickete si sanctiuni interne pe WildFire.ro.
 outline: deep
-gitLastCommitter: Laur3nt1uu
-lastUpdatedBy: Laur3nt1uu
-author: Laur3nt1uu
-uploadedBy: Laur3nt1uu
-lastUpdated: 1791222897295
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791222984099
 ---
 
 Acest regulament stabileste indatoririle, limitele de competenta si normele etice obligatorii pentru toti membrii echipei administrative **WildFire.ro** (de la gradul de Helper pana la Supervizor si Manager).
@@ -28,7 +28,7 @@ Inainte de a depune o aplicatie pentru gradul de **Helper**, asigura-te ca indep
 * **1.1 Varsta Minima:** Minim **16 ani** impliniti (se accepta si candidati de 15 ani in cazuri exceptionale de maturitate si seriozitate dovedita).
 * **1.2 Vechime CS2 & Server:** Cel putin **500 de ore** in Counter-Strike 2 si minimum **20 de ore** inregistrate pe serverul WildFire.
 * **1.3 Cont Securizat:** Detinerea obligatorie a statutului **Steam Prime**.
-* **1.4 Fara Antecedente:** Fara sanctiuni grave in istoric (toxicitate, limbaj vulgar grav, insulte staff, cheating).
+* **1.4 Cazier Curat:** Fara sanctiuni grave in istoric (toxicitate, limbaj vulgar grav, insulte staff, cheating).
 * **1.5 Comunicare Audio:** Microfon clar, fara zgomote de fundal deranjante, si prezenta constanta pe voice-chat pentru asistenta.
 * **1.6 Activitate Discord & Forum:** Implicare activa pe serverul de Discord si cunoasterea la perfectie a regulamentelor.
 * **1.7 Perioada de Asteptare (Cooldown):** In caz de respingere a aplicatiei, candidatul trebuie sa astepte **7 zile** inainte de a depune o noua cerere.
@@ -58,7 +58,7 @@ Inainte de a depune o aplicatie pentru gradul de **Helper**, asigura-te ca indep
 
 * **2.6 Interdictia Conturilor "Sub Acoperire" (Smurf):**  
   Membrii staff joaca exclusiv de pe contul principal pe care detin gradul. Intrarea de pe conturi secundare nesemnalate pentru a spiona sau trolla este interzisa.  
-  **Sanctiune:** `REMOVE`.
+  **Sanctiune:** `REMOVE DIRECT`.
 
 * **2.7 Confidentialitatea Canalelor Private (Zero Leaking):**  
   Divulgarea deciziilor interne, a voturilor din aplicatii sau transmiterea de capturi de ecran din canalele private catre jucatori este strict interzisa.  
@@ -71,7 +71,7 @@ Inainte de a depune o aplicatie pentru gradul de **Helper**, asigura-te ca indep
 * **3.1 Interdictia Utilizarii Comenzilor pe Colegi Staff:**  
   Este strict interzisa folosirea oricarei comenzi administrative (slay, slap, mute, gag, kick, ban) impotriva unui alt membru staff.
 
-* **3.2 Neinterventia peste Comenzile Altui Admin:**  
+* **3.2 Neinterventia peste Comenzile altui Admin:**  
   Nu anulati si nu modificati sanctiunile aplicate de un coleg fara acordul acestuia sau al unui Server Manager.
 
 * **3.3 Procedura Oficiala de Debanare (Unban):**  
@@ -87,7 +87,7 @@ Inainte de a depune o aplicatie pentru gradul de **Helper**, asigura-te ca indep
   `Avertisment` ➔ `Gag/Mute 10-30m` ➔ `Kick` ➔ `Ban 120m` ➔ `Ban Extins`.
 
 * **3.6 Schimbarea Hartilor prin Vot:**  
-  Harta se poate schimba prin vot administrativ exclusiv in ultimele 5 minute ale meciului sau daca serverul este gol.  
+  Harta se poate schimba prin vot administrativ exclusiv in ultimele 5 minute ale meciului sau daca serverul este gol. Doar gradele de ADMINISTRATOR+ au permisiunea de a schimba harta printr-un vot administrativ exclusiv. 
   **Sanctiune:** `WARN`.
 
 ---
