@@ -29,3 +29,17 @@ export interface NotificationFilterOptions {
   severity?: NotificationSeverity | "all";
   limit?: number;
 }
+
+export interface NotificationPreferences {
+  task?: boolean;
+  system?: boolean;
+  security?: boolean;
+  content?: boolean;
+  report?: boolean;
+  feedback?: boolean;
+  ai?: boolean;
+  health?: boolean;
+  ignoreAudit?: boolean;
+  ignoreSnapshots?: boolean;
+}
+

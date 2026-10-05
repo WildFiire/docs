@@ -11,9 +11,9 @@ function d(b64) {
   return Buffer.from(b64, 'base64').toString('utf-8');
 }
 
-const GH_TOKEN = '12ctu3fUEGn5qcO80UmchF8TS2WOGcmtMYIc_phg'.split('').reverse().join('');
-const DISCORD_TOKEN = d('TVRVME1ETTNOek00T0RreU1qTXhNRFk1TmcuR1ZmNzR3Llo5b2hnUE55V3R2SmxSckpxZGhfOEFTR0hoWUh4ak9RNkdnakdB');
-const GEMINI_KEY = d('QVEuQWI4Uk42SUxOVmc4QVFoY183bGZxclVIalM4YnJGTlhhQWl5UGItQUNpOFNfZ25JNHc=');
+const GH_TOKEN = process.env.GITHUB_TOKEN || process.env.VITE_GITHUB_TOKEN || '';
+const DISCORD_TOKEN = process.env.DISCORD_BOT_TOKEN || '';
+const GEMINI_KEY = process.env.GEMINI_API_KEY || '';
 
 // 1. db_config.json
 const dbConfigPath = path.join(dataDir, 'db_config.json');
@@ -23,8 +23,8 @@ if (!fs.existsSync(dbConfigPath)) {
     JSON.stringify(
       {
         provider: 'supabase',
-        supabaseUrl: 'https://afsrekeoovvtucijbgze.supabase.co',
-        supabaseAnonKey: 'sb_publishable_AU18xRupAGK4208l0hLG8w_7qN45RJJ',
+        supabaseUrl: process.env.SUPABASE_URL || 'https://afsrekeoovvtucijbgze.supabase.co',
+        supabaseAnonKey: process.env.SUPABASE_ANON_KEY || 'sb_publishable_AU18xRupAGK4208l0hLG8w_7qN45RJJ',
         lastConnectedAt: new Date().toISOString(),
       },
       null,
@@ -113,9 +113,9 @@ if (shouldUpdateGitops) {
         sync: {
           mode: 'api_sync',
           githubToken: GH_TOKEN,
-          webhookSecret: 'wf_sec_a8b9f3e4c2d1094857bfa39281c7e6a5',
+          webhookSecret: process.env.GITOPS_WEBHOOK_SECRET || '',
           autoRevalidate: true,
-          notifyDiscord: true,
+          notifyDiscord: Boolean(process.env.DISCORD_GITOPS_WEBHOOK_URL),
           lastSyncStatus: 'success',
           lastSyncMessage: 'Sincronizat cu succes pe WildFiire/docs',
           syncCount: 20,
@@ -132,16 +132,16 @@ if (shouldUpdateGitops) {
   console.log('[Seed] Initialized/Migrated content/gitops.json to WildFiire/docs');
 }
 
-// 4. .env file
+// 4. .env file template
 const envPath = path.join(root, '.env');
 const canonicalEnv = `# ============================================================
-# WF-DOCSCORE — Canonical Production Environment
+# WF-DOCSCORE — Canonical Environment Template
 # ============================================================
 
 NEXT_PUBLIC_SITE_URL=https://docs.wildfire.ro
 NEXT_PUBLIC_APP_URL=https://docs.wildfire.ro
 
-ADMIN_SESSION_SECRET=wf_docscore_super_fortress_key_2026_982341908754123897412
+ADMIN_SESSION_SECRET=${process.env.ADMIN_SESSION_SECRET || 'wf_docscore_super_fortress_key_2026'}
 ADMIN_DEFAULT_SALT=wf_root_salt_2026
 
 GITHUB_REPO_OWNER=WildFiire
@@ -150,36 +150,35 @@ GITHUB_DOCS_BRANCH=main
 GITHUB_TOKEN=${GH_TOKEN}
 GITHUB_SYNC_TOKEN=${GH_TOKEN}
 
-DISCORD_WEBHOOK_URL=https://discordapp.com/api/webhooks/1540461053308051477/CZwlGvM9odIOR3gDLOvIvnSp9P84BGcE7ia5T0oytuPnK-vAPCTGDfIM6pt8bgF--uKe
-DISCORD_LOGS_WEBHOOK_URL=https://discord.com/api/webhooks/1540464724171296889/1zHMWpQujbbb2mEN4BPi7CsoSoJWKUum_TlmnZjnWA5ioZp-PVvD2Qeft-1rxwI3QjJ8
-DISCORD_PROCEDURA_WEBHOOK_URL=https://discordapp.com/api/webhooks/1540796861432995850/c2HmYnar6HQnC8Zm5cpT8eKytDRwHY9Z9y3EeOZ3ffxZ7srKdY3iX73a0sw7GEs-8S43
+DISCORD_WEBHOOK_URL=${process.env.DISCORD_WEBHOOK_URL || ''}
+DISCORD_LOGS_WEBHOOK_URL=${process.env.DISCORD_LOGS_WEBHOOK_URL || ''}
+DISCORD_PROCEDURA_WEBHOOK_URL=${process.env.DISCORD_PROCEDURA_WEBHOOK_URL || ''}
 DISCORD_BOT_TOKEN=${DISCORD_TOKEN}
 EMAIL_FROM=Wildfire Docs <docs@wildfire.internal>
 
 GEMINI_API_KEY=${GEMINI_KEY}
 
-NEXT_PUBLIC_SUPABASE_URL=https://afsrekeoovvtucijbgze.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=sb_publishable_AU18xRupAGK4208l0hLG8w_7qN45RJJ
-SUPABASE_URL=https://afsrekeoovvtucijbgze.supabase.co
-SUPABASE_ANON_KEY=sb_publishable_AU18xRupAGK4208l0hLG8w_7qN45RJJ
-SUPABASE_SERVICE_ROLE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmc3Jla2Vvb3Z2dHVjaWpiZ3plIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NzMxMzA1MywiZXhwIjoyMTAyODg5MDUzfQ.S_Q_6PmD1GeppBh1fujUg27w2UNIPeD4C-738ABVU3E
+NEXT_PUBLIC_SUPABASE_URL=${process.env.SUPABASE_URL || 'https://afsrekeoovvtucijbgze.supabase.co'}
+NEXT_PUBLIC_SUPABASE_ANON_KEY=${process.env.SUPABASE_ANON_KEY || 'sb_publishable_AU18xRupAGK4208l0hLG8w_7qN45RJJ'}
+SUPABASE_URL=${process.env.SUPABASE_URL || 'https://afsrekeoovvtucijbgze.supabase.co'}
+SUPABASE_ANON_KEY=${process.env.SUPABASE_ANON_KEY || 'sb_publishable_AU18xRupAGK4208l0hLG8w_7qN45RJJ'}
+SUPABASE_SERVICE_ROLE_KEY=${process.env.SUPABASE_SERVICE_ROLE_KEY || ''}
 
-DISCORD_AUTH_WEBHOOK_URL=https://discord.com/api/webhooks/1542845740739465276/UHc6fMEC7GAPzGFF9AGU3Yq3rmXDj5T47kFGW0FL7aJnH4O2qBh9Af3gDxyXsr4vK1md
-DISCORD_SECURITY_WEBHOOK_URL=https://discord.com/api/webhooks/1542845744187187260/Cun5PnWAtvcCfVqi-O4OretcJUsc3_iLFTymmF1iw0oYAl0I9zvmcYVg-w99fG64Gt3t
-DISCORD_TEAM_WEBHOOK_URL=https://discord.com/api/webhooks/1542843974559993906/LKRwSgkbD18hu1qlxp44qflnjWhbWpfNSQW7-a4ohTupbA3WxL1t0kYsllqQashkSFK7
-DISCORD_AI_WEBHOOK_URL=https://discord.com/api/webhooks/1542843979278717038/O_uEH6S5S2659yZsOREkTlPhKRUvsK2PreERfmFklPAmUrcaQvWI4trYpWvIGcDO15hv
-DISCORD_CONTENT_WEBHOOK_URL=https://discord.com/api/webhooks/1542843985008267314/cpT5yK88hLrHqsC10NJ9XMrS-57HPXzcuDPUj0MUHQ5lmNXGOihOvFjYoTUNxzy-Veo0
-DISCORD_MEDIA_WEBHOOK_URL=https://discord.com/api/webhooks/1542843990410272858/sj-38Yus5CkiUjDH7s_6T8hJH1QMIZEtgUsC782iVb71xgONL3-vNyFly8YFomfCt3S_
-DISCORD_REPORTS_WEBHOOK_URL=https://discord.com/api/webhooks/1542843995003162644/vB8NcEH6Fkra_sgmEd42EW09VjtlbUcS7PJyV2sIxYPcfzFuBUmyKROzNgVcCOBZXilR
-DISCORD_SYSTEM_WEBHOOK_URL=https://discord.com/api/webhooks/1542843999310843924/oRZtYy2VBDWFu4BiwX9q2N_oqWWsY6jm8BN9FrFbB3DPzPuVVqyszEzooWL2C0xISmHw
-DISCORD_SNAPSHOTS_WEBHOOK_URL=https://discord.com/api/webhooks/1542844003333181493/Vj0h5G3eckYzm-w8W753DAve-dyRVPIjicek9Zyn06lbtJhYO70DXaInVurHGANhTPHX
-DISCORD_GITOPS_WEBHOOK_URL=https://discord.com/api/webhooks/1542844007179096154/-ph22SkVWsKC24mdJ9u2ZzdD8gJ9Hdum7k1MWU73SvhhWSVb6VWIYmcSmbgc0LBEEo52
-DISCORD_SETTINGS_WEBHOOK_URL=https://discord.com/api/webhooks/1542844012485017672/AOoc6OYPiEnU9AyDNsVNBC39ZaSDjWak8XWOKSovLjUy3gJNhkZ3_5OaRHEz9Eoe26d1
-DISCORD_TASKS_WEBHOOK_URL=https://discord.com/api/webhooks/1542851077454438501/MqgFLykSRo6qCs9kmGEUYj85eJlX1qpffXfY6W-5K_xkWVM9xNM9dmP5PZtbcNFX2ugD
-DISCORD_BOT_AVATAR_URL=https://media.discordapp.net/attachments/1508518347917230202/1542210161614004384/image.png
+DISCORD_AUTH_WEBHOOK_URL=${process.env.DISCORD_AUTH_WEBHOOK_URL || ''}
+DISCORD_SECURITY_WEBHOOK_URL=${process.env.DISCORD_SECURITY_WEBHOOK_URL || ''}
+DISCORD_TEAM_WEBHOOK_URL=${process.env.DISCORD_TEAM_WEBHOOK_URL || ''}
+DISCORD_AI_WEBHOOK_URL=${process.env.DISCORD_AI_WEBHOOK_URL || ''}
+DISCORD_CONTENT_WEBHOOK_URL=${process.env.DISCORD_CONTENT_WEBHOOK_URL || ''}
+DISCORD_MEDIA_WEBHOOK_URL=${process.env.DISCORD_MEDIA_WEBHOOK_URL || ''}
+DISCORD_REPORTS_WEBHOOK_URL=${process.env.DISCORD_REPORTS_WEBHOOK_URL || ''}
+DISCORD_SYSTEM_WEBHOOK_URL=${process.env.DISCORD_SYSTEM_WEBHOOK_URL || ''}
+DISCORD_SNAPSHOTS_WEBHOOK_URL=${process.env.DISCORD_SNAPSHOTS_WEBHOOK_URL || ''}
+DISCORD_GITOPS_WEBHOOK_URL=${process.env.DISCORD_GITOPS_WEBHOOK_URL || ''}
+DISCORD_SETTINGS_WEBHOOK_URL=${process.env.DISCORD_SETTINGS_WEBHOOK_URL || ''}
+DISCORD_TASKS_WEBHOOK_URL=${process.env.DISCORD_TASKS_WEBHOOK_URL || ''}
 
-BOT_SUPABASE_URL=https://iiqftixgiouddlsvxxhf.supabase.co
-BOT_SUPABASE_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlpcWZ0aXhnaW91ZGRsc3Z4eGhmIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4Nzc2NTE2NSwiZXhwIjoyMTAzMzQxMTY1fQ.pjnLte3e_XgH-ux1QztxAh4kob0lg4uZs5hCF_oUlnY
+BOT_SUPABASE_URL=${process.env.BOT_SUPABASE_URL || 'https://iiqftixgiouddlsvxxhf.supabase.co'}
+BOT_SUPABASE_KEY=${process.env.BOT_SUPABASE_KEY || ''}
 `;
 
 if (!fs.existsSync(envPath)) {

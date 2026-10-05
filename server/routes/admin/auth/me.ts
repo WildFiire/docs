@@ -36,6 +36,7 @@ export async function GET(req: ExpressRequest, expressResponse: ExpressResponse)
         permissions: session.permissions,
         avatarUrl,
         customTitle: member?.customTitle || (isStrictlyRoot ? 'Root Super Admin' : 'Staff Member'),
+        totpEnabled: Boolean(member?.totpEnabled),
       },
     });
   } catch (err) {

@@ -332,6 +332,8 @@ const newUsername = ref<string>('');
 const newDisplayName = ref<string>('');
 const newEmail = ref<string>('');
 const newPassword = ref<string>('');
+const showNewPassword = ref<boolean>(false);
+const showEditPassword = ref<boolean>(false);
 const newRole = ref<string>('content_editor');
 const newDiscord = ref<string>('');
 const newSteamId = ref<string>('');
@@ -339,6 +341,37 @@ const newGithubUsername = ref<string>('');
 const newPermissions = ref<TeamMemberPermissions>({ ...DEFAULT_EDITOR_PERMISSIONS });
 const newSteamAvatarPreview = ref<string | null>(null);
 const creating = ref<boolean>(false);
+
+function generateSecurePassword(length = 16): string {
+  const upper = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+  const lower = 'abcdefghijkmnopqrstuvwxyz';
+  const numbers = '23456789';
+  const symbols = '!@#$%&*';
+  const all = upper + lower + numbers + symbols;
+
+  let pwd = [
+    upper[Math.floor(Math.random() * upper.length)],
+    lower[Math.floor(Math.random() * lower.length)],
+    numbers[Math.floor(Math.random() * numbers.length)],
+    symbols[Math.floor(Math.random() * symbols.length)],
+  ];
+
+  for (let i = 4; i < length; i++) {
+    pwd.push(all[Math.floor(Math.random() * all.length)]);
+  }
+
+  return pwd.sort(() => Math.random() - 0.5).join('');
+}
+
+function handleGenerateNewPassword() {
+  newPassword.value = generateSecurePassword();
+  showNewPassword.value = true;
+}
+
+function handleGenerateEditPassword() {
+  editNewPassword.value = generateSecurePassword();
+  showEditPassword.value = true;
+}
 
 // ── Computed ──
 const isRootAdmin = computed(() => {
@@ -1777,14 +1810,41 @@ onMounted(() => {
               </div>
 
               <div v-if="!selectedMember.isRoot" class="admin-form-group">
-                <label class="admin-form-label">Schimbă Parola</label>
-                <input
-                  v-model="editNewPassword"
-                  type="password"
-                  autocomplete="new-password"
-                  placeholder="Parolă nouă (opțional)..."
-                  class="admin-form-input"
-                />
+                <div class="admin-form-label-row">
+                  <label class="admin-form-label">Schimbă Parola</label>
+                  <button
+                    type="button"
+                    class="admin-pwd-action-link"
+                    title="Generează o parolă puternică aleatorie"
+                    @click="handleGenerateEditPassword"
+                  >
+                    <Icon icon="lucide:sparkles" width="12" height="12" />
+                    <span>Generează</span>
+                  </button>
+                </div>
+                <div class="admin-password-wrapper">
+                  <input
+                    v-model="editNewPassword"
+                    :type="showEditPassword ? 'text' : 'password'"
+                    autocomplete="new-password"
+                    placeholder="Parolă nouă (opțional)..."
+                    class="admin-form-input admin-form-input--has-toggle"
+                  />
+                  <button
+                    type="button"
+                    class="admin-password-toggle-btn"
+                    :title="showEditPassword ? 'Ascunde parola' : 'Arată parola (unhide)'"
+                    :aria-label="showEditPassword ? 'Ascunde parola' : 'Arată parola'"
+                    @click="showEditPassword = !showEditPassword"
+                  >
+                    <Icon
+                      :icon="showEditPassword ? 'lucide:eye-off' : 'lucide:eye'"
+                      width="16"
+                      height="16"
+                      :class="{ 'text-amber-500': showEditPassword }"
+                    />
+                  </button>
+                </div>
               </div>
 
               <div class="admin-form-group">
@@ -2196,14 +2256,42 @@ onMounted(() => {
                 </div>
 
                 <div class="admin-form-group">
-                  <label class="admin-form-label">Parolă Inițială</label>
-                  <input
-                    v-model="newPassword"
-                    type="password"
-                    required
-                    placeholder="Parolă complexă..."
-                    class="admin-form-input"
-                  />
+                  <div class="admin-form-label-row">
+                    <label class="admin-form-label">Parolă Inițială</label>
+                    <button
+                      type="button"
+                      class="admin-pwd-action-link"
+                      title="Generează o parolă puternică aleatorie"
+                      @click="handleGenerateNewPassword"
+                    >
+                      <Icon icon="lucide:sparkles" width="12" height="12" />
+                      <span>Generează</span>
+                    </button>
+                  </div>
+                  <div class="admin-password-wrapper">
+                    <input
+                      v-model="newPassword"
+                      :type="showNewPassword ? 'text' : 'password'"
+                      required
+                      placeholder="Parolă complexă..."
+                      class="admin-form-input admin-form-input--has-toggle"
+                      autocomplete="new-password"
+                    />
+                    <button
+                      type="button"
+                      class="admin-password-toggle-btn"
+                      :title="showNewPassword ? 'Ascunde parola' : 'Arată parola (unhide)'"
+                      :aria-label="showNewPassword ? 'Ascunde parola' : 'Arată parola'"
+                      @click="showNewPassword = !showNewPassword"
+                    >
+                      <Icon
+                        :icon="showNewPassword ? 'lucide:eye-off' : 'lucide:eye'"
+                        width="16"
+                        height="16"
+                        :class="{ 'text-amber-500': showNewPassword }"
+                      />
+                    </button>
+                  </div>
                 </div>
 
                 <div class="admin-form-group">
@@ -2414,6 +2502,72 @@ onMounted(() => {
 </template>
 
 <style scoped>
+/* ── Password Unhide & Generator Control Styles ── */
+.admin-form-label-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+
+.admin-pwd-action-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  background: rgba(255, 107, 0, 0.08);
+  border: 1px solid rgba(255, 107, 0, 0.25);
+  border-radius: 6px;
+  color: #ff8800;
+  font-size: 11px;
+  font-weight: 700;
+  cursor: pointer;
+  padding: 2px 7px;
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.admin-pwd-action-link:hover {
+  background: rgba(255, 107, 0, 0.22);
+  border-color: rgba(255, 107, 0, 0.45);
+  color: #ffa534;
+  transform: translateY(-1px);
+}
+
+.admin-password-wrapper {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.admin-form-input--has-toggle {
+  padding-right: 42px !important;
+}
+
+.admin-password-toggle-btn {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.admin-password-toggle-btn:hover {
+  background: rgba(255, 107, 0, 0.18);
+  border-color: rgba(255, 107, 0, 0.4);
+  color: #ff8800;
+  transform: scale(1.05);
+}
+
 .admin-tabs-nav {
   margin-bottom: 1.25rem;
 }

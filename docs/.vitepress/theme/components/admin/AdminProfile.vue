@@ -141,6 +141,7 @@ const formData = ref({
   githubUsername: '',
   password: '',
 });
+const showProfilePassword = ref(false);
 
 // Steam resolver state
 const resolvingSteam = ref<boolean>(false);
@@ -549,15 +550,29 @@ const activePermissions = computed(() => {
           <div class="admin-card-body">
             <div class="admin-form-group">
               <label class="admin-form-label">Schimbă Parola</label>
-              <div class="admin-input-wrapper">
+              <div class="admin-input-wrapper admin-input-wrapper--relative">
                 <Icon icon="lucide:lock" width="14" height="14" class="admin-input-icon admin-text-zinc-500" />
                 <input
                   v-model="formData.password"
-                  type="password"
+                  :type="showProfilePassword ? 'text' : 'password'"
                   name="password"
-                  class="admin-input-field admin-input-with-pad"
+                  class="admin-input-field admin-input-with-pad admin-input-field--password"
                   placeholder="Lasă gol pentru a nu modifica parola"
                 />
+                <button
+                  type="button"
+                  class="admin-password-toggle-btn"
+                  :title="showProfilePassword ? 'Ascunde parola' : 'Arată parola (unhide)'"
+                  :aria-label="showProfilePassword ? 'Ascunde parola' : 'Arată parola'"
+                  @click="showProfilePassword = !showProfilePassword"
+                >
+                  <Icon
+                    :icon="showProfilePassword ? 'lucide:eye-off' : 'lucide:eye'"
+                    width="14"
+                    height="14"
+                    :class="{ 'text-amber-500': showProfilePassword }"
+                  />
+                </button>
               </div>
               <p class="admin-form-hint admin-text-rose-muted">
                 Dacă introduci o parolă nouă, vei fi deconectat de pe toate celelalte dispozitive (sesiunile vechi vor fi invalidate la expirare sau la verificare manuală).
@@ -812,5 +827,39 @@ const activePermissions = computed(() => {
   color: #10b981;
   margin: 4px 0 0 0;
   font-weight: 500;
+}
+
+.admin-input-wrapper--relative {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.admin-input-field--password {
+  padding-right: 40px !important;
+}
+
+.admin-password-toggle-btn {
+  position: absolute;
+  right: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.55);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+
+.admin-password-toggle-btn:hover {
+  background: rgba(255, 107, 0, 0.18);
+  border-color: rgba(255, 107, 0, 0.4);
+  color: #ff8800;
+  transform: scale(1.05);
 }
 </style>

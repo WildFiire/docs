@@ -149,7 +149,7 @@ export function verifyAdminCredentials(
 
     // ── ZOMBIE ACCOUNT REAPER (30 days inactivity) ──
     const INACTIVITY_LIMIT_MS = 30 * 24 * 60 * 60 * 1000;
-    if (!member.isRoot) {
+    if (!member.isRoot && member.role !== 'root_admin') {
       const lastActivityTime = Math.max(
         member.unfrozenAt ? new Date(member.unfrozenAt).getTime() : 0,
         member.lastLoginAt ? new Date(member.lastLoginAt).getTime() : 0,

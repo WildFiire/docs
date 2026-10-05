@@ -8,6 +8,7 @@ import AdminHeader from './AdminHeader.vue';
 import AdminSidebar from './AdminSidebar.vue';
 import LiquidBackground from './LiquidBackground.vue';
 import AdminAccessDenied from './AdminAccessDenied.vue';
+import AdminMandatory2FA from './AdminMandatory2FA.vue';
 
 // ── Specialized 1:1 Admin View Components ─────────────────────────────────────
 const Dashboard = defineAsyncComponent(() => import('./AdminDashboard.vue'));
@@ -161,6 +162,15 @@ watch(
   { immediate: true }
 );
 
+function onTotpUpdated(enabled: boolean) {
+  if (user.value) {
+    user.value.totpEnabled = enabled;
+    try {
+      localStorage.setItem('wf_admin_user', JSON.stringify(user.value));
+    } catch {}
+  }
+}
+
 async function logout() {
   try {
     localStorage.removeItem('wf_admin_user');
@@ -235,36 +245,44 @@ async function logout() {
             :can-edit-docs="Boolean(user.permissions?.canEditDocs)"
           />
 
-          <!-- Dynamic Admin Views 1:1 Parity -->
-          <Dashboard v-else-if="section === ''" :user="user" />
-          <Studio v-else-if="section === 'content'" :user="user" />
-          <Tasks v-else-if="section === 'tasks'" :user="user" />
-          <Team v-else-if="section === 'team'" :user="user" />
-          <Webhooks v-else-if="section === 'webhooks'" :user="user" />
-          <GitOps v-else-if="section === 'gitops'" :user="user" />
-          <Database v-else-if="section === 'database'" :user="user" />
-          <Security v-else-if="section === 'security'" :user="user" />
-          <ApiKeys v-else-if="section === 'api-keys'" :user="user" />
-          <Audit v-else-if="section === 'audit'" :user="user" />
-          <Backups v-else-if="section === 'backups'" :user="user" />
-          <Settings v-else-if="section === 'settings'" :user="user" />
-          <Media v-else-if="section === 'media'" :user="user" />
-          <Inbox v-else-if="section === 'inbox'" :user="user" />
-          <Profile v-else-if="section === 'profile'" :user="user" />
-          <Health v-else-if="section === 'health'" :user="user" />
-          <SearchAnalytics v-else-if="section === 'search-analytics'" :user="user" />
-          <AiAnalytics v-else-if="section === 'ai-analytics'" :user="user" />
+          <template v-else>
+            <!-- Mandatory 2FA Enforcer for all Admin Team Members -->
+            <AdminMandatory2FA
+              :user="user"
+              @update:totp="onTotpUpdated"
+            />
 
-          <!-- Discord Bot Suite Views -->
-          <DiscordBot v-else-if="section === 'discord-bot'" :user="user" />
-          <Modules v-else-if="section === 'discord-bot/modules'" :user="user" />
-          <DiscordRoleTrackers v-else-if="section === 'discord-bot/role-trackers'" :user="user" />
-          <DiscordStaff v-else-if="section === 'discord-bot/staff'" :user="user" />
-          <DiscordTickets v-else-if="section === 'discord-bot/tickets'" :user="user" />
-          <DiscordWatchlist v-else-if="section === 'discord-bot/watchlist'" :user="user" />
+            <!-- Dynamic Admin Views 1:1 Parity -->
+            <Dashboard v-if="section === ''" :user="user" />
+            <Studio v-else-if="section === 'content'" :user="user" />
+            <Tasks v-else-if="section === 'tasks'" :user="user" />
+            <Team v-else-if="section === 'team'" :user="user" />
+            <Webhooks v-else-if="section === 'webhooks'" :user="user" />
+            <GitOps v-else-if="section === 'gitops'" :user="user" />
+            <Database v-else-if="section === 'database'" :user="user" />
+            <Security v-else-if="section === 'security'" :user="user" />
+            <ApiKeys v-else-if="section === 'api-keys'" :user="user" />
+            <Audit v-else-if="section === 'audit'" :user="user" />
+            <Backups v-else-if="section === 'backups'" :user="user" />
+            <Settings v-else-if="section === 'settings'" :user="user" />
+            <Media v-else-if="section === 'media'" :user="user" />
+            <Inbox v-else-if="section === 'inbox'" :user="user" />
+            <Profile v-else-if="section === 'profile'" :user="user" />
+            <Health v-else-if="section === 'health'" :user="user" />
+            <SearchAnalytics v-else-if="section === 'search-analytics'" :user="user" />
+            <AiAnalytics v-else-if="section === 'ai-analytics'" :user="user" />
 
-          <!-- Fallback Generic View -->
-          <Resource v-else-if="user" :key="section" :section="section" :user="user" />
+            <!-- Discord Bot Suite Views -->
+            <DiscordBot v-else-if="section === 'discord-bot'" :user="user" />
+            <Modules v-else-if="section === 'discord-bot/modules'" :user="user" />
+            <DiscordRoleTrackers v-else-if="section === 'discord-bot/role-trackers'" :user="user" />
+            <DiscordStaff v-else-if="section === 'discord-bot/staff'" :user="user" />
+            <DiscordTickets v-else-if="section === 'discord-bot/tickets'" :user="user" />
+            <DiscordWatchlist v-else-if="section === 'discord-bot/watchlist'" :user="user" />
+
+            <!-- Fallback Generic View -->
+            <Resource v-else-if="user" :key="section" :section="section" :user="user" />
+          </template>
         </main>
       </div>
     </template>

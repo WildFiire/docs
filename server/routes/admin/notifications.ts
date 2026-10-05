@@ -114,6 +114,12 @@ export async function PATCH(req: ExpressRequest, expressResponse: ExpressRespons
       return jsonReply(expressResponse, { success: true, markedCount: count });
     }
 
+    if (action === 'update_preferences' && body.preferences) {
+      const { updateTeamMemberPreferences } = await import('@server/lib/security/teamStore');
+      const updated = await updateTeamMemberPreferences(session.username, body.preferences);
+      return jsonReply(expressResponse, { success: true, preferences: updated });
+    }
+
     if (action === 'read' && id) {
       const success = localMarkNotificationRead(id, session.username);
       return jsonReply(expressResponse, { success });

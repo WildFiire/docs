@@ -75,6 +75,11 @@ export interface TeamMember {
     security?: boolean;
     content?: boolean;
     report?: boolean;
+    feedback?: boolean;
+    ai?: boolean;
+    health?: boolean;
+    ignoreAudit?: boolean;
+    ignoreSnapshots?: boolean;
   };
 }
 
@@ -852,6 +857,11 @@ export async function updateTeamMember(
       security?: boolean;
       content?: boolean;
       report?: boolean;
+      feedback?: boolean;
+      ai?: boolean;
+      health?: boolean;
+      ignoreAudit?: boolean;
+      ignoreSnapshots?: boolean;
     };
   },
 ): Promise<{ success: boolean; error?: string; member?: TeamMember }> {
@@ -1038,3 +1048,24 @@ export async function deleteTeamMember(id: string): Promise<{ success: boolean; 
 
   return { success: true };
 }
+
+export async function updateTeamMemberPreferences(
+  username: string,
+  preferences: Record<string, any>,
+): Promise<Record<string, any>> {
+  const members = await loadTeamMembers();
+  const normalized = username.toLowerCase().trim();
+  const target = members.find((m) => m.username.toLowerCase().trim() === normalized);
+  if (!target) {
+    throw new Error('Utilizator inexistent.');
+  }
+
+  target.notificationPreferences = {
+    ...(target.notificationPreferences || {}),
+    ...preferences,
+  };
+
+  await saveTeamMembers(members);
+  return target.notificationPreferences;
+}
+

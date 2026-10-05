@@ -454,9 +454,7 @@ export function getLocalDatabaseConfig(): DatabaseConfig {
     supabaseUrl: process.env.SUPABASE_URL || 'https://afsrekeoovvtucijbgze.supabase.co',
     supabaseAnonKey:
       process.env.SUPABASE_ANON_KEY || 'sb_publishable_AU18xRupAGK4208l0hLG8w_7qN45RJJ',
-    supabaseServiceKey:
-      process.env.SUPABASE_SERVICE_ROLE_KEY ||
-      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmc3Jla2Vvb3Z2dHVjaWpiZ3plIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc4NzMxMzA1MywiZXhwIjoyMTAyODg5MDUzfQ.S_Q_6PmD1GeppBh1fujUg27w2UNIPeD4C-738ABVU3E',
+    supabaseServiceKey: process.env.SUPABASE_SERVICE_ROLE_KEY || '',
     lastConnectedAt: new Date().toISOString(),
   };
   try {
@@ -596,27 +594,64 @@ export function localGetNotifications(
   });
 
   // Apply user notification preferences
+  let activeUserPreferences: Record<string, boolean> = {
+    task: true,
+    system: true,
+    security: true,
+    content: true,
+    report: true,
+    feedback: true,
+    ai: true,
+    health: true,
+    ignoreAudit: false,
+    ignoreSnapshots: false,
+  };
+
   try {
     const teamFilePath = path.join(RUNTIME_ROOT, 'content', 'team.json');
     if (fs.existsSync(teamFilePath)) {
       const teamData = JSON.parse(fs.readFileSync(teamFilePath, 'utf8'));
-      const member = teamData.find((m: any) => m.username.toLowerCase() === normalizedUser);
+      const member = teamData.find((m: any) => m.username?.toLowerCase() === normalizedUser);
       if (member && member.notificationPreferences) {
-        const prefs = member.notificationPreferences;
-        visible = visible.filter((n) => {
-          // If preference is explicitly false, filter it out
-          if (n.category === 'task' && prefs.task === false) return false;
-          if (n.category === 'system' && prefs.system === false) return false;
-          if (n.category === 'security' && prefs.security === false) return false;
-          if ((n.category as any) === 'content' && prefs.content === false) return false;
-          if (n.category === 'report' && prefs.report === false) return false;
-          return true;
-        });
+        activeUserPreferences = {
+          ...activeUserPreferences,
+          ...member.notificationPreferences,
+        };
       }
     }
   } catch (err) {
     console.error('[LocalStore] Error reading notification preferences:', err);
   }
+
+  // Filter out disabled categories and routine noise
+  visible = visible.filter((n) => {
+    if (n.category === 'task' && activeUserPreferences.task === false) return false;
+    if (n.category === 'system' && activeUserPreferences.system === false) return false;
+    if (n.category === 'security' && activeUserPreferences.security === false) return false;
+    if ((n.category as any) === 'content' && activeUserPreferences.content === false) return false;
+    if (n.category === 'report' && activeUserPreferences.report === false) return false;
+    if (n.category === 'feedback' && activeUserPreferences.feedback === false) return false;
+    if (n.category === 'ai' && activeUserPreferences.ai === false) return false;
+    if (n.category === 'health' && activeUserPreferences.health === false) return false;
+
+    // Filter out routine audit spam if user requested
+    if (
+      activeUserPreferences.ignoreAudit &&
+      (n.title.startsWith('Audit:') || n.title.includes('AUDIT:'))
+    ) {
+      return false;
+    }
+
+    // Filter out automated backup snapshots if user requested
+    if (
+      activeUserPreferences.ignoreSnapshots &&
+      (n.title.toLowerCase().includes('snapshot') || n.title.toLowerCase().includes('backup'))
+    ) {
+      return false;
+    }
+
+    return true;
+  });
 
   let unreadCount = 0;
   let personalCount = 0;
@@ -666,6 +701,7 @@ export function localGetNotifications(
     unreadCount,
     personalCount,
     globalCount,
+    preferences: activeUserPreferences,
   };
 }
 

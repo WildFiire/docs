@@ -124,8 +124,34 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
       });
     }
 
-    // 3. Success: Create Session & Reset Rate Limit
     resetRateLimit(rateLimitKey);
+
+    if (!member.totpEnabled) {
+      import('@server/lib/db/localStore')
+        .then(({ localCreateNotification, localGetNotifications }) => {
+          try {
+            const existing = localGetNotifications(member.username, { scope: 'personal' });
+            const has2faAlert = (existing.notifications || []).some(
+              (n) =>
+                n.category === 'security' &&
+                n.title.includes('2FA') &&
+                !n.readBy?.includes(member.username),
+            );
+            if (!has2faAlert) {
+              localCreateNotification({
+                targetUser: member.username,
+                title: 'Securitate Critică: Activare Obligatorie 2FA',
+                message:
+                  'Contul tău administrativ nu are 2FA activat. Conform protocolului Wildfire Security, configurarea 2FA (TOTP) este obligatorie.',
+                category: 'security',
+                severity: 'critical',
+                link: '/admin/profile',
+              });
+            }
+          } catch {}
+        })
+        .catch(() => {});
+    }
 
     const { token, session } = createAdminSession({
       username: member.username,
@@ -145,6 +171,7 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
         role: member.role,
         isRoot: member.isRoot,
         permissions: member.permissions,
+        totpEnabled: Boolean(member.totpEnabled),
       },
       sessionId: session.sessionId,
     };
