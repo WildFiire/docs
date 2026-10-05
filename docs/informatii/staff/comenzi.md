@@ -8,7 +8,7 @@ gitLastCommitter: Yakuza2377
 lastUpdatedBy: Yakuza
 author: Yakuza2377
 uploadedBy: Yakuza2377
-lastUpdated: 1791221558034
+lastUpdated: 1791221704898
 ---
 
 Aceste comenzi sunt destinate exclusiv membrilor echipei administrative **WildFire.ro**. Utilizarea comenzilor se face strict in scopul mentinerii ordinii si aplicarii regulamentului oficial.
@@ -17,7 +17,7 @@ Aceste comenzi sunt destinate exclusiv membrilor echipei administrative **WildFi
 
 > [!IMPORTANT]
 > **Motive Clare si Profesionale Obligatorii:**  
-> La executarea oricarei comenzi de sanctiune (`!kick`, `!ban`, `!mute`, `!gag`, `!silence`), parametrul `[motiv]` trebuie completat explicit cu fapta comisa (ex: `Limbaj vulgar repetat`, `Refuz verificare PC`, `Spam chat`). Motivele ironice sau la misto atrag sanctionarea administrativa (`WARN STAFF`).
+> La executarea oricarei comenzi de sanctiune (`!ban`, `!mute`, `!gag`, `!silence`), parametrul `[motiv]` trebuie completat explicit cu fapta comisa (ex: `Limbaj vulgar repetat`, `Spam chat`). Motivele ironice sau la misto atrag sanctionarea administrativa (`WARN STAFF`).
 
 ---
 
