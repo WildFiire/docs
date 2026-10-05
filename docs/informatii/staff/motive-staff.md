@@ -1,7 +1,14 @@
 ---
 title: Motive Oficiale de Sanctiune
-description: Nomenclatorul oficial de motive standardizate (RO / EN), durate si comenzi recomandate pentru aplicarea sanctiunilor pe serverele WildFire CS2.
+description: >-
+  Nomenclatorul oficial de motive standardizate (RO / EN), durate si comenzi
+  recomandate pentru aplicarea sanctiunilor pe serverele WildFire CS2.
 outline: deep
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791223578961
 ---
 
 Pentru a asigura transparenta si profesionalismul echipei administrative, toti membrii staff sunt **obligati** sa utilizeze motive clare, standardizate si explicite atunci cand executa comenzi de sanctiune (`!gag`, `!mute`, `!silence`, `!kick`, `!ban`).
@@ -35,7 +42,6 @@ Iata lista motivelor standardizate acceptate pe server, cu traducerea bilingva (
 | `Ghosting / Monitor` | `Ghosting / Info sharing` | `!kick` / `!ban` | `120m` / `2h` | Divulgarea pozitiilor prin Discord catre inamici |
 | `Reclama Neautorizata` | `Advertising` | `!ban` | `0` (Permanent) | Promovarea altor servere, comunitati sau site-uri |
 | `Cheating / Programe Terte` | `Cheating / Wallhack / Aim` | `!ban` | `0` (Permanent) | Folosirea de soft-uri ilegale (cu demo salvat 7 zile) |
-| `Refuz Verificare PC` | `Refusal of PC Check` | `!ban` | `0` (Permanent) | Refuzul de a intra pe Discord pentru controlul suspect |
 | `Ban Evading` | `Ban Evade / Multi-Account` | `!ban` | `0` (Permanent) | Intrarea de pe cont secundar cu ban activ pe principal |
 
 ---
