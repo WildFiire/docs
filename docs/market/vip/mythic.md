@@ -1,7 +1,14 @@
 ---
 title: Pachetul VIP Mythic (Gradul Suprem)
-description: Ghidul complet al pachetului suprem VIP Mythic pe serverele WildFire CS2 — 115 HP, Double Jump, Healthshot, +1500$/runda, tag auriu si multiplicator 2.0x.
+description: >-
+  Ghidul complet al pachetului suprem VIP Mythic pe serverele WildFire CS2 — 115
+  HP, Double Jump, Healthshot, +1500$/runda, tag auriu si multiplicator 2.0x.
 outline: deep
+gitLastCommitter: Laur3nt1uu
+lastUpdatedBy: Laur3nt1uu
+author: Laur3nt1uu
+uploadedBy: Laur3nt1uu
+lastUpdated: 1791225143189
 ---
 
 Pachetul **VIP Mythic** reprezinta cel mai inalt rang VIP disponibil pe serverul **WildFire.ro**. Conceput pentru elita comunitatii si campionii clasamentului lunar, acest grad ofera cele mai mari avantaje economice (multiplicator 2.0x la credite), mobilitate sporita prin **Double Jump** si recunoastere vizuala de top cu tag-ul auriu `[MYTHIC]`.
@@ -9,7 +16,7 @@ Pachetul **VIP Mythic** reprezinta cel mai inalt rang VIP disponibil pe serverul
 ---
 
 > [!NOTE]
-> VIP Mythic se poate obtine atat ca **Premiu Gratuit pentru Locul 1 in Sezonul Lunar de Skill (Rank ELO)**, cat si prin achizitie directa din magazinul oficial [wildfire.ro/vip](https://wildfire.ro/vip).
+> VIP Mythic se poate obtine ca **Premiu Gratuit pentru Locul 1 in Sezonul Lunar de Skill (Rank ELO)**.
 
 ---
 
@@ -18,8 +25,7 @@ Pachetul **VIP Mythic** reprezinta cel mai inalt rang VIP disponibil pe serverul
 | Modalitate de Dobandire | Cost / Conditie | Durata Acordata | Recompense Suplimentare |
 | :--- | :--- | :--- | :--- |
 | **Locul 1 Top Skill Lunar** | **Gratuit (Performanta)** | **30 Zile** | **+15.000 PHX** + **30.000 Credite** |
-| **Magazinul Web ([wildfire.ro](https://wildfire.ro))** | **10.00 € / Luna** | **30 Zile** | Activare automata instantanee |
-| **Moneda Serverului (In-Game)** | **20.000 PHX Coins** | **30 Zile** | Deblocare din balanta `!eco` |
+
 
 ---
 
