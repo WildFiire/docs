@@ -8,7 +8,7 @@ gitLastCommitter: Laur3nt1uu
 lastUpdatedBy: Laur3nt1uu
 author: Laur3nt1uu
 uploadedBy: Laur3nt1uu
-lastUpdated: 1791223471247
+lastUpdated: 1791223508748
 ---
 
 Vrei sa contribui activ la dezvoltarea comunitatii si sa asiguri un mediu corect pe serverele **WildFire.ro**? Urmeaza pasii de mai jos pentru a trimite o aplicatie oficiala de recrutare pentru gradul de **Helper**.
@@ -87,8 +87,8 @@ Munca si timpul investit de echipa administrativa sunt rasplatite automat cu pac
 
 | Grad Administrativ | Pachet VIP Inclus | Facilitati Principale |
 | :--- | :--- | :--- |
-| **Helper + Moderator** | **VIP Rebirth** | Tag personalizat, Double Jump, slot rezervat si skin-uri VIP |
-| **Administrator** | **VIP Immortal** | Beneficii extinse, multiplicator credite si acces audio complet |
+| **Helper + Moderator** | **VIP Rebirth** | Tag personalizat, slot rezervat si skin-uri VIP |
+| **Administrator + Supervisor** | **VIP Immortal** | Beneficii extinse, multiplicator credite si acces audio complet |
 | **Server Manager+** | **VIP Mythic** | Pachet premium suprem cu toate facilitatile deblocate |
 
 ---
