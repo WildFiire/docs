@@ -8,7 +8,7 @@ gitLastCommitter: Laur3nt1uu
 lastUpdatedBy: Laur3nt1uu
 author: Laur3nt1uu
 uploadedBy: Laur3nt1uu
-lastUpdated: 1791224893368
+lastUpdated: 1791225021242
 ---
 
 Pachetul **VIP Immortal** este cel mai popular si apreciat grad de pe serverul **WildFire.ro**, conceput pentru jucatorii care doresc o combinatie ideala de mobilitate ridicata, avantaje tactice superioare, economie accelerata si personalizare audio-vizuala completa.
@@ -25,10 +25,10 @@ Pachetul **VIP Immortal** este cel mai popular si apreciat grad de pe serverul *
 Poti debloca gradul VIP Immortal cu bani reali de pe platforma web:
 
 | Durata Abonament | Pret in Euro (Web Store) | Economie / Avantaj |
-| :--- | :--- | :--- | :--- |
+| :--- | :--- | :--- |
 | **7 Zile** | — | Testare saptamanala |
 | **15 Zile** | — | Flexibilitate medie |
-| **30 Zile (1 Luna)** | **12.000 PHX** | **Cel mai avantajos tarif** |
+| **30 Zile (1 Luna)** | **6.50 €** | **Cel mai avantajos tarif** |
 
 ---
 
