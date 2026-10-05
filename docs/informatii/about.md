@@ -1,7 +1,14 @@
 ---
 title: Despre Noi
-description: Descopera comunitatea WildFire.ro, serverele de Counter-Strike 2, suita de sisteme custom si economia integrata.
+description: >-
+  Descopera comunitatea WildFire.ro, serverele de Counter-Strike 2, suita de
+  sisteme custom si economia integrata.
 outline: deep
+gitLastCommitter: 'https://github.com/Laur3nt1uu'
+lastUpdatedBy: Laur3nt1uu
+author: 'https://github.com/Laur3nt1uu'
+uploadedBy: 'https://github.com/Laur3nt1uu'
+lastUpdated: 1791219964625
 ---
 
 Daca esti aici pentru prima data, o sa vezi repede despre ce e vorba. **Wildfire.ro** este un server comunitar de **Counter-Strike 2** unde am construit totul sa mearga fluent: fara lag, fara admini care dispar, fara caterinca proasta.
@@ -131,7 +138,7 @@ Gold Member include: **skin-uri exclusive**, **bonus credite**, **comenzi VIP** 
 
 ## Comunitatea WildFire
 
-Probabil cel mai important element: **oamenii**. Fara oameni ok, orice server e mort. S-a strans o comunitate faina, activa, care stie sa si joace, dar si sa rada.
+Probabil cel mai important element: **oamenii**. Un server nu inseamna doar jucatori, ci oamenii din spatele lor. Am construit o comunitate activa si unita, unde gasesti atat competitie si pasiune pentru joc, cat si oameni cu care poti rade si te poti simti bine.
 
 Fara toxicitate, fara rasism, fara admini care sar pe tine la orice cuvant. Doar oameni care vor acelasi lucru: **servere bune** si **distractie**.
 
