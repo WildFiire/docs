@@ -8,7 +8,7 @@ gitLastCommitter: Laur3nt1uu
 lastUpdatedBy: Laur3nt1uu
 author: Laur3nt1uu
 uploadedBy: Laur3nt1uu
-lastUpdated: 1791224648401
+lastUpdated: 1791224740426
 ---
 
 Ecosistemul **Grade VIP & Beneficii** ofera jucatorilor de pe serverul **WildFire.ro** avantaje exclusive de gameplay, facilitati economice, personalizare audio-vizuala si acces prioritar garantat 24/7.
@@ -63,8 +63,7 @@ Exploreaza paginile dedicate pentru fiecare grad si alege pachetul potrivit stil
 Toate pachetele VIP pot fi achizitionate prin intermediul magazinului oficial:
 
 1. **Magazinul Web ([wildfire.ro/vip](https://wildfire.ro/vip)):** Plata securizata prin Card Bancar, Apple/Google Pay, Revolut, Paysafecard sau SMS. Activarea se realizeaza automat in sub 3 secunde pe SteamID.
-2. **Moneda Serverului (Phoenix Coins):** Poti cumpara grade VIP si direct in-game cheltuind monedele PHX acumulate.
-3. **Gift to a Friend:** Poti oferi un abonament VIP cadou introducand SteamID-ul sau profilul unui prieten.
+2. **Gift to a Friend:** Poti oferi un abonament VIP cadou introducand SteamID-ul sau profilul unui prieten.
 
 ---
 
