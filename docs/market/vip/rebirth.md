@@ -1,7 +1,14 @@
 ---
 title: Pachetul VIP Rebirth
-description: Ghidul complet al pachetului VIP Rebirth pe serverele WildFire CS2 — 3.0€, 105 HP, 100 AP, +800$/runda, 1.3x credite, tag verde si slot rezervat.
+description: >-
+  Ghidul complet al pachetului VIP Rebirth pe serverele WildFire CS2 — 3.0€, 105
+  HP, 100 AP, +800$/runda, 1.3x credite, tag verde si slot rezervat.
 outline: deep
+gitLastCommitter: Laur3nt1uu
+lastUpdatedBy: Laur3nt1uu
+author: Laur3nt1uu
+uploadedBy: Laur3nt1uu
+lastUpdated: 1791225364282
 ---
 
 Pachetul **VIP Rebirth** este punctul de pornire ideal pentru jucatorii care doresc sa isi imbunatateasca experienta pe serverul **WildFire.ro**. Oferind un raport calitate-pret excelent, acest pachet deblocheaza avantaje solide de viata, economie accelerata, acces la slotul rezervat si personalizare in chat.
@@ -15,13 +22,13 @@ Pachetul **VIP Rebirth** este punctul de pornire ideal pentru jucatorii care dor
 
 ## 1. Tarife Oficiale & Durate de Achizitie
 
-Gradul VIP Rebirth poate fi achizitionat atat de pe platforma web, cat si prin intermediul Phoenix Coins:
+Gradul VIP Rebirth poate fi achizitionat atat de pe platforma web:
 
-| Durata Abonament | Pret in Euro (Web Store) | Pret in Phoenix Coins (In-Game) | Economie / Scop |
-| :--- | :--- | :--- | :--- |
-| **7 Zile** | — | **2.000 PHX** | Testare saptamanala |
-| **15 Zile** | — | **3.500 PHX** | Flexibilitate medie |
-| **30 Zile (1 Luna)** | **3.00 €** | **8.000 PHX** | **Cel mai avantajos tarif** |
+| Durata Abonament | Pret in Euro (Web Store) | Economie / Scop |
+| :--- | :--- | :--- |
+| **7 Zile** | — | Testare saptamanala |
+| **15 Zile** | — | Flexibilitate medie |
+| **30 Zile (1 Luna)** | **3.00 €** | **Cel mai avantajos tarif** |
 
 ---
 
