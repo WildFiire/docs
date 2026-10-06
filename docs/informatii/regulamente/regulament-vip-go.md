@@ -8,7 +8,7 @@ gitLastCommitter: Yakuza2377
 lastUpdatedBy: Yakuza
 author: Yakuza2377
 uploadedBy: Yakuza2377
-lastUpdated: 1791303603939
+lastUpdated: 1791303689901
 ---
 
 Statutul de **Membru VIP** pe **WildFire.ro** reprezinta un privilegiu acordat jucatorilor care sustin activitatea comunitatii. Detinerea unui pachet VIP ofera beneficii cosmetice si de divertisment, insa nu confera sub nicio forma imunitate in fata regulilor generale sau a sanctiunilor administrative.
@@ -104,8 +104,8 @@ Fondurile donate pentru sustinerea serverului si obtinerea gradelor VIP nu sunt 
 | **Abuz Double Jump (Locuri Interzise / Anti-Rush)** | ***Avertisment Verbal / Slay*** | ***Warn VIP (1/2)*** | ***Remove VIP Permanent*** |
 | **Spam Audio / Sunete Sank Sounds (!sm)** | ***Mute 30 min*** | ***Warn VIP (1/2)*** | ***Remove VIP (7 zile / Perm)*** |
 | **Limbaj Vulgar / Insulte / Toxicitate** | ***Gag / Mute 60 min*** | ***Silence 24h*** | ***Warn VIP + Silence*** |
-| **Partajare Cont VIP (Account Sharing)** | ***Remove VIP*** | ***Remove VIP + Blacklist Donatii*** | — |
-| **Cheating / Programe Terte / Scripturi** | ***Ban Permanent*** | ***IP Ban Permanent*** | ***Blacklist Donatii*** |
+| **Partajare Cont VIP (Account Sharing)** | ***Remove VIP*** | ***Remove VIP + Blacklist Donatii*** | ***—*** |
+| **Cheating / Programe Terte / Scripturi** | ***Ban Permanent + Blacklist Donatii*** | ***IP Ban Permanent*** | ***—*** |
 
 ---
 
