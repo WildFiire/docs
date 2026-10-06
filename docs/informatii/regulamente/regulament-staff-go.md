@@ -8,7 +8,7 @@ gitLastCommitter: Yakuza2377
 lastUpdatedBy: Yakuza
 author: Yakuza2377
 uploadedBy: Yakuza2377
-lastUpdated: 1791222984099
+lastUpdated: 1791293603462
 ---
 
 Acest regulament stabileste indatoririle, limitele de competenta si normele etice obligatorii pentru toti membrii echipei administrative **WildFire.ro** (de la gradul de Helper pana la Supervizor si Manager).
@@ -79,7 +79,7 @@ Inainte de a depune o aplicatie pentru gradul de **Helper**, asigura-te ca indep
   **Sanctiune:** `REMOVE DIRECT`.
 
 * **3.4 Motive Explicite pentru Sanctiuni:**  
-  Toate sanctiunile trebuie insotite de un motiv real, profesional si clar (ex: `Limbaj vulgar repetat`, `Refuz control`, `Aim/Wallhack`). Sunt interzise motivele ironice (`sal`, `pa`, `jet`, `csf`).  
+  Toate sanctiunile trebuie insotite de un motiv real, profesional si clar (ex: `Limbaj vulgar repetat`, `Aim/Wallhack`). Sunt interzise motivele ironice (`sal`, `pa`, `jet`, `csf`).  
   **Sanctiune:** `WARN`.
 
 * **3.5 Sanctionare Progresiva:**  
