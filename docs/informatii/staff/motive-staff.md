@@ -8,7 +8,7 @@ gitLastCommitter: Yakuza2377
 lastUpdatedBy: Yakuza
 author: Yakuza2377
 uploadedBy: Yakuza2377
-lastUpdated: 1791223578961
+lastUpdated: 1791370586305
 ---
 
 Pentru a asigura transparenta si profesionalismul echipei administrative, toti membrii staff sunt **obligati** sa utilizeze motive clare, standardizate si explicite atunci cand executa comenzi de sanctiune (`!gag`, `!mute`, `!silence`, `!kick`, `!ban`).
@@ -17,7 +17,7 @@ Pentru a asigura transparenta si profesionalismul echipei administrative, toti m
 
 > [!IMPORTANT]
 > **Interdictie Motive la Misto:**  
-> Sunt strict interzise motivele ironice, arogante sau incomplete (ex: `sal`, `pa`, `jet`, `csf`, `iesi`). Nerespectarea nomenclatorului oficial de motive atrage sanctionarea administrativa cu `WARN STAFF`.
+> Sunt strict interzise motivele ironice, arogante sau incomplete (ex: `sal`, `pa`, `jet`, `csf`, `iesi`). Nerespectarea nomenclatorului oficial de motive atrage sanctionarea administrativa cu `AV STAFF / WARN STAFF`.
 
 ---
 
