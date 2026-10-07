@@ -4,11 +4,11 @@ description: >-
   Magazinul premium, pachetele VIP (Rebirth, Immortal, Mythic, VIP Night) si
   serviciile speciale pe serverele WildFire CS2.
 outline: deep
-gitLastCommitter: Laur3nt1uu
-lastUpdatedBy: Laur3nt1uu
-author: Laur3nt1uu
-uploadedBy: Laur3nt1uu
-lastUpdated: 1791224560234
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791371831551
 ---
 
 Platforma **Market & Donatii** reprezinta ecosistemul prin care membrii comunitatii **WildFire.ro** pot sustine dezvoltarea infrastructurii serverelor de CS2 si pot accesa pachete VIP cu avantaje tactice, cosmetice si de confort in-game.
@@ -48,9 +48,9 @@ Navigheaza catre sectiunile dedicate pentru detalii complete, preturi si functio
 
 | Grad VIP | Tarif / Metoda Obtinere | HP Spawn & Kill | Avantaje Cheie de Gameplay | Statut Chat & TAB |
 | :--- | :--- | :--- | :--- | :--- |
-| **VIP Rebirth** | **3.00 € / Luna** | 105 HP (+8 HP/kill) | +800$/runda, 1.3x credite, Slot Rezervat | `[VIP]` Verde |
-| **VIP Immortal** | **6.50 € / Luna** (Cel mai popular) | 110 HP (+12 HP/kill) | +1200$/runda, Double Jump, Healthshot, Fast Plant | `[IMMORTAL]` Roz |
-| **VIP Mythic** | **Top 1 Skill** | 115 HP (+15 HP/kill) | +1500$/runda, Double Jump, Prioritate Maxima | `[MYTHIC]` Auriu |
+| **VIP Rebirth** | **3.00 € / Luna** | ***105 HP (+8 HP/kill)*** | ***+800$/runda, 1.3x credite, Slot Rezervat*** | `[REBIRTH]` ***Albastru*** |
+| **VIP Immortal** | **6.50 € / Luna** (Cel mai popular) | ***110 HP (+12 HP/kill)*** | ***+1200$/runda, Double Jump, Healthshot, Fast Plant*** | `[IMMORTAL]` ***Rosu*** |
+| **VIP Mythic** | **Top 1 Skill** | ***115 HP (+15 HP/kill)*** | ***+1500$/runda, Double Jump, Prioritate Maxima*** | `[MYTHIC]` ***Verde***|
 
 ---
 
