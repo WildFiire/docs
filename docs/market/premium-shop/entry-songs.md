@@ -8,7 +8,7 @@ gitLastCommitter: Yakuza2377
 lastUpdatedBy: Yakuza
 author: Yakuza2377
 uploadedBy: Yakuza2377
-lastUpdated: 1791371925868
+lastUpdated: 1791371950993
 ---
 
 Serviciul **Custom Entry Songs** iti ofera posibilitatea de a fi intampinat pe serverul **WildFire.ro** cu o secventa muzicala personalizata: in momentul in care intri pe server, piesa aleasa de tine va rula automat pentru toti jucatorii conectati, anuntandu-ti prezenta.
@@ -60,8 +60,8 @@ Trimite un mesaj privat sau deschide un tichet pe serverul oficial [Discord Wild
 | Parametru | Valoare Recomandata / Limita | Detalii |
 | :--- | :--- | :--- |
 | **Eligibilitate** | ***Orice grad VIP activ*** | ***Rebirth, Immortal, Mythic*** |
-| **Durata Melodie** | **4 - 7 Secunde** | ***Optimizat pentru a nu suprapune comunicatiile*** |
-| **Cost Suplimentar** | **0 Lei / Gratuit** | ***Inclus in beneficiile gradului VIP*** |
+| **Durata Melodie** | ***4 - 7 Secunde*** | ***Optimizat pentru a nu suprapune comunicatiile*** |
+| **Cost Suplimentar** | ***0 Lei / Gratuit*** | ***Inclus in beneficiile gradului VIP*** |
 | **Efecte Audio** | ***Fade-in & Fade-out*** | ***Integrate automat pentru o tranzitie lina*** |
 
 ---
