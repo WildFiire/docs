@@ -1,7 +1,15 @@
 ---
 title: Premium Shop
-description: Magazinul de servicii premium si pachete exclusive pe WildFire CS2 — Custom MVP, Entry Songs la conectare si colectia de sunete interactive Sank Sounds (!sm).
+description: >-
+  Magazinul de servicii premium si pachete exclusive pe WildFire CS2 — Custom
+  MVP, Entry Songs la conectare si colectia de sunete interactive Sank Sounds
+  (!sm).
 outline: deep
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791372091209
 ---
 
 Sectiunea **Premium Shop** cuprinde serviciile si pachetele exclusive de personalizare audio si vizuala de pe serverul **WildFire.ro**. Aceste optiuni sunt concepute pentru jucatorii care doresc sa isi creeze o identitate unica pe server prin melodii custom si sunete interactive.
@@ -37,9 +45,9 @@ Alege serviciul dorit pentru a consulta pasii de activare:
 
 | Serviciu Premium | Tarif Oficial | Eligibilitate | Unde se Configureaza | Efect in Joc |
 | :--- | :--- | :--- | :--- | :--- |
-| **Custom MVP Anthem** | **15 Lei** (Permanent) | Disponibil oricui | Editor web [wildfire.ro](https://wildfire.ro) | Tag `[PREMIUM MVP]` + Melodie de final |
-| **Custom Entry Song** | **0 Lei / Gratuit** | Detinatori de grad VIP | Solicitare pe Discord Staff | Melodie la intrarea pe server |
-| **Sank Sounds (!sm)** | **Inclus in VIP** | Membrii VIP activi | Meniul in-game `!sm` | Redare sunete amuzante in timpul rundei |
+| **Custom MVP Anthem** | ***15 Lei (Permanent)*** | ***Disponibil oricui*** | ***Editor web*** [wildfire.ro](https://wildfire.ro) | ***Tag*** `[PREMIUM MVP]` ***+ Melodie de final*** |
+| **Custom Entry Song** | ***0 Lei / Gratuit*** | ***Detinatori de grad VIP*** | ***Solicitare pe Discord Staff*** | ***Melodie la intrarea pe server*** |
+| **Sank Sounds (!sm)** | ***Inclus in VIP*** | ***Membrii VIP activi*** | ***Meniul in-game*** `!sm` | ***Redare sunete amuzante in timpul rundei*** |
 
 ---
 
