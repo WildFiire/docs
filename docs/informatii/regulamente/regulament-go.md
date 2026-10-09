@@ -9,7 +9,7 @@ gitLastCommitter: Yakuza2377
 lastUpdatedBy: Yakuza
 author: Yakuza2377
 uploadedBy: Yakuza2377
-lastUpdated: 1791562794335
+lastUpdated: 1791563101282
 ---
 
 Regulamentul de mai jos se aplica tuturor jucatorilor conectati pe serverele **WildFire.ro**. Respectarea acestor norme asigura un mediu competitiv, corect si placut pentru intreaga comunitate.
@@ -133,14 +133,14 @@ Vanzarea de iteme pe bani reali pe server si cersitul insistent de VIP, credite 
 
 | Categorie Abatere | Prima Abatere | A Doua Abatere | Abateri Repetate |
 | :--- | :--- | :--- | :--- |
-| **Limbaj Vulgar / Flame** | Gag / Mute 10 min | Silence 60 min | Silence 24h / Ban 1 zi |
-| **Mic Spam / Muzica / Soundboard** | Avertisment / Mute 10 min | Mute 60 min | Mute 24h |
-| **Ghosting / Metoda Monitor** | Kick | Ban 120 min | Ban 24 ore |
-| **Griefing / Bomb Drop Intentional** | Slay | Ban 120 min | Ban 24 ore |
-| **Jigniri Staff / Sfidare pe u@** | Silence 1 zi | Ban 24 ore | Ban 7 zile |
-| **Trade Scam / Inselaciune** | Ban 7 zile + Tradeban | Ban Permanent | Blacklist |
-| **Cheating / Scripturi / Hack-uri** | Ban Permanent | Ban Permanent | IP Ban Permanent |
-| **Reclama Servere / Comunitati** | Ban Permanent | Ban Permanent | IP Ban Permanent |
+| **Limbaj Vulgar / Flame** | ***Gag / Mute 10 min*** | ***Silence 60 min*** | ***Silence 24h*** / ***Ban 1 zi*** |
+| **Mic Spam / Muzica / Soundboard** | ***Avertisment / Mute 10 min*** | ***Mute 60 min*** | ***Mute 24h*** |
+| **Ghosting / Metoda Monitor** | ***Kick*** | ***Ban 120 min*** | ***Ban 24 ore*** |
+| **Griefing / Bomb Drop Intentional** | ***Slay*** | ***Ban 120 min*** | ***Ban 24 ore*** |
+| **Jigniri Staff / Sfidare pe u@** | ***Silence 1 zi*** | ***Ban 24 ore*** | ***Ban 7 zile*** |
+| **Trade Scam / Inselaciune** | ***Ban 7 zile + Tradeban*** | ***Ban Permanent*** | ***—*** |
+| **Cheating / Scripturi / Hack-uri** | ***Ban Permanent*** | ***Ban Permanent*** | ***IP Ban Permanent*** |
+| **Reclama Servere / Comunitati** | ***Ban Temporar*** | ***Ban Permanent*** | ***IP Ban Permanent*** |
 
 ---
 
