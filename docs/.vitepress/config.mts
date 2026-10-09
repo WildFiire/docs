@@ -223,8 +223,30 @@ export default defineConfig({
 
       const cleanSlug = pageData.relativePath.replace(/\.md$/, '').replace(/(^|\/)index$/, '') || 'index'
       const ogUrl = `https://docs.wildfire.ro/api/og?slug=${encodeURIComponent(cleanSlug)}`
-      const pageTitle = pageData.frontmatter.title || pageData.title || 'Wildfire Docs'
-      const pageDesc = pageData.frontmatter.description || pageData.description || 'Documentatia platformei Wildfire'
+      let pageTitle = pageData.frontmatter.title || pageData.title || 'Wildfire Docs'
+      let pageDesc = pageData.frontmatter.description || pageData.description || 'Documentatia platformei Wildfire'
+      let themeColor = '#ff4000'
+
+      if (cleanSlug.startsWith('team/')) {
+        const username = cleanSlug.replace(/^team\//, '').toLowerCase()
+        try {
+          const teamPath = path.join(docsDir, '../content/team.json')
+          if (fs.existsSync(teamPath)) {
+            const team = JSON.parse(fs.readFileSync(teamPath, 'utf8'))
+            const member = team.find((m: any) => m.username?.toLowerCase() === username || m.displayName?.toLowerCase() === username)
+            if (member) {
+              pageTitle = `${member.displayName || member.username} — ${member.customTitle || (member.isRoot ? 'Root Super Admin' : 'Echipa Wildfire')}`
+              pageDesc = `Dossier tehnic & profil oficial ${member.displayName || member.username} pe Wildfire Docs. ${member.bio || 'Membru oficial în echipa tehnică și de conținut.'}`
+              themeColor = member.isRoot || member.role === 'root_admin' ? '#f97316' : (member.role === 'doc_lead' ? '#f59e0b' : '#10b981')
+            }
+          }
+        } catch {}
+      } else if (cleanSlug === 'team') {
+        pageTitle = 'Echipa & Colaboratorii — Wildfire Docs'
+        pageDesc = 'Descoperă membrii oficiali, arhitecții de sistem și redactorii platformei de documentație Wildfire.'
+        themeColor = '#f97316'
+      }
+
       const canonicalUrl = `https://docs.wildfire.ro/${cleanSlug === 'index' ? 'docs' : cleanSlug}`
       pageData.frontmatter.head = [
         ...(pageData.frontmatter.head || []),
@@ -240,7 +262,7 @@ export default defineConfig({
         ['meta', { name: 'twitter:image', content: ogUrl }],
         ['meta', { name: 'twitter:title', content: pageTitle }],
         ['meta', { name: 'twitter:description', content: pageDesc }],
-        ['meta', { name: 'theme-color', content: '#ff4000' }]
+        ['meta', { name: 'theme-color', content: themeColor }]
       ]
     }
     try {

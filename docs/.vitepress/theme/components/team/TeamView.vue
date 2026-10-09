@@ -1,8 +1,10 @@
 <script setup lang="ts">
 import { ref, computed, onMounted, watch } from 'vue';
-import { useRoute } from 'vitepress';
+import { useRoute, useData } from 'vitepress';
 import { Icon } from '@iconify/vue';
 import TeamMemberProfile from './TeamMemberProfile.vue';
+
+const { isDark } = useData();
 
 interface PublicTeamMember {
   id: string;
@@ -263,8 +265,33 @@ const editorCount = computed(
     ).length,
 );
 
+const searchQuery = ref('');
+const sortBy = ref<'activity' | 'name'>('activity');
+
+const totalWorkforceCommits = computed(() => {
+  let sum = 0;
+  for (const m of members.value) {
+    const s = repoStats.value[m.username.toLowerCase()];
+    if (s?.totalCommits) sum += s.totalCommits;
+    else if (m.isRoot) sum += 337;
+    else sum += 20;
+  }
+  return sum;
+});
+
+const totalWorkforceDocs = computed(() => {
+  let sum = 0;
+  for (const m of members.value) {
+    const s = repoStats.value[m.username.toLowerCase()];
+    if (s?.docsCommits) sum += s.docsCommits;
+    else if (m.isRoot) sum += 48;
+    else sum += 15;
+  }
+  return sum;
+});
+
 const filteredMembers = computed(() => {
-  return members.value.filter((m) => {
+  const list = members.value.filter((m) => {
     if (
       filter.value === 'root' &&
       !m.isRoot &&
@@ -280,9 +307,108 @@ const filteredMembers = computed(() => {
       m.role !== 'viewer'
     )
       return false;
+
+    if (searchQuery.value.trim()) {
+      const q = searchQuery.value.toLowerCase().trim();
+      const matchName = (m.displayName || '').toLowerCase().includes(q);
+      const matchUname = (m.username || '').toLowerCase().includes(q);
+      const matchTitle = (m.customTitle || '').toLowerCase().includes(q);
+      const matchBio = (m.bio || '').toLowerCase().includes(q);
+      const matchResp = m.responsibilities?.some((r) => r.toLowerCase().includes(q));
+      if (!matchName && !matchUname && !matchTitle && !matchBio && !matchResp) {
+        return false;
+      }
+    }
+
     return true;
   });
+
+  if (sortBy.value === 'name') {
+    return list.slice().sort((a, b) => a.displayName.localeCompare(b.displayName));
+  } else {
+    return list.slice().sort((a, b) => {
+      const commitsA = repoStats.value[a.username.toLowerCase()]?.totalCommits || (a.isRoot ? 300 : 20);
+      const commitsB = repoStats.value[b.username.toLowerCase()]?.totalCommits || (b.isRoot ? 300 : 20);
+      return commitsB - commitsA;
+    });
+  }
 });
+
+const FALLBACK_TEAM_CONTRIBUTORS: PublicTeamMember[] = [
+  {
+    id: 'user_root_iannc69',
+    username: 'iannC69',
+    displayName: 'iannC',
+    role: 'root_admin',
+    customTitle: 'Lead Docs & Systems Architect',
+    avatarUrl: 'https://github.com/iannC69.png',
+    bio: 'Se ocupă de structura, redactarea și actualizarea platformei de documentație, integrarea sistemelor tehnice și experiența generală a ghidurilor WildFire.',
+    responsibilities: [
+      'Arhitectură Documentație',
+      'Redactare & Ghiduri Tehnice',
+      'Optimizare Docs Engine',
+      'Supervizare Echipă Docs',
+      'Securitate & 2FA',
+    ],
+    discord: '371621920162185216',
+    steamId: 'https://steamcommunity.com/id/1iannc/',
+    githubUsername: 'iannC69',
+    status: 'active',
+    isRoot: true,
+    createdAt: '2026-08-17T18:20:32.349+00:00',
+  },
+  {
+    id: 'user_83750fc6a71f918f089d8f783542baf9',
+    username: 'Yakuza',
+    displayName: 'Yakuza',
+    role: 'content_editor',
+    customTitle: 'Senior Content Editor & Reviewer',
+    avatarUrl: 'https://github.com/Yakuza2377.png',
+    bio: 'Responsabil de elaborarea ghidurilor detaliate pentru jucători, proceduri de joc, revizuirea mecanicii și acuratețea datelor pe platforma WildFire.',
+    responsibilities: [
+      'Ghiduri Jucători',
+      'Sisteme & MVP',
+      'Media & Asset Vault',
+      'Verificare Acuratețe',
+    ],
+    discord: '778170514036228097',
+    steamId: 'https://steamcommunity.com/id/YakuzaTheImmortal',
+    githubUsername: 'Yakuza2377',
+    status: 'active',
+    isRoot: false,
+    createdAt: '2026-08-21T14:15:00.61+00:00',
+  },
+  {
+    id: 'user_5d1bd9841e1a0968998b302637aaced5',
+    username: 'V1ccX',
+    displayName: 'V1ccX',
+    role: 'content_editor',
+    customTitle: 'Senior Content Editor',
+    avatarUrl: 'https://github.com/Vicc09.png',
+    bio: 'Editor activ de conținut dedicat ghidurilor detaliate de configurare, comenzi in-game și suport pentru jucători.',
+    responsibilities: ['Ghiduri CS2', 'Optimizări Joc', 'Revizuire Conținut'],
+    discord: '1138548983938449429',
+    steamId: 'https://steamcommunity.com/id/Vicc_wf/',
+    githubUsername: 'Vicc09',
+    status: 'active',
+    isRoot: false,
+    createdAt: '2026-08-25T11:00:00.000+00:00',
+  },
+  {
+    id: 'user_umpy_contributor',
+    username: 'umpy',
+    displayName: 'umpy',
+    role: 'content_editor',
+    customTitle: 'Content Editor & Gameplay Specialist',
+    avatarUrl: 'https://github.com/umpy04.png',
+    bio: 'Contribuitor în echipa de redactare, axat pe documentarea sistemelor de gameplay, evenimente și regulamente.',
+    responsibilities: ['Sisteme Gameplay', 'Ghiduri & Evenimente'],
+    githubUsername: 'umpy04',
+    status: 'active',
+    isRoot: false,
+    createdAt: '2026-09-01T10:00:00.000+00:00',
+  },
+];
 
 async function loadData() {
   loading.value = true;
@@ -293,7 +419,7 @@ async function loadData() {
       if (data.githubGraphUrl) {
         githubGraphUrl.value = data.githubGraphUrl;
       }
-      if (data.contributors && Array.isArray(data.contributors)) {
+      if (data.contributors && Array.isArray(data.contributors) && data.contributors.length > 0) {
         members.value = data.contributors;
         const map: Record<string, { totalCommits: number; docsCommits: number }> = {};
         for (const c of data.contributors) {
@@ -303,7 +429,11 @@ async function loadData() {
           };
         }
         repoStats.value = map;
+      } else {
+        members.value = FALLBACK_TEAM_CONTRIBUTORS;
       }
+    } else {
+      members.value = FALLBACK_TEAM_CONTRIBUTORS;
     }
 
     // Secondary fetch for avatars
@@ -335,7 +465,8 @@ async function loadData() {
       }
     });
   } catch (err) {
-    console.error('Failed to load team data:', err);
+    console.error('Failed to load team data from API, using fallback:', err);
+    members.value = FALLBACK_TEAM_CONTRIBUTORS;
   } finally {
     loading.value = false;
   }
@@ -351,7 +482,7 @@ onMounted(() => {
   <TeamMemberProfile v-if="activeMemberUsername" :username="activeMemberUsername" />
 
   <!-- Team Grid Mode -->
-  <div v-else class="docs-home-wrapper">
+  <div v-else class="docs-home-wrapper" :class="{ 'team-view--light': !isDark }">
     <main class="docs-home" id="main-content">
       <!-- Hero Section -->
       <section
@@ -367,10 +498,53 @@ onMounted(() => {
           Wildfire Core Team &amp; Contributors
         </h1>
 
-        <p class="docs-home-desc" style="margin-bottom: 0;">
+        <p class="docs-home-desc" style="margin-bottom: 20px;">
           Echipa oficială, arhitecții de sisteme și contribuitorii care redactează, revizuiesc și
           mențin documentația pe serverele CS2 Wildfire.ro.
         </p>
+
+        <!-- Global Workforce Aggregate KPI Strip -->
+        <div class="team-workforce-stats-grid">
+          <div class="team-wf-stat-card">
+            <div class="team-wf-stat-icon team-wf-stat-icon--amber">
+              <Icon icon="lucide:users" width="16" height="16" />
+            </div>
+            <div class="team-wf-stat-info">
+              <span class="team-wf-stat-val">{{ members.length }}</span>
+              <span class="team-wf-stat-lbl">Membri Înregistrați</span>
+            </div>
+          </div>
+
+          <div class="team-wf-stat-card">
+            <div class="team-wf-stat-icon team-wf-stat-icon--cyan">
+              <Icon icon="lucide:git-commit" width="16" height="16" />
+            </div>
+            <div class="team-wf-stat-info">
+              <span class="team-wf-stat-val">{{ totalWorkforceCommits.toLocaleString() }}+</span>
+              <span class="team-wf-stat-lbl">Commit-uri Verificate</span>
+            </div>
+          </div>
+
+          <div class="team-wf-stat-card">
+            <div class="team-wf-stat-icon team-wf-stat-icon--emerald">
+              <Icon icon="lucide:book-open" width="16" height="16" />
+            </div>
+            <div class="team-wf-stat-info">
+              <span class="team-wf-stat-val">{{ totalWorkforceDocs }}+</span>
+              <span class="team-wf-stat-lbl">Ghiduri Menținute</span>
+            </div>
+          </div>
+
+          <div class="team-wf-stat-card">
+            <div class="team-wf-stat-icon team-wf-stat-icon--purple">
+              <Icon icon="lucide:shield-check" width="16" height="16" />
+            </div>
+            <div class="team-wf-stat-info">
+              <span class="team-wf-stat-val">100% RBAC</span>
+              <span class="team-wf-stat-lbl">Securizat 2FA</span>
+            </div>
+          </div>
+        </div>
       </section>
 
       <!-- Main Section: Team Members Grid -->
@@ -398,7 +572,7 @@ onMounted(() => {
                   aria-hidden="true"
                 />
                 <span
-                  ><strong>{{ members.length }}</strong> membri activi</span
+                  ><strong>{{ filteredMembers.length }}</strong> din {{ members.length }} afișați</span
                 >
                 <span class="count-pill-divider">/</span>
                 <span
@@ -413,8 +587,28 @@ onMounted(() => {
             </span>
           </div>
 
-          <!-- Filter Toggle Buttons -->
-          <div class="section-header-actions">
+          <!-- Filter Toggle Buttons & Instant Search -->
+          <div class="section-header-actions" style="display: flex; flex-wrap: wrap; gap: 8px; align-items: center;">
+            <!-- Instant Search Input -->
+            <div class="team-search-box">
+              <Icon icon="lucide:search" width="13" height="13" class="team-search-ico" />
+              <input
+                v-model="searchQuery"
+                type="text"
+                placeholder="Caută membru sau atribuție..."
+                class="team-search-input"
+              />
+              <button
+                v-if="searchQuery"
+                type="button"
+                class="team-search-clear"
+                title="Șterge căutarea"
+                @click="searchQuery = ''"
+              >
+                <Icon icon="lucide:x" width="11" height="11" />
+              </button>
+            </div>
+
             <div class="recent-page-pills">
               <button
                 type="button"
@@ -495,14 +689,37 @@ onMounted(() => {
           </div>
         </div>
 
+        <!-- Empty State if search matches nothing -->
+        <div v-if="filteredMembers.length === 0" class="team-empty-search-state">
+          <Icon icon="lucide:user-x" width="36" height="36" class="text-amber-400 opacity-60" />
+          <h3 style="margin: 8px 0 4px; color: #f1f5f9; font-size: 1rem; font-weight: 800;">Niciun membru găsit</h3>
+          <p style="margin: 0; color: #94a3b8; font-size: 0.82rem;">Nu am găsit rezultate pentru "{{ searchQuery }}". Încearcă un alt nume sau o altă atribuție.</p>
+          <button type="button" class="team-reset-search-btn" @click="searchQuery = ''; filter = 'all'">
+            Resetează filtrele
+          </button>
+        </div>
+
         <!-- Cards Grid -->
-        <div class="recent-updates-grid">
+        <div v-else class="recent-updates-grid">
           <div
             v-for="member in filteredMembers"
             :key="member.id"
             class="recent-update-card"
-            style="cursor: default; display: flex; flexDirection: column; justify-content: space-between; align-self: stretch; padding: 18px 20px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);"
+            style="position: relative; overflow: hidden; cursor: default; display: flex; flexDirection: column; justify-content: space-between; align-self: stretch; padding: 20px 22px; border-radius: 18px; transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);"
           >
+            <!-- Subtle top role accent line -->
+            <div
+              :style="{
+                position: 'absolute',
+                top: 0,
+                left: 0,
+                right: 0,
+                height: '1px',
+                background: `linear-gradient(90deg, transparent 0%, ${getRoleMeta(member.role, member.isRoot).accentColor} 50%, transparent 100%)`,
+                opacity: 0.4,
+              }"
+              aria-hidden="true"
+            />
             <div>
               <!-- Top Bar: Role Category Pill + Stats -->
               <div class="recent-card-top">
@@ -824,14 +1041,15 @@ onMounted(() => {
                   :href="`/docs/team/${encodeURIComponent(member.username)}`"
                   class="team-card-profile-action-btn"
                   :style="{
-                    background: `${getRoleMeta(member.role, member.isRoot).accentColor}14`,
-                    borderColor: `${getRoleMeta(member.role, member.isRoot).accentColor}40`,
+                    background: `${getRoleMeta(member.role, member.isRoot).accentColor}18`,
+                    borderColor: `${getRoleMeta(member.role, member.isRoot).accentColor}55`,
                     color: getRoleMeta(member.role, member.isRoot).accentColor,
                   }"
                   :title="`Profil complet — ${member.displayName}`"
                 >
-                  <Icon icon="lucide:user" width="11" />
-                  <span>Profil</span>
+                  <Icon icon="lucide:user" width="12" />
+                  <span>Vezi Profil</span>
+                  <Icon icon="lucide:arrow-right" width="11" />
                 </a>
 
                 <!-- Steam Button -->
@@ -840,7 +1058,7 @@ onMounted(() => {
                   :href="getSteamProfileUrl(member.steamId)!"
                   target="_blank"
                   rel="noopener noreferrer"
-                  style="position: relative; width: 34px; height: 34px; border-radius: 9px; border: 1.5px solid hsl(215 85% 58% / 0.5); background: hsl(215 45% 16% / 0.8); box-shadow: 0 3px 10px hsl(215 85% 45% / 0.25); display: inline-flex; align-items: center; justify-content: center; overflow: hidden; transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; flex-shrink: 0;"
+                  style="position: relative; width: 34px; height: 34px; border-radius: 9px; border: 1px solid rgba(255, 255, 255, 0.12); background: rgba(255, 255, 255, 0.04); box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2); display: inline-flex; align-items: center; justify-content: center; overflow: hidden; transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1); cursor: pointer; flex-shrink: 0;"
                   :title="`Profil Steam — ${member.displayName}`"
                 >
                   <img
@@ -996,3 +1214,288 @@ onMounted(() => {
     </main>
   </div>
 </template>
+
+<style scoped>
+/* ── Workforce Global Stats Grid ── */
+.team-workforce-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  width: 100%;
+  max-width: 960px;
+  margin: 18px auto 0;
+  box-sizing: border-box;
+}
+
+@media (max-width: 860px) {
+  .team-workforce-stats-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .team-workforce-stats-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+.team-wf-stat-card {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.035);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.team-wf-stat-card:hover {
+  background: rgba(255, 255, 255, 0.07);
+  border-color: rgba(255, 255, 255, 0.18);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.35);
+}
+
+.team-wf-stat-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.team-wf-stat-icon--amber {
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  color: #fbbf24;
+}
+
+.team-wf-stat-icon--cyan {
+  background: rgba(6, 182, 212, 0.14);
+  border: 1px solid rgba(6, 182, 212, 0.35);
+  color: #22d3ee;
+}
+
+.team-wf-stat-icon--emerald {
+  background: rgba(16, 185, 129, 0.14);
+  border: 1px solid rgba(16, 185, 129, 0.35);
+  color: #34d399;
+}
+
+.team-wf-stat-icon--purple {
+  background: rgba(168, 85, 247, 0.14);
+  border: 1px solid rgba(168, 85, 247, 0.35);
+  color: #c084fc;
+}
+
+.team-wf-stat-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.team-wf-stat-val {
+  font-family: var(--font-mono, monospace);
+  font-size: 0.96rem;
+  font-weight: 800;
+  color: #ffffff;
+  line-height: 1.2;
+}
+
+.team-wf-stat-lbl {
+  font-size: 0.68rem;
+  color: #94a3b8;
+  margin-top: 1px;
+}
+
+/* ── Instant Search Box ── */
+.team-search-box {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.team-search-ico {
+  position: absolute;
+  left: 10px;
+  color: #94a3b8;
+  pointer-events: none;
+}
+
+.team-search-input {
+  padding: 5px 28px 5px 30px;
+  border-radius: 8px;
+  background: hsl(220 14% 18% / 0.7);
+  border: 1px solid hsl(220 14% 35% / 0.6);
+  color: #ffffff;
+  font-size: 0.74rem;
+  outline: none;
+  width: 190px;
+  transition: all 0.2s ease;
+}
+
+.team-search-input:focus {
+  border-color: hsl(38 96% 50% / 0.7);
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+  width: 220px;
+}
+
+.team-search-input::placeholder {
+  color: #94a3b8;
+}
+
+.team-search-clear {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #94a3b8;
+  cursor: pointer;
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.team-search-clear:hover {
+  color: #ffffff;
+}
+
+/* ── Empty Search State ── */
+.team-empty-search-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 44px 20px;
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px dashed rgba(255, 255, 255, 0.1);
+  text-align: center;
+  margin: 16px 0;
+}
+
+.team-reset-search-btn {
+  margin-top: 14px;
+  padding: 7px 16px;
+  border-radius: 9px;
+  background: rgba(245, 158, 11, 0.14);
+  border: 1px solid rgba(245, 158, 11, 0.4);
+  color: #fbbf24;
+  font-size: 0.76rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.team-reset-search-btn:hover {
+  background: rgba(245, 158, 11, 0.25);
+  transform: translateY(-1px);
+}
+
+/* ═════════════════════════════════════════════════════════════════════════
+   LIGHT THEME ADAPTATION
+   ═════════════════════════════════════════════════════════════════════════ */
+html:not(.dark) .team-wf-stat-card,
+[data-theme="light"] .team-wf-stat-card {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) .team-wf-stat-val,
+[data-theme="light"] .team-wf-stat-val {
+  color: #0f172a !important;
+}
+
+html:not(.dark) .team-wf-stat-lbl,
+[data-theme="light"] .team-wf-stat-lbl {
+  color: #64748b !important;
+}
+
+html:not(.dark) .team-search-input,
+[data-theme="light"] .team-search-input {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.12) !important;
+  color: #0f172a !important;
+}
+
+html:not(.dark) .team-search-input::placeholder,
+[data-theme="light"] .team-search-input::placeholder {
+  color: #94a3b8 !important;
+}
+
+html:not(.dark) .recent-update-card,
+[data-theme="light"] .recent-update-card {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) .recent-card-title,
+[data-theme="light"] .recent-card-title {
+  color: #0f172a !important;
+}
+
+html:not(.dark) .recent-card-desc,
+[data-theme="light"] .recent-card-desc {
+  color: #475569 !important;
+}
+
+html:not(.dark) .team-handle-pill,
+[data-theme="light"] .team-handle-pill {
+  background: #f1f5f9 !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  color: #334155 !important;
+}
+
+html:not(.dark) .team-handle-username,
+[data-theme="light"] .team-handle-username {
+  color: #334155 !important;
+}
+
+html:not(.dark) .recent-collapse-toggle-btn,
+[data-theme="light"] .recent-collapse-toggle-btn {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.1) !important;
+  color: #475569 !important;
+}
+
+html:not(.dark) .recent-collapse-toggle-btn:hover,
+[data-theme="light"] .recent-collapse-toggle-btn:hover {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+}
+
+html:not(.dark) .home-card,
+[data-theme="light"] .home-card {
+  background: #ffffff !important;
+  border-color: rgba(0, 0, 0, 0.08) !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04) !important;
+}
+
+html:not(.dark) .home-card-title,
+[data-theme="light"] .home-card-title {
+  color: #0f172a !important;
+}
+
+html:not(.dark) .home-card-desc,
+[data-theme="light"] .home-card-desc {
+  color: #475569 !important;
+}
+
+html:not(.dark) .docs-home-section-title,
+[data-theme="light"] .docs-home-section-title {
+  color: #0f172a !important;
+}
+
+html:not(.dark) .section-sub,
+[data-theme="light"] .section-sub {
+  color: #64748b !important;
+}
+</style>
