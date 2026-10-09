@@ -1,7 +1,15 @@
 ---
 title: Regulament Jucatori CS2
-description: Regulamentul oficial de conduita, reguli pentru voice si text chat, fair-play, anti-cheat si tabelul complet de sanctiuni pentru jucatorii serverului WildFire CS2.
+description: >-
+  Regulamentul oficial de conduita, reguli pentru voice si text chat, fair-play,
+  anti-cheat si tabelul complet de sanctiuni pentru jucatorii serverului
+  WildFire CS2.
 outline: deep
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791562794335
 ---
 
 Regulamentul de mai jos se aplica tuturor jucatorilor conectati pe serverele **WildFire.ro**. Respectarea acestor norme asigura un mediu competitiv, corect si placut pentru intreaga comunitate.
@@ -38,11 +46,11 @@ Defaimarea, injuraturile, mesajele denigratoare sau ofensele grave aduse comunit
 
 ### 1.6 Conturi Secundare si Evaziune (Ban Evade)
 Conectarea de pe un cont secundar pentru a juca in timp ce contul principal are o sanctiune activa (Ban Evading / Mute Evading) este strict interzisa.
-* **Sanctiune:** `BAN PE IP` si `BAN PERMANENT` pe toate conturile utilizate.
+* **Sanctiune:** `BAN PERMANENT / BAN IP`.
 
 ### 1.7 Evaziunea Sanctiunilor (Evasion)
 Deconectarea intentionata de pe server (`disconnect` / `quit`) in momentul in care un admin se pregateste sa aplice o sanctiune atrage dublarea pedepsei.
-* **Sanctiune:** `BAN 24 ORE`.
+* **Sanctiune:** `x2 SANCTIUNEA INITIALA / BAN 24 ORE`.
 
 ### 1.8 Termenul pentru Cererile de Unban
 Cererile de unban se depun exclusiv pe platforma web in termen de **maximum 7 zile** de la data aplicarii sanctiunii. Dupa expirarea acestui termen, cererile nu se mai iau in considerare.
@@ -57,11 +65,11 @@ Mințirea intentionata a unui membru staff, sfidarea raspunsurilor pe `u@` sau f
 
 ### 2.1 Utilizarea Microfonului (Voice Chat)
 Discutiile relaxate sunt permise, cu conditia sa nu monopolizeze canalul audio sau sa deranjeze concentrarea celorlalti jucatori. Redarea de muzica pe microfon, tipetele sau sunetele deranjante sunt interzise.
-* **Sanctiune:** `MUTE 10 MIN` ➔ `MUTE 60 MIN` ➔ `MUTE 24H`.
+* **Sanctiune:** `MUTE`.
 
 ### 2.2 Pastrarea Linistii la Faze Decisive (Clutch)
 Daca ai fost eliminat, ofera informatii scurte si lasa liniste pe voice chat pentru colegii ramasi in viata (in special in situatii de 1v1 sau 1v2), pentru a nu le acoperi pasii inamicilor.
-* **Sanctiune:** `MUTE 10 MIN`.
+* **Sanctiune:** `MUTE`.
 
 ### 2.3 Statul AFK (Inactivitate)
 Este interzisa ramanerea AFK pe server pentru farmarea orelor sau a punctelor de activitate.
@@ -89,7 +97,7 @@ Numele de profil si avatarele cu continut pornografic, extremist, nazist sau ras
 
 ### 2.9 Toleranta Zero la Rasism si Doxxing
 Insultele rasiale (N-word), afirmatiile extremiste, homofobe, amenintarile fizice sau publicarea datelor cu caracter personal (doxxing) atrag excluderea imediata.
-* **Sanctiune:** `BAN PERMANENT`.
+* **Sanctiune:** `BAN TEMPORAR (24h sau extins) / BAN PERMANENT`.
 
 ---
 
@@ -113,7 +121,7 @@ Aruncarea intentionata a bombei in locuri inaccesibile, blocarea coechipierilor 
 
 ### 3.5 Reclama si Promovare Neautorizata
 Promovarea altor servere de joc, comunitati de Discord sau site-uri comerciale/pariuri (in chat, pe voice sau in nickname) este strict interzisa.
-* **Sanctiune:** `BAN PERMANENT`.
+* **Sanctiune:** `BAN TEMPORAR (24h)` ➔ `BAN PERMANENT`.
 
 ### 3.6 Comert pe Bani Reali si Cersit
 Vanzarea de iteme pe bani reali pe server si cersitul insistent de VIP, credite sau skin-uri sunt interzise.
