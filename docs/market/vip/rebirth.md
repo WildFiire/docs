@@ -4,11 +4,11 @@ description: >-
   Ghidul complet al pachetului VIP Rebirth pe serverele WildFire CS2 — 3.0€, 105
   HP, 100 AP, +800$/runda, 1.3x credite, tag verde si slot rezervat.
 outline: deep
-gitLastCommitter: Laur3nt1uu
-lastUpdatedBy: Laur3nt1uu
-author: Laur3nt1uu
-uploadedBy: Laur3nt1uu
-lastUpdated: 1791225364282
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791634114383
 ---
 
 Pachetul **VIP Rebirth** este punctul de pornire ideal pentru jucatorii care doresc sa isi imbunatateasca experienta pe serverul **WildFire.ro**. Oferind un raport calitate-pret excelent, acest pachet deblocheaza avantaje solide de viata, economie accelerata, acces la slotul rezervat si personalizare in chat.
@@ -36,18 +36,18 @@ Gradul VIP Rebirth poate fi achizitionat atat de pe platforma web:
 
 | Categorie | Facilitate / Avantaj | Valoare / Detalii Tehnice |
 | :--- | :--- | :--- |
-| **Puncte de Viata (HP)** | **Spawn Health** | **105 HP** la inceputul fiecarei runde |
-| **Protectie & Armura** | **Spawn Armor** | **100 AP** (Armura completa + Casca garantata) |
-| **Regenerare Combat** | **HP la Kill** | **+8 HP** la eliminare / **+15 HP** la Headshot |
-| **Mobilitate** | **Viteza de Deplasare** | **1.10x Viteza** de miscare a caracterului |
-| **Economie Meci** | **Bani Bonus pe Runda** | **+$800** fonduri suplimentare virate la spawn |
-| **Economie Shop** | **Multiplicator Credite** | **1.3x** la toate creditele castigate din playtime |
-| **Echipament Tactic** | **Full Utility & Defuse** | Set complet de grenade + Defuse Kit automat la CT |
-| **Armament Secundar** | **Zeus x27 Incarcat** | Tazer gratuit la spawn in fiecare runda |
-| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | Prefix `[VIP]` verde in chat si pe tabela de scor |
-| **Sunete & Audio** | **Sank Sounds in Chat** | Acces la comanda `!sm` si sunetele comunitatii |
-| **Confort Server** | **Slot Rezervat Garantat** | Intrare garantata chiar daca serverul afiseaza 32/32 |
-| **Comunitate** | **Rol Special Discord** | Gradul VIP Rebirth sincronizat pe Discord |
+| **Puncte de Viata (HP)** | **Spawn Health** | **105 HP** ***la inceputul fiecarei runde*** |
+| **Protectie & Armura** | **Spawn Armor** | **100 AP** ***(Armura completa + Casca garantata)*** |
+| **Regenerare Combat** | **HP la Kill** | **+8 HP** ***la eliminare*** / **+15 HP** ***la Headshot*** |
+| **Mobilitate** | **Viteza de Deplasare** | **1.10x Viteza** ***de miscare a caracterului*** |
+| **Economie Meci** | **Bani Bonus pe Runda** | **+$800** ***fonduri suplimentare virate la spawn*** |
+| **Economie Shop** | **Multiplicator Credite** | **1.3x** ***la toate creditele castigate din playtime*** |
+| **Echipament Tactic** | **Full Utility & Defuse** | ***Set complet de grenade + Defuse Kit automat la CT*** |
+| **Armament Secundar** | **Zeus x27 Incarcat** | ***Tazer gratuit la spawn in fiecare runda*** |
+| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | ***Prefix*** `[VIP]` ***albastru in chat si pe tabela de scor*** |
+| **Sunete & Audio** | **Sank Sounds in Chat** | ***Acces la comanda*** `!sm` ***si sunetele comunitatii*** |
+| **Confort Server** | **Slot Rezervat Garantat** | ***Intrare garantata chiar daca serverul afiseaza 32/32*** |
+| **Comunitate** | **Rol Special Discord** | ***Gradul VIP Rebirth sincronizat pe Discord*** |
 
 ---
 
