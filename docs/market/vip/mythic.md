@@ -4,11 +4,11 @@ description: >-
   Ghidul complet al pachetului suprem VIP Mythic pe serverele WildFire CS2 — 115
   HP, Double Jump, Healthshot, +1500$/runda, tag auriu si multiplicator 2.0x.
 outline: deep
-gitLastCommitter: Laur3nt1uu
-lastUpdatedBy: Laur3nt1uu
-author: Laur3nt1uu
-uploadedBy: Laur3nt1uu
-lastUpdated: 1791225256522
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791634023951
 ---
 
 Pachetul **VIP Mythic** reprezinta cel mai inalt rang VIP disponibil pe serverul **WildFire.ro**. Conceput pentru elita comunitatii si campionii clasamentului lunar, acest grad ofera cele mai mari avantaje economice (multiplicator 2.0x la credite), mobilitate sporita prin **Double Jump** si recunoastere vizuala de top cu tag-ul auriu `[MYTHIC]`.
@@ -33,19 +33,19 @@ Pachetul **VIP Mythic** reprezinta cel mai inalt rang VIP disponibil pe serverul
 
 | Categorie | Facilitate / Avantaj | Valoare / Detalii Tehnice |
 | :--- | :--- | :--- |
-| **Puncte de Viata (HP)** | **Spawn Health Maxim** | **115 HP** la inceputul fiecarei runde |
-| **Protectie & Armura** | **Spawn Armor** | **105 AP** (Armura completa + Casca garantata) |
-| **Regenerare Combat** | **HP la Kill** | **+15 HP** la eliminare / **+25 HP** la Headshot |
-| **Trusa Medicala** | **Healthshot** | Seringa medicala primita la fiecare spawn (+50 HP) |
-| **Mobilitate** | **Double Jump & Viteza** | Săritură dublă în aer + **1.15x Viteza de deplasare** |
-| **Economie Meci** | **Bani Bonus pe Runda** | **+$1,500** fonduri virate la fiecare spawn |
-| **Multiplicator Credite** | **Multiplicator Maxim** | **2.0x (Dublu)** la toate creditele castigate |
-| **Echipament Tactic** | **Full Utility & Defuse** | Set complet de grenade + Kit de dezamorsare gratuit |
-| **Viteza Obiective** | **Fast Plant** | Timp optimizat si accelerat la plantarea bombei C4 |
-| **Identitate Chat & TAB** | **Tag & Culori Supreme** | Prefix `[MYTHIC]` auriu stralucitor in chat si scoreboard |
-| **Sunete & Audio** | **Pachet Audio Complet** | Acces la comanda `!sm` + Melodie de intrare gratuita |
-| **Prioritate Server** | **Slot Rezervat Garantat** | Prioritate maxima la conectare pe server plin (32/32) |
-| **Discord** | **Rol Exclusiv Mythic** | Recunoastere speciala pe serverul de Discord |
+| **Puncte de Viata (HP)** | **Spawn Health Maxim** | **115 HP** ***la inceputul fiecarei runde*** |
+| **Protectie & Armura** | **Spawn Armor** | **105 AP** ***(Armura completa + Casca garantata)*** |
+| **Regenerare Combat** | **HP la Kill** | **+15 HP** ***la eliminare*** / ***+25 HP la Headshot*** |
+| **Trusa Medicala** | **Healthshot** | ***Seringa medicala primita la fiecare spawn (+50 HP)*** |
+| **Mobilitate** | **Double Jump & Viteza** | ***Săritură dublă în aer*** ***+ 1.15x Viteza de deplasare*** |
+| **Economie Meci** | **Bani Bonus pe Runda** | **+$1,500** ***fonduri virate la fiecare spawn*** |
+| **Multiplicator Credite** | **Multiplicator Maxim** | **2.0x (Dublu)** ***la toate creditele castigate*** |
+| **Echipament Tactic** | **Full Utility & Defuse** | ***Set complet de grenade + Kit de dezamorsare gratuit*** |
+| **Viteza Obiective** | **Fast Plant** | ***Timp optimizat si accelerat la plantarea bombei C4*** |
+| **Identitate Chat & TAB** | **Tag & Culori Supreme** | ***Prefix*** `[MYTHIC]` ***verde stralucitor in chat si scoreboard*** |
+| **Sunete & Audio** | **Pachet Audio Complet** | ***Acces la comanda*** `!sm` ***+ Melodie de intrare gratuita*** |
+| **Prioritate Server** | **Slot Rezervat Garantat** | ***Prioritate maxima la conectare pe server plin (32/32)*** |
+| **Discord** | **Rol Exclusiv Mythic** | ***Recunoastere speciala pe serverul de Discord*** |
 
 ---
 
