@@ -8,7 +8,7 @@ gitLastCommitter: Yakuza2377
 lastUpdatedBy: Yakuza
 author: Yakuza2377
 uploadedBy: Yakuza2377
-lastUpdated: 1791634114383
+lastUpdated: 1791634290866
 ---
 
 Pachetul **VIP Rebirth** este punctul de pornire ideal pentru jucatorii care doresc sa isi imbunatateasca experienta pe serverul **WildFire.ro**. Oferind un raport calitate-pret excelent, acest pachet deblocheaza avantaje solide de viata, economie accelerata, acces la slotul rezervat si personalizare in chat.
@@ -44,7 +44,7 @@ Gradul VIP Rebirth poate fi achizitionat atat de pe platforma web:
 | **Economie Shop** | **Multiplicator Credite** | **1.3x** ***la toate creditele castigate din playtime*** |
 | **Echipament Tactic** | **Full Utility & Defuse** | ***Set complet de grenade + Defuse Kit automat la CT*** |
 | **Armament Secundar** | **Zeus x27 Incarcat** | ***Tazer gratuit la spawn in fiecare runda*** |
-| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | ***Prefix*** `[VIP]` ***albastru in chat si pe tabela de scor*** |
+| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | ***Prefix*** `[REBIRTH]` ***albastru in chat si pe tabela de scor*** |
 | **Sunete & Audio** | **Sank Sounds in Chat** | ***Acces la comanda*** `!sm` ***si sunetele comunitatii*** |
 | **Confort Server** | **Slot Rezervat Garantat** | ***Intrare garantata chiar daca serverul afiseaza 32/32*** |
 | **Comunitate** | **Rol Special Discord** | ***Gradul VIP Rebirth sincronizat pe Discord*** |
