@@ -231,7 +231,7 @@ onMounted(() => {
           <div class="banner-text">
             <div class="banner-title-row">
               <span class="banner-title">SECURITATE CRITICĂ: 2FA OBLIGATORIU</span>
-              <span class="banner-tag">PROTOCOL ECHIPĂ CS2</span>
+              <span class="banner-tag">PROTOCOL SECURITATE DOCS</span>
             </div>
             <p class="banner-desc">
               Contul tău administrativ <strong>{{ props.user?.displayName || props.user?.username }}</strong> nu are activată autentificarea în doi pași. Conform standardelor de securitate Wildfire, toți membrii echipei sunt obligați să folosească 2FA (TOTP).

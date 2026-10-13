@@ -49,7 +49,7 @@ function autoSyncSupabase(
       fn({
         url: config.supabaseUrl,
         anonKey: config.supabaseAnonKey,
-        serviceKey: config.supabaseServiceKey,
+        serviceKey: config.supabaseServiceKey || process.env.SUPABASE_SERVICE_ROLE_KEY || undefined,
       }).catch((err) => {
         console.warn('[AutoSync Supabase] Background sync error:', err);
       });
@@ -183,17 +183,36 @@ export function localSubmitDocFeedback(
   const store = readAnalyticsStore();
   const normalizedSlug = cleanDocSlug(slug);
 
-  // If existing feedbackId provided, update it in place
+  // 1. If existing feedbackId provided, update it in place
   if (feedbackId) {
     const existing = store.feedbacks.find((f) => f.id === feedbackId);
     if (existing) {
       existing.rating = rating;
-      if (comment !== undefined) existing.comment = comment.trim();
+      if (comment !== undefined && comment !== null) existing.comment = comment.trim();
       saveAnalyticsStore(store);
       autoSyncSupabase((cfg) =>
         supabaseSubmitFeedback(cfg, normalizedSlug, rating, comment, existing.id),
       );
       return existing;
+    }
+  }
+
+  // 2. If comment is provided and there is a recent feedback for this slug without a comment, attach it!
+  if (comment && comment.trim()) {
+    const recentSameSlug = store.feedbacks.find(
+      (f) =>
+        cleanDocSlug(f.slug) === normalizedSlug &&
+        (!f.comment || !f.comment.trim()) &&
+        Date.now() - new Date(f.created_at).getTime() < 600000,
+    );
+    if (recentSameSlug) {
+      recentSameSlug.rating = rating;
+      recentSameSlug.comment = comment.trim();
+      saveAnalyticsStore(store);
+      autoSyncSupabase((cfg) =>
+        supabaseSubmitFeedback(cfg, normalizedSlug, rating, comment, recentSameSlug.id),
+      );
+      return recentSameSlug;
     }
   }
 

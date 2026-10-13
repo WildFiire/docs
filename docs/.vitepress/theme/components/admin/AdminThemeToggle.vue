@@ -8,15 +8,19 @@ const mounted = ref(false);
 onMounted(() => {
   mounted.value = true;
   const stored = localStorage.getItem('theme') as 'light' | 'dark' | null;
-  const initial = stored || (document.documentElement.getAttribute('data-theme') as 'light' | 'dark') || 'dark';
+  const hasDark = typeof document !== 'undefined' && document.documentElement.classList.contains('dark');
+  const attr = typeof document !== 'undefined' ? (document.documentElement.getAttribute('data-theme') as 'light' | 'dark' | null) : null;
+  const initial = stored || attr || (hasDark ? 'dark' : 'light');
   theme.value = initial;
   document.documentElement.setAttribute('data-theme', initial);
+  document.documentElement.classList.toggle('dark', initial === 'dark');
 });
 
 function toggleTheme() {
   const next = theme.value === 'light' ? 'dark' : 'light';
   theme.value = next;
   document.documentElement.setAttribute('data-theme', next);
+  document.documentElement.classList.toggle('dark', next === 'dark');
   localStorage.setItem('theme', next);
   window.dispatchEvent(new CustomEvent('theme-change', { detail: { theme: next } }));
 }

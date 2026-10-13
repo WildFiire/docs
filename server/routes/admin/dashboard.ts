@@ -17,23 +17,27 @@ import { getRealDocsCount } from '@server/lib/admin/realTelemetry';
 import { RUNTIME_ROOT } from '@server/storage/paths';
 import fs from 'fs';
 import path from 'path';
+import { getAllFeedbacks } from '@server/lib/db';
 
-function getDocAnalytics() {
+async function getDocAnalytics() {
   try {
     const p = path.join(RUNTIME_ROOT, 'data', 'doc_analytics.json');
-    if (!fs.existsSync(p))
-      return {
-        totalViews: 0,
-        todayViews: 0,
-        topDocs: [],
-        docCount: 0,
-        helpful: 0,
-        unhelpful: 0,
-        satisfactionRate: 100,
-        totalFeedbacks: 0,
-      };
-    const raw = JSON.parse(fs.readFileSync(p, 'utf-8'));
-    const views = Object.values(raw.views || {}) as any[];
+    let views: any[] = [];
+    let feedbacks: any[] = [];
+
+    if (fs.existsSync(p)) {
+      const raw = JSON.parse(fs.readFileSync(p, 'utf-8'));
+      views = Object.values(raw.views || {}) as any[];
+      feedbacks = raw.feedbacks || [];
+    }
+
+    try {
+      const dbFeedbacks = await getAllFeedbacks();
+      if (dbFeedbacks && dbFeedbacks.length > 0) {
+        feedbacks = dbFeedbacks;
+      }
+    } catch {}
+
     const totalViews = views.reduce((s: number, v: any) => s + (v.total_views || 0), 0);
     const todayViews = views.reduce((s: number, v: any) => s + (v.today_views || 0), 0);
     const topDocs = [...views]
@@ -45,11 +49,20 @@ function getDocAnalytics() {
         totalViews: v.total_views || 0,
         lastViewedAt: v.last_viewed_at,
       }));
-    const feedbacks = raw.feedbacks || [];
     const helpful = feedbacks.filter((f: any) => f.rating === 'helpful').length;
     const unhelpful = feedbacks.filter((f: any) => f.rating === 'unhelpful').length;
     const satisfactionRate =
       helpful + unhelpful > 0 ? Math.round((helpful / (helpful + unhelpful)) * 100) : 100;
+
+    const withComments = feedbacks.filter((f: any) => f.comment && f.comment.trim());
+    const recentComments = withComments.slice(0, 4).map((f: any) => ({
+      id: f.id,
+      slug: f.slug,
+      rating: f.rating,
+      comment: f.comment.trim(),
+      created_at: f.created_at,
+    }));
+
     return {
       totalViews,
       todayViews,
@@ -59,6 +72,8 @@ function getDocAnalytics() {
       unhelpful,
       satisfactionRate,
       totalFeedbacks: feedbacks.length,
+      commentsCount: withComments.length,
+      recentComments,
     };
   } catch {
     return {
@@ -70,6 +85,8 @@ function getDocAnalytics() {
       unhelpful: 0,
       satisfactionRate: 100,
       totalFeedbacks: 0,
+      commentsCount: 0,
+      recentComments: [],
     };
   }
 }
@@ -182,7 +199,7 @@ export async function GET(req: ExpressRequest, expressResponse: ExpressResponse)
   const activeSessions = getActiveSessions();
   const recentEvents = getAuditEvents(8);
   const chainIntegrity = verifyAuditChainIntegrity();
-  const docAnalytics = getDocAnalytics();
+  const docAnalytics = await getDocAnalytics();
   const aiTelemetry = getAiTelemetry();
   const allTeamMembers = loadTeamMembers();
   const mediaStats = scanMediaLibrary();

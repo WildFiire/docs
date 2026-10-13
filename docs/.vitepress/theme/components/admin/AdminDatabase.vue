@@ -73,6 +73,18 @@ const savingConfig = ref<boolean>(false);
 const copiedSql = ref<boolean>(false);
 const actionMessage = ref<{ type: 'success' | 'error'; text: string } | null>(null);
 const syncingAll = ref<boolean>(false);
+const copiedCommentId = ref<string | null>(null);
+
+function copyComment(id: string, text?: string) {
+  if (!text || typeof navigator === 'undefined' || !navigator.clipboard) return;
+  navigator.clipboard.writeText(text);
+  copiedCommentId.value = id;
+  setTimeout(() => {
+    if (copiedCommentId.value === id) {
+      copiedCommentId.value = null;
+    }
+  }, 2000);
+}
 
 async function loadData(isRefresh = false) {
   if (isRefresh) refreshing.value = true;
@@ -90,6 +102,26 @@ async function loadData(isRefresh = false) {
         supabaseUrl.value = data.config.supabaseUrl || '';
         supabaseAnonKey.value = data.config.supabaseAnonKey || '';
       }
+    }
+
+    // Client-side fail-safe: reconcile any recent feedback comments from notifications hub
+    try {
+      const notifsData = await api('/api/admin/notifications?scope=all&limit=200');
+      const notifs = notifsData?.notifications || [];
+      for (const n of notifs) {
+        if (n.category === 'feedback' && n.metadata?.comment && n.metadata?.slug) {
+          const commentText = String(n.metadata.comment).trim();
+          const slug = String(n.metadata.slug).trim();
+          const match = feedbacks.value.find(
+            (f) => f.slug === slug && (!f.comment || !f.comment.trim()),
+          );
+          if (match) {
+            match.comment = commentText;
+          }
+        }
+      }
+    } catch {
+      // Non-critical background sync
     }
   } catch (err) {
     console.error('[Admin Database] Failed to load data:', err);
@@ -944,9 +976,21 @@ create policy "Allow all on doc_versions" on doc_versions for all using (true);`
                 </a>
               </td>
               <td>
-                <div v-if="fb.comment && fb.comment.trim()" class="admin-feedback-quote">
-                  <Icon icon="lucide:quote" width="12" height="12" style="opacity: 0.6; flex-shrink: 0; margin-top: 2px; color: #fbbf24;" />
+                <div
+                  v-if="fb.comment && fb.comment.trim()"
+                  class="admin-feedback-quote"
+                  :title="copiedCommentId === fb.id ? 'Copiat în clipboard!' : 'Apasă pentru a copia comentariul'"
+                  @click="copyComment(fb.id, fb.comment)"
+                >
+                  <Icon
+                    :icon="copiedCommentId === fb.id ? 'lucide:check' : 'lucide:quote'"
+                    width="12"
+                    height="12"
+                    :class="copiedCommentId === fb.id ? 'text-emerald-400' : 'text-amber-400'"
+                    style="opacity: 0.85; flex-shrink: 0; margin-top: 2px;"
+                  />
                   <span class="admin-feedback-quote-text">&ldquo;{{ fb.comment }}&rdquo;</span>
+                  <span v-if="copiedCommentId === fb.id" class="admin-copied-badge">Copiat</span>
                 </div>
                 <span v-else class="admin-table-muted" style="font-style: italic; font-size: 0.74rem;">
                   — Fără comentariu atașat
@@ -1390,5 +1434,58 @@ create policy "Allow public insert on doc_feedbacks"
   color: var(--vp-c-text-2, #888);
   font-size: 13px;
   font-weight: 500;
+}
+
+.admin-feedback-quote {
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 6px 12px;
+  background: rgba(251, 191, 36, 0.08);
+  border: 1px solid rgba(251, 191, 36, 0.22);
+  border-radius: 8px;
+  max-width: 520px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  user-select: text;
+}
+
+.admin-feedback-quote:hover {
+  background: rgba(251, 191, 36, 0.14);
+  border-color: rgba(251, 191, 36, 0.45);
+}
+
+.admin-feedback-quote-text {
+  font-size: 0.8rem;
+  color: #fef08a;
+  line-height: 1.45;
+  font-weight: 500;
+  word-break: break-word;
+}
+
+.admin-copied-badge {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: #34d399;
+  background: rgba(52, 211, 153, 0.15);
+  border: 1px solid rgba(52, 211, 153, 0.3);
+  border-radius: 4px;
+  padding: 1px 6px;
+  margin-left: 4px;
+  white-space: nowrap;
+}
+
+:global(html:not(.dark)) .admin-feedback-quote {
+  background: rgba(245, 158, 11, 0.1);
+  border-color: rgba(217, 119, 6, 0.3);
+}
+
+:global(html:not(.dark)) .admin-feedback-quote:hover {
+  background: rgba(245, 158, 11, 0.18);
+  border-color: rgba(217, 119, 6, 0.5);
+}
+
+:global(html:not(.dark)) .admin-feedback-quote-text {
+  color: #92400e;
 }
 </style>

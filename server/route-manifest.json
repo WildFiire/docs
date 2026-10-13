@@ -25,6 +25,14 @@
     ]
   },
   {
+    "route": "/api/admin/categories",
+    "file": "server/routes/admin/categories.ts",
+    "methods": [
+      "GET",
+      "POST"
+    ]
+  },
+  {
     "route": "/api/admin/auth/2fa",
     "file": "server/routes/admin/auth/2fa.ts",
     "methods": [

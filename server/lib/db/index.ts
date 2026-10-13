@@ -70,12 +70,13 @@ export { testSupabaseConnection };
 /**
  * Returns active Supabase credentials if configured
  */
-function getActiveSupabaseConfig(): { url: string; anonKey: string } | null {
+function getActiveSupabaseConfig(): { url: string; anonKey: string; serviceKey?: string } | null {
   const config = getLocalDatabaseConfig();
   if (config.provider === 'supabase' && config.supabaseUrl && config.supabaseAnonKey) {
     return {
       url: config.supabaseUrl,
       anonKey: config.supabaseAnonKey,
+      serviceKey: config.supabaseServiceKey || process.env.SUPABASE_SERVICE_ROLE_KEY || undefined,
     };
   }
   return null;
@@ -148,7 +149,7 @@ export async function submitDocFeedback(
         slug,
         rating,
         comment,
-        feedbackId,
+        feedbackId || localRecord.id,
       );
       if (remoteRecord) return remoteRecord;
     } catch (err) {
@@ -174,17 +175,101 @@ export async function getDocFeedbackStats(slug: string): Promise<FeedbackStats> 
 }
 
 export async function getAllFeedbacks(): Promise<DocFeedbackRecord[]> {
+  const localRecords = localGetAllFeedbacks();
+  const notifications = localGetNotifications({ limit: 1000 });
   const supabaseConfig = getActiveSupabaseConfig();
+  let feedbacks: DocFeedbackRecord[] = [];
+
   if (supabaseConfig) {
     try {
       const remoteFeedbacks = await supabaseGetAllFeedbacks(supabaseConfig);
-      if (remoteFeedbacks) return remoteFeedbacks;
+      if (remoteFeedbacks && remoteFeedbacks.length > 0) {
+        feedbacks = remoteFeedbacks;
+      }
     } catch (err) {
       console.warn('[DB] Supabase getAllFeedbacks failed, using local fallback', err);
     }
   }
 
-  return localGetAllFeedbacks();
+  if (feedbacks.length === 0) {
+    feedbacks = [...localRecords];
+  } else {
+    // Merge any local records that aren't in remote
+    for (const localFb of localRecords) {
+      const exists = feedbacks.some((f) => f.id === localFb.id);
+      if (!exists) {
+        feedbacks.push(localFb);
+      }
+    }
+  }
+
+  // Cross-reference comments from localRecords and notifications so no comment is ever missing
+  for (const fb of feedbacks) {
+    if (!fb.comment || !fb.comment.trim()) {
+      // 1. Check localRecord with same ID
+      const localMatch = localRecords.find((l) => l.id === fb.id && l.comment && l.comment.trim());
+      if (localMatch?.comment) {
+        fb.comment = localMatch.comment;
+        continue;
+      }
+
+      // 2. Check localRecord with same slug around the same time
+      const fbTime = new Date(fb.created_at).getTime();
+      const localSlugMatch = localRecords.find(
+        (l) => l.slug === fb.slug && l.comment && l.comment.trim() && Math.abs(new Date(l.created_at).getTime() - fbTime) < 300000,
+      );
+      if (localSlugMatch?.comment) {
+        fb.comment = localSlugMatch.comment;
+        continue;
+      }
+
+      // 3. Check notifications
+      const notifMatch = notifications.find(
+        (n) =>
+          n.category === 'feedback' &&
+          n.metadata?.slug === fb.slug &&
+          n.metadata?.comment &&
+          Math.abs(new Date(n.createdAt).getTime() - fbTime) < 300000,
+      );
+      if (notifMatch?.metadata?.comment) {
+        fb.comment = notifMatch.metadata.comment;
+      }
+    }
+  }
+
+  // Also include any feedback comment from notifications that might not be in feedbacks list
+  for (const n of notifications) {
+    if (n.category === 'feedback' && n.metadata?.comment && n.metadata?.slug) {
+      const commentText = n.metadata.comment.trim();
+      const slug = n.metadata.slug;
+      const notifTime = new Date(n.createdAt).getTime();
+
+      const alreadyIncluded = feedbacks.some(
+        (f) => f.slug === slug && f.comment && f.comment.trim() === commentText,
+      );
+      if (!alreadyIncluded) {
+        const targetFb = feedbacks.find(
+          (f) => f.slug === slug && (!f.comment || !f.comment.trim()) && Math.abs(new Date(f.created_at).getTime() - notifTime) < 300000,
+        );
+        if (targetFb) {
+          targetFb.comment = commentText;
+        } else {
+          feedbacks.unshift({
+            id: `fb_notif_${n.id}`,
+            slug,
+            rating: n.metadata.rating || 'helpful',
+            comment: commentText,
+            created_at: n.createdAt,
+          });
+        }
+      }
+    }
+  }
+
+  // Sort by created_at descending
+  feedbacks.sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+
+  return feedbacks;
 }
 
 export async function deleteFeedback(id: string): Promise<boolean> {

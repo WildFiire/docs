@@ -393,6 +393,42 @@ onMounted(() => {
                 <span class="adx-text-dim adx-mono-sm">{{ data.docAnalytics?.totalFeedbacks || 0 }} total</span>
               </div>
             </div>
+
+            <!-- Recent Comments Preview -->
+            <div v-if="data.docAnalytics?.recentComments?.length" class="adx-recent-feedback-block">
+              <div class="adx-recent-feedback-header">
+                <span class="adx-feedback-subtitle">
+                  <Icon icon="lucide:message-square" width="11" height="11" class="text-amber-400" />
+                  <span>Comentarii &amp; Opinii Recente ({{ data.docAnalytics?.commentsCount || 0 }})</span>
+                </span>
+                <a href="/admin/database" class="adx-feedback-see-all">
+                  <span>Database</span>
+                  <Icon icon="lucide:arrow-right" width="10" height="10" />
+                </a>
+              </div>
+              <div class="adx-recent-feedback-list">
+                <div
+                  v-for="c in data.docAnalytics.recentComments"
+                  :key="c.id"
+                  class="adx-feedback-card-item"
+                >
+                  <div class="adx-feedback-card-top">
+                    <span
+                      class="adx-quote-pill"
+                      :class="c.rating === 'helpful' ? 'adx-quote-pill--helpful' : 'adx-quote-pill--unhelpful'"
+                    >
+                      <Icon :icon="c.rating === 'helpful' ? 'lucide:thumbs-up' : 'lucide:thumbs-down'" width="9" height="9" />
+                      <span>{{ c.rating === 'helpful' ? 'UTIL' : 'INUTIL' }}</span>
+                    </span>
+                    <a :href="`/docs/${c.slug}`" target="_blank" class="adx-feedback-slug">
+                      /docs/{{ c.slug }}
+                    </a>
+                    <span class="adx-feedback-time">{{ formatRelativeTime(c.created_at) }}</span>
+                  </div>
+                  <div class="adx-feedback-comment-text">&ldquo;{{ c.comment }}&rdquo;</div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <!-- Hourly Activity Heatmap -->
@@ -711,5 +747,119 @@ onMounted(() => {
   min-height: 400px;
   gap: 16px;
   color: var(--color-text-secondary);
+}
+
+.adx-recent-feedback-block {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.adx-recent-feedback-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.adx-feedback-subtitle {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #cbd5e1;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.adx-feedback-see-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #94a3b8;
+  text-decoration: none;
+  transition: color 0.15s ease;
+}
+
+.adx-feedback-see-all:hover {
+  color: #f59e0b;
+}
+
+.adx-recent-feedback-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.adx-feedback-card-item {
+  padding: 7px 10px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.025);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.15s ease;
+}
+
+.adx-feedback-card-item:hover {
+  background: rgba(255, 255, 255, 0.045);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.adx-feedback-card-top {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-size: 0.68rem;
+  margin-bottom: 3px;
+}
+
+.adx-quote-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 0.6rem;
+  font-weight: 800;
+  padding: 1px 5px;
+  border-radius: 4px;
+  text-transform: uppercase;
+}
+
+.adx-quote-pill--helpful {
+  background: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.25);
+}
+
+.adx-quote-pill--unhelpful {
+  background: rgba(244, 63, 94, 0.12);
+  color: #fb7185;
+  border: 1px solid rgba(244, 63, 94, 0.25);
+}
+
+.adx-feedback-slug {
+  color: #60a5fa;
+  font-size: 0.68rem;
+  font-family: var(--font-mono, monospace);
+  text-decoration: none;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 140px;
+}
+
+.adx-feedback-time {
+  margin-left: auto;
+  color: #64748b;
+  font-size: 0.65rem;
+}
+
+.adx-feedback-comment-text {
+  font-size: 0.74rem;
+  color: #fef08a;
+  line-height: 1.35;
+  font-style: italic;
+  word-break: break-word;
 }
 </style>

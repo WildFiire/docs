@@ -206,16 +206,55 @@ export async function supabaseSubmitFeedback(
   const normalizedSlug = slug.replace(/^\/+|\/+$/g, '');
   const recordId = feedbackId || `fb_${Date.now()}_${Math.random().toString(36).substring(2, 7)}`;
   const now = new Date().toISOString();
+  const effectiveServiceKey = config.serviceKey || process.env.SUPABASE_SERVICE_ROLE_KEY || undefined;
 
   try {
-    const supabase = getClient(config.url, config.anonKey, config.serviceKey);
-    const { error } = await supabase.from('doc_feedbacks').upsert({
+    const supabase = getClient(config.url, config.anonKey, effectiveServiceKey);
+
+    // If no feedbackId provided but a comment exists, try attaching to the latest un-commented feedback for this slug
+    if (!feedbackId && comment && comment.trim()) {
+      const { data: recentFeedbacks } = await supabase
+        .from('doc_feedbacks')
+        .select('*')
+        .eq('slug', normalizedSlug)
+        .order('created_at', { ascending: false })
+        .limit(1);
+
+      if (recentFeedbacks && recentFeedbacks.length > 0 && !recentFeedbacks[0].comment) {
+        const updateRes = await supabase
+          .from('doc_feedbacks')
+          .update({ comment: comment.trim(), rating })
+          .eq('id', recentFeedbacks[0].id);
+
+        if (!updateRes.error) {
+          return {
+            ...recentFeedbacks[0],
+            comment: comment.trim(),
+            rating,
+          };
+        }
+      }
+    }
+
+    let { error } = await supabase.from('doc_feedbacks').upsert({
       id: recordId,
       slug: normalizedSlug,
       rating,
       comment: comment ? comment.trim() : null,
       created_at: now,
     });
+
+    if (error && comment && comment.trim()) {
+      // Fallback: try direct update by id
+      const updateRes = await supabase
+        .from('doc_feedbacks')
+        .update({ comment: comment.trim(), rating })
+        .eq('id', recordId);
+
+      if (!updateRes.error) {
+        error = null;
+      }
+    }
 
     if (!error) {
       return {
