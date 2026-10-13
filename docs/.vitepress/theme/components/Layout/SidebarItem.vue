@@ -92,7 +92,7 @@ function toggle(e?: MouseEvent) {
 }
 
 function handleItemClick(e: MouseEvent) {
-  closeMobileSidebar();
+  layout.mobileOpen = false;
   if (hasChildren.value) {
     open.value = true;
   }

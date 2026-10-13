@@ -54,7 +54,8 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
 
   try {
     const body = req.body;
-    const { username, password } = body;
+    const { username, password, rememberMe } = body;
+    const isRememberMe = rememberMe !== false;
     const cleanUsername = (username || 'nespecificat').trim();
 
     const authResult = verifyAdminCredentials(password || '', cleanUsername);
@@ -114,6 +115,7 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
         expiresAt: Date.now() + 5 * 60 * 1000,
         ip,
         userAgent,
+        rememberMe: isRememberMe,
       });
 
       return jsonReply(expressResponse, {
@@ -178,6 +180,7 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
     const response = prepareResponse(expressResponse, {});
 
     // Set secure HttpOnly cookie
+    const sessionDurationMs = isRememberMe ? SESSION_DURATION_MS : 24 * 60 * 60 * 1000;
     setCookie(response, {
       name: SESSION_COOKIE_NAME,
       value: token,
@@ -185,7 +188,7 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
       path: '/',
-      maxAge: Math.floor(SESSION_DURATION_MS / 1000),
+      maxAge: Math.floor(sessionDurationMs / 1000),
     });
 
     return response.json(responseBody);

@@ -1,49 +1,22 @@
 ---
-title: Welcome to Docs Platform
+title: Wildfire.ro — Documentația Oficială
 description: >-
-  A fully custom documentation platform with GitHub integration, visual editor,
-  and admin panel — built from the ground up.
+  Documentația completă pentru serverele CS2 Wildfire.ro — sisteme, economie,
+  VIP, regulamente și ghiduri pentru jucători și staff.
 order: 0
+search: false
 ---
-## Welcome to Docs Platform
-A powerful, self-hosted documentation platform built with **Next.js 15**, **GitHub integration**, and a **visual WYSIWYG editor**. Designed to replace tools like Fumadocs and VitePress with something completely yours.
+## Wildfire Documentation Hub
+Platforma oficială de documentație pentru comunitatea **Wildfire.ro CS2**. Aici găsești tot ce trebuie să știi despre serverele noastre, de la sisteme de joc și economie, până la regulamente și ghiduri administrative.
 
-## What makes this different?
-Unlike hosted solutions, this platform gives you **complete control** over your content pipeline, editor experience, and deployment strategy.
+## Ce conține această documentație?
 
-- **GitHub as source of truth** — content lives in your repo as Markdown/MDX files
-- **Visual editor** — non-technical writers can edit without touching code
-- **Auto-commit** — saving in the editor creates a real GitHub commit
-- **Admin panel** — manage users, roles, and permissions
-- **Full-text search** — powered by local index + optional Algolia
-- **Analytics** — track page views, reading time, and popular content
-
-## Architecture overview
-```
-Content Request
-↓
-Next.js App Router (SSG/ISR)
-↓
-Cache Layer (Upstash Redis)
-↓
-GitHub API (Octokit) — reads .md files from your repo
-↓
-MDX Pipeline (Shiki + GFM + autolink headings)
-↓
-React Components (Callout, CodeBlock, Steps, Tabs)
-```
-
-## Tech stack
-| Layer | Technology |
-|-------|-----------|
-| Framework | Next.js 15 (App Router) |
-| Database | Turso (libSQL) + Drizzle ORM |
-| Auth | NextAuth v5 + GitHub OAuth |
-| Editor | Tiptap (WYSIWYG) |
-| Content | GitHub API via Octokit |
-| Cache | Upstash Redis |
-| Storage | Cloudflare R2 |
-| Deploy | Vercel |
+- **Sisteme de Joc** — gambling, skins, shop, misiuni, ranks și multe altele
+- **Economie & Valute** — credite in-game, Phoenix Coins (PHX)
+- **Grade VIP** — Mythic, Immortal, Rebirth + comparație completă
+- **Regulamente** — reguli pentru jucători, staff și membri VIP
+- **Echipa** — membrii staffului și cum poți aplica
+- **Market & Donații** — premium shop, server slots, entry songs
 
 ## Navigare Rapidă
 

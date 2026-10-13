@@ -128,7 +128,11 @@ export function verifyAdminCredentials(
   if (panicLockdownActive && !emergencyRelease)
     return { valid: false, error: 'System is in Panic Lockdown.' };
   const cleanPassword = (password || '').trim();
-  let cleanUsername = (username || 'iannC69').trim();
+  let cleanUsername = (username || '').trim();
+
+  if (!cleanUsername || !cleanPassword) {
+    return { valid: false, error: 'Credențiale de administrator invalide.' };
+  }
 
   if (cleanUsername.toLowerCase() === 'iannc') {
     cleanUsername = 'iannC69';
@@ -217,7 +221,7 @@ export function verifyAdminCredentials(
       const root: TeamMember = {
         id: 'member_root_superadmin',
         username: 'iannC69',
-        displayName: 'iannC (Founder & Root)',
+        displayName: 'iannC (Community Manager)',
         role: 'root_admin' as const,
         avatarColor: '#ff6b00',
         passwordHash: DEFAULT_HASH,
@@ -491,7 +495,7 @@ export function revokeSession(sessionId: string, username?: string): boolean {
 
 let rootAdminUserState: AdminUser = {
   username: 'iannC69',
-  displayName: 'iannC (Founder & Root)',
+  displayName: 'iannC (Community Manager)',
   role: 'root_admin',
   isRoot: true,
   twoFactorEnabled: false,

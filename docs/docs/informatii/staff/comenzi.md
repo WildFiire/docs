@@ -1,7 +1,14 @@
 ---
 title: Comenzi Administrative Staff
-description: Lista completa a tuturor comenzilor administrative pe serverul WildFire CS2, cu sintaxa exacta si nivelul de acces configurat pe fiecare grad.
+description: >-
+  Lista completa a tuturor comenzilor administrative pe serverul WildFire CS2,
+  cu sintaxa exacta si nivelul de acces configurat pe fiecare grad.
 outline: deep
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791223544115
 ---
 
 Aceste comenzi sunt destinate exclusiv membrilor echipei administrative **WildFire.ro**. Utilizarea comenzilor se face strict in scopul mentinerii ordinii si aplicarii regulamentului oficial.
@@ -10,7 +17,7 @@ Aceste comenzi sunt destinate exclusiv membrilor echipei administrative **WildFi
 
 > [!IMPORTANT]
 > **Motive Clare si Profesionale Obligatorii:**  
-> La executarea oricarei comenzi de sanctiune (`!kick`, `!ban`, `!mute`, `!gag`, `!silence`), parametrul `[motiv]` trebuie completat explicit cu fapta comisa (ex: `Limbaj vulgar repetat`, `Refuz verificare PC`, `Spam chat`). Motivele ironice sau la misto atrag sanctionarea administrativa (`WARN STAFF`).
+> La executarea oricarei comenzi de sanctiune (`!ban`, `!mute`, `!gag`, `!silence`), parametrul `[motiv]` trebuie completat explicit cu fapta comisa (ex: `Limbaj vulgar repetat`, `wallhack/aimhack`, `Spam chat`). Motivele ironice sau la misto atrag sanctionarea administrativa (`WARN STAFF`).
 
 ---
 
@@ -22,14 +29,14 @@ Iata lista oficiala si integrala a comenzilor administrative disponibile pe serv
 | :--- | :--- | :--- | :--- |
 | `!admin` | `!admin` | Deschide meniul grafic principal de administrare pe ecran | **Helper** |
 | `!spec` | `!spec [jucator]` | Muta un jucator direct in modul Spectator (pentru verificari) | **Helper** |
-| `!kick` | `!kick [jucator] [motiv]` | Deconecteaza fortat un jucator de pe server | **Helper** |
+| `!kick` | `!kick [jucator]` | Deconecteaza fortat un jucator de pe server | **Helper** |
 | `!gag` | `!gag [jucator] [timp] [motiv]` | Restrictioneaza chat-ul scris al unui jucator (max. 60m) | **Helper** |
 | `!ungag` | `!ungag [jucator]` | Elimina restrictia de chat scris a unui jucator | **Helper** |
 | `!mute` | `!mute [jucator] [timp] [motiv]` | Blocheaza comunicarea audio prin microfon (max. 60m) | **Helper** |
 | `!unmute` | `!unmute [jucator]` | Deblocheaza comunicarea audio a jucatorului | **Helper** |
 | `!silence` | `!silence [jucator] [timp] [motiv]` | Restrictioneaza simultan atat chat-ul scris, cat si microfonul (max. 60m) | **Helper** |
 | `!unsilence` | `!unsilence [jucator]` | Elimina sanctiunea completa de silence a jucatorului | **Helper** |
-| `!slay` | `!slay [jucator] [motiv]` | Elimina instantaneu un jucator in runda curenta (AFK / Bomb Grief) | **Helper** |
+| `!slay` | `!slay [jucator]` | Elimina instantaneu un jucator in runda curenta (AFK / Bomb Grief) | **Helper** |
 | `!slap` | `!slap [jucator] [dmg]` | Loveste un jucator aplicand daune (pentru deblocare din pereti) | **Helper** |
 | `!rename` | `!rename [jucator] [nume_nou]` | Redenumeste un jucator cu nume indecent sau reclama | **Helper** |
 | `!team` | `!team [jucator] [T / CT / Spec]` | Muta un jucator in echipa specificata | **Helper** |
@@ -58,7 +65,7 @@ Pentru comenzile care necesita specificarea unei durate (`!gag`, `!mute`, `!sile
 | `m` | **Minute** | `10m`, `15m`, `30m`, `60m` | Sancțiuni uzuale de chat/voice (**Helper limitat la max. 60m**) |
 | `h` | **Ore** | `1h`, `2h`, `12h`, `24h` | Sanctiuni extinse sau ban-uri temporare (Moderator+) |
 | `d` | **Zile** | `1d`, `3d`, `7d`, `30d` | Ban-uri pe termen mediu/lung (Moderator+) |
-| `0` | **Permanent** | `0` sau `perm` | Ban definitiv pentru Cheat / Reclama / Refuz PC (Moderator+) |
+| `0` | **Permanent** | `0` sau `perm` | Ban definitiv pentru Cheat / Reclama (Moderator+) |
 
 ### Exemple Practice de Executie in Chat / Consola:
 

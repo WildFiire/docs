@@ -32,6 +32,15 @@ export function toggleSidebar() {
 
 export function toggleToc() {
   layout.tocOpen = !layout.tocOpen;
+  if (layout.tocOpen) {
+    if (layout.mode === 'full') {
+      setLayout(layout.sidebarOpen ? 'standard' : 'focus');
+    }
+  } else {
+    if (!layout.sidebarOpen && layout.mode !== 'full') {
+      setLayout('full');
+    }
+  }
 }
 
 export function useLayout() {

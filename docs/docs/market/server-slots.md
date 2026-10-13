@@ -1,7 +1,14 @@
 ---
 title: Capacitate Server & Sloturi Rezervate
-description: Ghidul arhitecturii celor 32 de sloturi si al sistemului de Reserved Slot pe serverele WildFire CS2 — conectare prioritara pentru VIP si Staff.
+description: >-
+  Ghidul arhitecturii celor 32 de sloturi si al sistemului de Reserved Slot pe
+  serverele WildFire CS2 — conectare prioritara pentru VIP si Staff.
 outline: deep
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791373489370
 ---
 
 Serverul **WildFire.ro** este gazduit pe o infrastructura hardware de inalta performanta configurata pentru a sustine **32 de sloturi simultane** la tickrate optim, asigurand stabilitate maxima, zero choke si un gameplay fluid chiar si in momentele de varf.
@@ -57,10 +64,10 @@ Serverul iti va recunoaste SteamID-ul si gradul activ, garantandu-ti accesul ime
 
 | Categorie Utilizator | Acces la Server Plin | Nivel Prioritate | Metoda Recomandata |
 | :--- | :--- | :--- | :--- |
-| **Membri VIP Mythic & Staff** | **Garantat 100%** | Prioritate Maxima | `connect cs2.wildfire.ro` |
-| **Membri VIP Immortal & Rebirth** | **Garantat 100%** | Prioritate Ridicata | `connect cs2.wildfire.ro` |
-| **Membri Gold Member** | In limita sloturilor dedicate | Prioritate Medie | `connect cs2.wildfire.ro` |
-| **Jucatori Standard** | La eliberarea unui loc | Standard | Server Browser / Consola |
+| **Membri VIP Mythic & Staff** | ***Garantat 100%*** | ***Prioritate Maxima*** | `connect cs2.wildfire.ro` |
+| **Membri VIP Immortal & Rebirth** | ***Garantat 100%*** | ***Prioritate Ridicata*** | `connect cs2.wildfire.ro` |
+| **Membri Gold Member** | ***In limita sloturilor dedicate*** | ***Prioritate Medie*** | `connect cs2.wildfire.ro` |
+| **Jucatori Standard** | ***La eliberarea unui loc*** | ***Standard*** | ***Server Browser / Consola*** |
 
 ---
 

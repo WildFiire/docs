@@ -11,9 +11,9 @@ import './styles/tokens.css';
 import './styles/prose.css';
 import './styles/components.css';
 import './styles/globals.css';
-import './styles/light-theme-extras.css';
 import './styles/vitepress-bridge.css';
 import './styles/style.css';
+import './styles/light-theme-extras.css';
 
 // ── Markdown-embedded components ──
 import WildfireTag from './components/Docs/WildfireTag.vue';

@@ -64,7 +64,7 @@
 
 /* Callout: Tip (Aurora Fire Orange) */
 .callout--tip {
-  background: linear-gradient(135deg, hsl(26 100% 52% / 0.10) 0%, hsl(38 100% 52% / 0.04) 50%, hsl(0 0% 10% / 0.7) 100%);
+  background: linear-gradient(135deg, hsl(26 100% 52% / 0.10) 0%, hsl(38 100% 52% / 0.04) 50%, hsl(0 0% 10% / 0.04) 100%), var(--color-surface, #1a1a1a);
   border: 1px solid hsl(26 100% 52% / 0.28);
 }
 .callout--tip::before {
@@ -93,7 +93,7 @@
 
 /* Callout: Important (Amber Aurora) */
 .callout--important {
-  background: linear-gradient(135deg, hsl(32 100% 50% / 0.10) 0%, hsl(26 100% 52% / 0.04) 50%, hsl(0 0% 10% / 0.7) 100%);
+  background: linear-gradient(135deg, hsl(32 100% 50% / 0.10) 0%, hsl(26 100% 52% / 0.04) 50%, hsl(0 0% 10% / 0.04) 100%), var(--color-surface, #1a1a1a);
   border: 1px solid hsl(32 100% 50% / 0.28);
 }
 .callout--important::before {
@@ -110,7 +110,7 @@
 
 /* Callout: Note (Cyan / Sapphire Aurora) */
 .callout--note {
-  background: linear-gradient(135deg, hsl(210 85% 56% 0.10) 0%, hsl(195 85% 50% / 0.03) 50%, hsl(0 0% 10% / 0.7) 100%);
+  background: linear-gradient(135deg, hsl(210 85% 56% 0.10) 0%, hsl(195 85% 50% / 0.03) 50%, hsl(0 0% 10% / 0.04) 100%), var(--color-surface, #1a1a1a);
   border: 1px solid hsl(210 85% 56% / 0.25);
 }
 .callout--note::before {
@@ -139,7 +139,7 @@
 
 /* Callout: Warning (Gold Aurora) */
 .callout--warning {
-  background: linear-gradient(135deg, hsl(44 100% 52% / 0.10) 0%, hsl(34 100% 50% / 0.03) 50%, hsl(0 0% 10% / 0.7) 100%);
+  background: linear-gradient(135deg, hsl(44 100% 52% / 0.10) 0%, hsl(34 100% 50% / 0.03) 50%, hsl(0 0% 10% / 0.04) 100%), var(--color-surface, #1a1a1a);
   border: 1px solid hsl(44 100% 52% / 0.25);
 }
 .callout--warning::before {
@@ -169,7 +169,7 @@
 /* Callout: Danger / Caution (Crimson Flame Aurora) */
 .callout--danger,
 .callout--caution {
-  background: linear-gradient(135deg, hsl(4 90% 52% / 0.10) 0%, hsl(16 90% 50% / 0.03) 50%, hsl(0 0% 10% / 0.7) 100%);
+  background: linear-gradient(135deg, hsl(4 90% 52% / 0.10) 0%, hsl(16 90% 50% / 0.03) 50%, hsl(0 0% 10% / 0.04) 100%), var(--color-surface, #1a1a1a);
   border: 1px solid hsl(4 90% 52% / 0.25);
 }
 .callout--danger::before,

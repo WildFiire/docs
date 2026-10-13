@@ -363,7 +363,7 @@ dialog:not([open]),
 /* Callout: Tip (Aurora Fire Orange) */
 .vp-doc .custom-block.tip,
 .vp-doc .callout--tip {
-  background: linear-gradient(135deg, hsl(26 100% 52% / 0.10) 0%, hsl(38 100% 52% / 0.04) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  background: linear-gradient(135deg, hsl(26 100% 52% / 0.12) 0%, hsl(38 100% 52% / 0.04) 100%), var(--color-surface, #1a1a1a) !important;
   border: 1px solid hsl(26 100% 52% / 0.28) !important;
 }
 .vp-doc .custom-block.tip::before,
@@ -386,7 +386,7 @@ dialog:not([open]),
 .vp-doc .custom-block.note,
 .vp-doc .custom-block.info,
 .vp-doc .callout--note {
-  background: linear-gradient(135deg, hsl(210 85% 56% / 0.10) 0%, hsl(195 85% 50% / 0.03) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  background: linear-gradient(135deg, hsl(210 85% 56% / 0.12) 0%, hsl(195 85% 50% / 0.04) 100%), var(--color-surface, #1a1a1a) !important;
   border: 1px solid hsl(210 85% 56% / 0.25) !important;
 }
 .vp-doc .custom-block.note::before,
@@ -412,7 +412,7 @@ dialog:not([open]),
 /* Callout: Important (Amber Aurora) */
 .vp-doc .custom-block.important,
 .vp-doc .callout--important {
-  background: linear-gradient(135deg, hsl(32 100% 50% / 0.10) 0%, hsl(26 100% 52% / 0.04) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  background: linear-gradient(135deg, hsl(32 100% 50% / 0.12) 0%, hsl(26 100% 52% / 0.04) 100%), var(--color-surface, #1a1a1a) !important;
   border: 1px solid hsl(32 100% 50% / 0.28) !important;
 }
 .vp-doc .custom-block.important::before,
@@ -434,7 +434,7 @@ dialog:not([open]),
 /* Callout: Warning (Gold Aurora) */
 .vp-doc .custom-block.warning,
 .vp-doc .callout--warning {
-  background: linear-gradient(135deg, hsl(44 100% 52% / 0.10) 0%, hsl(34 100% 50% / 0.03) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  background: linear-gradient(135deg, hsl(44 100% 52% / 0.12) 0%, hsl(34 100% 50% / 0.04) 100%), var(--color-surface, #1a1a1a) !important;
   border: 1px solid hsl(44 100% 52% / 0.25) !important;
 }
 .vp-doc .custom-block.warning::before,
@@ -458,7 +458,7 @@ dialog:not([open]),
 .vp-doc .custom-block.caution,
 .vp-doc .callout--danger,
 .vp-doc .callout--caution {
-  background: linear-gradient(135deg, hsl(4 90% 52% / 0.10) 0%, hsl(16 90% 50% / 0.03) 50%, hsl(0 0% 10% / 0.7) 100%) !important;
+  background: linear-gradient(135deg, hsl(4 90% 52% / 0.12) 0%, hsl(16 90% 50% / 0.04) 100%), var(--color-surface, #1a1a1a) !important;
   border: 1px solid hsl(4 90% 52% / 0.25) !important;
 }
 .vp-doc .custom-block.danger::before,
@@ -482,6 +482,36 @@ dialog:not([open]),
 .vp-doc .callout--danger .callout-title,
 .vp-doc .callout--caution .callout-title {
   color: hsl(4 90% 62%) !important;
+}
+
+/* ── Light Mode Callouts: Crisp white background with subtle tint and zero dark edges ── */
+html:not(.dark) .vp-doc .custom-block.tip,
+html:not(.dark) .vp-doc .callout--tip {
+  background: linear-gradient(135deg, hsl(26 100% 52% / 0.08) 0%, hsl(38 100% 52% / 0.02) 100%), #ffffff !important;
+  border-color: hsl(26 100% 52% / 0.25) !important;
+}
+html:not(.dark) .vp-doc .custom-block.note,
+html:not(.dark) .vp-doc .custom-block.info,
+html:not(.dark) .vp-doc .callout--note {
+  background: linear-gradient(135deg, hsl(210 85% 56% / 0.08) 0%, hsl(195 85% 50% / 0.02) 100%), #ffffff !important;
+  border-color: hsl(210 85% 56% / 0.22) !important;
+}
+html:not(.dark) .vp-doc .custom-block.important,
+html:not(.dark) .vp-doc .callout--important {
+  background: linear-gradient(135deg, hsl(32 100% 50% / 0.08) 0%, hsl(26 100% 52% / 0.02) 100%), #ffffff !important;
+  border-color: hsl(32 100% 50% / 0.25) !important;
+}
+html:not(.dark) .vp-doc .custom-block.warning,
+html:not(.dark) .vp-doc .callout--warning {
+  background: linear-gradient(135deg, hsl(44 100% 52% / 0.08) 0%, hsl(34 100% 50% / 0.02) 100%), #ffffff !important;
+  border-color: hsl(44 100% 52% / 0.22) !important;
+}
+html:not(.dark) .vp-doc .custom-block.danger,
+html:not(.dark) .vp-doc .custom-block.caution,
+html:not(.dark) .vp-doc .callout--danger,
+html:not(.dark) .vp-doc .callout--caution {
+  background: linear-gradient(135deg, hsl(4 90% 52% / 0.08) 0%, hsl(16 90% 50% / 0.02) 100%), #ffffff !important;
+  border-color: hsl(4 90% 52% / 0.22) !important;
 }
 
 /* ── Tables (1:1 with wf-docscore prose.css) ───────────────── */
@@ -607,6 +637,10 @@ dialog:not([open]),
 
 .vp-doc blockquote:not(.custom-block) p {
   margin: 0;
+}
+
+html:not(.dark) .vp-doc blockquote:not(.custom-block) {
+  background: hsl(0 0% 98%) !important;
 }
 
 /* ── Horizontal Rules (<hr>) 1:1 Matching wf-docscore ── */

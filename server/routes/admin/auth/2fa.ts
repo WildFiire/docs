@@ -153,6 +153,8 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
         sessionId: session.sessionId,
       };
       const response = prepareResponse(expressResponse, {});
+      const isRememberMe = payload?.rememberMe !== false && req.body?.rememberMe !== false;
+      const sessionDurationMs = isRememberMe ? SESSION_DURATION_MS : 24 * 60 * 60 * 1000;
 
       setCookie(response, {
         name: SESSION_COOKIE_NAME,
@@ -161,7 +163,7 @@ export async function POST(req: ExpressRequest, expressResponse: ExpressResponse
         secure: process.env.NODE_ENV === 'production',
         sameSite: 'lax',
         path: '/',
-        maxAge: Math.floor(SESSION_DURATION_MS / 1000),
+        maxAge: Math.floor(sessionDurationMs / 1000),
       });
 
       return response.json(responseBody);

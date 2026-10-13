@@ -7,15 +7,15 @@
   },
   "informatii/staff": {
     "slug": "informatii/staff",
-    "total_views": 1,
-    "today_views": 1,
-    "last_viewed_at": "2026-08-21T13:02:21.695Z"
+    "total_views": 2,
+    "today_views": 2,
+    "last_viewed_at": "2026-10-12T19:31:34.768Z"
   },
   "informatii/about": {
     "slug": "informatii/about",
-    "total_views": 54,
-    "today_views": 54,
-    "last_viewed_at": "2026-10-03T20:07:57.958Z"
+    "total_views": 59,
+    "today_views": 59,
+    "last_viewed_at": "2026-10-12T20:14:43.431Z"
   },
   "informatii/getting-started": {
     "slug": "informatii/getting-started",
@@ -55,21 +55,21 @@
   },
   "informatii/regulamente/regulament-go": {
     "slug": "informatii/regulamente/regulament-go",
-    "total_views": 3,
-    "today_views": 3,
-    "last_viewed_at": "2026-08-25T21:34:36.886Z"
+    "total_views": 4,
+    "today_views": 4,
+    "last_viewed_at": "2026-10-12T19:09:41.173Z"
   },
   "informatii/regulamente/regulament-staff-go": {
     "slug": "informatii/regulamente/regulament-staff-go",
-    "total_views": 1,
-    "today_views": 1,
-    "last_viewed_at": "2026-08-21T15:33:32.222Z"
+    "total_views": 2,
+    "today_views": 2,
+    "last_viewed_at": "2026-10-12T19:09:41.075Z"
   },
   "informatii/regulamente/regulament-vip-go": {
     "slug": "informatii/regulamente/regulament-vip-go",
-    "total_views": 1,
-    "today_views": 1,
-    "last_viewed_at": "2026-08-21T15:33:33.046Z"
+    "total_views": 2,
+    "today_views": 2,
+    "last_viewed_at": "2026-10-12T19:09:42.700Z"
   },
   "informatii/staff/comenzi": {
     "slug": "informatii/staff/comenzi",
@@ -85,9 +85,9 @@
   },
   "market/server-slots": {
     "slug": "market/server-slots",
-    "total_views": 1,
-    "today_views": 1,
-    "last_viewed_at": "2026-08-21T15:34:00.239Z"
+    "total_views": 2,
+    "today_views": 2,
+    "last_viewed_at": "2026-10-12T19:06:27.412Z"
   },
   "informatii/regulamente": {
     "slug": "informatii/regulamente",
@@ -187,9 +187,9 @@
   },
   "market/vip/rebirth": {
     "slug": "market/vip/rebirth",
-    "total_views": 1,
-    "today_views": 1,
-    "last_viewed_at": "2026-10-03T21:58:23.577Z"
+    "total_views": 2,
+    "today_views": 2,
+    "last_viewed_at": "2026-10-12T19:11:37.677Z"
   },
   "systems/shop/color-smokes": {
     "slug": "systems/shop/color-smokes",
@@ -208,5 +208,29 @@
     "total_views": 1,
     "today_views": 1,
     "last_viewed_at": "2026-10-04T08:40:05.075Z"
+  },
+  "informatii/contact": {
+    "slug": "informatii/contact",
+    "total_views": 1,
+    "today_views": 1,
+    "last_viewed_at": "2026-10-12T18:51:31.364Z"
+  },
+  "informatii/terms": {
+    "slug": "informatii/terms",
+    "total_views": 14,
+    "today_views": 14,
+    "last_viewed_at": "2026-10-12T19:08:41.376Z"
+  },
+  "informatii": {
+    "slug": "informatii",
+    "total_views": 1,
+    "today_views": 1,
+    "last_viewed_at": "2026-10-12T19:06:27.398Z"
+  },
+  "informatii/privacy": {
+    "slug": "informatii/privacy",
+    "total_views": 1,
+    "today_views": 1,
+    "last_viewed_at": "2026-10-12T19:06:40.553Z"
   }
 }

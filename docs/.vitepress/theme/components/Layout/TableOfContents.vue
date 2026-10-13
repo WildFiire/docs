@@ -2,7 +2,7 @@
 import { ref, computed, watch, onMounted, onUnmounted, nextTick } from 'vue';
 import { useRoute } from 'vitepress';
 import { Icon } from '@iconify/vue';
-import { layout, toggleToc } from '../../composables/useLayout';
+import { layout, toggleToc, setLayout } from '../../composables/useLayout';
 import {
   useTableOfContents,
   normalizeText,
@@ -126,14 +126,6 @@ function handleLinkClick(item: TocItem, index: number) {
   setTimeout(updateCapsulePosition, 200);
 }
 
-function onKeydown(e: KeyboardEvent) {
-  if ((e.target as HTMLElement)?.closest('input, textarea, [contenteditable]')) return;
-  if (e.key === ']') {
-    e.preventDefault();
-    toggleToc();
-  }
-}
-
 function doSync() {
   syncHeadings(displayItems.value);
   nextTick(() => {
@@ -172,7 +164,6 @@ onMounted(() => {
   handleInitialHash();
   window.addEventListener('scroll', onScrollSpy, { passive: true });
   window.addEventListener('resize', updateCapsulePosition, { passive: true });
-  window.addEventListener('keydown', onKeydown);
   window.addEventListener('hashchange', onHashChange);
   setTimeout(doSync, 150);
   setTimeout(handleInitialHash, 250);
@@ -184,26 +175,40 @@ onUnmounted(() => {
   if (typeof window !== 'undefined') {
     window.removeEventListener('scroll', onScrollSpy);
     window.removeEventListener('resize', updateCapsulePosition);
-    window.removeEventListener('keydown', onKeydown);
     window.removeEventListener('hashchange', onHashChange);
   }
 });
+
+function openToc(e?: Event) {
+  if (e) {
+    e.stopPropagation();
+    e.preventDefault();
+  }
+  layout.tocOpen = true;
+  if (layout.mode === 'full') {
+    setLayout(layout.sidebarOpen ? 'standard' : 'focus');
+  }
+}
 </script>
 
 <template>
   <template v-if="displayItems && displayItems.length > 0">
-    <!-- Floating reopen button if TOC is closed on wide screens (1:1 with wf-docscore) -->
-    <button
-      type="button"
-      class="toc-floating-toggle"
-      :class="{ 'toc-floating-toggle--visible': !layout.tocOpen }"
-      title="Expand Right Table of Contents (Shortcut: ])"
-      aria-label="Expand table of contents"
-      @click="toggleToc"
-    >
-      <Icon icon="lucide:panel-right-open" :width="15" />
-      <span class="floating-toggle-label">Contents</span>
-    </button>
+    <!-- Floating expand button when TOC is collapsed (1:1 with sidebar-floating-toggle) -->
+    <ClientOnly>
+      <Teleport to="body">
+        <button
+          type="button"
+          class="toc-floating-toggle"
+          :class="{ 'toc-floating-toggle--visible': !layout.tocOpen && displayItems && displayItems.length > 0 }"
+          title="Expand Right Table of Contents (Shortcut: ])"
+          aria-label="Expand table of contents"
+          @click="openToc"
+        >
+          <Icon icon="lucide:panel-right-open" width="15" />
+          <span class="floating-toggle-label">Contents</span>
+        </button>
+      </Teleport>
+    </ClientOnly>
 
     <aside
       ref="tocAsideRef"
@@ -232,7 +237,7 @@ onUnmounted(() => {
             aria-label="Collapse table of contents"
             @click="toggleToc"
           >
-            <Icon icon="lucide:panel-right-close" :width="12" />
+            <Icon icon="lucide:panel-right-close" width="14" />
             <kbd class="toc-collapse-kbd" aria-hidden="true">]</kbd>
           </button>
         </div>

@@ -1,7 +1,14 @@
 ---
 title: Pachetul VIP Rebirth
-description: Ghidul complet al pachetului VIP Rebirth pe serverele WildFire CS2 — 3.0€, 105 HP, 100 AP, +800$/runda, 1.3x credite, tag verde si slot rezervat.
+description: >-
+  Ghidul complet al pachetului VIP Rebirth pe serverele WildFire CS2 — 3.0€, 105
+  HP, 100 AP, +800$/runda, 1.3x credite, tag verde si slot rezervat.
 outline: deep
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791634290866
 ---
 
 Pachetul **VIP Rebirth** este punctul de pornire ideal pentru jucatorii care doresc sa isi imbunatateasca experienta pe serverul **WildFire.ro**. Oferind un raport calitate-pret excelent, acest pachet deblocheaza avantaje solide de viata, economie accelerata, acces la slotul rezervat si personalizare in chat.
@@ -15,13 +22,13 @@ Pachetul **VIP Rebirth** este punctul de pornire ideal pentru jucatorii care dor
 
 ## 1. Tarife Oficiale & Durate de Achizitie
 
-Gradul VIP Rebirth poate fi achizitionat atat de pe platforma web, cat si prin intermediul Phoenix Coins:
+Gradul VIP Rebirth poate fi achizitionat atat de pe platforma web:
 
-| Durata Abonament | Pret in Euro (Web Store) | Pret in Phoenix Coins (In-Game) | Economie / Scop |
-| :--- | :--- | :--- | :--- |
-| **7 Zile** | — | **2.000 PHX** | Testare saptamanala |
-| **15 Zile** | — | **3.500 PHX** | Flexibilitate medie |
-| **30 Zile (1 Luna)** | **3.00 €** | **8.000 PHX** | **Cel mai avantajos tarif** |
+| Durata Abonament | Pret in Euro (Web Store) | Economie / Scop |
+| :--- | :--- | :--- |
+| **7 Zile** | — | Testare saptamanala |
+| **15 Zile** | — | Flexibilitate medie |
+| **30 Zile (1 Luna)** | **3.00 €** | **Cel mai avantajos tarif** |
 
 ---
 
@@ -29,18 +36,18 @@ Gradul VIP Rebirth poate fi achizitionat atat de pe platforma web, cat si prin i
 
 | Categorie | Facilitate / Avantaj | Valoare / Detalii Tehnice |
 | :--- | :--- | :--- |
-| **Puncte de Viata (HP)** | **Spawn Health** | **105 HP** la inceputul fiecarei runde |
-| **Protectie & Armura** | **Spawn Armor** | **100 AP** (Armura completa + Casca garantata) |
-| **Regenerare Combat** | **HP la Kill** | **+8 HP** la eliminare / **+15 HP** la Headshot |
-| **Mobilitate** | **Viteza de Deplasare** | **1.10x Viteza** de miscare a caracterului |
-| **Economie Meci** | **Bani Bonus pe Runda** | **+$800** fonduri suplimentare virate la spawn |
-| **Economie Shop** | **Multiplicator Credite** | **1.3x** la toate creditele castigate din playtime |
-| **Echipament Tactic** | **Full Utility & Defuse** | Set complet de grenade + Defuse Kit automat la CT |
-| **Armament Secundar** | **Zeus x27 Incarcat** | Tazer gratuit la spawn in fiecare runda |
-| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | Prefix `[VIP]` verde in chat si pe tabela de scor |
-| **Sunete & Audio** | **Sank Sounds in Chat** | Acces la comanda `!sm` si sunetele comunitatii |
-| **Confort Server** | **Slot Rezervat Garantat** | Intrare garantata chiar daca serverul afiseaza 32/32 |
-| **Comunitate** | **Rol Special Discord** | Gradul VIP Rebirth sincronizat pe Discord |
+| **Puncte de Viata (HP)** | **Spawn Health** | **105 HP** ***la inceputul fiecarei runde*** |
+| **Protectie & Armura** | **Spawn Armor** | **100 AP** ***(Armura completa + Casca garantata)*** |
+| **Regenerare Combat** | **HP la Kill** | **+8 HP** ***la eliminare*** / **+15 HP** ***la Headshot*** |
+| **Mobilitate** | **Viteza de Deplasare** | **1.10x Viteza** ***de miscare a caracterului*** |
+| **Economie Meci** | **Bani Bonus pe Runda** | **+$800** ***fonduri suplimentare virate la spawn*** |
+| **Economie Shop** | **Multiplicator Credite** | **1.3x** ***la toate creditele castigate din playtime*** |
+| **Echipament Tactic** | **Full Utility & Defuse** | ***Set complet de grenade + Defuse Kit automat la CT*** |
+| **Armament Secundar** | **Zeus x27 Incarcat** | ***Tazer gratuit la spawn in fiecare runda*** |
+| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | ***Prefix*** `[REBIRTH]` ***albastru in chat si pe tabela de scor*** |
+| **Sunete & Audio** | **Sank Sounds in Chat** | ***Acces la comanda*** `!sm` ***si sunetele comunitatii*** |
+| **Confort Server** | **Slot Rezervat Garantat** | ***Intrare garantata chiar daca serverul afiseaza 32/32*** |
+| **Comunitate** | **Rol Special Discord** | ***Gradul VIP Rebirth sincronizat pe Discord*** |
 
 ---
 

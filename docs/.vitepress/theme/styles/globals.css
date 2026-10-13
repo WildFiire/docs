@@ -2975,7 +2975,7 @@ nextjs-portal,
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
   color: var(--color-text-tertiary);
-  padding: 2px 5px;
+  padding: 3px 6px;
   border-radius: var(--radius-sm);
   cursor: pointer;
   transition: all var(--transition-fast);
@@ -3155,7 +3155,7 @@ nextjs-portal,
   position: fixed;
   right: 0;
   top: calc(var(--header-height) + 16px);
-  z-index: 30;
+  z-index: 100;
   display: flex;
   align-items: center;
   gap: 6px;
@@ -3168,6 +3168,7 @@ nextjs-portal,
   font-size: 0.7rem;
   font-weight: 600;
   cursor: pointer;
+  user-select: none;
   box-shadow: var(--shadow-sm);
   opacity: 0;
   transform: translateX(100%);
@@ -3186,6 +3187,10 @@ nextjs-portal,
   border-color: var(--color-border-orange);
   color: var(--color-primary);
   transform: translateX(-2px);
+}
+
+.toc-floating-toggle * {
+  pointer-events: none;
 }
 
 /* ============================================================

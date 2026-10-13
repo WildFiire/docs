@@ -3248,3 +3248,498 @@ html:not(.dark) .wf-roster-mini-avatar-wrap {
   border-color: rgba(0, 0, 0, 0.1) !important;
   background: #ffffff !important;
 }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   COMPREHENSIVE LIGHT THEME CARD SUITE (ZERO DARK EDGES / PRISTINE WHITE CARDS)
+   Applies to all cards, callouts, mockups, image frames, and containers
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+/* 1. Image Preview Window Mockup (DocImage / DocEnhancements) */
+.wf-profile--light .doc-image-wrap,
+[data-theme="light"] .doc-image-wrap,
+html:not(.dark) .doc-image-wrap {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+  box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.08), 0 2px 8px rgba(0, 0, 0, 0.04) !important;
+}
+
+.wf-profile--light .doc-image-figure:hover .doc-image-wrap,
+[data-theme="light"] .doc-image-figure:hover .doc-image-wrap,
+html:not(.dark) .doc-image-figure:hover .doc-image-wrap {
+  border-color: hsl(26 100% 50% / 0.45) !important;
+  box-shadow: 0 14px 36px -8px rgba(0, 0, 0, 0.12), 0 0 16px -2px hsl(26 100% 52% / 0.15) !important;
+}
+
+.wf-profile--light .doc-image-topbar,
+[data-theme="light"] .doc-image-topbar,
+html:not(.dark) .doc-image-topbar {
+  background: #f8fafc !important;
+  border-bottom: 1px solid hsl(220 15% 88%) !important;
+}
+
+.wf-profile--light .doc-image-dot,
+[data-theme="light"] .doc-image-dot,
+html:not(.dark) .doc-image-dot {
+  background: hsl(220 15% 78%) !important;
+}
+
+.wf-profile--light .doc-image-badge,
+[data-theme="light"] .doc-image-badge,
+html:not(.dark) .doc-image-badge {
+  color: #475569 !important;
+}
+
+.wf-profile--light .doc-image-media-container,
+[data-theme="light"] .doc-image-media-container,
+html:not(.dark) .doc-image-media-container {
+  background: #f8fafc !important;
+}
+
+.wf-profile--light .doc-image-caption-pill,
+[data-theme="light"] .doc-image-caption-pill,
+html:not(.dark) .doc-image-caption-pill {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+  color: #334155 !important;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+}
+
+.wf-profile--light .doc-image-zoom-pill,
+[data-theme="light"] .doc-image-zoom-pill,
+html:not(.dark) .doc-image-zoom-pill {
+  background: rgba(255, 255, 255, 0.94) !important;
+  border: 1px solid hsl(220 15% 84%) !important;
+  color: #0f172a !important;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* 2. Video Player Wrappers & Cards */
+.wf-profile--light .doc-video-wrapper,
+[data-theme="light"] .doc-video-wrapper,
+html:not(.dark) .doc-video-wrapper {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+  box-shadow: 0 10px 30px -8px rgba(0, 0, 0, 0.08) !important;
+}
+
+.wf-profile--light .doc-video-header,
+[data-theme="light"] .doc-video-header,
+html:not(.dark) .doc-video-header {
+  background: #f8fafc !important;
+  border-bottom: 1px solid hsl(220 15% 88%) !important;
+}
+
+.wf-profile--light .doc-video-title,
+[data-theme="light"] .doc-video-title,
+html:not(.dark) .doc-video-title {
+  color: #0f172a !important;
+}
+
+.wf-profile--light .doc-orange-player-card,
+[data-theme="light"] .doc-orange-player-card,
+html:not(.dark) .doc-orange-player-card {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* 3. Markdown Callouts (Tip, Note, Info, Important, Warning, Danger, Caution) */
+.wf-profile--light .vp-doc .custom-block,
+[data-theme="light"] .vp-doc .custom-block,
+html:not(.dark) .vp-doc .custom-block,
+.wf-profile--light .vp-doc .callout,
+[data-theme="light"] .vp-doc .callout,
+html:not(.dark) .vp-doc .callout {
+  background: #ffffff !important;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.05), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+}
+
+.wf-profile--light .vp-doc .callout-body,
+[data-theme="light"] .vp-doc .callout-body,
+html:not(.dark) .vp-doc .callout-body,
+.wf-profile--light .vp-doc .custom-block .callout-body,
+[data-theme="light"] .vp-doc .custom-block .callout-body,
+html:not(.dark) .vp-doc .custom-block .callout-body,
+.wf-profile--light .vp-doc .custom-block p,
+[data-theme="light"] .vp-doc .custom-block p,
+html:not(.dark) .vp-doc .custom-block p {
+  color: #1e293b !important;
+}
+
+.wf-profile--light .vp-doc .custom-block.tip,
+.wf-profile--light .vp-doc .callout--tip,
+[data-theme="light"] .vp-doc .custom-block.tip,
+[data-theme="light"] .vp-doc .callout--tip,
+html:not(.dark) .vp-doc .custom-block.tip,
+html:not(.dark) .vp-doc .callout--tip {
+  background: linear-gradient(135deg, hsl(26 100% 52% / 0.08) 0%, hsl(38 100% 52% / 0.02) 100%), #ffffff !important;
+  border: 1px solid hsl(26 100% 50% / 0.28) !important;
+  box-shadow: 0 4px 16px -2px rgba(255, 107, 0, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.wf-profile--light .vp-doc .custom-block.note,
+.wf-profile--light .vp-doc .custom-block.info,
+.wf-profile--light .vp-doc .callout--note,
+.wf-profile--light .vp-doc .callout--info,
+[data-theme="light"] .vp-doc .custom-block.note,
+[data-theme="light"] .vp-doc .custom-block.info,
+[data-theme="light"] .vp-doc .callout--note,
+[data-theme="light"] .vp-doc .callout--info,
+html:not(.dark) .vp-doc .custom-block.note,
+html:not(.dark) .vp-doc .custom-block.info,
+html:not(.dark) .vp-doc .callout--note,
+html:not(.dark) .vp-doc .callout--info {
+  background: linear-gradient(135deg, hsl(210 85% 56% / 0.08) 0%, hsl(195 85% 50% / 0.02) 100%), #ffffff !important;
+  border: 1px solid hsl(210 85% 56% / 0.25) !important;
+  box-shadow: 0 4px 16px -2px rgba(59, 130, 246, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.wf-profile--light .vp-doc .custom-block.important,
+.wf-profile--light .vp-doc .callout--important,
+[data-theme="light"] .vp-doc .custom-block.important,
+[data-theme="light"] .vp-doc .callout--important,
+html:not(.dark) .vp-doc .custom-block.important,
+html:not(.dark) .vp-doc .callout--important {
+  background: linear-gradient(135deg, hsl(32 100% 50% / 0.08) 0%, hsl(26 100% 52% / 0.02) 100%), #ffffff !important;
+  border: 1px solid hsl(32 100% 50% / 0.28) !important;
+  box-shadow: 0 4px 16px -2px rgba(245, 158, 11, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.wf-profile--light .vp-doc .custom-block.warning,
+.wf-profile--light .vp-doc .callout--warning,
+[data-theme="light"] .vp-doc .custom-block.warning,
+[data-theme="light"] .vp-doc .callout--warning,
+html:not(.dark) .vp-doc .custom-block.warning,
+html:not(.dark) .vp-doc .callout--warning {
+  background: linear-gradient(135deg, hsl(44 100% 52% / 0.08) 0%, hsl(34 100% 50% / 0.02) 100%), #ffffff !important;
+  border: 1px solid hsl(44 100% 52% / 0.28) !important;
+  box-shadow: 0 4px 16px -2px rgba(234, 179, 8, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.wf-profile--light .vp-doc .custom-block.danger,
+.wf-profile--light .vp-doc .custom-block.caution,
+.wf-profile--light .vp-doc .callout--danger,
+.wf-profile--light .vp-doc .callout--caution,
+[data-theme="light"] .vp-doc .custom-block.danger,
+[data-theme="light"] .vp-doc .custom-block.caution,
+[data-theme="light"] .vp-doc .callout--danger,
+[data-theme="light"] .vp-doc .callout--caution,
+html:not(.dark) .vp-doc .custom-block.danger,
+html:not(.dark) .vp-doc .custom-block.caution,
+html:not(.dark) .vp-doc .callout--danger,
+html:not(.dark) .vp-doc .callout--caution {
+  background: linear-gradient(135deg, hsl(4 90% 52% / 0.08) 0%, hsl(16 90% 50% / 0.02) 100%), #ffffff !important;
+  border: 1px solid hsl(4 90% 52% / 0.28) !important;
+  box-shadow: 0 4px 16px -2px rgba(239, 68, 68, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04) !important;
+}
+
+.wf-profile--light .vp-doc details.custom-block,
+[data-theme="light"] .vp-doc details.custom-block,
+html:not(.dark) .vp-doc details.custom-block {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 88%) !important;
+  color: #1e293b !important;
+}
+
+/* 4. AI Quick Summary Capsule */
+.wf-profile--light .doc-ai-summary-capsule,
+[data-theme="light"] .doc-ai-summary-capsule,
+html:not(.dark) .doc-ai-summary-capsule {
+  background: #ffffff !important;
+  border: 1px solid hsl(26 100% 52% / 0.3) !important;
+  box-shadow: 0 6px 20px -4px rgba(255, 107, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.03) !important;
+}
+
+.wf-profile--light .capsule-trigger,
+[data-theme="light"] .capsule-trigger,
+html:not(.dark) .capsule-trigger {
+  color: #0f172a !important;
+}
+
+.wf-profile--light .capsule-label,
+[data-theme="light"] .capsule-label,
+html:not(.dark) .capsule-label {
+  color: #0f172a !important;
+}
+
+.wf-profile--light .capsule-hint,
+[data-theme="light"] .capsule-hint,
+html:not(.dark) .capsule-hint {
+  color: #64748b !important;
+}
+
+.wf-profile--light .capsule-content,
+[data-theme="light"] .capsule-content,
+html:not(.dark) .capsule-content {
+  border-top: 1px solid hsl(220 15% 90%) !important;
+}
+
+.wf-profile--light .capsule-overview,
+[data-theme="light"] .capsule-overview,
+html:not(.dark) .capsule-overview {
+  color: #334155 !important;
+}
+
+.wf-profile--light .capsule-cmd-btn,
+[data-theme="light"] .capsule-cmd-btn,
+html:not(.dark) .capsule-cmd-btn {
+  background: #f8fafc !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+  color: #0f172a !important;
+}
+
+.wf-profile--light .capsule-action-btn,
+[data-theme="light"] .capsule-action-btn,
+html:not(.dark) .capsule-action-btn {
+  background: #f1f5f9 !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+  color: #334155 !important;
+}
+
+/* 5. AI End-of-Page Explainer Card */
+.wf-profile--light .doc-end-ai-card,
+[data-theme="light"] .doc-end-ai-card,
+html:not(.dark) .doc-end-ai-card {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+  box-shadow: 0 8px 30px -8px rgba(0, 0, 0, 0.06) !important;
+}
+
+.wf-profile--light .doc-end-ai-title,
+[data-theme="light"] .doc-end-ai-title,
+html:not(.dark) .doc-end-ai-title {
+  color: #0f172a !important;
+}
+
+.wf-profile--light .doc-end-ai-desc,
+[data-theme="light"] .doc-end-ai-desc,
+html:not(.dark) .doc-end-ai-desc {
+  color: #475569 !important;
+}
+
+.wf-profile--light .doc-end-ai-desc strong,
+[data-theme="light"] .doc-end-ai-desc strong,
+html:not(.dark) .doc-end-ai-desc strong {
+  color: #0f172a !important;
+}
+
+.wf-profile--light .doc-end-ai-chip,
+[data-theme="light"] .doc-end-ai-chip,
+html:not(.dark) .doc-end-ai-chip {
+  background: #f8fafc !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+  color: #1e293b !important;
+}
+
+.wf-profile--light .doc-end-ai-chip:hover,
+[data-theme="light"] .doc-end-ai-chip:hover,
+html:not(.dark) .doc-end-ai-chip:hover {
+  background: hsl(26 100% 52% / 0.1) !important;
+  border-color: hsl(26 100% 52% / 0.35) !important;
+  color: hsl(26 100% 40%) !important;
+}
+
+.wf-profile--light .doc-end-ai-input-wrap,
+[data-theme="light"] .doc-end-ai-input-wrap,
+html:not(.dark) .doc-end-ai-input-wrap {
+  background: #f8fafc !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+}
+
+.wf-profile--light .doc-end-ai-input,
+[data-theme="light"] .doc-end-ai-input,
+html:not(.dark) .doc-end-ai-input {
+  color: #0f172a !important;
+}
+
+/* 6. Custom Doc Cards (Info, Currency, System, Market, Rules, Skills) */
+.wf-profile--light .wf-info-card,
+[data-theme="light"] .wf-info-card,
+html:not(.dark) .wf-info-card,
+.wf-profile--light .wf-currency-card,
+[data-theme="light"] .wf-currency-card,
+html:not(.dark) .wf-currency-card,
+.wf-profile--light .wf-system .wf-system-card,
+[data-theme="light"] .wf-system .wf-system-card,
+html:not(.dark) .wf-system .wf-system-card,
+.wf-profile--light .wf-system-stat-card,
+[data-theme="light"] .wf-system-stat-card,
+html:not(.dark) .wf-system-stat-card,
+.wf-profile--light .wf-system-type-card,
+[data-theme="light"] .wf-system-type-card,
+html:not(.dark) .wf-system-type-card,
+.wf-profile--light .wf-market .wf-market-card,
+[data-theme="light"] .wf-market .wf-market-card,
+html:not(.dark) .wf-market .wf-market-card,
+.wf-profile--light .rule-card,
+[data-theme="light"] .rule-card,
+html:not(.dark) .rule-card,
+.wf-profile--light .wf-skill-card,
+[data-theme="light"] .wf-skill-card,
+html:not(.dark) .wf-skill-card {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 88%) !important;
+  box-shadow: 0 4px 16px -2px rgba(0, 0, 0, 0.06), 0 1px 3px rgba(0, 0, 0, 0.03) !important;
+  color: #1e293b !important;
+}
+
+.wf-profile--light .wf-info-card:hover,
+[data-theme="light"] .wf-info-card:hover,
+html:not(.dark) .wf-info-card:hover,
+.wf-profile--light .wf-currency-card:hover,
+[data-theme="light"] .wf-currency-card:hover,
+html:not(.dark) .wf-currency-card:hover,
+.wf-profile--light .wf-system .wf-system-card:hover,
+[data-theme="light"] .wf-system .wf-system-card:hover,
+html:not(.dark) .wf-system .wf-system-card:hover,
+.wf-profile--light .wf-market .wf-market-card:hover,
+[data-theme="light"] .wf-market .wf-market-card:hover,
+html:not(.dark) .wf-market .wf-market-card:hover,
+.wf-profile--light .rule-card:hover,
+[data-theme="light"] .rule-card:hover,
+html:not(.dark) .rule-card:hover {
+  border-color: hsl(26 100% 52% / 0.4) !important;
+  box-shadow: 0 8px 24px -4px rgba(255, 107, 0, 0.12), 0 2px 6px rgba(0, 0, 0, 0.04) !important;
+  transform: translateY(-2px);
+}
+
+.wf-profile--light .wf-info-card p,
+[data-theme="light"] .wf-info-card p,
+html:not(.dark) .wf-info-card p,
+.wf-profile--light .wf-currency-card p,
+[data-theme="light"] .wf-currency-card p,
+html:not(.dark) .wf-currency-card p,
+.wf-profile--light .wf-system .wf-system-card p,
+[data-theme="light"] .wf-system .wf-system-card p,
+html:not(.dark) .wf-system .wf-system-card p,
+.wf-profile--light .rule-card p,
+[data-theme="light"] .rule-card p,
+html:not(.dark) .rule-card p {
+  color: #334155 !important;
+}
+
+.wf-profile--light .wf-info-card h3,
+.wf-profile--light .wf-info-card h4,
+[data-theme="light"] .wf-info-card h3,
+[data-theme="light"] .wf-info-card h4,
+html:not(.dark) .wf-info-card h3,
+html:not(.dark) .wf-info-card h4,
+.wf-profile--light .wf-currency-card h3,
+[data-theme="light"] .wf-currency-card h3,
+html:not(.dark) .wf-currency-card h3,
+.wf-profile--light .rule-card h3,
+[data-theme="light"] .rule-card h3,
+html:not(.dark) .rule-card h3 {
+  color: #0f172a !important;
+}
+
+/* 7. Document Header Chips & Meta Cards */
+.wf-profile--light .page-author-chip,
+[data-theme="light"] .page-author-chip,
+html:not(.dark) .page-author-chip,
+.wf-profile--light .page-commit-chip,
+[data-theme="light"] .page-commit-chip,
+html:not(.dark) .page-commit-chip,
+.wf-profile--light .page-category-pill,
+[data-theme="light"] .page-category-pill,
+html:not(.dark) .page-category-pill,
+.wf-profile--light .page-meta-item,
+[data-theme="light"] .page-meta-item,
+html:not(.dark) .page-meta-item {
+  background: #f8fafc !important;
+  border: 1px solid hsl(220 15% 88%) !important;
+  color: #334155 !important;
+}
+
+.wf-profile--light .page-quick-action-btn,
+[data-theme="light"] .page-quick-action-btn,
+html:not(.dark) .page-quick-action-btn {
+  background: #f8fafc !important;
+  border: 1px solid hsl(220 15% 86%) !important;
+  color: #334155 !important;
+}
+
+.wf-profile--light .page-quick-action-btn:hover,
+[data-theme="light"] .page-quick-action-btn:hover,
+html:not(.dark) .page-quick-action-btn:hover {
+  background: #f1f5f9 !important;
+  color: #0f172a !important;
+}
+
+/* 8. Bottom Page Navigation Links */
+.wf-profile--light .page-nav .link,
+[data-theme="light"] .page-nav .link,
+html:not(.dark) .page-nav .link,
+.wf-profile--light .page-nav-link,
+[data-theme="light"] .page-nav-link,
+html:not(.dark) .page-nav-link {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 88%) !important;
+  box-shadow: 0 4px 14px -4px rgba(0, 0, 0, 0.05) !important;
+}
+
+.wf-profile--light .page-nav .link:hover,
+[data-theme="light"] .page-nav .link:hover,
+html:not(.dark) .page-nav .link:hover,
+.wf-profile--light .page-nav-link:hover,
+[data-theme="light"] .page-nav-link:hover,
+html:not(.dark) .page-nav-link:hover {
+  border-color: hsl(26 100% 52% / 0.45) !important;
+  box-shadow: 0 6px 20px -4px rgba(255, 107, 0, 0.1) !important;
+  transform: translateY(-1px);
+}
+
+.wf-profile--light .page-nav .title,
+[data-theme="light"] .page-nav .title,
+html:not(.dark) .page-nav .title {
+  color: #0f172a !important;
+}
+
+.wf-profile--light .page-nav .desc,
+[data-theme="light"] .page-nav .desc,
+html:not(.dark) .page-nav .desc {
+  color: #64748b !important;
+}
+
+/* 9. Feedback Widget Card */
+.wf-profile--light .feedback-widget-card,
+[data-theme="light"] .feedback-widget-card,
+html:not(.dark) .feedback-widget-card,
+.wf-profile--light .feedback-liquid-card,
+[data-theme="light"] .feedback-liquid-card,
+html:not(.dark) .feedback-liquid-card {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 88%) !important;
+  box-shadow: 0 6px 20px -4px rgba(0, 0, 0, 0.06) !important;
+}
+
+/* 10. Table Enhancements in Light Theme */
+.wf-profile--light .vp-doc table,
+[data-theme="light"] .vp-doc table,
+html:not(.dark) .vp-doc table {
+  background: #ffffff !important;
+  border: 1px solid hsl(220 15% 88%) !important;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.03) !important;
+}
+
+.wf-profile--light .vp-doc th,
+[data-theme="light"] .vp-doc th,
+html:not(.dark) .vp-doc th {
+  background: #f8fafc !important;
+  color: #0f172a !important;
+  border-bottom: 1px solid hsl(220 15% 86%) !important;
+}
+
+.wf-profile--light .vp-doc td,
+[data-theme="light"] .vp-doc td,
+html:not(.dark) .vp-doc td {
+  color: #334155 !important;
+  border-bottom: 1px solid hsl(220 15% 90%) !important;
+}
+
+.wf-profile--light .vp-doc tr:hover td,
+[data-theme="light"] .vp-doc tr:hover td,
+html:not(.dark) .vp-doc tr:hover td {
+  background: #f8fafc !important;
+}

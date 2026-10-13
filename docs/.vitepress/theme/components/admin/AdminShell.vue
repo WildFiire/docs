@@ -123,10 +123,15 @@ async function authenticate() {
       try {
         localStorage.setItem('wf_admin_user', JSON.stringify(data.user));
       } catch {}
+      if (login.value) {
+        await router.go('/admin');
+      }
     } else {
       user.value = null;
       try {
         localStorage.removeItem('wf_admin_user');
+        localStorage.removeItem('wf_admin_remembered_user');
+        sessionStorage.removeItem('wf_admin_remembered_user');
       } catch {}
       if (!login.value) {
         await router.go('/admin/login');
@@ -137,6 +142,8 @@ async function authenticate() {
       user.value = null;
       try {
         localStorage.removeItem('wf_admin_user');
+        localStorage.removeItem('wf_admin_remembered_user');
+        sessionStorage.removeItem('wf_admin_remembered_user');
       } catch {}
       if (!login.value) {
         await router.go('/admin/login');
@@ -174,6 +181,8 @@ function onTotpUpdated(enabled: boolean) {
 async function logout() {
   try {
     localStorage.removeItem('wf_admin_user');
+    localStorage.removeItem('wf_admin_remembered_user');
+    sessionStorage.removeItem('wf_admin_remembered_user');
   } catch {}
   await api('/api/admin/auth/logout', {});
   user.value = null;
@@ -185,7 +194,7 @@ async function logout() {
   <div
     class="admin-root-container"
     :class="{ 'admin-root-container--auth': login || (!user && loading) }"
-    :style="login ? { paddingTop: 0, minHeight: '100vh', background: 'hsl(220 22% 4%)' } : undefined"
+    :style="login ? { paddingTop: 0, minHeight: '100vh', background: 'transparent' } : undefined"
   >
     <!-- Liquid organic waves & fire background -->
     <LiquidBackground />

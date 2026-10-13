@@ -163,23 +163,13 @@
   ],
   "index": [
     {
-      "id": "welcome-to-docs-platform",
-      "title": "Welcome to Docs Platform",
+      "id": "wildfire-documentation-hub",
+      "title": "Wildfire Documentation Hub",
       "depth": 2
     },
     {
-      "id": "what-makes-this-different",
-      "title": "What makes this different?",
-      "depth": 2
-    },
-    {
-      "id": "architecture-overview",
-      "title": "Architecture overview",
-      "depth": 2
-    },
-    {
-      "id": "tech-stack",
-      "title": "Tech stack",
+      "id": "ce-contine-aceasta-documentatie",
+      "title": "Ce conține această documentație?",
       "depth": 2
     },
     {
@@ -190,23 +180,13 @@
   ],
   "docs/index": [
     {
-      "id": "welcome-to-docs-platform",
-      "title": "Welcome to Docs Platform",
+      "id": "wildfire-documentation-hub",
+      "title": "Wildfire Documentation Hub",
       "depth": 2
     },
     {
-      "id": "what-makes-this-different",
-      "title": "What makes this different?",
-      "depth": 2
-    },
-    {
-      "id": "architecture-overview",
-      "title": "Architecture overview",
-      "depth": 2
-    },
-    {
-      "id": "tech-stack",
-      "title": "Tech stack",
+      "id": "ce-contine-aceasta-documentatie",
+      "title": "Ce conține această documentație?",
       "depth": 2
     },
     {
@@ -396,6 +376,100 @@
     {
       "id": "exploreaza-documentatia",
       "title": "Exploreaza Documentatia",
+      "depth": 2
+    }
+  ],
+  "informatii/contact": [
+    {
+      "id": "discord-—-canalul-principal",
+      "title": "Discord — Canalul Principal",
+      "depth": 2
+    },
+    {
+      "id": "cum-deschizi-un-ticket",
+      "title": "Cum deschizi un ticket?",
+      "depth": 3
+    },
+    {
+      "id": "cand-sa-deschizi-un-ticket",
+      "title": "Când să deschizi un ticket?",
+      "depth": 3
+    },
+    {
+      "id": "link-uri-utile",
+      "title": "Link-uri Utile",
+      "depth": 2
+    },
+    {
+      "id": "echipa-de-staff",
+      "title": "Echipa de Staff",
+      "depth": 2
+    },
+    {
+      "id": "fondator-comunitate",
+      "title": "Fondator Comunitate:",
+      "depth": 3
+    },
+    {
+      "id": "administratie-documentatie",
+      "title": "Administrație & Documentație:",
+      "depth": 3
+    },
+    {
+      "id": "raportare-erori-documentatie",
+      "title": "Raportare Erori Documentație",
+      "depth": 2
+    },
+    {
+      "id": "notificari-de-securitate",
+      "title": "Notificări de Securitate",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/contact": [
+    {
+      "id": "discord-—-canalul-principal",
+      "title": "Discord — Canalul Principal",
+      "depth": 2
+    },
+    {
+      "id": "cum-deschizi-un-ticket",
+      "title": "Cum deschizi un ticket?",
+      "depth": 3
+    },
+    {
+      "id": "cand-sa-deschizi-un-ticket",
+      "title": "Când să deschizi un ticket?",
+      "depth": 3
+    },
+    {
+      "id": "link-uri-utile",
+      "title": "Link-uri Utile",
+      "depth": 2
+    },
+    {
+      "id": "echipa-de-staff",
+      "title": "Echipa de Staff",
+      "depth": 2
+    },
+    {
+      "id": "fondator-comunitate",
+      "title": "Fondator Comunitate:",
+      "depth": 3
+    },
+    {
+      "id": "administratie-documentatie",
+      "title": "Administrație & Documentație:",
+      "depth": 3
+    },
+    {
+      "id": "raportare-erori-documentatie",
+      "title": "Raportare Erori Documentație",
+      "depth": 2
+    },
+    {
+      "id": "notificari-de-securitate",
+      "title": "Notificări de Securitate",
       "depth": 2
     }
   ],
@@ -634,6 +708,150 @@
     {
       "id": "urmatorii-pasi-recomandati",
       "title": "Urmatorii Pasi Recomandati",
+      "depth": 2
+    }
+  ],
+  "informatii/privacy": [
+    {
+      "id": "_1-ce-date-colectam",
+      "title": "1. Ce Date Colectăm",
+      "depth": 2
+    },
+    {
+      "id": "date-furnizate-direct-de-tine",
+      "title": "Date furnizate direct de tine",
+      "depth": 3
+    },
+    {
+      "id": "date-colectate-automat-pe-site",
+      "title": "Date colectate automat pe site",
+      "depth": 3
+    },
+    {
+      "id": "date-pe-care-nu-le-colectam",
+      "title": "Date pe care NU le colectăm",
+      "depth": 3
+    },
+    {
+      "id": "_2-cum-folosim-datele",
+      "title": "2. Cum Folosim Datele",
+      "depth": 2
+    },
+    {
+      "id": "_3-cookies",
+      "title": "3. Cookies",
+      "depth": 2
+    },
+    {
+      "id": "_4-partajarea-datelor",
+      "title": "4. Partajarea Datelor",
+      "depth": 2
+    },
+    {
+      "id": "_5-securitatea-datelor",
+      "title": "5. Securitatea Datelor",
+      "depth": 2
+    },
+    {
+      "id": "_6-drepturile-tale-gdpr",
+      "title": "6. Drepturile Tale (GDPR)",
+      "depth": 2
+    },
+    {
+      "id": "cum-iti-exerciti-drepturile",
+      "title": "Cum îți exerciți drepturile?",
+      "depth": 3
+    },
+    {
+      "id": "_7-retentia-datelor",
+      "title": "7. Retenția Datelor",
+      "depth": 2
+    },
+    {
+      "id": "_8-protectia-minorilor",
+      "title": "8. Protecția Minorilor",
+      "depth": 2
+    },
+    {
+      "id": "_9-actualizari-ale-politicii",
+      "title": "9. Actualizări ale Politicii",
+      "depth": 2
+    },
+    {
+      "id": "_10-contact",
+      "title": "10. Contact",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/privacy": [
+    {
+      "id": "_1-ce-date-colectam",
+      "title": "1. Ce Date Colectăm",
+      "depth": 2
+    },
+    {
+      "id": "date-furnizate-direct-de-tine",
+      "title": "Date furnizate direct de tine",
+      "depth": 3
+    },
+    {
+      "id": "date-colectate-automat-pe-site",
+      "title": "Date colectate automat pe site",
+      "depth": 3
+    },
+    {
+      "id": "date-pe-care-nu-le-colectam",
+      "title": "Date pe care NU le colectăm",
+      "depth": 3
+    },
+    {
+      "id": "_2-cum-folosim-datele",
+      "title": "2. Cum Folosim Datele",
+      "depth": 2
+    },
+    {
+      "id": "_3-cookies",
+      "title": "3. Cookies",
+      "depth": 2
+    },
+    {
+      "id": "_4-partajarea-datelor",
+      "title": "4. Partajarea Datelor",
+      "depth": 2
+    },
+    {
+      "id": "_5-securitatea-datelor",
+      "title": "5. Securitatea Datelor",
+      "depth": 2
+    },
+    {
+      "id": "_6-drepturile-tale-gdpr",
+      "title": "6. Drepturile Tale (GDPR)",
+      "depth": 2
+    },
+    {
+      "id": "cum-iti-exerciti-drepturile",
+      "title": "Cum îți exerciți drepturile?",
+      "depth": 3
+    },
+    {
+      "id": "_7-retentia-datelor",
+      "title": "7. Retenția Datelor",
+      "depth": 2
+    },
+    {
+      "id": "_8-protectia-minorilor",
+      "title": "8. Protecția Minorilor",
+      "depth": 2
+    },
+    {
+      "id": "_9-actualizari-ale-politicii",
+      "title": "9. Actualizări ale Politicii",
+      "depth": 2
+    },
+    {
+      "id": "_10-contact",
+      "title": "10. Contact",
       "depth": 2
     }
   ],
@@ -1366,6 +1584,210 @@
     {
       "id": "resurse-administrative-conexe",
       "title": "Resurse Administrative Conexe",
+      "depth": 2
+    }
+  ],
+  "informatii/terms": [
+    {
+      "id": "_1-definitii",
+      "title": "1. Definiții",
+      "depth": 2
+    },
+    {
+      "id": "_2-acceptarea-termenilor",
+      "title": "2. Acceptarea Termenilor",
+      "depth": 2
+    },
+    {
+      "id": "_3-contul-tau",
+      "title": "3. Contul Tău",
+      "depth": 2
+    },
+    {
+      "id": "acces-pe-servere",
+      "title": "Acces pe Servere",
+      "depth": 3
+    },
+    {
+      "id": "acces-la-panoul-de-administrare",
+      "title": "Acces la Panoul de Administrare",
+      "depth": 3
+    },
+    {
+      "id": "_4-utilizare-acceptabila",
+      "title": "4. Utilizare Acceptabilă",
+      "depth": 2
+    },
+    {
+      "id": "actiuni-permise",
+      "title": "Acțiuni Permise:",
+      "depth": 3
+    },
+    {
+      "id": "conduite-interzise",
+      "title": "Conduite Interzise:",
+      "depth": 3
+    },
+    {
+      "id": "_5-regulamentele-serverelor",
+      "title": "5. Regulamentele Serverelor",
+      "depth": 2
+    },
+    {
+      "id": "_6-achizitii-si-donatii",
+      "title": "6. Achiziții și Donații",
+      "depth": 2
+    },
+    {
+      "id": "pachete-vip-si-magazin-premium",
+      "title": "Pachete VIP și Magazin Premium",
+      "depth": 3
+    },
+    {
+      "id": "economia-virtuala",
+      "title": "Economia Virtuală",
+      "depth": 3
+    },
+    {
+      "id": "_7-proprietate-intelectuala",
+      "title": "7. Proprietate Intelectuală",
+      "depth": 2
+    },
+    {
+      "id": "continutul-comunitatii",
+      "title": "Conținutul Comunității",
+      "depth": 3
+    },
+    {
+      "id": "drepturi-terte-parti",
+      "title": "Drepturi Terțe Părți",
+      "depth": 3
+    },
+    {
+      "id": "_8-limitarea-raspunderii",
+      "title": "8. Limitarea Răspunderii",
+      "depth": 2
+    },
+    {
+      "id": "_9-sanctiuni-disciplinare",
+      "title": "9. Sancțiuni Disciplinare",
+      "depth": 2
+    },
+    {
+      "id": "_10-modificarea-termenilor",
+      "title": "10. Modificarea Termenilor",
+      "depth": 2
+    },
+    {
+      "id": "_11-legislatie-aplicabila",
+      "title": "11. Legislație Aplicabilă",
+      "depth": 2
+    },
+    {
+      "id": "_12-canale-de-contact",
+      "title": "12. Canale de Contact",
+      "depth": 2
+    }
+  ],
+  "docs/informatii/terms": [
+    {
+      "id": "_1-definitii",
+      "title": "1. Definiții",
+      "depth": 2
+    },
+    {
+      "id": "_2-acceptarea-termenilor",
+      "title": "2. Acceptarea Termenilor",
+      "depth": 2
+    },
+    {
+      "id": "_3-contul-tau",
+      "title": "3. Contul Tău",
+      "depth": 2
+    },
+    {
+      "id": "acces-pe-servere",
+      "title": "Acces pe Servere",
+      "depth": 3
+    },
+    {
+      "id": "acces-la-panoul-de-administrare",
+      "title": "Acces la Panoul de Administrare",
+      "depth": 3
+    },
+    {
+      "id": "_4-utilizare-acceptabila",
+      "title": "4. Utilizare Acceptabilă",
+      "depth": 2
+    },
+    {
+      "id": "actiuni-permise",
+      "title": "Acțiuni Permise:",
+      "depth": 3
+    },
+    {
+      "id": "conduite-interzise",
+      "title": "Conduite Interzise:",
+      "depth": 3
+    },
+    {
+      "id": "_5-regulamentele-serverelor",
+      "title": "5. Regulamentele Serverelor",
+      "depth": 2
+    },
+    {
+      "id": "_6-achizitii-si-donatii",
+      "title": "6. Achiziții și Donații",
+      "depth": 2
+    },
+    {
+      "id": "pachete-vip-si-magazin-premium",
+      "title": "Pachete VIP și Magazin Premium",
+      "depth": 3
+    },
+    {
+      "id": "economia-virtuala",
+      "title": "Economia Virtuală",
+      "depth": 3
+    },
+    {
+      "id": "_7-proprietate-intelectuala",
+      "title": "7. Proprietate Intelectuală",
+      "depth": 2
+    },
+    {
+      "id": "continutul-comunitatii",
+      "title": "Conținutul Comunității",
+      "depth": 3
+    },
+    {
+      "id": "drepturi-terte-parti",
+      "title": "Drepturi Terțe Părți",
+      "depth": 3
+    },
+    {
+      "id": "_8-limitarea-raspunderii",
+      "title": "8. Limitarea Răspunderii",
+      "depth": 2
+    },
+    {
+      "id": "_9-sanctiuni-disciplinare",
+      "title": "9. Sancțiuni Disciplinare",
+      "depth": 2
+    },
+    {
+      "id": "_10-modificarea-termenilor",
+      "title": "10. Modificarea Termenilor",
+      "depth": 2
+    },
+    {
+      "id": "_11-legislatie-aplicabila",
+      "title": "11. Legislație Aplicabilă",
+      "depth": 2
+    },
+    {
+      "id": "_12-canale-de-contact",
+      "title": "12. Canale de Contact",
       "depth": 2
     }
   ],

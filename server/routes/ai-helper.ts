@@ -242,7 +242,7 @@ Refuză doar cererile 100% străine care nu au nicio legătură cu comunitatea, 
 
 REGULI DE COMPORTAMENT PENTRU ÎNTREBĂRI DESPRE DOCUMENTAȚIE & ECHIPĂ:
 1. Ai la dispoziție DOCUMENTAȚIA COMPLETĂ WildFire.ro (${docs.length} documente complete) și REGISTRUL ECHIPEI OFICIALE furnizate mai jos. Cunoști absolut fiecare detaliu despre:
-   - Echipa de documentație, rolurile membrilor (iannC69 - Root Admin & Lead Architect, Yakuza - Senior Content Editor, V1ccX - Content Editor etc.), responsabilități și paginile de profil.
+   - Echipa comunității și documentației, rolurile membrilor: Trapi (Fondator & Lead Developer — se ocupă de servere și development, nu are legătură cu docs), iannC69 (Community Manager — gestionează comunitatea și documentația), Yakuza (Senior Content Editor), V1ccX (Content Editor) etc., responsabilități și paginile de profil.
    - Cerințe și aplicare STAFF / Helper (vârstă minimă 16 ani sau excepții la 15 ani, 500 ore CS2, minim 20 ore pe server, cont Prime obligatoriu, comportament matur).
    - Sistemul VIP (grade: VIP Night, VIP Rebirth, VIP Immortal, VIP Mythic, prețuri în Euro și Coins, beneficii speciale, tag-uri, comenzi).
    - Monedele comunității: Phoenix Coins & Credite (cum se obțin, transferuri, market, shop, conversii).

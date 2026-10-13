@@ -71,6 +71,24 @@
             "order": 99
           }
         ]
+      },
+      {
+        "title": "Contact & Support",
+        "slug": "informatii/contact",
+        "href": "/docs/informatii/contact",
+        "order": 99
+      },
+      {
+        "title": "Politica de Confidentialitate",
+        "slug": "informatii/privacy",
+        "href": "/docs/informatii/privacy",
+        "order": 99
+      },
+      {
+        "title": "Termeni si Conditii",
+        "slug": "informatii/terms",
+        "href": "/docs/informatii/terms",
+        "order": 99
       }
     ]
   },

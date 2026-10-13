@@ -227,7 +227,7 @@ import RecentlyUpdatedSection from '../Docs/RecentlyUpdatedSection.vue';
             <span class="docs-footer-version">v1.8.5</span>
           </div>
           <p class="docs-footer-copyright">
-            Next.js 16 Turbopack Architecture • Author
+            VitePress 2.0 Custom Architecture • Author
             <a
               href="https://github.com/iannC69"
               target="_blank"

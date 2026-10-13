@@ -29,9 +29,6 @@ function injectStyles() {
       100% { transform: translate(0px, 0px)    scale(1);    opacity: 0.20; }
     }
 
-    [data-theme="light"] .liquid-vignette {
-      opacity: 0.15 !important;
-    }
     [data-theme="light"] .liquid-blob-1 {
       opacity: 0.45 !important;
     }
@@ -40,6 +37,29 @@ function injectStyles() {
     }
     [data-theme="light"] .liquid-blob-3 {
       opacity: 0.25 !important;
+    }
+
+    @media (max-width: 768px) {
+      .liquid-blob-1 {
+        width: 140vw !important;
+        height: 70vh !important;
+        left: -20% !important;
+      }
+      .liquid-blob-2 {
+        width: 120vw !important;
+        height: 60vh !important;
+        right: -20% !important;
+      }
+      .liquid-blob-3 {
+        width: 100vw !important;
+        height: 50vh !important;
+        left: 0% !important;
+      }
+      .liquid-blob-4 {
+        width: 110vw !important;
+        height: 55vh !important;
+        left: -10% !important;
+      }
     }
   `;
   document.head.appendChild(style);
@@ -64,30 +84,25 @@ onMounted(() => {
     <!-- Orb 1 — bottom-left fire orange -->
     <div
       class="liquid-blob-1"
-      style="animation: liquidDrift1 22s ease-in-out infinite; background: radial-gradient(ellipse 600px 500px at center, hsl(26 100% 52% / 0.13) 0%, transparent 70%); bottom: -10%; left: -5%; position: absolute; height: 80vh; width: 70vw; will-change: transform;"
+      style="animation: liquidDrift1 22s ease-in-out infinite; background: radial-gradient(ellipse at center, hsl(26 100% 52% / 0.13) 0%, transparent 70%); bottom: -10%; left: -5%; position: absolute; height: 80vh; width: 70vw; will-change: transform;"
     />
 
     <!-- Orb 2 — top-right deep red -->
     <div
       class="liquid-blob-2"
-      style="animation: liquidDrift2 30s ease-in-out infinite 4s; background: radial-gradient(ellipse 500px 400px at center, hsl(8 90% 45% / 0.09) 0%, transparent 70%); right: -10%; top: 5%; position: absolute; height: 60vh; width: 50vw; will-change: transform;"
+      style="animation: liquidDrift2 30s ease-in-out infinite 4s; background: radial-gradient(ellipse at center, hsl(8 90% 45% / 0.09) 0%, transparent 70%); right: -10%; top: 5%; position: absolute; height: 60vh; width: 50vw; will-change: transform;"
     />
 
     <!-- Orb 3 — center amber accent -->
     <div
       class="liquid-blob-3"
-      style="animation: liquidDrift3 40s ease-in-out infinite 8s; background: radial-gradient(ellipse 400px 300px at center, hsl(38 100% 52% / 0.07) 0%, transparent 70%); left: 30%; top: 30%; position: absolute; height: 50vh; width: 40vw; will-change: transform;"
+      style="animation: liquidDrift3 40s ease-in-out infinite 8s; background: radial-gradient(ellipse at center, hsl(38 100% 52% / 0.07) 0%, transparent 70%); left: 30%; top: 30%; position: absolute; height: 50vh; width: 40vw; will-change: transform;"
     />
 
     <!-- Orb 4 — top-left cool accent (deep crimson) -->
     <div
-      style="animation: liquidDrift2 26s ease-in-out infinite 2s; background: radial-gradient(ellipse 450px 350px at center, hsl(0 80% 40% / 0.06) 0%, transparent 70%); left: -8%; top: -8%; position: absolute; height: 55vh; width: 55vw; will-change: transform;"
-    />
-
-    <!-- Radial edge vignette -->
-    <div
-      class="liquid-vignette"
-      style="background: radial-gradient(ellipse 85% 85% at 50% 50%, transparent 35%, hsl(0 0% 6% / 0.65) 100%); inset: 0; position: absolute;"
+      class="liquid-blob-4"
+      style="animation: liquidDrift2 26s ease-in-out infinite 2s; background: radial-gradient(ellipse at center, hsl(0 80% 40% / 0.06) 0%, transparent 70%); left: -8%; top: -8%; position: absolute; height: 55vh; width: 55vw; will-change: transform;"
     />
   </div>
 </template>

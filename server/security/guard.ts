@@ -29,7 +29,7 @@ export async function guard(req: Request, res: Response, next: NextFunction) {
     if (req.get('sec-fetch-site') === 'cross-site' || (origin && !allowed.has(origin)))
       return res.status(403).json({ error: 'CROSS_ORIGIN_WRITE' });
   }
-  const publicAuth = /^\/api\/admin\/auth\/(login|2fa|me|logout|panic)$/.test(route);
+  const publicAuth = /^\/api\/admin\/auth\/(login|2fa|me|logout|panic|check-user)$/.test(route);
   const publicSettings =
     req.method === 'GET' && ['/api/admin/maintenance', '/api/admin/settings'].includes(route);
   const protectedPublic =

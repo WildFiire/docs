@@ -32,6 +32,13 @@
     ]
   },
   {
+    "route": "/api/admin/auth/check-user",
+    "file": "server/routes/admin/auth/check-user.ts",
+    "methods": [
+      "POST"
+    ]
+  },
+  {
     "route": "/api/admin/auth/login",
     "file": "server/routes/admin/auth/login.ts",
     "methods": [
@@ -480,6 +487,13 @@
   {
     "route": "/api/admin/publication",
     "file": "server/routes/admin/publication.ts",
+    "methods": [
+      "GET"
+    ]
+  },
+  {
+    "route": "/api/og",
+    "file": "server/routes/og.ts",
     "methods": [
       "GET"
     ]

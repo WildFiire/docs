@@ -1,7 +1,14 @@
 ---
 title: Testare Gratuita VIP (!viptest)
-description: Ghidul sesiunii de proba VIP Test pe serverele WildFire CS2 — comanda !viptest, valabilitate 7 zile, beneficii active si reactivare dupa cooldown.
+description: >-
+  Ghidul sesiunii de proba VIP Test pe serverele WildFire CS2 — comanda
+  !viptest, valabilitate 7 zile, beneficii active si reactivare dupa cooldown.
 outline: deep
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791634261771
 ---
 
 Comanda **`!viptest`** iti ofera ocazia de a experimenta gratuit toate beneficiile unui grad VIP pe serverul **WildFire.ro** timp de **7 Zile (1 Saptamana)**, permitandu-ti sa testezi viteza sporita, bonusurile de viata si facilitatile economice in meciuri reale.
@@ -49,14 +56,13 @@ Serverul iti va activa instantaneu statutul temporar de VIP pe contul tau pentru
 
 | Categorie | Facilitate Activa | Valoare in Timpul Testului |
 | :--- | :--- | :--- |
-| **Viata & Armura** | **Spawn Health & Armor** | **105 HP** si **100 AP** la inceputul fiecarei runde |
-| **Regenerare Combat** | **HP la Eliminare** | **+8 HP** la kill / **+15 HP** la Headshot |
-| **Mobilitate** | **Viteza de Deplasare** | **1.10x Viteza** de miscare a caracterului |
-| **Economie Meci** | **Bani Bonus pe Runda** | **+$800** fonduri suplimentare la fiecare spawn |
-| **Echipament Tactic** | **Utility & Defuse Kit** | Set complet de grenade + Defuse Kit automat la CT |
-| **Armament Secundar** | **Zeus x27 Incarcat** | Tazer gratuit la spawn in fiecare runda |
-| **Identitate Chat & TAB** | **Tag `[VIP]` in Chat** | Nume si prefix verde evidentiat pe server |
-| **Sunete & Audio** | **Sank Sounds in Chat** | Acces complet la comanda `!sm` |
+| **Viata & Armura** | **Spawn Health & Armor** | **105 HP** ***si*** **100 AP** ***la inceputul fiecarei runde*** |
+| **Regenerare Combat** | **HP la Eliminare** | **+8 HP** ***la kill*** / **+15 HP** ***la Headshot*** |
+| **Mobilitate** | **Viteza de Deplasare** | **1.10x Viteza** ***de miscare a caracterului*** |
+| **Economie Meci** | **Bani Bonus pe Runda** | **+$800** ***fonduri suplimentare la fiecare spawn*** |
+| **Echipament Tactic** | **Utility & Defuse Kit** | ***Set complet de grenade + Defuse Kit automat la CT*** |
+| **Armament Secundar** | **Zeus x27 Incarcat** | ***Tazer gratuit la spawn in fiecare runda*** |
+| **Identitate Chat & TAB** | **Tag `[TRIAL]` in Chat** | ***Nume si prefix pe server*** |
 
 ---
 

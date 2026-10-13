@@ -47,7 +47,7 @@ export interface TeamMember {
     | 'viewer'
     | 'security_auditor'
     | 'custom';
-  customTitle?: string; // ex: "Founder & Lead Architect", "Senior Content Editor"
+  customTitle?: string; // ex: "Community Manager", "Senior Content Editor"
   avatarUrl?: string; // Custom profile image URL (or fallback to avatarColor monogram)
   avatarColor: string;
   bio?: string; // Short bio / mission statement
@@ -96,6 +96,34 @@ export type PublicTeamMember = Omit<
 
 const TEAM_FILE_PATH = path.join(RUNTIME_ROOT, 'content', 'team.json');
 const ENV_LOCAL_PATH = path.join(process.cwd(), '.env.local');
+
+function syncRoot2FAToEnvLocal(enabled: boolean, secret?: string): void {
+  try {
+    if (!fs.existsSync(ENV_LOCAL_PATH)) return;
+    let content = fs.readFileSync(ENV_LOCAL_PATH, 'utf-8');
+    if (enabled) {
+      if (content.includes('ADMIN_2FA_ENABLED=')) {
+        content = content.replace(/ADMIN_2FA_ENABLED=.*/g, 'ADMIN_2FA_ENABLED=true');
+      } else {
+        content += '\nADMIN_2FA_ENABLED=true\n';
+      }
+      if (secret) {
+        if (content.includes('ADMIN_TOTP_SECRET=')) {
+          content = content.replace(/ADMIN_TOTP_SECRET=.*/g, `ADMIN_TOTP_SECRET=${secret}`);
+        } else {
+          content += `ADMIN_TOTP_SECRET=${secret}\n`;
+        }
+      }
+    } else {
+      if (content.includes('ADMIN_2FA_ENABLED=')) {
+        content = content.replace(/ADMIN_2FA_ENABLED=.*/g, 'ADMIN_2FA_ENABLED=false');
+      }
+    }
+    fs.writeFileSync(ENV_LOCAL_PATH, content, 'utf-8');
+  } catch (err) {
+    console.warn('Failed to sync 2FA to .env.local:', err);
+  }
+}
 
 const ROOT_PERMISSIONS: TeamMemberPermissions = {
   canEditDocs: true,
@@ -314,26 +342,26 @@ export function getDefaultTeamMembers(): TeamMember[] {
       displayName: 'iannC',
       email: 'iannc@wildfire.ro',
       role: 'root_admin',
-      customTitle: 'Lead Docs & Systems Architect',
+      customTitle: 'Community Manager',
       avatarUrl:
         'https://github.com/iannC69.png',
       avatarColor: '#ff6b00',
-      bio: 'Se ocupă de structura, redactarea și actualizarea platformei de documentație, integrarea sistemelor tehnice și experiența generală a ghidurilor WildFire.',
+      bio: 'Community Manager al comunității WildFire. Se ocupă de comunitate, coordonare și documentație.',
       responsibilities: [
-        'Arhitectură Documentație',
-        'Redactare & Ghiduri Tehnice',
-        'Optimizare Docs Engine',
+        'Community Management',
+        'Ghiduri & Suport Comunitate',
+        'Optimizare Docs Platform',
         'Supervizare Echipă Docs',
-        'Securitate & 2FA',
       ],
-      badges: ['LEAD ARCHITECT', 'DOCS SPECIALIST', 'SYSTEMS LEAD'],
+      badges: ['COMMUNITY MANAGER', 'DOCS LEAD'],
       discord: '371621920162185216',
       steamId: 'https://steamcommunity.com/id/1iannc/',
       githubUsername: 'iannC69',
       docsModifiedCount: 1,
       passwordHash: rootHash,
       salt: rootSalt,
-      totpEnabled: false,
+      totpEnabled: process.env.ADMIN_2FA_ENABLED === 'true' || Boolean(process.env.ADMIN_TOTP_SECRET),
+      totpSecret: process.env.ADMIN_TOTP_SECRET || undefined,
       permissions: ROOT_PERMISSIONS,
       status: 'active',
       isRoot: true,
@@ -963,6 +991,10 @@ export async function updateTeamMember(
 
   members[idx] = target;
   await saveTeamMembers(members);
+
+  if (target.isRoot && (updates.totpEnabled !== undefined || updates.totpSecret !== undefined)) {
+    syncRoot2FAToEnvLocal(target.totpEnabled ?? false, target.totpSecret);
+  }
 
   return { success: true, member: target };
 }

@@ -1,7 +1,14 @@
 ---
 title: VIP Tiers — Comparatie Completa
-description: Comparatia detaliata a tuturor gradelor VIP active pe serverele WildFire CS2 — Rebirth (3€), Immortal (6.5€) si Mythic (Skill Top / 10€).
+description: >-
+  Comparatia detaliata a tuturor gradelor VIP active pe serverele WildFire CS2 —
+  Rebirth (3€), Immortal (6.5€) si Mythic (Skill Top / 10€).
 outline: deep
+gitLastCommitter: Laur3nt1uu
+lastUpdatedBy: Laur3nt1uu
+author: Laur3nt1uu
+uploadedBy: Laur3nt1uu
+lastUpdated: 1791225483206
 ---
 
 Ecosistemul **VIP** de pe **WildFire.ro** este structurat pe 3 niveluri progresive, oferind avantaje de gameplay, economie accelerata, mobilitate sporita si recunoastere vizuala pe server.
@@ -17,7 +24,7 @@ Ecosistemul **VIP** de pe **WildFire.ro** este structurat pe 3 niveluri progresi
 
 | Beneficiu / Facilitate | VIP Rebirth | VIP Immortal | VIP Mythic |
 | :--- | :---: | :---: | :---: |
-| **Tarif Lunar (Web Store)** | **3.00 €** | **6.50 €** (Cel Mai Popular) | **Top 1 Skill / 10.00 €** |
+| **Tarif Lunar (Web Store)** | **3.00 €** | **6.50 €** (Cel Mai Popular) | **Top 1 Skill** |
 | **Tarif Phoenix Coins (30 Zile)** | **8.000 PHX** | **12.000 PHX** | **20.000 PHX** |
 | **Puncte de Viata (HP Spawn)** | **105 HP** | **110 HP** | **115 HP** |
 | **Armura la Spawn (Armor)** | **100 AP** (cu Casca) | **105 AP** (cu Casca) | **105 AP** (cu Casca) |
@@ -42,7 +49,7 @@ Ecosistemul **VIP** de pe **WildFire.ro** este structurat pe 3 niveluri progresi
 
 * **VIP Rebirth (3.00 €):** Punctul ideal de intrare daca doresti slot rezervat garantat in orele de varf, un mic avantaj de viata (105 HP) si economie suplimentara.
 * **VIP Immortal (6.50 €) — Recomandat:** Cel mai solicitat pachet din comunitate. Abilitatea de **Double Jump**, seringa de **Healthshot** si timpul de **Fast Plant** ofera un avantaj tactic decisiv in duelurile 1v1.
-* **VIP Mythic (Top 1 Skill / 10.00 €):** Gradul suprem pentru cei mai buni jucatori. Include cele mai mari puncte de viata (115 HP), regenerare maxima si **multiplicator dublu (2.0x)** la credite.
+* **VIP Mythic (Top 1 Skill):** Gradul suprem pentru cei mai buni jucatori. Include cele mai mari puncte de viata (115 HP), regenerare maxima si **multiplicator dublu (2.0x)** la credite.
 
 ---
 

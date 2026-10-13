@@ -1,7 +1,14 @@
 ---
 title: Pachetul VIP Immortal
-description: Ghidul complet al pachetului VIP Immortal pe serverele WildFire CS2 — 6.5€, Double Jump, 110 HP, Healthshot, Fast Plant, tag roz si slot rezervat.
+description: >-
+  Ghidul complet al pachetului VIP Immortal pe serverele WildFire CS2 — 6.5€,
+  Double Jump, 110 HP, Healthshot, Fast Plant, tag roz si slot rezervat.
 outline: deep
+gitLastCommitter: Yakuza2377
+lastUpdatedBy: Yakuza
+author: Yakuza2377
+uploadedBy: Yakuza2377
+lastUpdated: 1791633744626
 ---
 
 Pachetul **VIP Immortal** este cel mai popular si apreciat grad de pe serverul **WildFire.ro**, conceput pentru jucatorii care doresc o combinatie ideala de mobilitate ridicata, avantaje tactice superioare, economie accelerata si personalizare audio-vizuala completa.
@@ -15,13 +22,13 @@ Pachetul **VIP Immortal** este cel mai popular si apreciat grad de pe serverul *
 
 ## 1. Tarife Oficiale & Durate de Achizitie
 
-Poti debloca gradul VIP Immortal atat cu bani reali de pe platforma web, cat si prin intermediul monedei serverului:
+Poti debloca gradul VIP Immortal cu bani reali de pe platforma web:
 
-| Durata Abonament | Pret in Euro (Web Store) | Pret in Phoenix Coins (In-Game) | Economie / Avantaj |
-| :--- | :--- | :--- | :--- |
-| **7 Zile** | — | **3.000 PHX** | Testare saptamanala |
-| **15 Zile** | — | **6.000 PHX** | Flexibilitate medie |
-| **30 Zile (1 Luna)** | **6.50 €** | **12.000 PHX** | **Cel mai avantajos tarif** |
+| Durata Abonament | Pret in Euro (Web Store) | Economie / Avantaj |
+| :--- | :--- | :--- |
+| **7 Zile** | ***—*** | ***Testare saptamanala*** |
+| **15 Zile** | ***—*** | ***Flexibilitate medie*** |
+| **30 Zile (1 Luna)** | **6.50 €** | ***Cel mai avantajos tarif*** |
 
 ---
 
@@ -29,19 +36,19 @@ Poti debloca gradul VIP Immortal atat cu bani reali de pe platforma web, cat si 
 
 | Categorie | Facilitate / Avantaj | Valoare / Detalii Tehnice |
 | :--- | :--- | :--- |
-| **Puncte de Viata (HP)** | **Spawn Health** | **110 HP** la inceputul fiecarei runde |
-| **Protectie & Armura** | **Spawn Armor** | **105 AP** (Armura completa + Casca garantata) |
-| **Regenerare Combat** | **HP la Kill** | **+12 HP** la eliminare / **+20 HP** la Headshot (Max 125 HP) |
-| **Trusa Medicala** | **Healthshot** | Seringa medicala primita la fiecare spawn (+50 HP) |
-| **Mobilitate** | **Double Jump & Viteza** | Săritură dublă în aer + **1.15x Viteza de deplasare** |
-| **Economie Meci** | **Bani Bonus pe Runda** | **+$1,200** fonduri suplimentare runda de runda |
-| **Economie Shop** | **Multiplicator Credite** | **1.6x** la toate creditele castigate din playtime |
-| **Echipament CT** | **Defuse Kit Gratuit** | Primesti automat cleste de dezamorsare in fiecare runda |
-| **Obiective T** | **Fast Plant** | Timp optimizat si accelerat la plantarea bombei C4 |
-| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | Tag `[IMMORTAL]` roz + acces la culori personalizate |
-| **Sunete & Audio** | **Sank Sounds & Entry** | Acces la comanda `!sm` + Melodie de intrare gratuita |
-| **Confort Server** | **Slot Rezervat Garantat** | Acces garantat chiar daca serverul afiseaza 32/32 |
-| **Comunitate** | **Rol Special Discord** | Gradul VIP Immortal sincronizat pe Discord |
+| **Puncte de Viata (HP)** | **Spawn Health** | **110 HP** ***la inceputul fiecarei runde*** |
+| **Protectie & Armura** | **Spawn Armor** | **105 AP** ***(Armura completa + Casca garantata)*** |
+| **Regenerare Combat** | **HP la Kill** | **+12 HP** ***la eliminare*** / **+20 HP** ***la Headshot (Max 125 HP)*** |
+| **Trusa Medicala** | **Healthshot** | ***Seringa medicala primita la fiecare spawn (+50 HP)*** |
+| **Mobilitate** | **Double Jump & Viteza** | ***Săritură dublă în aer + 1.15x Viteza de deplasare*** |
+| **Economie Meci** | **Bani Bonus pe Runda** | **+$1,200** ***fonduri suplimentare runda de runda*** |
+| **Economie Shop** | **Multiplicator Credite** | **1.6x** ***la toate creditele castigate din playtime*** |
+| **Echipament CT** | **Defuse Kit Gratuit** | ***Primesti automat cleste de dezamorsare in fiecare runda*** |
+| **Obiective T** | **Fast Plant** | ***Timp optimizat si accelerat la plantarea bombei C4*** |
+| **Identitate Chat & TAB** | **Tag & Culori Exclusive** | ***Tag*** `[IMMORTAL]` ***rosu + acces la culori personalizate*** |
+| **Sunete & Audio** | **Sank Sounds & Entry** | ***Acces la comanda `!sm` + Melodie de intrare gratuita*** |
+| **Confort Server** | **Slot Rezervat Garantat** | ***Acces garantat chiar daca serverul afiseaza 32/32*** |
+| **Comunitate** | **Rol Special Discord** | ***Gradul VIP Immortal sincronizat pe Discord*** |
 
 ---
 

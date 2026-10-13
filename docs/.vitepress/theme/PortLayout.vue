@@ -17,8 +17,10 @@ import DocsTransitionWrapper from './components/Docs/DocsTransitionWrapper.vue';
 import LiquidEffects from './components/ui/LiquidEffects.vue';
 import DocEnhancements from './components/Layout/DocEnhancements.vue';
 import { searchState } from './store';
-import { layout } from './composables/useLayout';
+import { layout, useLayout } from './composables/useLayout';
 import { api } from './composables/useApi';
+
+useLayout();
 
 const Admin = defineAsyncComponent(() => import('./components/admin/AdminShell.vue')),
   AI = defineAsyncComponent(() => import('./components/ui/AiHelper.vue'));
