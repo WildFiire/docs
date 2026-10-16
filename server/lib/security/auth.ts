@@ -66,7 +66,7 @@ const DEFAULT_HASH = process.env.ADMIN_INITIAL_PASSWORD
 
 export const SESSION_COOKIE_NAME = 'wf_admin_session';
 export const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days persistent login
-export const INACTIVITY_TIMEOUT_MS = 14 * 24 * 60 * 60 * 1000; // 14 days inactivity window
+export const INACTIVITY_TIMEOUT_MS = SESSION_DURATION_MS; // 30 days full persistent session window
 
 export const AUTH_ROOT_PERMISSIONS: TeamMemberPermissions = {
   canEditDocs: true,
@@ -142,51 +142,10 @@ export function verifyAdminCredentials(
   const member = findTeamMemberByUsernameSync(cleanUsername);
   if (member) {
     if (member.status === 'suspended') {
-      const isZombie = member.suspendedReason === 'inactivity_30d';
       return {
         valid: false,
-        error: isZombie
-          ? 'Cont înghețat din cauza inactivității (peste 30 de zile). Contactează un Root Admin pentru dezghețare din panou.'
-          : 'Acest cont a fost suspendat de către Root Administrator.',
+        error: 'Acest cont a fost suspendat de către Root Administrator.',
       };
-    }
-
-    // ── ZOMBIE ACCOUNT REAPER (30 days inactivity) ──
-    const INACTIVITY_LIMIT_MS = 30 * 24 * 60 * 60 * 1000;
-    if (!member.isRoot && member.role !== 'root_admin') {
-      const lastActivityTime = Math.max(
-        member.unfrozenAt ? new Date(member.unfrozenAt).getTime() : 0,
-        member.lastLoginAt ? new Date(member.lastLoginAt).getTime() : 0,
-        member.createdAt ? new Date(member.createdAt).getTime() : 0,
-      );
-
-      if (lastActivityTime > 0) {
-        const msSinceActivity = Date.now() - lastActivityTime;
-        if (msSinceActivity > INACTIVITY_LIMIT_MS) {
-          const all = loadTeamMembersSync();
-          const idx = all.findIndex((m) => m.id === member.id);
-          if (idx !== -1) {
-            all[idx].status = 'suspended';
-            all[idx].suspendedReason = 'inactivity_30d';
-            all[idx].suspendedAt = new Date().toISOString();
-            saveTeamMembers(all);
-          }
-          recordAuditEvent({
-            action: 'AUTH_LOGIN_FAILURE',
-            actor: member.username,
-            ip: '127.0.0.1',
-            details: {
-              error: 'ZOMBIE_ACCOUNT_FROZEN',
-              message: 'Account inactive for >30 days. Automatically suspended.',
-            },
-          });
-          return {
-            valid: false,
-            error:
-              'Cont înghețat din cauza inactivității (peste 30 de zile). Contactează un Root Admin pentru dezghețare din panou.',
-          };
-        }
-      }
     }
 
     const matchesHash = verifyPassword(cleanPassword, member.passwordHash, member.salt);

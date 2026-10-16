@@ -141,7 +141,7 @@ const canonicalEnv = `# ========================================================
 NEXT_PUBLIC_SITE_URL=https://docs.wildfire.ro
 NEXT_PUBLIC_APP_URL=https://docs.wildfire.ro
 
-ADMIN_SESSION_SECRET=${process.env.ADMIN_SESSION_SECRET || 'wf_docscore_super_fortress_key_2026'}
+ADMIN_SESSION_SECRET=${process.env.ADMIN_SESSION_SECRET || 'wf_docscore_super_fortress_key_2026_982341908754123897412'}
 ADMIN_DEFAULT_SALT=wf_root_salt_2026
 
 GITHUB_REPO_OWNER=WildFiire

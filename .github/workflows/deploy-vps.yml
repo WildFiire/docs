@@ -47,10 +47,6 @@ jobs:
             # Ensure runtime data and canonical configs are initialized
             node scripts/seed-runtime.mjs
 
-            # Ensure root security credentials and reset 2FA so admin can log in and re-link fresh
-            node -e "const fs=require('fs'); try{ const f='content/team.json'; if(fs.existsSync(f)){ const d=JSON.parse(fs.readFileSync(f)); d.forEach(u=>{ if(u.username==='iannC69'){ u.totpEnabled=false; u.passwordHash='b3653ccf7c0b19cea013f517b414680ce462764717d3409bd6da8d6e6ff95df9f664ef0c1b1e4cbb59db010f22561bc960edd00b41577e817f26081e83654636'; u.salt='salt_93d87be141f35c8efca066e6'; } }); fs.writeFileSync(f, JSON.stringify(d,null,2)); } }catch(e){}"
-
-
             # Start fresh API server directly via server.js
             pm2 start server.js --name wildfire-wiki-api --time
             pm2 save
