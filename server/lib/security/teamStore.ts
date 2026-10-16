@@ -333,7 +333,7 @@ export function getDefaultTeamMembers(): TeamMember[] {
   const initialPassword = process.env.ADMIN_INITIAL_PASSWORD;
   const rootHash = initialPassword
     ? hashPassword(initialPassword, rootSalt).hash
-    : 'ed43c8e23c47beafcea7f2638c8dcf78b47c8edaec4e09eba1064bcef06d7098fcaa3dca286553b5e276bcfbaad6049283b795bf65d001f239b67f16eb562c82';
+    : 'dee0c5c7710b6d978f58f2e559cb173ff01b954e21d2a5a48525868c1a243f5be6d6f9932158b7e5ef661e4e9da560c4734dc531d4d7357f3aa33415505bf9f3';
 
   return [
     {

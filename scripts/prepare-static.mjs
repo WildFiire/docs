@@ -69,7 +69,7 @@ try {
     .filter((u) => u.status === 'active')
     .map((u) => u.username);
 } catch {}
-const defaultUsernames = ['iannC69', 'Yakuza', 'V1ccX', 'umpy'];
+const defaultUsernames = ['iannC69', 'Yakuza', 'V1ccX', 'umpy', 'Laurentiu'];
 for (const u of defaultUsernames) {
   if (!users.includes(u)) users.push(u);
 }

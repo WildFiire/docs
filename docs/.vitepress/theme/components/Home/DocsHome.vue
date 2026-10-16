@@ -8,7 +8,7 @@ import RecentlyUpdatedSection from '../Docs/RecentlyUpdatedSection.vue';
       <section class="docs-home-hero">
         <div class="docs-home-badge">
           <span class="docs-badge-dot" aria-hidden="true" />
-          <span>Wildfire Documentation Engine v1.8.5</span>
+          <span>Wildfire Documentation Engine v2.0.0</span>
         </div>
         <h1 class="docs-home-title">Wildfire Documentation Hub</h1>
         <p class="docs-home-desc">

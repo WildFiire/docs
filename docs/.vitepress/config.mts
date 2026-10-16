@@ -121,8 +121,39 @@ export default defineConfig({
 
 
     nav: [
-      { text: 'Informații', link: '/docs/informatii/about' },
-      { text: 'FAQ', link: '/docs/informatii/faq' },
+      {
+        text: 'Informații',
+        items: [
+          { text: 'Despre Comunitate', link: '/docs/informatii/about' },
+          { text: 'Ghid de Început CS2', link: '/docs/informatii/getting-started' },
+          { text: 'Catalog Comenzi Jucători', link: '/docs/informatii/comenzi-jucatori' },
+          { text: 'Regulamente Oficiale', link: '/docs/informatii/regulamente/regulament-go' },
+          { text: 'Întrebări Frecvente (FAQ)', link: '/docs/informatii/faq' }
+        ]
+      },
+      {
+        text: 'Sisteme',
+        items: [
+          { text: 'Prezentare Sisteme', link: '/docs/systems' },
+          { text: 'WeaponSkins (!ws)', link: '/docs/systems/skins' },
+          { text: 'Casino & Gambling', link: '/docs/systems/gambling/roulette' },
+          { text: 'Magazin Cosmetic (!shop)', link: '/docs/systems/shop/chat-tags' },
+          { text: 'BattlePass Sezonier (!bp)', link: '/docs/systems/other/battlepass' },
+          { text: 'Misiuni Zilnice (!missions)', link: '/docs/systems/other/missions' },
+          { text: 'Rank & ELO Competitiv', link: '/docs/systems/other/ranks' }
+        ]
+      },
+      {
+        text: 'Economie & VIP',
+        items: [
+          { text: 'Sistem Valute & Economie', link: '/docs/currency' },
+          { text: 'Credite In-Game (!shop)', link: '/docs/currency/credits' },
+          { text: 'Phoenix Coins (PHX)', link: '/docs/currency/phoenixcoins' },
+          { text: 'Pachete & Grade VIP', link: '/docs/market/vip/vip-overview' },
+          { text: 'Magazin Premium', link: '/docs/market/premium-shop' },
+          { text: 'Sloturi Rezervate', link: '/docs/market/server-slots' }
+        ]
+      },
       { text: 'Changelog', link: '/changelog' },
       { text: 'Echipă', link: '/team' }
     ],

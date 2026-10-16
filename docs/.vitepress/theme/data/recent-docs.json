@@ -1,41 +1,5 @@
 [
   {
-    "slug": "informatii/contact",
-    "href": "/docs/informatii/contact",
-    "title": "Contact & Support",
-    "description": "Cum poți contacta echipa Wildfire.ro — Discord, Steam, GitHub și alte canale de comunicare.",
-    "category": "informatii",
-    "readingTime": 2,
-    "commitHash": "37a0aa9fe085d5de9359317b21bad445af4bb951",
-    "timestamp": 1791880285,
-    "authorName": "iannC",
-    "authorAvatar": "https://github.com/iannC69.png"
-  },
-  {
-    "slug": "informatii/privacy",
-    "href": "/docs/informatii/privacy",
-    "title": "Politica de Confidențialitate",
-    "description": "Politica de confidențialitate și protecția datelor personale pentru platforma Wildfire.ro Docs și serverele CS2.",
-    "category": "informatii",
-    "readingTime": 4,
-    "commitHash": "37a0aa9fe085d5de9359317b21bad445af4bb951",
-    "timestamp": 1791880285,
-    "authorName": "iannC",
-    "authorAvatar": "https://github.com/iannC69.png"
-  },
-  {
-    "slug": "informatii/terms",
-    "href": "/docs/informatii/terms",
-    "title": "Termeni și Condiții",
-    "description": "Termenii și condițiile de utilizare a platformei Wildfire.ro Docs și a serverelor CS2 Wildfire.",
-    "category": "informatii",
-    "readingTime": 4,
-    "commitHash": "37a0aa9fe085d5de9359317b21bad445af4bb951",
-    "timestamp": 1791880285,
-    "authorName": "iannC",
-    "authorAvatar": "https://github.com/iannC69.png"
-  },
-  {
     "slug": "market/vip/rebirth",
     "href": "/docs/market/vip/rebirth",
     "title": "Pachetul VIP Rebirth",
@@ -572,6 +536,30 @@
     "readingTime": 5,
     "commitHash": "b36170f121f31fc0016791a669612a4059244560",
     "timestamp": 1791120460,
+    "authorName": "iannC",
+    "authorAvatar": "https://github.com/iannC69.png"
+  },
+  {
+    "slug": "informatii/comenzi-jucatori",
+    "href": "/docs/informatii/comenzi-jucatori",
+    "title": "Catalog Comenzi Jucători CS2",
+    "description": "Ghidul complet și catalogul centralizat al tuturor comenzilor disponibile pentru jucătorii serverului WildFire.ro CS2.",
+    "category": "informatii",
+    "readingTime": 4,
+    "commitHash": "",
+    "timestamp": 0,
+    "authorName": "iannC",
+    "authorAvatar": "https://github.com/iannC69.png"
+  },
+  {
+    "slug": "systems/other/battlepass",
+    "href": "/docs/systems/other/battlepass",
+    "title": "Sistemul BattlePass Sezonier (!battlepass)",
+    "description": "Ghidul complet al sistemului BattlePass pe serverele WildFire CS2 — nivele, progresie XP, recompense gratuite și exclusive, și comenzi in-game.",
+    "category": "systems",
+    "readingTime": 3,
+    "commitHash": "",
+    "timestamp": 0,
     "authorName": "iannC",
     "authorAvatar": "https://github.com/iannC69.png"
   }

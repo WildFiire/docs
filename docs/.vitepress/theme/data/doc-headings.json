@@ -379,97 +379,87 @@
       "depth": 2
     }
   ],
-  "informatii/contact": [
+  "informatii/comenzi-jucatori": [
     {
-      "id": "discord-—-canalul-principal",
-      "title": "Discord — Canalul Principal",
+      "id": "_1-personalizare-skin-uri-echipament-weaponskins",
+      "title": "1. Personalizare Skin-uri & Echipament (WeaponSkins)",
       "depth": 2
     },
     {
-      "id": "cum-deschizi-un-ticket",
-      "title": "Cum deschizi un ticket?",
-      "depth": 3
-    },
-    {
-      "id": "cand-sa-deschizi-un-ticket",
-      "title": "Când să deschizi un ticket?",
-      "depth": 3
-    },
-    {
-      "id": "link-uri-utile",
-      "title": "Link-uri Utile",
+      "id": "_2-economie-balanta-magazin-in-game",
+      "title": "2. Economie, Balanță & Magazin In-Game",
       "depth": 2
     },
     {
-      "id": "echipa-de-staff",
-      "title": "Echipa de Staff",
+      "id": "_3-minijocuri-casino-in-game",
+      "title": "3. Minijocuri & Casino In-Game",
       "depth": 2
     },
     {
-      "id": "fondator-comunitate",
-      "title": "Fondator Comunitate:",
-      "depth": 3
-    },
-    {
-      "id": "administratie-documentatie",
-      "title": "Administrație & Documentație:",
-      "depth": 3
-    },
-    {
-      "id": "raportare-erori-documentatie",
-      "title": "Raportare Erori Documentație",
+      "id": "_4-utilitati-meci-sunete-optimizare-fps",
+      "title": "4. Utilități Meci, Sunete & Optimizare FPS",
       "depth": 2
     },
     {
-      "id": "notificari-de-securitate",
-      "title": "Notificări de Securitate",
+      "id": "_5-progresie-rank-clasamente",
+      "title": "5. Progresie, Rank & Clasamente",
+      "depth": 2
+    },
+    {
+      "id": "_6-asistenta-raportare-conectare-cont",
+      "title": "6. Asistență, Raportare & Conectare Cont",
+      "depth": 2
+    },
+    {
+      "id": "_7-pachete-comenzi-vip",
+      "title": "7. Pachete & Comenzi VIP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-recomandate",
+      "title": "Resurse Recomandate",
       "depth": 2
     }
   ],
-  "docs/informatii/contact": [
+  "docs/informatii/comenzi-jucatori": [
     {
-      "id": "discord-—-canalul-principal",
-      "title": "Discord — Canalul Principal",
+      "id": "_1-personalizare-skin-uri-echipament-weaponskins",
+      "title": "1. Personalizare Skin-uri & Echipament (WeaponSkins)",
       "depth": 2
     },
     {
-      "id": "cum-deschizi-un-ticket",
-      "title": "Cum deschizi un ticket?",
-      "depth": 3
-    },
-    {
-      "id": "cand-sa-deschizi-un-ticket",
-      "title": "Când să deschizi un ticket?",
-      "depth": 3
-    },
-    {
-      "id": "link-uri-utile",
-      "title": "Link-uri Utile",
+      "id": "_2-economie-balanta-magazin-in-game",
+      "title": "2. Economie, Balanță & Magazin In-Game",
       "depth": 2
     },
     {
-      "id": "echipa-de-staff",
-      "title": "Echipa de Staff",
+      "id": "_3-minijocuri-casino-in-game",
+      "title": "3. Minijocuri & Casino In-Game",
       "depth": 2
     },
     {
-      "id": "fondator-comunitate",
-      "title": "Fondator Comunitate:",
-      "depth": 3
-    },
-    {
-      "id": "administratie-documentatie",
-      "title": "Administrație & Documentație:",
-      "depth": 3
-    },
-    {
-      "id": "raportare-erori-documentatie",
-      "title": "Raportare Erori Documentație",
+      "id": "_4-utilitati-meci-sunete-optimizare-fps",
+      "title": "4. Utilități Meci, Sunete & Optimizare FPS",
       "depth": 2
     },
     {
-      "id": "notificari-de-securitate",
-      "title": "Notificări de Securitate",
+      "id": "_5-progresie-rank-clasamente",
+      "title": "5. Progresie, Rank & Clasamente",
+      "depth": 2
+    },
+    {
+      "id": "_6-asistenta-raportare-conectare-cont",
+      "title": "6. Asistență, Raportare & Conectare Cont",
+      "depth": 2
+    },
+    {
+      "id": "_7-pachete-comenzi-vip",
+      "title": "7. Pachete & Comenzi VIP",
+      "depth": 2
+    },
+    {
+      "id": "resurse-recomandate",
+      "title": "Resurse Recomandate",
       "depth": 2
     }
   ],
@@ -708,150 +698,6 @@
     {
       "id": "urmatorii-pasi-recomandati",
       "title": "Urmatorii Pasi Recomandati",
-      "depth": 2
-    }
-  ],
-  "informatii/privacy": [
-    {
-      "id": "_1-ce-date-colectam",
-      "title": "1. Ce Date Colectăm",
-      "depth": 2
-    },
-    {
-      "id": "date-furnizate-direct-de-tine",
-      "title": "Date furnizate direct de tine",
-      "depth": 3
-    },
-    {
-      "id": "date-colectate-automat-pe-site",
-      "title": "Date colectate automat pe site",
-      "depth": 3
-    },
-    {
-      "id": "date-pe-care-nu-le-colectam",
-      "title": "Date pe care NU le colectăm",
-      "depth": 3
-    },
-    {
-      "id": "_2-cum-folosim-datele",
-      "title": "2. Cum Folosim Datele",
-      "depth": 2
-    },
-    {
-      "id": "_3-cookies",
-      "title": "3. Cookies",
-      "depth": 2
-    },
-    {
-      "id": "_4-partajarea-datelor",
-      "title": "4. Partajarea Datelor",
-      "depth": 2
-    },
-    {
-      "id": "_5-securitatea-datelor",
-      "title": "5. Securitatea Datelor",
-      "depth": 2
-    },
-    {
-      "id": "_6-drepturile-tale-gdpr",
-      "title": "6. Drepturile Tale (GDPR)",
-      "depth": 2
-    },
-    {
-      "id": "cum-iti-exerciti-drepturile",
-      "title": "Cum îți exerciți drepturile?",
-      "depth": 3
-    },
-    {
-      "id": "_7-retentia-datelor",
-      "title": "7. Retenția Datelor",
-      "depth": 2
-    },
-    {
-      "id": "_8-protectia-minorilor",
-      "title": "8. Protecția Minorilor",
-      "depth": 2
-    },
-    {
-      "id": "_9-actualizari-ale-politicii",
-      "title": "9. Actualizări ale Politicii",
-      "depth": 2
-    },
-    {
-      "id": "_10-contact",
-      "title": "10. Contact",
-      "depth": 2
-    }
-  ],
-  "docs/informatii/privacy": [
-    {
-      "id": "_1-ce-date-colectam",
-      "title": "1. Ce Date Colectăm",
-      "depth": 2
-    },
-    {
-      "id": "date-furnizate-direct-de-tine",
-      "title": "Date furnizate direct de tine",
-      "depth": 3
-    },
-    {
-      "id": "date-colectate-automat-pe-site",
-      "title": "Date colectate automat pe site",
-      "depth": 3
-    },
-    {
-      "id": "date-pe-care-nu-le-colectam",
-      "title": "Date pe care NU le colectăm",
-      "depth": 3
-    },
-    {
-      "id": "_2-cum-folosim-datele",
-      "title": "2. Cum Folosim Datele",
-      "depth": 2
-    },
-    {
-      "id": "_3-cookies",
-      "title": "3. Cookies",
-      "depth": 2
-    },
-    {
-      "id": "_4-partajarea-datelor",
-      "title": "4. Partajarea Datelor",
-      "depth": 2
-    },
-    {
-      "id": "_5-securitatea-datelor",
-      "title": "5. Securitatea Datelor",
-      "depth": 2
-    },
-    {
-      "id": "_6-drepturile-tale-gdpr",
-      "title": "6. Drepturile Tale (GDPR)",
-      "depth": 2
-    },
-    {
-      "id": "cum-iti-exerciti-drepturile",
-      "title": "Cum îți exerciți drepturile?",
-      "depth": 3
-    },
-    {
-      "id": "_7-retentia-datelor",
-      "title": "7. Retenția Datelor",
-      "depth": 2
-    },
-    {
-      "id": "_8-protectia-minorilor",
-      "title": "8. Protecția Minorilor",
-      "depth": 2
-    },
-    {
-      "id": "_9-actualizari-ale-politicii",
-      "title": "9. Actualizări ale Politicii",
-      "depth": 2
-    },
-    {
-      "id": "_10-contact",
-      "title": "10. Contact",
       "depth": 2
     }
   ],
@@ -1584,210 +1430,6 @@
     {
       "id": "resurse-administrative-conexe",
       "title": "Resurse Administrative Conexe",
-      "depth": 2
-    }
-  ],
-  "informatii/terms": [
-    {
-      "id": "_1-definitii",
-      "title": "1. Definiții",
-      "depth": 2
-    },
-    {
-      "id": "_2-acceptarea-termenilor",
-      "title": "2. Acceptarea Termenilor",
-      "depth": 2
-    },
-    {
-      "id": "_3-contul-tau",
-      "title": "3. Contul Tău",
-      "depth": 2
-    },
-    {
-      "id": "acces-pe-servere",
-      "title": "Acces pe Servere",
-      "depth": 3
-    },
-    {
-      "id": "acces-la-panoul-de-administrare",
-      "title": "Acces la Panoul de Administrare",
-      "depth": 3
-    },
-    {
-      "id": "_4-utilizare-acceptabila",
-      "title": "4. Utilizare Acceptabilă",
-      "depth": 2
-    },
-    {
-      "id": "actiuni-permise",
-      "title": "Acțiuni Permise:",
-      "depth": 3
-    },
-    {
-      "id": "conduite-interzise",
-      "title": "Conduite Interzise:",
-      "depth": 3
-    },
-    {
-      "id": "_5-regulamentele-serverelor",
-      "title": "5. Regulamentele Serverelor",
-      "depth": 2
-    },
-    {
-      "id": "_6-achizitii-si-donatii",
-      "title": "6. Achiziții și Donații",
-      "depth": 2
-    },
-    {
-      "id": "pachete-vip-si-magazin-premium",
-      "title": "Pachete VIP și Magazin Premium",
-      "depth": 3
-    },
-    {
-      "id": "economia-virtuala",
-      "title": "Economia Virtuală",
-      "depth": 3
-    },
-    {
-      "id": "_7-proprietate-intelectuala",
-      "title": "7. Proprietate Intelectuală",
-      "depth": 2
-    },
-    {
-      "id": "continutul-comunitatii",
-      "title": "Conținutul Comunității",
-      "depth": 3
-    },
-    {
-      "id": "drepturi-terte-parti",
-      "title": "Drepturi Terțe Părți",
-      "depth": 3
-    },
-    {
-      "id": "_8-limitarea-raspunderii",
-      "title": "8. Limitarea Răspunderii",
-      "depth": 2
-    },
-    {
-      "id": "_9-sanctiuni-disciplinare",
-      "title": "9. Sancțiuni Disciplinare",
-      "depth": 2
-    },
-    {
-      "id": "_10-modificarea-termenilor",
-      "title": "10. Modificarea Termenilor",
-      "depth": 2
-    },
-    {
-      "id": "_11-legislatie-aplicabila",
-      "title": "11. Legislație Aplicabilă",
-      "depth": 2
-    },
-    {
-      "id": "_12-canale-de-contact",
-      "title": "12. Canale de Contact",
-      "depth": 2
-    }
-  ],
-  "docs/informatii/terms": [
-    {
-      "id": "_1-definitii",
-      "title": "1. Definiții",
-      "depth": 2
-    },
-    {
-      "id": "_2-acceptarea-termenilor",
-      "title": "2. Acceptarea Termenilor",
-      "depth": 2
-    },
-    {
-      "id": "_3-contul-tau",
-      "title": "3. Contul Tău",
-      "depth": 2
-    },
-    {
-      "id": "acces-pe-servere",
-      "title": "Acces pe Servere",
-      "depth": 3
-    },
-    {
-      "id": "acces-la-panoul-de-administrare",
-      "title": "Acces la Panoul de Administrare",
-      "depth": 3
-    },
-    {
-      "id": "_4-utilizare-acceptabila",
-      "title": "4. Utilizare Acceptabilă",
-      "depth": 2
-    },
-    {
-      "id": "actiuni-permise",
-      "title": "Acțiuni Permise:",
-      "depth": 3
-    },
-    {
-      "id": "conduite-interzise",
-      "title": "Conduite Interzise:",
-      "depth": 3
-    },
-    {
-      "id": "_5-regulamentele-serverelor",
-      "title": "5. Regulamentele Serverelor",
-      "depth": 2
-    },
-    {
-      "id": "_6-achizitii-si-donatii",
-      "title": "6. Achiziții și Donații",
-      "depth": 2
-    },
-    {
-      "id": "pachete-vip-si-magazin-premium",
-      "title": "Pachete VIP și Magazin Premium",
-      "depth": 3
-    },
-    {
-      "id": "economia-virtuala",
-      "title": "Economia Virtuală",
-      "depth": 3
-    },
-    {
-      "id": "_7-proprietate-intelectuala",
-      "title": "7. Proprietate Intelectuală",
-      "depth": 2
-    },
-    {
-      "id": "continutul-comunitatii",
-      "title": "Conținutul Comunității",
-      "depth": 3
-    },
-    {
-      "id": "drepturi-terte-parti",
-      "title": "Drepturi Terțe Părți",
-      "depth": 3
-    },
-    {
-      "id": "_8-limitarea-raspunderii",
-      "title": "8. Limitarea Răspunderii",
-      "depth": 2
-    },
-    {
-      "id": "_9-sanctiuni-disciplinare",
-      "title": "9. Sancțiuni Disciplinare",
-      "depth": 2
-    },
-    {
-      "id": "_10-modificarea-termenilor",
-      "title": "10. Modificarea Termenilor",
-      "depth": 2
-    },
-    {
-      "id": "_11-legislatie-aplicabila",
-      "title": "11. Legislație Aplicabilă",
-      "depth": 2
-    },
-    {
-      "id": "_12-canale-de-contact",
-      "title": "12. Canale de Contact",
       "depth": 2
     }
   ],
@@ -2690,6 +2332,80 @@
     {
       "id": "resurse-si-sisteme-conexe",
       "title": "Resurse si Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "systems/other/battlepass": [
+    {
+      "id": "_1-cum-functioneaza-progresia-battlepass",
+      "title": "1. Cum Funcționează Progresia BattlePass",
+      "depth": 2
+    },
+    {
+      "id": "_2-nivele-cai-de-recompensa-free-vs-vip",
+      "title": "2. Nivele & Căi de Recompensă (Free vs VIP)",
+      "depth": 2
+    },
+    {
+      "id": "calea-gratuita-free-pass",
+      "title": "Calea Gratuită (Free Pass)",
+      "depth": 3
+    },
+    {
+      "id": "calea-premium-vip-elite-pass",
+      "title": "Calea Premium / VIP (Elite Pass)",
+      "depth": 3
+    },
+    {
+      "id": "_3-tabelul-nivelelor-de-recompensa",
+      "title": "3. Tabelul Nivelelor de Recompensă",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-in-game-pentru-battlepass",
+      "title": "4. Comenzi In-Game pentru BattlePass",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse și Sisteme Conexe",
+      "depth": 2
+    }
+  ],
+  "docs/systems/other/battlepass": [
+    {
+      "id": "_1-cum-functioneaza-progresia-battlepass",
+      "title": "1. Cum Funcționează Progresia BattlePass",
+      "depth": 2
+    },
+    {
+      "id": "_2-nivele-cai-de-recompensa-free-vs-vip",
+      "title": "2. Nivele & Căi de Recompensă (Free vs VIP)",
+      "depth": 2
+    },
+    {
+      "id": "calea-gratuita-free-pass",
+      "title": "Calea Gratuită (Free Pass)",
+      "depth": 3
+    },
+    {
+      "id": "calea-premium-vip-elite-pass",
+      "title": "Calea Premium / VIP (Elite Pass)",
+      "depth": 3
+    },
+    {
+      "id": "_3-tabelul-nivelelor-de-recompensa",
+      "title": "3. Tabelul Nivelelor de Recompensă",
+      "depth": 2
+    },
+    {
+      "id": "_4-comenzi-in-game-pentru-battlepass",
+      "title": "4. Comenzi In-Game pentru BattlePass",
+      "depth": 2
+    },
+    {
+      "id": "resurse-si-sisteme-conexe",
+      "title": "Resurse și Sisteme Conexe",
       "depth": 2
     }
   ],

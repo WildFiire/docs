@@ -176,7 +176,8 @@ export async function getDocFeedbackStats(slug: string): Promise<FeedbackStats> 
 
 export async function getAllFeedbacks(): Promise<DocFeedbackRecord[]> {
   const localRecords = localGetAllFeedbacks();
-  const notifications = localGetNotifications({ limit: 1000 });
+  const notifData = localGetNotifications('all', { limit: 1000 });
+  const notifications = notifData?.notifications || [];
   const supabaseConfig = getActiveSupabaseConfig();
   let feedbacks: DocFeedbackRecord[] = [];
 

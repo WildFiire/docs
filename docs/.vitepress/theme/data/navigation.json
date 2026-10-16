@@ -21,6 +21,12 @@
         "order": 99
       },
       {
+        "title": "Catalog Comenzi Jucatori",
+        "slug": "informatii/comenzi-jucatori",
+        "href": "/docs/informatii/comenzi-jucatori",
+        "order": 99
+      },
+      {
         "title": "Regulamente Oficiale",
         "slug": "informatii/regulamente",
         "href": "/docs/informatii/regulamente",
@@ -71,24 +77,6 @@
             "order": 99
           }
         ]
-      },
-      {
-        "title": "Contact & Support",
-        "slug": "informatii/contact",
-        "href": "/docs/informatii/contact",
-        "order": 99
-      },
-      {
-        "title": "Politica de Confidentialitate",
-        "slug": "informatii/privacy",
-        "href": "/docs/informatii/privacy",
-        "order": 99
-      },
-      {
-        "title": "Termeni si Conditii",
-        "slug": "informatii/terms",
-        "href": "/docs/informatii/terms",
-        "order": 99
       }
     ]
   },
@@ -202,6 +190,12 @@
             "title": "Sistemul de Mentiuni in Chat (@Nume)",
             "slug": "systems/other/mention-system",
             "href": "/docs/systems/other/mention-system",
+            "order": 99
+          },
+          {
+            "title": "Sistemul BattlePass Sezonier (!bp)",
+            "slug": "systems/other/battlepass",
+            "href": "/docs/systems/other/battlepass",
             "order": 99
           },
           {

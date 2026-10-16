@@ -66,7 +66,7 @@ function getChangeBadge(type: ChangeType) {
             <span>Live Git Synchronized</span>
           </div>
           <a
-            href="https://github.com/iannC69/wf-docscore/releases"
+            href="https://github.com/WildFiire/docs/releases"
             target="_blank"
             rel="noopener noreferrer"
             class="hero-github-releases-btn"

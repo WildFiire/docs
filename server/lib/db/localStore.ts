@@ -9,7 +9,11 @@ import type {
   DatabaseConfig,
 } from './types';
 import type { AdminTask } from '@server/types/tasks';
-import type { AdminNotification, NotificationFilterOptions } from '@server/types/notifications';
+import type {
+  AdminNotification,
+  NotificationFilterOptions,
+  NotificationPreferences,
+} from '@server/types/notifications';
 import {
   supabaseIncrementDocView,
   supabaseSubmitFeedback,
@@ -534,16 +538,26 @@ export function localCreateNotification(
 }
 
 export function localGetNotifications(
-  username: string,
-  filter?: NotificationFilterOptions,
+  usernameOrFilter?: string | NotificationFilterOptions,
+  filterOptions?: NotificationFilterOptions,
 ): {
   notifications: AdminNotification[];
   unreadCount: number;
   personalCount: number;
   globalCount: number;
+  preferences?: NotificationPreferences;
 } {
   const store = readAnalyticsStore();
   const rawList = store.notifications || [];
+
+  let username = '';
+  let filter = filterOptions;
+  if (typeof usernameOrFilter === 'string') {
+    username = usernameOrFilter;
+  } else if (usernameOrFilter && typeof usernameOrFilter === 'object') {
+    filter = usernameOrFilter;
+  }
+
   const normalizedUser = (username || '').toLowerCase().trim();
 
   // If store has 0 notifications, seed initial starter notifications
@@ -608,6 +622,7 @@ export function localGetNotifications(
 
   // Filter notifications visible to this user (global OR targeted to this user)
   let visible = (store.notifications || []).filter((n) => {
+    if (!normalizedUser || normalizedUser === 'all' || normalizedUser === 'system') return true;
     if (n.isGlobal || !n.targetUser) return true;
     return n.targetUser.toLowerCase().trim() === normalizedUser;
   });

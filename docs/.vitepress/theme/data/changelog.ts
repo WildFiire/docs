@@ -30,8 +30,64 @@ export interface ReleaseEntry {
 
 export const RELEASES_DATA: ReleaseEntry[] = [
   {
-    version: 'v1.8.5',
+    version: 'v2.0.0',
     isLatest: true,
+    date: 'October 16, 2026',
+    title: 'Team Dossier 2.0, Liquid Loading Flow, CS2 Player Cheat-Sheet & Auto-Seeding Pipeline',
+    summary:
+      'Major release introducing the modern Team & Contributor Dossier architecture with live GitHub stats, progressive liquid login flow, expanded CS2 player commands, BattlePass integration, and optimized static mirroring.',
+    author: {
+      name: 'iannC69',
+      username: 'iannC69',
+      avatar: 'https://github.com/iannC69.png',
+    },
+    git: {
+      commitHash: '46d79a2',
+      commitUrl: 'https://github.com/WildFiire/docs/commit/46d79a2',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v2.0.0',
+    },
+    changes: [
+      {
+        type: 'feature',
+        title: 'Team & Contributor Dossier 2.0 with interactive profiles and live stats',
+        description:
+          'Dedicated profile views for all active members (iannC69, Yakuza, V1ccX, umpy, Laurentiu) featuring GitHub commit telemetry, roles, badges, and responsibility breakdown.',
+      },
+      {
+        type: 'feature',
+        title: 'CS2 Player Commands Master Cheat-Sheet & BattlePass Guide',
+        description:
+          'Added complete in-game command reference catalog and comprehensive BattlePass progression documentation.',
+      },
+      {
+        type: 'improvement',
+        title: 'Progressive Liquid Loading Authentication Flow',
+        description:
+          'Overhauled login experience with smooth liquid progress transitions and resilient multi-provider admin session management.',
+      },
+      {
+        type: 'improvement',
+        title: 'Multi-tiered Header Navigation Bar with category dropdowns',
+        description:
+          'Direct desktop access to Info, Systems, Economy, VIP, Changelog, and Team with rich interactive dropdowns.',
+      },
+      {
+        type: 'fix',
+        title: 'OpenGraph metadata image fallback and cross-route slug normalization',
+        description:
+          'Corrected social sharing preview assets and mirrored path resolutions across root and /docs/ routes.',
+      },
+    ],
+    highlights: [
+      'Official v2.0.0 Production Release',
+      'Team Dossier 2.0 & Live GitHub Telemetry',
+      'CS2 Player Commands & BattlePass Guides',
+    ],
+    slug: 'v2-0-0',
+  },
+  {
+    version: 'v1.8.5',
+    isLatest: false,
     date: 'August 21, 2026',
     title: 'Cookie Consent Morphing, CS2 Community Spotlight & Admin Fortress 2.0',
     summary:
@@ -43,8 +99,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: 'e4c892a',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/commit/e4c892a',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.8.5',
+      commitUrl: 'https://github.com/WildFiire/docs/commit/e4c892a',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.8.5',
     },
     changes: [
       {
@@ -96,8 +152,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: 'b58c95f',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/commit/b58c95f',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.8.0',
+      commitUrl: 'https://github.com/WildFiire/docs/commit/b58c95f',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.8.0',
     },
     changes: [
       {
@@ -171,8 +227,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: 'HEAD',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/tree/main',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.7.0',
+      commitUrl: 'https://github.com/WildFiire/docs/tree/main',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.7.0',
     },
     changes: [
       {
@@ -250,8 +306,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: 'HEAD',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/tree/main',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.6.0',
+      commitUrl: 'https://github.com/WildFiire/docs/tree/main',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.6.0',
     },
     changes: [
       {
@@ -329,8 +385,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: 'HEAD',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/tree/main',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.5.0',
+      commitUrl: 'https://github.com/WildFiire/docs/tree/main',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.5.0',
     },
     changes: [
       {
@@ -399,8 +455,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: '9d8293e',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/commit/9d8293e',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.4.0',
+      commitUrl: 'https://github.com/WildFiire/docs/commit/9d8293e',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.4.0',
     },
     changes: [
       {
@@ -453,8 +509,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: '892fa56',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/commit/892fa56',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.3.0',
+      commitUrl: 'https://github.com/WildFiire/docs/commit/892fa56',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.3.0',
     },
     changes: [
       {
@@ -529,8 +585,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: 'e739c21',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/commit/e739c21',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.2.0',
+      commitUrl: 'https://github.com/WildFiire/docs/commit/e739c21',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.2.0',
     },
     changes: [
       {
@@ -579,8 +635,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: '3cbb240',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/commit/3cbb240',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.1.0',
+      commitUrl: 'https://github.com/WildFiire/docs/commit/3cbb240',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.1.0',
     },
     changes: [
       {
@@ -628,8 +684,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: 'f2bfbdf',
-      commitUrl: 'https://github.com/iannC69/wf-docscore/commit/f2bfbdf',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v1.0.0',
+      commitUrl: 'https://github.com/WildFiire/docs/commit/f2bfbdf',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v1.0.0',
     },
     changes: [
       {
@@ -678,8 +734,8 @@ export const RELEASES_DATA: ReleaseEntry[] = [
     },
     git: {
       commitHash: '0a1b2c3',
-      commitUrl: 'https://github.com/iannC69/wf-docscore',
-      tagUrl: 'https://github.com/iannC69/wf-docscore/releases/tag/v0.9.0',
+      commitUrl: 'https://github.com/WildFiire/docs',
+      tagUrl: 'https://github.com/WildFiire/docs/releases/tag/v0.9.0',
     },
     changes: [
       {

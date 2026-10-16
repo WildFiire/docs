@@ -51,7 +51,7 @@ const activeMemberUsername = computed(() => {
   return null;
 });
 
-const CURRENT_VERSION = '1.8.5';
+const CURRENT_VERSION = '2.0.0';
 
 const members = ref<PublicTeamMember[]>([]);
 const loading = ref(true);
@@ -99,6 +99,8 @@ const TEAM_AVATAR_MAP: Record<string, string> = {
   yakuza2377: 'https://github.com/Yakuza2377.png',
   umpy: 'https://github.com/umpy04.png',
   umpy04: 'https://github.com/umpy04.png',
+  laurentiu: 'https://github.com/Laur3nt1uu.png',
+  laur3nt1uu: 'https://github.com/Laur3nt1uu.png',
 };
 
 function getMemberAvatarUrl(member: PublicTeamMember): string {

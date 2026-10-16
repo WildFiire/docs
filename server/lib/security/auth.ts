@@ -62,7 +62,7 @@ function persistSessions() {
 const DEFAULT_SALT = process.env.ADMIN_DEFAULT_SALT || 'wf_root_salt_2026';
 const DEFAULT_HASH = process.env.ADMIN_INITIAL_PASSWORD
   ? hashPassword(process.env.ADMIN_INITIAL_PASSWORD, DEFAULT_SALT).hash
-  : 'ed43c8e23c47beafcea7f2638c8dcf78b47c8edaec4e09eba1064bcef06d7098fcaa3dca286553b5e276bcfbaad6049283b795bf65d001f239b67f16eb562c82';
+  : 'dee0c5c7710b6d978f58f2e559cb173ff01b954e21d2a5a48525868c1a243f5be6d6f9932158b7e5ef661e4e9da560c4734dc531d4d7357f3aa33415505bf9f3';
 
 export const SESSION_COOKIE_NAME = 'wf_admin_session';
 export const SESSION_DURATION_MS = 30 * 24 * 60 * 60 * 1000; // 30 days persistent login

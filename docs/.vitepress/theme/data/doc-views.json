@@ -209,28 +209,16 @@
     "today_views": 1,
     "last_viewed_at": "2026-10-04T08:40:05.075Z"
   },
-  "informatii/contact": {
-    "slug": "informatii/contact",
-    "total_views": 1,
-    "today_views": 1,
-    "last_viewed_at": "2026-10-12T18:51:31.364Z"
-  },
-  "informatii/terms": {
-    "slug": "informatii/terms",
-    "total_views": 14,
-    "today_views": 14,
-    "last_viewed_at": "2026-10-12T19:08:41.376Z"
-  },
   "informatii": {
     "slug": "informatii",
     "total_views": 1,
     "today_views": 1,
     "last_viewed_at": "2026-10-12T19:06:27.398Z"
   },
-  "informatii/privacy": {
-    "slug": "informatii/privacy",
+  "informatii/comenzi-jucatori": {
+    "slug": "informatii/comenzi-jucatori",
     "total_views": 1,
     "today_views": 1,
-    "last_viewed_at": "2026-10-12T19:06:40.553Z"
+    "last_viewed_at": "2026-10-16T18:17:53.706Z"
   }
 }
