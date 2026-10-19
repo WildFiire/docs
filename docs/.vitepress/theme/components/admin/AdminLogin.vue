@@ -69,117 +69,26 @@ const KNOWN_ADMINS: Record<string, KnownAdmin> = {
     isRoot: true,
     docsModifiedCount: 62,
   },
-  trapi: {
-    username: 'Trapi',
-    displayName: 'Trapi',
-    customTitle: 'Founder & Lead Developer',
-    avatarUrl: 'https://github.com/trapi.png',
-    avatarColor: '#ef4444',
-    role: 'Root Founder',
-    badges: ['FOUNDER', 'LEAD DEV'],
-    responsibilities: [
-      'Arhitectură Tehnică & Infrastructură Servere',
-      'Dezvoltare Core Platform & Integrare Sisteme',
-      'Securitate Rețea & Audit Nivel Root',
-    ],
-    totpEnabled: true,
-    isRoot: true,
-    docsModifiedCount: 1,
-  },
-  yakuza: {
-    username: 'Yakuza',
-    displayName: 'Yakuza',
-    customTitle: 'Senior Content Editor & Reviewer',
-    avatarUrl: 'https://avatars.akamai.steamstatic.com/e2847cb722e1ec8bf9df607659f7f5e3804a0182_full.jpg',
-    avatarColor: '#10b981',
-    role: 'Administrator',
-    badges: ['CONTENT LEAD', 'VERIFIED GUIDE'],
-    responsibilities: [
-      'Elaborare Ghiduri Jucători & Proceduri CS2',
-      'Sisteme & MVP, Revizuire Mecanică Joc',
-      'Media Vault & Verificare Acuratețe Date',
-    ],
-    totpEnabled: true,
-    isRoot: false,
-    docsModifiedCount: 27,
-  },
-  v1ccx: {
-    username: 'V1ccX',
-    displayName: 'V1ccX',
-    customTitle: 'Senior Content Editor',
-    avatarUrl: 'https://avatars.akamai.steamstatic.com/4963bca91b1b3edf88de548e459b2092a35312e7_full.jpg',
-    avatarColor: '#06b6d4',
-    role: 'Administrator',
-    badges: ['CONTENT CREATOR'],
-    responsibilities: [
-      'Documentație Tehnică Servere CS2',
-      'Task Management & Actualizări Periodice',
-      'Asset Review & Ghiduri Comunitate',
-    ],
-    totpEnabled: true,
-    isRoot: false,
-    docsModifiedCount: 4,
-  },
-  umpy: {
-    username: 'umpy',
-    displayName: 'umpy',
-    customTitle: 'Co-Root & Systems Lead',
-    avatarUrl: 'https://avatars.akamai.steamstatic.com/562c921ff1c8b59f1c5f9642c39608af2984128b_full.jpg',
-    avatarColor: '#8b5cf6',
-    role: 'Root Super Admin',
-    badges: ['SYSTEMS CO-LEAD', 'ROOT FOUNDER'],
-    responsibilities: [
-      'Infrastructură & Gestiune Servere CS2',
-      'Supervizare Tehnică, Stabilitate & Mentenanță',
-      'Securitate Rețea & Arhitectură Sisteme',
-    ],
-    totpEnabled: false,
-    isRoot: true,
-    docsModifiedCount: 1,
-  },
-  laurentiu: {
-    username: 'Laurentiu',
-    displayName: 'Laur3nt1uu',
-    customTitle: 'Audit Docs & Content Editor',
-    avatarUrl: 'https://avatars.fastly.steamstatic.com/2530548b35087187fb66c95925488e0071a5901e_full.jpg',
-    avatarColor: '#10b981',
-    role: 'Administrator',
-    badges: ['AUDIT LEAD'],
-    responsibilities: [
-      'Audit Documentație & Verificare Ghiduri',
-      'Management Corecții & Actualizări Conținut',
-    ],
-    totpEnabled: true,
-    isRoot: false,
-    docsModifiedCount: 14,
-  },
-  laur3nt1uu: {
-    username: 'Laurentiu',
-    displayName: 'Laur3nt1uu',
-    customTitle: 'Audit Docs & Content Editor',
-    avatarUrl: 'https://avatars.fastly.steamstatic.com/2530548b35087187fb66c95925488e0071a5901e_full.jpg',
-    avatarColor: '#10b981',
-    role: 'Administrator',
-    badges: ['AUDIT LEAD'],
-    responsibilities: [
-      'Audit Documentație & Verificare Ghiduri',
-      'Management Corecții & Actualizări Conținut',
-    ],
-    totpEnabled: true,
-    isRoot: false,
-    docsModifiedCount: 14,
-  },
 };
 
+const dynamicAdminProfiles = ref<Record<string, KnownAdmin>>({});
 const matchedAdmin = ref<KnownAdmin | null>(null);
 const verifyingUser = ref(false);
 
 function resolveAdminProfile(userStr: string): KnownAdmin | null {
   const clean = userStr.trim().toLowerCase();
-  return KNOWN_ADMINS[clean] || null;
+  return dynamicAdminProfiles.value[clean] || KNOWN_ADMINS[clean] || null;
 }
 
-const quickStaffMembers = [
+export interface QuickStaffMember {
+  username: string;
+  name: string;
+  title: string;
+  avatar: string;
+  color: string;
+}
+
+const quickStaffMembers = ref<QuickStaffMember[]>([
   {
     username: 'iannC69',
     name: 'iannC',
@@ -187,35 +96,49 @@ const quickStaffMembers = [
     avatar: 'https://github.com/iannC69.png',
     color: '#ff6b00',
   },
-  {
-    username: 'Yakuza',
-    name: 'Yakuza',
-    title: 'Content Lead',
-    avatar: 'https://avatars.akamai.steamstatic.com/e2847cb722e1ec8bf9df607659f7f5e3804a0182_full.jpg',
-    color: '#10b981',
-  },
-  {
-    username: 'V1ccX',
-    name: 'V1ccX',
-    title: 'Content Editor',
-    avatar: 'https://avatars.akamai.steamstatic.com/4963bca91b1b3edf88de548e459b2092a35312e7_full.jpg',
-    color: '#06b6d4',
-  },
-  {
-    username: 'umpy',
-    name: 'umpy',
-    title: 'Systems Lead',
-    avatar: 'https://avatars.akamai.steamstatic.com/562c921ff1c8b59f1c5f9642c39608af2984128b_full.jpg',
-    color: '#8b5cf6',
-  },
-  {
-    username: 'Laur3nt1uu',
-    name: 'Laurentiu',
-    title: 'Audit Lead',
-    avatar: 'https://avatars.fastly.steamstatic.com/2530548b35087187fb66c95925488e0071a5901e_full.jpg',
-    color: '#10b981',
-  },
-];
+]);
+
+async function loadQuickStaff() {
+  try {
+    const res = await fetch('/api/team/contributors');
+    if (res.ok) {
+      const data = await res.json();
+      if (data && Array.isArray(data.contributors) && data.contributors.length > 0) {
+        quickStaffMembers.value = data.contributors.map((m: any) => ({
+          username: m.username,
+          name: m.displayName || m.username,
+          title: m.customTitle || m.role || 'Staff',
+          avatar: m.avatarUrl || `https://github.com/${m.githubUsername || m.username}.png`,
+          color: m.avatarColor || '#ff6b00',
+        }));
+
+        const newProfiles: Record<string, KnownAdmin> = {};
+        for (const m of data.contributors) {
+          const profile: KnownAdmin = {
+            username: m.username,
+            displayName: m.displayName || m.username,
+            customTitle: m.customTitle || m.role || 'Administrator',
+            avatarUrl: m.avatarUrl || `https://github.com/${m.githubUsername || m.username}.png`,
+            avatarColor: m.avatarColor || '#ff6b00',
+            role: m.isRoot ? 'Root Super Admin' : (m.customTitle || 'Administrator'),
+            badges: m.badges || [],
+            responsibilities: m.responsibilities || [],
+            totpEnabled: Boolean(m.totpEnabled),
+            isRoot: Boolean(m.isRoot),
+            docsModifiedCount: m.docsModifiedCount || 0,
+          };
+          newProfiles[m.username.toLowerCase()] = profile;
+          if (m.displayName) {
+            newProfiles[m.displayName.toLowerCase()] = profile;
+          }
+        }
+        dynamicAdminProfiles.value = newProfiles;
+      }
+    }
+  } catch (err) {
+    console.warn('[AdminLogin] Nu s-au putut prelua membrii staff:', err);
+  }
+}
 
 const timeGreeting = computed(() => {
   const h = new Date().getHours();
@@ -276,7 +199,10 @@ onMounted(async () => {
     }
   } catch {}
 
-  // 2. Load remember preference and saved username
+  // 2. Load live staff members automatically
+  await loadQuickStaff();
+
+  // 3. Load remember preference and saved username
   try {
     const pref = localStorage.getItem('wf_admin_remember_preference');
     if (pref === 'false') {
@@ -884,7 +810,7 @@ function cancel2FA() {
               </header>
 
               <!-- Quick Staff Selection -->
-              <div class="wf-quick-staff-section">
+              <div v-if="quickStaffMembers && quickStaffMembers.length > 0" class="wf-quick-staff-section">
                 <div class="wf-quick-staff-header">
                   <Icon icon="lucide:sparkles" width="13" height="13" class="wf-sparkle-icon" />
                   <span>Autentificare rapidă staff:</span>
@@ -903,7 +829,7 @@ function cancel2FA() {
                       <img :src="m.avatar" :alt="m.name" class="wf-quick-avatar-img" width="38" height="38" />
                     </div>
                     <span class="wf-quick-avatar-name">{{ m.name }}</span>
-                    <span class="wf-quick-avatar-role">{{ m.title.split(' ')[0] }}</span>
+                    <span class="wf-quick-avatar-role">{{ (m.title || 'Staff').split(' ')[0] }}</span>
                   </button>
                 </div>
               </div>
