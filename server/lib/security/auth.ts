@@ -290,6 +290,13 @@ export async function validateSessionToken(token: string): Promise<AdminSession 
     return null;
   }
 
+  // If member is not in the live store and is not root, they were deleted! Destroy session immediately
+  if (!member && !isRootUsername(payload.username)) {
+    activeSessions.delete(payload.sessionId);
+    persistSessions();
+    return null;
+  }
+
   const isRoot = member?.isRoot ?? payload.isRoot ?? isRootUsername(payload.username);
 
   let session = activeSessions.get(payload.sessionId);
@@ -309,7 +316,7 @@ export async function validateSessionToken(token: string): Promise<AdminSession 
 
     // 2. If token is valid, cryptographically verified, unexpired, and member is active:
     // Re-hydrate session into memory & persist to disk so restarts / deploys NEVER kick out admins!
-    if (!session && (!member || member.status === 'active')) {
+    if (!session && ((member && member.status === 'active') || isRootUsername(payload.username))) {
       session = {
         sessionId: payload.sessionId,
         username: payload.username,
@@ -331,6 +338,13 @@ export async function validateSessionToken(token: string): Promise<AdminSession 
   }
 
   if (!session || session.username.toLowerCase() !== payload.username.toLowerCase()) return null;
+
+  // Double check: if session belongs to a deleted non-root user, reject and destroy
+  if (!member && !isRootUsername(session.username)) {
+    activeSessions.delete(session.sessionId);
+    persistSessions();
+    return null;
+  }
 
   // Keep live permissions strictly updated from persistent store
   if (member) {
@@ -400,6 +414,38 @@ export function revokeAdminSession(sessionId: string, username?: string): boolea
     return true;
   }
   return false;
+}
+
+export function destroyUserSessions(username: string): void {
+  if (!username) return;
+  const clean = username.trim().toLowerCase();
+  let modified = false;
+
+  for (const [sessionId, session] of activeSessions.entries()) {
+    if (session.username.trim().toLowerCase() === clean) {
+      activeSessions.delete(sessionId);
+      modified = true;
+    }
+  }
+
+  try {
+    const persisted = readJson<{ sessions: AdminSession[]; panic: boolean }>(sessionFile, {
+      sessions: [],
+      panic: false,
+    });
+    if (persisted.sessions && persisted.sessions.length > 0) {
+      const remaining = persisted.sessions.filter(
+        (s) => s.username.trim().toLowerCase() !== clean,
+      );
+      if (remaining.length !== persisted.sessions.length) {
+        writeJson(sessionFile, { sessions: remaining, panic: panicLockdownActive });
+      }
+    }
+  } catch {}
+
+  if (modified) {
+    persistSessions();
+  }
 }
 
 export function triggerPanicLockdown(actor: string, ip: string): void {

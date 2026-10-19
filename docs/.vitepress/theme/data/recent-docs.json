@@ -1,5 +1,29 @@
 [
   {
+    "slug": "informatii/comenzi-jucatori",
+    "href": "/docs/informatii/comenzi-jucatori",
+    "title": "Catalog Comenzi Jucători CS2",
+    "description": "Ghidul complet și catalogul centralizat al tuturor comenzilor disponibile pentru jucătorii serverului WildFire.ro CS2.",
+    "category": "informatii",
+    "readingTime": 4,
+    "commitHash": "289ae93eddb4c19ddb574364ebe166648479d6bc",
+    "timestamp": 1792178477,
+    "authorName": "iannC",
+    "authorAvatar": "https://github.com/iannC69.png"
+  },
+  {
+    "slug": "systems/other/battlepass",
+    "href": "/docs/systems/other/battlepass",
+    "title": "Sistemul BattlePass Sezonier (!battlepass)",
+    "description": "Ghidul complet al sistemului BattlePass pe serverele WildFire CS2 — nivele, progresie XP, recompense gratuite și exclusive, și comenzi in-game.",
+    "category": "systems",
+    "readingTime": 3,
+    "commitHash": "289ae93eddb4c19ddb574364ebe166648479d6bc",
+    "timestamp": 1792178477,
+    "authorName": "iannC",
+    "authorAvatar": "https://github.com/iannC69.png"
+  },
+  {
     "slug": "market/vip/rebirth",
     "href": "/docs/market/vip/rebirth",
     "title": "Pachetul VIP Rebirth",
@@ -536,30 +560,6 @@
     "readingTime": 5,
     "commitHash": "b36170f121f31fc0016791a669612a4059244560",
     "timestamp": 1791120460,
-    "authorName": "iannC",
-    "authorAvatar": "https://github.com/iannC69.png"
-  },
-  {
-    "slug": "informatii/comenzi-jucatori",
-    "href": "/docs/informatii/comenzi-jucatori",
-    "title": "Catalog Comenzi Jucători CS2",
-    "description": "Ghidul complet și catalogul centralizat al tuturor comenzilor disponibile pentru jucătorii serverului WildFire.ro CS2.",
-    "category": "informatii",
-    "readingTime": 4,
-    "commitHash": "",
-    "timestamp": 0,
-    "authorName": "iannC",
-    "authorAvatar": "https://github.com/iannC69.png"
-  },
-  {
-    "slug": "systems/other/battlepass",
-    "href": "/docs/systems/other/battlepass",
-    "title": "Sistemul BattlePass Sezonier (!battlepass)",
-    "description": "Ghidul complet al sistemului BattlePass pe serverele WildFire CS2 — nivele, progresie XP, recompense gratuite și exclusive, și comenzi in-game.",
-    "category": "systems",
-    "readingTime": 3,
-    "commitHash": "",
-    "timestamp": 0,
     "authorName": "iannC",
     "authorAvatar": "https://github.com/iannC69.png"
   }

@@ -125,6 +125,12 @@ function syncRoot2FAToEnvLocal(enabled: boolean, secret?: string): void {
   }
 }
 
+export function isRootMember(username?: string): boolean {
+  if (!username) return false;
+  const clean = username.trim().toLowerCase();
+  return clean === 'iannc' || clean === 'iannc69';
+}
+
 const ROOT_PERMISSIONS: TeamMemberPermissions = {
   canEditDocs: true,
   canDeleteDocs: true,
@@ -536,8 +542,12 @@ export function reconcileTeamMembers(loadedMembers: TeamMember[]): {
     );
 
     if (existingIndex === -1) {
-      result.push(def);
-      modified = true;
+      // Only restore Root Super Admin (iannC69) if absent.
+      // Non-root default members (umpy, V1ccX, Yakuza) must NEVER be resurrected once deleted.
+      if (def.isRoot || isRootMember(def.username)) {
+        result.push(def);
+        modified = true;
+      }
     } else {
       const existing = { ...result[existingIndex] };
       let memberModified = false;
@@ -690,11 +700,12 @@ export async function loadTeamMembers(): Promise<TeamMember[]> {
   try {
     const config = getLocalDatabaseConfig();
 
-    if (config.provider === 'supabase' && config.supabaseUrl && config.supabaseAnonKey) {
+    if (config.provider === 'supabase' && config.supabaseUrl && (config.supabaseServiceKey || config.supabaseAnonKey)) {
       const { supabaseGetTeamMembers } = await import('../db/supabase');
       const dbMembers = await supabaseGetTeamMembers({
         url: config.supabaseUrl,
         anonKey: config.supabaseAnonKey,
+        serviceKey: config.supabaseServiceKey || process.env.SUPABASE_SERVICE_ROLE_KEY || undefined,
       });
       if (dbMembers && dbMembers.length > 0) {
         members = dbMembers;
@@ -731,13 +742,21 @@ export async function loadTeamMembers(): Promise<TeamMember[]> {
 async function syncTeamToSupabase(members: TeamMember[]): Promise<void> {
   try {
     const config = getLocalDatabaseConfig();
-    if (config.provider === 'supabase' && config.supabaseUrl && config.supabaseAnonKey) {
-      for (const m of members) {
-        await supabaseSaveTeamMember(
-          { url: config.supabaseUrl, anonKey: config.supabaseAnonKey },
-          m,
-        );
-      }
+    const effectiveServiceKey =
+      config.supabaseServiceKey || process.env.SUPABASE_SERVICE_ROLE_KEY || undefined;
+    if (config.provider === 'supabase' && config.supabaseUrl && (effectiveServiceKey || config.supabaseAnonKey)) {
+      await Promise.all(
+        members.map((m) =>
+          supabaseSaveTeamMember(
+            {
+              url: config.supabaseUrl,
+              anonKey: config.supabaseAnonKey,
+              serviceKey: effectiveServiceKey,
+            },
+            m,
+          ),
+        ),
+      );
     }
   } catch (err) {
     console.warn('[TeamStore] Background Supabase sync error:', err);
@@ -1055,28 +1074,57 @@ export async function deleteTeamMember(id: string): Promise<{ success: boolean; 
   if (!target) {
     return { success: false, error: 'Membrul echipei nu a fost găsit.' };
   }
-  if (target.isRoot) {
+  if (target.isRoot || isRootMember(target.username)) {
     return {
       success: false,
       error: 'Contul Root Super Admin (iannC69) este protejat și nu poate fi șters.',
     };
   }
 
-  const filtered = members.filter((m) => m.id !== id);
-  await saveTeamMembers(filtered);
+  // 1. Instantly revoke and destroy all active sessions for this user in memory and on disk
+  try {
+    const { destroyUserSessions } = await import('./auth');
+    destroyUserSessions(target.username);
+  } catch (err) {
+    console.error('[TeamStore] Failed to revoke sessions on delete:', err);
+  }
 
-  // Background delete from Supabase
+  // 2. Synchronously delete from Supabase with service role key
   try {
     const config = getLocalDatabaseConfig();
-    if (config.provider === 'supabase' && config.supabaseUrl && config.supabaseAnonKey) {
-      supabaseDeleteTeamMember(
-        { url: config.supabaseUrl, anonKey: config.supabaseAnonKey },
+    const effectiveServiceKey =
+      config.supabaseServiceKey || process.env.SUPABASE_SERVICE_ROLE_KEY || undefined;
+    if (config.provider === 'supabase' && config.supabaseUrl && (effectiveServiceKey || config.supabaseAnonKey)) {
+      await supabaseDeleteTeamMember(
+        {
+          url: config.supabaseUrl,
+          anonKey: config.supabaseAnonKey,
+          serviceKey: effectiveServiceKey,
+        },
         id,
-      ).catch(() => {});
+        target.username,
+      );
     }
-  } catch {}
+  } catch (err) {
+    console.error('[TeamStore] Failed to delete member from Supabase:', err);
+  }
 
-  // Remove from .env.local
+  // 3. Filter out member from local memory and write to content/team.json
+  const filtered = members.filter(
+    (m) => m.id !== id && m.username.toLowerCase() !== target.username.toLowerCase(),
+  );
+  try {
+    const dir = path.dirname(TEAM_FILE_PATH);
+    if (!fs.existsSync(dir)) {
+      fs.mkdirSync(dir, { recursive: true });
+    }
+    fs.writeFileSync(TEAM_FILE_PATH, JSON.stringify(filtered, null, 2), 'utf-8');
+  } catch (err) {
+    console.error('[TeamStore] Failed to write team file on delete:', err);
+  }
+
+  // 4. Invalidate memory cache so any subsequent call to loadTeamMembers gets the updated list
+  invalidateTeamMemberCache();
 
   return { success: true };
 }

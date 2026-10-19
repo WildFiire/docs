@@ -10,7 +10,7 @@ interface SupabaseConfig {
 const clientCache = new Map<string, SupabaseClient>();
 
 function getClient(url: string, anonKey: string, serviceKey?: string): SupabaseClient {
-  const activeKey = serviceKey || anonKey;
+  const activeKey = serviceKey || process.env.SUPABASE_SERVICE_ROLE_KEY || anonKey;
   const cacheKey = `${url}__${activeKey}`;
   let client = clientCache.get(cacheKey);
   if (!client) {
@@ -425,11 +425,26 @@ export async function supabaseSaveTeamMember(
 export async function supabaseDeleteTeamMember(
   config: SupabaseConfig,
   id: string,
+  username?: string,
 ): Promise<boolean> {
   try {
-    const supabase = getClient(config.url, config.anonKey, config.serviceKey);
-    const { error } = await supabase.from('team_members').delete().eq('id', id);
-    return !error;
+    const effectiveServiceKey =
+      config.serviceKey || process.env.SUPABASE_SERVICE_ROLE_KEY || undefined;
+    const supabase = getClient(config.url, config.anonKey, effectiveServiceKey);
+    const { error: errId } = await supabase.from('team_members').delete().eq('id', id);
+    if (errId) {
+      console.warn('[Supabase] Failed to delete team member by id:', errId.message);
+    }
+    if (username) {
+      const { error: errUser } = await supabase
+        .from('team_members')
+        .delete()
+        .ilike('username', username.trim());
+      if (errUser) {
+        console.warn('[Supabase] Failed to delete team member by username:', errUser.message);
+      }
+    }
+    return !errId;
   } catch (err) {
     console.error('[Supabase] Error in deleteTeamMember', err);
     return false;

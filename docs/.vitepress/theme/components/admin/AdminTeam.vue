@@ -826,6 +826,7 @@ async function handleDeleteMember(id: string, username: string) {
     if (data.success) {
       statusMessage.value = { type: 'success', text: `Contul ${username} a fost șters din echipă.` };
       selectedMember.value = null;
+      members.value = members.value.filter((m) => m.id !== id);
       await fetchTeam();
     } else {
       statusMessage.value = { type: 'error', text: data.message || 'Ștergerea a eșuat.' };
